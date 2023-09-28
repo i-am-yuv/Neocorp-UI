@@ -1,0 +1,20 @@
+.login-page {
+    height: 100vh;
+    width: 100vw;
+}
+.login-grid {
+    width: 100vw;
+}
+.left-panel {
+    min-height: 100px;
+    background: url('^assets/bill-pay.png');
+    background-size: cover;
+    background-position: -600px;
+}
+.rounded-button {
+    border-radius: 7px; /* Adjust the radius as needed */
+  }
+  a {
+    text-decoration: none;
+  }
+  

@@ -1,0 +1,160 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Distributors</h2>
+
+    <p-table #dt [value]="distributors" [rows]="10" [paginator]="true" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]" [filterDelay]="500" responsiveLayout="scroll"
+        [(selection)]="selectedDistributors" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedDistributors()"
+                        [disabled]="!selectedDistributors || !selectedDistributors.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="distributorName">Distributor Name <p-sortIcon field="distributorName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="company.companyName">Company <p-sortIcon field="company.companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="distributorLocation">Distributor Location <p-sortIcon
+                        field="distributorLocation"></p-sortIcon>
+                </th>
+                <!-- <th>Company</th> -->
+                <!-- <th>Distributor Location</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-distributor>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="distributor"></p-tableCheckbox>
+                </td>
+                <td>{{distributor.distributorName}}</td>
+                <td>{{distributor.company?.companyName}}</td>
+                <td>{{distributor.distributorLocation}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editDistributor(distributor)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteDistributor(distributor)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{distributors ? distributors.length : 0 }} Distributors.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="distributorDialog" header="Distributor Type" [modal]="true"
+        styleClass="p-sidebar-md">
+        <h2>Distributor</h2>
+        <ng-template pTemplate="content">
+            <div class="field p-fluid">
+                <label for="distributorName">Distributor Name</label>
+                <input type="text" pInputText name="distributorName" #distributorName="ngModel"
+                    [(ngModel)]="distributor.distributorName" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="distributorName"></error-message>
+            </div>
+            <div class="field p-fluid" *ngIf="global">
+                <label for="company">Company</label>
+                <p-dropdown [options]="companies" name="company" #company="ngModel" [(ngModel)]="distributor.company"
+                    placeholder="Choose Company" optionLabel="companyName" [showClear]="true" appendTo="body"
+                    [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="company"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="distributorLocation">Distributor Location</label>
+                <input type="text" pInputText name="distributorLocation" #distributorLocation="ngModel"
+                    [(ngModel)]="distributor.distributorLocation" required
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="distributorLocation"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="distributorAddress1">Distributor Address Street</label>
+                <input type="text" pInputText name="distributorAddress1" #distributorAddress1="ngModel"
+                    [(ngModel)]="distributor.distributorAddress1" required pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$"
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="distributorAddress1"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="distributorAddress2">Distributor Address Area</label>
+                <input type="text" pInputText name="distributorAddress2" #distributorAddress2="ngModel" required
+                    [(ngModel)]="distributor.distributorAddress2" pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$" minlength="1"
+                    maxlength="60" />
+                <error-message [controlName]="distributorAddress2"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="state">Distributor State</label>
+                <p-dropdown [options]="states" [filter]="true" name="state" #state="ngModel" [(ngModel)]="distributor.state"
+                    placeholder="Choose State" optionLabel="stateName" [showClear]="true" appendTo="body"
+                    [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="state"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="distributorPhone">Distributor Phone</label>
+                <input type="text" pInputText name="distributorPhone" #distributorPhone="ngModel"
+                    [(ngModel)]="distributor.distributorPhone" minlength="10" maxlength="10" [pKeyFilter]="'int'"
+                    required />
+                <error-message [controlName]="distributorPhone"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="distributorPhone">Distributor Email</label>
+                <input type="text" pInputText name="distributorMail" #distributorMail="ngModel"
+                    [(ngModel)]="distributor.distributorMail"  required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+                <error-message [controlName]="distributorMail"></error-message>
+            </div>
+
+            <div class="field p-fluid">
+                <label for="gstNumber">Distributor GSTN </label>
+                <input type="text" pInputText name="gstNumber" #gstNumber="ngModel" [(ngModel)]="distributor.gstNumber"
+                    minlength="15" maxlength="15" required
+                    pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                    oninput="this.value = this.value.toUpperCase()" />
+                <error-message [controlName]="gstNumber"></error-message>
+                &nbsp;
+                <summary>Valid GST number sample </summary>
+                <details>
+                    <summary>Click here for more details</summary>
+                    <p class="text-xs"> 1. Provide two numbers[0-9]</p>
+                    <p class="text-xs">2. Provide five characters[A-Z]</p>
+                    <p class="text-xs">3. Provide four numbers[0-9]</p>
+                    <p class="text-xs">4. Provide one character[A-Z]</p>
+                    <p class="text-xs">5. Provide either one number[1-9] or one character[A-Z]</p>
+                    <p class="text-xs">6. Z </p>
+                    <p class="text-xs">7. Provide four numbers[0-9]</p>
+                    <p class="text-xs">8. Provide either one number[0-9] or one character[A-Z]</p>
+                </details>
+            </div>
+            <div class="text-right">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                    (click)="hideDialog()"></button>&nbsp;
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-primary"
+                    (click)="saveDistributor()" [disabled]="!f.valid"></button>
+            </div>
+        </ng-template>
+    </p-sidebar>
+</form>

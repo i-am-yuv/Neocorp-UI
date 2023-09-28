@@ -1,0 +1,122 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground p-5 form-panel">
+    <h2 class="p-2">{{(id)? 'Edit': 'Create'}} Goods Receipt</h2>
+    <p-card>
+        <form [formGroup]="form">
+            <div class="grid p-fluid">
+                <div class="field col-12" *ngIf="id">
+                    <label>Document Number</label>
+                    <div class="mt-2">{{ form.value.documentno ?? ''}}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Order</label>
+                    <ng-container formGroupName="purchaseOrder" *ngIf="!readOnly">
+                        <p-dropdown [options]="orders" [filter]="true" formControlName="id" placeholder="Choose Order"
+                            optionLabel="documentnumber" optionValue="id" [showClear]="true">
+                        </p-dropdown>
+                    </ng-container>
+                    <div *ngIf="readOnly"> {{ goodsReceipt.purchaseOrder?.documentnumber }}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Received Date</label>
+                    <p-calendar formControlName="receivedDate" [dateFormat]="'dd-mm-yy'" *ngIf="!readOnly">
+                    </p-calendar>
+                    <div *ngIf="readOnly"> {{ form.value.receivedDate | date: 'dd-MM-yyyy' }}</div>
+
+                </div>
+            </div>
+            <div class="text-right" *ngIf="!readOnly">
+                <button pButton label="Process Goods Receipt" [disabled]="!form.valid" *ngIf="id"
+                    (click)="processGoodsReceipt()" class="mr-3 p-button-success p-button-outlined"></button>
+                <button pButton label="Save" [disabled]="!form.valid" (click)="saveGoodsReceipt()"></button>
+            </div>
+        </form>
+    </p-card>
+    <div *ngIf="id">
+        <p-table #dt [value]="goodsReceiptLines" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Product
+                    </th>
+
+                    <th>
+                        Ordered Quantity
+                    </th>
+                    <th>
+                        Confirmed Quantity
+                    </th>
+                    <th>
+                        Shipped Quantity
+                    </th>
+                    <th>
+                        Received Quantity
+                    </th>
+                    <th>
+                        Landing Cost
+                    </th>
+                    <th style="width: 120px" *ngIf="!readOnly">
+                        <button pButton icon="pi pi-plus" label="ADD" pAddRow [table]="dt" [newRow]="newRow()"
+                            (click)="newRecord=true" [disabled]="!id || newRecord"></button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-goodsReceiptLine let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="goodsReceiptLine">
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="storeCatalogs" [(ngModel)]="goodsReceiptLine.storeCatalog"
+                                    placeholder="Choose Product" optionLabel="product.name" [showClear]="true"
+                                    (ngModelChange)="setLineValues(goodsReceiptLine)">
+                                </p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{goodsReceiptLine.storeCatalog?.product?.name}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td> {{goodsReceiptLine.orderedQty}}</td>
+                    <td> {{goodsReceiptLine.confirmedQty}} </td>
+                    <td> {{goodsReceiptLine.shippedQty}}</td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputNumber [(ngModel)]="goodsReceiptLine.receivedQty"
+                                    (onInput)="setLineQtyValues($event, goodsReceiptLine)" [format]="false">
+                                </p-inputNumber>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{goodsReceiptLine.receivedQty}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td> {{goodsReceiptLine.landingcost}} </td>
+                    <td *ngIf="!readOnly">
+                        <div>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                (click)="onRowEditInit(goodsReceiptLine)"
+                                class="p-button-rounded p-button-text"></button>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                                (click)="delete(goodsReceiptLine)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                (click)="onRowEditSave(goodsReceiptLine)"
+                                class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                (click)="onRowEditCancel(goodsReceiptLine, ri)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="text-center m-5"> No goods receipt lines found create one.</div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

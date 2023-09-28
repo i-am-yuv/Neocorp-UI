@@ -1,0 +1,278 @@
+<!-- <div class="bg-bluegray-700 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap mb-5"
+    *ngIf="!distributor?.company?.subscriptionActive"> -->
+<!-- <div class="font-bold mr-8">🔥 Hot Deals!</div> -->
+<!-- <div class="align-items-center hidden lg:flex">
+        <span class="line-height-3"> <i class="pi pi-exclamation-triangle text-yellow-300 mr-2"></i> Your Subscription
+            is
+            inactive, activate
+            to enable receiving store orders!</span>
+    </div>
+    <a class="flex align-items-center ml-2 mr-8">
+        <a class="text-white" [routerLink]="['/settings/distributor-billing']"><span
+                class="underline font-bold">Activate
+                Now</span></a>
+    </a> -->
+<!-- <a pRipple
+        class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
+        style="width:2rem; height: 2rem">
+        <i class="pi pi-chevron-right"></i>
+    </a> -->
+<!-- </div> -->
+
+
+
+<div *ngIf="!getStarted" class="border-1 border-blue-400 p-3 border-round mb-5">
+    <div class="text-center text-800  text-2xl">Getting Started</div>
+    <div class="text-center text-600  subtitle mt-2 mb-2">Great to have you on board! Feel free to explore, or
+        follow the
+        steps below to
+        get
+        started.</div>
+    <div class="grid">
+        <div class="col">
+            <ul class="list-none mx-0 mb-0 mt-4 p-0">
+                <li (click)="walkthroughOnclick(0)" class="flex align-items-center p-3">
+                    <span *ngIf="companyStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-green-500 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-check cursor-pointer"></i>
+                    </span>
+                    <span *ngIf="!companyStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-blue-500 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-chevron-right cursor-pointer"></i>
+                    </span>
+                    <span class="text-900 line-height-3 cursor-pointer cursor-pointer">Complete your company
+                        details</span>
+                </li>
+
+                <li (click)="walkthroughOnclick(1)" class="flex align-items-center p-3">
+                    <span *ngIf="profileStatusStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-green-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-check cursor-pointer"></i></span>
+                    <span *ngIf="!profileStatusStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-blue-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-chevron-right cursor-pointer"></i></span>
+                    <span class="text-900 line-height-3 cursor-pointer">
+                        Complete your profile
+                    </span>
+                </li>
+
+                <li (click)="walkthroughOnclick(2)" class="flex align-items-center p-3">
+                    <span *ngIf="catalogStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-green-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-check cursor-pointer"></i></span>
+                    <span *ngIf="!catalogStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-blue-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-chevron-right cursor-pointer"></i></span>
+                    <span class="text-900 line-height-3 cursor-pointer cursor-pointer">Add
+                        Products</span>
+                </li>
+
+                <li (click)="walkthroughOnclick(3)" class="flex align-items-center p-3">
+                    <span *ngIf="paymentMethodStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-green-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-check cursor-pointer"></i></span>
+                    <span *ngIf="!paymentMethodStat"
+                        class="inline-flex mr-3 align-items-center justify-content-center bg-blue-500 surface-0 text-white border-circle border-1 surface-border"
+                        style="width: 30px; height: 30px;">
+                        <i class="pi pi-chevron-right cursor-pointer"></i></span>
+                    <span class="text-900 line-height-3 cursor-pointer">Setup payment
+                        methods</span>
+                </li>
+
+            </ul>
+        </div>
+        <div *ngIf="selectedOption === 0" class="col flex align-items-center justify-content-center">
+            <div class="text-center">
+                <div class="text-800  text-2xl">
+                    Complete Company Details
+                </div>
+                <div class="text-700  text-xl m-5">
+                    Fill in the details required to operate your store or
+                    read a detailed guide of how to setup a store, what are the important steps to setup a store?
+                </div>
+                <div class="text-700  text-xl m-5">
+                    <button pButton label="Read Walkthrough" class="ml-2 p-button-info"
+                        (click)="readWalkThrough()"></button>
+                    <button pButton label="Company details" class="ml-2 p-button-success"
+                        (click)="openCompany()"></button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedOption === 1" class="col flex align-items-center justify-content-center">
+            <div class="text-center">
+                <div class="text-800  text-2xl">
+                    Completed Your Profile
+                </div>
+                <div class="text-700  text-xl m-5">
+                    Fill in the details required to operate your store or
+                    read a detailed guide of how to setup a store, what are the important steps to setup a store?
+                </div>
+                <div class="text-700  text-xl m-5">
+                    <button pButton label="Read Walkthrough" class="ml-2 p-button-info"
+                        (click)="readWalkThrough()"></button>
+                    <button pButton label="Your profile" class="ml-2 p-button-success" (click)="openProfile()"></button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedOption === 2" class="col flex align-items-center justify-content-center">
+            <div class="text-center">
+                <div class="text-800  text-2xl">
+                    Add Products
+                </div>
+                <div class="text-700  text-xl m-5">
+                    Fill in the details required to operate your store or
+                    read a detailed guide of how to setup a store, what are the important steps to setup a store?
+                </div>
+                <div class="text-700  text-xl m-5">
+                    <button pButton label="Read Walkthrough" class="ml-2 p-button-info"
+                        (click)="readWalkThrough()"></button>
+                    <button pButton label="Add Products" class="ml-2 p-button-success"
+                        (click)="openProducts()"></button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedOption === 3" class="col flex align-items-center justify-content-center">
+            <div class="text-center">
+                <div class="text-800  text-2xl">
+                    Setup Payment Methods
+                </div>
+                <div class="text-700  text-xl m-5">
+                    Fill in the details required to operate your store or
+                    read a detailed guide of how to setup a store, what are the important steps to setup a store?
+                </div>
+                <div class="text-700  text-xl m-5">
+                    <button pButton label="Read Walkthrough" class="ml-2 p-button-info"
+                        (click)="readWalkThrough()"></button>
+                    <button pButton label="Setup Payment Methods" class="ml-2 p-button-success"
+                        (click)="openPayment()"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="surface-ground px-4 py-5 md:px-4">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-3" *ngFor="let panel of panelsData">
+            <div class="surface-card shadow-2 p-3 border-round">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">{{ panel.title }}</span>
+                        <div class="text-900 font-medium text-xl"> {{ panel.metric }}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-{{ panel.color ?? 'blue'}}-100 border-round"
+                        style="width:2.5rem;height:2.5rem">
+                        <i class="pi pi-{{ panel.icon }} text-{{ panel.color ?? 'blue' }}-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">{{ panel.submetric }} </span>
+                <span class="text-500">{{ panel.period }}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-6">
+            <p-card styleClass="p-4" header="Sales">
+                <p-chart type="line" [data]="lineStylesData" [options]="basicOptions"></p-chart>
+            </p-card>
+        </div>
+        <div class="col-12 md:col-6">
+            <p-card styleClass="p-4" header="Stock">
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+            </p-card>
+        </div>
+        <div class="col-12 lg:col-4">
+            <p-card styleClass="p-4 text-center"><img src="assets/iteam.svg" alt="Image"
+                    class="mx-auto block mb-4 h-10rem">
+                <div class="text-900 font-medium mb-3 text-xl">Sales Requests</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Process the latest sales requests from stores.</p>
+                <button pButton icon="pi pi-arrow-right" label="View Now"
+                    routerLink="/distributor/sales-requests"></button>
+            </p-card>
+        </div>
+        <div class=" col-12 lg:col-4">
+            <p-card styleClass="p-4 text-center"> <img src="assets/iprojections.svg" alt="Image"
+                    class="mx-auto block mb-4 h-10rem">
+                <div class="text-900 font-medium mb-3 text-xl">Inventory</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Check stock levels to reorder. <br /><br /></p>
+                <button pButton icon="pi pi-arrow-right" label="View Now" routerLink="/distributor/inventory"></button>
+
+
+            </p-card>
+        </div>
+        <div class="col-12 lg:col-4">
+            <p-card styleClass="p-4 text-center"><img src="assets/ifinance.svg" alt="Image"
+                    class="mx-auto block mb-4 h-10rem">
+                <div class="text-900 font-medium mb-3 text-xl">Store Stock</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">View the stock levels of stores.<br /><br /></p>
+                <button pButton icon="pi pi-arrow-right" label="View Now"
+                    routerLink="/distributor/store-stock"></button>
+
+            </p-card>
+        </div>
+        <div class="col-12 md:col-6">
+            <p-card styleClass="p-4 h-30rem" header="New Sales Requests">
+                <ul class="list-none m-0 p-0">
+                    <li *ngFor="let po of forwardedPos"
+                        class="py-3 border-bottom-1 surface-border flex md:align-items-start md:justify-content-between flex-column md:flex-row">
+                        <div class="flex align-items-start mr-0 lg:mr-5"> <i
+                                class="pi pi-exclamation-circle m-5 text-3xl text-orange-500"></i>
+                            <div><span class=" text-900 font-medium block mb-2">
+                                    {{ po.distributor.distributorName }}
+                                </span>
+                                <div class="text-700 mb-2">order pending payment.</div>
+                                <a class="text-blue-500 cursor-pointer"
+                                    [routerLink]="'/store/purchase-orders/edit/'+po.id"><i
+                                        class="pi pi-file text-sm mr-2"></i><span>Order
+                                        #{{po.documentnumber}}</span></a>
+                            </div>
+                        </div>
+                        <span class="block text-500 font-medium ml-7 md:ml-5 mt-2 md:mt-0">
+                            {{ getDt(po.updatedAt) | timeAgo }}
+                        </span>
+                    </li>
+                </ul>
+                <div class="flex align-items-center justify-content-center h-20rem" *ngIf="!forwardedPos">
+                    No New Orders
+                </div>
+            </p-card>
+        </div>
+        <div class="col-12 md:col-6">
+            <p-card styleClass="p-4 h-30rem" header="Goods Shipments">
+                <ul class="list-none m-0 p-0">
+                    <li *ngFor="let po of paidPos"
+                        class="py-3 border-bottom-1 surface-border flex md:align-items-start md:justify-content-between flex-column md:flex-row">
+                        <div class="flex align-items-start mr-0 lg:mr-5"> <i
+                                class="pi pi-exclamation-circle m-5 text-3xl text-orange-500"></i>
+                            <div><span class=" text-900 font-medium block mb-2">
+                                    {{ po.distributor.distributorName }}
+                                </span>
+                                <div class="text-700 mb-2">order pending receipt.</div>
+                                <a class="text-blue-500 cursor-pointer"
+                                    [routerLink]="'/store/purchase-orders/edit/'+po.id"><i
+                                        class="pi pi-file text-sm mr-2"></i><span>Order
+                                        #{{po.documentnumber}}</span></a>
+                            </div>
+                        </div>
+                        <span class="block text-500 font-medium ml-7 md:ml-5 mt-2 md:mt-0">
+                            {{ getDt(po.updatedAt) | timeAgo }}
+                        </span>
+                    </li>
+                </ul>
+                <div class="flex align-items-center justify-content-center h-20rem" *ngIf="!paidPos">
+                    No Orders to Deliver
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>

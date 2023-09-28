@@ -1,0 +1,202 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8" *ngIf="!subActive">
+    <div *ngIf="showOptions">
+        <div class="text-900 font-bold text-6xl mb-4 text-center">Pricing Plans</div>
+        <!-- <div class="text-700 text-xl mb-6 text-center line-height-3">Choose the best fit plan for running
+            your distributors hassle
+            free digitally.</div> -->
+    </div>
+
+    <div class="grid" *ngIf="showOptions">
+        <div class="col-12 lg:col-4">
+            <div class="p-3 h-full">
+                <!-- <div class="shadow-2 p-3 h-full flex flex-column surface-card" style="border-radius: 6px">
+                    <div class="text-900 font-medium text-xl mb-2">Basic</div>
+                    <div class="text-600">Low Volume</div>
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <div class="flex align-items-center">
+                        <span class="font-bold text-2xl text-900">₹{{ getPlanCost(1) }}</span>
+                        <span class="ml-2 font-medium text-600">per annum</span>
+                    </div>
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <ul class="list-none p-0 m-0 flex-grow-1">
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Unlimited Bills, unlimited items, unlimited customers /
+                                distributors</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Inventory Management, Purchase Orders, thermal bill printing</span>
+                        </li>
+
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">UPI Payments</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">1 Business, 1 Distributor, 1 user, 1 device - mobile or desktop
+                            </span>
+                        </li>
+                    </ul>
+                    <hr class="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
+                    <button pButton pRipple label="Buy Now" (click)="changePlan(1)"
+                        class="p-3 w-full mt-auto p-button-outlined"></button>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-4">
+            <div class="p-3 h-full">
+                <div class="shadow-2 p-3 h-full flex flex-column surface-card" style="border-radius: 6px">
+                    <div class="text-900 font-medium text-xl mb-2 text-center">Distriutor</div>
+                    <div class="text-blue-400 text-center">Plan description</div>
+                    <!-- <hr class="my-3 mx-0 border-top-1 border-none surface-border" /> -->
+                    <!-- <div class="flex align-items-center">
+                        <span class="font-bold text-2xl text-900">₹{{ getPlanCost(2) }}</span>
+                        <span class="ml-2 font-medium text-600">per annum</span>
+                    </div> -->
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <ul class="list-none p-0 m-0 flex-grow-1">
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Add upto 1500 stores</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Initial setup cost for distributor is 15999</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Distributor can get credits upto 1.1 crore</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Distributor can get credits upto 1 crore on every multiple recharge
+                                of Rs. 10000</span>
+                        </li>
+
+                        <!-- <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">1 Business, 3 Distributors, 7 users, 7 devices - mobile or desktop
+                            </span>
+
+                        </li> -->
+                    </ul>
+                    <hr class="mb-3 mx-0 border-top-1 border-none surface-border" />
+                    <button pButton pRipple label="Buy Now" (click)="changePlan(2)" class="p-3 w-full"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-12 lg:col-4">
+            <div class="p-3 h-full">
+                <div class="shadow-2 p-3 flex flex-column surface-card" style="border-radius: 6px">
+                    <div class="text-900 font-medium text-xl mb-2">Premium</div>
+                    <div class="text-600">Small chain setup</div>
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <div class="flex align-items-center">
+                        <span class="font-bold text-2xl text-900">₹{{ getPlanCost(3) }}</span>
+                        <span class="ml-2 font-medium text-600">per annum</span>
+                    </div>
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <ul class="list-none p-0 m-0 flex-grow-1">
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">All features of Essential
+                                <span class="text-green-400 ml-2"> + more</span></span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Online distributor</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Tax Payments & Filing <sup>* coming soon</sup></span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">BBPS, Aadhar Banking (EPS)</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Working capital credit</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">1 Business, 5 Distributors, 15 users, 12 devices - mobile or
+                                desktop</span>
+                        </li>
+                    </ul>
+                    <hr class="mb-3 mx-0 border-top-1 border-none surface-border" />
+                    <button pButton pRipple label="Buy Now" (click)="changePlan(3)"
+                        class="p-3 w-full p-button-outlined"></button>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-12 text-center">
+            <h2>Looking to manage multiple businesses with large volume? </h2>
+            <button pButton class="p-button-success" label="Contact Sales"></button>
+        </div>
+    </div>
+    <div *ngIf="showQr">
+        <div class="text-900 font-bold text-6xl mb-4 text-center">Payment</div>
+        <div class="text-700 text-xl mb-6 text-center line-height-3">Scan the QR from any UPI app and make
+            payment.<br /> Once done click on activate distributor button below to enable sales.</div>
+        <div class="grid">
+            <div class="col-6 col-offset-3">
+                <div class="text-center">
+                    <h1 class="text-orange-400">₹ {{ activePlan.cost }}</h1>
+                    <qr-code [value]="upiUrl" size="250" errorCorrectionLevel="M">
+                    </qr-code>
+                    <div class="m-5">
+                        <!-- <button pButton class="p-button-outlined mr-3" (click)="showQr=!showQr"
+                            label="Change Plan"></button> -->
+                        <button pButton label="Activate Distributor" (click)="activateDistributor()"
+                            class="p-button-success"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid" *ngIf="paymentDone">
+        <div class="col-6 col-offset-3 text-center">
+            <div class="text-900 font-bold text-6xl mb-4 text-center">Activation Request Sent</div>
+            <div class="text-700 text-xl mb-6 text-center line-height-3">Congratulations we will soon activate your
+                distributorship after payment is verified. It may take upto 24 hours for payment confirmation. <br />
+                In case after 24 hrs the account is not activated, please reach out to <a href="#">customer support</a>
+                or email us at <a href="mailto:billingsupport@ifyn.com">billingsupport@ifyn.com</a>
+            </div>
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+            <div>
+                <a href="#" routerLink="/dashboard">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8" *ngIf="subActive">
+    <div class="text-900 font-bold text-6xl mb-4 text-center" *ngIf="!showQr">Your Subscription
+        is active</div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        You can download the POS application and use it in {{ (distributor.company?.numberOfDistributors > 1)?
+        distributor.company?.numberOfDistributors+' branches': '1 branch' }}<br />
+        Your Subscription is Valid Till {{ distributor.company?.subscriptionValidTill | date: 'dd-MM-yyyy' }}
+    </div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        Download Desktop Edition <a href="#">here</a> <br />
+    </div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        Download Mobile version NeoSell from Play store <br /> <a
+            href="https://portal.neomaxer.com/apks/neosell-app.apk"><img src="assets/google-play-badge.png"
+                width="180"></a>
+    </div>
+    <!-- <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+      Download NeoSell APK  <a href="https://portal.neomaxer.com/apks/neosell-app.apk">here</a> <br />
+  </div> -->
+    <div style="margin-top:300px"></div>
+</div>

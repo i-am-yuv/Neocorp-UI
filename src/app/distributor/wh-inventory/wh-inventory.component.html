@@ -1,0 +1,109 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div>
+    <h2>Manage Inventories</h2>
+    <p-table #dt [value]="inventories" [rows]="10" [paginator]="true" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [filterDelay]="500"
+        [(selection)]="selectedInventories" [rowHover]="true" dataKey="id" styleClass="p-datatable-gridlines"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+
+                <th pSortableColumn="distributorCatalog.name">Product Name <p-sortIcon field="distributorCatalog.name">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="storage.name">Storage <p-sortIcon field="storage.name">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="storage.qtyOnHand">Quantity On hand <p-sortIcon field="storage.qtyOnHand">
+                    </p-sortIcon>
+                </th>
+                <!-- <th>Storage</th>
+                <th class="text-right">Quantity</th>
+                <th class="text-right">Quantity On hand</th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-inventory>
+            <tr>
+                <!-- <td>
+                    <p-tableCheckbox [value]="inventory"></p-tableCheckbox>
+                </td> -->
+                <td>{{ inventory.distributorCatalog?.name ?? inventory.distributorCatalog?.product?.name }}</td>
+                <td>{{ inventory.storage?.name }}</td>
+                <td class="text-left"><span
+                        [ngClass]="inventory.type === 'VPLUS' ? 'text-green-600' : 'text-red-500'">{{ (inventory.type
+                        === 'VPLUS')? '+' : '-'}} {{inventory.quantity}}</span></td>
+                <td class="text-left">{{ inventory.storage?.qtyOnHand }}</td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{inventories ? inventories.length : 0 }} Inventories.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<form #form="ngForm">
+    <p-sidebar position="right" styleClass="p-sidebar-md" [(visible)]="inventoryDialog" header="Inventory"
+        [modal]="true" styleClass="p-sidebar-md" [modal]="true">
+        <h2>Inventory </h2>
+        <!-- <ng-template pTemplate="content"> -->
+        <div class="field p-fluid">
+            <p-dropdown [options]="warehouses" name="warehouse" #warehouse="ngModel" [(ngModel)]="inventory.warehouse"
+                placeholder="Choose Warehouse" appendTo="body" optionLabel="warehouseName" [showClear]="true"
+                styleClass="w-full" [required]="true">
+            </p-dropdown>
+        </div><br>
+        <div class="field p-fluid">
+            <p-dropdown [options]="distributorCatalogs" name="distributorCatalog" #distributorCatalog="ngModel"
+                [(ngModel)]="inventory.distributorCatalog" [filter]="true" appendTo="body" optionLabel="product.name"
+                placeholder="Choose Product" [showClear]="true" styleClass="w-full" (ngModelChange)="getStorage()"
+                [required]="true">
+            </p-dropdown>
+        </div>
+        <div class="field p-fluid">
+            Existing Stock : {{ inventory.storage?.qtyOnHand ?? 0 }}
+        </div><br>
+        <div class="field p-fluid">
+            <div class="p-inputgroup">
+                <p-inputNumber [format]="false" name="quantity" #quantity="ngModel" [(ngModel)]="inventory.quantity"
+                    [required]="true" placeholder="Inventory Quantity" styleClass="w-full">
+                </p-inputNumber>
+            </div>
+            <error-message [controlName]="quantity"></error-message>
+        </div>
+
+        <!-- </ng-template> -->
+
+        <!-- <ng-template pTemplate="footer"> -->
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="REDUCE" icon="pi pi-arrow-down" class="p-button p-button-danger mr-2"
+                (click)="saveInventory('VMINUS')" [disabled]="!form.valid"></button>
+            <button pButton pRipple label="ADD" icon="pi pi-arrow-up" class="p-button p-button-success"
+                (click)="saveInventory('VPLUS')" [disabled]="!form.valid"></button>
+        </div>
+
+        <!-- </ng-template> -->
+    </p-sidebar>
+</form>

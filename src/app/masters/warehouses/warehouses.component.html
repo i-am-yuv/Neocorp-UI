@@ -1,0 +1,157 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Warehouses</h2>
+
+    <p-table #dt [value]="warehouses" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['warehouseIdentifier','warehouseCode', 'warehouseName','company.companyName','distributor.distributorName','warehouseLocation']"
+        responsiveLayout="scroll" [(selection)]="selectedWarehouses" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedWarehouses()"
+                        [disabled]="!selectedWarehouses || !selectedWarehouses.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="warehouseName">Warehouse Name <p-sortIcon field="warehouseName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="company.companyName">Company <p-sortIcon field="company.companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="distributor.distributorName">Distributor<p-sortIcon
+                        field="distributor.distributorName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="warehouseLocation">Warehouse Location<p-sortIcon
+                        field="warehouseLocation"></p-sortIcon>
+                </th>
+                <!-- <th>Company</th>
+                <th>Distributor</th> -->
+                <!-- <th>Warehouse Location</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-warehouse>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="warehouse"></p-tableCheckbox>
+                </td>
+                <td>{{warehouse.warehouseName}}</td>
+                <td>{{warehouse.company?.companyName}}</td>
+                <td>{{warehouse.distributor?.distributorName}}</td>
+                <td>{{warehouse.warehouseLocation}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editWarehouse(warehouse)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteWarehouse(warehouse)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{warehouses ? warehouses.length : 0 }} Warehouses.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="warehouseDialog" header="Warehouse Type" [modal]="true"
+        styleClass="p-sidebar-md">
+        <h2>Warehouses</h2>
+        <ng-template pTemplate="content">
+            <div class="field p-fluid">
+                <label for="warehouseName">Warehouse Name</label>
+                <input type="text" pInputText name="warehouseName" #warehouseName="ngModel"
+                    [(ngModel)]="warehouse.warehouseName" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1"
+                    maxlength="60" />
+                <error-message [controlName]="warehouseName"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="company">Company</label>
+                <p-dropdown [options]="companies" name="company" #company="ngModel" [(ngModel)]="warehouse.company"
+                    placeholder="Choose Company" optionLabel="companyName" [showClear]="true" appendTo="body"
+                    (ngModelChange)="getDistributorsByCompany($event)" [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="company"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="company">Distributor</label>
+                <p-dropdown [options]="distributors" name="distributor" #distributor="ngModel"
+                    [(ngModel)]="warehouse.distributor" placeholder="Choose Distributor" optionLabel="distributorName"
+                    [showClear]="true" appendTo="body" [required]="true" [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="distributor"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="warehouseLocation">Warehouse Location</label>
+                <input type="text" pInputText name="warehouseLocation" #warehouseLocation="ngModel"
+                    [(ngModel)]="warehouse.warehouseLocation" required
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="warehouseLocation"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="warehouseAddress1">Warehouse Address Street</label>
+                <input type="text" pInputText name="warehouseAddress1" #warehouseAddress1="ngModel"
+                    [(ngModel)]="warehouse.warehouseAddress1" required pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$"
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="warehouseAddress1"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="warehouseAddress2">Warehouse Address Area</label>
+                <input type="text" pInputText name="warehouseAddress2" #warehouseAddress2="ngModel"
+                    [(ngModel)]="warehouse.warehouseAddress2" pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$" minlength="1"
+                    maxlength="60" />
+            </div>
+            <div class="field p-fluid">
+                <label for="state">Warehouse State</label>
+                <p-dropdown [options]="states" name="state" #state="ngModel" [(ngModel)]="warehouse.state"
+                    placeholder="Choose State" optionLabel="stateName" [showClear]="true" appendTo="body"
+                    [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="state"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="warehousePhone">Warehouse Phone</label>
+                <input type="text" pInputText name="warehousePhone" #warehousePhone="ngModel"
+                    [(ngModel)]="warehouse.warehousePhone" minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+                <error-message [controlName]="warehousePhone"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="warehousePhone">Warehouse Email</label>
+                <input type="text" pInputText name="warehouseMail" #warehouseMail="ngModel"
+                    [(ngModel)]="warehouse.warehouseMail" email minlength="6" maxlength="60" />
+                <error-message [controlName]="warehouseMail"></error-message>
+            </div>
+
+
+
+            <!-- </ng-template> -->
+
+            <!-- <ng-template pTemplate="footer"> -->
+            <div class="text-right">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                    (click)="hideDialog()"></button>&nbsp;
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveWarehouse()"
+                    [disabled]="!f.valid"></button>
+            </div>
+
+        </ng-template>
+        </p-sidebar>
+</form>

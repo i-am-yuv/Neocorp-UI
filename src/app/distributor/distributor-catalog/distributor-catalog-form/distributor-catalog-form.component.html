@@ -1,0 +1,96 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<h2>Distributor Catalog</h2>
+<div class="grid">
+    <div class="col-6">
+        <p-card styleClass="mb-3 bg-blue-50">
+            <div class="grid">
+                <div class="col-12">
+                    <span class="font-bold">Details</span>
+                </div>
+                <div class="col-4">Brand :</div>
+                <div class="col-8">{{ distributorCatalog.product?.brand?.name }}</div>
+                <div class="col-4">MRP :</div>
+                <div class="col-8">{{ distributorCatalog.product?.mrp }}</div>
+                <div class="col-4">GST :</div>
+                <div class="col-8">{{ distributorCatalog.product?.taxRate?.gst }}%</div>
+
+            </div>
+        </p-card>
+
+        <p-card styleClass="bg-orange-50">
+            <div class="grid">
+                <div class="col-4">Stock In hand :</div>
+                <div class="col-8"> {{ inventory.storage?.qtyOnHand ?? 0 }}</div>
+                <div class="col-4">Margin :</div>
+                <div class="col-8">{{ distributorCatalog.sellingPrice! - distributorCatalog.landingCost! | number :
+                    '1.2-2' }}
+                </div>
+                <div class="col-4">Margin % :</div>
+                <div class="col-8">{{ (((distributorCatalog.sellingPrice! - distributorCatalog.landingCost!) /
+                    distributorCatalog.sellingPrice!) * 100) | number : '1.2-2' }} %</div>
+            </div>
+        </p-card>
+
+    </div>
+    <div class="col-6">
+        <form #form="ngForm">
+
+            <div class="grid">
+                <div class="field col-12">
+                    <label for="distributorCatalogProductName">Distributor Catalog Product</label>
+                    <p-dropdown [options]="products" [filter]="true" placeholder="Choose product" name="distributorCatalogProductName"
+                        styleClass="w-full" optionLabel="name" name="product" #product="ngModel"
+                        [(ngModel)]="distributorCatalog.product" [required]="true">
+                    </p-dropdown>
+                    <error-message [controlName]="product"></error-message>
+                </div>
+                <br>
+                <div class="field col-12">
+                    <label for="distributorCatalogPrice">Landing Price</label>
+                    <div>
+                        <input type="text" pInputText name="landingCost" #landingCost="ngModel" class="w-full"
+                            [(ngModel)]="distributorCatalog.landingCost" required NumbersOnly/>
+                    </div>
+
+                    <error-message [controlName]="landingCost"></error-message>
+                </div>
+                <br>
+                <div class="field col-12">
+                    <label for="distributorCatalogPrice">Selling Price</label>
+                    <div>
+                        <input type="text" pInputText name="sellingPrice" #sellingPrice="ngModel" class="w-full"
+                            [(ngModel)]="distributorCatalog.sellingPrice" required NumbersOnly/>
+                    </div>
+                    <error-message [controlName]="sellingPrice"></error-message>
+                </div>
+            </div>
+
+            <!-- <div class="field col-6" *ngIf="id">
+            <label>Inventory</label>
+            <div class="p-inputgroup">
+                <p-inputNumber [format]="false" [(ngModel)]="inventory.quantity" [required]="true"
+                    placeholder="Quantity" styleClass="w-full">
+                </p-inputNumber>
+                <p-selectButton [options]="invType" [(ngModel)]="inventory.type" optionLabel="name" optionValue="code">
+                </p-selectButton>
+            </div>
+            <div>
+                <small class="p-error" *ngIf="submitted && !inventory.quantity">Quantity is
+                    required.</small>
+            </div>
+        </div> -->
+
+            <!-- </div> -->
+            <div class="col-12">
+                <br>
+                <br>
+                <div class="text-right">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                        (click)="cancel()"></button>
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-info"
+                        (click)="saveDistributorCatalog()" class="ml-2" [disabled]="!form.valid"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

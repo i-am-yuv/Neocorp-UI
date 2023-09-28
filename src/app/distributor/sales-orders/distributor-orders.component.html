@@ -1,0 +1,176 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="grid">
+    <div class="col-4">
+        <p-panel class="left-panel">
+            <ng-template pTemplate="header">
+                <span class="p-panel-title" style="padding: 1px">Sales Orders</span>
+            </ng-template>
+            <br>
+            <div class="p-inputgroup" *ngIf="statuses">
+                <p-inputNumber [format]="false"  [(ngModel)]="searchOrder"
+                    placeholder="Search order" (onInput)="searchOrders($event.value)">
+                </p-inputNumber>
+                <button type="button" pButton pRipple icon="pi pi-search"
+                    styleClass="p-button-success"></button>
+            </div>
+            <br>
+            <ng-template pTemplate="content">
+                <div class="left-panel-content">
+                    <div *ngFor="let item of orders" class="order-list">
+                        <div class="p-3 list-item" (click)="changeOrder(item)">
+                            <div>{{ item.documentnumber }}</div>
+                            <div class="font-italic text-sm mt-2">{{ item.store?.storeName}}</div>
+                        </div>
+                    </div>
+                    <div class="text-center m-5" *ngIf="orders.length===0">
+                        NO {{ activeStatus }} ORDERS
+                    </div>
+                </div>
+            </ng-template>
+            <p-footer>
+                Total: {{ this.totalRecords ?? 0}}
+            </p-footer>
+        </p-panel>
+    </div>
+    <div class="col-8">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <div class="w-full">
+                    <div class="grid m-0">
+                        <div class="col-6 p-0">
+                            <span class="p-panel-title">Order</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="right-panel-content">
+                <div class="text-center m-5" *ngIf="!activeOrder.id">
+                    <img src="assets/empty.svg" width="250" /><br />
+                    NO {{ activeStatus }} ORDERS
+                </div>
+                <div id="invoice">
+                    <div class="invoice-box" *ngIf="activeOrder.id">
+                        <table>
+                            <tr class="top">
+                                <td colspan="5">
+                                    <table>
+                                        <tr>
+                                            <td class="title">
+                                                <img src="assets/{{activeOrder.store?.logo ?? 'logo-placeholder.png' }}"
+                                                    alt="Company logo" style="width: 100%; max-width: 120px" />
+                                            </td>
+
+                                            <td>
+                                                Order #: {{ activeOrder.documentnumber }}<br />
+                                                Date: {{ activeOrder.orderDate | date: 'short'}}<br />
+                                                Due: {{ activeOrder.orderDate | date: 'short' }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr class="information">
+                                <td colspan="5">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div>{{ activeOrder.store?.storeName }}</div>
+                                                <div> {{ activeOrder.store?.company?.companyName }}</div>
+                                                <div> {{ activeOrder.store?.storeAddress1 }}
+                                                    {{ activeOrder.store?.storeAddress2 }}
+                                                    {{ activeOrder.store?.state?.stateName }} {{
+                                                    activeOrder.store?.pincode }}</div>
+                                                <div>{{ activeOrder.store?.storePhone }}</div>
+                                                <div>{{ activeOrder.store?.storeMail }}</div>
+                                                <div>{{ activeOrder.store?.gstNumber ?? "" }}</div>
+                                            </td>
+
+                                            <td>
+                                                <div *ngIf="activeOrder.distributor">
+                                                    <div> {{ activeOrder.distributor.distributorName }}</div>
+                                                    <div> {{ activeOrder.distributor.company?.companyName }}</div>
+                                                    <div> {{ activeOrder.distributor.distributorAddress1 }}
+                                                        {{ activeOrder.distributor.distributorAddress1 }}
+                                                        {{ activeOrder.distributor.state?.stateName }} {{
+                                                        activeOrder.distributor.pincode }}</div>
+                                                    <div>{{ activeOrder.distributor.distributorPhone }}</div>
+                                                    <div>{{ activeOrder.distributor.distributorMail }}</div>
+                                                    <div>{{ activeOrder.distributor.gstNumber }}</div>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr class="heading">
+                                <td colspan="4">Payment Method</td>
+
+                                <td>UPI #</td>
+                            </tr>
+
+                            <tr class="details">
+                                <td colspan="4">UPI</td>
+
+                                <td>-</td>
+                            </tr>
+
+                            <tr class="heading">
+                                <td width="40%">Item</td>
+                                <td width="15%">Price</td>
+                                <td width="15%" class="text-right">GST</td>
+                                <td width="15%" class="text-right">Qty</td>
+                                <td width="15%" class="text-right">Amount</td>
+                            </tr>
+
+                            <tr class="item" *ngFor="let line of orderLines">
+                                <td>{{ line.product.name }}</td>
+                                <td class="text-right">{{ line.unitprice }}</td>
+                                <td class="text-right">{{ line.gst }}</td>
+                                <td class="text-right">{{ line.quantity }}</td>
+                                <td class="text-right">{{ line.linetotal }}</td>
+                            </tr>
+
+
+                            <tr class="total">
+                                <td class="text-right" colspan="4">Sub Total:</td>
+
+                                <td>{{ activeOrder.grosstotal! - activeOrder.gst! | number: '1.2-2' }}</td>
+                            </tr>
+                            <tr class="total">
+                                <td class="text-right" colspan="4">CGST: </td>
+
+                                <td colspan="4">{{ activeOrder.cgst ?? 0 | number : '1.2-2'}}</td>
+                            </tr>
+                            <tr class="total">
+                                <td class="text-right" colspan="4">SGST: </td>
+
+                                <td colspan="4">{{ activeOrder.sgst ?? 0 | number : '1.2-2'}}</td>
+                            </tr>
+                            <tr class="total">
+                                <td class="text-right" colspan="4">GST: </td>
+
+                                <td colspan="4">{{ activeOrder.gst ?? 0 | number : '1.2-2'}}</td>
+                            </tr>
+                            <tr class="total">
+                                <td class="text-right" colspan="4">Total: </td>
+
+                                <td colspan="4">{{ activeOrder.grosstotal ?? 0 | number : '1.2-2'}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <p-footer>
+                <div class="text-right">
+                    <button pButton class="p-button-text p-0 mr-5" icon="pi pi-envelope" label="Email" (click)="sendEmail()"> </button>
+                    <button pButton class="p-button-text p-0" icon="pi pi-print" label="Print" printSectionId="invoice"
+                        styleSheetFile="assets/css/invoice.css" ngxPrint></button>
+                </div>
+            </p-footer>
+        </p-panel>
+    </div>
+</div>

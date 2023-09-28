@@ -1,0 +1,259 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8" *ngIf="!subActive">
+    <div *ngIf="!showQr && !paymentDone">
+        <div class="text-900 font-bold text-6xl mb-4 text-center">Service Packs</div>
+        <div class="grid">
+            <div class="col-12 lg:col-4">
+                <div class="p-3 h-full">
+                    <div class="shadow-2 p-3 h-full flex flex-column surface-card" style="border-radius: 6px">
+                        <div class="text-900 font-medium text-xl mb-2 text-center">Starter Pack</div>
+                        <div class="text-600 text-center">Turnover upto 11 lakhs</div>
+                        <!-- <hr class="my-3 mx-0 border-top-1 border-none surface-border" /> -->
+                        <!-- <div class="flex align-items-center">
+                            <span class="font-bold text-2xl text-900">₹{{ getPlanCost(1) }}</span>
+                            <span class="ml-2 font-medium text-600">per annum</span>
+                        </div> -->
+                        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <ul class="list-none p-0 m-0 flex-grow-1">
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Receive online orders</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Initial setup cost for store is 1999</span>
+                            </li>
+
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Store can get credits upto 11 lakhs</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Store can get credits upto 10lakhs on every multiple recharge of
+                                    Rs. 1000</span>
+                            </li>
+                        </ul>
+                        <hr class="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
+                        <button pButton pRipple label="Buy Now" (click)="changePlan(1)"
+                            class="p-3 w-full mt-auto p-button-outlined"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-4">
+                <div class="p-3 h-full">
+                    <div class="shadow-2 p-3 h-full flex flex-column surface-card" style="border-radius: 6px">
+                        <div class="text-900 font-medium text-xl mb-2 text-center">Standard Pack</div>
+                        <div class="text-600 text-center">Turnover upto 51 lakhs</div>
+                        <!-- <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <div class="flex align-items-center">
+                            <span class="font-bold text-2xl text-900">Receive online orders</span>
+                            <span class="ml-2 font-medium text-600">per annum</span>
+                        </div> -->
+                        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <ul class="list-none p-0 m-0 flex-grow-1">
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Receive online orders
+                                    <!-- <span class="text-orange-400 ml-2"> + more</span> -->
+                                </span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Initial setup cost for store is 5999</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Store can get credits upto 51 lakhs</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Store can get credits upto 10lakhs on every multiple recharge of
+                                    Rs. 1000</span>
+                            </li>
+
+                            <!-- <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">1 Business, 3 Stores, 7 users, 7 devices - mobile or desktop
+                                </span>
+
+                            </li> -->
+                        </ul>
+                        <hr class="mb-3 mx-0 border-top-1 border-none surface-border" />
+                        <button pButton pRipple label="Buy Now" (click)="changePlan(2)" class="p-3 w-full"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-4">
+                <div class="p-3 h-full">
+                    <div class="shadow-2 p-3 flex flex-column surface-card" style="border-radius: 6px">
+                        <div class="text-900 font-medium text-xl mb-2 text-center">Volume Pack</div>
+                        <div class="text-600 text-center">Turnover upto 1.01 crore</div>
+                        <!-- <hr class="my-3 mx-0 border-top-1 border-none surface-border" /> -->
+                        <!-- <div class="flex align-items-center">
+                            <span class="font-bold text-2xl text-900">₹{{ getPlanCost(3) }}</span>
+                            <span class="ml-2 font-medium text-600">per annum</span>
+                        </div> -->
+                        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <ul class="list-none p-0 m-0 flex-grow-1">
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Receive online orders</span>
+                                <!-- <span class="text-green-400 ml-2"> + more</span></span> -->
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Initial setup cost for store is 10999</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <!-- <span class="text-900">Tax Payments & Filing <sup>* coming soon</sup></span> -->
+                                <span class="text-900">Store can get credits upto 1.01 crore</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Store can get credits upto 10lakhs on every multiple recharge of
+                                    Rs. 1000</span>
+                            </li>
+                            <!-- <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">Working capital credit</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                                <span class="text-900">1 Business, 5 Stores, 15 users, 12 devices - mobile or
+                                    desktop</span>
+                            </li> -->
+                        </ul>
+                        <hr class="mb-3 mx-0 border-top-1 border-none surface-border" />
+                        <button pButton pRipple label="Buy Now" (click)="changePlan(3)"
+                            class="p-3 w-full p-button-outlined"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-4 lg:col-offset-4">
+                <div class="p-3">
+                    <div class="shadow-2 p-3 surface-card">
+                        <div class="text-900 font-medium text-xl mb-2 text-center">Custom Pack</div>
+                        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <div></div>
+                        <br>
+                        <form [formGroup]="customPackDetails">
+                            <div class="field">
+                                <label for="minmax-buttons" class="w-full text-center">Amount </label>
+                                <!-- <p-inputNumber [showButtons]="true" formControlName="amount" buttonLayout="horizontal"
+                                    spinnerMode="horizontal" [step]="1000" decrementButtonClass="p-button-danger"
+                                    incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                                    decrementButtonIcon="pi pi-minus" [min]="1000" [max]="29999" [size]="2">
+                                </p-inputNumber> -->
+                                <div class="text-center">
+                                    <p-inputNumber [showButtons]="true" styleClass="w-full" [step]="1000"
+                                        formControlName="amount" aria-required="true" inputId="minmax-buttons">
+                                    </p-inputNumber>
+                                </div>
+                                <div style="padding-inline-start: 65px;">
+                                    <error-message [controlName]="customPackDetails.controls['amount']"></error-message>
+                                </div>
+                            </div>
+                            <div></div>
+                            <div></div>
+                            <br>
+                            <hr class="mb-3 mx-0 border-top-1 border-none surface-border" />
+                            <button pButton pRipple label="Buy Now" [disabled]="!customPackDetails.valid"
+                                (click)="planDetails()" type="button" class="p-3 w-full p-button-outlined"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 text-center" *ngIf="!showQr">
+                <h2>Looking to manage multiple businesses with large volume? </h2>
+                <button pButton class="p-button-success" label="Contact Sales"></button>
+            </div>
+            <!-- </div> -->
+        </div>
+
+
+    </div>
+    <div *ngIf="showQr && !paymentDone">
+        <div class="text-900 font-bold text-6xl mb-4 text-center">Payment</div>
+        <div class="text-700 text-xl mb-6 text-center line-height-3">Scan the QR from any UPI app and
+            make
+            payment.<br /> Once done click on activate store button below to enable sales.</div>
+        <div class="grid">
+            <div class="col-4 col-offset-4">
+                <div class="text-center">
+                    <h1 class="text-orange-400">₹ {{ activePlan.cost }}</h1>
+                    <qr-code [value]="upiUrl" size="250" errorCorrectionLevel="M">
+                    </qr-code>
+                    <div class="m-5">
+                        <button pButton class="p-button-outlined mr-3" (click)="showQr=!showQr"
+                            label="Change Plan"></button>
+                        <button pButton label="Activate Store" (click)="activateStore()"
+                            class="p-button-success"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid" *ngIf="paymentDone">
+        <div class="col-6 col-offset-3 text-center">
+            <div class="text-900 font-bold text-6xl mb-4 text-center">Activation Request Sent</div>
+            <div class="text-700 text-xl mb-6 text-center line-height-3">Congratulations we will soon activate your
+                distributorship after payment is verified. It may take upto 24 hours for payment confirmation. <br />
+                In case after 24 hrs the account is not activated, please reach out to <a href="#">customer support</a>
+                or email us at <a href="mailto:billingsupport@ifyn.com">billingsupport@ifyn.com</a>
+            </div>
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+            <div>
+                <a href="#" routerLink="/dashboard">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8" *ngIf="subActive">
+    <div class="text-900 font-bold text-6xl mb-4 text-center" *ngIf="!showQr">Your Subscription
+        is active</div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        You can download the POS application and use it in {{ (store.company?.numberOfStores > 1)?
+        store.company?.numberOfStores+' stores': '1 store' }}<br />
+        Your Subscription is Valid Till {{ store.company?.subscriptionValidTill | date: 'dd-MM-yyyy' }}
+    </div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        Download Desktop Edition <a href="https://portal.neomaxer.com/posapp/NeoMaxerPOS.exe">here</a> <br />
+        <!-- Download Desktop Edition <a href="#">here</a> <br /> Download Mobile version from Play store <br /> <a
+            href="#"><img src="assets/google-play-badge.png" width="180"></a> -->
+    </div>
+
+
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        <br /> Download Mobile version NeoStore from Play store <br /> <a
+            href="https://portal.neomaxer.com/apks/neostore-app.apk"><img src="assets/google-play-badge.png"
+                width="180"></a>
+    </div>
+
+    <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+        Download Mobile version NeoPOS from Play store <br /> <a
+            href="https://portal.neomaxer.com/apks/neopos-app.apk"><img src="assets/google-play-badge.png"
+                width="180"></a>
+    </div>
+
+
+    <!-- <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr" >
+    Download NeoStore APK  <a href="https://portal.neomaxer.com/apks/neostore-app.apk">here</a> <a
+    href="#"><img src="assets/google-play-badge.png" width="180"></a>
+      </div>
+  <div class="text-700 text-xl mb-6 text-center line-height-3" *ngIf="!showQr">
+    Download NeoPOS APK  <a href="https://portal.neomaxer.com/apks/neopos-app.apk">here</a> <a
+    href="#"><img src="assets/google-play-badge.png" width="180"></a>
+</div> -->
+    <div style="margin-top:300px"></div>
+</div>

@@ -1,0 +1,403 @@
+<div class="bg-bluegray-700 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap mb-5"
+    *ngIf="!distributor?.company?.subscriptionActive">
+    <!-- <div class="font-bold mr-8">🔥 Hot Deals!</div> -->
+    <div class="align-items-center hidden lg:flex">
+        <span class="line-height-3"> <i class="pi pi-exclamation-triangle text-yellow-300 mr-2"></i> Your Subscription
+            is
+            inactive, activate
+            to enable receiving distributor orders!</span>
+    </div>
+    <a class="flex align-items-center ml-2 mr-8">
+        <a class="text-white" [routerLink]="['/settings/billing']"><span class="underline font-bold">Activate
+                Now</span></a>
+    </a>
+    <a pRipple
+        class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
+        style="width:2rem; height: 2rem">
+        <i class="pi pi-times"></i>
+    </a>
+</div>
+<div class="grid border-1 border-200">
+    <div class="col-3">
+        <p-menu [model]="items" styleClass="border-0 mt-3 w-full"></p-menu>
+    </div>
+
+    <div class="col-9 border-left-1 border-200 p-3">
+        <form #f="ngForm">
+            <section *ngIf="activeSection==='ACCOUNT'">
+                <h2>My Account</h2>
+                <div class="field">
+                    <label for="username">Login Mobile</label>
+                    <div>
+                        <p-inputNumber name="userName" #userName="ngModel" [(ngModel)]="distributorUser.user!.userName"
+                            [format]="false" [minlength]="10" [maxlength]="10" [required]="true">
+                        </p-inputNumber>
+                    </div>
+                    <!-- <input type="text" pInputText [(ngModel)]="distributorUser.user!.userName" class="w-full" required /> -->
+                    <error-message [controlName]="userName"></error-message>
+                </div>
+                <div class="field">
+                    <label for="password">Login Password</label>
+                    <input type="password" pInputText name="password" #password="ngModel"
+                        [(ngModel)]="distributorUser.user!.password" [type]="fieldTextType ? 'text' : 'password'"
+                        class="w-full" required />
+                    <i class="pi pi-eye" style="margin-left: -30px;" (click)="toggleFieldTextType()"></i>
+                    <error-message [controlName]="password"></error-message>
+                </div>
+                <div class="field">
+                    <label for="username">User Email</label>
+                    <input type="text" pInputText name="email" #email="ngModel"
+                        pattern="^[a-zA-Z0-9]+@[a-zA-Z]+.[a-zA-Z]+$" [(ngModel)]="distributorUser.user!.email"
+                        class="w-full" required />
+                    <error-message [controlName]="email"></error-message>
+                </div>
+                <div class="field">
+                    <label for="roles">User Roles</label>
+                    <p-multiSelect id="roles" name="roles" [options]="roles" [(ngModel)]="distributorUser.user!.roles"
+                        [required]="true" optionLabel="name" [style]="{'minWidth':'100%'}" appendTo="body"
+                        placeholder="Select a User Role">
+                    </p-multiSelect>
+                    <!-- <error-message [controlName]="roles"></error-message> -->
+                </div>
+                <div class="field">
+                    <label for="firstName">Distributor User Firstname</label>
+                    <input type="text" pInputText name="firstName" #firstName="ngModel" pattern="^[a-zA-Z]+$"
+                        [(ngModel)]="distributorUser.firstName" class="w-full" required />
+                    <error-message [controlName]="firstName"></error-message>
+                </div>
+                <div class="field">
+                    <label for="lastName">Distributor User Lastname</label>
+                    <input type="text" pInputText name="lastName" #lastName="ngModel" pattern="^[a-zA-Z]+$"
+                        [(ngModel)]="distributorUser.lastName" class="w-full" required />
+                    <error-message [controlName]="lastName"></error-message>
+                </div>
+                <div class="field p-fluid">
+                    <label for="lastName">Distributor User Phone</label>
+                    <div>
+                        <p-inputNumber name="phone" #phone="ngModel" [(ngModel)]="distributorUser.phone"
+                            [format]="false" [minlength]="10" [maxlength]="10" [required]="true">
+                        </p-inputNumber>
+                    </div>
+                    <error-message [controlName]="phone"></error-message>
+                </div>
+
+
+
+                <div class="text-right">
+                    <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"></button> -->
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button"
+                        (click)="saveDistributorUser()" [disabled]="!f.valid"></button>
+                </div>
+            </section>
+        </form>
+
+
+        <section *ngIf="activeSection==='DISTRIBUTOR'">
+            <h3>Default Distributor</h3>
+
+            <div class="field">
+                <p-dropdown [options]="mydistributors" [(ngModel)]="distributorUser.distributor"
+                    placeholder="Set Default" optionLabel="distributorName" styleClass="w-5">
+                </p-dropdown>
+                <button pButton (click)="setDefaultDistributor()" label="Set"></button>
+            </div>
+            <h3>My Agency</h3>
+            <form [formGroup]="distForm">
+                <div class="grid p-fluid">
+
+                    <div class="field col-6">
+                        <label class="mr-3 required">Distributor Name </label>
+                        <input pInputText formControlName="distributorName" placeholder="Enter distributor name"
+                            class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Location </label>
+                        <input pInputText formControlName="distributorLocation" placeholder="Enter distributor location"
+                            class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorLocation']"></error-message>
+
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Door No. & Street </label>
+                        <input pInputText formControlName="distributorAddress1"
+                            placeholder="Enter door no. and street name" class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorAddress1']"></error-message>
+
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">City / Town</label>
+                        <input pInputText formControlName="distributorAddress2" placeholder="Enter town or city"
+                            class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorAddress2']"></error-message>
+
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Distributor Phone</label>
+                        <input pInputText formControlName="distributorPhone" placeholder="Enter distributor phone"
+                            class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorPhone']"></error-message>
+
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Distributor Email</label>
+                        <input pInputText formControlName="distributorMail" placeholder="Enter distributor name"
+                            class="w-full" />
+                        <error-message [controlName]="distForm.controls['distributorMail']"></error-message>
+
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">State</label>
+                        <ng-container formGroupName="state">
+                            <p-dropdown [options]="states" formControlName="id" placeholder="Choose State"
+                                optionValue="id" optionLabel="stateName" [showClear]="true" [filter]="true"
+                                [required]="true">
+                            </p-dropdown>
+                        </ng-container>
+                        <error-message [controlName]="state.controls['id']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Pincode</label>
+                        <input pInputText name="companyPincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
+                              placeholder="Enter Pincode" minlength="6"  maxlength="6" class="w-full" required />
+                        <error-message [controlName]="distForm.controls['pincode']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">GSTIN</label>
+                        <input pInputText formControlName="gstNumber" minlength="15" maxlength="15"
+                            placeholder="Enter GSTIN" class="w-full" />
+                        <error-message [controlName]="distForm.controls['gstNumber']"></error-message>
+                    </div>
+                </div>
+                <div class="field text-right">
+                    <button pButton label="Save" [disabled]="!distForm.valid" (click)="distFormSubmit()"></button>
+                </div>
+            </form>
+        </section>
+        <section *ngIf="activeSection==='COMPANY'">
+            <h3>My Company</h3>
+            <ul class="list-none p-0 m-0" *ngIf="!distributorUser.companyAdmin">
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Company Name
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyName }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Company PAN
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyPanNumber }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Company Location
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyLocation }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Street Address
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyAddress1 }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Area, Town / City
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyAddress2 }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        State
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.state?.stateName }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Pincode
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.pincode }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Phone
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyPhone }}
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-4 font-medium">
+                        Email
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                        {{ distributor.company?.companyMail }}
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="list-none p-0 m-0" *ngIf="distributorUser.companyAdmin">
+                <form [formGroup]="companyFormDetails">
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Company Name
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyName" name="companyName" class="w-8"
+                                pattern="^[a-zA-Z]+$" required />&nbsp;
+                            <error-message [controlName]="companyFormDetails.controls['companyName']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Company PAN
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyPanNumber" name="companyPanNumber" class="w-8" required />
+                            <error-message [controlName]="companyFormDetails.controls['companyPanNumber']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Company Location
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyLocation" class="w-8" required />
+                            <error-message
+                                [controlName]="companyFormDetails.controls['companyLocation']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Street Address
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyAddress1" class="w-8" required />
+                            <error-message
+                                [controlName]="companyFormDetails.controls['companyAddress1']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Area, Town / City
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyAddress2" class="w-8" required />
+                            <error-message
+                                [controlName]="companyFormDetails.controls['companyAddress2']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            State
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <p-dropdown [options]="states" name="state" formControlName="state"
+                                placeholder="Choose State" optionLabel="stateName" [showClear]="true" appendTo="body"
+                                styleClass="w-8" [required]="true">
+                            </p-dropdown>
+                            <error-message [controlName]="companyFormDetails.controls['state']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Pincode
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText name="pincode" formControlName="pincode"
+                                pattern="^(\d{4}|\d{6})$" maxlength="6" class="w-8" required />
+                            <error-message
+                                [controlName]="companyFormDetails.controls['pincode']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Phone
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input type="tel" pInputText name="companyPhone" formControlName="companyPhone" class="w-8"
+                                minlength="10" maxlength="10" required />
+                            <error-message [controlName]="companyFormDetails.controls['companyPhone']"></error-message>
+                        </div>
+                    </li>
+                    <!-- <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Phone
+                        </div>
+                        <div class="text-900 w-full md:w-8" >
+                            <p-inputNumber  [format]="false" name="companyPhone" formControlName="companyPhone"  
+                                [minlength]="10" [maxlength]="10" aria-required="true" ></p-inputNumber>
+                            <error-message [controlName]="companyFormDetails.controls['companyPhone']"></error-message>
+                        </div>
+                    </li> -->
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Email
+                        </div>
+                        <div class="text-900 w-full md:w-8">
+                            <input pInputText formControlName="companyMail" class="w-8" required />
+                            <error-message [controlName]="companyFormDetails.controls['companyMail']"></error-message>
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="md:w-4"></div>
+                        <div class="text-right w-full md:w-8">
+                            <button pButton label="Save" [disabled]="!companyFormDetails.valid"
+                                (click)="saveCompany()"></button>
+                        </div>
+                    </li>
+                </form>
+            </ul>
+        </section>
+        <section *ngIf="activeSection==='PAYMENT'">
+            <h2>Payment Methods</h2>
+            <form [formGroup]="paymentForm">
+                <ng-container formArrayName="methods">
+                    <ng-container *ngFor="let pm of paymentMethodSettings; let i = index">
+                        <div [formGroupName]="i">
+                            <p-fieldset [legend]="pm.paymentMethod" styleClass="mb-4">
+                                <div class="text-red-500 mb-3" *ngIf="pm.paymentMethod === 'UPI' && upiInvalid">Please
+                                    enter UPI
+                                    details</div>
+                                <ng-container formArrayName="props" *ngFor="let field of pm.fields; let k = index">
+                                    <div [formGroupName]="k">
+                                        <div class=" field-checkbox" *ngIf="field.dataType==='boolean'">
+                                            <p-inputSwitch formControlName="val">
+                                            </p-inputSwitch>
+                                            <label>{{ field.label }}</label>
+                                        </div>
+                                        <div class=" field" *ngIf="field.dataType==='text'">
+                                            <label class="w-3" style="text-transform: uppercase;">{{ field.label }} :
+                                            </label>
+                                            <input pInputText formControlName="val"
+                                                [placeholder]="field.label.toUpperCase()" class="w-4 ml-5" />
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </p-fieldset>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <div class="text-right">
+                    <button pButton [disabled]="!paymentForm.valid" label="save"
+                        (click)="savePaymentSettings()"></button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

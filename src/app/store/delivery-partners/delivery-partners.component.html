@@ -1,0 +1,205 @@
+<p-breadcrumb
+  [home]="home"
+  [model]="items"
+  styleClass="border-0"
+></p-breadcrumb>
+<div class="card">
+  <h2 class="p-2">Manage DeliveryPartners</h2>
+  <form #f="ngForm"></form>
+
+  <p-table
+    #dt
+    [value]="deliveryPartners"
+    [lazy]="true"
+    [totalRecords]="totalRecords"
+    responsiveLayout="scroll"
+    [(selection)]="selectedDeliveryPartner"
+    [rowHover]="true"
+    dataKey="id"
+    styleClass="p-datatable-gridlines"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    (onLazyLoad)="loadStore($event)"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    [rows]="10"
+    [filterDelay]="500"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <div>
+          <button
+            pButton
+            pRipple
+            label="New"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="openNew()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="deleteSelectedStores()"
+            [disabled]="
+              !selectedDeliveryPartner || !selectedDeliveryPartner.length
+            "
+          ></button>
+        </div>
+        <div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($event, 'contains')"
+              placeholder="Search..."
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="storeName">
+          DeliveryPartner Name <p-sortIcon field="storeName"></p-sortIcon>
+        </th>
+        <!-- <th>Company</th> -->
+        <th pSortableColumn="company.companyName">
+          DeliveryPartner Company
+          <p-sortIcon field="company.companyName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="storeLocation">
+          DeliveryPartner Location
+          <p-sortIcon field="storeLocation"></p-sortIcon>
+        </th>
+        <!-- <th>Store Location</th> -->
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-store>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="store"></p-tableCheckbox>
+        </td>
+        <td>{{ store.storeName }}</td>
+        <td>{{ store.company?.companyName }}</td>
+        <td>{{ store.storeLocation }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-text p-button-info p-0 mr-2"
+            (click)="editStore(store)"
+            pTooltip="edit"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-text p-button-danger p-0"
+            (click)="deleteStore(store)"
+            pTooltip="delete"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are
+        {{ deliveryPartners ? deliveryPartners.length : 0 }} DeliveryPartners.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+<form #form="ngForm">
+  <p-sidebar
+    position="right"
+    [(visible)]="deliveryPartnerDialog"
+    header="Store"
+    [modal]="true"
+    styleClass="p-sidebar-md"
+  >
+    <h2>Delivery Partner</h2>
+    <!-- <ng-template pTemplate="content"> -->
+
+    <div class="field p-fluid">
+      <label for="state">Delivery Agency</label>
+      <div>
+        <p-dropdown
+          [options]="agencies"
+          [filter]="true"
+          name="state"
+          #state="ngModel"
+          [(ngModel)]="deliveryPartner.state"
+          placeholder="Choose Agency"
+          optionLabel="stateName"
+          [showClear]="true"
+          appendTo="body"
+        >
+        </p-dropdown>
+      </div>
+      <error-message [controlName]="state"></error-message>
+    </div>
+    <div class="field p-fluid">
+      <label for="storeName">DeliveryPartner Name</label>
+      <div>
+        <input
+          type="text"
+          pInputText
+          name="storeName"
+          #storeName="ngModel"
+          [(ngModel)]="deliveryPartner.storeName"
+          required
+          pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"
+          minlength="1"
+          maxlength="255"
+        />
+      </div>
+      <error-message [controlName]="storeName"></error-message>
+    </div>
+
+    <div class="field p-fluid">
+      <div>
+        <p-checkbox
+          formControlName="city"
+          value="New York"
+          inputId="ny"
+        ></p-checkbox>
+        &nbsp;&nbsp; <label for="ny"><b>IsDefault?</b></label>
+      </div>
+
+      <error-message [controlName]="storeName"></error-message>
+    </div>
+
+    <!-- </ng-template> -->
+    <div class="text-right">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="hideDialog()"
+      ></button
+      >&nbsp;
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button"
+        (click)="saveStore()"
+        [disabled]="!form.valid"
+      ></button>
+    </div>
+
+    <!-- </ng-template> -->
+  </p-sidebar>
+</form>

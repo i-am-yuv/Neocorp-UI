@@ -1,0 +1,113 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Tax Rates</h2>
+
+    <p-table #dt [value]="taxRates" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['taxRateIdentifier','taxRateValue', 'taxRateName','gst']" responsiveLayout="scroll"
+        [(selection)]="selectedTaxRates" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedTaxRates()"
+                        [disabled]="!selectedTaxRates || !selectedTaxRates.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="taxRateName">Tax Rate Name <p-sortIcon field="taxRateName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="gst">GST Value <p-sortIcon field="gst"></p-sortIcon>
+                </th>
+                <!-- <th>GST Value</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-taxRate>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="taxRate"></p-tableCheckbox>
+                </td>
+                <td>{{taxRate.taxRateName}}</td>
+                <td>{{taxRate.gst}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editTaxRate(taxRate)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteTaxRate(taxRate)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{taxRates ? taxRates.length : 0 }} Tax Rates.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<!-- <form #f="ngForm"> -->
+    <p-sidebar position="right" [(visible)]="taxRateDialog" header="Tax Rate" [modal]="true" styleClass="p-sidebar-md">
+        <h2>Tax Rates</h2>
+        <form #f="ngForm" class="form" #taxRateForm="ngForm" (ngSubmit)="taxRateForm.form.valid && saveTaxRate()">
+            <div class="field">
+                <label for="taxRateName">Tax Rate Name</label>
+                <input type="text" pInputText [(ngModel)]="taxRate.taxRateName" name="taxRateName"
+                    #taxRateName="ngModel" class="w-full" required  />
+                <error-message [controlName]="taxRateName"></error-message>
+            </div>
+            <div class="field">
+                <label for="gst">GST Value</label>
+                <input type="text"  pInputText [(ngModel)]="taxRate.gst" name="gst" #gst="ngModel" class="w-full" pattern="^[0-9]"
+                    required />
+                <error-message [controlName]="gst"></error-message>
+            </div>
+            <div class="field">
+                <label for="cgst">CGST Value</label>
+                <input type="text"  pInputText [(ngModel)]="taxRate.cgst" name="cgst" #cgst="ngModel" class="w-full" pattern="^[0-9]"
+                    required />
+                <error-message [controlName]="cgst"></error-message>
+            </div>
+            <div class="field">
+                <label for="igst">IGST Value</label>
+                <input type="text"  pInputText [(ngModel)]="taxRate.igst" name="igst" #igst="ngModel" class="w-full" pattern="^[0-9]"
+                    required />
+                <error-message [controlName]="igst"></error-message>
+            </div>
+            <div class="field">
+                <label for="sgst">SGST Value</label>
+                <input type="text"  pInputText [(ngModel)]="taxRate.sgst" name="sgst" #sgst="ngModel" class="w-full" pattern="^[0-9]"
+                    required />
+                <error-message [controlName]="sgst"></error-message>
+            </div>
+            <div class="field">
+                <label for="utgst">UTGST Value</label>
+                <input type="text"  pInputText [(ngModel)]="taxRate.utgst" name="utgst" #utgst="ngModel" class="w-full" pattern="^[0-9]"
+                    required />
+                <error-message [controlName]="utgst"></error-message>
+            </div>
+
+            <div class="text-right">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                    (click)="hideDialog()"></button>&nbsp;
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button"
+                    (click)="taxRateForm.form.valid && saveTaxRate()" [disabled]="!f.valid"></button>
+            </div>
+        </form>
+    </p-sidebar>
+<!-- </form> -->

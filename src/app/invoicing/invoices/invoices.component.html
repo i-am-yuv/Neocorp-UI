@@ -1,0 +1,56 @@
+<div class="grid">
+    <div class="col-3">
+        <h2>Invoicing</h2>
+    </div>
+    <div class="col-3 text-right">
+        <p-selectButton [options]="invoiceTypes" [(ngModel)]="invoiceType" optionLabel="name"></p-selectButton>
+    </div>
+    <div class="col-6 text-right">
+        <span class="p-buttonset" *ngIf="invoiceType.code ==='P'">
+            <button pButton pRipple label="All Invoices" icon="pi pi-bars" class="p-button-outlined"></button>
+            <button pButton pRipple label="Recurring" icon="pi pi-refresh" class="p-button-outlined"></button>
+            <button pButton pRipple label="Subscriptions" icon="pi pi-check-circle" class="p-button-outlined"></button>
+        </span>
+        <span class="p-buttonset" *ngIf="invoiceType.code ==='S'">
+            <button pButton pRipple label="All Invoices" icon="pi pi-bars" class="p-button-outlined"></button>
+            <button pButton pRipple label="Proforma" icon="pi pi-clock" class="p-button-outlined"></button>
+        </span>
+    </div>
+    <div class="col-12">
+        <p-table [columns]="invoiceCols" [value]="invoices" styleClass="p-datatable-gridlines"
+            [(selection)]="selectedInvoices">
+            <ng-template pTemplate="caption">
+                <div class="grid">
+                    <div class="col-9">
+                        <div><button pButton label="All Invoices" class="p-button-link" disabled="true"></button></div>
+                    </div>
+                    <div class="col-3 text-right">
+                        <button pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-sm p-button-outlined mr-3"></button>
+                        <p-splitButton label="Action" styleClass="p-button-sm" icon="pi pi-cog"></p-splitButton>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-cols>
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of cols">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-cols="columns">
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="row"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of cols">
+                        {{row[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Stores</h2>
+    <form #f="ngForm"></form>
+
+    <p-table #dt [value]="stores" [lazy]="true" [totalRecords]="totalRecords" responsiveLayout="scroll"
+        [(selection)]="selectedStores" [rowHover]="true" dataKey="id" styleClass="p-datatable-gridlines"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        (onLazyLoad)="loadStore($event)" [rowsPerPageOptions]="[10,25,50]" [paginator]="true" [rows]="10"
+        [filterDelay]="500">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedStores()"
+                        [disabled]="!selectedStores || !selectedStores.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="storeName">Store Name <p-sortIcon field="storeName"></p-sortIcon>
+                </th>
+                <!-- <th>Company</th> -->
+                <th pSortableColumn="company.companyName">Company <p-sortIcon field="company.companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="storeLocation">Store Location <p-sortIcon field="storeLocation"></p-sortIcon>
+                </th>
+                <!-- <th>Store Location</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-store>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="store"></p-tableCheckbox>
+                </td>
+                <td>{{store.storeName}}</td>
+                <td>{{store.company?.companyName}}</td>
+                <td>{{store.storeLocation}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editStore(store)" pTooltip="edit"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteStore(store)" pTooltip="delete"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{stores ? stores.length : 0 }} Stores.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #form="ngForm">
+    <p-sidebar position="right" [(visible)]="storeDialog" header="Store" [modal]="true" styleClass="p-sidebar-md">
+        <h2>Store </h2>
+        <!-- <ng-template pTemplate="content"> -->
+        <div class="field p-fluid">
+            <label for="storeName">Store Name</label>
+            <div>
+                <input type="text" pInputText name="storeName" #storeName="ngModel" [(ngModel)]="store.storeName"
+                    required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            </div>
+            <error-message [controlName]="storeName"></error-message>
+        </div>
+        <div class="field p-fluid" *ngIf="global">
+            <label for="company">Company</label>
+            <div>
+                <p-dropdown [options]="companies" name="company" #company="ngModel" [(ngModel)]="store.company"
+                    placeholder="Choose Company" optionLabel="companyName" [showClear]="true" appendTo="body">
+                </p-dropdown>
+            </div>
+            <error-message [controlName]="company"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="storeLocation">Store Location</label>
+            <div>
+                <input type="text" pInputText name="storeLocation" #storeLocation="ngModel"
+                    [(ngModel)]="store.storeLocation" required  minlength="1"
+                    maxlength="60" />
+            </div>
+            <error-message [controlName]="storeLocation"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="storeAddress1">Store Address Street</label>
+            <div>
+                <input type="text" pInputText name="storeAddress1" #storeAddress1="ngModel"
+                    [(ngModel)]="store.storeAddress1" required pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$" minlength="1"
+                    maxlength="60" />
+            </div>
+            <error-message [controlName]="storeAddress1"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="storeAddress2">Store Address Area</label>
+            <div>
+                <input type="text" pInputText name="storeAddress2" #storeAddress2="ngModel"
+                    [(ngModel)]="store.storeAddress2" required pattern="^[^-\s]+([\s][a-zA-Z0-9]+)*$" minlength="1"
+                    maxlength="60" />
+            </div>
+            <error-message [controlName]="storeAddress2"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="state">Store State</label>
+            <div>
+                <p-dropdown [options]="states" [filter]="true" name="state" #state="ngModel" [(ngModel)]="store.state"
+                    placeholder="Choose State" optionLabel="stateName" [showClear]="true" appendTo="body">
+                </p-dropdown>
+            </div>
+            <error-message [controlName]="state"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="storePhone">Store Phone</label>
+            <div>
+                <input type="text" pInputText name="storePhone" #storePhone="ngModel" [(ngModel)]="store.storePhone"
+                    required [pKeyFilter]="'int'" minlength="10" maxlength="10" NumbersOnly/>
+            </div>
+            <error-message [controlName]="storePhone"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="storePhone">Store Email</label>
+            <div>
+                <input type="text" pInputText name="storeMail" #storeMail="ngModel" [(ngModel)]="store.storeMail" email
+                    required minlength="6" maxlength="30" />
+            </div>
+            <error-message [controlName]="storeMail"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="gstNumber" class="required">Store GSTN </label>
+            <div>
+                <input type="text" pInputText name="gstNumber" #gstNumber="ngModel" [(ngModel)]="store.gstNumber"
+                    required minlength="15" maxlength="15"
+                    pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" />
+            </div>
+            <error-message [controlName]="gstNumber"></error-message>
+        </div>
+        <!-- </ng-template> -->
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveStore()"
+                [disabled]="!form.valid"></button>
+        </div>
+        <!-- </ng-template> -->
+    </p-sidebar>
+</form>

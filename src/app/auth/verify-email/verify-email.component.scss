@@ -1,0 +1,28 @@
+/* Custom styles for logo item */
+.logo-item {
+    width: 20%; /* Adjust the width as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333; /* Background color for the logo area */
+    color: white; /* Text color for the logo */
+  }
+  
+  /* Adjust padding and margin for menu items as needed */
+  .ui-menuitem-text {
+    padding: 10px;
+    margin: 0 5px;
+  }
+  
+  /* Set the width for the remaining menu items */
+  .ui-menuitem {
+    width: 80%;
+    text-align: center;
+  }
+  
+  /* Optional: Add styles for active menu item (e.g., highlighting the selected button) */
+  .ui-menuitem-active {
+    background-color: #007bff; /* Change to your desired active background color */
+    color: white; /* Change to your desired active text color */
+  }
+  

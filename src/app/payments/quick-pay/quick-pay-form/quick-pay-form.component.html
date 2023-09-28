@@ -1,0 +1,98 @@
+<div class="grid">
+
+    <div class="col-9 pr-5">
+        <h3>Insta Pay</h3>
+        <div class="grid">
+
+            <div class="col-2 field">
+                <label class="mb-3">Payment Mode</label>
+                <div class="flex flex-column md:flex-row md:justify-content-between">
+                    <p-radioButton name="mode" value="imps" [(ngModel)]="mode" label="IMPS"></p-radioButton>
+                    <p-radioButton name="mode" value="upi" [(ngModel)]="mode" label="UPI"></p-radioButton>
+                </div>
+            </div>
+            <div class="col-10"></div>
+            <div class="col-6 field">
+                <label>From Account</label>
+                <p-dropdown [options]="accounts" placeholder="Select Account" optionLabel="optionLabel"
+                    [showClear]="true" styleClass="w-full" [>
+                </p-dropdown>
+            </div>
+
+            <div class="col-6 field">
+                <label>Beneficiary Mobile Number</label>
+                <input pInputText class="w-full" />
+            </div>
+            <div class="col-6 field" *ngIf="mode==='imps'">
+                <label>MMID</label>
+                <input pInputText class="w-full" />
+            </div>
+            <div class="col-6 field" *ngIf="mode==='upi'">
+                <label>UPI ID</label>
+                <input pInputText class="w-full" />
+            </div>
+            <div class="col-6 field">
+                <label>Amount</label>
+                <input pInputText class="w-full" />
+            </div>
+            <div class="col-6 field">
+
+            </div>
+            <div class="col-12 field">
+                <label>Transaction Remarks</label>
+                <textarea rows="5" pInputTextarea class="w-full"></textarea>
+            </div>
+
+            <div class="col-12 text-right">
+                <button pButton label="Cancel" class="p-button p-button-secondary mr-2"></button>
+                <button pButton label="Forward" class="p-button"></button>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-3">
+        <p-card>
+            <p-message severity="info" text="Insta Pay information"></p-message>
+            <div class="text-justify">
+
+                <p>
+                    Round the clock availabipty on all days of the year.
+                </p>
+                <p>
+                    Near-real-time funds transfer to the beneficiary account and settlement in a secure manner.
+                </p>
+                <p>
+
+                    Pan-India coverage through large network of branches of all types of banks.
+                </p>
+                <p>
+
+                    Positive confirmation to the remitter by SMS / e-mail on credit to beneficiary account.
+                </p>
+                <p>
+
+                    Penal interest provision for delay in credit or return of transactions.
+                </p>
+                <p>
+
+                    No levy of charges by RBI from banks.
+                </p>
+                <p>
+
+                    No charges to savings bank account customers for onpne NEFT transactions.
+                </p>
+                <p>
+
+                    Besides funds transfer, NEFT system can be used for a variety of transactions including payment of
+                    credit
+                    card dues to the card issuing banks, payment of loan EMI, inward foreign exchange remittances, etc.
+                </p>
+                <p>
+
+                    Available for one-way funds transfers from India to Nepal.
+                </p>
+
+            </div>
+        </p-card>
+    </div>
+</div>

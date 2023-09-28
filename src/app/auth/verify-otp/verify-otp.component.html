@@ -1,0 +1,127 @@
+<p-toast></p-toast>
+<div>
+    <div class="flex">
+        <div class="field col-6 ">
+            <img src="/assets/LogoNeomaxer.png" alt="Image" class=" ml-2 mt-2 w-3 h-1">
+
+            <div class="p-3">
+                <img src="/assets/kycPic.png" alt="Image" class="w-full h-auto">
+            </div>
+
+            <div class="mt-3 text-center">
+                <b>Ready to launch the financial future of your business?</b><br>
+                <p>Sign up with NeoCorp today and unlock a world of possibilities for your banking and finances.</p>
+            </div>
+        </div>
+        <div class="field col-6 bg-blue-50">
+            <div class="p-8" *ngIf="!showAadharOtpPage && !aadharPanVerified ">
+                <form class="p-10" (ngSubmit)="onSubmitOTP()" [formGroup]="verifyOtpForm">
+                    <h2 class="text-3xl font-semibold text-center">OTP verification</h2>
+                    <p class="text-center">OTP is sent to *******{{onlyShowMobile}}</p>
+                    <div>
+                        <div class="field">
+                            <div class="p-inputgroup">
+                                <span style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"
+                                    class="p-inputgroup-addon"><i class="pi pi-mobile"></i></span>
+                                <input style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
+                                    pInputText type="text" formControlName="otp" minlength="6" maxlength="6"
+                                    placeholder="Enter Mobile OTP*" />
+                            </div>
+                            <error-message [controlName]="verifyOtpForm.controls['otp']"></error-message>
+                        </div>
+
+                        <div class="field text-center mt-5">
+                            <h4>Didn't Receive Code?<b class="text-blue-600 ml-2">Resend in 00s</b> </h4>
+                        </div>
+                        <div class="field text-center p-3">
+                            <p class="text-sm">Aadhar Card is used just to verify your name. Neocorp does not store a
+                                copy of your Aadhar for any other use.</p>
+                        </div>
+
+                        <button type="submit" pButton label="Verify" [disabled]="!verifyOtpForm.valid"
+                            class="w-full text-lg mb-5 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+
+                        <hr>
+                        <div class="field text-center mt-5">
+                            <p>
+                                <b> A unified business finance platform</b><br>
+                                From easy financial management, travel perks and investments.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div class="p-8" *ngIf="showAadharOtpPage && !aadharPanVerified">
+                <form class="p-10" (ngSubmit)="onSubmitAadharOTP()" [formGroup]="verifyAadharOtpForm">
+                    <h2 class="text-3xl font-semibold text-center">Aadhar OTP verification</h2>
+                    <p class="text-center">OTP is sent to your Linked Mobile</p>
+                    <div>
+                        <div class="field">
+                            <div class="p-inputgroup">
+                                <span style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"
+                                    class="p-inputgroup-addon"><i class="pi pi-mobile"></i></span>
+                                <input style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
+                                    pInputText type="text" formControlName="otp" minlength="6" maxlength="6"
+                                    placeholder="Enter Mobile OTP*" />
+                            </div>
+                            <error-message [controlName]="verifyAadharOtpForm.controls['otp']"></error-message>
+                        </div>
+
+                        <div class="field text-center mt-5">
+                            <h4>Didn't Receive Code?<b class="text-blue-600 ml-2">Resend in 00s</b> </h4>
+                        </div>
+                        <div class="field text-center p-3">
+                            <p class="text-sm">Aadhar Card is used just to verify your name. Neocorp does not store a
+                                copy of your Aadhar for any other use.</p>
+                        </div>
+
+                        <button type="submit" pButton label="Verify" [disabled]="!verifyAadharOtpForm.valid"
+                            class="w-full text-lg mb-5 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+
+                        <hr>
+                        <div class="field text-center mt-5">
+                            <p>
+                                <b> A unified business finance platform</b><br>
+                                From easy financial management, travel perks and investments.
+                            </p>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="" *ngIf="aadharPanVerified">
+                <form class="">
+                    <h2 class="text-2xl font-semibold text-center">Identity verified</h2>
+                    <p class="text-center">OTP is sent to your Linked Mobile Number</p>
+                    <div>
+                        <div class="field">
+                            <img src="/assets/AadharVerified.png" alt="Image"  class="w-full h-auto">
+                        </div>
+
+                        <div class="field">
+                            <h4 class="text-center">Your Aadhar and Pan Numbers are linked and the verification is success</h4>
+                        </div>
+
+                        <div class="field text-center">
+                            <hr>
+                            <p>
+                                <b>A unified business finance platform</b><br>
+                                From easy financial management, travel perks and investments.
+                            </p>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p-blockUI [blocked]="submitted">
+        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    </p-blockUI>
+</div>

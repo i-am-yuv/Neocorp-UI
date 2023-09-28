@@ -1,0 +1,95 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage States</h2>
+
+    <p-table #dt [value]="states" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['stateIdentifier','stateCode', 'stateName']" responsiveLayout="scroll"
+        [(selection)]="selectedStates" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedStates()"
+                        [disabled]="!selectedStates || !selectedStates.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="stateName">State Name <p-sortIcon field="stateName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="stateCode">State Code <p-sortIcon field="stateName"></p-sortIcon>
+                </th>
+                <!-- <th>State Code</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-state>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="state"></p-tableCheckbox>
+                </td>
+                <td>{{state.stateName}}</td>
+                <td>{{state.stateCode}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editState(state)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteState(state)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{states ? states.length : 0 }} States.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="stateDialog"  header="State Type" [modal]="true"
+    styleClass="p-sidebar-md">
+    <h2>States</h2>
+        <ng-template pTemplate="content">
+            <div class="field p-fluid">
+                <label for="stateName">State Name</label>
+                <input type="text" pInputText name="stateName" #stateName="ngModel" [(ngModel)]="state.stateName"
+                    required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+                <error-message [controlName]="stateName"></error-message>
+            </div>
+            <br>
+            <div class="field p-fluid">
+                <label for="stateCode">State Code</label>
+                <input type="text" pInputText name="stateCode" #stateCode="ngModel" [(ngModel)]="state.stateCode"
+                    required pattern="^[a-zA-Z]+$" oninput="this.value = this.value.toUpperCase()" minlength="1" maxlength="255" />
+                <error-message [controlName]="stateCode"></error-message>
+            </div>
+            <br>
+
+        <!-- </ng-template> -->
+
+        <!-- <ng-template pTemplate="footer"> -->
+            <div class="text-right">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveState()"
+                [disabled]="!f.valid"></button>
+            </div>
+        </ng-template>
+    </p-sidebar>
+</form>

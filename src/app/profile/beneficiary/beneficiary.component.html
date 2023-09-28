@@ -1,0 +1,77 @@
+<p-toast></p-toast>
+<div class="layout">
+    <app-navbar></app-navbar>
+
+    <div class="content-wrapper">
+        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
+        <div class="sidebar bg-gray-400">
+            <app-sidebar></app-sidebar>
+        </div>
+
+        <div class="main-content">
+            <div class="raised-container">
+                <div class="flex bg-gray-300 button-container">
+                    <button type="button" pButton label="+ Create Beneficiary"
+                        class="mt-3  text-lg mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                </div>
+            </div>
+
+            <div>
+                <form (ngSubmit)="onSubmitBeneficiary()" [formGroup]="beneficiaryForm" class="p-3">
+                    <h3 class="text-xl">Create Beneficairy</h3><hr>
+                    <div class="flex gap-2">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Beneficiary Name</label>
+                            <input pInputText formControlName="beneficaryName" placeholder="Enter Beneficiary Name"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['beneficaryName']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 required">Nick Name</label>
+                            <input pInputText formControlName="nickname" placeholder="Enter Beneficiary's Nick Name"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['nickname']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Account Number</label>
+                            <input pInputText formControlName="accountNumber" placeholder="Enter Beneficiary's Account Number"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['accountNumber']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 required">IFSC Code</label>
+                            <input pInputText formControlName="ifscCode" placeholder="Enter Beneficiary's IFSC Code"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['ifscCode']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Mobile Number</label>
+                            <input pInputText formControlName="mobileNumber" minlength="10" maxlength="10" placeholder="Enter Beneficiary's Mobile Number"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['mobileNumber']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 required">MMID</label>
+                            <input pInputText formControlName="mmid" placeholder="Enter Beneficiary's mmid"
+                                class="w-full" />
+                            <error-message [controlName]="beneficiaryForm.controls['mmid']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="field col-4">
+                            <button type="submit" pButton label="Save" [disabled]="!beneficiaryForm.valid"
+                                class="mb-6 text-lg p-button-raised bg-green-500 text-white px-4 py-2.5 rounded-md hover:bg-green-600 "></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+<div class="card">
+    <p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+    <h2 class="p-2">Manage Store Users</h2>
+
+    <p-table #dt [value]="storeUsers" [rows]="10" [filterDelay]="500" [paginator]="true" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        responsiveLayout="scroll" [(selection)]="selectedStoreUsers" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedStoreUsers()"
+                        [disabled]="!selectedStoreUsers || !selectedStoreUsers.length"></button>
+                </div>
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0"></h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="firstName">User Name <p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="user.userName">Login Mobile <p-sortIcon field="user.userName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <!-- <th>Login Mobile</th> -->
+                <!-- <th>Phone</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-storeUser>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="storeUser"></p-tableCheckbox>
+                </td>
+                <td>{{storeUser.firstName}} {{storeUser.lastName}}</td>
+                <td>{{storeUser.user.userName}}</td>
+                <td>{{ storeUser.phone }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editStoreUser(storeUser)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteStoreUser(storeUser)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{storeUsers ? storeUsers.length : 0 }} Store Users.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="storeUserDialog" header="Store User" [modal]="true"
+        styleClass="p-sidebar-md" [modal]="true">
+        <h2>Store User</h2>
+
+        <div class="field">
+            <label for="username">Login Mobile</label>
+            <div>
+                <input type="text" name="userName" #userName="ngModel" pInputText [(ngModel)]="storeUser.phone"  [(ngModel)]="storeUser.user.userName"
+                    [pKeyFilter]="'int'" class="w-full" [minlength]="10" [maxlength]="10" required  NumbersOnly/>
+            </div>
+            <error-message [controlName]="userName"></error-message>
+        </div>
+        <div class="field p-fluid">
+            <label for="password">Login Password</label>
+            <p-password name="password" #password="ngModel" [(ngModel)]="storeUser.user!.password" [toggleMask]="true"
+                [required]="true" styleClass="w-full"></p-password>
+                <error-message [controlName]="password"></error-message>
+        </div>
+        <div class="field">
+            <label for="username">User Email</label>
+            <input type="text" pInputText name="email" #email="ngModel" [(ngModel)]="storeUser.user!.email"
+                class="w-full" required email minlength="6" maxlength="30" />
+            <error-message [controlName]="email"></error-message>
+        </div>
+        <div class="field">
+            <label for="roles">User Roles</label>
+            <p-multiSelect id="roles" [options]="roles" name="roles" [(ngModel)]="storeUser.user!.roles"
+                [required]="true" optionLabel="name" [style]="{'minWidth':'100%'}" appendTo="body"
+                placeholder="Select a User Role">
+            </p-multiSelect>
+            <!-- <error-message [controlName]="roles"></error-message> -->
+        </div>
+        <div class="field">
+            <label for="storeUserName">User name</label>
+            <input type="text" pInputText name="firstName" #firstName="ngModel" [(ngModel)]="storeUser.firstName"
+                class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            <error-message [controlName]="firstName"></error-message>
+        </div>
+        <!-- <div class="field">
+          <label for="lastName">Lastname</label>
+          <input type="text" pInputText name="lastName" #lastName="ngModel" [(ngModel)]="storeUser.lastName"
+              class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255"/>
+          <error-message [controlName]="lastName"></error-message>
+      </div> -->
+        <!-- <div class="field">
+          <label for="lastName">Store User Phone</label>
+          <input type="text" pInputText name="phone" #phone="ngModel" [(ngModel)]="storeUser.phone"
+              [pKeyFilter]="'int'" [minlength]="10" [maxlength]="10" class="w-full" required />
+          <error-message [controlName]="phone"></error-message>
+      </div> -->
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveStoreUser()"
+                [disabled]="!f.valid"></button>
+        </div>
+    </p-sidebar>
+</form>

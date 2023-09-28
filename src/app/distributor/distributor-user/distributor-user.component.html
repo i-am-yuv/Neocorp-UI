@@ -1,0 +1,145 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Users</h2>
+    <!-- <p-toolbar>
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                (click)="openNew()"></button>
+            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+
+        </ng-template>
+    </p-toolbar> -->
+    <!-- <p-fileUpload mode="basic" accept=".csv" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+
+    <p-table #dt [value]="distributorUsers" [rows]="10" [paginator]="true" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]" [filterDelay]="500" responsiveLayout="scroll"
+        [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="user.userName">User Name <p-sortIcon field="user.userName"></p-sortIcon>
+                </th>
+                <!-- <th>Phone</th> -->
+                <!-- <th>User Name</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-distUser>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="distUser"></p-tableCheckbox>
+                </td>
+                <td>{{distUser.firstName}} {{distUser.lastName}}</td>
+                <td>{{distUser.phone}}</td>
+                <td>{{distUser.user?.userName}}</td>
+
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editUser(distUser)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteUser(distUser)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{distributorUsers ? distributorUsers.length : 0 }} Users.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="distributorUserDialog" [modal]="true" styleClass="p-sidebar-md"
+        [modal]="true">
+        <h2>Distributor User</h2>
+        <div class="p-fluid">
+            <div class="field">
+                <label for="userName">Login Mobile</label>
+                <input type="text" id="userName" pInputText name="userName" #userName="ngModel"
+                    [(ngModel)]="distributorUser.user.userName" class="w-full" required minlength="10" maxlength="10"
+                    [pKeyFilter]="'int'" />
+                <error-message [controlName]="userName"></error-message>
+            </div>
+            <div class="field">
+                <label for="password">Login Password</label>
+                <p-password [(ngModel)]="distributorUser.user!.password" id="password" name="password"
+                    #password="ngModel" [toggleMask]="true"></p-password>
+                <!-- <input type="password" pInputText name="password" #password="ngModel" [(ngModel)]="distributorUser.user!.password" [type]="fieldTextType ? 'text' : 'password'"
+                     class="w-full" required/>
+                     <i class="pi pi-eye" style="margin-left: -30px;" (click)="toggleFieldTextType()"></i> -->
+                <error-message [controlName]="password"></error-message>
+            </div>
+            <div class="field">
+                <label for="email">User Email</label>
+                <input type="text" id="email" pInputText name="email" #email="ngModel"
+                    [(ngModel)]="distributorUser.user!.email" class="w-full" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                <error-message [controlName]="email"></error-message>
+            </div>
+            <div class="field">
+                <label for="roles">User Roles</label>
+                <p-multiSelect id="roles" [options]="roles" name="roles" [(ngModel)]="distributorUser.user!.roles"
+                    optionLabel="name" [style]="{'minWidth':'100%'}" appendTo="body" placeholder="Select a User Role"
+                    [required]="true">
+                </p-multiSelect>
+                <!-- <error-message [controlName]="roles"></error-message> -->
+            </div>
+            <div class="field">
+                <label for="firstName"> Firstname</label>
+                <input type="text" id="firstName" pInputText name="firstName" #firstName="ngModel"
+                    [(ngModel)]="distributorUser.firstName" class="w-full" required
+                    pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+                <error-message [controlName]="firstName"></error-message>
+            </div>
+            <div class="field">
+                <label for="lastName"> Lastname</label>
+                <input type="text" id="lastName" pInputText name="lastName" #lastName="ngModel"
+                    [(ngModel)]="distributorUser.lastName" class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"
+                    minlength="1" maxlength="255" />
+                <error-message [controlName]="lastName"></error-message>
+            </div>
+            <div class="field">
+                <label for="phone"> Phone</label>
+                <input type="text" id="phone" pInputText name="phone" #phone="ngModel" [(ngModel)]="distributorUser.phone"
+                    class="w-full" required minlength="10" maxlength="10" [pKeyFilter]="'int'" NumbersOnly/>
+                <error-message [controlName]="phone"></error-message>
+            </div>
+        </div>
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveDistributorUser()"
+                [disabled]="!f.valid"></button>
+        </div>
+    </p-sidebar>
+</form>

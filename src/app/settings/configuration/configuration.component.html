@@ -1,0 +1,3 @@
+<app-store-config *ngIf="roles.includes('Store')"></app-store-config>
+<app-distributor-config *ngIf="roles.includes('Distributor')"></app-distributor-config>
+<app-settings *ngIf="roles.includes('SuperAdmin')"></app-settings>

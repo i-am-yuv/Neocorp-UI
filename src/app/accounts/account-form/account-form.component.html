@@ -1,0 +1,43 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+<h3>Add Account</h3>
+<div class="grid">
+    <div class="col-6 field">
+        <label>Bank Name</label>
+        <p-dropdown [options]="banks" placeholder="Select Bank" optionLabel="optionLabel" [showClear]="true"
+            styleClass="w-full">
+        </p-dropdown>
+    </div>
+    <div class="col-6 field">
+        <div class="mb-5"></div>
+        <p-checkbox [binary]="true" label="Set as default account" styleClass="ml-5"></p-checkbox>
+    </div>
+    <div class="col-6 field">
+        <label>Bank IFSC</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-6 field">
+        <label>Branch Name</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-6 field">
+        <label>Nick Name</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-6 field">
+        <label>Account Name</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-6 field">
+        <label>Account Number</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-6 field">
+        <label>Confirm Account Number</label>
+        <input pInputText class="w-full" />
+    </div>
+    <div class="col-12 text-right">
+        <button pButton label="Cancel" class="p-button p-button-secondary mr-2"></button>
+        <button pButton label="Forward" class="p-button"></button>
+    </div>
+
+</div>

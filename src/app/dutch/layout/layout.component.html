@@ -1,0 +1,15 @@
+<p-menubar [model]="items" styleClass="p-0 top-menu">
+    <ng-template pTemplate="start">
+        <img src="assets/neologo.png" height="40" class="m-2 mb-0">
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-menubar [style]="{'border': 'none'}" [model]="userMenuItems" class="usermenu"></p-menubar>
+    </ng-template>
+</p-menubar>
+<div class="content-wrapper">
+    <div class="content-pane">
+        <p-toast></p-toast>
+        <router-outlet></router-outlet>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+    </div>
+</div>

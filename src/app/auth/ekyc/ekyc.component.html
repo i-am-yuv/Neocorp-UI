@@ -1,0 +1,82 @@
+<p-toast></p-toast>
+<div>
+    <div class="flex">
+        <div class="field col-6 ">
+            <img src="/assets/LogoNeomaxer.png" alt="Image" class=" ml-2 mt-2 w-3 h-1">
+
+            <div class="p-3">
+                <img src="/assets/kycPic.png" alt="Image" class="w-full h-auto">
+            </div>
+
+            <div class="mt-3 text-center">
+                <b>Ready to launch the financial future of your business?</b><br>
+                <p>Sign up with NeoCorp today and unlock a world of possibilities for your banking and finances.</p>
+            </div>
+        </div>
+        <div class="field col-6 bg-blue-50">
+            <div class="p-6">
+                <form class="" (ngSubmit)="onSubmitEKyc()" [formGroup]="eKycForm">
+                    <h2 class=" text-3xl font-semibold text-center">Verify your identity</h2>
+                    <p class="text-center">Please add your Pan & Aadhar card number for E-KYC verification</p>
+
+                    <div class="field">
+                        <div class="p-inputgroup">
+                            <span style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"
+                                class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input pInputText type="text" placeholder="Kishana Kumar" />
+                            <span class="p-inputgroup-addon"
+                                style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"><i
+                                    class="pi pi-edit"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="p-inputgroup">
+                            <span style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"
+                                class="p-inputgroup-addon"><i class="pi pi-id-card"></i></span>
+                            <input pInputText type="text" formControlName="pan" minlength="10" maxlength="10"
+                                placeholder="Enter Your Pan Number*" />
+                            <span *ngIf="panVerifiedSuccess" class="p-inputgroup-addon bg-white"
+                                style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"><i
+                                    class="pi pi-check text-green-500"></i></span>
+                        </div>
+                        <error-message [controlName]="eKycForm.controls['pan']"></error-message>
+                    </div>
+
+                    <div class="field">
+                        <div class="p-inputgroup">
+                            <span style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"
+                                class="p-inputgroup-addon"><i class="pi pi-id-card"></i></span>
+                            <input pInputText type="text" formControlName="aadhaarNumber" minlength="12" maxlength="12"
+                                placeholder="Enter Your Aadhar Card Number*" />
+                            <span class="p-inputgroup-addon"
+                                style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"><i
+                                    class="pi pi-id-card"></i></span>
+                        </div>
+                        <error-message [controlName]="eKycForm.controls['aadhaarNumber']"></error-message>
+                    </div>
+
+                    <div class="field text-center p-3 ">
+                        <p>Aadhar & PAN Card is used just to verify your name. Neocorp does not store a copy of
+                            your Aadhar for
+                            any other use.</p>
+                    </div>
+
+                    <!-- <button type="submit" [disabled]="!eKycForm.valid"
+                    class="w-full text-lg mb-6 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600">
+                    Proceed for E-KYC</button> -->
+                    <button type="submit" pButton label="Proceed for E-KYC" [disabled]="!eKycForm.valid"
+                            class="w-full text-lg rounded-button mb-4 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                <hr>
+                <div class="text-center mt-5">
+                    <b>A unified business finance platform</b><br>
+                    From easy financial management, travel perks and investments.
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p-blockUI [blocked]="submitted">
+        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    </p-blockUI>
+</div>

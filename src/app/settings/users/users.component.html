@@ -1,0 +1,123 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <!-- <div class="flex align-items-center justify-content-between"> -->
+    <h2 class="p-2">Manage Users</h2>
+    <!-- </div> -->
+
+    <!-- <p-fileUpload mode="basic" accept=".csv" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+
+
+    <p-table #dt [value]="users" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['userIdentifier','userCode', 'userName','email','getRoles(user.roles)']"
+        responsiveLayout="scroll" [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="userName">Username <p-sortIcon field="userName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="getRoles(user.roles)">Role <p-sortIcon field="getRoles(user.roles)"></p-sortIcon>
+                </th>
+                <!-- <th>Email</th>
+                <th>Role</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                </td>
+                <td>{{user.userName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{getRoles(user.roles)}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editUser(user)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteUser(user)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{users ? users.length : 0 }} Users.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+
+            <div class="field">
+                <label for="userName">Username</label>
+                <input type="text" pInputText name="userName" #userName="ngModel" [(ngModel)]="user.userName" required
+                    NumbersOnly minlength="10" maxlength="60" />
+                <error-message [controlName]="userName"></error-message>
+            </div>
+
+            <div class="field">
+                <label for="password">User Password</label>
+                <!-- <input type="password" pInputText name="password" #password="ngModel" [(ngModel)]="user.password" /> -->
+                <p-password name="password" #password="ngModel" [(ngModel)]="user.password"
+                    [toggleMask]="true"></p-password>
+            </div>
+            <div class="field">
+                <label for="userName">Email</label>
+                <input type="text" email pInputText name="email" #email="ngModel" [(ngModel)]="user.email" />
+                <error-message [controlName]="email"></error-message>
+            </div>
+            <!-- <div class="field">
+            <label for="company">Company</label>
+            <p-dropdown id="company" [options]="companies" [(ngModel)]="user.company" optionLabel="companyName"
+                [style]="{'minWidth':'100%'}" appendTo="body" placeholder="Select a Company">
+            </p-dropdown>
+            <small class="p-error" *ngIf="submitted && !user.company">Company is
+                required.</small>
+        </div> -->
+            <div class="field">
+                <label for="memberOf">User Roles</label>
+                <p-multiSelect id="memberOf" [options]="roles" name="roles" [(ngModel)]="user.roles" optionLabel="name"
+                    [style]="{'minWidth':'100%'}" appendTo="body" placeholder="Select a User Role">
+                </p-multiSelect>
+                <!-- <error-message [controlName]="roles"></error-message> -->
+            </div>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveUser()"
+                [disabled]="!f.valid"></button>
+        </ng-template>
+    </p-dialog>
+</form>
+
+{{ f.valid }}

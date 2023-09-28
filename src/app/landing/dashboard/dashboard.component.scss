@@ -1,0 +1,29 @@
+.debit-card {
+    height: 250px;
+    width: 400px;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 15px;
+}
+
+.card-no {
+    letter-spacing: 5px;
+}
+
+.card-name {
+    letter-spacing: 3px;
+}
+
+:host::ng-deep {
+    .p-tabmenu-nav .p-menuitem-text {
+        font-weight: 400;
+    }
+
+    .p-card {
+        border-radius: 0;
+    }
+
+    .p-card-body {
+        padding: 0;
+    }
+}

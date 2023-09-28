@@ -1,0 +1,67 @@
+<p-toast></p-toast>
+<div class="layout">
+    <app-navbar></app-navbar>
+
+    <div class="content-wrapper">
+        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
+        <div class="sidebar bg-gray-500">
+            <app-sidebar></app-sidebar>
+        </div>
+
+        <div class="main-content">
+            <div>
+                <form (ngSubmit)="onSubmitDelegationRole()" [formGroup]="delroleForm" class="p-3">
+                    <h3 class="text-xl text-blue-500">Delegation Role Details</h3>
+                    <hr>
+
+                    <div class="flex gap-2">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Delegation Name</label>
+                            <input pInputText formControlName="delegationName" placeholder="Enter Delegation Role Name"
+                                class="w-full" />
+                            <error-message [controlName]="delroleForm.controls['delegationName']"></error-message>
+                        </div>
+                        
+                        <div class="field col-6">
+                            <label class="mr-3 required">Delegation Amount</label>
+                            <input pInputText formControlName="delegationAmount"
+                                placeholder="Enter Delegation Amount" class="w-full"/>
+                            <error-message [controlName]="delroleForm.controls['delegationAmount']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Delegation Description</label>
+                            <textarea pInputText formControlName="delegationDescription"
+                                placeholder="Enter Delegation Description" class="w-full"></textarea>
+                            <error-message
+                                [controlName]="delroleForm.controls['delegationDescription']"></error-message>
+                        </div>
+
+                        <div class="field col-6">
+                            <label class="mr-3 required">Select Role</label>
+                            <ng-container formGroupName="role">
+                                <div class="payment-dropdown ">
+                                    <p-dropdown [options]="roles" placeholder="Choose Role"
+                                        optionValue="id" formControlName="id" optionLabel="name"
+                                        [showClear]="true" (ngChange)="selectVendor()">
+                                    </p-dropdown>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="flex ">
+                        <div class="field col-4 text-right w-full">
+                            <button type="submit" pButton label="Save Delegation Role" [disabled]="!delroleForm.valid"
+                                class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

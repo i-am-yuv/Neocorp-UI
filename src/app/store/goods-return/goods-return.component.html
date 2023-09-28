@@ -1,0 +1,75 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Goods Returns</h2>
+
+    <p-table #dt [value]="goodsReturns" [rows]="10" [filterDelay]="500" [paginator]="true" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        responsiveLayout="scroll" [(selection)]="selectedGoodsReturns" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedGoodsReturns()"
+                        [disabled]="!selectedGoodsReturns || !selectedGoodsReturns.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="documentno">DocumentNo <p-sortIcon field="documentno">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="purchaseOrder.documentnumber">Order <p-sortIcon
+                        field="purchaseOrder.documentnumber">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status">
+                    </p-sortIcon>
+                </th>
+                <!-- <th>Order</th>
+                <th>Return Date</th>
+                <th>Status</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-goodsReturn>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="goodsReturn"></p-tableCheckbox>
+                </td>
+                <td>{{goodsReturn.documentno}}</td>
+                <td>{{goodsReturn.purchaseOrder?.documentnumber}}</td>
+                <td>{{goodsReturn.returnDate | date: 'dd-MM-yyyy'}}</td>
+                <td>{{goodsReturn.status}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editGoodsReturn(goodsReturn)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteGoodsReturn(goodsReturn)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{goodsReturns ? goodsReturns.length : 0 }} Goods Returns.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

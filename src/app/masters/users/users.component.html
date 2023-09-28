@@ -1,0 +1,295 @@
+<p-breadcrumb
+  [home]="home"
+  [model]="items"
+  styleClass="border-0"
+></p-breadcrumb>
+<div class="card">
+  <h2 class="p-2">Manage User</h2>
+
+  <p-table
+    #dt
+    [value]="userss"
+    [rows]="10"
+    [paginator]="true"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    responsiveLayout="scroll"
+    [lazy]="true"
+    (onLazyLoad)="loadPage($event)"
+    [globalFilterFields]="['stateIdentifier', 'stateCode', 'stateName']"
+    responsiveLayout="scroll"
+    [(selection)]="selectedUsers"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <div>
+          <button
+            pButton
+            pRipple
+            label="New"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="openNew()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="deleteSelectedUsers()"
+            [disabled]="!selectedUsers || !selectedUsers.length"
+          ></button>
+        </div>
+        <div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="applyFilterGlobal($event, 'contains')"
+              placeholder="Search..."
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+
+        <th pSortableColumn="city">
+          City <p-sortIcon field="city"></p-sortIcon>
+        </th>
+        <th pSortableColumn="pincode">
+          Pincode <p-sortIcon field="pincode"></p-sortIcon>
+        </th>
+        <th pSortableColumn="country.countryName">
+          Country <p-sortIcon field="country.countryName"></p-sortIcon>
+        </th>
+        <!-- <th>State Code</th> -->
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user"></p-tableCheckbox>
+        </td>
+        <td>{{ user.city }}</td>
+        <td>{{ user.pincode }}</td>
+        <td>{{ user.country?.countryName }}</td>
+
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-text p-button-info p-0 mr-2"
+            (click)="editUser(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-text p-button-danger p-0"
+            (click)="deleteUsers(user)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ userss ? userss.length : 0 }} User.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+<form #f="ngForm">
+  <p-sidebar
+    position="right"
+    [(visible)]="usersDialog"
+    header="State Type"
+    [modal]="true"
+    styleClass="p-sidebar-md"
+  >
+    <h2>User</h2>
+    <ng-template pTemplate="content">
+      <div class="field p-fluid">
+        <div class="field">
+          <label for="userName">UserName</label>
+          <input
+            type="text"
+            id="userName"
+            pInputText
+            name="userName"
+            #userName="ngModel"
+            [(ngModel)]="user.userName"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="userName"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="firstName">FirstName</label>
+          <input
+            type="text"
+            id="firstName;"
+            pInputText
+            name="firstName"
+            #firstName="ngModel"
+            [(ngModel)]="user.firstName"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="firstName"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="lastName">LastName</label>
+          <input
+            type="text"
+            id="lastName"
+            pInputText
+            name="lastName"
+            #lastName="ngModel"
+            [(ngModel)]="user.lastName"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="lastName"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="emailId">Email</label>
+          <input
+            type="text"
+            id="emailId"
+            pInputText
+            name="emailId"
+            #emailId="ngModel"
+            [(ngModel)]="user.emailId"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="emailId"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="mobileNumber">MobileNumber</label>
+          <input
+            type="text"
+            id="mobileNumber"
+            pInputText
+            name="mobileNumber"
+            #mobileNumber="ngModel"
+            [(ngModel)]="user.mobileNumber"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="mobileNumber"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="customerId">CustomerId</label>
+          <input
+            type="text"
+            id="customerId"
+            pInputText
+            name="customerId"
+            #customerId="ngModel"
+            [(ngModel)]="user.customerId"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="customerId"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="accountNumber">AccountNumber</label>
+          <input
+            type="text"
+            id="accountNumber"
+            pInputText
+            name="accountNumber"
+            #accountNumber="ngModel"
+            [(ngModel)]="user.accountNumber"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="accountNumber"></error-message>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="text"
+            id="password"
+            pInputText
+            name="password"
+            #password="ngModel"
+            [(ngModel)]="user.password"
+            class="w-full"
+            required
+          />
+          <error-message [controlName]="password"></error-message>
+        </div>
+        <br />
+        <div class="flex align-items-center">
+          <p-checkbox
+            id="tnc"
+            formControlName="agreeTnC"
+            [binary]="true"
+            styleClass="mr-2"
+          >
+          </p-checkbox>
+          <label for="tnc" class="required">isSelected</label>
+        </div>
+        <br />
+        <div class="flex align-items-center">
+          <p-checkbox
+            id="tnc"
+            formControlName="agreeTnC"
+            [binary]="true"
+            styleClass="mr-2"
+          >
+          </p-checkbox>
+          <label for="tnc" class="required">isRoleEnabled</label>
+        </div>
+      </div>
+
+      <br />
+
+      <!-- </ng-template> -->
+
+      <!-- <ng-template pTemplate="footer"> -->
+      <div class="text-right">
+        <button
+          pButton
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-secondary"
+          (click)="hideDialog()"
+        ></button
+        >&nbsp;
+        <button
+          pButton
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          class="p-button"
+          (click)="saveUser()"
+          [disabled]="!f.valid"
+        ></button>
+      </div>
+    </ng-template>
+  </p-sidebar>
+</form>

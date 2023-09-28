@@ -1,0 +1,27 @@
+.content-wrapper {
+    background: rgb(203, 26, 16);
+    background: linear-gradient(0deg, rgba(203, 26, 16, 1) 0%, rgba(223, 89, 57, 1) 45%, rgba(255, 151, 0, 1) 100%);
+    padding: 5% 10%;
+}
+
+.content-pane {
+    min-height: 100vh;
+
+    background: #ffffff;
+    padding: 20px;
+}
+
+:host::ng-deep {
+
+    .p-menubar {
+        border-radius: 0;
+        background-color: #ffffff;
+    }
+
+    .small-heading {
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+        color: #888888;
+        text-transform: uppercase;
+    }
+}

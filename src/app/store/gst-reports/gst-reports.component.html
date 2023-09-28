@@ -1,0 +1,74 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<h2 class="p-2">GST Reports</h2>
+<p-tabView>
+    <!-- <p-tabPanel header="GST Reports">  -->
+    <form [formGroup]="form1">
+        <p-card>
+            <h3>GST Report 1</h3>
+            <div class="grid p-fluid">
+                <div class="field  col-5">
+                    <label>From Date: </label>&nbsp;
+                    <p-calendar formControlName="fromDate1" [dateFormat]="'dd-mm-yy'"></p-calendar>
+                </div>
+                <div class="field col-5">
+                    <label>To Date: </label>
+                    <p-calendar formControlName="toDate1" [dateFormat]="'dd-mm-yy'"></p-calendar>
+                </div>
+            </div><br><br>
+            <div class="field text-left">
+                <button pButton pRipple label="Pdf" icon="pi pi-file-pdf" class="p-button mr-2" [disabled]="!form1.valid"
+                    (click)="getPdfReport('gstr1')"></button>
+                <button pButton pRipple label="Excel" icon="pi pi-file-excel" class="p-button mr-2"
+                    [disabled]="!form1.valid" (click)="getExcel('gstr1')"></button>
+            </div>
+        </p-card>
+        <div class="p-fluid col-12 py-3 px-2 border-top-1 surface-border"></div>
+    </form>
+    <form [formGroup]="form2">
+        <p-card>
+            <h3>GST Report 2</h3>
+            <div class="grid p-fluid">
+                <div class="field col-5">
+                    <label>From Date: </label>&nbsp;
+                    <p-calendar [dateFormat]="'dd-mm-yy'" formControlName="fromDate2"></p-calendar>
+                </div>
+                <div class="field col-5">
+                    <label>To Date: </label>
+                    <p-calendar formControlName="toDate2" 
+                        [dateFormat]="'dd-mm-yy'"></p-calendar>
+                </div>
+            </div><br><br>
+            <div class="field text-left">
+                <button pButton pRipple label="Pdf" icon="pi pi-file-pdf" class="p-button mr-2" [disabled]="!form2.valid"
+                    (click)="getPdfReport2('gstr2')"></button>
+                <button pButton pRipple label="Excel" icon="pi pi-file-excel" class="p-button mr-2"
+                    [disabled]="!form2.valid" (click)="getExcel2('gstr2')"></button>
+            </div>
+        </p-card>
+        <div class="p-fluid col-12 py-3 px-2 border-top-1 surface-border"></div>
+    </form>
+    <form [formGroup]="form3">
+        <p-card>
+            <h3>GST Report 3B</h3>
+            <div class="grid p-fluid">
+                <div class="field col-5">
+                    <label>From Date: </label>
+                    <p-calendar formControlName="fromDate3" [dateFormat]="'dd-mm-yy'"></p-calendar>
+                </div>
+                <div class="field col-5">
+                    <label>To Date: </label>
+                    <p-calendar formControlName="toDate3" [dateFormat]="'dd-mm-yy'"></p-calendar>
+                </div>
+            </div><br><br>
+            <div class="field text-left">
+                <button pButton pRipple label="Pdf" icon="pi pi-file-pdf" class="p-button mr-2" [disabled]="!form3.valid"
+                    (click)="getPdfReport3('gstr3')"></button>
+                <button pButton pRipple label="Excel" icon="pi pi-file-excel" class="p-button mr-2"
+                    [disabled]="!form3.valid" (click)="getExcel3('gstr3')"></button>
+            </div>
+        </p-card>
+    </form>
+        
+    <!-- </form> -->
+    <!-- </p-tabPanel> -->
+</p-tabView>

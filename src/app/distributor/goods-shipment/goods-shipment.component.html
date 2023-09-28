@@ -1,0 +1,190 @@
+<p-breadcrumb
+  [home]="home"
+  [model]="items"
+  styleClass="border-0"
+></p-breadcrumb>
+<div class="card">
+  <h2 class="p-2">Goods Shipment</h2>
+
+  <p-table
+    #dt
+    [value]="goodsShipments"
+    [rows]="10"
+    [paginator]="true"
+    [lazy]="true"
+    (onLazyLoad)="loadPage($event)"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [filterDelay]="500"
+    responsiveLayout="scroll"
+    [(selection)]="selectedGoodsShipments"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <div>
+          <button
+            pButton
+            pRipple
+            label="New"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="openNew()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="deleteSelectedGoodsShipments()"
+            [disabled]="
+              !selectedGoodsShipments || !selectedGoodsShipments.length
+            "
+          ></button>
+        </div>
+        <div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($event, 'contains')"
+              placeholder="Search..."
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+
+        <th pSortableColumn="documentno">
+          DocumentNo <p-sortIcon field="documentno"> </p-sortIcon>
+        </th>
+        <!-- <th >Store Name
+                </th> -->
+
+        <th pSortableColumn="purchaseOrder.documentnumber">
+          Order <p-sortIcon field="purchaseOrder.documentnumber"> </p-sortIcon>
+        </th>
+        <th pSortableColumn="shipmentDate">
+          Received Date <p-sortIcon field="shipmentDate"> </p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          Status <p-sortIcon field="status"> </p-sortIcon>
+        </th>
+        <!-- <th>Order</th> -->
+        <!-- <th>Received Date</th> -->
+        <!-- <th>Status</th> -->
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-goodsShipment>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="goodsShipment"></p-tableCheckbox>
+        </td>
+        <td>{{ goodsShipment.documentno }}</td>
+        <td>{{ goodsShipment.purchaseOrder?.documentnumber }}</td>
+        <td>{{ goodsShipment.shipmentDate | date : "dd-MM-yyyy" }}</td>
+        <td>{{ goodsShipment.status }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-file"
+            class="p-button-text p-button-success p-0 mr-2"
+            (click)="createInvoice(goodsShipment)"
+            pTooltip="invoice"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-file-pdf"
+            class="p-button-text p-button-success p-0 mr-2"
+            (click)="deliveryChallan = !deliveryChallan"
+            pTooltip="Delivery challan"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-text p-button-info p-0 mr-2"
+            (click)="editGoodsShipment(goodsShipment)"
+            pTooltip="edit"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-text p-button-danger p-0"
+            (click)="deleteGoodsShipment(goodsShipment)"
+            pTooltip="delete"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are
+        {{ goodsShipments ? goodsShipments.length : 0 }} Goods Shipments.
+      </div>
+    </ng-template>
+  </p-table>
+  <p-dialog
+    header="Delivery Challan"
+    [(visible)]="deliveryChallan"
+    [modal]="true"
+    [style]="{ minWidth: '650px' }"
+  >
+    <form [formGroup]="form">
+      <p-card>
+        <div class="grid p-fluid">
+          <div class="field col-5">
+            <label>From Date: </label>&nbsp;
+            <p-calendar
+              [dateFormat]="'dd-mm-yy'"
+              formControlName="fromDate"
+            ></p-calendar>
+          </div>
+          <div class="field col-5">
+            <label>To Date: </label>
+            <p-calendar
+              formControlName="toDate"
+              [dateFormat]="'dd-mm-yy'"
+            ></p-calendar>
+          </div>
+        </div>
+        <br /><br />
+        <div class="field text-left">
+          <button
+            pButton
+            pRipple
+            label="Pdf"
+            icon="pi pi-file-pdf"
+            class="p-button mr-2"
+            [disabled]="!form.valid"
+            (click)="getPdfReport('DC')"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Excel"
+            icon="pi pi-file-excel"
+            class="p-button mr-2"
+            [disabled]="!form.valid"
+            (click)="getExcel('gstr2')"
+          ></button>
+        </div>
+      </p-card>
+      <div class="p-fluid col-12 py-3 px-2 border-top-1 surface-border"></div>
+    </form>
+  </p-dialog>
+</div>

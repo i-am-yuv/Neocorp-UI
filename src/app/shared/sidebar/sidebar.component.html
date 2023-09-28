@@ -1,0 +1,51 @@
+<!-- <div class=" ">
+    <div class="p-grid p-3">
+        <div class="p-col-12 p-md-6 p-lg-3">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Dashboard</h2>
+        </div>
+    </div>
+    <div class="p-grid p-3">
+        <h2 class="text-left text-base text-gray-700 w-100 mb-2">Essentials</h2>
+        <div class="p-col-12 p-md-6 p-lg-3 mb-3 payment-dropdown">
+            <div class="payment-dropdown ">
+                <p-dropdown class="bg-blue-200" id="paymentMethod" [options]="paymentOptions"
+                    [style]="{ width: '100%' }" placeholder="All Page" 
+                    (onChange)="viewPayPages()"
+                    optionLabel="name" 
+                    optionValue="id"
+                    [(ngModel)]="choosePayPageId"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-3 mb-3">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Collect</h2>
+        </div>
+    </div>
+</div> -->
+
+<div class="raised-container h-full bg-gray-400">
+    <div class="flex">
+        <div class="field w-full">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Dashboard</h2>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="field w-full"> 
+            <h2 class="text-left text-base text-gray-700 w-100 mb-2">Essentials</h2>
+            <div class="p-col-12 p-md-6 p-lg-3 mb-3 payment-dropdown ">
+                <div class="payment-dropdown ">
+                    <p-dropdown class="bg-blue-200" id="paymentMethod" [options]="paymentOptions"
+                        [style]="{ width: '100%' }" placeholder="All Page" 
+                        (onChange)="viewPayPages()"
+                        optionLabel="name" 
+                        optionValue="id"
+                        [(ngModel)]="choosePayPageId"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="field w-full">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Collect</h2>
+        </div>
+    </div>
+</div>

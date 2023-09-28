@@ -1,0 +1,98 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<h2>Stock Transactions</h2>
+<div class="surface-ground card p-5">
+    <p-table #dt [value]="transactions" [rows]="10" [filterDelay]="500" [paginator]="true" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0"></h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-cols>
+            <tr>
+                <!-- <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+                <th pSortableColumn="storeCatalog.product.name">Product <p-sortIcon field="storeCatalog.product.name">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="movementDate">Date <p-sortIcon field="movementDate">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity">
+                    </p-sortIcon>
+                </th>
+                <th>Before Quantity</th>
+                <th>After Quantity</th>
+                <th pSortableColumn="type">Type <p-sortIcon field="type">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="orderLine.order.documentno">Order <p-sortIcon field="orderLine.order.documentno">
+                    </p-sortIcon>
+                </th>
+                <th>Goods Receipt</th>
+                <th>Inventory</th>
+
+                <!-- <th>Product</th> -->
+                <!-- <th>Date</th> -->
+                <!-- <th>Quantity</th> -->
+                <!-- <th>Before Quantity</th> -->
+                <!-- <th>After Quantity</th> -->
+                <!-- <th>Type</th> -->
+                <!-- <th>Order</th> -->
+                <!-- <th>Goods Receipt</th>
+                <th>Inventory</th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-transaction let-cols="columns">
+            <tr>
+                <td>
+                    <!-- {{transaction.storeCatalog.name ?? transaction.storeCatalog.product.name}} -->
+                    {{ transaction.storeCatalog.product.name}}
+                </td>
+                <td>
+                    {{transaction.movementDate | date: 'dd-MM-yyyy hh:mm'}}
+                </td>
+                <td>
+                    {{transaction.quantity}}
+                </td>
+                <td>
+                    {{transaction.beforeQuantity}}
+                </td>
+                <td>
+                    {{transaction.afterQuantity}}
+                </td>
+                <td>
+                    {{transaction.type}}
+                </td>
+                <td>
+                    {{transaction.orderLine?.order?.documentno}}
+                </td>
+                <td>
+                    {{transaction.goodsReceiptLine?.goodsReceipt?.documentno}}
+                </td>
+                <td>
+                    {{transaction.inventory?.documentno}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9" class="text-center"> No Transactions found</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{transactions ? transactions.length : 0 }} Stock Transactions.
+            </div>
+
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,152 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <!-- <div class="flex align-items-center justify-content-between"> -->
+    <h2 class="p-2">Manage Store Users</h2>
+    <!-- </div> -->
+
+    <!-- <p-fileUpload mode="basic" accept=".csv" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+
+    <p-table #dt [value]="storeUsers" [rows]="10" [paginator]="true" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['firstName', 'lastName', 'store.storeName','phone','user.userName']"
+        responsiveLayout="scroll" [(selection)]="selectedStoreUsers" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedStoreUsers()"
+                        [disabled]="!selectedStoreUsers || !selectedStoreUsers.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="store.storeName">Store Name <p-sortIcon field="store.storeName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="user.userName">User Name <p-sortIcon field="user.userName"></p-sortIcon>
+                </th>
+                <!-- <th>Store Name</th>
+                <th>Phone</th>
+                <th>User Name</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-storeUser>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="storeUser"></p-tableCheckbox>
+                </td>
+                <td>{{storeUser.firstName}} {{storeUser.lastName}}</td>
+                <td>{{ storeUser.store?.storeName }}</td>
+                <td>{{ storeUser.phone }}</td>
+                <td>{{ storeUser.user?.userName }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editStoreUser(storeUser)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteStoreUser(storeUser)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{storeUsers ? storeUsers.length : 0 }} Store Users.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="storeUserDialog" [modal]="true" styleClass="p-sidebar-md" [modal]="true">
+        <h2>Store User</h2>
+
+        <div class="field">
+            <label for="company">Company</label>
+            <p-dropdown id="company" [options]="companies" name="companyName" #companyName="ngModel"
+                [(ngModel)]="storeUser.company" optionLabel="companyName" [style]="{'minWidth':'100%'}" appendTo="body"
+                placeholder="Select Company" (onChange)="getStoresByCompany($event)" [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="companyName"></error-message>
+        </div>
+        <div class="field">
+            <label for="store">Store</label>
+            <p-dropdown id="warehouse" [options]="stores" name="store" #store="ngModel" [(ngModel)]="storeUser.store"
+                optionLabel="storeName" styleClass="w-full" appendTo="body" placeholder="Select a Store"
+                [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="store"></error-message>
+        </div>
+        <div class="field">
+            <label for="user">StoreUser User</label>
+            <p-dropdown id="user" [options]="users" name="user" #user="ngModel" [(ngModel)]="storeUser.user"
+                optionLabel="userName" [style]="{'minWidth':'100%'}" appendTo="body"
+                placeholder="Select a StoreUser User" [filter]="true" filterBy="userName" [showClear]="true"
+                [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="user"></error-message>
+        </div>
+        <div class="field">
+            <label for="storeUserName">StoreUser Firstname</label>
+            <input type="text" pInputText name="firstName" #firstName="ngModel" [(ngModel)]="storeUser.firstName"
+                class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            <error-message [controlName]="firstName"></error-message>
+        </div>
+        <div class="field">
+            <label for="lastName">Lastname</label>
+            <input type="text" pInputText name="lastName" #lastName="ngModel" [(ngModel)]="storeUser.lastName"
+                class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            <error-message [controlName]="lastName"></error-message>
+        </div>
+        <div class="field-checkbox">
+            <p-inputSwitch name="companyAdmin" name="companyAdmin" #companyAdmin="ngModel"
+                [(ngModel)]="storeUser.companyAdmin"></p-inputSwitch>
+            <label for="companyAdmin">Is Company Admin?</label>
+        </div>
+        <div class="field">
+            <label for="lastName">Phone</label>
+            <input type="text" pInputText name="phone" #phone="ngModel" [(ngModel)]="storeUser.phone" class="w-full"
+                required minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+            <error-message [controlName]="phone"></error-message>
+        </div>
+        <div class="field">
+            <label for="lastName">PAN</label>
+            <input type="text" pInputText name="pan" #pan="ngModel" [(ngModel)]="storeUser.pan" class="w-full" required
+                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" oninput="this.value = this.value.toUpperCase()" minlength="10"
+                maxlength="10" />
+            <error-message [controlName]="pan"></error-message>
+        </div>
+        <div class="field">
+            <label for="lastName">Email</label>
+            <input type="text" pInputText name="email" #email="ngModel" [(ngModel)]="storeUser.email" class="w-full"
+                required email minlength="6" maxlength="60" />
+            <error-message [controlName]="email"></error-message>
+        </div>
+
+
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveStoreUser()"
+                [disabled]="!f.valid"></button>
+        </div>
+    </p-sidebar>
+</form>

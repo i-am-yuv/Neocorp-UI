@@ -1,0 +1,47 @@
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+        <span class="text-xl">Insta Pay</span>
+    </div>
+    <div class="p-toolbar-group-right">
+        <p-button icon="pi pi-plus" [routerLink]="['/payments/insta-pay/create']" label="New Payment"></p-button>
+    </div>
+</p-toolbar>
+<p-tabView>
+    <p-tabPanel header="Pending">
+        <div class="text-center p-5">
+            <div><img src="assets/empty.svg" height="150" /></div>
+            <p-message severity="info" text="No Pending Payments"></p-message>
+            <div class="mt-5">
+                <button pButton icon="pi pi-plus" class="p-button p-button-text" label="Create one"></button>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Approved">
+        <div class="text-center p-5">
+            <div><img src="assets/empty.svg" height="150" /></div>
+            <p-message severity="info" text="No Approved Payments"></p-message>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Rejected">
+        <div class="text-center">
+            <p-table [columns]="cols" [value]="rejectedData" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="header" let-rejectedQPs>
+                    <tr>
+                        <th *ngFor="let rejectedQP of rejectedQPs">
+                            {{rejectedQP.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rejectedQP let-cols="columns">
+                    <tr>
+                        <td *ngFor="let col of cols">
+                            {{rejectedQP[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div><img src="assets/empty.svg" height="150" /></div>
+            <p-message severity="info" text="No Rejected Payments"></p-message>
+        </div>
+    </p-tabPanel>
+</p-tabView>

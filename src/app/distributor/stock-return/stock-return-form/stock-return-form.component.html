@@ -1,0 +1,98 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground p-5 form-panel">
+    <h2 class="p-2">{{(id)? 'Edit': 'Create'}} Stock Return</h2>
+    <p-card>
+        <form [formGroup]="form">
+            <div class="grid p-fluid">
+                <div class="field col-12" *ngIf="id">
+                    <label>Document Number</label>
+                    <div class="mt-2">{{ form.value.documentno ?? ''}}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Order</label>
+                    <div> {{ goodsReturn.purchaseOrder?.documentnumber }}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Return Date</label>
+                    <div> {{ goodsReturn.returnDate | date: 'dd-MM-yyyy' }}</div>
+
+                </div>
+            </div>
+            <div class="text-right" *ngIf="!readOnly">
+                <button pButton label="Process Goods Return" [disabled]="!form.valid" *ngIf="id"
+                    (click)="processGoodsReturn()" class="mr-3 p-button-success p-button-outlined"></button>
+            </div>
+        </form>
+    </p-card>
+    <div *ngIf="id">
+        <p-table #dt [value]="goodsReturnLines" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Product
+                    </th>
+
+
+                    <th>
+                        Return Quantity
+                    </th>
+                    <th>
+                        Accepted Quantity
+                    </th>
+                    <th>
+                        Landing Cost
+                    </th>
+                    <th style="width: 120px" *ngIf="!readOnly">
+                        <button pButton icon="pi pi-plus" label="ADD" pAddRow [table]="dt" [newRow]="newRow()"
+                            (click)="newRecord=true" [disabled]="!id || newRecord"></button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-goodsReturnLine let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="goodsReturnLine">
+                    <td>
+                        {{goodsReturnLine.storeCatalog?.product?.name}}
+                    </td>
+                    <td> {{goodsReturnLine.returnedQty}}
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputNumber [(ngModel)]="goodsReturnLine.acceptedQty"
+                                    (onInput)="setLineQtyValues($event, goodsReturnLine)" [format]="false" [min]="0"
+                                    [max]="goodsReturnLine.returnedQty">
+                                </p-inputNumber>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{goodsReturnLine.acceptedQty}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td> {{goodsReturnLine.unitprice}} </td>
+                    <td *ngIf="!readOnly">
+                        <div>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                (click)="onRowEditInit(goodsReturnLine)"
+                                class="p-button-rounded p-button-text"></button>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                                (click)="delete(goodsReturnLine)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                (click)="onRowEditSave(goodsReturnLine)"
+                                class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                (click)="onRowEditCancel(goodsReturnLine, ri)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="text-center m-5"> No goods return lines found create one.</div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

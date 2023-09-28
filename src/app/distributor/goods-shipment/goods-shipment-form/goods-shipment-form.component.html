@@ -1,0 +1,129 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground p-5 form-panel">
+    <h2 class="p-2">{{(id)? 'Edit': 'Create'}} Goods Shipment</h2>
+    <p-card>
+        <form [formGroup]="form">
+            <div class="grid p-fluid">
+                <div class="field col-12" *ngIf="id">
+                    <label>Document Number</label>
+                    <div class="mt-2">{{ form.value.documentno ?? ''}}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Order</label>
+                    <ng-container formGroupName="purchaseOrder" *ngIf="!readOnly">
+                        <p-dropdown [options]="orders" [filter]="true" formControlName="id" placeholder="Choose Order" [required]="true"
+                            optionLabel="documentnumber" optionValue="id" [showClear]="true">
+                        </p-dropdown>
+                    </ng-container>
+                    <div *ngIf="readOnly"> {{ goodsShipment.purchaseOrder?.documentnumber }}</div>
+                    
+                </div>
+                <div class="field col-6">
+                    <label>Warehouse</label>
+                    <ng-container formGroupName="warehouse" *ngIf="!readOnly">
+                        <p-dropdown [options]="warehouses" [filter]="true" formControlName="id" placeholder="Choose Warehouse" [required]="true"
+                            optionLabel="warehouseName" optionValue="id" [showClear]="true">
+                        </p-dropdown>
+                    </ng-container>
+                    <div *ngIf="readOnly"> {{ goodsShipment.purchaseOrder?.warehouse.warehouseName }}</div>
+                </div>
+                <div class="field col-6">
+                    <label>Shipment Date</label>
+                    <p-calendar formControlName="shipmentDate" [required]="true" [dateFormat]="'dd-mm-yy'" *ngIf="!readOnly">
+                    </p-calendar>
+                    <div *ngIf="readOnly"> {{ form.value.shipmentDate | date: 'dd-MM-yyyy' }}</div>
+
+                </div>
+            </div>
+            <div class="text-right" *ngIf="!readOnly">
+                <button pButton label="Process Goods Shipment" [disabled]="!form.valid" *ngIf="id"
+                    (click)="processGoodsShipment()" class="mr-3 p-button-success p-button-outlined"></button>
+                <button pButton label="Save" [disabled]="!form.valid" (click)="saveGoodsShipment()"></button>
+            </div>
+        </form>
+    </p-card>
+    <div *ngIf="id && form.valid">
+        <p-table #dt [value]="goodsShipmentLines" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Product
+                    </th>
+
+                    <th>
+                        Ordered Quantity
+                    </th>
+                    <th>
+                        Confirmed Quantity
+                    </th>
+                    <th>
+                        Shipped Quantity
+                    </th>
+                    <th>
+                        Selling Price
+                    </th>
+                    <th style="width: 120px" *ngIf="!readOnly">
+                        <button pButton icon="pi pi-plus" label="ADD" pAddRow [table]="dt" [newRow]="newRow()"
+                            (click)="newRecord=true" [disabled]="!id || newRecord"></button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-goodsShipmentLine let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="goodsShipmentLine">
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="distributorCatalogs"
+                                    [(ngModel)]="goodsShipmentLine.distributorCatalog" placeholder="Choose Product"
+                                    optionLabel="product.name" [showClear]="true"
+                                    (ngModelChange)="setLineValues(goodsShipmentLine)">
+                                </p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{goodsShipmentLine.distributorCatalog?.product?.name}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td> {{goodsShipmentLine.orderedQty}}</td>
+                    <td> {{goodsShipmentLine.confirmedQty}} </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputNumber [(ngModel)]="goodsShipmentLine.shippedQty"
+                                    (onInput)="setLineQtyValues($event, goodsShipmentLine)" [format]="false">
+                                </p-inputNumber>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{goodsShipmentLine.shippedQty}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td> {{goodsShipmentLine.distributorCatalog?.sellingPrice}} </td>
+                    <td *ngIf="!readOnly">
+                        <div>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                (click)="onRowEditInit(goodsShipmentLine)"
+                                class="p-button-rounded p-button-text"></button>
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                                (click)="delete(goodsShipmentLine)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                (click)="onRowEditSave(goodsShipmentLine)"
+                                class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                (click)="onRowEditCancel(goodsShipmentLine, ri)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="text-center m-5"> No goods receipt lines found create one.</div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

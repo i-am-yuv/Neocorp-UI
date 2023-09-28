@@ -1,0 +1,11 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground p-4" style="min-height: 740px;">
+    <div class="border-bottom-1 surface-border mb-5">
+        <span class="block text-3xl font-medium text-900 mb-4">Notifications</span>
+    </div>
+    <p-messages [(value)]="msgs"></p-messages>
+    <div *ngIf="msgs.length===0" class="text-center">
+        <img src="assets/empty.svg" height="150" />
+        <div class="text-xl">No Notifications Yet</div>
+    </div>
+</div>

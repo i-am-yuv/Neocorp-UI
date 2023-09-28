@@ -1,0 +1,154 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="border-bottom-1 surface-border mb-5">
+    <h2 class="p-2">Store Discounts</h2>
+</div>
+
+<p-table #dt [value]="discounts" dataKey="id" editMode="row" responsiveLayout="scroll" [lazy]="true"
+    [totalRecords]="totalRecords" styleClass="p-datatable-gridlines" [rows]="10" [paginator]="true" [lazy]="true"
+    (onLazyLoad)="loadPage($event)" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10,25,50]" [rowHover]="true" [showCurrentPageReport]="true" [filterDelay]="500">
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="pt-2">Global Store Discounts</div>
+            </div>
+            <div class="col text-right">
+                <button pButton type="button" icon="pi pi-plus" class="ui-button-info mr-3" [label]="'Add New'" pAddRow
+                    [table]="dt" [newRow]="newRow()"></button>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </div>
+
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="discountName">Name <p-sortIcon field="discountName">
+                </p-sortIcon>
+            </th>
+            <th [width]="200">Type</th>
+            <!-- <th pSortableColumn="discountValue" [width]="200">Type <p-sortIcon field="discountValue">
+                </p-sortIcon>
+            </th> -->
+            <th pSortableColumn="discountValue">Value <p-sortIcon field="discountValue">
+                </p-sortIcon>
+            </th>
+            <th pSortableColumn="discountPercentage">Percent <p-sortIcon field="discountPercentage">
+                </p-sortIcon>
+            </th>
+            <th pSortableColumn="validFrom">Valid From <p-sortIcon field="validFrom">
+                </p-sortIcon>
+            </th>
+            <th pSortableColumn="validTill">Valid Till <p-sortIcon field="validTill">
+                </p-sortIcon>
+            </th>
+            <!-- <th>Name</th>
+            <th [width]="200">Type</th>
+            <th>Value</th>
+            <th>Percent</th>
+            <th>Valid From</th>
+            <th>Valid Till</th> -->
+            <th style="width:8rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-discount let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="discount">
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="discount.discountName" required>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{discount.discountName}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+
+                        <p-radioButton name="typeValue" [value]="true" label="Value" [(ngModel)]="discount.typeValue">
+                        </p-radioButton>
+
+                        <p-radioButton name="typeValue" [value]="false" label="Percent" styleClass="ml-3"
+                            [(ngModel)]="discount.typeValue">
+                        </p-radioButton>
+
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{discount.typeValue ? 'Value': 'Percent'}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-inputNumber [(ngModel)]="discount.discountValue" *ngIf="discount.typeValue" [min]="0"
+                            [size]="2">
+                        </p-inputNumber>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{discount.discountValue ?? 0}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-inputNumber [(ngModel)]="discount.discountPercentage" *ngIf="!discount.typeValue" suffix="%"
+                            [min]="0" [size]="4"></p-inputNumber>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ discount.discountPercentage ?? 0 }}%
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-calendar [(ngModel)]="discount.validFrom" name="validFrom" #validTill="ngModel"
+                            aria-required="true" dateFormat="dd-mm-yy" styleClass="w-full" appendTo="body">
+                        </p-calendar>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ discount.validFrom | date: 'dd-MM-yyyy' }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-calendar [(ngModel)]="discount.validTill" name="validTill" #validTill="ngModel"
+                            aria-required="true" dateFormat="dd-mm-yy" styleClass="w-full" appendTo="body">
+                        </p-calendar>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ discount.validTill | date: 'dd-MM-yyyy' }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td style="text-align:center">
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                    (click)="onRowEditInit(discount)" class="p-button-rounded p-button-text"></button>
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                    (click)="delete(discount)" class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(discount)"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(discount, ri)"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]="7" class="text-center p-5">
+                No records found
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

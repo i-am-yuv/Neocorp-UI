@@ -1,0 +1,186 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Companies</h2>
+
+    <p-table #dt [value]="companies" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="loadData($event)"
+        [globalFilterFields]="['companyIdentifier','companyCode', 'companyName']" responsiveLayout="scroll"
+        [(selection)]="selectedCompanies" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedCompanies()"
+                        [disabled]="!selectedCompanies || !selectedCompanies.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="companyName">Company Name <p-sortIcon field="companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="companyLocation">Company Location <p-sortIcon field="companyLocation"></p-sortIcon>
+                </th>
+                <!-- <th>Company Location</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-company>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="company"></p-tableCheckbox>
+                </td>
+                <td>{{company.companyName}}</td>
+                <td>{{company.companyLocation}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editCompany(company)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteCompany(company)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{companies ? companies.length : 0 }} Companies.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="companyDialog" header="Company" [modal]="true" styleClass="p-sidebar-md">
+        <h2>Companies</h2>
+        <ng-template pTemplate="content">
+            <!-- <div class="grid"> -->
+            <div class="field p-fluid ">
+                <label for="companyName">Company Name</label>
+                <input type="text" styleClass="w-full" pInputText name="companyName" #companyName="ngModel"
+                    [(ngModel)]="company.companyName" required minlength="1" />
+                <error-message [controlName]="companyName"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="companyLocation">Company Location</label>
+                <input type="text" pInputText name="companyLocation" #companyLocation="ngModel"
+                    [(ngModel)]="company.companyLocation" required minlength="1" />
+                <error-message [controlName]="companyLocation"></error-message>
+            </div>
+
+            <div class="field p-fluid">
+                <label for="companyPanNumber">Company PAN</label>
+                <input type="text" pInputText name="companyPanNumber" #companyPanNumber="ngModel"
+                    [(ngModel)]="company.companyPanNumber" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                    oninput="this.value = this.value.toUpperCase()" minlength="10" maxlength="10" />
+                <error-message [controlName]="companyPanNumber"></error-message>
+
+            </div>
+
+            <div class="field p-fluid">
+                <label for="companyAddress1">Street Name</label>
+                <input type="text" pInputText name="companyAddress1" #companyAddress1="ngModel"
+                    [(ngModel)]="company.companyAddress1" required minlength="1" />
+                <error-message [controlName]="companyAddress1"></error-message>
+
+            </div>
+            <div class="field p-fluid">
+                <label for="companyAddress2">Area, town / city</label>
+                <input type="text" pInputText name="companyAddress2" #companyAddress2="ngModel"
+                    [(ngModel)]="company.companyAddress2" required minlength="1" />
+                <error-message [controlName]="companyAddress2"></error-message>
+
+            </div>
+            <div class="field p-fluid">
+                <label for="companyPhone">Phone</label>
+                <input type="text" pInputText name="companyPhone" #companyPhone="ngModel"
+                    [(ngModel)]="company.companyPhone" required minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+                <error-message [controlName]="companyPhone"></error-message>
+            </div>
+            &nbsp;
+            <div class="field p-fluid">
+                <label for="companyMail">Email</label>
+                <input type="text" pInputText name="companyMail" #companyMail="ngModel"
+                    [(ngModel)]="company.companyMail" required email />
+                <error-message [controlName]="companyMail"></error-message>
+
+            </div>
+            <div class="field p-fluid">
+                <label for="pincode">State</label>
+                <p-dropdown [options]="states" name="state" #state="ngModel" [(ngModel)]="company.state"
+                    placeholder="Choose State" optionLabel="stateName" [showClear]="true" appendTo="body"
+                    [required]="true">
+                </p-dropdown>
+                <error-message [controlName]="state"></error-message>
+
+            </div>
+            <div class="field p-fluid">
+                <label for="pincode">Pincode</label>
+                <input type="text" pInputText name="pincode" #pincode="ngModel" [(ngModel)]="company.pincode" required
+                    minlength="6" maxlength="6" [pKeyFilter]="'int'" />
+                <error-message [controlName]="pincode"></error-message>
+            </div>
+
+            <div class="field p-fluid">
+                <label for="numberOfStores">No Of Stores</label>
+                <input type="text" name="numberOfStores" #numberOfStores="ngModel" pInputText
+                    [(ngModel)]="company.numberOfStores" required [pKeyFilter]="'int'" />
+                <error-message [controlName]="numberOfStores"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="numberOfDistributors">No Of Distributors</label>
+                <input type="text" name="numberOfDistributors" #numberOfDistributors="ngModel" pInputText
+                    [(ngModel)]="company.numberOfDistributors" required [pKeyFilter]="'int'" />
+                <error-message [controlName]="numberOfDistributors"></error-message>
+            </div>
+            <div class="field p-fluid">
+                <label for="subscriptionMonths">Subscription Months</label>
+                <input type="text" name="subscriptionMonths" #subscriptionMonths="ngModel" pInputText
+                    [(ngModel)]="company.subscriptionMonths" value="1" required [pKeyFilter]="'int'" minlength="1"
+                    maxlength="2" />
+                <error-message [controlName]="subscriptionMonths"></error-message>
+            </div>
+
+            <div class="field p-fluid">
+                <label for="saleSubscriptionBalance">Sales Balance</label>
+                <input type="text" name="saleSubscriptionBalance" #saleSubscriptionBalance="ngModel" pInputText
+                    [(ngModel)]="company.saleSubscriptionBalance" required [pKeyFilter]="'int'" />
+                <error-message [controlName]="saleSubscriptionBalance"></error-message>
+            </div>
+
+            <div class="field p-fluid">
+                <label for="purchaseSubscriptionBalance">Purchase Balance</label>
+                <input type="text" name="purchaseSubscriptionBalance" #purchaseSubscriptionBalance="ngModel" pInputText
+                    [(ngModel)]="company.purchaseSubscriptionBalance" required [pKeyFilter]="'int'" />
+                <error-message [controlName]="purchaseSubscriptionBalance"></error-message>
+            </div>
+
+
+            <div class="field-checkbox">
+                <p-checkbox name="subscriptionActive" [binary]="true" label="Subscription Active"
+                    name="subscriptionActive" [(ngModel)]="company.subscriptionActive"></p-checkbox>
+            </div>
+            <!-- </div> -->
+            <!-- </ng-template> -->
+            <!-- <ng-template pTemplate="footer"> -->
+            <div class="text-right">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                    (click)="hideDialog()"></button>&nbsp;
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-info" (click)="saveCompany()"
+                    [disabled]="!f.valid"></button>
+            </div>
+        </ng-template>
+    </p-sidebar>
+</form>

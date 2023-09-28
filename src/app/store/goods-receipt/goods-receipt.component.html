@@ -1,0 +1,75 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Goods Receipts</h2>
+
+    <p-table #dt [value]="goodsReceipts" [rows]="10" [filterDelay]="500" [paginator]="true" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        responsiveLayout="scroll" [(selection)]="selectedGoodsReceipts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedGoodsReceipts()"
+                        [disabled]="!selectedGoodsReceipts || !selectedGoodsReceipts.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="documentno">DocumentNo <p-sortIcon field="documentno">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="purchaseOrder.documentnumber">Order <p-sortIcon
+                        field="purchaseOrder.documentnumber">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="receivedDate">Received Date <p-sortIcon field="receivedDate">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status">
+                    </p-sortIcon>
+                </th>
+                <!-- <th>Order</th>
+                <th>Received Date</th>
+                <th>Status</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-goodsReceipt>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="goodsReceipt"></p-tableCheckbox>
+                </td>
+                <td>{{goodsReceipt.documentno}}</td>
+                <td>{{goodsReceipt.purchaseOrder?.documentnumber}}</td>
+                <td>{{goodsReceipt.receivedDate | date: 'dd-MM-yyyy'}}</td>
+                <td>{{goodsReceipt.status}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editGoodsReceipt(goodsReceipt)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteGoodsReceipt(goodsReceipt)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{goodsReceipts ? goodsReceipts.length : 0 }} Goods Receipts.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,255 @@
+<p-breadcrumb [model]="items" [home]="home" styleClass="border-0"></p-breadcrumb>
+<div class="surface-ground p-5 form-panel">
+    <div class="text-900 font-medium text-xl mb-3">{{ (id)? 'Edit' : 'Create' }} Order
+        {{ (id)?
+        '#'+activeOrder.documentnumber
+        : '' }} </div>
+    <div class="mb-3">DOCUMENT STATUS: {{ activeOrder.status }}</div>
+    <p-card>
+        <form [formGroup]="poForm">
+            <div class="grid formgrid">
+                <div class="field mb-4 col-12 md:col-6 pr-5">
+                    <ul class="list-none p-0 m-0">
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-2 font-medium">Store</div>
+                            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 mb-3">
+                                {{ selectedStore?.storeName }}
+                            </div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-2 font-medium">Store Company</div>
+                            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                {{ selectedStore?.company?.companyName }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-2 font-medium">Store Address</div>
+                            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                <div>{{ selectedStore?.storeLocation }}</div>
+                                <div>{{ selectedStore?.storeAddress1 }}</div>
+                                <div>{{ selectedStore?.storeAddress2 }}</div>
+                                <div>{{ selectedStore?.state?.stateName }}</div>
+                                <div>{{ selectedStore?.pincode }}</div>
+                                <div>{{ selectedStore?.storePhone }}</div>
+                                <div>{{ selectedStore?.storeMail }}</div>
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-2 font-medium">GSTIN</div>
+                            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                <div> {{ selectedStore?.gstNumber ?? ' - ' }}</div>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+                <div class="col-12 md:col-6">
+                    <div class="p-fluid">
+                        <div class="field">
+                            <ul class="list-none p-0 m-0">
+                                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                    <div class="text-500 w-6 md:w-2 font-medium">Distributor</div>
+                                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                        {{ selectedDistributor.distributorName }}
+                                    </div>
+                                </li>
+                                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                    <div class="text-500 w-6 md:w-2 font-medium">Distributor Company</div>
+                                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                        {{ selectedDistributor.company?.companyName }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                                    <div class="text-500 w-6 md:w-2 font-medium">Distributor Address</div>
+                                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                        <div>{{ selectedDistributor.distributorLocation }}</div>
+                                        <div>{{ selectedDistributor.distributorAddress1 }}</div>
+                                        <div>{{ selectedDistributor.distributorAddress2 }}</div>
+                                        <div>{{ selectedDistributor.state?.stateName }}</div>
+                                        <div>{{ selectedDistributor.pincode }}</div>
+                                        <div>{{ selectedDistributor.distributorPhone }}</div>
+                                        <div>{{ selectedDistributor.distributorMail }}</div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                                    <div class="text-500 w-6 md:w-2 font-medium">GSTIN</div>
+                                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                        <div> {{ selectedDistributor.gstNumber ?? ' - ' }}</div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                                    <div class="text-500 w-6 md:w-2 font-medium">Need By</div>
+                                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                                        {{ activeOrder.dueDate | date: 'dd-MM-yyyy' }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div class="col-12 text-right">
+                    <button pButton label="Reset" *ngIf="!id"
+                        class="p-button-secondary p-button-outlined mr-3"></button>
+
+                    <button pButton label="Cancel order" class="p-button-danger p-button-outlined mr-3"
+                        [disabled]="!poForm.valid" (click)="cancelOrder()"
+                        *ngIf="activeOrder.status ==='FORWARDED'"></button>
+
+                    <button pButton label="Confirm order" class="p-button-success p-button-outlined"
+                        [disabled]="!poForm.valid" (click)="confirm()"
+                        *ngIf="activeOrder.status ==='FORWARDED'"></button>
+
+
+
+                    <button pButton label="Create Shipment" class="p-button-success p-button-outlined"
+                        [disabled]="!poForm.valid" (click)="ship()" *ngIf="activeOrder.status ==='PAID'"></button>
+                    <!-- <button pButton label="Save" [disabled]="!poForm.valid" (click)="formSubmit()"></button> -->
+                </div>
+            </div>
+        </form>
+
+        <p-table #dt [value]="purchaseOrderLines" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-5">
+            <ng-template pTemplate="header" let-yourColumnArrayVaraible>
+                <tr>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Ordered Qty
+                    </th>
+                    <th>
+                        Confirmed Qty
+                    </th>
+                    <th>
+                        GST
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-poline let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="poline">
+                    <td>
+                        {{poline?.product?.name}}
+                    </td>
+                    <td>
+                        {{poline?.unitprice}}
+                    </td>
+                    <td>
+                        {{ poline?.orderedQuantity }}
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputNumber [(ngModel)]="poline.confirmedQuantity"
+                                    (onInput)="setLineQtyValues($event, poline, ri)" [format]="false">
+                                </p-inputNumber>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{poline?.confirmedQuantity}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td>
+                        {{poline?.gst}}
+                    </td>
+                    <td>
+                        {{poline?.linetotal}}
+                    </td>
+                    <td>
+                        <div *ngIf="activeOrder.status ==='FORWARDED'">
+                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                (click)="onRowEditInit(poline)" class="p-button-rounded p-button-text"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                (click)="onRowEditSave(poline)"
+                                class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                (click)="onRowEditCancel(poline, ri)"
+                                class="p-button-rounded p-button-text p-button-danger"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="text-center m-5"> No purchase order lines found create one.</div>
+                    </td>
+                </tr>
+            </ng-template> 
+        </p-table>
+        <div class="grid">
+            <div class="col-6 p-5">
+                <!-- <p-timeline [value]="events">
+                    <ng-template pTemplate="content" let-event>
+                        <small class="p-text-secondary">{{event.date}}</small>
+                    </ng-template>
+                    <ng-template pTemplate="opposite" let-event>
+                        {{event.status}}
+                    </ng-template>
+                </p-timeline> -->
+            </div>
+            <div class="col-6">
+                <ul class="list-none p-0 m-0">
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-9 font-medium text-right">Sub Total</div>
+                        <div class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right">
+                            ₹{{ activeOrder.grosstotal! - activeOrder.gst! | number: '1.2-2' }}
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-9 font-medium text-right">CGST</div>
+                        <div class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right">
+                            ₹{{ activeOrder.cgst ?? 0 | number: '1.2-2'}}
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-9 md:w-9 font-medium text-right">SGST</div>
+                        <div class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right">
+                            ₹{{ activeOrder.sgst ?? 0 | number: '1.2-2' }}
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-9 md:w-9 font-medium text-right">GST</div>
+                        <div class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right">
+                            ₹{{ activeOrder.gst ?? 0 | number: '1.2-2'}}
+                        </div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-9 font-medium text-right">Total</div>
+                        <div class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right font-bold text-xl">
+                            ₹{{ activeOrder.grosstotal ?? 0 | number: '1.2-2'}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </p-card>
+    <!-- <div class="col-12">
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+              (click)="cancel()"  ></button>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,488 @@
+<!-- <p-breadcrumb [model]="items" styleClass="border-0"></p-breadcrumb> -->
+<div class="py-3">
+  <i class="pi pi-chevron-left"></i
+  ><span
+    [routerLink]="['/store/storecatalog']"
+    class="ml-2 text-lg cursor-pointer"
+    >List Products</span
+  >
+</div>
+<div class="border-bottom-1 surface-border mb-5">
+  <span class="block text-3xl font-medium text-900 mb-4">Catalog</span>
+</div>
+<div class="grid">
+  <div class="col-8">
+    <form #f="ngForm" enctype="multipart/form-data">
+      <div class="grid">
+        <div class="field-radiobutton col-12">
+          <p-inputSwitch
+            name="local"
+            #local="ngModel"
+            [(ngModel)]="storeCatalog.local"
+            (click)="clearValues()"
+          ></p-inputSwitch>
+          <label for="isLocal"> Product not available in global catalog</label>
+        </div>
+        <ng-container *ngIf="storeCatalog.local">
+          <!-- <div style="display: inline-block;"> -->
+          <div class="field col-6">
+            <label for="productName" class="required">Product Name</label>
+            <input
+              type="text"
+              pInputText
+              name="name"
+              #name="ngModel"
+              [(ngModel)]="storeCatalog.name"
+              class="w-full"
+              required
+              pattern="^[a-zA-Z'.\s | \d | \- | \/ | \$ | \£ | \€ | \( | \) | \ | \! | \% | \+ | \& | \, | \! $]{1,200}$"
+            />
+            <error-message [controlName]="name"></error-message>
+          </div>
+          <div class="field col-6">
+            <label for="productType" class="required">Product Type</label>
+            <p-dropdown
+              [filter]="true"
+              id="productType"
+              [options]="productTypes"
+              name="productType"
+              #productType="ngModel"
+              [(ngModel)]="storeCatalog.productType"
+              styleClass="w-full"
+              appendTo="body"
+              placeholder="Select a Product Type"
+              [required]="true"
+            >
+            </p-dropdown>
+            <error-message [controlName]="productType"></error-message>
+          </div>
+          <!-- </div> -->
+          <!-- <div style="display: inline-block;"> -->
+          <div class="field col-6">
+            <label for="category" class="required">Product Category</label>
+            <p-dropdown
+              id="category"
+              [filter]="true"
+              [options]="productCategories"
+              name="category"
+              #category="ngModel"
+              [(ngModel)]="storeCatalog.category"
+              optionLabel="name"
+              styleClass="w-full"
+              appendTo="body"
+              placeholder="Select a Product Category"
+              [required]="true"
+            >
+            </p-dropdown>
+            <error-message [controlName]="category"></error-message>
+          </div>
+          <div class="field col-6">
+            <label for="brand" class="required">Brand</label>
+            <p-dropdown
+              id="brand"
+              [filter]="true"
+              [options]="brands"
+              name="brand"
+              #brand="ngModel"
+              [(ngModel)]="storeCatalog.brand"
+              optionLabel="name"
+              styleClass="w-full"
+              appendTo="body"
+              placeholder="Select a Brand"
+              [required]="true"
+            >
+            </p-dropdown>
+            <error-message [controlName]="brand"></error-message>
+          </div>
+          <!-- </div> -->
+          <!-- <br> -->
+          <!-- <div style="display: inline-block;"> -->
+          <div class="field col-6">
+            <label for="help" class="required">Product MRP</label>
+            <div>
+              <p-inputNumber
+                class="w-full"
+                name="mrp"
+                [required]="true"
+                aria-required="true"
+                [min]="1"
+                #mrp="ngModel"
+                [(ngModel)]="storeCatalog.mrp"
+                             NumbersOnly
+              ></p-inputNumber>
+              <error-message [controlName]="mrp"></error-message>
+            </div>
+          </div>
+          <!-- <div style="margin-left: 480px;"></div> -->
+          <!-- </div> -->
+          <!-- <div style="display: inline-block;"> -->
+          <div class="field col-6">
+            <label for="taxRate" class="required">Tax Rate</label>
+            <p-dropdown
+              id="taxRate"
+              [filter]="true"
+              [options]="taxRates"
+              optionLabel="taxRateName"
+              styleClass="w-full"
+              appendTo="body"
+              placeholder="Select a Tax Rate"
+              name="taxRate"
+              #taxRate="ngModel"
+              [(ngModel)]="storeCatalog.taxRate"
+              [required]="true"
+            >
+            </p-dropdown>
+          </div>
+          <!-- </div> -->
+          <!-- <br> -->
+          <!-- <div> -->
+          <div class="field col-6">
+            <label for="barCode">Product Barcode</label>
+            <input
+              type="text"
+              pInputText
+              name="barCode"
+              #barCode="ngModel"
+              [(ngModel)]="storeCatalog.barCode"
+              class="w-full"
+            />
+          </div>
+          <div class="field col-6">
+            <label for="hsnCode">Product HSNCode</label>
+            <input
+              type="text"
+              pInputText
+              name="hsnCode"
+              #barCode="ngModel"
+              [(ngModel)]="storeCatalog.hsnCode"
+              class="w-full"
+            />
+          </div>
+          <!-- <div style="display: inline-flex;"> -->
+          <div class="field col-6">
+            <label for="storeCatalogPrice" class="required"
+              >Landing Price</label
+            >
+            <input
+              type="text"
+              pInputText
+              name="landingCost"
+              #landingCost="ngModel"
+              required
+              [(ngModel)]="storeCatalog.landingCost"
+              [required]="true"
+              class="w-full"
+                   NumbersOnly
+            />
+            <!-- <small class="p-error" *ngIf="landingCost.touched && !storeCatalog.landingCost">StoreCatalog landing cost is
+                                        required.</small> -->
+            <error-message [controlName]="landingCost"></error-message>
+          </div>
+          <div class="field col-6">
+            <label for="storeCatalogPrice" class="required"
+              >Selling Price</label
+            >
+            <div>
+              <input
+                type="text"
+                pInputText
+                name="sellingPrice"
+                #sellingPrice="ngModel"
+                [(ngModel)]="storeCatalog.sellingPrice"
+                [max]="storeCatalog.mrp"
+                required
+                class="w-full"
+                minlength="1"
+                     NumbersOnly
+              />
+              <!-- <small class="p-error" *ngIf="sellingPrice.touched && !storeCatalog.sellingPrice">StoreCatalog selling cost is
+                                            required.</small> -->
+            </div>
+            <error-message [controlName]="sellingPrice"></error-message>
+          </div>
+
+          <br />
+          <div class="field col-6">
+            <label for="file">Product Image</label>
+            <input
+              type="file"
+              name="file"
+              (change)="selectFile($event)"
+              accept="image/*"
+              class="w-full"
+              chooseLabel="Upload"
+            />
+            <!-- <error-message [controlName]="productForm.controls['help']"></error-message>-->
+          </div>
+          <!-- </div> -->
+          <!-- </div> -->
+
+          <!-- <div class="field col-6">
+                            <label for="skuCode">Product SKU</label>
+                            <input type="text" pInputText name="skuCode" #skuCode="ngModel" [(ngModel)]="storeCatalog.skuCode"
+                                class="w-full" required />
+                        </div>
+                        <div class="field col-6">
+                          <label for="help">Help</label>
+                          <input type="text" pInputText name="help" #barCode="ngModel" [(ngModel)]="storeCatalog.help"
+                              class="w-full" required />
+                      </div> -->
+          <div class="col-12">
+            <div class="text-right">
+              <button
+                pButton
+                pRipple
+                label="Cancel"
+                icon="pi pi-times"
+                class="p-button-secondary"
+                (click)="cancel()"
+              ></button
+              >&nbsp;
+              <button
+                pButton
+                pRipple
+                label="Save"
+                icon="pi pi-check"
+                class="p-button-info"
+                (click)="saveStoreCatalogs()"
+                class="ml-2"
+                [disabled]="!f.valid"
+              ></button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+
+    <ng-container *ngIf="!storeCatalog.local">
+      <form #form="ngForm">
+        <div class="grid">
+          <!-- <div style="display: inline-flex;"> -->
+          <div class="field col-6">
+            <label for="storeCatalogProductName" class="required"
+              >Store Catalog Product</label
+            >
+            <p-dropdown
+              [options]="products"
+              placeholder="Choose product"
+              name="storeCatalogProductName"
+              optionLabel="name"
+              name="product"
+              #product="ngModel"
+              [(ngModel)]="storeCatalog.product"
+              (ngModelChange)="getDistributors(storeCatalog.product)"
+              styleClass="w-full"
+              [required]="true"
+              [filter]="true"
+            >
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="submitted && !storeCatalog.product">Store Catalog Product is
+                                    required.</small> -->
+          </div>
+          <div class="field col-6">
+            <label for="distrubutor" class="required"
+              >Product Distributor</label
+            >
+            <p-dropdown
+              [options]="distributors"
+              [filter]="true"
+              placeholder="Choose distributor"
+              name="distrubutor"
+              optionLabel="distributorName"
+              (ngModelChange)="getDistributorLandingCost($event)"
+              name="distributor"
+              #distributor="ngModel"
+              [(ngModel)]="storeCatalog.distributor"
+              styleClass="w-full"
+              [required]="true"
+            >
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="storeCatalog.distributor && !storeCatalog.distributor">Product distributor is required</small> -->
+          </div>
+          <!-- </div> -->
+          <!-- <div style="display: inline-flex;"> -->
+          <div class="field col-6">
+            <label for="storeCatalogPrice" class="required"
+              >Landing Price</label
+            >
+            <input
+              type="text"
+              pInputText
+              name="landingCost"
+              #landingCost="ngModel"
+              [(ngModel)]="storeCatalog.landingCost"
+              [required]="true"
+              class="w-full"
+                   NumbersOnly
+            />
+            <!-- <small class="p-error" *ngIf="landingCost.touched && !storeCatalog.landingCost">StoreCatalog landing cost is
+                                    required.</small> -->
+            <error-message [controlName]="landingCost"></error-message>
+          </div>
+          <div class="field col-6">
+            <label for="storeCatalogPrice" class="required"
+              >Selling Price</label
+            >
+            <input
+              type="text"
+              pInputText
+              name="sellingPrice"
+              #sellingPrice="ngModel"
+              [(ngModel)]="storeCatalog.sellingPrice"
+              [max]="storeCatalog.mrp"
+              [required]="true"
+              class="w-full"
+              minlength="1"
+                   NumbersOnly
+            />
+            <!-- <small class="p-error" *ngIf="sellingPrice.touched && !storeCatalog.sellingPrice">StoreCatalog selling cost is
+                                        required.</small> -->
+            <error-message [controlName]="sellingPrice"></error-message>
+          </div>
+          <!-- </div> -->
+          <div class="col-12">
+            <div class="text-right" style="margin-right: 5px">
+              <button
+                pButton
+                pRipple
+                label="Cancel"
+                icon="pi pi-times"
+                class="p-button-secondary"
+                (click)="cancel()"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Save"
+                icon="pi pi-check"
+                class="p-button-info"
+                (click)="saveStoreCatalog()"
+                class="ml-2"
+                [disabled]="!form.valid"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="id">
+      <form #formInv="ngForm">
+        <p-fieldset legend="Inventory">
+          <div class="p-inputgroup">
+            <p-inputNumber
+              [format]="false"
+              name="quantity"
+              #quantity="ngModel"
+              [(ngModel)]="inventory.quantity"
+              [required]="true"
+              placeholder="Quantity"
+              styleClass="w-full"
+            >
+            </p-inputNumber>
+            <!-- <p-selectButton [options]="invType" [(ngModel)]="inventory.type" optionLabel="name"
+                                optionValue="code">
+                            </p-selectButton> -->
+          </div>
+          <div>
+            <error-message [controlName]="quantity"></error-message>
+          </div>
+          <div class="text-right mt-3">
+            <button
+              pButton
+              label="REDUCE"
+              class="p-button-danger mr-3"
+              (click)="createInventory('VMINUS')"
+              [disabled]="!formInv.valid"
+            ></button>
+            <button
+              pButton
+              label="ADD"
+              [disabled]="!formInv.valid"
+              class="p-button-info"
+              (click)="createInventory('VPLUS')"
+            ></button>
+          </div>
+        </p-fieldset>
+      </form>
+    </ng-container>
+    <div class="mt-4" *ngIf="id">
+      <app-product-discount
+        [storeCatalog]="storeCatalog"
+      ></app-product-discount>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div>
+      <p-card styleClass="mb-3 bg-blue-50">
+        <div class="grid">
+          <div class="col-12">
+            <span class="font-bold">Details</span>
+          </div>
+          <div class="col-4">Brand :</div>
+          <div class="col-8">
+            {{
+              !storeCatalog.local
+                ? storeCatalog.product?.brand?.name
+                : storeCatalog.brand?.name
+            }}
+          </div>
+          <!-- <div class="col-8">{{ storeCatalog.product?.brand?.name}} {{storeCatalog.brand?.name }}</div> -->
+          <div class="col-4">MRP :</div>
+          <div class="col-8">
+            {{
+              !storeCatalog.local ? storeCatalog.product?.mrp : storeCatalog.mrp
+            }}
+          </div>
+          <!-- <div class="col-8">{{ storeCatalog.product?.mrp ?? storeCatalog.mrp }}</div> -->
+          <div class="col-4">GST :</div>
+          <div class="col-8">
+            {{
+              !storeCatalog.local
+                ? storeCatalog.product?.taxRate?.gst
+                : storeCatalog.taxRate?.gst
+            }}%
+          </div>
+          <!-- <div class="col-8">{{ storeCatalog.product?.taxRate?.gst ?? storeCatalog.taxRate?.gst }}%</div> -->
+        </div>
+      </p-card>
+    </div>
+    <div>
+      <p-card styleClass="bg-orange-50">
+        <div class="grid">
+          <div class="col-4">Stock In hand :</div>
+          <div class="col-8">{{ inventory.storage?.qtyOnHand ?? 0 }}</div>
+          <div class="col-4">Margin :</div>
+          <div class="col-8">
+            {{
+              storeCatalog.sellingPrice! - storeCatalog.landingCost!
+                | number : "1.2-2"
+            }}
+          </div>
+          <div class="col-4">Margin % :</div>
+          <div class="col-8">
+            {{
+              ((storeCatalog.sellingPrice! - storeCatalog.landingCost!) /
+                storeCatalog.sellingPrice!) *
+                100 | number : "1.2-2"
+            }}
+            %
+          </div>
+          <div class="col-4" *ngIf="storeCatalog.distributor">
+            Distributor Price :
+          </div>
+          <div class="col-8" *ngIf="storeCatalog.distributor">
+            {{ distlandingCost }}
+            <button
+              pButton
+              class="p-button-text ml-5 m-0 p-0"
+              label="Set as landing cost"
+              (click)="setLandingCost(distlandingCost)"
+            ></button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

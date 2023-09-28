@@ -1,0 +1,128 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Privileges</h2>
+
+    <p-table #dt [value]="privileges" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['name', 'controllerIdentifier', 'methodIdentifier', 'apiPath', 'description']"
+        responsiveLayout="scroll" [(selection)]="selectedPrivileges" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedPrivileges()"
+                        [disabled]="!selectedPrivileges || !selectedPrivileges.length"></button>
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name">Privilege Name <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="controllerIdentifier">Controller Identifier <p-sortIcon field="controllerIdentifier"></p-sortIcon>
+                </th>
+                <th pSortableColumn="methodIdentifier">Method Identifier <p-sortIcon field="methodIdentifier"></p-sortIcon>
+                </th>
+                <th pSortableColumn="apiPath">API Path <p-sortIcon field="apiPath"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon>
+                </th>
+                <!-- <th>Controller Identifier</th>
+                <th>Method Identifier</th>
+                <th>API Path</th>
+                <th>Description</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-privilege>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="privilege"></p-tableCheckbox>
+                </td>
+                <td>{{privilege.name}}</td>
+                <td>{{privilege.controllerIdentifier}}</td>
+                <td>{{privilege.methodIdentifier}}</td>
+                <td>{{privilege.apiPath}}</td>
+                <td>{{privilege.description}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editPrivilege(privilege)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deletePrivilege(privilege)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{privileges ? privileges.length : 0 }} privileges.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-dialog [(visible)]="privilegeDialog" [style]="{width: '450px'}" header="Privilege" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">Privilege Name</label>
+                <input type="text" name="name" #name="ngModel" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" pInputText [(ngModel)]="privilege.name" required />
+                <div class="p-error" *ngIf="!name.pristine && !name.valid">
+                    <span *ngIf="name.errors??['required']">Privilege Name is required.</span>
+                </div>
+            </div>
+            <div class="field">
+                <label for="controllerIdentifier">Controller Identifier</label>
+                <input type="text" name="controllerIdentifier"  minlength="1" maxlength="255" #controllerIdentifier="ngModel" pInputText
+                    [(ngModel)]="privilege.controllerIdentifier" required />
+                <div class="p-error"
+                    *ngIf="!controllerIdentifier.pristine && !controllerIdentifier.valid && controllerIdentifier.errors??['required']">
+                    Privilege
+                    Controller
+                    Identifier
+                    is
+                    required.</div>
+            </div>
+            <div class="field">
+                <label for="methodIdentifier">Method Identifier</label>
+                <input type="text" name="methodIdentifier" #methodIdentifier="ngModel" pInputText
+                    [(ngModel)]="privilege.methodIdentifier" />
+                <div class="p-error" *ngIf="submitted && !privilege.methodIdentifier">Privilege Method Identifier is
+                    required.</div>
+            </div>
+            <div class="field">
+                <label for="apiPath">Api Path</label>
+                <input type="text" name="apiPath" #apiPath="ngModel" pInputText [(ngModel)]="privilege.apiPath"
+                    required />
+                <div class="p-error" *ngIf="!apiPath.pristine && !apiPath.valid && apiPath.errors??['required']">
+                    Privilege API Path is
+                    required.</div>
+            </div>
+            <div class="field">
+                <label for="description">Privilege Description</label>
+                <input type="text" pInputText name="description" #description="ngModel"
+                    [(ngModel)]="privilege.description" required/>
+            </div>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="savePrivilege()"
+                [disabled]="f.invalid"></button>
+        </ng-template>
+    </p-dialog>
+</form>

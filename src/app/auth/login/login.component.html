@@ -1,0 +1,69 @@
+<p-toast></p-toast>
+<div>
+    <div class="flex">
+        <div class="field col-6 ">
+            <img src="/assets/LogoNeomaxer.png" alt="Image" class=" ml-2 mt-2 w-3 h-1">
+
+            <div class="p-3">
+                <img src="/assets/SignIn_1.png" alt="Image" class="w-full h-auto">
+            </div>
+
+            <div class="mt-3 text-center">
+                <b>Automate your banking and finances with NeoCorp.</b><br>
+                <p> Say no to financial hassle, & get more time to grow your business.</p>
+            </div>
+        </div>
+        <div class="field col-6 bg-blue-50" >
+            <div class="p-8">
+                <form class="" (ngSubmit)="onSubmitLogin()" [formGroup]="loginForm">
+                    <h2 class=" text-3xl font-semibold text-center">Sign In</h2>
+                    <p class="text-center">Login to access some useful features</p>
+                    <div class="p-4">
+                        <div class="field">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"
+                                    style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"><i
+                                        class="pi pi-user"></i></span>
+                                <input pInputText type="text"
+                                    style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
+                                    formControlName="username" minlength="10" maxlength="10"
+                                    placeholder="Your registered phone Number*" />
+                            </div>
+                            <error-message [controlName]="loginForm.controls['username']"></error-message>
+                        </div>
+
+                        <div class="field">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"
+                                    style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"><i
+                                        class="pi pi-lock"></i></span>
+                                <input pInputText type="text"
+                                    style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
+                                    formControlName="password" minlength="1" placeholder="Password" />
+                            </div>
+                            <error-message [controlName]="loginForm.controls['password']"></error-message>
+                        </div>
+
+                        <div class="text-right mb-3 text-blue-600">
+                            Forget Password?
+                        </div>
+                        <button type="submit" pButton label="Sign In" [disabled]="!loginForm.valid"
+                            class="w-full text-lg rounded-button mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                        <div class="text-center mb-4">
+                            Protectd by reCAPTCHA <br> Google Privacy policy & Terms of Service apply.
+                        </div>
+                        <hr>
+                        <div class="text-center mt-3">
+                            Don't have an account? <a class="text-blue-600" [routerLink]="['/signup/neocorp']">
+                                <b> Sign Up</b></a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p-blockUI [blocked]="submitted">
+        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    </p-blockUI>
+</div>

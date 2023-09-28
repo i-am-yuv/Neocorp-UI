@@ -1,0 +1,30 @@
+// .navbar {
+//     display: flex;
+    
+//     justify-content: space-between;
+//     align-items: center;
+//    // padding: 0 0px 0 0 ; /* Adjust padding as needed */
+//     background-color: #333; /* Set your desired background color */
+//   }
+  
+//   .navbar-left {
+//     width:20%;
+//   }
+  
+//   .navbar-right {
+//     width : 80% ;
+//     display: flex;
+//     justify-content: flex-end;
+//   }
+
+  .logo {
+    max-width: 100%; /* Ensure the logo fits within its container */
+  }
+  .raised-container {
+    padding: 0px; /* Optional: Add padding for spacing around the content */
+    background-color: #fff; /* Optional: Set the background color */
+  
+    /* Box shadow to create the raised effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
+  }
+ 

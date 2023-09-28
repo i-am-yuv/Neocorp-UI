@@ -1,0 +1,49 @@
+<p-toast></p-toast>
+<div class="layout">
+    <app-navbar></app-navbar>
+
+    <div class="content-wrapper">
+        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
+        <div class="sidebar bg-gray-500">
+            <app-sidebar></app-sidebar>
+        </div>
+
+        <div class="main-content">
+            <div>
+                    <form (ngSubmit)="onSubmitRole()" [formGroup]="roleForm" class="p-3">
+                        <h3 class="text-xl text-blue-500">Role Details</h3><hr>
+
+                        <div class="flex gap-2">
+                            <div class="field col-6">
+                                <label class="mr-3 required">Role Name</label>
+                                <input pInputText formControlName="name" placeholder="Enter Role Name" class="w-full" />
+                                <error-message [controlName]="roleForm.controls['name']"></error-message>    
+                            </div>
+                            <div class="field col-6">
+                                <label class="mr-3 required">Role Type</label>
+                                <input pInputText formControlName="roleType" placeholder="Enter Role Type" class="w-full" />
+                                <error-message [controlName]="roleForm.controls['roleType']"></error-message>    
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="field col-12">
+                                <label class="mr-3 required">Description</label>
+                                <textarea pInputText formControlName="description" placeholder="Enter Description" class="w-full"></textarea>
+                                <error-message [controlName]="roleForm.controls['description']"></error-message>    
+                            </div>
+                        </div>
+
+                        <div class="flex ">
+                            <div class="field col-4 text-right w-full">
+                                <button type="submit" pButton label="Save Role" [disabled]="!roleForm.valid"
+                                    class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                            </div>
+                        </div>
+
+                    </form>
+                    
+            </div>
+        </div>
+    </div>
+</div>

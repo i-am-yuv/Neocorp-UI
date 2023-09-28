@@ -1,0 +1,546 @@
+<p-breadcrumb
+  [model]="items"
+  [home]="home"
+  styleClass="border-0"
+></p-breadcrumb>
+<div class="surface-ground p-5 form-panel">
+  <div *ngIf="!subscriptionActive">
+    <h3 class="text-center text-2xl m-8">
+      Your Subscription is inactive, activate to create Purchase Order!
+      <a class="ml-2 mr-8">
+        <a class="text-black" [routerLink]="['/settings/billing']"
+          ><span class="underline font-bold">Activate Now</span></a
+        >
+      </a>
+    </h3>
+  </div>
+  <div *ngIf="subscriptionActive">
+    <div class="text-900 font-medium text-xl mb-3">
+      {{ id && !viewOnly ? "Edit" : viewOnly ? "View" : "Create" }}
+      Order
+      {{ id ? "#" + activeOrder.documentnumber : "" }}
+    </div>
+    <div class="mb-3">DOCUMENT STATUS: {{ activeOrder.status }}</div>
+    <p-card>
+      <form [formGroup]="poForm">
+        <div class="grid formgrid">
+          <div class="field mb-4 col-12 md:col-6 pr-5">
+            <ul class="list-none p-0 m-0">
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-2 font-medium">Store</div>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                >
+                  {{ selectedStore?.storeName }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-2 font-medium">Store Company</div>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                >
+                  {{ selectedStore?.company?.companyName }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-2 font-medium">Store Address</div>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                >
+                  <div>{{ selectedStore?.storeLocation }}</div>
+                  <div>{{ selectedStore?.storeAddress1 }}</div>
+                  <div>{{ selectedStore?.storeAddress2 }}</div>
+                  <div>{{ selectedStore?.state?.stateName }}</div>
+                  <div>{{ selectedStore?.pincode }}</div>
+                  <div>{{ selectedStore?.storePhone }}</div>
+                  <div>{{ selectedStore?.storeMail }}</div>
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-2 font-medium">GSTIN</div>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                >
+                  <div>{{ selectedStore?.gstNumber ?? " - " }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 md:col-6">
+            <div class="p-fluid">
+              <div class="field">
+                <ul class="list-none p-0 m-0">
+                  <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                  >
+                    <div class="text-500 w-6 md:w-2 font-medium">
+                      Distributor
+                    </div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                      *ngIf="activeOrder.status === 'DRAFT'"
+                    >
+                      <ng-container formGroupName="distributor">
+                        <p-dropdown
+                          [options]="distributors"
+                          placeholder="Choose Distributor"
+                          optionValue="id"
+                          optionLabel="distributorName"
+                          formControlName="id"
+                          [showClear]="true"
+                          (ngModelChange)="setSelectedDistributor()"
+                        >
+                        </p-dropdown>
+                      </ng-container>
+                    </div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                      *ngIf="activeOrder.status !== 'DRAFT'"
+                    >
+                      {{ selectedDistributor.distributorName }}
+                    </div>
+                  </li>
+                  <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                  >
+                    <div
+                      class="text-500 w-selectedDistributor6 md:w-2 font-medium"
+                    >
+                      Distributor Company
+                    </div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                    >
+                      {{ selectedDistributor.company?.companyName }}
+                    </div>
+                  </li>
+                  <li
+                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+                  >
+                    <div class="text-500 w-6 md:w-2 font-medium">
+                      Distributor Address
+                    </div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                    >
+                      <div>{{ selectedDistributor.distributorLocation }}</div>
+                      <div>{{ selectedDistributor.distributorAddress1 }}</div>
+                      <div>{{ selectedDistributor.distributorAddress2 }}</div>
+                      <div>{{ selectedDistributor.state?.stateName }}</div>
+                      <div>{{ selectedDistributor.pincode }}</div>
+                      <div>{{ selectedDistributor.distributorPhone }}</div>
+                      <div>{{ selectedDistributor.distributorMail }}</div>
+                    </div>
+                  </li>
+                  <li
+                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+                  >
+                    <div class="text-500 w-6 md:w-2 font-medium">GSTIN</div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                    >
+                      <div>{{ selectedDistributor.gstNumber ?? " - " }}</div>
+                    </div>
+                  </li>
+                  <li
+                    class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+                  >
+                    <div class="text-500 w-6 md:w-2 font-medium">Need By</div>
+                    <div
+                      class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                    >
+                      <div *ngIf="activeOrder.status === 'DRAFT'">
+                        <p-calendar
+                          formControlName="dueDate"
+                          [showIcon]="true"
+                          dateFormat="dd-mm-yy"
+                          placeholder="Choose Date"
+                        >
+                        </p-calendar>
+                      </div>
+                      <div *ngIf="activeOrder.status !== 'DRAFT'">
+                        {{ activeOrder.dueDate | date : "dd-MM-yyyy" }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-2"></div> -->
+
+          <div
+            class="col-10 text-right"
+            *ngIf="
+              activeOrder.status === 'FORWARDED' ||
+              activeOrder.status === 'CONFIRMED'
+            "
+          >
+            <button
+              pButton
+              label="Cancel Order"
+              (click)="cancelOrder()"
+              class="p-button-danger p-button-outlined mr-3"
+              [disabled]="!poForm.valid"
+            ></button>
+          </div>
+          <div class="text-left" *ngIf="activeOrder.status === 'CONFIRMED'">
+            <button
+              pButton
+              label="Make Payment"
+              (click)="openPayment()"
+              style="width: max-content"
+              class="p-button-success p-button-outlined mr-3"
+              [disabled]="!poForm.valid"
+            ></button>
+          </div>
+          <div class="col-6 text-right" *ngIf="activeOrder.status === 'DRAFT'">
+            <button
+              pButton
+              label="Reset"
+              *ngIf="!id"
+              class="p-button-secondary p-button-outlined mr-3"
+            ></button>
+            <button
+              pButton
+              label="Send to distributor"
+              (click)="forward()"
+              *ngIf="id && purchaseOrderLines && purchaseOrderLines.length > 0"
+              class="p-button-success p-button-outlined mr-3"
+              [disabled]="!poForm.valid || !islineAvaliable"
+            ></button>
+            <button
+              pButton
+              label="Save"
+              [disabled]="!poForm.valid"
+              (click)="formSubmit()"
+            ></button>
+          </div>
+
+          <div
+            class="col-12 text-right"
+            *ngIf="activeOrder.status === 'SHIPPED'"
+          >
+            <button
+              pButton
+              label="Create Goods Receipt"
+              (click)="createGoodsReceipt()"
+              class="p-button-success p-button-outlined mr-3"
+              [disabled]="!poForm.valid"
+            ></button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="id">
+        <p-table
+          #dt
+          [value]="purchaseOrderLines"
+          dataKey="id"
+          editMode="row"
+          styleClass="p-datatable-gridlines mt-5"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Product</th>
+              <th class="text-right">Price</th>
+              <th class="text-right" width="100">Quantity</th>
+              <th
+                class="text-right"
+                *ngIf="!['DRAFT', 'FORWARDED'].includes(activeOrder.status!)"
+                width="140"
+              >
+                Confirmed Qty
+              </th>
+              <th class="text-right">GST</th>
+              <th class="text-right">IGST</th>
+              <th class="text-right">SGST</th>
+              <th class="text-right">CGST</th>
+              <th class="text-right">Total</th>
+              <th width="160" *ngIf="!viewOnly">
+                <button
+                  pButton
+                  label="Add Item"
+                  icon="pi pi-plus"
+                  class="p-button-secondary p-button-outlined mr-3"
+                  (click)="newRecord = !newRecord"
+                  pAddRow
+                  [table]="dt"
+                  [newRow]="newRow()"
+                  [inProgress]="newRecord"
+                  [disabled]="newRecord"
+                ></button>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template
+            pTemplate="body"
+            let-poline
+            let-editing="editing"
+            let-ri="rowIndex"
+          >
+            <tr [pEditableRow]="poline">
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown
+                      [options]="products"
+                      [(ngModel)]="poline.product"
+                      placeholder="Choose Product"
+                      optionValue="product"
+                      optionLabel="product.name"
+                      [showClear]="true"
+                      (ngModelChange)="setLineValues(poline)"
+                    >
+                    </p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ poline?.product?.name }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="text-right">
+                {{ poline?.unitprice | number : "1.2-2" }}
+              </td>
+              <td class="text-right">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-inputNumber
+                      [(ngModel)]="poline.orderedQuantity"
+                      (onInput)="setLineQtyValues($event, poline)"
+                      [format]="false"
+                      [required]="true"
+                    >
+                    </p-inputNumber>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ poline?.orderedQuantity }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td
+                class="text-right"
+                *ngIf="!['DRAFT', 'FORWARDED'].includes(activeOrder.status!)"
+              >
+                {{ poline?.confirmedQuantity }}
+              </td>
+              <td class="text-right">
+                {{ poline?.gst | number : "1.2-2" }}
+              </td>
+              <td class="text-right">
+                {{ poline?.igst | number : "1.2-2" }}
+              </td>
+              <td class="text-right">
+                {{ poline?.sgst | number : "1.2-2" }}
+              </td>
+              <td class="text-right">
+                {{ poline?.cgst | number : "1.2-2" }}
+              </td>
+              <td class="text-right">
+                {{ poline?.linetotal | number : "1.2-2" }}
+              </td>
+              <td *ngIf="!viewOnly">
+                <div>
+                  <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    icon="pi pi-pencil"
+                    (click)="onRowEditInit(poline)"
+                    class="p-button-rounded p-button-text"
+                  ></button>
+                  <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    icon="pi pi-trash"
+                    (click)="delete(poline)"
+                    class="p-button-rounded p-button-text p-button-danger"
+                  ></button>
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pSaveEditableRow
+                    icon="pi pi-check"
+                    (click)="onRowEditSave(poline)"
+                    class="p-button-rounded p-button-text p-button-success mr-2"
+                    [disabled]="!isquantity"
+                  ></button>
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pCancelEditableRow
+                    icon="pi pi-times"
+                    (click)="onRowEditCancel(poline, ri)"
+                    class="p-button-rounded p-button-text p-button-danger"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">
+                <div class="text-center m-5">
+                  No purchase order lines found create one.
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div class="grid">
+          <div class="col-6 p-5">
+            <!-- <div class="text-center font-bold mb-5">Timeline</div>
+                    <p-timeline [value]="events">
+                        <ng-template pTemplate="content" let-event>
+                            <small class="p-text-secondary">{{event.date}}</small>
+                        </ng-template>
+                        <ng-template pTemplate="opposite" let-event>
+                            {{event.status}}
+                        </ng-template>
+                    </p-timeline> -->
+          </div>
+          <div class="col-6">
+            <ul class="list-none p-0 m-0">
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-9 font-medium text-right">
+                  Sub Total
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right"
+                >
+                  ₹{{
+                    activeOrder.grosstotal! - activeOrder.gst!
+                      | number : "1.2-2"
+                  }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-9 font-medium text-right">
+                  IGST
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right"
+                >
+                  ₹{{ activeOrder.igst ?? 0 | number : "1.2-2" }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-9 font-medium text-right">
+                  CGST
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right"
+                >
+                  ₹{{ activeOrder.cgst ?? 0 | number : "1.2-2" }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-9 md:w-9 font-medium text-right">
+                  SGST
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right"
+                >
+                  ₹{{ activeOrder.sgst ?? 0 | number : "1.2-2" }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-9 md:w-9 font-medium text-right">
+                  GST
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right"
+                >
+                  ₹{{ activeOrder.gst ?? 0 | number : "1.2-2" }}
+                </div>
+              </li>
+              <li
+                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+              >
+                <div class="text-500 w-6 md:w-9 font-medium text-right">
+                  Total
+                </div>
+                <div
+                  class="text-900 w-full md:w-3 md:flex-order-0 flex-order-1 text-right font-bold text-xl"
+                >
+                  ₹{{ activeOrder.grosstotal ?? 0 | number : "1.2-2" }}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+<form #f="ngForm">
+  <p-dialog
+    header="Payment"
+    [(visible)]="showPaymentDialog"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+  >
+    <div class="text-center" *ngIf="!paymentDone">
+      <div>
+        <h1 class="text-orange-400">
+          ₹{{ activeOrder.grosstotal ?? 0 | number : "1.2-2" }}
+        </h1>
+      </div>
+      <qr-code [value]="upiUrl" size="250" errorCorrectionLevel="M"> </qr-code>
+    </div>
+    <div class="text-center" *ngIf="paymentDone">
+      <svg
+        class="checkmark"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 52 52"
+      >
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+        <path
+          class="checkmark__check"
+          fill="none"
+          d="M14.1 27.2l7.1 7.2 16.7-16.8"
+        />
+      </svg>
+    </div>
+    <p-footer>
+      <button
+        pButton
+        label="PAYMENT DONE"
+        (click)="confirmPaid()"
+        *ngIf="!paymentDone"
+      ></button>
+      <button
+        pButton
+        label="DONE"
+        (click)="closePaymentDialog()"
+        *ngIf="paymentDone"
+      ></button>
+    </p-footer>
+  </p-dialog>
+</form>

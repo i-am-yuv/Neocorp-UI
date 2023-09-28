@@ -1,0 +1,144 @@
+<div class="card">
+    <p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+    <h2 class="p-2">Manage Partners</h2>
+
+    <p-table #dt [value]="partners" [rows]="10" [filterDelay]="500" [paginator]="true" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        responsiveLayout="scroll" [(selection)]="selectedPartners" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                        (click)="openNew()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedPartners()"
+                        [disabled]="!selectedPartners || !selectedPartners.length"></button>
+                </div>
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0"></h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="partnerCode">Code <p-sortIcon field="partnerCode"></p-sortIcon>
+                </th>
+                <th pSortableColumn="companyName">Company <p-sortIcon field="companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="mobileNumber">Mobile <p-sortIcon field="mobileNumber"></p-sortIcon>
+                </th>
+                <th pSortableColumn="firstName">Full Name <p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="panNumber">PAN Number <p-sortIcon field="panNumber"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-partner>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="partner"></p-tableCheckbox>
+                </td>
+                <td>{{partner?.partnerCode}}</td>
+                <td>{{partner.companyName}}</td>
+                <td>{{partner.mobileNumber}}</td>
+                <td>{{partner.firstName}} {{partner.lastName}}</td>
+                <td>{{partner.panNumber}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editPartner(partner)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deletePartner(partner)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{partners ? partners.length : 0 }} Partners.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="partnerDialog" header="Partner" [modal]="true" styleClass="p-sidebar-md"
+        [modal]="true">
+        <h2>Partner</h2>
+        <div class="field">
+            <label for="companyName">Company Name</label>
+            <input type="text" pInputText name="companyName" #companyName="ngModel" [(ngModel)]="partner.companyName"
+                class="w-full" required minlength="1" maxlength="255" />
+            <error-message [controlName]="companyName"></error-message>
+        </div>
+        <div class="field">
+            <label for="panNumber">PAN Number</label>
+            <input type="text" pInputText name="panNumber" #panNumber="ngModel" [(ngModel)]="partner.panNumber"
+                class="w-full" required minlength="1" maxlength="255" />
+            <error-message [controlName]="panNumber"></error-message>
+        </div>
+        <div class="field">
+            <label for="gstNumber">GSTN Number</label>
+            <input type="text" pInputText name="gstNumber" #gstNumber="ngModel" [(ngModel)]="partner.gstNumber"
+                class="w-full" required minlength="1" maxlength="255" />
+            <error-message [controlName]="gstNumber"></error-message>
+        </div>
+
+        <div class="field">
+            <label for="firstName">First Name</label>
+            <div>
+                <input type="text" name="firstName" #firstName="ngModel" pInputText [(ngModel)]="partner.firstName"
+                    class="w-full" required />
+            </div>
+            <error-message [controlName]="firstName"></error-message>
+        </div>
+        <div class="field">
+            <label for="lastName">Last Name</label>
+            <div>
+                <input type="text" name="lastName" #lastName="ngModel" pInputText [(ngModel)]="partner.lastName"
+                    class="w-full" required />
+            </div>
+            <error-message [controlName]="lastName"></error-message>
+        </div>
+        <div class="field">
+            <label for="mobileNumber">Mobile Number</label>
+            <input type="text" pInputText name="mobileNumber" #mobileNumber="ngModel" [(ngModel)]="partner.mobileNumber"
+                class="w-full" required minlength="1" maxlength="10" />
+            <error-message [controlName]="mobileNumber"></error-message>
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="text" pInputText name="email" #email="ngModel" [(ngModel)]="partner.email" class="w-full"
+                required email minlength="6" maxlength="30" />
+            <error-message [controlName]="email"></error-message>
+        </div>
+        <div class="field">
+            <label for="address">Address</label>
+            <input type="text" pInputText name="address" #address="ngModel" [(ngModel)]="partner.address" class="w-full"
+                required minlength="1" maxlength="255" />
+            <error-message [controlName]="address"></error-message>
+        </div>
+        <!-- <div class="field">
+            <label for="address">Address2</label>
+            <input type="text" pInputText name="address" #address="ngModel" [(ngModel)]="partner.address" class="w-full"
+                required minlength="1" maxlength="255" />
+            <error-message [controlName]="address"></error-message>
+        </div> -->
+
+
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="savePartner()"
+                [disabled]="!f.valid"></button>
+        </div>
+    </p-sidebar>
+</form>

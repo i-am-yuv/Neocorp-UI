@@ -1,0 +1,389 @@
+<!-- <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="customerForm">
+        <h3>Add Customer</h3><hr>
+        <div class="grid p-fluid">
+
+            <div class="field col-6">
+                <label class="mr-3 required">Display Name</label>
+                <input pInputText formControlName="displayName" placeholder="Enter Display Name" class="w-full" />
+                <error-message [controlName]="customerForm.controls['displayName']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Contact Name</label>
+                <input pInputText formControlName="contactName" placeholder="Enter Contact Name" class="w-full" />
+                <error-message [controlName]="customerForm.controls['contactName']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Mobile:</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">+91</span>
+                    <input pInputText type="text" formControlName="mobileNumber" class="form-control inputfield w-full"
+                        name="login" minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+                </div>
+                <error-message [controlName]="customerForm.controls['mobileNumber']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Email:</label>
+                <input pInputText type="text" formControlName="email" placeholder="Enter Email Address"
+                    class="form-control inputfield w-full" name="login" email minlength="6" maxlength="60" />
+                <error-message [controlName]="customerForm.controls['email']"></error-message>
+            </div>
+            <div class="field col-12">
+                <button *ngIf="!this.accountDetailsVisible" (click)="openAccountForm()" type="button"
+                    class="w-full line-height-4">+ Add Account Details</button>
+            </div>
+            <div *ngIf="this.accountDetailsVisible" class="grid p-fluid">
+                <form [formGroup]="accountDetailsForm" class="grid p-fluid">
+                    <div class="field col-12">
+                        <h4>Account Details</h4>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">bank Name</label>
+                        <input pInputText formControlName="bankname" placeholder="Enter bank Name" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">branch Name</label>
+                        <input pInputText formControlName="branchName" placeholder="Enter Branch Name" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['branchName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Account Number</label>
+                        <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
+                            class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">IFSC Code</label>
+                        <input pInputText formControlName="ifsc" placeholder="Enter IFSC code" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Account type</label>
+                        <input pInputText formControlName="accountType" placeholder="Enter Account Type"
+                            class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['accountType']"></error-message>
+                    </div>
+                </form>
+            </div>
+
+            <div class="field col-12">
+                <button *ngIf="!this.addressDetailsVisible" (click)="openAddressForm()" type="button"
+                    class="w-full line-height-4">+ Add Address Details</button>
+            </div>
+            <div *ngIf="this.addressDetailsVisible" class="grid p-fluid">
+                <form [formGroup]="addressDetailsForm" class="grid p-fluid">
+                    <div class="field col-12">
+                        <h4>Address Details</h4>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Billing Name</label>
+                        <input pInputText formControlName="billingName" placeholder="Enter Billing Name"
+                            class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['billingName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Billing Address</label>
+                        <input pInputText formControlName="billingAddress" placeholder="Enter Billing Address"
+                            class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['billingAddress']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Pincode</label>
+                        <input pInputText name="Pincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
+                            placeholder="Enter Pincode" maxlength="6" class="w-full" required />
+                        <error-message [controlName]="addressDetailsForm.controls['pincode']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">City / Town</label>
+                        <input pInputText formControlName="city" placeholder="Enter town or city" class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['city']"></error-message>
+                    </div>
+                    <div class="field col-12">
+                            <input (click)="ShippingAddressVisibility()" id="link-checkbox" type="checkbox" value=""
+                                unchecked>
+                            <label for="link-checkbox">Shipping Address Same As Billing Address</label>
+                    </div>
+                    <div class="grid p-fluid" *ngIf="this.shippingAddressVisible">
+                        <div class="field col-6">
+                            <label class="mr-3 ">Shipping Name</label>
+                            <input pInputText formControlName="shippingName" placeholder="Enter Shipping Name"
+                                class="w-full" />
+                            <error-message [controlName]="addressDetailsForm.controls['shippingName']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 ">Shipping Address</label>
+                            <input pInputText formControlName="shippingAddress" placeholder="Enter Shipping Address"
+                                class="w-full" />
+                            <error-message
+                                [controlName]="addressDetailsForm.controls['shippingAddress']"></error-message>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="field col-12 text-right w-full">
+            <button pButton label="Save" type="submit" [disabled]="!customerForm.valid"></button>
+        </div>
+    </form>
+</div> -->
+
+<!-- for vendor -->
+<!-- <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="vendorForm">
+        <h3>Add Vendor</h3><hr>
+        <div class="grid p-fluid">
+
+            <div class="field col-6">
+                <label class="mr-3 required">First Name</label>
+                <input pInputText formControlName="firstName" placeholder="Enter First Name" class="w-full" />
+                <error-message [controlName]="vendorForm.controls['firstName']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Last Name</label>
+                <input pInputText formControlName="lastName" placeholder="Enter Last Name" class="w-full" />
+                <error-message [controlName]="vendorForm.controls['lastName']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Mobile:</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">+91</span>
+                    <input pInputText type="text" formControlName="mobileNumber" class="form-control inputfield w-full"
+                        name="login" minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+                </div>
+                <error-message [controlName]="vendorForm.controls['mobileNumber']"></error-message>
+            </div>
+            <div class="field col-6">
+                <label class="mr-3 required">Email:</label>
+                <input pInputText type="text" formControlName="email" placeholder="Enter Email Address"
+                    class="form-control inputfield w-full" name="login" email minlength="6" maxlength="60" />
+                <error-message [controlName]="vendorForm.controls['email']"></error-message>
+            </div>
+
+            <div class="field col-6">
+                <label class="mr-3 required">UserName:</label>
+                <input pInputText type="text" formControlName="username" placeholder="User Name"
+                    class="form-control inputfield w-full" name="login"  minlength="1" maxlength="60" />
+                <error-message [controlName]="vendorForm.controls['username']"></error-message>
+            </div>
+
+            <div class="field col-6">
+                <label class="mr-3 required">Password:</label>
+                <input pInputText type="text" formControlName="password" placeholder="Enter Password"
+                    class="form-control inputfield w-full" name="login"  minlength="1" maxlength="60" />
+                <error-message [controlName]="vendorForm.controls['password']"></error-message>
+            </div>
+
+            <div class="field col-12">
+                <button *ngIf="!this.accountDetailsVisible" (click)="openAccountForm()" type="button"
+                    class="w-full line-height-4">+ Add Account Details</button>
+            </div>
+            <div *ngIf="this.accountDetailsVisible" class="grid p-fluid">
+                <form [formGroup]="accountDetailsForm" class="grid p-fluid">
+                    <div class="field col-12">
+                        <h4>Account Details</h4>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">bank Name</label>
+                        <input pInputText formControlName="bankname" placeholder="Enter bank Name" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">branch Name</label>
+                        <input pInputText formControlName="branchName" placeholder="Enter Branch Name" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['branchName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Account Number</label>
+                        <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
+                            class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">IFSC Code</label>
+                        <input pInputText formControlName="ifsc" placeholder="Enter IFSC code" class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Account type</label>
+                        <input pInputText formControlName="accountType" placeholder="Enter Account Type"
+                            class="w-full" />
+                        <error-message [controlName]="accountDetailsForm.controls['accountType']"></error-message>
+                    </div>
+                </form>
+            </div>
+
+            <div class="field col-12">
+                <button *ngIf="!this.addressDetailsVisible" (click)="openAddressForm()" type="button"
+                    class="w-full line-height-4">+ Add Address Details</button>
+            </div>
+            <div *ngIf="this.addressDetailsVisible" class="grid p-fluid">
+                <form [formGroup]="addressDetailsForm" class="grid p-fluid">
+                    <div class="field col-12">
+                        <h4>Address Details</h4>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Billing Name</label>
+                        <input pInputText formControlName="billingName" placeholder="Enter Billing Name"
+                            class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['billingName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Billing Address</label>
+                        <input pInputText formControlName="billingAddress" placeholder="Enter Billing Address"
+                            class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['billingAddress']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">Pincode</label>
+                        <input pInputText name="Pincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
+                            placeholder="Enter Pincode" maxlength="6" class="w-full" required />
+                        <error-message [controlName]="addressDetailsForm.controls['pincode']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">City / Town</label>
+                        <input pInputText formControlName="city" placeholder="Enter town or city" class="w-full" />
+                        <error-message [controlName]="addressDetailsForm.controls['city']"></error-message>
+                    </div>
+                    <div class="field col-12">
+                            <input (click)="ShippingAddressVisibility()" id="link-checkbox" type="checkbox" value=""
+                                unchecked>
+                            <label for="link-checkbox">Shipping Address Same As Billing Address</label>
+                    </div>
+                    <div class="grid p-fluid" *ngIf="this.shippingAddressVisible">
+                        <div class="field col-6">
+                            <label class="mr-3 ">Shipping Name</label>
+                            <input pInputText formControlName="shippingName" placeholder="Enter Shipping Name"
+                                class="w-full" />
+                            <error-message [controlName]="addressDetailsForm.controls['shippingName']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 ">Shipping Address</label>
+                            <input pInputText formControlName="shippingAddress" placeholder="Enter Shipping Address"
+                                class="w-full" />
+                            <error-message
+                                [controlName]="addressDetailsForm.controls['shippingAddress']"></error-message>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="field col-12 text-right w-full">
+            <button pButton label="Save" type="submit" [disabled]="!vendorForm.valid"></button>
+        </div>
+    </form>
+</div> -->
+
+
+<!-- for PO -->
+<!-- <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="poForm">
+        <h3>Create Purchase Order</h3>
+        <hr>
+        <div class="grid p-fluid">
+            <div class="field col-6">
+                <label class="mr-3 required">Order Date</label>
+                <p-calendar formControlName="selectedOrderDate"></p-calendar>
+            </div>
+
+            <div class="field col-6">
+                <label class="mr-3 required">Due Date</label>
+                <p-calendar formControlName="selectedDueDate"></p-calendar>
+            </div>
+
+            <div class="field col-6">
+                <label class="mr-3 required">Status</label>
+                <input pInputText formControlName="status" placeholder="Draft" class="w-full" />
+                <error-message [controlName]="poForm.controls['status']"></error-message>
+            </div>
+
+            <div class="field col-6">
+                <label class="mr-3 required">Description</label>
+                <input pInputText formControlName="description" placeholder="Description" class="w-full" />
+                <error-message [controlName]="poForm.controls['description']"></error-message>
+            </div>
+
+            <div class="field col-6">
+                <ng-container formGroupName="vendor">
+                    <p-dropdown [options]="vendors" placeholder="Choose vendor" optionValue="id" optionLabel="firstName"
+                        formControlName="id" [showClear]="true" (onChange)="setSelectedVendor()">
+                    </p-dropdown>
+                </ng-container>
+            </div>
+
+            <p-table #dt dataKey="id" editMode="row"
+                styleClass="p-datatable-gridlines mt-5">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-right">Price</th>
+                        <th class="text-right" width="100">Quantity</th>
+                        <th class="text-right">discount</th>
+                        <th class="text-right">Total</th>
+                        <th width="160" >
+                            <button pButton label="Add Item" icon="pi pi-plus"
+                                class="p-button-secondary p-button-outlined mr-3"
+                                pAddRow [table]="dt"
+                                ></button>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" >
+                    <tr>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown 
+                                        placeholder="Choose Product"
+                                        [showClear]="true" >
+                                    </p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="text-right">
+                            sd
+                        </td>
+                        <td class="text-right">
+                            sf
+                        </td>
+                        <td class="text-right">
+                            sg
+                        </td>
+                        <td class="text-right">
+                            sh
+                        </td>
+                        <td>
+                            <div>
+                                <button  pButton pRipple type="button" pSaveEditableRow
+                                    icon="pi pi-check" 
+                                    class="p-button-rounded p-button-text p-button-success mr-2"
+                                    ></button>
+                                <button  pButton pRipple type="button" pCancelEditableRow
+                                    icon="pi pi-times" 
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">
+                            <div class="text-center m-5">
+                                No Purchase order lines found create one.
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="field col-12 text-right w-full">
+            <button pButton label="Save" type="submit" [disabled]="!poForm.valid"></button>
+        </div>
+    </form>
+</div> -->

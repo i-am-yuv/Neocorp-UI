@@ -1,0 +1,40 @@
+<!-- <p-menubar [model]="items" styleClass="p-0 top-menu">
+    <ng-template pTemplate="start">
+        <img src="assets/logo.png" height="40" class="m-2 mb-0">
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-menubar [style]="{'border': 'none'}" [model]="userMenuItems" class="usermenu"></p-menubar>
+    </ng-template>
+</p-menubar> -->
+<div class="min-h-screen flex relative lg:static surface-ground">
+    <div class="h-full lg:h-auto hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 surface-section select-none left-panel"
+        style="width: 280px;">
+        <div class="h-5rem">
+            <img src="assets/neologo.png" height="30" class="mt-4 ml-5 mb-0">
+        </div>
+        <div class="m-5 mt-2 p-fluid">
+            <p-menu [model]="items" styleClass="w-full left-menu border-none text-white"></p-menu>
+        </div>
+    </div>
+    <div class="min-h-screen flex flex-column relative flex-auto">
+        <p-toolbar styleClass="pt-2 pb-2 h-5rem surface-section">
+            <div class="p-toolbar-group-left">
+                <!-- <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText placeholder="Search" class="border-none w-30rem" />
+                </span> -->
+            </div>
+            <div class="p-toolbar-group-right">
+                <p-menubar [style]="{'border': 'none'}" [model]="userMenuItems" styleClass="surface-section usermenu">
+                </p-menubar>
+            </div>
+        </p-toolbar>
+        <div class="content-wrapper m-5">
+            <div class="content-pane surface-section">
+                <p-toast></p-toast>
+                <router-outlet></router-outlet>
+                <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+            </div>
+        </div>
+    </div>
+</div>

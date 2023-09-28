@@ -1,0 +1,39 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Adjust the height as needed */
+  
+    .content-wrapper {
+      display: flex;
+      flex-grow: 1;
+    }
+  
+    .sidebar {
+      width: 220px; /* Adjust the width as needed */
+       /* Set the background color of the sidebar */
+      color: white; /* Set the text color of the sidebar */
+    }
+  
+    .main-content {
+      flex-grow: 1;
+      padding: 20px; /* Add padding for content */
+    }
+  }
+  div{
+    padding: 0 !important;
+    // Use !important to ensure your styles take precedence
+  }
+  
+  .flex{
+    padding: 0 !important; 
+  }
+
+  // .custom-div {
+  //   padding: 5px;
+  // }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end; // Align items to the right
+    gap: 10px; // Optional gap between buttons
+  }

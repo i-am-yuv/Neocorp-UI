@@ -1,0 +1,60 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Stock</h2>
+
+    <p-table #dt [value]="stocks" [rows]="10" [paginator]="true" [filterDelay]="500" [lazy]="true"
+        (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,25,50]"
+        responsiveLayout="scroll" [(selection)]="selectedStocks" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0"></h5>
+                <!-- <div> -->
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')"
+                        placeholder="Search..." />
+                </span>
+                <!-- </div> -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                </th>
+
+                <th pSortableColumn="storeCatalog.name">Storage Name <p-sortIcon field="storeCatalog.name">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="storeCatalog.product.name">Product <p-sortIcon field="storeCatalog.product.name">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="storeCatalog.product.skuCode">Quantity On hand <p-sortIcon
+                        field="storeCatalog.product.skuCode">
+                    </p-sortIcon>
+                </th>
+                <!-- <th>Product</th>
+                <th>Quantity On hand</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-stock>
+            <tr>
+                <td>
+                    <!-- <p-tableCheckbox [value]="stock"></p-tableCheckbox> -->
+                </td>
+                <td>{{stock.name}}</td>
+                <td>{{stock.storeCatalog?.name ?? stock.storeCatalog?.product?.name }}</td>
+                <td>{{stock.qtyOnHand ?? 0}}</td>
+                <td></td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{stocks ? stocks.length : 0 }} Stock.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

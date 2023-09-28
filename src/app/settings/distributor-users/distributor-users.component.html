@@ -1,0 +1,147 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="card">
+    <h2 class="p-2">Manage Distributor Users</h2>
+
+    <p-table #dt [value]="distributorUsers" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,25,50]" [lazy]="true" (onLazyLoad)="loadPage($event)"
+        [globalFilterFields]="['distributorIdentifier','distributorCode', 'distributor.distributorName','user.userName']"
+        responsiveLayout="scroll" [(selection)]="selectedDistributors" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                    (click)="deleteSelectedDistributors()"
+                    [disabled]="!selectedDistributors || !selectedDistributors.length"></button>
+
+                </div>
+                <div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </div>
+                    <!-- <p-fileUpload mode="basic" accept=".csv" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                        class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="distributor.distributorName">Distributor Name <p-sortIcon field="distributor.distributorName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="user.userName">User Name <p-sortIcon field="user.userName"></p-sortIcon>
+                </th>
+                <!-- <th>Phone</th>
+                <th>User Name</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-distributor>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="distributor"></p-tableCheckbox>
+                </td>
+                <td>{{distributor.firstName}} {{distributor.lastName}}</td>
+                <td>{{ distributor.phone }}</td>
+                <td>{{ distributor.user?.userName}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
+                        (click)="editDistributor(distributor)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
+                        (click)="deleteDistributor(distributor)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{distributors ? distributors.length : 0 }} Distributor Users.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<form #f="ngForm">
+    <p-sidebar position="right" [(visible)]="distributorDialog" header="Distributor Type" [modal]="true"
+        styleClass="p-sidebar-md" [modal]="true">
+        <h2>Distributor</h2>
+
+        <div class="field">
+            <label for="company">Distributor Company</label>
+            <p-dropdown id="company" [options]="companies" name="company" #company="ngModel"
+                [(ngModel)]="distributorUser.company" optionLabel="companyName" [style]="{'minWidth':'100%'}"
+                appendTo="body" placeholder="Select a Distributor Company" (onChange)="getDistributorsByCompany($event)"
+                [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="company"></error-message>
+        </div>
+        <div class="field">
+            <label>Distributor</label>
+            <p-dropdown [options]="distributors" name="distributor" #distributor="ngModel"
+                [(ngModel)]="distributorUser.distributor" optionLabel="distributorName" styleClass="w-full"
+                appendTo="body" placeholder="Select a Distributor" [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="distributor"></error-message>
+        </div>
+        <div class="field">
+            <label for="user">Distributor User</label>
+            <p-dropdown id="user" [options]="users" name="user" #user="ngModel" [(ngModel)]="distributorUser.user"
+                optionLabel="userName" [style]="{'minWidth':'100%'}" appendTo="body"
+                placeholder="Select a Distributor User" [required]="true">
+            </p-dropdown>
+            <error-message [controlName]="user"></error-message>
+        </div>
+        <div class="field">
+            <label for="firstName">Distributor Firstname</label>
+            <input type="text" id="firstName" pInputText name="firstName" #firstName="ngModel" [(ngModel)]="distributorUser.firstName"
+                class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            <error-message [controlName]="firstName"></error-message>
+        </div>
+        <div class="field">
+            <label for="lastName">Distributor Lastname</label>
+            <input type="text" pInputText id="firstName" name="lastName" #lastName="ngModel" [(ngModel)]="distributorUser.lastName"
+                class="w-full" required pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+            <error-message [controlName]="lastName"></error-message>
+        </div>
+        <div class="field-checkbox">
+            <p-inputSwitch name="companyAdmin" name="companyAdmin" #companyAdmin="ngModel"
+                [(ngModel)]="distributorUser.companyAdmin"></p-inputSwitch>
+            <label for="companyAdmin">Is Company Admin?</label>
+        </div>
+        <div class="field">
+            <label for="phone">Distributor Phone</label>
+            <input type="text" id="phone" pInputText name="phone" #phone="ngModel" [(ngModel)]="distributorUser.phone"
+                class="w-full" required minlength="10" maxlength="10" [pKeyFilter]="'int'" />
+            <error-message [controlName]="phone"></error-message>
+        </div>
+
+        <div class="field">
+            <label for="pan">Distributor PAN</label>
+            <input type="text" id="pan" pInputText name="pan" #pan="ngModel" [(ngModel)]="distributorUser.pan" class="w-full"
+                required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" oninput="this.value = this.value.toUpperCase()"
+                minlength="10" maxlength="10" />
+            <error-message [controlName]="pan"></error-message>
+        </div>
+        <div class="field">
+            <label for="email">Distributor EMAIL</label>
+            <input type="text" pInputText name="email" #email="ngModel" [(ngModel)]="distributorUser.email"
+                class="w-full" required email minlength="6" maxlength="30" />
+            <error-message [controlName]="email"></error-message>
+        </div>
+
+        <div class="text-right">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                (click)="hideDialog()"></button>&nbsp;
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveDistributor()"
+                [disabled]="!f.valid"></button>
+        </div>
+    </p-sidebar>
+</form>

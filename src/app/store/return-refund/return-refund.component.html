@@ -1,0 +1,253 @@
+<p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb>
+<div class="holder">
+    <div class="grid">
+        <div class="col-4">
+            <p-panel header="Sales Orders" class="left-panel">
+                <br>
+                    <!-- <div> -->
+                    <div class="p-inputgroup" *ngIf="statuses">
+                        <p-inputNumber [format]="false"  [(ngModel)]="searchOrder"
+                            placeholder="Search order" (onInput)="searchOrders($event.value)">
+                        </p-inputNumber>
+                        <button type="button" pButton pRipple icon="pi pi-search"
+                            styleClass="p-button-success"></button>
+                    </div>
+                    <br>
+                <ng-template pTemplate="content">
+                    <div class="left-panel-content">
+                        <div *ngFor="let item of orders" class="order-list">
+                            <div class="p-3 list-item" (click)="changeOrder(item)">
+                                <div>{{ item.documentno }}</div>
+                                <div class="font-italic text-sm mt-2">{{ item.customer?.name ?? 'GENERIC CUSTOMER'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center m-5" *ngIf="orders.length===0">
+                            NO {{ activeStatus }} ORDERS
+                        </div>
+                    </div>
+                </ng-template>
+                <p-footer>
+                    Total: {{ this.totalRecords ?? 0}}
+                </p-footer>
+            </p-panel>
+        </div>
+        <div class="col-8">
+            <p-panel header="Order">
+                <div class="right-panel-content">
+                    <div class="text-center m-5" *ngIf="!activeOrder.id">
+                        <img src="assets/empty.svg" width="250" /><br />
+                        NO {{ activeStatus }} ORDERS
+                    </div>
+                    <div id="invoice">
+                        <div class="invoice-box" *ngIf="activeOrder.id">
+                            <table>
+                                <tr class="top">
+                                    <td colspan="5">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <img src="assets/{{activeOrder.store.logo ?? 'logo-placeholder.png' }}"
+                                                        alt="Company logo" style="width: 100%; max-width: 120px" />
+                                                </td>
+
+                                                <td class="text-right">
+                                                    Order #: {{ activeOrder.documentno }}<br />
+                                                    Date: {{ activeOrder.orderdate | date: 'short'}}<br />
+                                                    Due: {{ activeOrder.orderdate | date: 'short' }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr class="information">
+                                    <td colspan="5">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div>{{ activeOrder.store?.storeName }}</div>
+                                                    <div> {{ activeOrder.store?.company?.companyName }}</div>
+                                                    <div> {{ activeOrder.store?.storeAddress1 }} {{
+                                                        activeOrder.store?.storeAddress2 }}
+                                                        {{ activeOrder.store?.state?.stateName }}</div>
+                                                    <div>{{ activeOrder.store?.storePhone }}</div>
+                                                    <div>{{ activeOrder.store?.storeMail }}</div>
+                                                </td>
+
+                                                <td class="text-right">
+                                                    <div *ngIf="activeOrder.customer">
+                                                        <div> {{ activeOrder.customer?.firstName }} {{
+                                                            activeOrder.customer?.lastName }} </div>
+                                                        <div> {{ activeOrder.customer?.company?.companyName }}</div>
+                                                        <div> {{ activeOrder.customer?.phone }}</div>
+                                                        <div>{{ activeOrder.customer?.email }}</div>
+                                                    </div>
+                                                    <div *ngIf="!activeOrder.customer">
+                                                        GENERIC CUSTOMER
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr class="details">
+                                    <td colspan="5" class="text-right">
+                                        <button pButton label="Raise Refund Request" class="p-button-outlined"
+                                            (click)="openSidebar()"></button>
+                                    </td>
+                                </tr>
+                                <tr class="heading">
+                                    <td>Return / Refund</td>
+                                    <td>Product</td>
+                                    <td>Reason</td>
+                                    <td class="text-right">Qty</td>
+                                    <td class="text-right">Amount</td>
+                                </tr>
+                                <tr *ngIf="returnRefunds.length === 0">
+                                    <td colspan="5" class="text-center p-3">
+                                        No returns or refunds for the this order
+                                    </td>
+                                </tr>
+                                <tr class="details" *ngFor="let returnRefund of returnRefunds">
+                                    <td class="text-left">{{ returnRefund.isRefund ? 'Refund': 'Return' }}</td>
+                                    <td>{{ returnRefund.orderLine.storeCatalog.name ??
+                                        returnRefund.orderLine.storeCatalog.product.name }}</td>
+                                    <td class="text-left">{{ returnRefund.reason }}</td>
+                                    <td class="text-right">{{ returnRefund.qty }}</td>
+                                    <td class="text-right"> {{ returnRefund.amount }} </td>
+                                </tr>
+                                <tr class="heading">
+                                    <td colspan="4">Payment Method</td>
+
+                                    <td>UPI #</td>
+                                </tr>
+
+                                <tr class="details">
+                                    <td colspan="4">UPI</td>
+
+                                    <td> - </td>
+                                </tr>
+
+                                <tr class="heading">
+                                    <td width="25%">Item</td>
+                                    <td width="20%" class="text-right">Price</td>
+                                    <td width="15%" class="text-right">GST</td>
+                                    <td width="15%" class="text-right">Qty</td>
+                                    <td width="15%" class="text-right">Amount</td>
+                                </tr>
+
+                                <tr class="item" *ngFor="let line of orderLines">
+                                    <td>{{ line.storeCatalog.name ?? line.storeCatalog.product.name }}</td>
+                                    <td class="text-right">{{ line.storeCatalog.sellingPrice }}</td>
+                                    <td class="text-right">{{ line.gst }}</td>
+                                    <td class="text-right">{{ line.qty }}</td>
+                                    <td class="text-right">{{ line.orderLineAmount }}</td>
+                                </tr>
+
+ 
+                                <tr class="total">
+                                    <td class="text-right" colspan="4">Sub Total:</td>
+
+                                    <td class="text-right">{{ getSubTotal() | number : '1.2-2'}}</td>
+                                </tr>
+                                <tr class="total">
+                                    <td class="text-right" colspan="4">Tax Total: </td>
+
+                                    <td colspan="4" class="text-right">{{ getTaxTotal() | number : '1.2-2'}}</td>
+                                </tr>
+                                <tr class="total">
+                                    <td class="text-right" colspan="4">Total: </td>
+
+                                    <td colspan="4" class="text-right">{{ getGrossTotal() | number : '1.2-2'}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <div class="text-right">
+                        <button pButton class="p-button-text p-0 mr-5" icon="pi pi-envelope" (click)="email(activeOrder)" label="Email"></button>
+                        <button pButton class="p-button-text p-0" icon="pi pi-print" label="Print"
+                            printSectionId="invoice" styleSheetFile="assets/css/invoice.css" ngxPrint></button>
+                    </div>
+                </p-footer>
+            </p-panel>
+        </div>
+    </div>
+</div>
+<form #f="ngForm">
+    <p-sidebar styleClass="p-sidebar-md" [blockScroll]="true" position="right" [(visible)]="showRefundReturnDialog">
+        <form name="returnRefundForm" #form="ngForm">
+            <div class="formgrid p-fluid">
+                <h3>Process Return or Refund</h3>
+                <div *ngFor="let category of categories" class="field-radiobutton" style="display: inline-flex; ">
+                    <p-radioButton name="isRefund"  #isRefund [inputId]="category.key"  name="category"  [value]="category" [(ngModel)]="selectedCategory" ></p-radioButton>
+                    <label [for]="category.key">{{category.name}}</label>
+                    <p-radioButton name="isRefund" #isRefund [value]="false" [(ngModel)]="returnRefund.isRefund"
+                        label="Return" class="ml-5">
+                    </p-radioButton>
+                </div>
+                <!-- <div class="field-radiobutton">
+                    <p-radioButton name="isRefund" #isRefund [value]="true" [(ngModel)]="returnRefund.isRefund"
+                        label="Refund" required>
+                    </p-radioButton>
+                    <p-radioButton name="isRefund" #isRefund [value]="false" [(ngModel)]="returnRefund.isRefund"
+                        label="Return" class="ml-5" required>
+                    </p-radioButton>
+                </div> -->
+                <!-- <div class="field">
+                <label>Order</label>
+                <p-dropdown [options]="orders" name="order" #order="ngModel" [(ngModel)]="returnRefund.order"
+                    placeholder="Choose Order" styleClass="w-full" optionLabel="documentno" [showClear]="true"
+                    [filter]="true" [required]="true">
+                </p-dropdown>
+                <small class="p-error" *ngIf="order.touched && !order.valid && order.errors??['required']">Order is
+                    required.</small>
+
+            </div> -->
+                <div class="field">
+                    <label>Product</label>
+                    <p-dropdown [options]="orderLines" name="orderLine" #orderLine="ngModel"
+                        [(ngModel)]="returnRefund.orderLine" placeholder="Choose Product" [showClear]="true"
+                        [filter]="true" filterBy="storeCatalog.name,storeCatalog.product.name" [required]="true"
+                        styleClass="w-full">
+                        <ng-template let-item pTemplate="item">
+                            {{ item.storeCatalog.name ?? item.storeCatalog.product.name }}
+                        </ng-template>
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{ item.storeCatalog.name ?? item.storeCatalog.product.name }}
+                        </ng-template>
+                    </p-dropdown>
+                    <error-message [controlName]="orderLine"></error-message>
+                </div>
+                <div class="field">
+                    <label>Qty</label>
+                    <p-inputNumber [(ngModel)]="returnRefund.qty" name="qty" #qty="ngModel" class="w-full"
+                        [required]="true">
+                    </p-inputNumber>
+                    <error-message [controlName]="qty"></error-message>
+                </div>
+                <div class="field">
+                    <label>Amount</label>
+                    <p-inputNumber [(ngModel)]="returnRefund.amount" name="amount" #amount="ngModel" class="w-full"
+                        [required]="true">
+                    </p-inputNumber>
+                    <error-message [controlName]="amount"></error-message>
+                </div>
+
+                <div class="field">
+                    <label>Reason</label>
+                    <textarea pInputTextarea name="reason" #reason="ngModel" [(ngModel)]="returnRefund.reason"
+                        class="w-full" ></textarea>
+                    <!-- <error-message [controlName]="reason"></error-message> -->
+                </div>
+            </div>
+            <div class="text-right">
+                <button pButton class="p-button-success" icon="pi pi-check" label="Process" (click)="saveRecord()"
+                    [disabled]="!form.valid"></button>
+            </div>
+        </form>
+    </p-sidebar>
+</form>
