@@ -140,6 +140,30 @@ export class PayPageService {
     return updatedCashMemoLineItem;
   }
 
+  async createSILineItem(data : any) {
+    var url = this.apiurlNew + 'salesInvoiceLine'
+    const saved = await lastValueFrom(this.http.post<any>(url , data));
+    return saved;
+  }
+
+  async updateSILineItem(data : any) {
+    var url = this.apiurlNew + 'salesInvoiceLine'
+    const updated = await lastValueFrom(this.http.put<any>(url , data));
+    return updated;
+  }
+
+  async createVILineItem(data : any) {
+    var url = this.apiurlNew + 'api/vendorInvoiceLine'
+    const saved = await lastValueFrom(this.http.post<any>(url , data));
+    return saved;
+  }
+
+  async updateVILineItem(data : any) {
+    var url = this.apiurlNew + 'api/vendorInvoiceLine'
+    const updated = await lastValueFrom(this.http.put<any>(url , data));
+    return updated;
+  }
+
   async createReturnRefundLineItem(data : any) {
     var url = this.apiurlNew + 'returnRefundLine'
     const savedrrLine = await lastValueFrom(this.http.post<any>(url , data));

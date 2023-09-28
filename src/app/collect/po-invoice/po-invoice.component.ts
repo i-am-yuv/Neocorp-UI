@@ -6,9 +6,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Product } from 'src/app/profile/profile-models';
-import { CustomeR } from 'src/app/settings/customers/customer';
+import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { CollectService } from '../collect.service';
 import { PurchaseInvoice, PurchaseInvoiceLine } from '../collect-models';
+import { BillsService } from 'src/app/bills/bills.service';
 
 @Component({
   selector: 'app-po-invoice',
@@ -19,8 +20,13 @@ export class PoInvoiceComponent implements OnInit {
 
   id: string | null = '';
 
+  submitted : boolean =  false;
+
   poInvoiceForm !: FormGroup;
 
+  vendors: Vendor[] = [];
+  allPOs : any[] = [] ;
+  createNew : boolean =  false;
   customers: CustomeR[] = [];
   lineitems: any[] = [];
   products: Product[] = [];
@@ -39,11 +45,26 @@ export class PoInvoiceComponent implements OnInit {
   currentFile?: File;
   progress = 0;
 
+  vendorVisible : boolean = false;
+  customerVisible : boolean =  false;
+
+  billTo: any = [
+    {
+      "id": "1",
+      "name": "Vendor"
+    },
+    {
+      "id": "2",
+      "name": "Customer"
+    }
+  ];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
+    private billS: BillsService,
     private confirmationService: ConfirmationService,
     private collectS: CollectService) { }
 
@@ -51,10 +72,24 @@ export class PoInvoiceComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
 
-    this.initForm();
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      } 
+      else if(lastSegment && lastSegment.path == this.id){
+        this.createNew =  true;
+      }
+      else{
+        this.availablePI();
+      }
+    });
 
+    this.initForm();
+    this.loadVendors();
     this.loadCustomer();
     this.loadProducts();
+    this.loadPOs();
     this.getPurchaseInvoice();
   }
 
@@ -65,22 +100,32 @@ export class PoInvoiceComponent implements OnInit {
       invoiceDate: new FormControl('', Validators.required),//
       status: new FormControl('', Validators.required),//
       description: new FormControl('', Validators.required),//
-      grossTotal: new FormControl(''),//
+      grossTotal: new FormControl(''),
       taxableTotal: new FormControl(''),
       customer: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
+      }),
+      vendor: this.fb.group({
+        id: this.fb.nonNullable.control('')
       }),
       purchaseOrder: this.fb.group({
-        // orderNumber: this.fb.nonNullable.control('', {
-        //   validators: Validators.required,
-        // }),
-        // id: this.fb.nonNullable.control('')
-        orderNumber: this.fb.nonNullable.control(''),
-        id: this.fb.nonNullable.control('')
-      })
+        id: this.fb.nonNullable.control('')   
+      }),
+      billToName: new FormControl('')
     });
+  }
+
+  loadVendors() {
+    this.usedService.allVendor().then(
+      (res) => {
+        this.vendors = res.content;
+        console.log(res);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
   }
 
   loadCustomer() {
@@ -116,8 +161,51 @@ export class PoInvoiceComponent implements OnInit {
       )
   }
 
+  selectVendor()
+  {}
+
+  loadPOs()
+  {
+    this.billS.getAllPo().then(
+      (res:any) => {
+         console.log(res) ;
+         this.allPOs = res.content ;
+        
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
+  availablePI()
+  {
+    this.submitted =  true;
+    this.collectS.allPurchaseInvoice().then(
+      (res : any) => {
+        var count = res.totalElements ;
+        this.submitted =  false;
+        //count=0
+        if( count > 0 )
+        {
+          this.router.navigate(['/collect/purchaseInvoices']) ; // temp
+        }
+        else{
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted =  false;
+      }
+    )
+  }
+
   getPurchaseInvoice() {
     if (this.id) {
+      this.submitted =  true;
       this.collectS.getPurchaseInvoiceById(this.id).then(
         (purchaseInvoice: PurchaseInvoice) => {
           purchaseInvoice.duedate = purchaseInvoice.duedate ? new Date(purchaseInvoice.duedate) : undefined;
@@ -126,17 +214,20 @@ export class PoInvoiceComponent implements OnInit {
           console.log(purchaseInvoice);
            this.currPurchaseInvoice = purchaseInvoice ;
           this.poInvoiceForm.patchValue(purchaseInvoice);
+          this.submitted =  false;
           this.getLines(purchaseInvoice); //Because backend api is not ready
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted =  false;
         }
       )
     }
   }
 
   getLines(purchaseInvoice: PurchaseInvoice) {
+    this.submitted =  true;
     this.collectS
       .getPurchaseLineItemsByInvoice(purchaseInvoice)
       .then((data: any) => {
@@ -145,23 +236,43 @@ export class PoInvoiceComponent implements OnInit {
           this.poInvoiceSubTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.amount, 0
           );
+          this.submitted =  false;
         }
-      });
+      }).catch(
+        (err)=>{
+          console.log(err);
+          this.submitted =  false;
+        }
+      );
   }
 
   onSubmitPoInvoice() {
     console.log(this.poInvoiceForm.value);
 
+    if(this.poInvoiceForm.value.vendor.id == null || this.poInvoiceForm.value.vendor.id == "" )
+    {
+      this.poInvoiceForm.value.vendor = null ;
+    }
+    if(this.poInvoiceForm.value.customer.id == null || this.poInvoiceForm.value.customer.id == "" )
+    {
+      this.poInvoiceForm.value.customer = null ;
+    }
+
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
 
-    if (invoiceFormVal.id) {
-      invoiceFormVal.purchaseOrder = null ; 
+    
+
+    alert(JSON.stringify(invoiceFormVal) ) ;
+
+    if (invoiceFormVal.id) 
+    {
+      this.submitted =  true;
       this.collectS.updatePurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
-
+          this.submitted =  false;
           this.message.add({
             severity: 'success',
             summary: 'Purchase Invoice updated',
@@ -172,6 +283,7 @@ export class PoInvoiceComponent implements OnInit {
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted =  false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Invoice Updated Error',
@@ -183,13 +295,15 @@ export class PoInvoiceComponent implements OnInit {
     }
     else {
       this.upload();
-      invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
+      this.submitted =  true;
+      //invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log("Purchase Invoice Created");
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
           this.currPurchaseInvoice = res;
+          this.submitted =  false;
           this.message.add({
             severity: 'success',
             summary: 'Purchase Invoice Saved',
@@ -201,6 +315,7 @@ export class PoInvoiceComponent implements OnInit {
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted =  false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Order save Error',
@@ -214,6 +329,19 @@ export class PoInvoiceComponent implements OnInit {
 
   selectCustomer() {
 
+  }
+
+  billToSelect()
+  {
+     if( this.poInvoiceForm.value.billToName == "Vendor" )
+     {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+     }
+     else if( this.poInvoiceForm.value.billToName == "Customer" ){
+      this.customerVisible = true;
+      this.vendorVisible = false;
+     } 
   }
 
   setLineValues(lineItem: PurchaseInvoiceLine) {
@@ -285,10 +413,12 @@ export class PoInvoiceComponent implements OnInit {
       if (_lineItem.id) {
         alert("Update Line Item Entered");
         // line line item should have id inside
+        this.submitted =  true;
         this.collectS.updateInvoiceLineItem(lineItem).then(
           (res) => {
             console.log("Purchase Invoice Line Item Updated Successfully");
             _lineItem = res;
+            this.submitted =  false;
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
@@ -300,6 +430,7 @@ export class PoInvoiceComponent implements OnInit {
         ).catch(
           (err) => {
             console.log("Line Item Updated Error");
+            this.submitted =  false;
             this.message.add({
               severity: 'error',
               summary: 'Purchase Invoice Line item Update Error',
@@ -310,10 +441,12 @@ export class PoInvoiceComponent implements OnInit {
         )
       }
       else {
+        this.submitted =  true;
         this.collectS.createInvoiceLineItem(lineItem).then(
           (res) => {
             console.log(res);
             _lineItem = res;
+            this.submitted =  false;
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
@@ -324,6 +457,7 @@ export class PoInvoiceComponent implements OnInit {
           }
         ).catch((err) => {
           console.log(err);
+          this.submitted =  false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Invoice Line Item Error',
@@ -413,32 +547,57 @@ export class PoInvoiceComponent implements OnInit {
 
   finalPoInvoiceSubmit() {
     // updated complete PO so that gross total can be updated
+
+    if(this.poInvoiceForm.value.vendor.id == null || this.poInvoiceForm.value.vendor.id == "" )
+    {
+      this.poInvoiceForm.value.vendor = null ;
+    }
+    if(this.poInvoiceForm.value.customer.id == null || this.poInvoiceForm.value.customer.id == "" )
+    {
+      this.poInvoiceForm.value.customer = null ;
+    }
+
+
     var poInvoiceFormVal = this.poInvoiceForm.value;
     poInvoiceFormVal.id = this.id;
     poInvoiceFormVal.grossTotal = this.poInvoiceSubTotal;
-    poInvoiceFormVal.purchaseOrder = null ; 
+
     if (poInvoiceFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
+      this.submitted =  true;
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
+          this.submitted =  false;
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted =  false;
         }
       )
     }
-    if (this.poInvoiceSubTotal != 0) {
+      this.upload();
+      this.submitted =  false;
       this.message.add({
         severity: 'success',
         summary: 'Purchase Invoice Created Successfully',
         detail: 'Purchase Invoice created',
         life: 3000,
       });
-      this.upload();
-    }
+      this.router.navigate(['/collect/purchaseInvoice']);
+  }
+
+  createPI()
+  {
+    this.router.navigate(['/collect/purchaseInvoice/create']);
+  }
+
+  OnCancelPI()
+  {
+    this.router.navigate(['/collect/purchaseInvoice']);
+
   }
 
 }

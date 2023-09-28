@@ -75,6 +75,14 @@ export class SidebarComponent implements OnInit {
     {
       "id": "15",
       "name": "Create Delegation Role"
+    },
+    {
+      "id": "16",
+      "name": "Create Sales Invoice"
+    },
+    {
+      "id": "17",
+      "name": "Create Vendor Invoice"
     }
   ]
 
@@ -130,6 +138,12 @@ export class SidebarComponent implements OnInit {
     }
     else if (this.choosePayPageId == 15) {
       this.router.navigate(['/setting/delegationRole/create']);
+    }
+    else if (this.choosePayPageId == 16) {
+      this.router.navigate(['/invoice/salesInvoice']);
+    }
+    else if (this.choosePayPageId == 17) {
+      this.router.navigate(['/invoice/vendorInvoice']);
     }
     
   }

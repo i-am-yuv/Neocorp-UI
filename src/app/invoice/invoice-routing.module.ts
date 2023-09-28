@@ -7,6 +7,10 @@ import { CashMemoComponent } from './cash-memo/cash-memo.component';
 import { CreditNoteDashboardComponent } from './credit-note-dashboard/credit-note-dashboard.component';
 import { SalesOrderDashboardComponent } from './sales-order-dashboard/sales-order-dashboard.component';
 import { CashMemoDashboardComponent } from './cash-memo-dashboard/cash-memo-dashboard.component';
+import { VendorInvoiceComponent } from './vendor-invoice/vendor-invoice.component';
+import { SalesInvoiceComponent } from './sales-invoice/sales-invoice.component';
+import { SalesInvoiceDashboardComponent } from './sales-invoice-dashboard/sales-invoice-dashboard.component';
+import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vendor-invoice-dashboard.component';
 
 const routes: Routes = [
   {
@@ -16,6 +20,24 @@ const routes: Routes = [
       { path: '', component: SalesOrderComponent },
       { path: 'create', component: SalesOrderComponent },
       { path: 'edit/:id', component: SalesOrderComponent },
+    ],
+  },
+  {
+    path: 'vendorInvoice',
+    component:DispatcherComponent ,
+    children: [
+      { path: '', component: VendorInvoiceComponent },
+      { path: 'create', component: VendorInvoiceComponent },
+      { path: 'edit/:id', component: VendorInvoiceComponent },
+    ],
+  },
+  {
+    path: 'salesInvoice',
+    component:DispatcherComponent ,
+    children: [
+      { path: '', component: SalesInvoiceComponent },
+      { path: 'create', component: SalesInvoiceComponent },
+      { path: 'edit/:id', component: SalesInvoiceComponent },
     ],
   },
   {
@@ -47,6 +69,14 @@ const routes: Routes = [
   {
     path: 'cashMemos',
     component: CashMemoDashboardComponent
+  },
+  {
+    path: 'salesInvoices',
+    component: SalesInvoiceDashboardComponent
+  },
+  {
+    path: 'vendorInvoices',
+    component: VendorInvoiceDashboardComponent
   }
 ];
 

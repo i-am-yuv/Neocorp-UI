@@ -1,0 +1,188 @@
+<p-toast></p-toast>
+<div class="layout">
+    <app-navbar></app-navbar>
+
+    <div class="content-wrapper">
+        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
+        <div class="sidebar bg-gray-400">
+            <app-sidebar></app-sidebar>
+        </div>
+
+        <div class="main-content bg-gray-50">
+            <div class="raised-container">
+                <div class="flex bg-gray-300 button-container">
+                    <button type="button" pButton label="+ Create PI" (click)="CreateNewPI()"
+                        class="mt-3  text-lg mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                </div>
+            </div>
+
+            <div>
+                <div class="padFlex flex gap-5">
+                    <div class="col-5 raised-container bg-white ">
+                        <p-panel class="left-panel ">
+                            <ng-template pTemplate="header">
+                                <span class="p-panel-title" style="padding: 1px">Purchase Invoice</span>
+                            </ng-template>
+                            <ng-template pTemplate="content">
+                                <div class="left-panel-content">
+                                    <br />
+                                    <!-- <div class="left-panel-content"> -->
+                                    <div *ngFor="let item of allPIs" class="order-list"
+                                        [ngClass]="{ 'bg-gray-100': activeInvoice.id === item.id }">
+                                        <div class="mt-3 list-item" (click)="changeOrder(item)">
+                                            <div class="flex ">
+                                                <div class="field col-2">
+                                                    <div class="ml-3 mb-2 mt-2 person-icon">{{
+                                                        item.vendor?.firstName.charAt(0) +
+                                                        item.vendor?.lastName.charAt(0) }}</div>
+                                                </div>
+                                                <div class="field col-8">
+                                                    <div class="text-base ml-3"><b>{{ item.orderNumber }}</b></div>
+                                                    <div class="flex gap-4 " *ngIf="item.vendor">
+                                                        <div class="col-6 font-italic text-base mt-2 mb-2 ml-3">
+                                                            {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                        </div>
+                                                        <div class="col-4 text-base mt-2 mb-2">
+                                                            <b>₹: </b>{{item.grossTotal}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex gap-2" *ngIf="item.customer">
+                                                        <div class="col-6 font-italic text-base mt-2 mb-2 ml-3"
+                                                            *ngIf="item.customer">
+                                                            {{ item.customer?.displayName }}
+                                                        </div>
+                                                        <div class="col-4 text-base mt-2 mb-2 ">
+                                                            <b>₹: </b>{{item.grossTotal}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="text-center m-5" *ngIf="allPIs.length === 0">
+                                        No Purchase Invoice Available
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <p-footer> Total: {{ this.totalRecords}} </p-footer>
+                        </p-panel>
+                    </div>
+
+                    <div class="col-6 raised-container bg-white ">
+                        <p-panel>
+                            <ng-template pTemplate="header">
+                                <div class="w-full">
+                                    <div class="grid m-0">
+                                        <div class="col-6 p-0">
+                                            <span class="p-panel-title">Purchase Invoice</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class="right-panel-content">
+                                <div class="text-center m-5" *ngIf="!activeInvoice.id">
+                                    <img src="assets/empty.svg" width="250" /><br />
+                                    Select Purchase Invoice
+                                </div>
+                                <div *ngIf="activeInvoice.id">
+                                    <!-- <h3 class="text-lg ">Purchase Order Details</h3>
+                                    <br> -->
+                                    <div class="flex">
+                                        <div class="field col-11">
+                                        </div>
+                                        <div class="field col-1">
+                                            <button pButton type="button" icon="pi pi-pencil"
+                                                (click)="onEditPI(activeInvoice.id)"></button>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="field col-4">
+                                            <label class="mr-3 text-blue-500">Purchase Invoice:</label>
+                                            <h5>#{{ this.activeInvoice.invoiceNo}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">Invoice Date:</label>
+                                            <h5>{{ this.activeInvoice.invoiceDate | date : "short"}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">Due Date:</label>
+                                            <h5>{{ this.activeInvoice.duedate | date : "short"}}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex">
+                                        <div class="field col-6">
+                                            <label class="mr-3 text-blue-500">Purchase Order</label>
+                                            <h4>Order Number: {{this.activeInvoice.purchaseOrder?.orderNumber}}
+                                            </h4>
+                                            <br>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p-table [value]="lineitems">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>Item Detils</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Discount</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template let-lineItem pTemplate="body">
+                                                <tr>
+                                                    <td>{{ lineItem.expenseName?.name }}</td>
+                                                    <td>{{ lineItem.unitPrice }}</td>
+                                                    <td>{{ lineItem.quantity }}</td>
+                                                    <td>{{ lineItem.discount }}</td>
+                                                    <td>{{ lineItem.amount }}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+
+                                        <div class="flex mt-5">
+                                            <div class="field col-6">
+
+                                            </div>
+                                            <div class="field col-6">
+                                                <label class="mr-3">SubTotal:<b> {{this.piSubTotal}}</b> </label>
+
+                                                <hr>
+                                                <label class="mr-3">Total:<b> {{this.piSubTotal}}</b> </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex">
+                                        <div class="field col-6">
+                                            <h4 class="text-blue-600">Description:</h4>
+                                            <p>{{this.activeInvoice.description}}</p>
+                                        </div>
+                                        <div class="field col-6">
+                                            <h4 class="text-blue-600">Status:</h4>
+                                            <p>{{this.activeInvoice.status}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <p-footer>
+                            </p-footer> -->
+                        </p-panel>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-blockUI [blocked]="submitted">
+        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    </p-blockUI>
+
+</div>

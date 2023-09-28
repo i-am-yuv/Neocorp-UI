@@ -6,12 +6,14 @@ import { PoInvoiceComponent } from './po-invoice/po-invoice.component';
 import { DutchModule } from '../dutch/dutch.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerComponent } from './customer/customer.component';
+import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
 
 
 @NgModule({
   declarations: [
     PoInvoiceComponent,
-    CustomerComponent
+    CustomerComponent,
+    PoInvoiceDashboardComponent
   ],
   imports: [
     CommonModule,

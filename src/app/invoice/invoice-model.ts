@@ -15,6 +15,49 @@ export interface SalesOrder{
     dispatchTo ?: any;
 }
 
+
+export interface SalesInvoice {
+  id?: string;
+  invoiceNo ?: string;
+  vendorInvoice ?: VendorInvoice;
+  salesOrder ?: SalesOrder;
+  invoiceDate ?: Date;
+  customer ?: CustomeR;
+  vendor ?: Vendor;
+  grosstotal ?: number;
+  status ?: string;
+}
+
+export interface SalesInvoiceLine{
+  id ?: string;
+  expenseName ?: Product ;
+  unitPrice ?: number ;
+  quantity ?: number ;
+  Amount ?: number;
+  discount ?: number;
+  salesInvoice ?: SalesInvoice;
+}
+
+export interface VendorInvoice {
+  id?: string;
+  documentnumber ?: string;
+  status ?: string;
+  orderDate ?: Date;
+  dueDate ?: Date;
+  vendor ?: Vendor;
+  grosstotal ?: number;
+}
+
+export interface VendorInvoiceLine{
+  id ?: string;
+  expenseName ?: Product ;
+  unitPrice ?: number ;
+  quantity ?: number ;
+  Amount ?: number;
+  discount ?: number;
+  vendorInvoice ?: VendorInvoice;
+}
+
 export interface SalesOrderLine{
     id ?: string;
     expenseName ?: Product ;

@@ -11,6 +11,10 @@ import { CashMemoComponent } from './cash-memo/cash-memo.component';
 import { CreditNoteDashboardComponent } from './credit-note-dashboard/credit-note-dashboard.component';
 import { SalesOrderDashboardComponent } from './sales-order-dashboard/sales-order-dashboard.component';
 import { CashMemoDashboardComponent } from './cash-memo-dashboard/cash-memo-dashboard.component';
+import { VendorInvoiceComponent } from './vendor-invoice/vendor-invoice.component';
+import { SalesInvoiceComponent } from './sales-invoice/sales-invoice.component';
+import { SalesInvoiceDashboardComponent } from './sales-invoice-dashboard/sales-invoice-dashboard.component';
+import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vendor-invoice-dashboard.component';
 
 
 @NgModule({
@@ -20,7 +24,11 @@ import { CashMemoDashboardComponent } from './cash-memo-dashboard/cash-memo-dash
     CashMemoComponent,
     CreditNoteDashboardComponent,
     SalesOrderDashboardComponent,
-    CashMemoDashboardComponent
+    CashMemoDashboardComponent,
+    VendorInvoiceComponent,
+    SalesInvoiceComponent,
+    SalesInvoiceDashboardComponent,
+    VendorInvoiceDashboardComponent
   ],
   imports: [
     CommonModule,
