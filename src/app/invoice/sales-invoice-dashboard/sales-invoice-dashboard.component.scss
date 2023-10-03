@@ -123,3 +123,19 @@
   align-items: center;
   font-size: 18px;
 }
+
+.rounded-div1 {
+  border: 3px solid #0000; /* Set the border width and color as needed */
+  border-radius: 8px; /* Adjust the border-radius to control the roundness */
+  //padding: 5px; /* Add padding to the content inside the div if desired */
+}
+
+.rounded-div {
+  border: 1px solid #ffff; /* Set the border width and color as needed */
+  border-radius: 8px; /* Adjust the border-radius to control the roundness */
+  //padding: 5px; /* Add padding to the content inside the div if desired */
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 !important;
+  padding: 0 !important;
+}

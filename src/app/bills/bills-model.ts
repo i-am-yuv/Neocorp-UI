@@ -1,3 +1,4 @@
+import { State } from "../profile/profile-models";
 import { Address, CustomeR, Product, Vendor } from "../settings/customers/customer";
 
 export interface BillsModel {
@@ -14,7 +15,7 @@ export interface PurchaseOrder {
     orderDate?: Date;
     vendor ?: Vendor;
     customer ?: CustomeR;
-    purchaseFrom ?: Address;
+    placeOfSupply ?: State;
 }
 export interface LineItem{
     id ?: string;

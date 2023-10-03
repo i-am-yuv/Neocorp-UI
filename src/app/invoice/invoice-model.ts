@@ -1,4 +1,4 @@
-import { Product } from "../profile/profile-models";
+import { Product, State } from "../profile/profile-models";
 import { CustomeR, Vendor } from "../settings/customers/customer";
 
 export class InvoiceModel {
@@ -12,7 +12,7 @@ export interface SalesOrder{
     vendor ?: Vendor;
     termsOfPayments ?: string;
     termsOfDelivery ?: string;
-    dispatchTo ?: any;
+    placeOfSupply ?: State;
 }
 
 
@@ -24,7 +24,7 @@ export interface SalesInvoice {
   invoiceDate ?: Date;
   customer ?: CustomeR;
   vendor ?: Vendor;
-  grosstotal ?: number;
+  grossTotal ?: number;
   status ?: string;
 }
 

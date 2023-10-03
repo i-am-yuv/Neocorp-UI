@@ -21,6 +21,8 @@ export class PoInvoiceDashboardComponent implements OnInit {
   lineitems: any[] = [];
   piSubTotal: number = 0 ;
 
+  currentDue : number = 0 ;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -30,6 +32,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPI();
+    this.currentDue = 0;
   }
 
   loadPI()
@@ -52,12 +55,15 @@ export class PoInvoiceDashboardComponent implements OnInit {
 
   changeOrder( pi : PurchaseInvoice)
   {
+    this.currentDue = 0;
     this.activeInvoice = pi;
     this.getOrderLines(pi);
+    this.getRemainingAmount(pi);
   }
 
   getOrderLines(invoice:PurchaseInvoice)
   {
+
     this.submitted = true;
     this.collectS
     .getPurchaseLineItemsByInvoice(invoice)
@@ -84,4 +90,20 @@ export class PoInvoiceDashboardComponent implements OnInit {
     this.router.navigate(['/collect/purchaseInvoice/edit/'+id]); 
   }
 
+  getRemainingAmount(PI:any)
+  {
+    this.submitted  = true;
+    this.collectS.getRemainingAmount(PI).then(
+      (res)=>{
+            console.log(res);
+            this.currentDue = res;
+            this.submitted  = false;
+      }
+    ).catch(
+      (err)=>{
+         console.log(err);
+         this.submitted  = false;
+      }
+    )
+  }
 }

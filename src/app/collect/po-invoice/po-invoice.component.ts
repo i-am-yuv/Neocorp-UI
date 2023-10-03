@@ -565,6 +565,7 @@ export class PoInvoiceComponent implements OnInit {
     if (poInvoiceFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted =  true;
+      alert(JSON.stringify(poInvoiceFormVal));
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {
           console.log(res);

@@ -21,7 +21,7 @@
                     <div class="col-5 raised-container bg-white ">
                         <p-panel class="left-panel ">
                             <ng-template pTemplate="header">
-                                <span class="p-panel-title" style="padding: 1px">Purchase Invoice</span>
+                                <span class="p-panel-title" style="padding: 1px">All Purchase Invoices</span>
                             </ng-template>
                             <ng-template pTemplate="content">
                                 <div class="left-panel-content">
@@ -30,7 +30,7 @@
                                     <div *ngFor="let item of allPIs" class="order-list"
                                         [ngClass]="{ 'bg-gray-100': activeInvoice.id === item.id }">
                                         <div class="mt-3 list-item" (click)="changeOrder(item)">
-                                            <div class="flex ">
+                                            <div class="flex justify-center">
                                                 <div class="field col-2">
                                                     <div class="ml-3 mb-2 mt-2 person-icon">{{
                                                         item.vendor?.firstName.charAt(0) +
@@ -46,9 +46,8 @@
                                                             <b>₹: </b>{{item.grossTotal}}
                                                         </div>
                                                     </div>
-                                                    <div class="flex gap-2" *ngIf="item.customer">
-                                                        <div class="col-6 font-italic text-base mt-2 mb-2 ml-3"
-                                                            *ngIf="item.customer">
+                                                    <div class="flex gap-4" *ngIf="item.customer">
+                                                        <div class="col-6 font-italic text-base mt-2 mb-2 ml-3">
                                                             {{ item.customer?.displayName }}
                                                         </div>
                                                         <div class="col-4 text-base mt-2 mb-2 ">
@@ -81,6 +80,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </ng-template>
                             <div class="right-panel-content">
                                 <div class="text-center m-5" *ngIf="!activeInvoice.id">
@@ -90,11 +90,44 @@
                                 <div *ngIf="activeInvoice.id">
                                     <!-- <h3 class="text-lg ">Purchase Order Details</h3>
                                     <br> -->
-                                    <div class="flex">
-                                        <div class="field col-11">
+                                    <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
+                                        <div class="field col-7  ml-3 ">
+                                            <h4 class="text-gray-200">Payment Activity</h4>
+                                            <h4 class="text-white">#{{this.activeInvoice.purchaseOrder?.orderNumber}}
+                                            </h4>
+
+                                            <div class="flex gap-5 bg-white rounded-div mt-3 justify-center">
+                                                <div class="field col-6 ml-3">
+                                                    <h5>Current Due</h5>
+                                                    <h4 class="text-red-700 text-lg"><b>₹ {{this.currentDue}}</b></h4>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <h5>Total Amount</h5>
+                                                    <h4 class="text-lg"><b>₹ {{this.activeInvoice.grossTotal}}</b></h4>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="field col-1">
-                                            <button pButton type="button" icon="pi pi-pencil"
+                                        <div class="field col-4 bg-gray-700">
+                                            <div class=" bg-red-400 rounded-div mt-2">
+                                                <h4 class="text-white text-center">Status: {{this.activeInvoice.status}}</h4>
+                                            </div>
+                                            <div>
+                                                <div class="mt-4">
+                                                    <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate | date : "short"}}</h5>
+                                                    <hr class="border-gray-200">
+                                                    <h5 class="text-white">Due Date: {{ this.activeInvoice.duedate | date : "short"}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="flex mt-3">
+                                        <div class="field col-8">
+                                            <h4 class="text-blue-700">Purchase Invoice Details:</h4>
+                                        </div>
+                                        <div class="field col-4 text-right">
+                                            <button pButton type="button" icon="pi pi-pencil" 
                                                 (click)="onEditPI(activeInvoice.id)"></button>
                                         </div>
                                     </div>
@@ -105,16 +138,16 @@
                                         </div>
 
                                         <div class="field col-4">
-                                            <label class="mr-3">Invoice Date:</label>
+                                            <label class="mr-3 text-blue-500">Invoice Date:</label>
                                             <h5>{{ this.activeInvoice.invoiceDate | date : "short"}}</h5>
                                         </div>
 
                                         <div class="field col-4">
-                                            <label class="mr-3">Due Date:</label>
+                                            <label class="mr-3 text-blue-500">Due Date:</label>
                                             <h5>{{ this.activeInvoice.duedate | date : "short"}}</h5>
                                         </div>
                                     </div>
-
+                                    <hr class="border-l-neutral-600">
                                     <div class="flex">
                                         <div class="field col-6">
                                             <label class="mr-3 text-blue-500">Purchase Order</label>
@@ -123,7 +156,20 @@
                                             <br>
                                         </div>
                                     </div>
-
+                                    <hr class="border-l-neutral-600">
+                                    <div class="flex gap-3">
+                                        <div class="field col-7">
+                                            <h4 class="text-blue-700">Bill From</h4>
+                                            <h5>{{this.activeInvoice.vendor?.address?.billingName}}</h5>
+                                            <h5>{{this.activeInvoice.vendor?.address?.billingAddress}}</h5>
+                                            <h5>{{this.activeInvoice.vendor?.address?.city}}
+                                                ,{{this.activeInvoice.vendor?.address?.pincode}}</h5>
+                                        </div>
+                                        <div class="field col-3">
+                                            <h4 class="text-blue-700">Place Of Supply</h4>
+                                            <h5>{{this.activeInvoice.purchaseOrder?.placeOfSupply?.stateName}}</h5><br>
+                                        </div>
+                                    </div>
                                     <div>
                                         <p-table [value]="lineitems">
                                             <ng-template pTemplate="header">
@@ -150,11 +196,10 @@
                                             <div class="field col-6">
 
                                             </div>
-                                            <div class="field col-6">
-                                                <label class="mr-3">SubTotal:<b> {{this.piSubTotal}}</b> </label>
-
+                                            <div class="field col-6 text-right">
+                                                <label>SubTotal:<b>₹ {{this.piSubTotal}}</b> </label>
                                                 <hr>
-                                                <label class="mr-3">Total:<b> {{this.piSubTotal}}</b> </label>
+                                                <label class="ml-10">Total:<b>₹ {{this.piSubTotal}}</b> </label>
                                             </div>
                                         </div>
                                     </div>

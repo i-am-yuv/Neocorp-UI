@@ -55,4 +55,10 @@ export class CollectService {
     return _allLineItems;
   }
 
+  async getRemainingAmount(pInvoice: any) {
+    var url = this.apiurlNew + 'payments/'+ encodeURIComponent(pInvoice.id)+"/remaining";
+    const remainingAmount = await lastValueFrom(this.http.get<any>(url));
+    return remainingAmount;
+  }
+
 }

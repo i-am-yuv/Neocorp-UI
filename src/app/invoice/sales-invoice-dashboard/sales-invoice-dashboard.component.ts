@@ -22,6 +22,7 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   lineitems: any[] = [];
   siSubTotal: number = 0;
 
+  currentDue : number = 0 ;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -53,6 +54,7 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   changeOrder(si: SalesInvoice) {
     this.activeInvoice = si;
     this.getOrderLines(si);
+    this.getRemainingAmount(si);
   }
 
   getOrderLines(invoice: SalesInvoice) {
@@ -78,6 +80,23 @@ export class SalesInvoiceDashboardComponent implements OnInit {
 
   onEditSI(id: string) {
     this.router.navigate(['/invoice/salesInvoice/edit/' + id]);
+  }
+
+  getRemainingAmount(SI:any)
+  {
+    this.submitted  = true;
+    this.invoiceS.getRemainingAmount(SI).then(
+      (res)=>{
+            console.log(res);
+            this.currentDue = res;
+            this.submitted  = false;
+      }
+    ).catch(
+      (err)=>{
+         console.log(err);
+         this.submitted  = false;
+      }
+    )
   }
 
 }

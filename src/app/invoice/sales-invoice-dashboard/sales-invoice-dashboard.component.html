@@ -90,8 +90,41 @@
                                 <div *ngIf="activeInvoice.id">
                                     <!-- <h3 class="text-lg ">Purchase Order Details</h3>
                                     <br> -->
-                                    <div class="flex">
+                                    <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-3 ">
+                                        <div class="field col-7  ml-3 ">
+                                            <h4 class="text-gray-200">Payment Activity</h4>
+                                            <h4 class="text-white">#{{this.activeInvoice.salesOrder?.documentno}}
+                                            </h4>
+
+                                            <div class="flex gap-5 bg-white rounded-div mt-3 justify-center">
+                                                <div class="field col-6 ml-3">
+                                                    <h5>Current Due</h5>
+                                                    <h4 class="text-red-700 text-lg"><b>₹ {{this.currentDue}}</b></h4>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <h5>Total Amount</h5>
+                                                    <h4 class="text-lg"><b>₹ {{this.activeInvoice.grossTotal}}</b></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="field col-4 bg-gray-700">
+                                            <div class=" bg-red-400 rounded-div mt-2">
+                                                <h4 class="text-white text-center">Status: {{this.activeInvoice.status}}</h4>
+                                            </div>
+                                            <div>
+                                                <div class="mt-4">
+                                                    <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate | date : "short"}}</h5>
+                                                    <hr class="border-gray-200">
+                                                    <h5 class="text-white">Due Date: Nil</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="flex mt-3">
                                         <div class="field col-11">
+                                            <h4 class="text-blue-700">Sales Invoice Details:</h4>
                                         </div>
                                         <div class="field col-1">
                                             <button pButton type="button" icon="pi pi-pencil"
@@ -105,7 +138,7 @@
                                         </div>
 
                                         <div class="field col-6">
-                                            <label class="mr-3">Invoice Date:</label>
+                                            <label class="mr-3 text-blue-500">Invoice Date:</label>
                                             <h5>{{ this.activeInvoice.invoiceDate | date : "short"}}</h5>
                                         </div>
                                     </div>
@@ -115,6 +148,11 @@
                                             <label class="mr-3 text-blue-500">Sales Order</label>
                                             <h4>Order Number: {{this.activeInvoice.salesOrder?.documentno}}
                                             </h4>
+                                            <br>
+                                        </div>
+                                        <div class="field col-6">
+                                            <label class="mr-3 text-blue-500">Place Of Supply</label>
+                                            <h4>{{this.activeInvoice.salesOrder?.placeOfSupply?.stateName}}</h4>
                                             <br>
                                         </div>
                                     </div>
