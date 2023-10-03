@@ -8,21 +8,21 @@
             <app-sidebar></app-sidebar>
         </div>
 
-        <div class="main-content">
+        <div class="main-content bg-gray-100">
 
             <div *ngIf="!createNew" >
                 <div class="center-container  mt-5">
                     <div class="field col-6">
                         <div class="">
-                            <img src="/assets/PoImage.png" alt="Image" class="w-full h-auto">
+                            <img src="/assets/RN.png" alt="Image" class="w-full h-auto">
                         </div>
                         <div class="text-center">
-                            <b>Streamline procurement with ease?</b><br>
-                            <p>create your first Receipt Note today!</p>
+                            <b>Effortlessly craft personalized sales orders in minutes</b><br>
+                            <p>Convert orders into professional invoices and delivery challans with ease</p>
                         </div>
                         <div class="text-center">
                             <button type="button" pButton label="Create Receipt Note" (click)="createRN()"
-                                class="mb-3 text-lg p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                                class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                         </div>
                     </div>
 
@@ -30,41 +30,73 @@
             </div>
 
             <div *ngIf="createNew" >
-                <div class="raised-container">
-                    <div class="flex bg-gray-300 button-container">
-                        <button type="button" pButton label="Cancel" (click)="OnCancelRN()"
-                            class=" mt-3 mb-3 p-button-raised bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
+                <div class="raised-container bg-white">
+                    <div class="flex bg-white button-container">
+                        <button type="button" pButton label="Close" (click)="OnCancelRN()"
+                            class=" mt-3 mb-3  p-button-secondary  "></button>
                         <button type="button" pButton label="Create Receipt Note" (click)="finalRNSubmitPage()" [disabled]="this.rnSubTotal == 0"
-                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                     </div>
                 </div>
                 <form (ngSubmit)="onSubmitRN()" [formGroup]="rnForm" class="p-5">
-                    <h3 class="text-xl">Create Receipt Note</h3>
-                    <hr>
-                    <div class="flex gap-2">
-                        <div class="field col-4">
+                    <h4 class="text-xl text-blue-700">Receipt Note Details: </h4>
+                    
+                    <div class="flex gap-3 mt-3 mb-3">
+                        <div class="field col-6">
                             <label class="mr-3 required">Start Date</label>
                             <p-calendar formControlName="startDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                placeholder="Choose Start Date">
+                                placeholder="Choose Start Date" [style]="{ width: '100%' }">
                             </p-calendar>
                             <error-message [controlName]="rnForm.controls['startDate']"></error-message>
                         </div>
-                        <div class="field col-4">
+                        <div class="field col-6">
                             <label class="mr-3 required">End Date</label>
                             <p-calendar formControlName="endDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                placeholder="Choose End Date">
+                                placeholder="Choose End Date" [style]="{ width: '100%' }">
                             </p-calendar>
                             <error-message [controlName]="rnForm.controls['endDate']"></error-message>
                         </div>
-                        <div class="field col-4">
-                            <label class="mr-3">Receipt Note Number:</label>
-                            <h3 *ngIf="this.rnForm.value.receiptNoteNumber">{{ this.rnForm.value.receiptNoteNumber }}</h3>
-                            <h4 *ngIf="!this.rnForm.value.receiptNoteNumber">Yet to be created</h4>
-                        </div>
                     </div>
 
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 mt-3 mb-3">
+
                         <div class="field col-4">
+                            <label class="mr-3">Receipt Note Number:</label>
+                            <input pInputText value="{{this.rnForm.value.receiptNoteNumber}}" placeholder="Your Receipt Note Number"
+                                class="w-full custom-input" [disabled]="true" />
+                        </div>
+
+                        <div class="field col-4 payment-dropdown">
+                            <label class="mr-3 required">Bill To</label>
+                            <div class="payment-dropdown ">
+                                <p-dropdown class="bg-slate-200" [options]="billTo" [style]="{ width: '100%' }"
+                                    placeholder="Please Select" optionLabel="name" optionValue="name"
+                                    formControlName="billToName" (onChange)="billToSelect()"></p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="field col-4 " *ngIf="this.vendorVisible">
+                            <label class="mr-3 required">Vendor</label>
+                            <ng-container formGroupName="vendor" class="w-full">
+                                <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                    formControlName="id" optionLabel="firstName" [showClear]="true"
+                                    (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                                </p-dropdown>
+                            </ng-container>
+                        </div>
+                        <div class="field col-4 payment-dropdown" *ngIf="this.customerVisible">
+                            <label class="mr-3 required">Customer</label>
+                            <ng-container formGroupName="customer" class="w-full">
+                                <div class="payment-dropdown ">
+                                    <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
+                                        formControlName="id" optionLabel="displayName" [showClear]="true"
+                                        (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                                    </p-dropdown>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <!-- <div class="field col-4">
                             <label class="mr-3 required">Vendor</label>
                             <ng-container formGroupName="vendor">
                                 <div class="payment-dropdown ">
@@ -86,7 +118,8 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="field col-4">
+                         -->
+                        <!-- <div class="field col-4">
                             <label class="mr-3 required">Place Of Supply</label>
                             <ng-container formGroupName="placeOfSupply">
                                 <div class="payment-dropdown ">
@@ -96,34 +129,51 @@
                                     </p-dropdown>
                                 </div>
                             </ng-container>    
+                        </div> -->
+                    </div>
+
+                    <div class="flex mt-3 mb-3">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Place Of Supply</label>
+                            <ng-container formGroupName="placeOfSupply">
+                                <div class="payment-dropdown ">
+                                    <p-dropdown [options]="states" placeholder="Choose State" optionValue="id"
+                                        formControlName="id" optionLabel="stateName" [showClear]="true"
+                                        (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                                    </p-dropdown>
+                                </div>
+                            </ng-container>    
                         </div>
                     </div>
 
-                    <div class="flex gap-2">
-                        <div class="field col-4">
+                    <div class="flex gap-1 mt-3 mb-3">
+                        <div class="field col-12">
                             <label class="mr-3">Description</label>
-                            <input pInputText formControlName="description" placeholder="Description"
-                                class="w-full" />
+                            <input pInputText formControlName="description" placeholder="Enter Description"
+                                class="w-full custom-input" />
                             <error-message [controlName]="rnForm.controls['description']"></error-message>
                         </div>
-                        <div class="field col-4">
+                    </div>
+                    <div class="flex mt-3 mb-3">
+                        <div class="field col-12">
                             <label class="mr-3">Internal Notes</label>
-                            <input pInputText formControlName="internalNotes" placeholder="Internsl Notes"
-                                class="w-full" />
+                            <input pInputText formControlName="internalNotes" placeholder="Enter Internal Notes"
+                                class="w-full custom-input" />
                             <error-message [controlName]="rnForm.controls['internalNotes']"></error-message>
                         </div>
-                        <div class="field col-4">
+                        <!-- <div class="field col-4">
                             <label class="mr-3">Client Notes</label>
                             <input pInputText formControlName="clientNotes" placeholder="Client Notes"
                                 class="w-full" />
                             <error-message [controlName]="rnForm.controls['clientNotes']"></error-message>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="flex">
-                        <div class="field col-4">
-                            <button type="submit" pButton label="Save" [disabled]="!rnForm.valid"
-                            class="mb-6 text-lg p-button-raised bg-green-500 text-white px-4 py-2.5 rounded-md hover:bg-green-600 "></button>
+                        <div class="field col-8"></div>
+                        <div class="field col-4 text-right">
+                            <button type="submit" pButton label="Save Receipt Note" [disabled]="!rnForm.valid"
+                            class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                         </div>
                     </div>
 
@@ -134,11 +184,11 @@
                         styleClass="p-datatable-gridlines mt-2">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Product</th>
-                                <th class="text-right" width="100">Price</th>
-                                <th class="text-right" width="100">Quantity</th>
-                                <th class="text-right" width="100">Discount</th>
-                                <th class="text-right" width="100">Total</th>
+                                <th class="text-center" width="200">Product</th>
+                                <th class="text-center" width="100">Price</th>
+                                <th class="text-center" width="100">Quantity</th>
+                                <th class="text-center" width="100">Discount</th>
+                                <th class="text-center" width="100">Total</th>
                                 <th width="160" *ngIf="!viewOnly">
                                     <button pButton label="Add Item" icon="pi pi-plus"
                                         class="p-button-secondary p-button-outlined mr-3" (click)="enableRowSubmit()"
@@ -237,7 +287,17 @@
                         </ng-template>
 
                     </p-table>
-                    <div class="flex">
+
+                    <div class="flex gap-5 mt-5">
+                        <div class="field col-1"></div>
+                        <div class="field col-4">
+                            <label for="file">Upload File :</label><br>
+                            <input type="file" name="file" (change)="selectFile($event)" accept="image/*"
+                                class="mt-2" chooseLabel="Upload File" />
+                        </div>
+                    </div>
+
+                    <!-- <div class="flex">
                         <div class="col-6">
                             <ul class="list-none p-0 m-0">
                                 <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
@@ -255,17 +315,38 @@
                             <input type="file" name="file" (change)="selectFile($event)" accept="image/*" class="w-full "
                                 chooseLabel="Upload File" />
                         </div>
+                    </div> -->
+
+                    <div class="flex button-container">
+                        <div class="field col-3 ">
+                            <ul class="list-none p-0 m-0">
+                                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border" >
+                                    <div class=" text-500 w-6 md:w-9 font-medium text-left">
+                                        Sub Total :
+                                    </div>
+                                    <div class="text-500 w-6 md:w-9 font-medium text-left">
+                                        ₹ {{ this.rnSubTotal}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="flex">
+                    <div class="flex button-container">
+                        <button type="button" pButton label="Close" (click)="OnCancelRN()"
+                            class=" mt-3 mb-3  p-button-secondary  "></button>
+                        <button type="button" pButton label="Create Receipt Note" (click)="finalRNSubmitPage()"
+                            [disabled]="this.rnSubTotal == 0"
+                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                    </div>
+
+                    <!-- <div class="flex">
                         <div class="field col-12 text-right w-full">
                             <button type="button" pButton label="Create Receipt Note" [disabled]="this.rnSubTotal == 0"
                                 (click)="finalRNSubmitPage()"
                                 class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                         </div>
-                    </div>
-
-
+                    </div> -->
                 </div>
 
             </div>

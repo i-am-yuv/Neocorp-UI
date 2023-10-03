@@ -109,7 +109,7 @@ export class PoInvoiceComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       purchaseOrder: this.fb.group({
-        id: this.fb.nonNullable.control('')   
+        id: this.fb.nonNullable.control('', Validators.required)   
       }),
       billToName: new FormControl('')
     });

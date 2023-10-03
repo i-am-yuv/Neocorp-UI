@@ -8,17 +8,17 @@
             <app-sidebar></app-sidebar>
         </div>
 
-        <div class="main-content">
+        <div class="main-content bg-gray-100">
 
             <div *ngIf="!createNew" >
-                <div class="center-container  mt-5">
-                    <div class="field col-6">
+                <div class="center-container mt-5 bg-white">
+                    <div class="field col-4">
                         <div class="">
-                            <img src="/assets/PoImage.png" alt="Image" class="w-full h-auto">
+                            <img src="/assets/CM.png" alt="Image" class="w-full h-auto">
                         </div>
                         <div class="text-center">
-                            <b>Streamline procurement with ease?</b><br>
-                            <p>create your first Credit Note today!</p>
+                            <b>Pay your credits on time anytime anywhere!</b><br>
+                            <p>Start by creating your first Credit note.</p>
                         </div>
                         <div class="text-center">
                             <button type="button" pButton label="Create Credit Note" (click)="createCN()"
@@ -30,119 +30,139 @@
 
             <div *ngIf="createNew" >
                 <div class="raised-container">
-                    <div class="flex bg-gray-300 button-container">
-                        <button type="button" pButton label="Cancel" (click)="OnCancelCN()"
-                            class=" mt-3 mb-3 p-button-raised bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
+                    <div class="flex bg-white button-container">
+                        <button type="button" pButton label="Close" (click)="OnCancelCN()"
+                            class=" mt-3 mb-3 p-button-secondary "></button>
                         <button type="button" pButton label="Create Credit Note" (click)="finalCNSubmitPage()" [disabled]="this.cnSubTotal == 0"
-                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                     </div>
                 </div>
 
                 <form (ngSubmit)="onSubmitCN()" [formGroup]="cnForm" class="p-5">
-                    <h3 class="text-xl">Create Credit Note</h3>
-                    <hr>
-                    <div class="flex gap-2">
-                        <div class="field col-4">
+                    <h4 class="text-xl text-blue-700">Credit Note Details: </h4>
+                    
+                    <div class="flex gap-3">
+                        <div class="field col-6">
                             <label class="mr-3 required">Start Date</label>
                             <p-calendar formControlName="startdate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                placeholder="Choose Start Date">
+                                placeholder="Choose Start Date" [style]="{ width: '100%' }" >
                             </p-calendar>
                             <error-message [controlName]="cnForm.controls['startdate']"></error-message>
                         </div>
-                        <div class="field col-4">
+                        <div class="field col-6">
                             <label class="mr-3 required">Due Date</label>
                             <p-calendar formControlName="duedate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                placeholder="Choose Due Date">
+                                placeholder="Choose Due Date" [style]="{ width: '100%' }" >
                             </p-calendar>
                             <error-message [controlName]="cnForm.controls['duedate']"></error-message>
                         </div>
-                        <div class="field col-4">
-                            <label class="mr-3">Credit Note Number:</label>
-                            <h3>{{this.cnForm.value.creditNoteNo}}</h3>
-                        </div>
                     </div>
 
-                    <div class="flex gap-2">
-                        <div class="field col-4">
-                            <label class="mr-3 required">Vendor</label>
-                            <ng-container formGroupName="creditToVendor">
-                                <div class="payment-dropdown ">
-                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
-                                        formControlName="id" optionLabel="firstName" [showClear]="true"
-                                        (ngChange)="selectVendor()">
-                                    </p-dropdown>
-                                </div>
-                            </ng-container>
+                    <div class="flex gap-3">                        
+                        <div class="field col-6">
+                            <label class="mr-3">Credit Note Number:</label>
+                            <input pInputText value="{{this.cnForm.value.creditNoteNo}}" placeholder="Your Credit Note Number"
+                                class="w-full custom-input" [disabled]="true" />
                         </div>
-                        <div class="field col-4">
-                            <label class="mr-3 required">Customer</label>
-                            <ng-container formGroupName="creditToCustomer">
-                                <div class="payment-dropdown ">
-                                    <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
-                                        formControlName="id" optionLabel="displayName" [showClear]="true"
-                                        (ngChange)="selectVendor()">
-                                    </p-dropdown>
-                                </div>
-                            </ng-container>
-                        </div>
-                        <div class="field col-4">
+
+                        <div class="field col-6">
                             <label class="mr-3 required">Place Of Supply</label>
                             <ng-container formGroupName="placeOfSupply">
                                 <div class="payment-dropdown ">
                                     <p-dropdown [options]="states" placeholder="Choose State" optionValue="id"
                                         formControlName="id" optionLabel="stateName" [showClear]="true"
-                                        (ngChange)="selectVendor()">
+                                        (ngChange)="selectVendor()" [style]="{ width: '100%' }">
                                     </p-dropdown>
                                 </div>
                             </ng-container>    
                         </div>
+
                     </div>
 
-                    <div class="flex gap-2">
-                        <div class="field col-4">
-                            <label class="mr-3">Credit Note Description</label>
-                            <input pInputText formControlName="creditNoteDescription" placeholder="Credit Note Description"
-                                class="w-full" />
-                            <error-message [controlName]="cnForm.controls['creditNoteDescription']"></error-message>
-                        </div>
-                        <div class="field col-4 payment-dropdown">
-                            <label class="mr-3 required">Product Type</label>
-                            <!-- <input pInputText formControlName="productType" placeholder="Enter Product Type"
-                                class="w-full" />
-                            <error-message [controlName]="productForm.controls['productType']"></error-message> -->
+                    <div class="flex gap-3">
+                        <div class="field col-6 payment-dropdown">
+                            <label class="mr-3 required">Bill To</label>
                             <div class="payment-dropdown ">
-                                <p-dropdown class="bg-slate-200" [options]="requestStatus" [style]="{ width: '100%' }"
-                                    placeholder="Select Request Status"  optionLabel="name"
-                                    optionValue="name" formControlName="requestStatus"></p-dropdown>
+                                <p-dropdown class="bg-slate-200" [options]="billTo" [style]="{ width: '100%' }"
+                                    placeholder="Please Select" optionLabel="name" optionValue="name"
+                                    formControlName="billToName" (onChange)="billToSelect()"></p-dropdown>
                             </div>
                         </div>
-                        <div class="field col-4">
-                            <label class="mr-3">Notes</label>
-                            <textarea pInputText formControlName="notes" placeholder="Notes" class="w-full"></textarea>
-                            <error-message [controlName]="cnForm.controls['notes']"></error-message>
-                        </div>
 
+                        <div class="field col-6 " *ngIf="this.vendorVisible">
+                            <label class="mr-3 required">Vendor</label>
+                            <ng-container formGroupName="creditToVendor" class="w-full">
+                                <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                    formControlName="id" optionLabel="firstName" [showClear]="true"
+                                    (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                                </p-dropdown>
+                            </ng-container>
+                        </div>
+                        <div class="field col-6 payment-dropdown" *ngIf="this.customerVisible">
+                            <label class="mr-3 required">Customer</label>
+                            <ng-container formGroupName="creditToCustomer" class="w-full">
+                                <div class="payment-dropdown ">
+                                    <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
+                                        formControlName="id" optionLabel="displayName" [showClear]="true"
+                                        (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                                    </p-dropdown>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
 
-                    <div class="flex">
+                    <div class="flex gap-3">
+                        <div class="field col-6">
+                            <label class="mr-3 required">Request Status</label>
+                            <div class="">
+                                <p-dropdown class="bg-slate-200" [options]="requestStatus" 
+                                    placeholder="Select Request Status"  optionLabel="name"
+                                    optionValue="name" formControlName="requestStatus" [style]="{ width: '100%' }"  ></p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="field col-6">
+                            <label class="mr-3">Credit Note Description</label>
+                            <input pInputText formControlName="creditNoteDescription" placeholder="Credit Note Description"
+                                class="w-full custom-input " />
+                            <error-message [controlName]="cnForm.controls['creditNoteDescription']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-1">
+                            <div class="field col-12">
+                                <label class="mr-3">Notes</label>
+                                <textarea pInputText formControlName="notes" placeholder="Enter Notes" class="w-full custom-input "></textarea>
+                                <error-message [controlName]="cnForm.controls['notes']"></error-message>
+                            </div>
+                    </div>
+                    <!-- <div class="flex">
                         <div class="field col-4">
-                            <button type="submit" pButton label="Save" [disabled]="!cnForm.valid"
+                            <button type="submit" pButton label="Save Credit Note" [disabled]="!cnForm.valid"
                                 class="mb-6 text-lg p-button-raised bg-green-500 text-white px-4 py-2.5 rounded-md hover:bg-green-600 "></button>
+                        </div>
+                    </div> -->
+
+                    <div class="flex">
+                        <div class="field col-8"></div>
+                        <div class="field col-4 text-right">
+                            <button type="submit" pButton label="Save Credit Note" [disabled]="!cnForm.valid"
+                            class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                         </div>
                     </div>
 
                 </form>
 
-                <div *ngIf="id" class="p-2">
+                <div *ngIf="id">
                     <p-table #dt [value]="lineitems" dataKey="id" editMode="row"
                         styleClass="p-datatable-gridlines mt-2">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Product</th>
-                                <th class="text-right" width="100">Price</th>
-                                <th class="text-right" width="100">Quantity</th>
-                                <th class="text-right" width="100">Discount</th>
-                                <th class="text-right" width="100">Total</th>
+                                <th class="text-center" width="200">Product</th>
+                                <th class="text-center" width="100">Price</th>
+                                <th class="text-center" width="100">Quantity</th>
+                                <th class="text-center" width="100">Discount</th>
+                                <th class="text-center" width="100">Total</th>
                                 <th width="160" *ngIf="!viewOnly">
                                     <button pButton label="Add Item" icon="pi pi-plus"
                                         class="p-button-secondary p-button-outlined mr-3" (click)="enableRowSubmit()"
@@ -242,7 +262,9 @@
                         </ng-template>
 
                     </p-table>
-                    <div class="flex">
+
+
+                    <!-- <div class="flex">
                         <div class="col-6">
                             <ul class="list-none p-0 m-0">
                                 <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
@@ -260,16 +282,47 @@
                             <input type="file" name="file" (change)="selectFile($event)" accept="image/*"
                                 class="w-full " chooseLabel="Upload File" />
                         </div>
+                    </div> -->
+
+                    <div class="flex gap-5 mt-5">
+                        <div class="field col-1"></div>
+                        <div class="field col-4">
+                            <label for="file">Upload File :</label><br>
+                            <input type="file" name="file" (change)="selectFile($event)" accept="image/*"
+                                class="mt-2" chooseLabel="Upload File" />
+                        </div>
                     </div>
 
-                    <div class="flex">
+                    <div class="flex button-container">
+                        <div class="field col-3 ">
+                            <ul class="list-none p-0 m-0">
+                                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border" >
+                                    <div class=" text-500 w-6 md:w-9 font-medium text-left">
+                                        Sub Total :
+                                    </div>
+                                    <div class="text-500 w-6 md:w-9 font-medium text-left">
+                                        ₹ {{ this.cnSubTotal}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- <div class="flex">
                         <div class="field col-12 text-right w-full">
                             <button type="button" pButton label="Create Credit Note" [disabled]="this.cnSubTotal == 0"
                                 (click)="finalCNSubmitPage()"
                                 class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                         </div>
-                    </div>
+                    </div> -->
 
+                    <div class="flex button-container">
+                        <button type="button" pButton label="Close" (click)="OnCancelCN()"
+                            class=" mt-3 mb-3  p-button-secondary  "></button>
+                        <button type="button" pButton label="Create Credit Note" (click)="finalCNSubmitPage()"
+                            [disabled]="this.cnSubTotal == 0"
+                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                    </div>
 
                 </div>
             </div>

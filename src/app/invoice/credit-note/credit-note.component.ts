@@ -73,6 +73,20 @@ export class CreditNoteComponent implements OnInit {
     }
   ];
 
+  billTo: any = [
+    {
+      "id": "1",
+      "name": "Vendor"
+    },
+    {
+      "id": "2",
+      "name": "Customer"
+    }
+  ];
+
+  vendorVisible : boolean =  false;
+  customerVisible : boolean =  false;
+
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -99,7 +113,7 @@ export class CreditNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        this.availableCN();
+      //  this.availableCN();
       }
     });
 
@@ -136,7 +150,8 @@ export class CreditNoteComponent implements OnInit {
           validators: Validators.required,
         })
       }),
-      grossTotal: new FormControl('')
+      grossTotal: new FormControl(''),
+      billToName : new FormControl('')
     });
   }
 
@@ -262,11 +277,33 @@ export class CreditNoteComponent implements OnInit {
   }
   selectVendor(){}
 
+  billToSelect()
+  {
+     if( this.cnForm.value.billToName == "Vendor" )
+     {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+     }
+     else if( this.cnForm.value.billToName == "Customer" ){
+      this.customerVisible = true;
+      this.vendorVisible = false;
+     } 
+  }
+
   onSubmitCN()
   {
-    this.cnForm.value.creditToCustomer = null;
+   // this.cnForm.value.creditToCustomer = null;
     //this.cnForm.value.placeOfSupply = null ;
    // this.cnForm.value.requestStatus = null
+
+   if(this.cnForm.value.vendor.id == null  || this.cnForm.value.vendor.id == "" )
+   {
+     this.cnForm.value.vendor = null ;
+   }
+   else{
+     this.cnForm.value.customer = null ;
+   }
+
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
     if (cnFormVal.id) {
@@ -539,12 +576,21 @@ export class CreditNoteComponent implements OnInit {
 
   finalCNSubmitPage() {
     // updated complete PO so that gross total can be updated
+
+    if(this.cnForm.value.vendor.id == null  || this.cnForm.value.vendor.id == "" )
+   {
+     this.cnForm.value.vendor = null ;
+   }
+   else{
+     this.cnForm.value.customer = null ;
+   }
+
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
     cnFormVal.grossTotal = this.cnSubTotal ;
     if (cnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
-      this.cnForm.value.creditToCustomer = null;
+      //this.cnForm.value.creditToCustomer = null;
       //this.cnForm.value.placeOfSupply = null ;
     //  this.cnForm.value.requestStatus = null
     this.submitted = true;

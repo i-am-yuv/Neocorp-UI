@@ -40,6 +40,20 @@ export class CashMemoComponent implements OnInit {
   uploadMessage = '';
   cashMemoSubTotal: number = 0;
 
+  billTo: any = [
+    {
+      "id": "1",
+      "name": "Vendor"
+    },
+    {
+      "id": "2",
+      "name": "Customer"
+    }
+  ];
+
+  vendorVisible : boolean =  false;
+  customerVisible : boolean =  false;
+
   requestStatus: any = [
     {
       "id": "1",
@@ -92,7 +106,7 @@ export class CashMemoComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        this.availableCM();
+        //this.availableCM();
       }
     });
 
@@ -125,7 +139,8 @@ export class CashMemoComponent implements OnInit {
         })
       }),
       grossTotal: new FormControl(''),
-      requestStatus: new FormControl('',Validators.required)
+      requestStatus: new FormControl('',Validators.required),
+      billToName : new FormControl('')
     });
 
   }
@@ -239,10 +254,30 @@ export class CashMemoComponent implements OnInit {
   }
   selectVendor(){}
 
+  billToSelect()
+  {
+     if( this.cashMemoForm.value.billToName == "Vendor" )
+     {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+     }
+     else if( this.cashMemoForm.value.billToName == "Customer" ){
+      this.customerVisible = true;
+      this.vendorVisible = false;
+     } 
+  }
+
   onSubmitCashMemo()
   {
-    this.cashMemoForm.value.customer = null;
-   
+    
+    if(this.cashMemoForm.value.vendor.id == null  || this.cashMemoForm.value.vendor.id == "" )
+   {
+     this.cashMemoForm.value.vendor = null ;
+   }
+   else{
+     this.cashMemoForm.value.customer = null ;
+   }
+
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
     if (cashMemoFormVal.id) {
@@ -516,15 +551,20 @@ export class CashMemoComponent implements OnInit {
 
   finalCashMemoSubmitPage() {
     // updated complete PO so that gross total can be updated
+
+    if(this.cashMemoForm.value.vendor.id == null  || this.cashMemoForm.value.vendor.id == "" )
+    {
+      this.cashMemoForm.value.vendor = null ;
+    }
+    else{
+      this.cashMemoForm.value.customer = null ;
+    }
+
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
     cashMemoFormVal.grossTotal = this.cashMemoSubTotal ;
     if (cashMemoFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
-      this.cashMemoForm.value.creditToCustomer = null;
-      this.cashMemoForm.value.placeOfSupply = null ;
-    //  this.cnForm.value.requestStatus = null
-    this.submitted = true;
+      this.submitted = true;
       this.invoiceS.updateCashMemo(cashMemoFormVal).then(
         (res) => {
           console.log(res);

@@ -31,6 +31,7 @@ export class PurchaseOrderComponent implements OnInit {
   vendors: Vendor[] = [];
   customers: CustomeR[] = [];
   products: Product[] = [];
+  states : any[] = [];
 
   singleLineItem: LineItem = {};
   groupLineItem: LineItem[] = [];
@@ -87,19 +88,13 @@ export class PurchaseOrderComponent implements OnInit {
         this.availablePO();
       }
     });
-    // this.route.url.subscribe(segments => {
-    //   let lastSegment = segments[segments.length - 1];
-    //   if (lastSegment && lastSegment.path == this.id) {
-    //     this.createNew = true;
-    //   }
-      
-    // });
+    
     this.initForm();
     this.poForm.value.enablePartialPayments = false;
     this.loadVendors();
     this.loadCustomers();
     this.loadProducts();
-
+    this.loadState();
     this.getPoOrder();
 
   }
@@ -157,7 +152,9 @@ export class PurchaseOrderComponent implements OnInit {
       customer: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      purchaseFrom: new FormControl(''),//
+      placeOfSupply: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      }),
       grossTotal: new FormControl(''),
       billToName: new FormControl('')
     });
@@ -274,6 +271,11 @@ export class PurchaseOrderComponent implements OnInit {
           });
         }
       )
+  }
+
+  loadState()
+  {
+    
   }
 
 

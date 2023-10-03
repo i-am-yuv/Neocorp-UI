@@ -44,6 +44,20 @@ export class DebitNoteComponent implements OnInit {
   mergedOptions: any[] = [];
   selectedOption : any;
 
+  billTo: any = [
+    {
+      "id": "1",
+      "name": "Vendor"
+    },
+    {
+      "id": "2",
+      "name": "Customer"
+    }
+  ];
+
+  vendorVisible : boolean =  false;
+  customerVisible : boolean =  false;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -65,7 +79,7 @@ export class DebitNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        this.availableDN();
+        //this.availableDN();
       }
     });
 
@@ -86,24 +100,21 @@ export class DebitNoteComponent implements OnInit {
       debitNoteNumber: new FormControl(''),
       startDate: new FormControl('', Validators.required),//
       duedate: new FormControl('', Validators.required),//
-      internalNotes: new FormControl('',Validators.required),//
+      internalNotes: new FormControl(''),//
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       customer: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
       }),
-      debitNote: new FormControl('',Validators.required) ,
-      grossTotal: new FormControl('')
+      debitNote: new FormControl('') ,
+      grossTotal: new FormControl(''),
+      billToName : new FormControl('')
     });
   }
 
@@ -229,6 +240,19 @@ export class DebitNoteComponent implements OnInit {
       )
   }
 
+  billToSelect()
+  {
+     if( this.dnForm.value.billToName == "Vendor" )
+     {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+     }
+     else if( this.dnForm.value.billToName == "Customer" ){
+      this.customerVisible = true;
+      this.vendorVisible = false;
+     } 
+  }
+
   // bind()
   // {
   //   var vend = this.vendors ;
@@ -242,14 +266,23 @@ export class DebitNoteComponent implements OnInit {
 
   onSubmitDN()
   {
-    this.dnForm.value.customer = null;
+   // this.dnForm.value.customer = null;
     //this.dnForm.value.placeOfSupply = null ;
    // this.cnForm.value.requestStatus = null
+
+   if(this.dnForm.value.vendor.id == null  || this.dnForm.value.vendor.id == "" )
+    {
+      this.dnForm.value.vendor = null ;
+    }
+    else{
+      this.dnForm.value.customer = null ;
+    }
+
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
-    if (dnFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
+    alert(JSON.stringify(dnFormVal));
 
+    if (dnFormVal.id) {
       this.billS.updateDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);
@@ -505,12 +538,21 @@ export class DebitNoteComponent implements OnInit {
 
   finalDNSubmitPage() {
     // updated complete PO so that gross total can be updated
+
+    if(this.dnForm.value.vendor.id == null  || this.dnForm.value.vendor.id == "" )
+    {
+      this.dnForm.value.vendor = null ;
+    }
+    else{
+      this.dnForm.value.customer = null ;
+    }
+
     var rnFormVal = this.dnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.grossTotal = this.dnSubTotal ;
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
-      this.dnForm.value.customer = null;
+     // this.dnForm.value.customer = null;
    // this.dnForm.value.placeOfSupply = null ;
       this.billS.updateDebitNote(rnFormVal).then(
         (res) => {

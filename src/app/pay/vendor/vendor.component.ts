@@ -19,7 +19,7 @@ export class VendorComponent implements OnInit {
 
   accountDetailsVisible: boolean = false;
   addressDetailsVisible: boolean = false;
-  shippingAddressVisible: boolean = true;
+  shippingAddressVisible: boolean = false;
 
   constructor(private router: Router,
     private message: MessageService,
@@ -27,19 +27,20 @@ export class VendorComponent implements OnInit {
 
   ngOnInit(): void {
     this.vendorForm = new FormGroup({
+      id: new FormControl('') ,
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       mobileNumber: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
       address: new FormControl(''),
       accountDetails: new FormControl(''),
-      upiId : new FormControl('', Validators.required),
-      notes : new FormControl('', Validators.required),
+      notes : new FormControl(''),
       username : new FormControl('', Validators.required),
       password : new FormControl('', Validators.required)
     });
 
     this.accountDetailsForm = new FormGroup({
+      id: new FormControl('') ,
       bankname: new FormControl('', Validators.required),
       branchName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -48,24 +49,24 @@ export class VendorComponent implements OnInit {
     });
 
     this.addressDetailsForm = new FormGroup({
+      id: new FormControl('') ,
       billingName: new FormControl('', [Validators.required]),
       billingAddress: new FormControl('', [Validators.required]),
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
-      shippingName: new FormControl('', Validators.required),
-      shippingAddress: new FormControl('', Validators.required),
-      isShippingAddressSameAsBillingAddress: new FormControl('')
+      shippingName: new FormControl(''),
+      shippingAddress: new FormControl(''),
+      isShippingAddressSameAsBillingAddress: new FormControl(true)
     });
 
     // Default making billing Address same as Shipping Address
-    this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = false;
+    //this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
 
   onSubmit() {
     console.log(this.vendorForm);
     console.log(this.accountDetailsForm);
     console.log(this.addressDetailsForm);
-
     this.saveAccount();
   }
 
@@ -98,6 +99,13 @@ export class VendorComponent implements OnInit {
     console.log("Step 2");
     if (this.addressDetailsForm.status == 'VALID') {
       // save Address Details API
+      if( this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName== "")
+      {
+        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
+      }
+      else {
+      this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
+      }
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
           //this.addressDetailS = res;
@@ -111,32 +119,31 @@ export class VendorComponent implements OnInit {
         console.log("Complete Address error");
       })
     }
-    else if (this.addressDetailsForm.status == 'INVALID') {
-      if ((this.addressDetailsForm.value.billingName != ""   &&
-        this.addressDetailsForm.value.billingAddress != "" ) &&
-        (this.addressDetailsForm.value.pincode != "" &&
-          this.addressDetailsForm.value.city != "")) {
-        this.payPageS.createAddress(this.addressDetailsForm.value).then(
-          (res) => {
-             //this.addressDetailS = res;
-
-           // this.customerDetails.address=res;
-           this.vendorForm.value.address = res;
-            //   this.add.push(res);
-            console.log("Billing Address Saved");
-            this.saveVendor();
-            this.ngOnInit();
-          }
-        ).catch((err) => {
-          console.log("BIlling Address error");
-        })
-      }
-      else{
-        this.vendorForm.value.address = null;
-        this.saveVendor();
-      }
+    else{
+      this.vendorForm.value.address = null;
+      this.saveVendor();
     }
-    
+    // else if (this.addressDetailsForm.status == 'INVALID') {
+    //   if ((this.addressDetailsForm.value.billingName != ""   &&
+    //     this.addressDetailsForm.value.billingAddress != "" ) &&
+    //     (this.addressDetailsForm.value.pincode != "" &&
+    //       this.addressDetailsForm.value.city != "")) {
+    //     this.payPageS.createAddress(this.addressDetailsForm.value).then(
+    //       (res) => {
+    //          //this.addressDetailS = res;
+
+    //        // this.customerDetails.address=res;
+    //        this.vendorForm.value.address = res;
+    //         //   this.add.push(res);
+    //         console.log("Billing Address Saved");
+    //         this.saveVendor();
+    //         this.ngOnInit();
+    //       }
+    //     ).catch((err) => {
+    //       console.log("BIlling Address error");
+    //     })
+    //   }
+      
   }
 
   saveVendor() {
@@ -205,6 +212,11 @@ export class VendorComponent implements OnInit {
 
   openAddressForm() {
     this.addressDetailsVisible = true;
+  }
+
+  onCloseVendor()
+  {
+
   }
 
 

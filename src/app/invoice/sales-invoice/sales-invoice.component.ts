@@ -81,7 +81,7 @@ export class SalesInvoiceComponent implements OnInit {
       }
     });
 
-    this.initForm();
+     this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadCustomer();

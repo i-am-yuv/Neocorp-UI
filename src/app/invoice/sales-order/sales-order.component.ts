@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Product } from 'src/app/profile/profile-models';
+import { Product, State } from 'src/app/profile/profile-models';
 import { Vendor } from 'src/app/settings/customers/customer';
 import { SalesOrder, SalesOrderLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class SalesOrderComponent implements OnInit {
 
   vendors: Vendor[] = [];
   products: Product[] = [];
+  states: State[] = [];
 
   lineitems: any[] = [];
   currentSoOrder: SalesOrder = {};
@@ -38,7 +39,7 @@ export class SalesOrderComponent implements OnInit {
 
   uploadMessage = '';
   soSubTotal: number = 0;
-
+ 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -72,7 +73,8 @@ export class SalesOrderComponent implements OnInit {
 
   initForm() {
     this.soForm = new FormGroup({
-      documentno: new FormControl('', Validators.required),
+      id: new FormControl(''),
+      documentno: new FormControl(''),
       dueDate: new FormControl('', Validators.required),//
       billDate: new FormControl('', Validators.required),//
       termsOfPayments: new FormControl('', Validators.required),//
@@ -82,7 +84,11 @@ export class SalesOrderComponent implements OnInit {
           validators: Validators.required,
         })
       }),
-      dispatchTo: new FormControl('', Validators.required),
+      placeOfSupply: this.fb.group({
+        id: this.fb.nonNullable.control('', {
+          validators: Validators.required,
+        })
+      }),
       grossTotal: new FormControl('')
     });
   }
@@ -186,9 +192,11 @@ export class SalesOrderComponent implements OnInit {
       )
   }
 
+  
+
   onSubmitSO()
   {
-    this.soForm.value.dispatchTo = null ;
+    
     this.soForm.value.company = null ;  // tempo
     //this.soForm.value.documentno = null ;
 
@@ -466,6 +474,7 @@ export class SalesOrderComponent implements OnInit {
 
   finalSoSubmitPage() {
     // updated complete PO so that gross total can be updated
+
     alert("Final Sales Order Submission Done");
     var sFormVal = this.soForm.value;
     sFormVal.id = this.id;

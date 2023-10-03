@@ -41,6 +41,20 @@ export class ReceiptNoteComponent implements OnInit {
   uploadMessage = '';
   rnSubTotal: number = 0;
 
+  billTo: any = [
+    {
+      "id": "1",
+      "name": "Vendor"
+    },
+    {
+      "id": "2",
+      "name": "Customer"
+    }
+  ];
+
+  vendorVisible : boolean =  false;
+  customerVisible : boolean =  false;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -79,25 +93,22 @@ export class ReceiptNoteComponent implements OnInit {
       receiptNoteNumber: new FormControl(''),
       startDate: new FormControl('', Validators.required),//
       endDate: new FormControl('', Validators.required),//
-      internalNotes: new FormControl('',Validators.required),//
-      description: new FormControl('',Validators.required),//
-      clientNotes: new FormControl('',Validators.required),//
+      internalNotes: new FormControl(''),//
+      description: new FormControl(''),//
+      clientNotes: new FormControl(''),//
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       customer: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
       }),
-      grossTotal: new FormControl('')
+      grossTotal: new FormControl(''),
+      billToName : new FormControl('')
     });
   }
 
@@ -224,14 +235,35 @@ export class ReceiptNoteComponent implements OnInit {
 
   selectVendor(){}
 
+  billToSelect()
+  {
+     if( this.rnForm.value.billToName == "Vendor" )
+     {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+     }
+     else if( this.rnForm.value.billToName == "Customer" ){
+      this.customerVisible = true;
+      this.vendorVisible = false;
+     } 
+  }
+
 
   onSubmitRN()
   {
-    this.rnForm.value.customer = null;
+
+    if(this.rnForm.value.vendor.id == null  || this.rnForm.value.vendor.id == "" )
+    {
+      this.rnForm.value.vendor = null ;
+    }
+    else{
+      this.rnForm.value.customer = null ;
+    }
     //this.rnForm.value.placeOfSupply = null ;
 
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
+    alert(JSON.stringify(rnFormVal));
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
        this.submitted = true;
@@ -504,12 +536,21 @@ export class ReceiptNoteComponent implements OnInit {
 
   finalRNSubmitPage() {
     // updated complete PO so that gross total can be updated
+
+    if(this.rnForm.value.vendor.id == null  || this.rnForm.value.vendor.id == "" )
+    {
+      this.rnForm.value.vendor = null ;
+    }
+    else{
+      this.rnForm.value.customer = null ;
+    }
+    
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.grossTotal = this.rnSubTotal ;
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
-      rnFormVal.customer = null ;
+    //  rnFormVal.customer = null ;
    //   rnFormVal.placeOfSupply = null ;
       this.submitted = true;
       this.billS.updateReceiptNote(rnFormVal).then(

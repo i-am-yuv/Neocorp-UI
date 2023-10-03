@@ -11,7 +11,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class CustomerComponent implements OnInit {
 
-  isSidebarVisible : boolean =  true;
+  isSidebarVisible: boolean = true;
 
   customerForm!: FormGroup;
   addressDetailsForm !: FormGroup;
@@ -19,25 +19,27 @@ export class CustomerComponent implements OnInit {
 
   accountDetailsVisible: boolean = false;
   addressDetailsVisible: boolean = false;
-  shippingAddressVisible: boolean = true;
+  shippingAddressVisible: boolean = false;
 
   constructor(private router: Router,
     private message: MessageService,
-    private payPageS:PayPageService) { }
+    private payPageS: PayPageService) { }
 
   ngOnInit(): void {
     this.customerForm = new FormGroup({
+      id: new FormControl(''),
       displayName: new FormControl('', Validators.required),
       contactName: new FormControl('', Validators.required),
       mobileNumber: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
       address: new FormControl(''),
       accountDetails: new FormControl(''),
-      upiId : new FormControl(''),
-      notes : new FormControl('')
+      upiId: new FormControl(''),
+      notes: new FormControl('')
     });
 
     this.accountDetailsForm = new FormGroup({
+      id: new FormControl(''),
       bankname: new FormControl('', Validators.required),
       branchName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -46,17 +48,18 @@ export class CustomerComponent implements OnInit {
     });
 
     this.addressDetailsForm = new FormGroup({
+      id: new FormControl(''),
       billingName: new FormControl('', [Validators.required]),
       billingAddress: new FormControl('', [Validators.required]),
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
-      shippingName: new FormControl('', Validators.required),
-      shippingAddress: new FormControl('', Validators.required),
-      isShippingAddressSameAsBillingAddress: new FormControl('')
+      shippingName: new FormControl(''),
+      shippingAddress: new FormControl(''),
+      isShippingAddressSameAsBillingAddress: new FormControl(true)
     });
 
     // Default making billing Address same as Shipping Address
-    this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = false;
+    this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
 
   onSubmit() {
@@ -64,7 +67,7 @@ export class CustomerComponent implements OnInit {
     console.log(this.accountDetailsForm);
     console.log(this.addressDetailsForm);
 
-    this.saveAccount();
+    //this.saveAccount();
   }
 
   saveAccount() {
@@ -81,16 +84,24 @@ export class CustomerComponent implements OnInit {
         console.log("Account error");
       })
     }
-    else{
-      this.customerForm.value.accountDetails = null ;
+    else {
+      this.customerForm.value.accountDetails = null;
       this.saveAddress();
     }
-    
+
   }
 
   saveAddress() {
     console.log("Step 2");
     if (this.addressDetailsForm.status == 'VALID') {
+
+      if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
+        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
+      }
+      else {
+        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
+      }
+
       // save Address Details API
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
@@ -105,32 +116,12 @@ export class CustomerComponent implements OnInit {
         console.log("Complete Address error");
       })
     }
-    else if (this.addressDetailsForm.status == 'INVALID') {
-      if ((this.addressDetailsForm.value.billingName != ""   &&
-        this.addressDetailsForm.value.billingAddress != "" ) &&
-        (this.addressDetailsForm.value.pincode != "" &&
-          this.addressDetailsForm.value.city != "")) {
-        this.payPageS.createAddress(this.addressDetailsForm.value).then(
-          (res) => {
-             //this.addressDetailS = res;
-
-           // this.customerDetails.address=res;
-           this.customerForm.value.address = res;
-            //   this.add.push(res);
-            console.log("Billing Address Saved");
-            this.saveCustomer();
-            this.ngOnInit();
-          }
-        ).catch((err) => {
-          console.log("BIlling Address error");
-        })
-      }
-      else{
-        this.customerForm.value.address = null;
-        this.saveCustomer();
-      }
+    else {
+      this.customerForm.value.address = null;
+      this.saveCustomer();
     }
-    
+
+
   }
 
   saveCustomer() {
@@ -199,6 +190,10 @@ export class CustomerComponent implements OnInit {
 
   openAddressForm() {
     this.addressDetailsVisible = true;
+  }
+
+  onCloseCustomer() {
+
   }
 
 }

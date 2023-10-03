@@ -107,7 +107,7 @@ export class SidebarComponent implements OnInit {
       this.router.navigate(['/bills/purchaseOrder']);
     }
     else if (this.choosePayPageId == 5) {
-      this.router.navigate(['/collect/purchaseInvoice/create']);
+      this.router.navigate(['/collect/purchaseInvoice']);
     }
     else if (this.choosePayPageId == 6) {
       this.router.navigate(['/invoice/salesOrder']);
