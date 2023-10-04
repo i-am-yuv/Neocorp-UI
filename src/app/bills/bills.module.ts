@@ -28,7 +28,6 @@ import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-
     CommonModule,
     BillsRoutingModule,
     SharedModule,
-    DutchModule,
     ToggleButtonModule
   ],providers: [
     HttpClientModule,

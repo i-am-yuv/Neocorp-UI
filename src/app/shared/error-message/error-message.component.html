@@ -1,0 +1,5 @@
+<div class="p-error mt-2" [hidden]="controlName.valid || !controlName.dirty">
+    <ng-container *ngFor="let errorMessage of listErrors(); let last=last;">
+        {{ last ? errorMessage: '' }}
+    </ng-container>
+</div>

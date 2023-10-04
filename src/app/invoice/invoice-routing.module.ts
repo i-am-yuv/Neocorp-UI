@@ -11,11 +11,12 @@ import { VendorInvoiceComponent } from './vendor-invoice/vendor-invoice.componen
 import { SalesInvoiceComponent } from './sales-invoice/sales-invoice.component';
 import { SalesInvoiceDashboardComponent } from './sales-invoice-dashboard/sales-invoice-dashboard.component';
 import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vendor-invoice-dashboard.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: 'salesOrder',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: SalesOrderComponent },
       { path: 'create', component: SalesOrderComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'vendorInvoice',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: VendorInvoiceComponent },
       { path: 'create', component: VendorInvoiceComponent },
@@ -33,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'salesInvoice',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: SalesInvoiceComponent },
       { path: 'create', component: SalesInvoiceComponent },
@@ -42,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'creditNote',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: CreditNoteComponent },
       { path: 'create', component: CreditNoteComponent },
@@ -51,7 +52,7 @@ const routes: Routes = [
   },
   {
     path: 'cashMemo',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: CashMemoComponent },
       { path: 'create', component: CashMemoComponent },
@@ -60,23 +61,39 @@ const routes: Routes = [
   },
   {
     path: 'creditNotes',
-    component: CreditNoteDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: CreditNoteDashboardComponent }
+    ]
   },
   {
     path: 'salesOrders',
-    component: SalesOrderDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: SalesOrderDashboardComponent }
+    ]
   },
   {
     path: 'cashMemos',
-    component: CashMemoDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: CashMemoDashboardComponent }
+    ]
+    
   },
   {
     path: 'salesInvoices',
-    component: SalesInvoiceDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: SalesInvoiceDashboardComponent }
+    ]
   },
   {
     path: 'vendorInvoices',
-    component: VendorInvoiceDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: VendorInvoiceDashboardComponent }
+    ]
   }
 ];
 

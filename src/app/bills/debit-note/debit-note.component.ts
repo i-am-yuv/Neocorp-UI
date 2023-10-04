@@ -79,7 +79,7 @@ export class DebitNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        //this.availableDN();
+        this.availableDN();
       }
     });
 

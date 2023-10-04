@@ -16,8 +16,7 @@ import { DelegationRoleComponent } from './delegation-role/delegation-role.compo
   imports: [
     CommonModule,
     SettingRoutingModule,
-    SharedModule,
-    DutchModule
+    SharedModule
   ]
 })
 export class SettingModule { }

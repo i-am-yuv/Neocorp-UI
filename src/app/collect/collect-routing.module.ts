@@ -4,11 +4,12 @@ import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { PoInvoiceComponent } from './po-invoice/po-invoice.component';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: 'purchaseInvoice',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: PoInvoiceComponent  },
       { path: 'create', component: PoInvoiceComponent  },
@@ -17,11 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'purchaseInvoices',
-    component:PoInvoiceDashboardComponent
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: PoInvoiceDashboardComponent  }
+    ]
   },
   {
     path: 'createCustomer',
-    component:CustomerComponent 
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: CustomerComponent  }
+    ]
   }
 ];
 

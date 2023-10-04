@@ -65,8 +65,6 @@ export class VendorInvoiceComponent implements OnInit {
     this.initForm();
     this.loadVendors();
     this.loadProducts();
- 
-  
     this.getVI();
   }
 

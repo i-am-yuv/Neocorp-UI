@@ -113,7 +113,7 @@ export class CreditNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-      //  this.availableCN();
+        this.availableCN();
       }
     });
 

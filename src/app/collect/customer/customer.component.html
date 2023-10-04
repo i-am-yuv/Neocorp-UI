@@ -1,226 +1,207 @@
 <p-toast></p-toast>
-<div class="layout">
-    <app-navbar></app-navbar>
-
-    <div class="content-wrapper">
-        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
-        <div class="sidebar bg-gray-400">
-            <app-sidebar></app-sidebar>
+<div class="">
+    <div class="bg-white">
+        <div class="border-bottom-1 border-200 text-right p-3">
+            <button type="button" pButton label="Close" (click)="onCloseCustomer()"
+                class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600   "></button>
+            <button type="button" pButton label="Create Customer" (click)="onSubmit()" [disabled]="!customerForm.valid"
+                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
         </div>
+    </div>
 
-        <div class="main-content bg-gray-100">
+    <div class="m-6 bg-white border-round-3xl">
+        <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="p-6">
+            <h4 class="text-xl text-blue-700">Basic Details</h4>
 
-            <div class="raised-container">
-                <div class="flex button-container ">
-                    <button type="button" pButton label="Close"  (click)="onCloseCustomer()"
-                        class=" mt-3 mb-3 p-button-secondary  "></button>
-                    <button type="button" pButton label="Create Customer" (click)="onSubmit()"
-                        [disabled]="!customerForm.valid"
-                        class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+            <div class="flex gap-3">
+                <div class="field col-6">
+                    <label class="mr-3 required">Display Name</label>
+                    <input pInputText formControlName="displayName" placeholder="Enter Display Name"
+                        class="w-full custom-input" />
+                    <error-message [controlName]="customerForm.controls['displayName']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 required">Contact Name</label>
+                    <input pInputText formControlName="contactName" placeholder="Enter Contact Name"
+                        class="w-full custom-input" />
+                    <error-message [controlName]="customerForm.controls['contactName']"></error-message>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <div class="field col-6">
+                    <label class="mr-3 required">Mobile</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">+91</span>
+                        <input pInputText type="text" formControlName="mobileNumber"
+                            class="form-control custom-input inputfield w-full" name="login" minlength="10"
+                            maxlength="10" [pKeyFilter]="'int'" placeholder="Enter 10 Digit of Mobile Number" />
+                    </div>
+                    <error-message [controlName]="customerForm.controls['mobileNumber']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 required">Email</label>
+                    <input pInputText type="text" formControlName="email" placeholder="Enter Email ID"
+                        class="form-control custom-input inputfield w-full" name="login" email minlength="6"
+                        maxlength="60" />
+                    <error-message [controlName]="customerForm.controls['email']"></error-message>
                 </div>
             </div>
 
-            <div>
-                <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="p-5">
-                    <h4 class="text-xl text-blue-700">Basic Details</h4>
-                
-                    <div class="flex gap-3">
-                        <div class="field col-6">
-                            <label class="mr-3 required">Display Name</label>
-                            <input pInputText formControlName="displayName" placeholder="Enter Display Name"
-                                class="w-full custom-input" />
-                            <error-message [controlName]="customerForm.controls['displayName']"></error-message>
-                        </div>
-                        <div class="field col-6">
-                            <label class="mr-3 required">Contact Name</label>
-                            <input pInputText formControlName="contactName" placeholder="Enter Contact Name"
-                                class="w-full custom-input" />
-                            <error-message [controlName]="customerForm.controls['contactName']"></error-message>
-                        </div>
-                    </div>
-                    <div class="flex gap-3">
-                        <div class="field col-6">
-                            <label class="mr-3 required">Mobile</label>
-                            <div class="p-inputgroup">
-                                <span class="p-inputgroup-addon">+91</span>
-                                <input pInputText type="text" formControlName="mobileNumber"
-                                    class="form-control custom-input inputfield w-full" name="login" minlength="10" maxlength="10"
-                                    [pKeyFilter]="'int'" placeholder="Enter 10 Digit of Mobile Number" />
-                            </div>
-                            <error-message [controlName]="customerForm.controls['mobileNumber']"></error-message>
-                        </div>
-                        <div class="field col-6">
-                            <label class="mr-3 required">Email</label>
-                            <input pInputText type="text" formControlName="email" placeholder="Enter Email ID"
-                                class="form-control custom-input inputfield w-full" name="login" email minlength="6"
-                                maxlength="60" />
-                            <error-message [controlName]="customerForm.controls['email']"></error-message>
-                        </div>
-                    </div>
+            <hr class="border-gray-50 mt-4 mb-3">
 
-                    <hr class="border-gray-50 mt-4 mb-3">
-
-                    <!-- <div class="flex">
+            <!-- <div class="flex">
                         <div *ngIf="!this.accountDetailsVisible" class="field col-12 bg-slate-200">
                             <button (click)="openAccountForm()" type="button" class="w-full line-height-4">+ Add Account
                                 Details</button>
                         </div>
                     </div> -->
-                    <div>
-                        <form [formGroup]="accountDetailsForm">
+            <div>
+                <form [formGroup]="accountDetailsForm">
 
-                            <div class="flex">
-                                <div class="field col-12">
-                                    <h4 class="text-xl text-blue-700"><b>Account Details</b></h4>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="field col-6">
-                                    <label class="mr-3 ">Account Number</label>
-                                    <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
-                                        class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
-                                </div>
-                                <div class="field col-6">
-                                    <label class="mr-3 ">Account type</label>
-                                    <input pInputText formControlName="accountType" placeholder="Enter Account Type"
-                                        class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="accountDetailsForm.controls['accountType']"></error-message>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-2 ">
-                                <div class="field col-4">
-                                    <label class="mr-3 ">IFSC Code</label>
-                                    <input pInputText formControlName="ifsc" placeholder="Enter IFSC code"
-                                        class="w-full custom-input" />
-                                    <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
-                                </div>
-                                <div class="field col-4">
-                                    <label class="mr-3 ">Bank Name</label>
-                                    <input pInputText formControlName="bankname" placeholder="Enter bank Name"
-                                        class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="accountDetailsForm.controls['bankname']"></error-message>
-                                </div>
-                                <div class="field col-4">
-                                    <label class="mr-3 ">Branch Name</label>
-                                    <input pInputText formControlName="branchName" placeholder="Enter Branch Name"
-                                        class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="accountDetailsForm.controls['branchName']"></error-message>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="flex">
+                        <div class="field col-12">
+                            <h4 class="text-xl text-blue-700"><b>Account Details</b></h4>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="field col-6">
+                            <label class="mr-3 ">Account Number</label>
+                            <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 ">Account type</label>
+                            <input pInputText formControlName="accountType" placeholder="Enter Account Type"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="accountDetailsForm.controls['accountType']"></error-message>
+                        </div>
                     </div>
 
+                    <div class="flex gap-2 ">
+                        <div class="field col-4">
+                            <label class="mr-3 ">IFSC Code</label>
+                            <input pInputText formControlName="ifsc" placeholder="Enter IFSC code"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
+                        </div>
+                        <div class="field col-4">
+                            <label class="mr-3 ">Bank Name</label>
+                            <input pInputText formControlName="bankname" placeholder="Enter bank Name"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
+                        </div>
+                        <div class="field col-4">
+                            <label class="mr-3 ">Branch Name</label>
+                            <input pInputText formControlName="branchName" placeholder="Enter Branch Name"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="accountDetailsForm.controls['branchName']"></error-message>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-                    <!-- <div class="flex">
+
+            <!-- <div class="flex">
                         <div *ngIf="!this.addressDetailsVisible" class="field col-12 bg-slate-200">
                             <button (click)="openAddressForm()" type="button" class="w-full line-height-4">+ Add Address
                                 Details</button>
                         </div>
                     </div> -->
 
-                    <hr class="border-gray-50 mt-4 mb-3">
+            <hr class="border-gray-50 mt-4 mb-3">
 
-                    <div>
-                        <form [formGroup]="addressDetailsForm">
-                            <div class="flex">
-                                <div class="field col-12">
-                                    <h4 class="text-xl text-blue-700"><b>Address Details</b></h4>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="field col-6">
-                                    <label class="mr-3 ">Billing Name</label>
-                                    <input pInputText formControlName="billingName" placeholder="Enter Billing Name"
-                                        class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="addressDetailsForm.controls['billingName']"></error-message>
-                                </div>
-                                <div class="field col-6">
-                                    <label class="mr-3 ">Billing Address</label>
-                                    <input pInputText formControlName="billingAddress"
-                                        placeholder="Enter Billing Address" class="w-full custom-input" />
-                                    <error-message
-                                        [controlName]="addressDetailsForm.controls['billingAddress']"></error-message>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-2">
-                                <div class="field col-4">
-                                    <label class="mr-3 ">Pincode</label>
-                                    <input pInputText name="Pincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
-                                        placeholder="Enter Pincode" maxlength="6" class="w-full custom-input" required />
-                                    <error-message
-                                        [controlName]="addressDetailsForm.controls['pincode']"></error-message>
-                                </div>
-                                <div class="field col-4">
-                                    <label class="mr-3 ">City / Town</label>
-                                    <input pInputText formControlName="city" placeholder="Enter town or city"
-                                        class="w-full custom-input" />
-                                    <error-message [controlName]="addressDetailsForm.controls['city']"></error-message>
-                                </div>
-                            </div>
-
-                            <div class="flex">
-                                <div class="field col-12">
-                                    <input (click)="ShippingAddressVisibility()" id="link-checkbox" type="checkbox"
-                                        value="" checked>
-                                    <label for="link-checkbox">Shipping Address Same As Billing Address</label>
-                                </div>
-                            </div>
-
-                            <div *ngIf="this.shippingAddressVisible">
-                                <div class="flex gap-3">
-                                    <div class="field col-6">
-                                        <label class="mr-3 ">Shipping Name</label>
-                                        <input pInputText formControlName="shippingName"
-                                            placeholder="Enter Shipping Name" class="w-full custom-input" />
-                                        <error-message
-                                            [controlName]="addressDetailsForm.controls['shippingName']"></error-message>
-                                    </div>
-                                    <div class="field col-6">
-                                        <label class="mr-3 ">Shipping Address</label>
-                                        <input pInputText formControlName="shippingAddress"
-                                            placeholder="Enter Shipping Address" class="w-full custom-input" />
-                                        <error-message
-                                            [controlName]="addressDetailsForm.controls['shippingAddress']"></error-message>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <hr class="border-gray-50 mt-4 mb-3">
-
+            <div>
+                <form [formGroup]="addressDetailsForm">
                     <div class="flex">
                         <div class="field col-12">
-                            <label class="mr-3 required">Notes</label>
-                            <input pInputText type="text" formControlName="notes" placeholder="Enter Notes"
-                                class="form-control inputfield w-full custom-input" />
-                            <error-message [controlName]="customerForm.controls['notes']"></error-message>
+                            <h4 class="text-xl text-blue-700"><b>Address Details</b></h4>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="field col-6">
+                            <label class="mr-3 ">Billing Name</label>
+                            <input pInputText formControlName="billingName" placeholder="Enter Billing Name"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="addressDetailsForm.controls['billingName']"></error-message>
+                        </div>
+                        <div class="field col-6">
+                            <label class="mr-3 ">Billing Address</label>
+                            <input pInputText formControlName="billingAddress" placeholder="Enter Billing Address"
+                                class="w-full custom-input" />
+                            <error-message
+                                [controlName]="addressDetailsForm.controls['billingAddress']"></error-message>
                         </div>
                     </div>
 
-                    <!-- <div class="field col-12 text-right w-full">
+                    <div class="flex gap-2">
+                        <div class="field col-4">
+                            <label class="mr-3 ">Pincode</label>
+                            <input pInputText name="Pincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
+                                placeholder="Enter Pincode" maxlength="6" class="w-full custom-input" required />
+                            <error-message [controlName]="addressDetailsForm.controls['pincode']"></error-message>
+                        </div>
+                        <div class="field col-4">
+                            <label class="mr-3 ">City / Town</label>
+                            <input pInputText formControlName="city" placeholder="Enter town or city"
+                                class="w-full custom-input" />
+                            <error-message [controlName]="addressDetailsForm.controls['city']"></error-message>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="field col-12">
+                            <input (click)="ShippingAddressVisibility()" id="link-checkbox" type="checkbox" value=""
+                                checked>
+                            <label for="link-checkbox">Shipping Address Same As Billing Address</label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="this.shippingAddressVisible">
+                        <div class="flex gap-3">
+                            <div class="field col-6">
+                                <label class="mr-3 ">Shipping Name</label>
+                                <input pInputText formControlName="shippingName" placeholder="Enter Shipping Name"
+                                    class="w-full custom-input" />
+                                <error-message
+                                    [controlName]="addressDetailsForm.controls['shippingName']"></error-message>
+                            </div>
+                            <div class="field col-6">
+                                <label class="mr-3 ">Shipping Address</label>
+                                <input pInputText formControlName="shippingAddress" placeholder="Enter Shipping Address"
+                                    class="w-full custom-input" />
+                                <error-message
+                                    [controlName]="addressDetailsForm.controls['shippingAddress']"></error-message>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="border-gray-50 mt-4 mb-3">
+
+            <div class="flex">
+                <div class="field col-12">
+                    <label class="mr-3 required">Notes</label>
+                    <input pInputText type="text" formControlName="notes" placeholder="Enter Notes"
+                        class="form-control inputfield w-full custom-input" />
+                    <error-message [controlName]="customerForm.controls['notes']"></error-message>
+                </div>
+            </div>
+
+            <!-- <div class="field col-12 text-right w-full">
                         <button type="submit" pButton label="Save" [disabled]="!customerForm.valid"
                             class="mb-6 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                     </div> -->
 
-                    <div class="flex button-container ">
-                        <button type="button" pButton label="Close"  (click)="onCloseCustomer()"
-                            class=" mt-3 mb-3 p-button-secondary  "></button>
-                        <button type="button" pButton label="Create Customer" (click)="onSubmit()"
-                            [disabled]="!customerForm.valid"
-                            class="mt-3 mr-3 mb-3 p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                    </div>
-
-                </form>
+            <div class="border-bottom-1 border-200 text-right p-3">
+                <button type="button" pButton label="Close" (click)="onCloseCustomer()"
+                    class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600   "></button>
+                <button type="button" pButton label="Create Customer" (click)="onSubmit()"
+                    [disabled]="!customerForm.valid"
+                    class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>
-        </div>
+
+        </form>
     </div>
 </div>

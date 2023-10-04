@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { PayRoutingModule } from './pay-routing.module';
 import { VendorComponent } from './vendor/vendor.component';
 import { SharedModule } from '../shared/shared.module';
-import { DutchModule } from '../dutch/dutch.module';
 import { ReturnRefundComponent } from './return-refund/return-refund.component';
 import { ReturnRefundDashboardComponent } from './return-refund-dashboard/return-refund-dashboard.component';
 
@@ -18,8 +17,8 @@ import { ReturnRefundDashboardComponent } from './return-refund-dashboard/return
   imports: [
     CommonModule,
     PayRoutingModule,
-    SharedModule,
-    DutchModule
+    SharedModule
+    //DutchModule
   ]
 })
 export class PayModule { }

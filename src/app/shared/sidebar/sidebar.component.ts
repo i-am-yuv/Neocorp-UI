@@ -17,72 +17,122 @@ export class SidebarComponent implements OnInit {
 
   paymentOptions: any = [
     {
-      "id": "1",
-      "name": "Create Vendor"
+      'heading': 'Essentials',
+      'items': [
+        // {
+        //   "id": "0",
+        //   "name": "Dashboard",
+        //   "url": "/dashboard",
+        //   "icon": "home"
+        // },
+        {
+          "id": "1",
+          "name": "Vendor",
+          "url":"/pay/vendor",
+          "icon": "home"
+        },
+        {
+          "id": "2",
+          "name": "Customer",
+          "url":"/collect/createCustomer",
+          "icon": "home"
+        },
+        {
+          "id": "3",
+          "name": "Product",
+          "url": "/profile/product",
+          "icon":"home"
+        },
+      ]
     },
     {
-      "id": "2",
-      "name": "Create Customer"
-    },
-    {
-      "id": "3",
-      "name": "Create Product"
-    },
-    {
-      "id": "4",
-      "name": "Create Purchase Order"
-    },
-    {
-      "id": "5",
-      "name": "Create Purchase Invoice"
-    },
-    {
-      "id": "6",
-      "name": "Create Sales Order"
-    },
-    {
-      "id": "7",
-      "name": "Create Receipt Note"
-    },
-    {
-      "id": "8",
-      "name": "Create Debit Note"
-    },
-    {
-      "id": "9",
-      "name": "Create Credit Note"
-    },
-    {
-      "id": "10",
-      "name": "Create product Category"
-    },
-    {
-      "id": "11",
-      "name": "Create Cash Memo"
-    },
-    {
-      "id": "12",
-      "name": "Create beneficairy"
-    },
-    {
-      "id": "13",
-      "name": "Create Return & Refund"
-    },
-    {
-      "id": "14",
-      "name": "Create Role"
-    },
-    {
-      "id": "15",
-      "name": "Create Delegation Role"
-    },
-    {
-      "id": "16",
-      "name": "Create Sales Invoice"
-    },
-    {
-      "id": "17",
-      "name": "Create Vendor Invoice"
+      'heading': 'Utilities',
+      items: [
+        {
+          "id": "4",
+          "name": "Purchase Order",
+          "url": "/bills/purchaseOrder",
+          "icon":"home"
+        },
+        {
+          "id": "5",
+          "name": "Purchase Invoice",
+          "url": "/collect/purchaseInvoice",
+          "icon":"home"
+        },
+        {
+          "id": "6",
+          "name": "Sales Order",
+          "url": "/invoice/salesOrder",
+          "icon":"home"
+        },
+        {
+          "id": "7",
+          "name": "Receipt Note",
+          "url": "/bills/receiptNote",
+          "icon":"home"
+        },
+        {
+          "id": "8",
+          "name": "Debit Note",
+          "url": "/bills/debitNote",
+          "icon":"home"
+        },
+        {
+          "id": "9",
+          "name": "Credit Note",
+          "url": "/invoice/creditNote",
+          "icon":"home"
+        },
+        {
+          "id": "10",
+          "name": "product Category",
+          "url": "/profile/productCateogry",
+          "icon":"home"
+        },
+        {
+          "id": "11",
+          "name": "Cash Memo",
+          "url": "/invoice/cashMemo",
+          "icon":"home"
+        },
+        {
+          "id": "12",
+          "name": "beneficairy",
+          "url": "/profile/beneficiary/create",
+          "icon":"home"
+        },
+        {
+          "id": "13",
+          "name": "Return & Refund",
+          "url": "/pay/returnAndRefund",
+          "icon":"home"
+        },
+        {
+          "id": "14",
+          "name": "Role",
+          "url": "/setting/role/create",
+          "icon":"home"
+        },
+        {
+          "id": "15",
+          "name": "Delegation Role",
+          "url": "/setting/delegationRole/create",
+          "icon":"home"
+        },
+        {
+          "id": "16",
+          "name": "Sales Invoice",
+          "url": "/invoice/salesInvoice",
+          "icon":"home"
+        },
+        {
+          "id": "17",
+          "name": "Vendor Invoice",
+          "url": "/invoice/vendorInvoice",
+          "icon":"home"
+        }
+      ]
     }
   ]
 
@@ -93,8 +143,16 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/pay']);
   }
 
+  goToDashBoard()
+  {
+    this.router.navigate(['/dashboard']);
+  }
+
   viewPayPages() {
-    if (this.choosePayPageId == 1) {
+    if (this.choosePayPageId == 0) {
+      this.router.navigate(['/dashboard']);
+    }
+    else if (this.choosePayPageId == 1) {
       this.router.navigate(['/pay/vendor']);
     }
     else if (this.choosePayPageId == 2) {
@@ -145,7 +203,7 @@ export class SidebarComponent implements OnInit {
     else if (this.choosePayPageId == 17) {
       this.router.navigate(['/invoice/vendorInvoice']);
     }
-    
+
   }
 
 }

@@ -1,26 +1,19 @@
 <p-toast></p-toast>
-<div class="layout">
-    <app-navbar></app-navbar>
 
-    <div class="content-wrapper">
-        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
-        <div class="sidebar bg-gray-500">
-            <app-sidebar></app-sidebar>
-        </div>
-
-        <div class="main-content">
-            <div class="raised-container">
-                <div class="flex bg-gray-300 button-container">
+        <div class="">
+            <div class="bg-white">
+                <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Cancel"
-                        class=" mt-3 mb-3 p-button-raised bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
+                        class=" mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
                     <button type="button" pButton label="Add Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
-                        class="mt-3 mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
 
-            <div>
-                <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-3">
-                    <h3 class="text-xl text-blue-500">Product Details</h3>
+            <div class="m-6 bg-white border-round-3xl">
+
+                <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-6">
+                    <h3 class="text-xl text-blue-700">Product Details</h3>
 
                     <div class="flex gap-2">
                         <div class="field col-6">
@@ -70,7 +63,7 @@
                     </div>
 
                     
-                    <h4 class="text-base text-blue-600">Price Details</h4>
+                    <h4 class="text-base text-blue-700">Price Details</h4>
                     <div class="flex gap-2">
                         <div class="field col-6">
                             <label class="mr-3 required">Product's MRP</label>
@@ -85,7 +78,7 @@
                     </div>
 
                     
-                    <h4 class="text-blue-600">Code Details</h4>
+                    <h4 class="text-blue-700">Code Details</h4>
 
                     <div class="flex gap-2">
                         <div class="field col-6">
@@ -115,15 +108,20 @@
                         </div> 
                     </div>
 
-                    <div class="flex ">
+                    <!-- <div class="flex ">
                         <div class="field col-12 text-right w-full">
                             <button type="submit" pButton label="Save" [disabled]="!productForm.valid"
                                 class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                         </div>
+                    </div> -->
+
+                    <div class="border-bottom-1 border-200 text-right p-3">
+                        <button type="button" pButton label="Cancel"
+                            class=" mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
+                        <button type="button" pButton label="Add Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
+                            class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                     </div>
 
                 </form>
             </div>
         </div>
-    </div>
-</div>

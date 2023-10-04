@@ -4,19 +4,26 @@ import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: 'product',
-    component: ProductComponent,
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: ProductComponent }
+    ],
   },
   {
     path: 'productCateogry',
-    component: CategoryComponent,
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: CategoryComponent }
+    ],
   },
   {
     path: 'beneficiary',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: 'create', component: BeneficiaryComponent },
       { path: 'edit/:id', component: BeneficiaryComponent },

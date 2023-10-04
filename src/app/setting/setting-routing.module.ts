@@ -3,11 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoleComponent } from './role/role.component';
 import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { DelegationRoleComponent } from './delegation-role/delegation-role.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: 'role',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: 'create', component: RoleComponent },
       { path: 'edit/:id', component: RoleComponent },
@@ -15,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'delegationRole',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: 'create', component: DelegationRoleComponent },
       { path: 'edit/:id', component: DelegationRoleComponent },

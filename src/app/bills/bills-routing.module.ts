@@ -7,12 +7,13 @@ import { DebitNoteComponent } from './debit-note/debit-note.component';
 import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';
 import { DebitNoteDashboardComponent } from './debit-note-dashboard/debit-note-dashboard.component';
 import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-note-dashboard.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 
 const routes: Routes = [
   {
     path: 'purchaseOrder',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: PurchaseOrderComponent },
       { path: 'create', component: PurchaseOrderComponent },
@@ -21,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'receiptNote',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: ReceiptNoteComponent },
       { path: 'create', component: ReceiptNoteComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'debitNote',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: DebitNoteComponent },
       { path: 'create', component: DebitNoteComponent },
@@ -39,15 +40,24 @@ const routes: Routes = [
   },
   {
     path: 'purchaseOrders',
-    component:PoDashboardComponent 
+    component:LayoutComponent,
+    children: [
+      { path: '', component: PoDashboardComponent },
+    ],
   },
   {
     path: 'debitNotes',
-    component:DebitNoteDashboardComponent 
+    component:LayoutComponent,
+    children: [
+      { path: '', component: DebitNoteDashboardComponent },
+    ]
   },
   {
     path: 'receiptNotes',
-    component:ReceiptNoteDashboardComponent 
+    component:LayoutComponent,
+    children: [
+      { path: '', component: ReceiptNoteDashboardComponent },
+    ]
   }
 ];
 

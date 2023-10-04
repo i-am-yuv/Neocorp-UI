@@ -26,11 +26,11 @@ import { SettingModule } from './setting/setting.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ProfileModule,
-    BillsModule,
-    CollectModule,
-    InvoiceModule,
-    SettingModule
+    // ProfileModule,
+    // BillsModule,
+    // CollectModule,
+    // InvoiceModule,
+    // SettingModule
   ],
   providers: [
     HttpClientModule,

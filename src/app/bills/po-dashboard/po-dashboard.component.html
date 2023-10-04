@@ -1,24 +1,15 @@
 <p-toast></p-toast>
-<div class="layout">
-    <app-navbar></app-navbar>
-
-    <div class="content-wrapper">
-        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
-        <div class="sidebar bg-gray-400">
-            <app-sidebar></app-sidebar>
-        </div>
-
-        <div class="main-content bg-gray-50">
-            <div class="raised-container">
-                <div class="flex bg-gray-300 button-container">
+        <div class="">
+            <div class="bg-white">
+                <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="+ Create PO" (click)="CreateNewPO()"
-                        class="mt-3  text-lg mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  "></button>
                 </div>
             </div>
 
-            <div>
+            <div class="m-3 bg-white border-round-3xl text-center">
                 <div class="padFlex flex gap-5">
-                    <div class="col-5 raised-container bg-white ">
+                    <div class="col-5">
                         <p-panel class="left-panel ">
                             <ng-template pTemplate="header">
                                 <span class="p-panel-title" style="padding: 1px">Sent to</span>
@@ -192,10 +183,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
     <p-blockUI [blocked]="submitted">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
     </p-blockUI>
-
-</div>

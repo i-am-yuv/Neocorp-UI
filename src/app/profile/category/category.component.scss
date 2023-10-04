@@ -1,46 +1,46 @@
-.layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Adjust the height as needed */
+// .layout {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100vh; /* Adjust the height as needed */
   
-    .content-wrapper {
-      display: flex;
-      flex-grow: 1;
-    }
+//     .content-wrapper {
+//       display: flex;
+//       flex-grow: 1;
+//     }
   
-    .sidebar {
-      width: 220px; /* Adjust the width as needed */
-       /* Set the background color of the sidebar */
-      color: white; /* Set the text color of the sidebar */
-    }
+//     .sidebar {
+//       width: 220px; /* Adjust the width as needed */
+//        /* Set the background color of the sidebar */
+//       color: white; /* Set the text color of the sidebar */
+//     }
   
-    .main-content {
-      flex-grow: 1;
-      padding: 20px; /* Add padding for content */
-    }
-  }
-  div{
-    padding: 0 !important;
-    // Use !important to ensure your styles take precedence
-  }
+//     .main-content {
+//       flex-grow: 1;
+//       padding: 20px; /* Add padding for content */
+//     }
+//   }
+//   div{
+//     padding: 0 !important;
+//     // Use !important to ensure your styles take precedence
+//   }
   
-  .flex{
-    padding: 0 !important; 
-  }
+//   .flex{
+//     padding: 0 !important; 
+//   }
 
-  // .custom-div {
-  //   padding: 5px;
-  // }
+//   // .custom-div {
+//   //   padding: 5px;
+//   // }
 
-  .button-container {
-    display: flex;
-    justify-content: flex-end; // Align items to the right
-    gap: 10px; // Optional gap between buttons
-  }
-  .raised-container {
-    padding: 20px; /* Optional: Add padding for spacing around the content */
-    background-color: #fff; /* Optional: Set the background color */
+//   .button-container {
+//     display: flex;
+//     justify-content: flex-end; // Align items to the right
+//     gap: 10px; // Optional gap between buttons
+//   }
+//   .raised-container {
+//     padding: 20px; /* Optional: Add padding for spacing around the content */
+//     background-color: #fff; /* Optional: Set the background color */
   
-    /* Box shadow to create the raised effect */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
-  }
+//     /* Box shadow to create the raised effect */
+//     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
+//   }

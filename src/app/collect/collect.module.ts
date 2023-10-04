@@ -18,7 +18,6 @@ import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-d
   imports: [
     CommonModule,
     CollectRoutingModule,
-    DutchModule,
     SharedModule
   ]
 })

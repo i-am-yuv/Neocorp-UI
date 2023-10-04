@@ -1,56 +1,56 @@
-.layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Adjust the height as needed */
+// .layout {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100vh; /* Adjust the height as needed */
   
-    .content-wrapper {
-      display: flex;
-      flex-grow: 1;
-    }
+//     .content-wrapper {
+//       display: flex;
+//       flex-grow: 1;
+//     }
   
-    .sidebar {
-      width: 220px; /* Adjust the width as needed */
-       /* Set the background color of the sidebar */
-      color: white; /* Set the text color of the sidebar */
-    }
+//     .sidebar {
+//       width: 220px; /* Adjust the width as needed */
+//        /* Set the background color of the sidebar */
+//       color: white; /* Set the text color of the sidebar */
+//     }
   
-    .main-content {
-      flex-grow: 1;
-      padding: 20px; /* Add padding for content */
-    }
-  }
+//     .main-content {
+//       flex-grow: 1;
+//       padding: 20px; /* Add padding for content */
+//     }
+//   }
   .center-container {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+   // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
     //width: 600px;
   }
-  div{
-    padding: 0 !important;
-    // Use !important to ensure your styles take precedence
-  }
+//   div{
+//     padding: 0 !important;
+//     // Use !important to ensure your styles take precedence
+//   }
 
-  .button-container {
-    display: flex;
-    justify-content: flex-end; // Align items to the right
-    gap: 10px; // Optional gap between buttons
-  }
+//   .button-container {
+//     display: flex;
+//     justify-content: flex-end; // Align items to the right
+//     gap: 10px; // Optional gap between buttons
+//   }
   
-  .raised-container {
-    padding: 20px; /* Optional: Add padding for spacing around the content */
-    background-color: #fff; /* Optional: Set the background color */
+//   .raised-container {
+//     padding: 20px; /* Optional: Add padding for spacing around the content */
+//     background-color: #fff; /* Optional: Set the background color */
   
-    /* Box shadow to create the raised effect */
-    //box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);  /* Adjust values as needed */
-  }
+//     /* Box shadow to create the raised effect */
+//     //box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+//     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);  /* Adjust values as needed */
+//   }
 
-  // My different code
+//   // My different code
 
-  .custom-input {
-    height: 40px;
-    box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
-    /* Add any other custom styles as needed */
-  }
+//   .custom-input {
+//     height: 40px;
+//     box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
+//     /* Add any other custom styles as needed */
+//   }
   

@@ -34,7 +34,6 @@ import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vend
     CommonModule,
     InvoiceRoutingModule,
     SharedModule,
-    DutchModule,
     ToggleButtonModule
   ]
 })

@@ -47,7 +47,7 @@ export class PurchaseOrderComponent implements OnInit {
   viewLineItemTable: boolean = false;
 
   uploadMessage = '';
-  poSubTotal: number = 0;
+  poSubTotal: number = 0.00;
 
    
   billTo: any = [

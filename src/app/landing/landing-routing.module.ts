@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from '../dutch/layout/layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    // component: LayoutComponent,
-    component : DashboardComponent ,
+    component: LayoutComponent,
+    // component : DashboardComponent ,
     children: [
       {
         path: '',

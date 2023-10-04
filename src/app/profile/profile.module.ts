@@ -19,8 +19,8 @@ import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    SharedModule,
-    DutchModule
+    SharedModule
+    //DutchModule
   ]
 })
 export class ProfileModule { }

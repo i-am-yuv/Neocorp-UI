@@ -4,15 +4,19 @@ import { VendorComponent } from './vendor/vendor.component';
 import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { ReturnRefundComponent } from './return-refund/return-refund.component';
 import { ReturnRefundDashboardComponent } from './return-refund-dashboard/return-refund-dashboard.component';
+import { LayoutComponent } from '../shared/layout/layout.component';
 
 const routes: Routes = [
   {
     path: 'vendor',
-    component: VendorComponent,
+    component: LayoutComponent,
+    children: [
+      { path: '', component: VendorComponent }
+    ],
   },
   {
     path: 'returnAndRefund',
-    component:DispatcherComponent ,
+    component:LayoutComponent ,
     children: [
       { path: '', component: ReturnRefundComponent },
       { path: 'create', component: ReturnRefundComponent },
@@ -21,7 +25,10 @@ const routes: Routes = [
   },
   {
     path: 'returnAndRefunds',
-    component:ReturnRefundDashboardComponent 
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: ReturnRefundDashboardComponent },
+    ],
   }
 ];
 

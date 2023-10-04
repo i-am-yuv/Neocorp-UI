@@ -1,14 +1,7 @@
 <p-toast></p-toast>
-<div class="layout">
-    <app-navbar></app-navbar>
 
-    <div class="content-wrapper">
-        <!-- <app-sidebar class="sidebar"></app-sidebar> -->
-        <div class="sidebar bg-gray-400">
-            <app-sidebar></app-sidebar>
-        </div>
 
-        <div class="main-content">
+        <div class="bg-white">
             <div class="raised-container">
                 <div class="flex bg-gray-300 button-container">
                     <button type="button" pButton label="+ Create Credit Note" (click)="CreateNewCreditNote()"
@@ -187,8 +180,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     <p-blockUI [blocked]="submitted">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
     </p-blockUI>
-</div>

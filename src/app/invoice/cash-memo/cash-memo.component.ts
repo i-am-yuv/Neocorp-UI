@@ -106,7 +106,7 @@ export class CashMemoComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        //this.availableCM();
+        this.availableCM();
       }
     });
 
