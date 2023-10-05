@@ -39,6 +39,7 @@ export interface LineItem{
     clientNotes ?: string;
     placeOfSupply ?: any;
     grossTotal ?: number;
+    status ?: string;
   }
 
   export interface rnLineItem{
@@ -70,10 +71,11 @@ export interface LineItem{
     duedate ?: Date ;
     debitNote ?: string;
     internalNotes?: string;
-    customer ?: string;
-    vendor ?: string;
+    customer ?: CustomeR;
+    vendor ?: Vendor;
     placeOfSupply ?: any;
     grossTotal ?: number;
+    status ?: string;
   }
 
   

@@ -153,7 +153,7 @@ export class PurchaseOrderComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       placeOfSupply: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       grossTotal: new FormControl(''),
       billToName: new FormControl('')
@@ -275,7 +275,16 @@ export class PurchaseOrderComponent implements OnInit {
 
   loadState()
   {
-    
+    this.usedService.allState().then(
+      (res) => {
+        this.states = res.content;
+        console.log(res);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
   }
 
 
@@ -283,7 +292,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   onSubmitPO() {
     //this.poForm.value.customer = null;
-    this.poForm.value.purchaseFrom = null;
+    //this.poForm.value.purchaseFrom = null;
 
     if(this.poForm.value.vendor.id == null || this.poForm.value.vendor.id == "" )
     {

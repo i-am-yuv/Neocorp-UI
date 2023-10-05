@@ -1,186 +1,226 @@
 <p-toast></p-toast>
 
 
-        <div class="bg-white">
-            <div class="raised-container">
-                <div class="flex bg-gray-300 button-container">
-                    <button type="button" pButton label="+ Create Sales Order" (click)="CreateNewSalesOrder()"
-                        class="mt-3  text-lg mr-3 mb-3 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                </div>
-            </div>
+<div class="">
+    <div class="bg-white">
+        <div class="border-bottom-1 border-200 text-right p-3">
+            <button type="button" pButton label="+ Create Sales Order" (click)="CreateNewSalesOrder()"
+                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  "></button>
+        </div>
+    </div>
 
-            <div>
-                <div class="padFlex flex gap-5">
+    <div class="m-6 bg-white border-round-3xl">
+        <div class="p-5">
 
-                    <div class="col-4">
-                        <p-panel class="left-panel">
-                            <ng-template pTemplate="header">
-                                <span class="p-panel-title" style="padding: 1px">Sales Orders</span>
-                            </ng-template>
-                            <ng-template pTemplate="content">
-                                <div class="left-panel-content">
-                                    <br />
-                                    <!-- <div class="left-panel-content"> -->
-                                    <div *ngFor="let item of allSalesOrder" class="order-list"
-                                        [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
-                                        <div class="p-5 list-item" (click)="changeOrder(item)">
-                                            <div class="text-base ml-3"><b>{{ item.documentno }}</b></div>
-                                            <div class="flex text-right">
-                                                <div class=" font-italic text-base mt-2 mb-2 ml-3">
-                                                    {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
-                                                </div>
-                                                <div class="col-6 text-base mt-2 mb-2">
-                                                    <b>₹: </b>{{item.grossTotal}}
+            <div class="flex gap-4" style=" justify-content: center;">
+
+                <div class="col-5">
+                    <p-panel class="left-panel">
+                        <ng-template pTemplate="header">
+                            <span class="p-panel-title" style="padding: 1px">Sales Orders</span>
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <div class="left-panel-content">
+                                <br />
+                                <!-- <div class="left-panel-content"> -->
+                                <!-- <div *ngFor="let item of allSalesOrder" class="order-list"
+                                            [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
+                                            <div class="p-5 list-item" (click)="changeOrder(item)">
+                                                <div class="text-base ml-3"><b>{{ item.documentno }}</b></div>
+                                                <div class="flex text-right">
+                                                    <div class=" font-italic text-base mt-2 mb-2 ml-3">
+                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                    </div>
+                                                    <div class="col-6 text-base mt-2 mb-2">
+                                                        <b>₹: </b>{{item.grossTotal}}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center m-5" *ngIf="allSalesOrder.length === 0">
-                                        No Sales Order Available
-                                    </div>
-                                </div>
-                            </ng-template>
-                            <p-footer> Total: {{ this.totalRecords}} </p-footer>
-                        </p-panel>
-                    </div>
-
-                    <div class="col-7">
-                        <p-panel>
-                            <ng-template pTemplate="header">
-                                <div class="w-full">
-                                    <div class="grid m-0">
-                                        <div class="col-6 p-0">
-                                            <span class="p-panel-title">Sales Order Details</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ng-template>
-                            <div class="right-panel-content">
-                                <div class="text-center m-5" *ngIf="!activeOrder.id">
-                                    <img src="assets/empty.svg" width="250" /><br />
-                                    Select Sales Order
-                                </div>
-                                <div *ngIf="activeOrder.id">
-                                    <!-- <h3 class="text-lg ">Purchase Order Details</h3>
-                                    <br> -->
-                                    <div class="flex">
-                                        <div class="field col-11">
-                                        </div>
-                                        <div class="field col-1">
-                                            <button pButton type="button" icon="pi pi-pencil" (click)="onEditSO(activeOrder.id)"></button>
-                                        </div>
-                                    </div>
-                                    <div class="flex">
-                                        <div class="field col-4">
-                                            <label class="mr-3 text-blue-500">Company Name: </label>
-                                            <h5>{{ this.activeOrder.company?.companyName}}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="flex">
-                                        <div class="field col-4">
-                                            <label class="mr-3 text-blue-500">Sales Order Number:</label>
-                                            <h5>#{{ this.activeOrder.documentno}}</h5>
-                                        </div>
-    
-                                        <div class="field col-4">
-                                            <label class="mr-3">Bill on:</label>
-                                            <h5>{{ this.activeOrder.billDate | date : "short"}}</h5>
-                                        </div>
-    
-                                        <div class="field col-4">
-                                            <label class="mr-3">Due Date:</label>
-                                            <h5>{{ this.activeOrder.dueDate | date : "short"}}</h5>
-                                        </div>
-                                    </div>
-    
-                                    <div class="flex">
-                                        <div class="field col-6">
-                                            <label class="mr-3 text-blue-500">Dispatch To</label>
-                                            <h4>{{this.activeOrder.vendor?.address?.billingName}} <br>
-                                                {{this.activeOrder.vendor?.address?.billingAddress}}<br>
-                                                {{this.activeOrder.vendor?.address?.city}},
-                                                {{this.activeOrder.vendor?.address?.pincode}}
-                                            </h4>
-                                            <br>
-                                        </div>
-                                        <!-- <div class="field col-6" *ngIf="this.activeCN.creditToCustomer != null">
-                                            <label class="mr-3 text-blue-500">Bill To</label>
-                                            <h4>{{this.activeCN.creditToCustomer?.address?.billingName}} <br>
-                                                {{this.activeCN.creditToCustomer?.address?.billingAddress}}<br>
-                                                {{this.activeCN.creditToCustomer?.address?.city}},
-                                                {{this.activeCN.creditToCustomer?.address?.pincode}}
-                                            </h4>
-                                            <br>
-    
-                                        </div>
-                                        <div class="field col-6" *ngIf="this.activeCN.creditToVendor != null">
-                                            <label class="mr-3 text-blue-500">Bill To</label>
-                                            <h4>{{this.activeCN.creditToVendor?.address?.billingName}} <br>
-                                                {{this.activeCN.creditToVendor?.address?.billingAddress}}<br>
-                                                {{this.activeCN.creditToVendor?.address?.city}},
-                                                {{this.activeCN.creditToVendor?.address?.pincode}}
-                                            </h4>
-                                            <br>
-    
                                         </div> -->
-                                    </div>
-    
-                                    <div>
-                                        <p-table [value]="lineitems">
-                                            <ng-template pTemplate="header">
-                                                <tr>
-                                                    <th>Item Detils</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Discount</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </ng-template>
-                                            <ng-template let-lineItem pTemplate="body">
-                                                <tr>
-                                                    <td>{{ lineItem.expenseName?.name }}</td>
-                                                    <td>{{ lineItem.unitPrice }}</td>
-                                                    <td>{{ lineItem.quantity }}</td>
-                                                    <td>{{ lineItem.discount }}</td>
-                                                    <td>{{ lineItem.amount }}</td>
-                                                </tr>
-                                            </ng-template>
-                                        </p-table>
-    
-                                        <div class="flex mt-5">
-                                            <div class="field col-6">
-    
+
+                                <div *ngFor="let item of allSalesOrder" class="order-list"
+                                    [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
+                                    <div class="list-item" (click)="changeOrder(item)">
+                                        <div class="flex w-full">
+                                            <div class=" col-2  justify-center align-center">
+                                                <div class="person-icon">{{
+                                                    item.vendor?.firstName.charAt(0) +
+                                                    item.vendor?.lastName.charAt(0) }}</div>
                                             </div>
-                                            <div class="field col-6">
-                                                <label class="mr-3">SubTotal:<b> {{this.soSubTotal}}</b> </label>
-    
-                                                <hr>
-                                                <label class="mr-3">Total:<b> {{this.soSubTotal}}</b> </label>
+                                            <div class=" col-10">
+                                                <div class="text-base"><b>{{ item.documentno }}</b></div>
+                                                <div class="flex gap-2 " *ngIf="item.vendor">
+                                                    <div class="col-8 font-italic text-base  ">
+                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                    </div>
+                                                    <div class="col-4 text-base text-right">
+                                                        <b>₹: </b>{{item.grossTotal}}
+                                                    </div>
+                                                </div>
+                                                <div class="flex gap-2" *ngIf="item.customer">
+                                                    <div class="col-6 font-italic text-base mt-2 mb-2 ml-3"
+                                                        *ngIf="item.customer">
+                                                        {{ item.customer?.displayName }}
+                                                    </div>
+                                                    <div class="col-4 text-base mt-2 mb-2 ">
+                                                        <b>₹: </b>{{item.grossTotal}}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-    
-                                    <div class="flex">
-                                        <div class="field col-6">
-                                            <h4 class="text-blue-600">Terms Of Payments:</h4>
-                                            <p>{{this.activeOrder.termsOfPayments}}</p>
-                                        </div>
-                                        <div class="field col-6">
-                                            <h4 class="text-blue-600">Terms Of Delivery:</h4>
-                                            <p>{{this.activeOrder.termsOfDelivery}}</p>
-                                        </div>
-                                    </div>
-    
+                                </div>
+
+                                <div class="text-center m-5" *ngIf="allSalesOrder.length === 0">
+                                    No Sales Order Available
                                 </div>
                             </div>
-                            <!-- <p-footer>
-                            </p-footer> -->
-                        </p-panel>
-                    </div>
+                        </ng-template>
+                        <p-footer> Total: {{ this.totalRecords}} </p-footer>
+                    </p-panel>
                 </div>
+
+                <div class="col-7">
+                    <p-panel>
+                        <ng-template pTemplate="header">
+                            <div class="w-full">
+                                <div class="grid m-0">
+                                    <div class="col-6 p-0">
+                                        <span class="p-panel-title">Sales Order Details</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <div class="right-panel-content">
+                            <div class="text-center m-5" *ngIf="!activeOrder.id">
+                                <img src="assets/empty.svg" width="250" /><br />
+                                Select Sales Order
+                            </div>
+                            <div *ngIf="activeOrder.id">
+                                <!-- <h3 class="text-lg ">Purchase Order Details</h3>
+                                        <br> -->
+                                <div class="flex">
+                                    <div class="field col-8">
+                                        <h4 class="text-blue-700">Sales Order Details:</h4>
+                                    </div>
+                                    <div class="field col-4 text-right">
+                                        <button pButton type="button" icon="pi pi-pencil"
+                                            (click)="onEditSO(activeOrder.id)"></button>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="field col-4">
+                                        <label class="mr-3 text-blue-500">Company Name: </label>
+                                        <h5>{{ this.activeOrder.company?.companyName}}</h5>
+                                    </div>
+                                </div>
+
+                                <hr class="border-l-neutral-300 ">
+
+                                <div class="flex">
+                                    <div class="field col-4">
+                                        <label class="mr-3 text-blue-500">Sales Order Number:</label>
+                                        <p><b>#{{ this.activeOrder.documentno}}</b></p>
+                                    </div>
+
+                                    <div class="field col-4">
+                                        <label class="mr-3 text-blue-500">Bill on:</label>
+                                        <p>{{ this.activeOrder.billDate | date : "short"}}</p>
+                                    </div>
+
+                                    <div class="field col-4">
+                                        <label class="mr-3 text-blue-500">Due Date:</label>
+                                        <p>{{ this.activeOrder.dueDate | date : "short"}}</p>
+                                    </div>
+                                </div>
+
+                                <hr class="border-l-neutral-300 ">
+
+                                <div class="flex gap-3">
+                                    <div class="field col-7">
+                                        <label class="mr-3 text-blue-500">Dispatch To</label>
+                                        <p>{{this.activeOrder.vendor?.address?.billingName}} <br>
+                                            {{this.activeOrder.vendor?.address?.billingAddress}}<br>
+                                            {{this.activeOrder.vendor?.address?.city}},
+                                            {{this.activeOrder.vendor?.address?.pincode}}
+                                        </p>
+                                        <br>
+                                    </div>
+                                    <div class="field col-4">
+                                        <label class="mr-3  text-blue-500">Place Of Supply</label><br>
+                                        <p>{{this.activeOrder.placeOfSupply?.stateName}}</p><br>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p-table [value]="lineitems">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Item Detils</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Discount</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template let-lineItem pTemplate="body">
+                                            <tr>
+                                                <td>{{ lineItem.expenseName?.name }}</td>
+                                                <td>{{ lineItem.unitPrice }}</td>
+                                                <td>{{ lineItem.quantity }}</td>
+                                                <td>{{ lineItem.discount }}</td>
+                                                <td>{{ lineItem.amount }}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+                                    <!-- <div class="flex mt-5">
+                                        <div class="field col-6">
+
+                                        </div>
+                                        <div class="field col-6">
+                                            <label class="mr-3">SubTotal:<b> {{this.soSubTotal}}</b> </label>
+
+                                            <hr>
+                                            <label class="mr-3">Total:<b> {{this.soSubTotal}}</b> </label>
+                                        </div>
+                                    </div> -->
+
+                                    <div class=" border-200 text-right mr-6 mb-3 mt-3">
+                                        <div class="text-lg">
+                                            SUB TOTAL: ₹ {{this.soSubTotal}}
+                                        </div> <br>
+                                        <div class="text-lg">
+                                            TOTAL: ₹ {{this.soSubTotal}}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="flex gap-2 w-full">
+                                    <div class="field col-5">
+                                        <label class="mr-3  text-blue-500">Terms Of Payments:</label>
+                                        <p>{{this.activeOrder.termsOfPayments}}</p>
+                                    </div>
+                                    <div class="field col-5">
+                                        <label class="mr-3  text-blue-500">Terms Of Delivery:</label>
+                                        <p>{{this.activeOrder.termsOfDelivery}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- <p-footer>
+                                </p-footer> -->
+                    </p-panel>
+                </div>
+
             </div>
+
         </div>
-    
-    <p-blockUI [blocked]="submitted">
-        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
-    </p-blockUI>
+    </div>
+</div>
+
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

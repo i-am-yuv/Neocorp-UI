@@ -23,6 +23,7 @@ export class DebitNoteDashboardComponent implements OnInit {
 
   lineitems: any[] = [];
   dnSubTotal: number = 0 ;
+  currentDue : number = 0 ;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -56,6 +57,7 @@ export class DebitNoteDashboardComponent implements OnInit {
   {
      this.activeDN = item;
     this.getNotesLines(item);
+    this.getRemainingAmount(item);
   }
 
   getNotesLines(item:DebitNote)
@@ -82,6 +84,23 @@ export class DebitNoteDashboardComponent implements OnInit {
   onEditDN(id:string)
   {
     this.router.navigate(['/bills/debitNote/edit/'+id]); 
+  }
+
+  getRemainingAmount(DN:any)
+  {
+    this.submitted  = true;
+    this.billS.getRemainingAmount(DN).then(
+      (res)=>{
+            console.log(res);
+            this.currentDue = res;
+            this.submitted  = false;
+      }
+    ).catch(
+      (err)=>{
+         console.log(err);
+         this.submitted  = false;
+      }
+    )
   }
 
 }

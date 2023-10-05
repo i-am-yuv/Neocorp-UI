@@ -22,6 +22,7 @@ export class CreditNoteDashboardComponent implements OnInit {
 
   lineitems: any[] = [];
   cnSubTotal: number = 0 ;
+  currentDue : number = 0 ;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -56,6 +57,7 @@ export class CreditNoteDashboardComponent implements OnInit {
   {
      this.activeCN = item;
     this.getNotesLines(item);
+    this.getRemainingAmountCN(item);
   }
 
   getNotesLines(item:CreditNote)
@@ -83,4 +85,22 @@ export class CreditNoteDashboardComponent implements OnInit {
   {
     this.router.navigate(['/invoice/creditNote/edit/'+id]); 
   }
+
+  getRemainingAmountCN(CN:any)
+  {
+    this.submitted  = true;
+    this.invoiceS.getRemainingAmountReceipt(CN).then(
+      (res)=>{
+            console.log(res);
+            this.currentDue = res;
+            this.submitted  = false;
+      }
+    ).catch(
+      (err)=>{
+         console.log(err);
+         this.submitted  = false;
+      }
+    )
+  }
+
 }

@@ -73,8 +73,8 @@ export interface SalesOrderLine{
     creditNoteNo ?: string;
     startdate ?: Date;
     duedate ?: Date;
-    creditToCustomer ?: CustomeR ;
-    creditToVendor ?: Vendor;
+    customer ?: CustomeR ;
+    vendor ?: Vendor;
     placeOfSupply ?: any;
     creditNoteDescription ?: string;
     notes ?: string;

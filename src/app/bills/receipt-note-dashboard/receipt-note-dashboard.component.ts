@@ -21,7 +21,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
 
   lineitems: any[] = [];
   rnSubTotal: number = 0 ;
-
+  currentDue : number = 0 ;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -54,6 +54,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
   {
      this.activeRN = item;
     this.getNotesLines(item);
+    this.getRemainingAmount(item);
   }
 
   getNotesLines(item:ReceiptNote)
@@ -81,6 +82,23 @@ export class ReceiptNoteDashboardComponent implements OnInit {
   onEditRN(id:string)
   {
     this.router.navigate(['/bills/receiptNote/edit/'+id]); 
+  }
+
+  getRemainingAmount(RN:any)
+  {
+    this.submitted  = true;
+    this.billS.getRemainingAmountReceipt(RN).then(
+      (res)=>{
+            console.log(res);
+            this.currentDue = res;
+            this.submitted  = false;
+      }
+    ).catch(
+      (err)=>{
+         console.log(err);
+         this.submitted  = false;
+      }
+    )
   }
 
 }

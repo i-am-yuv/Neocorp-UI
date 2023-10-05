@@ -37,6 +37,13 @@ export class PayPageService {
     return accountD;
   }
 
+  async saveAccount(data: any) {
+    var url = this.apiurlNew + 'accountDetails'
+    const account = await lastValueFrom(this.http.post<any>(url, data));
+    return account;
+  }
+
+
   async allVendor() {
     var url = this.apiurlNew + 'api/vendor'
     const allVendor = await lastValueFrom(this.http.get<any>(url));

@@ -135,15 +135,11 @@ export class CreditNoteComponent implements OnInit {
       creditNoteDescription: new FormControl('',Validators.required),//
       notes: new FormControl('',Validators.required),//
       requestStatus: new FormControl('',Validators.required),//
-      creditToVendor: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+      vendor: this.fb.group({
+        id: this.fb.nonNullable.control('')
       }),
-      creditToCustomer: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+      customer: this.fb.group({
+        id: this.fb.nonNullable.control('')
       }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', {

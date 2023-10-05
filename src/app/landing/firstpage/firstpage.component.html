@@ -1,13 +1,9 @@
+<p-toast></p-toast>
 <div class="p-6">
-  <!--  -->
+
   <div class="bg-white p-4">
-    <!-- <app-sidebar class="sidebar"></app-sidebar> -->
-
-    <!-- <div class="sidebar bg-slate-100">
-     
-    </div> -->
-
     <div class="">
+
       <div>
         <div class="grid gap-2">
           <div class="field col-6  ml-5">
@@ -17,12 +13,22 @@
               directly through your bank account</p>
             <br>
             <b class="text-base">Choose your bank for a quick and secure connection</b>
+            <br>
+
+            <div class="mt-3">
+              <!-- <a class="text-lg text-blue-500 cursor-pointer" (click)="sidebarVisible2=!sidebarVisible2">Create Account
+                <i class="pi pi-arrow-right" style="font-size: 1rem"></i>
+              </a> -->
+              <button type="submit" pButton label="Create Account" (click)="sidebarVisible2=!sidebarVisible2"
+                class=" text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+            </div>
 
           </div>
           <div class="field col-5">
-              <!-- <img src="/assets/AccountD.png" alt="Image" class="w-full h-auto"> -->
+            <!-- <img src="/assets/AccountD.png" alt="Image" class="w-full h-auto"> -->
           </div>
         </div>
+
         <div class="flex">
           <div class="field col-12">
 
@@ -31,6 +37,72 @@
 
 
       </div>
+
     </div>
+
   </div>
 </div>
+
+<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem">
+  <div class="w-full">
+    <form (ngSubmit)="onSubmitAccount()" [formGroup]="newAccountForm" class="m-2">
+      <h4 class="text-xl text-blue-700">Account Details</h4>
+
+      <div class="field">
+        <div class="p-field-checkbox">
+          <div class="flex gap-1">
+            <div><p-checkbox formControlName="isPrimaryAccount" inputId="binary" [binary]="true"></p-checkbox>
+            </div>
+            <div class="ml-2"><label for="binary">
+                is Primary Account
+              </label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Account Number</label>
+        <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+          class="w-full custom-input" NumbersOnly />
+        <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Confirm Account Number</label>
+        <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+          class="w-full custom-input" NumbersOnly />
+        <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">IFSC</label>
+        <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Bank Name</label>
+        <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Account Type</label>
+        <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
+      </div>
+
+      <div class="text-right ">
+        <button type="submit" pButton label="Save Account" [disabled]="!newAccountForm.valid"
+          class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+      </div>
+
+    </form>
+
+  </div>
+
+</p-sidebar>
+
+<p-blockUI [blocked]="submitted">
+  <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

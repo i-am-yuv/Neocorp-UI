@@ -128,4 +128,17 @@ export class BillsService {
     return allPos;
   }
 
+  
+  async getRemainingAmount(dn : any) {
+    var url = this.apiurlNew + 'debitNotePayments/'+encodeURIComponent(dn.id)+'/remaining' ;
+    const amount = await lastValueFrom(this.http.get<any>(url));
+    return amount;
+  }
+
+  async getRemainingAmountReceipt(rn : any) {
+    var url = this.apiurlNew + 'receiptNotePayments/'+encodeURIComponent(rn.id)+'/remaining' ;
+    const amount = await lastValueFrom(this.http.get<any>(url));
+    return amount;
+  }
+
 }

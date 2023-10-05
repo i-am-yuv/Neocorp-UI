@@ -129,14 +129,10 @@ export class CashMemoComponent implements OnInit {
       decription: new FormControl('',Validators.required),//
       internalNotes: new FormControl('',Validators.required),//
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       customer: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       grossTotal: new FormControl(''),
       requestStatus: new FormControl('',Validators.required),
