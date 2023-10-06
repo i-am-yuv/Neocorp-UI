@@ -17,6 +17,7 @@ import { BillsModule } from './bills/bills.module';
 import { CollectModule } from './collect/collect.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { SettingModule } from './setting/setting.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SettingModule } from './setting/setting.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    PaymentModule,
     // ProfileModule,
     // BillsModule,
     // CollectModule,

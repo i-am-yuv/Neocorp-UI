@@ -80,6 +80,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'payment',
+    loadChildren: () => import('./payment/payment.module').then(m => m.PaymentModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   }

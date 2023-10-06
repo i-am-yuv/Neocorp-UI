@@ -68,6 +68,7 @@ export class SalesOrderComponent implements OnInit {
     this.soForm.value.enablePartialPayments = false;
     this.loadVendors();
     this.loadProducts();
+    this.loadState();
     this.getSoOrder();
   }
 
@@ -192,6 +193,19 @@ export class SalesOrderComponent implements OnInit {
       )
   }
 
+  loadState()
+  {
+    this.usedService.allState().then(
+      (res) => {
+        this.states = res.content;
+        console.log(res);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
   
 
   onSubmitSO()

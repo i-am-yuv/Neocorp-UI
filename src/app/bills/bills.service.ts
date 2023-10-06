@@ -99,7 +99,7 @@ export class BillsService {
   }
 
   async getAllDn() {
-    var url = this.apiurlNew + '/api/debitNote';
+    var url = this.apiurlNew + 'api/debitNote';
     const allDn = await lastValueFrom(this.http.get<any>(url));
     return allDn;
   }
