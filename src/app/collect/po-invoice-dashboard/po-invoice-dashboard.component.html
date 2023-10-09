@@ -22,7 +22,7 @@
                                 <div *ngFor="let item of allPIs" class="order-list"
                                     [ngClass]="{ 'bg-gray-100': activeInvoice.id === item.id }">
                                     <div class=" list-item" (click)="changeOrder(item)">
-                                        <div class="flex w-full">
+                                        <div class="iconSCSS w-full gap-2 p-3">
                                             <div class="col-2  justify-center align-center">
                                                 <div class="person-icon">{{
                                                     item.vendor?.firstName.charAt(0) +
@@ -32,10 +32,13 @@
                                                 <div class="text-base"><b>{{ item.invoiceNo }}</b></div>
                                                 <div class="flex gap-2 " *ngIf="item.vendor">
                                                     <div class="col-8 font-italic text-base">
-                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}<br>
+                                                        <p class="font-light text-sm">Date: {{item.duedate| date
+                                                            :'yyyy-MM-dd'}}</p>
                                                     </div>
                                                     <div class="col-4   text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
+                                                        <p class="leftStatus">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-2" *ngIf="item.customer">
@@ -43,14 +46,12 @@
                                                         {{ item.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
+                                                        <p class="leftStatus">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                 </div>
 
@@ -85,25 +86,25 @@
                                         <br> -->
                                 <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
                                     <div class="field col-7  ml-3 ">
-                                        <h4 class="text-gray-200">Payment Activity</h4>
+                                        <h4 class="rightMain">Payment Activity</h4>
                                         <h4 class="text-white">#{{this.activeInvoice.purchaseOrder?.orderNumber}}
                                         </h4>
 
                                         <div class="flex gap-5 bg-white rounded-div1 mt-3 ">
                                             <div class="field col-6">
                                                 <h5>Current Due</h5>
-                                                <h4 class="remainAmount text-lg">₹ {{this.currentDue}}</h4>
+                                                <h4 class="remainAmount text-xl">₹ {{this.currentDue}}</h4>
                                             </div>
                                             <div class="field col-6">
                                                 <h5>Total Amount</h5>
-                                                <h4 class="text-lg">₹ {{this.activeInvoice.grossTotal}}</h4>
+                                                <h4 class="text-xl">₹ {{this.activeInvoice.grossTotal}}</h4>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="field col-4 bg-gray-700">
                                         <div class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1">
                                             <h4 *ngIf="this.activeInvoice.status!='COMPLETED'"
-                                                class="text-center text-red-400 text-base cursor-pointer" [routerLink]="['/payment/makePayment/pi/'+this.activeInvoice.id  ]">
+                                                class="text-center leftStatus text-base cursor-pointer" [routerLink]="['/payment/makePayment/pi/'+this.activeInvoice.id  ]">
                                                 <div class="flex gap-1  w-full">
                                                     <div class="col-3 leftP text-right">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -150,53 +151,53 @@
                                 </div>
                                 <div class="flex">
                                     <div class="field col-4">
-                                        <label class="mr-3 text-blue-500">Purchase Invoice:</label>
-                                        <h5>#{{ this.activeInvoice.invoiceNo}}</h5>
+                                        <label class="mr-3 blueText">Purchase Invoice:</label>
+                                        <p><b>#{{ this.activeInvoice.invoiceNo}}</b></p>
                                     </div>
 
                                     <div class="field col-4">
-                                        <label class="mr-3 text-blue-500">Invoice Date:</label>
-                                        <h5>{{ this.activeInvoice.invoiceDate | date:'yyyy-MM-dd' }}</h5>
+                                        <label class="mr-3 blueText">Invoice Date:</label>
+                                        <p>{{ this.activeInvoice.invoiceDate | date:'yyyy-MM-dd' }}</p>
                                     </div>
 
                                     <div class="field col-4">
-                                        <label class="mr-3 text-blue-500">Due Date:</label>
-                                        <h5>{{ this.activeInvoice.duedate | date:'yyyy-MM-dd' }}</h5>
+                                        <label class="mr-3 blueText">Due Date:</label>
+                                        <p>{{ this.activeInvoice.duedate | date:'yyyy-MM-dd' }}</p>
                                     </div>
                                 </div>
-                                <hr class="border-l-neutral-600">
+                                <hr class="custom-hr">
                                 <div class="flex">
-                                    <div class="field col-6">
-                                        <label class="mr-3 text-blue-500">Purchase Order Details:</label>
-                                        <h5>Order Number: {{this.activeInvoice.purchaseOrder?.orderNumber}}
-                                        </h5>
+                                    <div class="field col-11">
+                                        <label class="mr-3 blueText">Purchase Order Details:</label>
+                                        <p class="text-sm"><b>Purchase Order Number: # {{this.activeInvoice.purchaseOrder?.orderNumber}}</b>
+                                        </p>
                                     </div>
                                 </div>
-                                <hr class="border-l-neutral-600">
+                                <hr class="custom-hr">
                                 <div class="flex gap-2">
                                     <div class="field col-7">
                                         <!-- <h4 class="text-blue-500">Bill From</h4> <br>  -->
-                                        <label class="mr-3 text-blue-500">Bill From:</label>
-                                        <h5>{{this.activeInvoice.vendor?.address?.billingName}}</h5>
-                                        <h5>{{this.activeInvoice.vendor?.address?.billingAddress}}</h5>
-                                        <h5>{{this.activeInvoice.vendor?.address?.city}}
-                                            ,{{this.activeInvoice.vendor?.address?.pincode}}</h5>
+                                        <label class="mr-3 blueText">Bill From:</label>
+                                        <p>{{this.activeInvoice.vendor?.address?.billingName}}</p>
+                                        <p>{{this.activeInvoice.vendor?.address?.billingAddress}}</p>
+                                        <p>{{this.activeInvoice.vendor?.address?.city}}
+                                            ,{{this.activeInvoice.vendor?.address?.pincode}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <!-- <h4 class="text-blue-500">Place Of Supply</h4>  -->
-                                        <label class="mr-3 text-blue-500">Place Of Supply</label>
-                                        <h5>{{this.activeInvoice.purchaseOrder?.placeOfSupply?.stateName}}</h5><br>
+                                        <label class="mr-3 blueText">Place Of Supply</label>
+                                        <p>{{this.activeInvoice.purchaseOrder?.placeOfSupply?.stateName}}</p><br>
                                     </div>
                                 </div>
                                 <div>
                                     <p-table [value]="lineitems">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>Item Detils</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Discount</th>
-                                                <th>Total</th>
+                                                <th class="text-blue-600">Item Detils</th>
+                                                <th class="text-blue-600">Price</th>
+                                                <th class="text-blue-600">Quantity</th>
+                                                <th class="text-blue-600">Discount</th>
+                                                <th class="text-blue-600">Total</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template let-lineItem pTemplate="body">
@@ -222,25 +223,25 @@
                                     </div> -->
 
                                     <div class=" border-200 text-right mr-6 mb-3 mt-3">
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             SUB TOTAL: ₹ {{this.piSubTotal}}
                                         </div> <br>
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             TOTAL: ₹ {{this.piSubTotal}}
                                         </div>
                                     </div>
 
                                 </div>
-
+                                <hr class="custom-hr">
                                 <div class="flex">
                                     <div class="field col-6">
                                         <!-- <h4 class="text-blue-500">Description:</h4> -->
-                                        <label class="mr-3 text-blue-500">Description</label>
+                                        <label class="mr-3 blueText">Description</label>
                                         <p>{{this.activeInvoice.description}}</p>
                                     </div>
                                     <div class="field col-6">
                                         <!-- <h4 class="text-blue-500">Status:</h4> -->
-                                        <label class="mr-3 text-blue-500">Status</label>
+                                        <label class="mr-3 blueText">Status</label>
                                         <p>{{this.activeInvoice.status}}</p>
                                     </div>
                                 </div>

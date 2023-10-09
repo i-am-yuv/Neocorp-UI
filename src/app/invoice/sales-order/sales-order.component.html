@@ -24,7 +24,7 @@
                 <div class="bg-white ">
                     <div class="border-bottom-1 border-200 text-right p-3">
                         <button type="button" pButton label="Close" (click)="OnCancelSO()"
-                            class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600  "></button>
+                            class="mr-3 p-button-secondary "></button>
                         <button type="button" pButton label="Create Sales Order" (click)="finalSoSubmitPage()"
                             [disabled]="this.soSubTotal == 0"
                             class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
@@ -41,7 +41,7 @@
                                 <h4>Your Company Name Here</h4>
                             </div>
                             <div class="field col-6">
-                                <label class="mr-3">Credit Note Number:</label>
+                                <label class="mr-3">Sales Order Number:</label>
                                 <input pInputText value="{{this.soForm.value.documentno}}" placeholder="Your Sales Order Number"
                                     class="w-full custom-input" [disabled]="true" />
                             </div>
@@ -307,7 +307,7 @@
     
                         <div class="border-bottom-1 border-200 text-right p-3">
                             <button type="button" pButton label="Close" (click)="OnCancelSO()"
-                                class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600  "></button>
+                                class="mr-3 p-button-secondary "></button>
                             <button type="button" pButton label="Create Sales Order" (click)="finalSoSubmitPage()"
                                 [disabled]="this.soSubTotal == 0"
                                 class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>

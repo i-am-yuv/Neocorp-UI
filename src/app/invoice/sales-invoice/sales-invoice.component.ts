@@ -243,8 +243,9 @@ export class SalesInvoiceComponent implements OnInit {
     this.submitted = true;
     this.invoiceS.getAllVendorInvoices().then(
       (res) => {
-        this.submitted = false;
+        
         this.vendorInvoices = res.content;
+        this.submitted = false;
       }
     ).catch(
       (err) => {

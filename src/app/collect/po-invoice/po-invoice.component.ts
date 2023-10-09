@@ -95,11 +95,12 @@ export class PoInvoiceComponent implements OnInit {
 
   initForm() {
     this.poInvoiceForm = new FormGroup({
+      id : new FormControl(''),
       invoiceNo: new FormControl(''),
-      duedate: new FormControl('', Validators.required),//
-      invoiceDate: new FormControl('', Validators.required),//
-      status: new FormControl('', Validators.required),//
-      description: new FormControl('', Validators.required),//
+      duedate: new FormControl('', Validators.required),
+      invoiceDate: new FormControl('', Validators.required),
+      status: new FormControl(''),
+      description: new FormControl(''),
       grossTotal: new FormControl(''),
       taxableTotal: new FormControl(''),
       customer: this.fb.group({
@@ -268,6 +269,7 @@ export class PoInvoiceComponent implements OnInit {
     if (invoiceFormVal.id) 
     {
       this.submitted =  true;
+      invoiceFormVal.status = null ;
       this.collectS.updatePurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log(res);
@@ -296,6 +298,7 @@ export class PoInvoiceComponent implements OnInit {
     else {
       this.upload();
       this.submitted =  true;
+      invoiceFormVal.status = null ;
       //invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {

@@ -249,6 +249,8 @@ export class SalesOrderComponent implements OnInit {
       //  soFormVal.grossTotal = this.soSubTotal ;
      // this.upload(); // for upload file if attached
      this.submitted = true;
+     soFormVal.grossTotal = null ;
+     soFormVal.documentno = null;
       this.invoiceS.createSalesOrder(soFormVal).then(
         (res) => {
           console.log(res);

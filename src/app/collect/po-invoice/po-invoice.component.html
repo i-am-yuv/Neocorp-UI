@@ -116,21 +116,21 @@
 
                 <div class="flex gap-1">
                     <div class="field col-12">
-                        <label class="mr-3 required">Description</label>
+                        <label class="mr-3 ">Description</label>
                         <textarea pInputText formControlName="description" placeholder="Enter Description"
                             class="w-full custom-input"></textarea>
                         <error-message [controlName]="poInvoiceForm.controls['description']"></error-message>
                     </div>
 
                 </div>
-                <div class="flex gap-1">
+                <!-- <div class="flex gap-1">
                     <div class="field col-12">
-                        <label class="mr-3 required">Status</label>
+                        <label class="mr-3 ">Status</label>
                         <input pInputText formControlName="status" placeholder="Enter Status"
                             class="w-full custom-input" />
                         <error-message [controlName]="poInvoiceForm.controls['status']"></error-message>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="submit" pButton label="Save PI" [disabled]="!poInvoiceForm.valid"

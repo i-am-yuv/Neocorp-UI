@@ -22,7 +22,7 @@
                                 <div *ngFor="let item of allPOs" class="order-list"
                                     [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
                                     <div class="list-item" (click)="changeOrder(item)">
-                                        <div class="flex w-full">
+                                        <div class="iconSCSS w-full gap-2 p-3">
                                             <div class=" col-2  justify-center align-center">
                                                 <div class="person-icon">{{
                                                     item.vendor?.firstName.charAt(0) +
@@ -31,11 +31,14 @@
                                             <div class=" col-10">
                                                 <div class="text-base"><b>{{ item.orderNumber }}</b></div>
                                                 <div class="flex gap-2 " *ngIf="item.vendor">
-                                                    <div class="col-8 font-italic text-base  ">
-                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                    <div class="col-8  text-base  ">
+                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }} <br>
+                                                        <p class="font-light text-sm">Date: {{item.dueDate| date
+                                                            :'yyyy-MM-dd'}}</p>
                                                     </div>
                                                     <div class="col-4 text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }} <br>
+                                                        <p class="leftStatus">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-2" *ngIf="item.customer">
@@ -85,42 +88,61 @@
                                         <br> -->
                                 <div class="flex">
                                     <div class="field col-8">
-                                        <h4 class="text-blue-700">Purchase Order Details:</h4>
+                                        <h4 class="">Purchase Order Details:</h4>
                                     </div>
-                                    <div class="field col-4 text-right">
+                                    <!-- <div class="field col-4 text-right">
                                         <button pButton type="button" icon="pi pi-pencil"
                                             (click)="onEditPO(activeOrder.id)"></button>
+                                    </div> -->
+                                    <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer" (click)="onEditPO(activeOrder.id)"  >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" 
+                                            viewBox="0 0 10 11" fill="none">
+                                            <g clip-path="url(#clip0_862_17281)">
+                                                <path
+                                                    d="M7.0257 2.11389L7.72882 1.37075C8.03392 1.04829 8.52858 1.04829 8.83368 1.37075C9.13877 1.69321 9.13877 2.21602 8.83368 2.53848L4.40924 7.21469C4.18896 7.44751 3.91726 7.61864 3.6187 7.71264L2.5 8.06485L2.83324 6.88249C2.92218 6.56694 3.0841 6.27978 3.30438 6.04697L7.0257 2.11389ZM7.0257 2.11389L8.125 3.27574M7.5 6.30334V8.39513C7.5 8.94236 7.08027 9.38598 6.5625 9.38598H2.1875C1.66973 9.38598 1.25 8.94236 1.25 8.39513V3.77117C1.25 3.22394 1.66973 2.78032 2.1875 2.78032H4.16667"
+                                                    stroke="#6F7174" stroke-width="0.625" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_862_17281">
+                                                    <rect width="10" height="10.5691" fill="white"
+                                                        transform="translate(0 0.138184)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <div class="text-sm font-light">Edit Purchase Order</div>
+
                                     </div>
                                 </div>
                                 <div class="flex">
 
                                     <div class="field col-6">
-                                        <label class="mr-3 text-blue-500">Purchase Order Number:</label>
-                                        <h5>#{{ this.activeOrder.orderNumber}}</h5>
+                                        <label class="mr-3 blueText">Purchase Order Number:</label>
+                                        <p><b>#{{ this.activeOrder.orderNumber}}</b></p>
                                     </div>
 
                                     <div class="field col-3">
-                                        <label class="mr-3 text-blue-500">Issue on:</label>
-                                        <h5>{{ this.activeOrder.orderDate | date : "short"}}</h5>
+                                        <label class="mr-3 ">Issued on:</label>
+                                        <p>{{ this.activeOrder.orderDate | date :'yyyy-MM-dd'}}</p>
                                     </div>
 
                                     <div class="field col-3">
-                                        <label class="mr-3 text-blue-500">Due Date:</label>
-                                        <h5>{{ this.activeOrder.dueDate | date : "short"}}</h5>
+                                        <label class="mr-3 ">Due Date:</label>
+                                        <p>{{ this.activeOrder.dueDate | date : 'yyyy-MM-dd'}}</p>
                                     </div>
                                 </div>
-                                <hr class="border-l-neutral-600">
+                                <hr class="custom-hr">
                                 <div class="flex gap-3">
                                     <div class="field col-7">
-                                        <label class="mr-3  text-blue-500">Bill From</label><br>
-                                        <h5>{{this.activeOrder.vendor?.address?.billingName}}</h5>
-                                        <h5>{{this.activeOrder.vendor?.address?.billingAddress}}</h5>
-                                        <h5>{{this.activeOrder.vendor?.address?.city}}
-                                            ,{{this.activeOrder.vendor?.address?.pincode}}</h5>
+                                        <label class="mr-3  blueText">Address</label><br>
+                                        <p>{{this.activeOrder.vendor?.address?.billingName}}</p>
+                                        <p>{{this.activeOrder.vendor?.address?.billingAddress}}</p>
+                                        <p>{{this.activeOrder.vendor?.address?.city}}
+                                            ,{{this.activeOrder.vendor?.address?.pincode}}</p>
                                     </div>
                                     <div class="field col-4">
-                                        <label class="mr-3  text-blue-500">Place Of Supply</label><br>
-                                        <h5>{{this.activeOrder.placeOfSupply?.stateName}}</h5><br>
+                                        <label class="mr-3 blueText ">Place Of Supply</label><br>
+                                        <p>{{this.activeOrder.placeOfSupply?.stateName}}</p><br>
                                     </div>
                                 </div>
 
@@ -128,44 +150,44 @@
                                     <p-table [value]="lineitems">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>Item Detils</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Discount</th>
-                                                <th>Total</th>
+                                                <th class="text-blue-600">Item Detils</th>
+                                                <th class="text-blue-600">Price</th>
+                                                <th class="text-blue-600">Quantity</th>
+                                                <th class="text-blue-600">Discount</th>
+                                                <th class="text-blue-600">Total</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template let-lineItem pTemplate="body">
                                             <tr>
                                                 <td>{{ lineItem.expenseName?.name }}</td>
-                                                <td>{{ lineItem.unitPrice }}</td>
+                                                <td>₹ {{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount }}</td>
-                                                <td>{{ lineItem.amount }}</td>
+                                                <td>₹ {{ lineItem.discount }}</td>
+                                                <td>₹ {{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>
                                     </p-table>
 
                                     <div class=" border-200 text-right mr-6 mb-3 mt-3">
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             SUB TOTAL: ₹ {{this.poSubTotal}}
                                         </div> <br>
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             TOTAL: ₹ {{this.poSubTotal}}
                                         </div>
                                     </div>
 
 
                                 </div>
-
+                                <hr class="custom-hr">
                                 <div class="flex gap-2 w-full">
                                     <div class="field col-5">
-                                        <label class="mr-3  text-blue-500">Description</label><br>
-                                        <p>{{this.activeOrder.description}}</p>
+                                        <label class="mr-3  blueText">Description</label><br>
+                                        <p class="text-light">{{this.activeOrder.description}}</p>
                                     </div>
                                     <div class="field col-5">
-                                        <label class="mr-3  text-blue-500">Internal Notes:</label><br>
-                                        <p>{{this.activeOrder.internslNotes}}</p>
+                                        <label class="mr-3  blueText">Internal Notes:</label><br>
+                                        <p class="text-light">{{this.activeOrder.internslNotes}}</p>
                                     </div>
                                 </div>
 
