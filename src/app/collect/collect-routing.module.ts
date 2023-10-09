@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { PoInvoiceComponent } from './po-invoice/po-invoice.component';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';

@@ -26,10 +26,12 @@ export class AuthService {
     });
     this.router.navigate(['/']);
   }
+
   redirectInvalid() {
     sessionStorage.clear();
     this.router.navigate(['/']);
   }
+  
   renewRefreshToken() {
     var url = this.apiurl + '/auth/refreshtoken';
     sessionStorage.setItem('token', '');
