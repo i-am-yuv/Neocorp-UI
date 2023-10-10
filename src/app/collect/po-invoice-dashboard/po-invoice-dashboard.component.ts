@@ -12,16 +12,16 @@ import { CollectService } from '../collect.service';
 })
 export class PoInvoiceDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allPIs : any[] = [];
-  totalRecords: number = 0 ;
-  
-  activeInvoice: PurchaseInvoice = {} ;
+  allPIs: any[] = [];
+  totalRecords: number = 0;
+
+  activeInvoice: PurchaseInvoice = {};
   lineitems: any[] = [];
-  piSubTotal: number = 0 ;
+  piSubTotal: number = 0;
 
-  currentDue : number = 0 ;
+  currentDue: number = 0;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -35,74 +35,67 @@ export class PoInvoiceDashboardComponent implements OnInit {
     this.currentDue = 0;
   }
 
-  loadPI()
-  {
+  loadPI() {
     this.submitted = true;
     this.collectS.allPurchaseInvoice().then(
-      (res:any) => {
-         console.log(res) ;
-         this.allPIs = res.content ;
-         this.totalRecords = res.totalElements;
-         this.submitted = false;
+      (res: any) => {
+        console.log(res);
+        this.allPIs = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
       }
     )
-    
+
   }
 
-  changeOrder( pi : PurchaseInvoice)
-  {
+  changeOrder(pi: PurchaseInvoice) {
     this.currentDue = 0;
     this.activeInvoice = pi;
     this.getOrderLines(pi);
     this.getRemainingAmount(pi);
   }
 
-  getOrderLines(invoice:PurchaseInvoice)
-  {
-
+  getOrderLines(invoice: PurchaseInvoice) {
     this.submitted = true;
     this.collectS
-    .getPurchaseLineItemsByInvoice(invoice)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.submitted =  false;
-        this.piSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-      }
-      this.submitted = false ;
-    });
-    
+      .getPurchaseLineItemsByInvoice(invoice)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.submitted = false;
+          this.piSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+        }
+        this.submitted = false;
+      });
+
   }
 
-  CreateNewPI()
-  {
+  CreateNewPI() {
     this.router.navigate(['/collect/purchaseInvoice/create']);
   }
 
-  onEditPI(id:string)
-  {
-    this.router.navigate(['/collect/purchaseInvoice/edit/'+id]); 
+  onEditPI(id: string) {
+    this.router.navigate(['/collect/purchaseInvoice/edit/' + id]);
   }
 
-  getRemainingAmount(PI:any)
-  {
-    this.submitted  = true;
+  getRemainingAmount(PI: any) {
+    this.submitted = true;
     this.collectS.getRemainingAmount(PI).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
+      (res) => {
+        console.log(res);
+        this.currentDue = res;
+        this.submitted = false;
       }
     ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
+      (err) => {
+        console.log(err);
+        this.submitted = false;
       }
     )
   }

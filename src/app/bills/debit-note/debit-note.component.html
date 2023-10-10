@@ -2,12 +2,13 @@
 
 <div class="">
 
+    <!-- CREATE NEW DEBIT NOTE BUTTON -->
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
         <div class="center-container mt-5 p-3 ">
             <div class="field col-3"></div>
             <div class="field col-6">
                 <div class="">
-                    <img src="/assets/RN.png" alt="Image" class="w-full h-auto">
+                    <img src="/assets/debitNote.png" alt="Image" class="w-1/2 h-1/2">
                 </div>
                 <div class="text-center">
                     <b>Ready to keep track of your financial transactions?</b><br>
@@ -22,6 +23,7 @@
 
         </div>
     </div>
+    <!-- CREATE NEW DEBIT NOTE BUTTON ENDS -->
 
 
     <div *ngIf="createNew">
@@ -304,15 +306,33 @@
                             </div>
                         </div> -->
 
-                <div class="flex gap-5 mt-5">
+                <!-- <div class="flex gap-5 mt-5">
                     <div class="field col-1"></div>
                     <div class="field col-4">
                         <label for="file">Upload File :</label><br>
                         <input type="file" name="file" (change)="selectFile($event)" accept="image/*" class="mt-2"
                             chooseLabel="Upload File" />
                     </div>
-                </div>
+                </div> -->
 
+
+                <div class="flex gap-5 mt-5">
+                    <div class="field col-1"></div>
+                    <div class="field col-4">
+                        <label for="fileInput" class="">
+                            <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-12">
+                        </label>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            name="file"
+                            accept="image/*"
+                            class="hidden"
+                            (change)="selectFile($event)"
+                        >
+                       
+                    </div>
+                </div>
 
                 <div class=" border-200 text-right mr-6 mb-3">
                     <div class="text-xl ">

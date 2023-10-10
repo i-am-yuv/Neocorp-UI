@@ -46,6 +46,8 @@ export interface VendorInvoice {
   dueDate ?: Date;
   vendor ?: Vendor;
   grosstotal ?: number;
+  description?:string;
+  
 }
 
 export interface VendorInvoiceLine{

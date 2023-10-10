@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { PoInvoiceComponent } from './po-invoice/po-invoice.component';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
@@ -28,7 +27,9 @@ const routes: Routes = [
     path: 'createCustomer',
     component:LayoutComponent ,
     children: [
-      { path: '', component: CustomerComponent  }
+      { path: '', component: CustomerComponent  },
+      // { path: 'create', component: CustomerComponent },
+      { path: 'edit/:id', component: CustomerComponent },
     ]
   },
   {

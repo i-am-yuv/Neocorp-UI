@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PayPageService } from '../pay-page.service';
 
@@ -10,6 +10,9 @@ import { PayPageService } from '../pay-page.service';
   styleUrls: ['./vendor.component.scss']
 })
 export class VendorComponent implements OnInit {
+
+  id : string | null = '';
+  createNew : boolean =  false;
 
   isSidebarVisible : boolean =  true;
 
@@ -22,10 +25,36 @@ export class VendorComponent implements OnInit {
   shippingAddressVisible: boolean = false;
 
   constructor(private router: Router,
+    private route: ActivatedRoute,
     private message: MessageService,
     private payPageS:PayPageService) { }
 
   ngOnInit(): void {
+
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      } 
+      else if(lastSegment && lastSegment.path == this.id){
+        this.createNew =  true;
+      }
+      else{
+        // this.availablePI();
+      }
+    });
+
+    this.vendorFormFields();
+    this.accountDetailsFormFields();
+    this.addressDetailsFormFields();
+
+    // Default making billing Address same as Shipping Address
+    //this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
+  }
+
+  vendorFormFields(){
     this.vendorForm = new FormGroup({
       id: new FormControl('') ,
       firstName: new FormControl('', Validators.required),
@@ -38,7 +67,9 @@ export class VendorComponent implements OnInit {
       username : new FormControl('', Validators.required),
       password : new FormControl('', Validators.required)
     });
+  }
 
+  accountDetailsFormFields(){
     this.accountDetailsForm = new FormGroup({
       id: new FormControl('') ,
       bankname: new FormControl('', Validators.required),
@@ -47,7 +78,9 @@ export class VendorComponent implements OnInit {
       ifsc: new FormControl('', Validators.required),
       accountType: new FormControl('', Validators.required)
     });
+  }
 
+  addressDetailsFormFields(){
     this.addressDetailsForm = new FormGroup({
       id: new FormControl('') ,
       billingName: new FormControl('', [Validators.required]),
@@ -58,10 +91,9 @@ export class VendorComponent implements OnInit {
       shippingAddress: new FormControl(''),
       isShippingAddressSameAsBillingAddress: new FormControl(true)
     });
-
-    // Default making billing Address same as Shipping Address
-    //this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
+
+
 
   onSubmit() {
     console.log(this.vendorForm);
@@ -216,7 +248,7 @@ export class VendorComponent implements OnInit {
 
   onCloseVendor()
   {
-
+    this.router.navigate(['/pay/vendors']);
   }
 
 
