@@ -26,7 +26,7 @@
         <div class="bg-white">
             <div class="border-bottom-1 border-200 text-right p-3">
                 <button type="button" pButton label="Cancel" (click)="OnCancelPO()"
-                    class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600   "></button>
+                    class="mr-3 p-button-secondary"></button>
                 <button type="button" pButton label="Create PO" (click)="finalPoSubmitPage()"
                     [disabled]="this.poSubTotal == 0"
                     class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
@@ -73,24 +73,24 @@
 
                 <hr class="border-gray-50 mt-3 mb-3">
 
-                <h4 class="text-xl text-blue-700"><b>Order Details</b></h4>
+                <h4 class="blueText"><b>Purchase Order Details</b></h4>
 
-                <div class="flex gap-2 mt-3 mb-3">
-                    <div class="field col-4">
-                        <label class="mr-3">Order Number:</label>
+                <div class="flex gap-2 mt-2 mb-3">
+                    <div class="field col-6">
+                        <label class="mr-3">Purchase Order Number:</label>
                         <!-- <h3>{{ this.poForm.value.orderNumber }}</h3> -->
                         <input pInputText value="{{this.poForm.value.orderNumber}}" placeholder="Your Order Number"
-                            class="w-full custom-input" [disabled]="true" />
+                            class="w-full custom-input " [disabled]="true" />
                     </div>
 
-                    <div class="field col-4">
+                    <!-- <div class="field col-4">
                         <label class="mr-3 required">Order Status</label>
                         <input pInputText formControlName="status" placeholder="Enter Status"
                             class="w-full custom-input" />
                         <error-message [controlName]="poForm.controls['status']"></error-message>
-                    </div>
+                    </div> -->
 
-                    <div class="field col-4">
+                    <div class="field col-6">
                         <label class="mr-3 required">Place Of Supply</label><br>
                         <ng-container formGroupName="placeOfSupply" class="w-full">
                             <div class="payment-dropdown ">
@@ -124,8 +124,8 @@
 
                 <div class="flex mt-5 mb-5">
                     <div class="field col-12">
-                        <label class="mr-3 required">Description</label>
-                        <input pInputText formControlName="description" placeholder="Enter Purchase Order Description"
+                        <label class="mr-3 ">Description</label>
+                        <input pInputText formControlName="description" placeholder="Enter Your Purchase Order Description"
                             class="w-full custom-input" />
                         <error-message [controlName]="poForm.controls['description']"></error-message>
                     </div>
@@ -135,7 +135,7 @@
                     <div class="field col-12">
                         <label class="mr-3">Internsl Notes</label>
                         <input pInputText formControlName="internslNotes"
-                            placeholder="Enter Internsl Notes Of Purchase Order" class="w-full custom-input" />
+                            placeholder="Enter Your internal Notes Of Purchase Order" class="w-full custom-input" />
                         <error-message [controlName]="poForm.controls['internslNotes']"></error-message>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
 
                 <div class="flex gap-2 mt-3 mb-3">
                     <div class="field col-4">
-                        <label class="mr-3 required">Enable Partial Payments</label>
+                        <label class="mr-3">Enable Partial Payments</label>
                         <p-toggleButton onLabel="Confirm" offLabel="Reject"
                             formControlName="enablePartialPayments"></p-toggleButton>
                     </div>
@@ -296,7 +296,7 @@
 
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Cancel" (click)="OnCancelPO()"
-                        class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 "></button>
+                        class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Create PO" (click)="finalPoSubmitPage()"
                         [disabled]="this.poSubTotal == 0"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>

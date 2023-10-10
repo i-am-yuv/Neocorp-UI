@@ -139,12 +139,13 @@ export class PurchaseOrderComponent implements OnInit {
 
   initForm() {
     this.poForm = new FormGroup({
+      id : new FormControl(''),
       orderNumber: new FormControl(''),
-      dueDate: new FormControl('', Validators.required),//
-      orderDate: new FormControl('', Validators.required),//
-      status: new FormControl('', Validators.required),//
-      description: new FormControl('', Validators.required),//
-      enablePartialPayments: new FormControl('', Validators.required),//
+      dueDate: new FormControl('', Validators.required),
+      orderDate: new FormControl('', Validators.required),
+      status: new FormControl(''),
+      description: new FormControl(''),
+      enablePartialPayments: new FormControl(false),
       internslNotes: new FormControl(''),
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
@@ -167,7 +168,7 @@ export class PurchaseOrderComponent implements OnInit {
               validators: Validators.required
             })
           }),
-        unitPrice: new FormControl('',)
+        unitPrice: new FormControl('')
       }
     )
 

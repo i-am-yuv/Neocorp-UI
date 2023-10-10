@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   resendOtpForm!: FormGroup;
   verifyOtpMobile!: any;
   submitted = false;
-  type: string | null = 'neocorp';
+  //type: string | null = 'neocorp';
  
   flag: boolean = false;
   errorMessage: string = '';
@@ -25,9 +25,37 @@ export class SignupComponent implements OnInit {
   isAuth = false;
   timer: any;
   sendOtpFormat={'mobile':''};
+  selectedOptionGST: any;
   
   checked1: boolean = false;
   checked2: boolean = false;
+
+  types: any = [
+    {
+      "id": "1",
+      "name": "Proprietorship"
+    },
+    {
+      "id": "2",
+      "name": "Individual OPC"
+    },
+    {
+      "id": "3",
+      "name": "Partnership Frim"
+    },
+    {
+      "id": "4",
+      "name": "LLP"
+    },
+    {
+      "id": "5",
+      "name": "Private Limited"
+    },
+    {
+      "id": "6",
+      "name": "Limited"
+    }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +73,8 @@ export class SignupComponent implements OnInit {
       agreeTnC: new FormControl('', Validators.required),
       partnerCode: new FormControl(''),
       panNumber: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required)
+      type: new FormControl('', Validators.required),
+      selectedOptionGST : new FormControl(false)
     });
 
   }
@@ -103,8 +132,9 @@ export class SignupComponent implements OnInit {
   onSubmitSignUp1()
   {
     console.log(this.signUpForm.value);
-    sessionStorage.setItem('mobileNo','7300234997');
-          this.router.navigate(['/verifyotp']);
+    // sessionStorage.setItem('mobileNo','7300234997');
+    //       this.router.navigate(['/verifyotp']);
+    alert(JSON.stringify(this.signUpForm.value));
   }
 
   onSubmitSignUp() 
