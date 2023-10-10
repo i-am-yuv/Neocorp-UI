@@ -4,6 +4,7 @@ import { PoInvoiceComponent } from './po-invoice/po-invoice.component';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
 import { LayoutComponent } from '../shared/layout/layout.component';
+import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,18 @@ const routes: Routes = [
     path: 'createCustomer',
     component:LayoutComponent ,
     children: [
-      { path: '', component: CustomerComponent  }
+      { path: '', component: CustomerComponent  },
+      // { path: 'create', component: CustomerComponent },
+      { path: 'edit/:id', component: CustomerComponent },
     ]
+  },
+  {
+    path: 'Customers',
+    component:LayoutComponent,
+    children: [
+      { path: '', component: CustomerDashboardComponent },
+      
+    ],
   }
 ];
 

@@ -67,7 +67,7 @@ export class CustomerComponent implements OnInit {
     console.log(this.accountDetailsForm);
     console.log(this.addressDetailsForm);
 
-    //this.saveAccount();
+    this.saveAccount();
   }
 
   saveAccount() {
@@ -193,7 +193,7 @@ export class CustomerComponent implements OnInit {
   }
 
   onCloseCustomer() {
-
+    this.router.navigate(['/collect/Customers']);
   }
 
 }

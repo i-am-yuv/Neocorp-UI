@@ -482,7 +482,7 @@ export class VendorInvoiceComponent implements OnInit {
       detail: 'Vendor Invoice created',
       life: 3000,
     });
-    this.router.navigate(['/invoice/vendorInvoice']);
+    this.router.navigate(['/invoice/vendorInvoices']);
   }
 
   createVI() {

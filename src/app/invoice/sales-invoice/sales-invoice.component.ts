@@ -111,7 +111,7 @@ export class SalesInvoiceComponent implements OnInit {
         })
       }),
       grossTotal: new FormControl(''),
-      status: new FormControl('', Validators.required),
+      status: new FormControl(''),
       billToName: new FormControl('')
     });
 

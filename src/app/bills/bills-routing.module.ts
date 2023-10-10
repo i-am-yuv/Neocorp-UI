@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
-import { DispatcherComponent } from '../dutch/dispatcher/dispatcher.component';
 import { ReceiptNoteComponent } from './receipt-note/receipt-note.component';
 import { DebitNoteComponent } from './debit-note/debit-note.component';
 import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';

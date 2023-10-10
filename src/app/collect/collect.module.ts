@@ -7,13 +7,15 @@ import { DutchModule } from '../dutch/dutch.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
+import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 
 
 @NgModule({
   declarations: [
     PoInvoiceComponent,
     CustomerComponent,
-    PoInvoiceDashboardComponent
+    PoInvoiceDashboardComponent,
+    CustomerDashboardComponent
   ],
   imports: [
     CommonModule,

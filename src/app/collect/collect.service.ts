@@ -61,4 +61,17 @@ export class CollectService {
     return remainingAmount;
   }
 
+
+  async getAllCustomers() {
+    var url = this.apiurlNew + 'customer' ;
+    const Customers = await lastValueFrom(this.http.get<any>(url));
+    return Customers;
+  }
+
+
+  // async getLineitemsByCustomer(po:any) {
+  //   var url = this.apiurlNew + 'api/Customers/'+encodeURIComponent(po.id);
+  //   const currLineItems = await lastValueFrom(this.http.get<any>(url));
+  //   return currLineItems;
+  // }
 }
