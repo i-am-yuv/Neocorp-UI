@@ -309,6 +309,7 @@ export class PurchaseOrderComponent implements OnInit {
     if (poFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
+      poFormVal.grossTotal= null;
       this.billS.updatePurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -338,6 +339,7 @@ export class PurchaseOrderComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
+      poFormVal.grossTotal= null;
       this.billS.createPurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);

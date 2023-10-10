@@ -60,5 +60,24 @@ export class CollectService {
     const remainingAmount = await lastValueFrom(this.http.get<any>(url));
     return remainingAmount;
   }
+  
+
+  async allSalesOrdersById(customer: any) {
+    var url = this.apiurlNew + 'api/salesOrder/customer/'+ encodeURIComponent(customer.id);
+    const allSOByCustomerId = await lastValueFrom(this.http.get<any>(url));
+    return allSOByCustomerId;
+  }
+
+  // async allPurchaseInvoicesById(customer: any) {
+  //   var url = this.apiurlNew + 'api/PurchaseInvoice/customer/'+ encodeURIComponent(customer.id);
+  //   const allPIByCustomerId = await lastValueFrom(this.http.get<any>(url));
+  //   return allPIByCustomerId;
+  // }
+
+  async allSalesInvoicesById(customer: any) {
+    var url = this.apiurlNew + 'api/salesInvoice/customer/'+ encodeURIComponent(customer.id);
+    const allSIByCustomerId = await lastValueFrom(this.http.get<any>(url));
+    return allSIByCustomerId;
+  }
 
 }

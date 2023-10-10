@@ -1,0 +1,290 @@
+// .layout {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100vh; /* Adjust the height as needed */
+
+//     .content-wrapper {
+//       display: flex;
+//       flex-grow: 1;
+//     }
+
+//     .sidebar {
+//       width: 220px; /* Adjust the width as needed */
+//        /* Set the background color of the sidebar */
+//       color: white; /* Set the text color of the sidebar */
+//     }
+
+//     .main-content {
+//       flex-grow: 1;
+//       padding: 20px; /* Add padding for content */
+//     }
+//   }
+
+//   div{
+//     padding: 0 !important;
+//     // Use !important to ensure your styles take precedence
+//   }
+
+//   .padFlex{
+//     margin-left: 30px !important;
+//     margin-top: 20px !important;
+//     margin-bottom: 20px !important;
+//   }
+
+//   .button-container {
+//     display: flex;
+//     justify-content: flex-end; // Align items to the right
+//     gap: 10px; // Optional gap between buttons
+//   }
+
+//   .raised-container {
+//     padding: 20px; /* Optional: Add padding for spacing around the content */
+//     background-color: #fff; /* Optional: Set the background color */
+
+//     /* Box shadow to create the raised effect */
+//     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
+//   }
+
+// //   All scss for two part
+
+.order-list {
+    .list-item {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .list-item:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+}
+
+.left-panel-content {
+    // height: 810px;
+    height: 580px;
+    overflow-y: scroll;
+}
+
+.right-panel-content {
+    // height: 773.5px;
+    height: 580px;
+    overflow-y: scroll;
+}
+
+:host::ng-deep {
+    .left-panel {
+        .p-panel-content {
+            padding: 0;
+        }
+    }
+}
+
+.invoice-box {
+    margin: auto;
+    line-height: 24px;
+    color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+    .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+// .raised-container {
+//   padding: 20px; /* Optional: Add padding for spacing around the content */
+//   background-color: #fff; /* Optional: Set the background color */
+
+//   /* Box shadow to create the raised effect */
+//   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
+// }
+
+// .rounded-div {
+//   border-radius: 10px; /* Adjust the radius to control the roundness */
+//   /* Add any other custom styles as needed */
+// }
+
+// /* Round icon styles */
+// .person-icon {
+//   width: 40px;
+//   height: 40px;
+//   background-color: lightgrey; /* Customize the background color as needed */
+//   color: #fff; /* Customize the text color as needed */
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 18px;
+// }
+
+.rounded-div1 {
+    border: 3px solid #0000;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
+    //padding: 5px; /* Add padding to the content inside the div if desired */
+
+}
+
+.rounded-div {
+    border: 1px solid #ffff;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
+    //padding: 5px; /* Add padding to the content inside the div if desired */
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+}
+.rounded-icon {
+    // border: 1px solid #ffff;
+    // /* Set the border width and color as needed */
+    // border-radius: 8px;
+    // /* Adjust the border-radius to control the roundness */
+    // //padding: 5px; /* Add padding to the content inside the div if desired */
+    // // display: flex;
+    // // justify-content: center;
+    // // align-items: center;
+    border: 0.3px solid #1560E0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.rightP {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.leftP {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.remainAmount {
+    color: #C22B39;
+//font-family: Red Hat Display;
+}
+
+.person-icon {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    /* Customize the background color as needed */
+    color: black;
+    /* Customize the text color as needed */
+    border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.leftStatus {
+    color: #C22B39;
+    // text-align: right;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.iconSCSS {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.centerItem{
+    align-items: center;
+    justify-content: end;
+}
+
+.vertical-line {
+    flex: 0 0 1px; /* Create a vertical line with a width of 1px */
+    height: 100%; /* Match the height of the container */
+    background-color: #ccc; /* Line color */
+    margin: 0 10px; /* Optional: Adjust margin for spacing */
+    content: ''; /* Required for ::before pseudo-element */
+  }
+
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.blueText {
+    color: #1560E0;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+.greenText{
+    color: #83D28F;
+}
+
+.rightMain{
+color: #C5C5C5;
+// font-family: Elza;
+// font-size: 15.097px;
+// font-style: normal;
+// font-weight: 400;
+// line-height: normal;
+}
+.custom-hr {
+    border: none; /* Remove the default border */
+    border-top: 1px solid lightgray; /* Set the border color to light gray */
+    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
+  }
+
+//   .p-button{
+//     width: 100%;
+//   }
+  .button-container {
+    display: flex;
+    justify-items: center;
+  }
+  
+  .defaultSCSS {
+    background-color: white;
+    color: black;
+    border: none;
+    ;
+    border-bottom: 3px solid lightgrey;  
+    cursor: pointer;
+    
+    width: 100%;/* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+  }
+  
+  .onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid rgb(92, 92, 238);  /* Change the bottom border color on hover (e.g., blue) */
+    color: #1560E0;
+    background-color: white;/* Change the text color on hover (optional) */
+  }
+  

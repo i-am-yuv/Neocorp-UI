@@ -111,7 +111,7 @@ export class SalesInvoiceComponent implements OnInit {
         })
       }),
       grossTotal: new FormControl(''),
-      status: new FormControl('', Validators.required),
+      status: new FormControl(''),
       billToName: new FormControl('')
     });
 
@@ -239,11 +239,9 @@ export class SalesInvoiceComponent implements OnInit {
   }
 
   loadVendorInvoices() {
-
     this.submitted = true;
     this.invoiceS.getAllVendorInvoices().then(
       (res) => {
-        
         this.vendorInvoices = res.content;
         this.submitted = false;
       }
