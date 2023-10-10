@@ -112,19 +112,17 @@
 // }
 
 // /* Round icon styles */
-.person-icon {
-    width: 40px;
-    height: 40px;
-    background-color: lightgrey;
-    /* Customize the background color as needed */
-    color: #fff;
-    /* Customize the text color as needed */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-}
+// .person-icon {
+//   width: 40px;
+//   height: 40px;
+//   background-color: lightgrey; /* Customize the background color as needed */
+//   color: #fff; /* Customize the text color as needed */
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 18px;
+// }
 
 .rounded-div1 {
     border: 3px solid #0000;
@@ -167,5 +165,120 @@ h6 {
 }
 
 .remainAmount {
-    color: #f55a69;
+    color: #C22B39;
+    //font-family: Red Hat Display;
+}
+
+.person-icon {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    /* Customize the background color as needed */
+    color: black;
+    /* Customize the text color as needed */
+    border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.leftStatus {
+    color: #C22B39;
+    // text-align: right;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.iconSCSS {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.blueText {
+    color: #1560E0;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.custom-hr {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+.amp-col {
+    color: #83D28F;
+    font-size: 30px;
+}
+
+.amd-col {
+    color: #FF5A5A;
+    font-size: 30px;
+}
+
+.amount-text {
+    color: #292C30;
+    font-size: 30px;
+}
+
+.title-name {
+    color: #FFF;
+}
+
+.button-container {
+    display: flex;
+    justify-items: center;
+}
+
+.defaultSCSS {
+    background-color: white;
+    color: black;
+    border: none;
+    border-bottom: 3px solid lightgrey;
+    width: 100%;
+    font-weight: 700;
+    /* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+}
+
+.onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid #3579F3;
+    /* Change the bottom border color on hover (e.g., blue) */
+    color: #3579F3;
+    background-color: white;
+    font-weight: 700;
+    /* Change the text color on hover (optional) */
 }

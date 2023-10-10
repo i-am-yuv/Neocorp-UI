@@ -60,7 +60,6 @@ export class PoInvoiceDashboardComponent implements OnInit {
   }
 
   getOrderLines(invoice: PurchaseInvoice) {
-
     this.submitted = true;
     this.collectS
       .getPurchaseLineItemsByInvoice(invoice)
