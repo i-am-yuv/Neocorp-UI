@@ -30,25 +30,16 @@
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class=" col-2 justify-center align-center">
                                                 <div class=" person-icon">{{
-                                                    item.vendor?.firstName.charAt(0) +
-                                                    item.vendor?.lastName.charAt(0) }}</div>
+                                                    item.customer?.displayName.charAt(0)}}</div>
                                             </div>
                                             <div class=" col-10">
                                                 <div class="text-base "><b>{{ item.invoiceNo }}</b></div>
-                                                <div class="flex gap-2 " *ngIf="item.vendor">
-                                                    <div class="col-8 font-italic text-base">
-                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}<br>
-                                                        <p class="font-light text-sm">Date: {{item.invoiceDate| date
+                                                
+                                                <div class="flex gap-2">
+                                                    <div class="col-8 text-base">
+                                                        {{ item.customer?.displayName }}<br>
+                                                        <p class=" text-sm">Invoice Date: {{item.invoiceDate| date
                                                             :'yyyy-MM-dd'}}</p>
-                                                    </div>
-                                                    <div class="col-4 text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
-                                                        <p class="leftStatus">{{item.status}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-2" *ngIf="item.customer">
-                                                    <div class="col-8 font-italic text-base" *ngIf="item.customer">
-                                                        {{ item.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4 text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
@@ -171,7 +162,7 @@
                                                 <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
                                                     date:'yyyy-MM-dd' }}</h5>
                                                 <hr class="custom-hr ">
-                                                <h5 class="text-white">Due Date: {{this.activeInvoice.invoiceDate | date:'yyyy-MM-dd'}}</h5>
+                                                <h5 class="text-white">Due Date: Nil</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -216,11 +207,11 @@
                                 <div class="flex gap-2">
                                     <div class="field col-7">
                                         <!-- <h4 class="text-blue-500">Bill From</h4> <br>  -->
-                                        <label class="mr-3 blueText">Bill From:</label>
-                                        <p>{{this.activeInvoice.vendor?.address?.billingName}}</p>
-                                        <p>{{this.activeInvoice.vendor?.address?.billingAddress}}</p>
-                                        <p>{{this.activeInvoice.vendor?.address?.city}}
-                                            ,{{this.activeInvoice.vendor?.address?.pincode}}</p>
+                                        <label class="mr-3 blueText">Dispatch To:</label>
+                                        <p>{{this.activeInvoice.customer?.address?.billingName}}</p>
+                                        <p>{{this.activeInvoice.customer?.address?.billingAddress}}</p>
+                                        <p>{{this.activeInvoice.customer?.address?.city}}
+                                            ,{{this.activeInvoice.customer?.address?.pincode}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <!-- <h4 class="text-blue-500">Place Of Supply</h4>  -->

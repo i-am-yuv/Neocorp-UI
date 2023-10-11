@@ -43,20 +43,6 @@ export class SalesInvoiceComponent implements OnInit {
   uploadMessage = '';
   siSubTotal: number = 0;
 
-  vendorVisible: boolean = false;
-  customerVisible: boolean = false;
-
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
-
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -81,8 +67,8 @@ export class SalesInvoiceComponent implements OnInit {
       }
     });
 
-     this.initForm();
-    this.loadVendors();
+    this.initForm();
+
     this.loadProducts();
     this.loadCustomer();
     this.loadSalesOrders();
@@ -96,9 +82,6 @@ export class SalesInvoiceComponent implements OnInit {
       id: new FormControl(''),
       invoiceNo: new FormControl(''),
       invoiceDate: new FormControl('', Validators.required),
-      vendor: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
       customer: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
@@ -177,19 +160,6 @@ export class SalesInvoiceComponent implements OnInit {
       });
   }
 
-  loadVendors() {
-    this.usedService.allVendor().then(
-      (res) => {
-        this.vendors = res.content;
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
-  }
-
   loadCustomer() {
     this.usedService.allCustomer().then(
       (res) => {
@@ -253,27 +223,10 @@ export class SalesInvoiceComponent implements OnInit {
     )
   }
 
-  billToSelect() {
-    if (this.siForm.value.billToName == "Vendor") {
-      this.vendorVisible = true;
-      this.customerVisible = false;
-    }
-    else if (this.siForm.value.billToName == "Customer") {
-      this.customerVisible = true;
-      this.vendorVisible = false;
-    }
-  }
-
   selectVendor() { }
 
   onSubmitSI() {
 
-    if (this.siForm.value.vendor.id == null || this.siForm.value.vendor.id == "") {
-      this.siForm.value.vendor = null;
-    }
-    if (this.siForm.value.customer.id == null || this.siForm.value.customer.id == "") {
-      this.siForm.value.customer = null;
-    }
     if (this.siForm.value.vendorInvoice.id == null || this.siForm.value.vendorInvoice.id == "") {
       this.siForm.value.vendorInvoice = null;
     }
@@ -550,12 +503,6 @@ export class SalesInvoiceComponent implements OnInit {
 
   finalSISubmitPage() {
     // updated complete PO so that gross total can be updated
-    if (this.siForm.value.vendor.id == null || this.siForm.value.vendor.id == "") {
-      this.siForm.value.vendor = null;
-    }
-    if (this.siForm.value.customer.id == null || this.siForm.value.customer.id == "") {
-      this.siForm.value.customer = null;
-    }
     if (this.siForm.value.vendorInvoice.id == null || this.siForm.value.vendorInvoice.id == "") {
       this.siForm.value.vendorInvoice = null;
     }

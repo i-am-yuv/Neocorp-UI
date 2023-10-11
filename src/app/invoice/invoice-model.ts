@@ -9,7 +9,7 @@ export interface SalesOrder{
     company ?: CompanyNew ;
     billDate ?: Date;
     dueDate ?: Date;
-    vendor ?: Vendor;
+    customer ?: CustomeR;
     termsOfPayments ?: string;
     termsOfDelivery ?: string;
     placeOfSupply ?: State;

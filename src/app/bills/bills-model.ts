@@ -1,3 +1,4 @@
+import { branch } from "../auth/auth-model";
 import { State } from "../profile/profile-models";
 import { Address, CustomeR, Product, Vendor } from "../settings/customers/customer";
 
@@ -16,6 +17,7 @@ export interface PurchaseOrder {
     vendor ?: Vendor;
     customer ?: CustomeR;
     placeOfSupply ?: State;
+    branch ?: branch;
 }
 export interface LineItem{
     id ?: string;

@@ -38,34 +38,53 @@
                                             </div>
                                         </div> -->
 
-                                <div *ngFor="let item of allSalesOrder" class="order-list"
+                                <!-- <div *ngFor="let item of allSalesOrder" class="order-list"
                                     [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
                                     <div class="list-item" (click)="changeOrder(item)">
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class=" col-2  justify-center align-center">
                                                 <div class="person-icon">{{
-                                                    item.vendor?.firstName.charAt(0) +
-                                                    item.vendor?.lastName.charAt(0) }}</div>
+                                                    item.customer?.displayName.charAt(0)}}</div>
                                             </div>
                                             <div class=" col-10">
                                                 <div class="text-base"><b>{{ item.documentno }}</b></div>
-                                                <div class="flex gap-2 " *ngIf="item.vendor">
-                                                    <div class="col-8 font-italic text-base  ">
-                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }} <br>
-                                                        <p class="font-light text-sm">Date: {{item.dueDate| date
+                                                
+                                                <div class="flex gap-2" >
+                                                    <div class="col-6 text-base mt-2 mb-2 ml-3"
+                                                        >
+                                                        {{ item.customer?.displayName }}<br>
+                                                        <p class="font-light text-sm">Date: {{item.billDate| date
                                                             :'yyyy-MM-dd'}}</p>
-                                                    </div>
-                                                    <div class="col-4 text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }}
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-2" *ngIf="item.customer">
-                                                    <div class="col-6 font-italic text-base mt-2 mb-2 ml-3"
-                                                        *ngIf="item.customer">
-                                                        {{ item.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4 text-base mt-2 mb-2 ">
                                                         <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <div *ngFor="let item of allSalesOrder" class="order-list"
+                                    [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
+                                    <div class="list-item" (click)="changeOrder(item)">
+                                        <div class="iconSCSS w-full gap-2 p-3">
+                                            <div class=" col-2 justify-center align-center">
+                                                <div class=" person-icon">{{
+                                                    item.customer?.displayName.charAt(0)}}</div>
+                                            </div>
+                                            <div class=" col-10">
+                                                <div class="text-base "><b>{{ item.documentno }}</b></div>
+                                                
+                                                <div class="flex gap-2">
+                                                    <div class="col-8 text-base">
+                                                        {{ item.customer?.displayName }}<br>
+                                                        <p class=" text-sm">Bill Date: {{item.billDate| date
+                                                            :'yyyy-MM-dd'}}</p>
+                                                    </div>
+                                                    <div class="col-4 text-base text-right">
+                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
+                                                        <p class="leftStatus">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,10 +179,10 @@
                                 <div class="flex gap-3">
                                     <div class="field col-7">
                                         <label class="mr-3 blueText">Dispatch To</label><br>
-                                        <p>{{this.activeOrder.vendor?.address?.billingName}} <br>
-                                            {{this.activeOrder.vendor?.address?.billingAddress}}<br>
-                                            {{this.activeOrder.vendor?.address?.city}},
-                                            {{this.activeOrder.vendor?.address?.pincode}}
+                                        <p>{{this.activeOrder.customer?.address?.billingName}} <br>
+                                            {{this.activeOrder.customer?.address?.billingAddress}}<br>
+                                            {{this.activeOrder.customer?.address?.city}},
+                                            {{this.activeOrder.customer?.address?.pincode}}
                                         </p>
                                         <br>
                                     </div>
