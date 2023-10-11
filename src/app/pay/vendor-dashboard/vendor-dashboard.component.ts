@@ -66,11 +66,18 @@ export class VendorDashboardComponent implements OnInit {
   }
 
   loadVendors() {
+    this.submitted =  true;
     this.payServices.allVendor().then((res: any) => {
       console.log(res);
       this.allVendorList = res.content;
       this.totalRecord = res.totalElements;
-    })
+      this.submitted = false;
+    }).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted = false;
+      }
+    )
   }
 
   // Change the Active Vendor

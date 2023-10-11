@@ -99,6 +99,12 @@ export class PayPageService {
     return updatedLineItem;
   }
 
+  async deleteLineItem(data: any) {
+    var url = this.apiurlNew + 'purchaseOrderLine'
+    const deletedItem = await lastValueFrom(this.http.delete<any>(url, data));
+    return deletedItem;
+  }
+
   async createReceiptNoteLineItem(data: any) {
     var url = this.apiurlNew + 'receiptNoteLine'
     const savedRnLineItem = await lastValueFrom(this.http.post<any>(url, data));

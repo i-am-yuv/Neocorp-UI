@@ -19,8 +19,8 @@ import { branch } from 'src/app/auth/auth-model';
 })
 export class PurchaseOrderComponent implements OnInit {
 
-  createNew : boolean =  false ;
-  submitted : boolean =  false;
+  createNew: boolean = false;
+  submitted: boolean = false;
 
   id: string | null = '';
   poForm!: FormGroup;
@@ -33,13 +33,13 @@ export class PurchaseOrderComponent implements OnInit {
   vendors: Vendor[] = [];
   customers: CustomeR[] = [];
   products: Product[] = [];
-  states : any[] = [];
+  states: any[] = [];
 
   singleLineItem: LineItem = {};
   groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
   currentPoOrder: PurchaseOrder = {};
-  currentBranch : branch = {};
+  currentUser: any = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -52,8 +52,8 @@ export class PurchaseOrderComponent implements OnInit {
   uploadMessage = '';
   poSubTotal: number = 0.00;
 
-  vendorVisible : boolean =  false;
-  customerVisible : boolean =  false;
+  vendorVisible: boolean = false;
+  customerVisible: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -62,25 +62,25 @@ export class PurchaseOrderComponent implements OnInit {
     private usedService: PayPageService,
     private billS: BillsService,
     private confirmationService: ConfirmationService,
-    private authS : AuthService) { }
+    private authS: AuthService) { }
 
   ngOnInit(): void {
 
     this.id = this.route.snapshot.paramMap.get('id');
-    
+
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availablePO();
       }
     });
-    
+
     this.initForm();
     this.poForm.value.enablePartialPayments = false;
     this.loadVendors();
@@ -88,24 +88,22 @@ export class PurchaseOrderComponent implements OnInit {
     this.loadProducts();
     this.loadState();
     this.getPoOrder();
-    this.loadBranch();
+    this.loadUser();
 
 
   }
 
-  availablePO()
-  {
-     this.submitted = true;
-     this.billS.getAllPo().then(
+  availablePO() {
+    this.submitted = true;
+    this.billS.getAllPo().then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements ;
+        var count = res.totalElements;
         //count=0
-        if( count > 0 )
-        {
-          this.router.navigate(['/bills/purchaseOrders']) ;
+        if (count > 0) {
+          this.router.navigate(['/bills/purchaseOrders']);
         }
-        else{
+        else {
           this.createNew = false;
         }
       }
@@ -120,7 +118,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   initForm() {
     this.poForm = new FormGroup({
-      id : new FormControl(''),
+      id: new FormControl(''),
       orderNumber: new FormControl(''),
       dueDate: new FormControl('', Validators.required),
       orderDate: new FormControl('', Validators.required),
@@ -135,7 +133,7 @@ export class PurchaseOrderComponent implements OnInit {
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       grossTotal: new FormControl(''),
-      branch : new FormControl('')
+      branch: new FormControl('')
     });
 
     this.lineItemForm = new FormGroup(
@@ -150,7 +148,7 @@ export class PurchaseOrderComponent implements OnInit {
       }
     )
 
-   
+
 
   }
 
@@ -177,24 +175,19 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
 
-  loadBranch()
-  {
+  loadUser() {
     this.submitted = true;
-
-      var userId = this.authS.getUserId()+'' ;
-     // alert(userId);
-      this.billS.getBranchByUserId(userId).then(
-        (res: any) => {
-          console.log(res);
-          this.currentBranch = res;
-          this.submitted = false;
-        }
-      ).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      )
+    this.authS.getUser().then(
+      (res: any) => {
+        this.currentUser = res;
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
   }
 
   getLines(order: PurchaseOrder) {
@@ -210,11 +203,11 @@ export class PurchaseOrderComponent implements OnInit {
         }
         this.submitted = false;
       }).catch(
-        (err)=>{
+        (err) => {
           console.log(err);
           this.submitted = false;
         }
-      ) ;
+      );
   }
 
   loadVendors() {
@@ -263,8 +256,7 @@ export class PurchaseOrderComponent implements OnInit {
       )
   }
 
-  loadState()
-  {
+  loadState() {
     this.usedService.allState().then(
       (res) => {
         this.states = res.content;
@@ -284,15 +276,15 @@ export class PurchaseOrderComponent implements OnInit {
     //this.poForm.value.customer = null;
     //this.poForm.value.purchaseFrom = null;
 
-    this.poForm.value.branch = this.currentBranch ;
+    this.poForm.value.branch = this.currentUser.branch;
+
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
-    alert(JSON.stringify(poFormVal)) ;
+    alert(JSON.stringify(poFormVal));
 
     if (poFormVal.id) {
-      
+
       this.submitted = true;
-     
       this.billS.updatePurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -322,7 +314,7 @@ export class PurchaseOrderComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
-      poFormVal.grossTotal= null;
+      poFormVal.grossTotal = null;
       poFormVal.status = null;
       poFormVal.orderNumber = null;
       this.billS.createPurchaseorder(poFormVal).then(
@@ -406,12 +398,44 @@ export class PurchaseOrderComponent implements OnInit {
   }
   delete(lineItem: LineItem) {
     //(JSON.stringify(lineItem));
+    // this.confirmationService.confirm({
+    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+    //   header: 'Confirm',
+    //   icon: 'pi pi-exclamation-triangle',
+    //   accept: () => {
+
+    //   },
+    // });
     this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+      message:
+        'Are you sure you want to delete this Line Item ' +
+        lineItem.expenseName?.name +
+        '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-
+        this.billS
+          .deleteLineItem(lineItem.id)
+          .then((data) => {
+            this.lineitems = this.lineitems.filter(
+              (val) => val.id !== lineItem.id
+            );
+            // this.customer = {};
+            this.message.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Line Item Deleted',
+              life: 3000,
+            });
+          })
+          .catch(() => {
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Line item Deletion Error, Please refresh and try again',
+              life: 3000,
+            });
+          });
       },
     });
 
@@ -453,7 +477,7 @@ export class PurchaseOrderComponent implements OnInit {
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
-           // this.lineitem.Amount = res.Amount;
+            // this.lineitem.Amount = res.Amount;
             this.getPoOrder();
             this.submitted = false;
             this.message.add({
@@ -595,7 +619,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.submitted = true;
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
-    poFormVal.grossTotal = this.poSubTotal ;
+    poFormVal.grossTotal = this.poSubTotal;
     if (poFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -612,24 +636,22 @@ export class PurchaseOrderComponent implements OnInit {
         }
       )
     }
-      this.upload();
-      this.message.add({
-        severity: 'success',
-        summary: 'Purchase Order Created Successfully',
-        detail: 'Purchase Order created',
-        life: 3000,
-      });
-      this.router.navigate(['/bills/purchaseOrder']) ;
+    this.upload();
+    this.message.add({
+      severity: 'success',
+      summary: 'Purchase Order Created Successfully',
+      detail: 'Purchase Order created',
+      life: 3000,
+    });
+    this.router.navigate(['/bills/purchaseOrder']);
   }
 
-  createPO()
-  {
+  createPO() {
     //this.createNew = true;
     this.router.navigate(['/bills/purchaseOrder/create']);
   }
 
-  OnCancelPO()
-  {
+  OnCancelPO() {
     //this.createNew = false;
     this.router.navigate(['/bills/purchaseOrder']);
 

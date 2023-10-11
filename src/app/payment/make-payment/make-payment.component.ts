@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { PaymentService } from '../payment.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PayModelsPI, PayModelsSI } from '../pay-models';
+import { PurchaseInvoice } from 'src/app/collect/collect-models';
 
 @Component({
   selector: 'app-make-payment',
@@ -45,6 +46,8 @@ export class MakePaymentComponent implements OnInit {
 
   enteredAmount: any;
 
+  currentPurchaseInvoice : PurchaseInvoice = {} ;
+
 isClass1Applied = true; // Class 1 is initially not applied
 isClass2Applied = true; // Class 2 is initially not applied
 
@@ -58,13 +61,26 @@ isClass2Applied = true; // Class 2 is initially not applied
   ngOnInit(): void {
 
     this.id = this.route.snapshot.paramMap.get('id');
-
+    this.getPI( this.id ); 
   }
   rightPart() {
     // make the right part enable here
     this.isClass2Applied = !this.isClass2Applied;
   }
 
+  getPI( id : any)
+  {
+    this.payS.getPI(id).then(
+      (res) => {
+        console.log(res);
+        this.currentPurchaseInvoice = res;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }  
   // toggleClass2() {
   //   this.isClass2Applied = !this.isClass2Applied; // Toggle the class2 state
   // }
@@ -77,8 +93,12 @@ isClass2Applied = true; // Class 2 is initially not applied
 
         this.payPI.amount = this.enteredAmount;
         this.payPI.invoiceId = this.id;
-        this.payPI.vendorId = this.authS.getUserId()+'' ;
+        //  find vendor by invoice id
+
+        this.payPI.vendorId = this.currentPurchaseInvoice.vendor?.id  ;
+
        // this.payM.vendorId = '0afa0a7c-8abb-1049-818a-bc563cb1001d';
+
         this.payPI.paymentType = this.choosedM;
         this.payPI.paymentRequest = null;
 

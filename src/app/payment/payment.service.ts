@@ -27,4 +27,10 @@ export class PaymentService {
     const payment = await lastValueFrom(this.http.post<any>(url,data));
     return payment;
   }
+
+  async getPI(purchaseInvoiceId: any) {
+    var url = this.apiurlNew + 'api/PurchaseInvoice/'+encodeURIComponent(purchaseInvoiceId);
+    const PI = await lastValueFrom(this.http.get<any>(url));
+    return PI;
+  }
 }

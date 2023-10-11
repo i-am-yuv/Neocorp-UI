@@ -24,32 +24,24 @@
                                     <div class=" list-item" (click)="changeOrder(item)">
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class="col-2  justify-center align-center">
-                                                <div class="person-icon" *ngIf="item.vendor">{{
+                                                <div class="person-icon">{{
                                                     item.vendor?.firstName.charAt(0) +
                                                     item.vendor?.lastName.charAt(0) }}</div>
                                             </div>
                                             <div class="col-10">
                                                 <div class="text-base"><b>{{ item.invoiceNo }}</b></div>
-                                                <div class="flex gap-2 " *ngIf="item.vendor">
+                                                <div class="flex gap-2 ">
                                                     <div class="col-8 font-italic text-base">
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}<br>
                                                         <p class="font-light text-sm">Date: {{item.duedate| date
                                                             :'yyyy-MM-dd'}}</p>
                                                     </div>
                                                     <div class="col-4   text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
+                                                        <b>₹: </b>{{item.remainingAmount?item.remainingAmount : '0.00'}}<br>
                                                         <p class="leftStatus">{{item.status}}</p>
                                                     </div>
                                                 </div>
-                                                <div class="flex gap-2" *ngIf="item.customer">
-                                                    <div class="col-8 font-italic text-base ">
-                                                        {{ item.customer?.displayName }}
-                                                    </div>
-                                                    <div class="col-4 text-base text-right ">
-                                                        <b>₹: </b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
-                                                        <p class="leftStatus">{{item.status}}</p>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

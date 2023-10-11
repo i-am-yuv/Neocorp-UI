@@ -11,7 +11,7 @@ export class PurchaseInvoice{
     invoiceDate?:Date;
     duedate?:Date;
     vendor?:Vendor;
-    customer?:CustomeR;
+    // customer?:CustomeR;
     purchaseOrder ?: PurchaseOrder;
     penalty ?: number;
     description ?: string;

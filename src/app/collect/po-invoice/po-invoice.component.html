@@ -77,16 +77,9 @@
                 </div>
 
                 <div class="flex gap-3">
-                    <div class="field col-6 payment-dropdown">
-                        <label class="mr-3 required">Bill To</label>
-                        <div class="payment-dropdown ">
-                            <p-dropdown class="bg-slate-200" [options]="billTo" [style]="{ width: '100%' }"
-                                placeholder="Please Select" optionLabel="name" optionValue="name"
-                                formControlName="billToName" (onChange)="billToSelect()"></p-dropdown>
-                        </div>
-                    </div>
+                   
 
-                    <div class="field col-6 payment-dropdown" *ngIf="this.vendorVisible">
+                    <div class="field col-6 payment-dropdown" >
                         <label class="mr-3 required">Vendor</label>
                         <ng-container formGroupName="vendor">
                             <div class="payment-dropdown ">
@@ -98,18 +91,6 @@
                         </ng-container>
 
                     </div>
-                    <div class="field col-6 payment-dropdown" *ngIf="this.customerVisible">
-                        <label class="mr-3 required">Customer</label>
-                        <ng-container formGroupName="customer">
-                            <div class="payment-dropdown ">
-                                <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
-                                    formControlName="id" optionLabel="displayName" [showClear]="true"
-                                    (ngChange)="selectVendor()" [style]="{ width: '100%' }">
-                                </p-dropdown>
-                            </div>
-                        </ng-container>
-                    </div>
-
                 </div>
 
 

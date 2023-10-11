@@ -45,20 +45,6 @@ export class PoInvoiceComponent implements OnInit {
   currentFile?: File;
   progress = 0;
 
-  vendorVisible : boolean = false;
-  customerVisible : boolean =  false;
-
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
-
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -87,7 +73,7 @@ export class PoInvoiceComponent implements OnInit {
 
     this.initForm();
     this.loadVendors();
-    this.loadCustomer();
+    
     this.loadProducts();
     this.loadPOs();
     this.getPurchaseInvoice();
@@ -103,16 +89,12 @@ export class PoInvoiceComponent implements OnInit {
       description: new FormControl(''),
       grossTotal: new FormControl(''),
       taxableTotal: new FormControl(''),
-      customer: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       purchaseOrder: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)   
-      }),
-      billToName: new FormControl('')
+      })
     });
   }
 
@@ -120,19 +102,6 @@ export class PoInvoiceComponent implements OnInit {
     this.usedService.allVendor().then(
       (res) => {
         this.vendors = res.content;
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
-  }
-
-  loadCustomer() {
-    this.usedService.allCustomer().then(
-      (res) => {
-        this.customers = res.content;
         console.log(res);
       }
     ).catch(
@@ -250,20 +219,8 @@ export class PoInvoiceComponent implements OnInit {
   onSubmitPoInvoice() {
     console.log(this.poInvoiceForm.value);
 
-    if(this.poInvoiceForm.value.vendor.id == null || this.poInvoiceForm.value.vendor.id == "" )
-    {
-      this.poInvoiceForm.value.vendor = null ;
-    }
-    if(this.poInvoiceForm.value.customer.id == null || this.poInvoiceForm.value.customer.id == "" )
-    {
-      this.poInvoiceForm.value.customer = null ;
-    }
-
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
-
-    
-
     alert(JSON.stringify(invoiceFormVal) ) ;
 
     if (invoiceFormVal.id) 
@@ -334,18 +291,6 @@ export class PoInvoiceComponent implements OnInit {
 
   }
 
-  billToSelect()
-  {
-     if( this.poInvoiceForm.value.billToName == "Vendor" )
-     {
-        this.vendorVisible = true;
-        this.customerVisible = false;
-     }
-     else if( this.poInvoiceForm.value.billToName == "Customer" ){
-      this.customerVisible = true;
-      this.vendorVisible = false;
-     } 
-  }
 
   setLineValues(lineItem: PurchaseInvoiceLine) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -550,17 +495,6 @@ export class PoInvoiceComponent implements OnInit {
 
   finalPoInvoiceSubmit() {
     // updated complete PO so that gross total can be updated
-
-    if(this.poInvoiceForm.value.vendor.id == null || this.poInvoiceForm.value.vendor.id == "" )
-    {
-      this.poInvoiceForm.value.vendor = null ;
-    }
-    if(this.poInvoiceForm.value.customer.id == null || this.poInvoiceForm.value.customer.id == "" )
-    {
-      this.poInvoiceForm.value.customer = null ;
-    }
-
-
     var poInvoiceFormVal = this.poInvoiceForm.value;
     poInvoiceFormVal.id = this.id;
     poInvoiceFormVal.grossTotal = this.poInvoiceSubTotal;
