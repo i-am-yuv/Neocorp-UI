@@ -31,7 +31,7 @@
                                             <div class="col-10">
                                                 <div class="text-base"><b>{{ item.invoiceNo }}</b></div>
                                                 <div class="flex gap-2 " *ngIf="item.vendor">
-                                                    <div class="col-8 font-italic text-base">
+                                                    <div class="col-8 text-base">
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}<br>
                                                         <p class="font-light text-sm">Date: {{item.duedate| date
                                                             :'yyyy-MM-dd'}}</p>
