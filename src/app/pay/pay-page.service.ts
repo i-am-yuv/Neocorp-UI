@@ -38,12 +38,17 @@ export class PayPageService {
   }
 
   async saveAccount(data: any) {
-    var url = this.apiurlNew + 'accountDetails'
+    var url = this.apiurlNew + 'creditAccountDetails'
     const account = await lastValueFrom(this.http.post<any>(url, data));
     return account;
   }
 
-  // GET ALL VENDOR LIST
+  async saveDebitAccount(data: any) {
+    var url = this.apiurlNew + 'debitAccountDetails'
+    const account = await lastValueFrom(this.http.post<any>(url, data));
+    return account;
+  }
+
   async allVendor() {
     var url = this.apiurlNew + 'api/vendor'
     const allVendor = await lastValueFrom(this.http.get<any>(url));
@@ -213,28 +218,16 @@ export class PayPageService {
     return currRRLineItems;
   }
 
-  async getPOByVendor(vendor: any) {
+  async getPurchageOrderById(vendor: any) {
     var url = this.apiurlNew + 'api/PurchaseOrder/vendor/' + encodeURIComponent(vendor.id);
     const POByVendor = await lastValueFrom(this.http.get<any>(url));
     return POByVendor;
   }
 
-  async getSOByVendor(vendor: any){
-    var url = this.apiurlNew + 'api/salesOrder/vendor/' + encodeURIComponent(vendor.id);
-    const SOByVendor = await lastValueFrom(this.http.get<any>(url));
-    return SOByVendor;
-  }
-
-  async getPIByVendor(vendor: any){
+  async getPurchaseInvoiceById(vendor: any){
     var url = this.apiurlNew + 'api/PurchaseInvoice/vendor/' + encodeURIComponent(vendor.id);
     const PIByVendor = await lastValueFrom(this.http.get<any>(url));
     return PIByVendor;
-  }
-
-  async getSIByVendor(vendor: any){
-    var url = this.apiurlNew + 'api/salesInvoice/vendor/' + encodeURIComponent(vendor.id);
-    const SIByVendor = await lastValueFrom(this.http.get<any>(url));
-    return SIByVendor;
   }
 
   fileUploadForPurchaseOrder(poId: any, file: File): Observable<HttpEvent<any>> {

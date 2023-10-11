@@ -13,6 +13,7 @@ export interface SalesOrder{
     termsOfPayments ?: string;
     termsOfDelivery ?: string;
     placeOfSupply ?: State;
+    vendor?: Vendor; 
 }
 
 

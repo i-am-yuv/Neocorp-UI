@@ -70,8 +70,10 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeInvoice.id">
-                                <img src="assets/empty.svg" width="250" /><br />
-                                Select Purchase Invoice
+                                <img src="/assets/invoices.png" alt="Image" class="w-full h-auto">
+
+                                <!-- <img src="assets/empty.svg" width="250" /><br />
+                                Select Purchase Invoice -->
                             </div>
                             <div *ngIf="activeInvoice.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>

@@ -43,12 +43,50 @@
   </div>
 </div>
 
-<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem">
+
+
+
+
+
+<p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="w-30rem">
+  <!-- <div class="card flex justify-content-center">
+    <p-selectButton (click)="sidebarVisible2=!sidebarVisible2" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+  </div> -->
+  
+<div class="card flex justify-content-center">
+  <form [formGroup]="formGroup">
+      <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value"></p-selectButton>
+  </form>
+</div>
+  <button type="submit" pButton label="Debit Account" (click)="sidebarVisible2=!sidebarVisible2" class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+
+<button type="submit" pButton label="Credit Account" (click)="sidebarVisible3=!sidebarVisible3" class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+
+</p-sidebar>
+
+
+
+
+
+
+
+
+
+ <div [ngSwitch]="value">
+<p-sidebar [(visible)]="sidebarVisible3"  position="right" styleClass="w-30rem">
+  <!-- <div class="card flex justify-content-center">
+    <p-selectButton (click)="sidebarVisible3=!sidebarVisible3" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+  </div> -->
+  <div class="card flex justify-content-center">
+    <form [formGroup]="formGroup">
+        <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value"></p-selectButton>
+    <!-- </form>
+  </div> -->
   <div class="w-full">
-    <form (ngSubmit)="onSubmitAccount()" [formGroup]="newAccountForm" class="m-2">
+    <form *ngSwitchCase="'Credit Account'"  (ngSubmit)="onSubmitAccount()"  [formGroup]="newAccountForm" class="m-2">
       <h4 class="text-xl text-blue-700">Account Details</h4>
 
-      <div class="field">
+      <!-- <div class="field">
         <div class="p-field-checkbox">
           <div class="flex gap-1">
             <div><p-checkbox formControlName="isPrimaryAccount" inputId="binary" [binary]="true"></p-checkbox>
@@ -58,7 +96,7 @@
               </label></div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="field">
         <label class="mr-3 required">Account Number</label>
@@ -93,16 +131,237 @@
       </div>
 
       <div class="text-right ">
-        <button type="submit" pButton label="Save Account" [disabled]="!newAccountForm.valid"
+        <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
           class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
       </div>
 
     </form>
 
   </div>
+</form>
+</div>
+</p-sidebar> 
 
-</p-sidebar>
+
+
+
+
+
+
+
+<p-sidebar  position="right" styleClass="w-30rem">
+  <!-- <div class="card flex justify-content-center">
+    <p-selectButton (click)="sidebarVisible2=!sidebarVisible2" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+  </div> -->
+  <div class="card flex justify-content-center">
+    <form [formGroup]="formGroup">
+        <p-selectButton [options]="stateOptions" formControlName="value" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+    <!-- </form>
+  </div> -->
+  <div class="w-full">
+    <form *ngSwitchCase="'Debit Account'" (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1" class="m-2">
+      <h4 class="text-xl text-blue-700">Account Details</h4>
+      <div class="field">
+        <label class="mr-3 required">Account Number</label>
+        <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+          class="w-full custom-input" NumbersOnly />
+        <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Confirm Account Number</label>
+        <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+          class="w-full custom-input" NumbersOnly />
+        <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">IFSC</label>
+        <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Bank Name</label>
+        <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
+      </div>
+
+      <div class="field">
+        <label class="mr-3 required">Account Type</label>
+        <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
+        <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
+      </div>
+
+      <div class="text-right ">
+        <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
+          class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+      </div>
+
+    </form>
+
+  </div>
+</form>
+</div>
+</p-sidebar> 
+ </div>
+
+
+
+
+
+
+
+
+
+
+
 
 <p-blockUI [blocked]="submitted">
   <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
 </p-blockUI>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem" class="button-container">
+      <button type="button" label="Orders" class="p-2"
+          [ngClass]="{ 'onClickButton':showOrders }"
+          (click)="showOrdersPage()">Debit Account</button>
+      <button type="button" label="invoice" class="p-2"
+          [ngClass]="{'onClickButton': showInvoices}"
+          (click)="showInvoicesPage()">Credit Account</button>
+
+  <div *ngIf="showOrders" class="mt-5">
+      <div class="w-full">
+        <form  (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1" class="m-2">
+          <h4 class="text-xl text-blue-700">Account Details</h4>
+          <div class="field">
+            <label class="mr-3 required">Account Number</label>
+            <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+              class="w-full custom-input" NumbersOnly />
+            <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
+          </div>
+    
+          <div class="field">
+            <label class="mr-3 required">Confirm Account Number</label>
+            <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+              class="w-full custom-input" NumbersOnly />
+            <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
+          </div>
+    
+          <div class="field">
+            <label class="mr-3 required">IFSC</label>
+            <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
+          </div>
+    
+          <div class="field">
+            <label class="mr-3 required">Bank Name</label>
+            <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
+          </div>
+    
+          <div class="field">
+            <label class="mr-3 required">Account Type</label>
+            <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
+          </div>
+    
+          <div class="text-right ">
+            <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
+              class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+          </div>
+    
+        </form>
+      </div>
+  </div>
+
+  <div *ngIf="showInvoices" class="mt-5 ">
+      <div  class="">
+              <div class="w-full">
+                <form (ngSubmit)="onSubmitAccount()"  [formGroup]="newAccountForm" class="m-2">
+                  <h4 class="text-xl text-blue-700">Account Details</h4>
+            
+                  <!-- <div class="field">
+                    <div class="p-field-checkbox">
+                      <div class="flex gap-1">
+                        <div><p-checkbox formControlName="isPrimaryAccount" inputId="binary" [binary]="true"></p-checkbox>
+                        </div>
+                        <div class="ml-2"><label for="binary">
+                            Is Primary Account
+                          </label></div>
+                      </div>
+                    </div>
+                  </div> -->
+            
+                  <div class="field">
+                    <label class="mr-3 required">Account Number</label>
+                    <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+                      class="w-full custom-input" NumbersOnly />
+                    <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
+                  </div>
+            
+                  <div class="field">
+                    <label class="mr-3 required">Confirm Account Number</label>
+                    <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+                      class="w-full custom-input" NumbersOnly />
+                    <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
+                  </div>
+            
+                  <div class="field">
+                    <label class="mr-3 required">IFSC</label>
+                    <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+                    <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
+                  </div>
+            
+                  <div class="field">
+                    <label class="mr-3 required">Bank Name</label>
+                    <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+                    <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
+                  </div>
+            
+                  <div class="field">
+                    <label class="mr-3 required">Account Type</label>
+                    <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
+                    <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
+                  </div>
+            
+                  <div class="text-right ">
+                    <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
+                      class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                  </div>
+            
+                </form>
+            
+              </div>
+      </div>
+  </div>
+</p-sidebar>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,90 +12,53 @@ import { SelectItem } from 'primeng/api';
 export class VendorDashboardComponent implements OnInit {
 
   submitted: boolean = false;
+  totalRecord : number = 0;
+
+  allVendors: any = [];
+  allPurchaseOrders : any[] = [] ; // Vendor only have Purchase Orders
+  allPurchaseInvoices : any[] = []; // Vendor only have Purchase Invoice
 
   activeVendor: Vendor = {};
-  totalRecord: number = 0;
-  currentDue: number = 0;
 
-  allVendorList: any = [];
+  showOrders : boolean = true ;
+  showInvoices : boolean  = false;
 
-  allVendorPO: any = [];
-  allVendorSO: any = [];
-
-  allVendorPI: any = [];
-  allVendorSI: any = [];
-
-  showOrders: boolean = true;
-  showInvoices: boolean = true;
-
-  showVendorPI: boolean = true;
-  showVendorSI: boolean = true;
-  currentSelectedOrder: number = 1;
-  selectOrders: any = [
-    {
-      "id": "1",
-      "name": "Purchase Order"
-    },
-    {
-      "id": "2",
-      "name": "Sale Order"
-    }
-  ]
-
-  showInvoicePI: boolean = true;
-  showInvoiceSI: boolean = true;
-  currentSelectedInvoice: number = 1;
-  selectInvoice: any = [
-    {
-      "id": "1",
-      "name": "Purchase Invoice"
-    },
-    {
-      "id": "2",
-      "name": "Sale Invoice"
-    }
-  ]
-
-  allPOByVendor: any = [];
-  allSOByVendor: any = []
+  totalRemainingAmount : number = 0;
+  totalGrossAmount : number = 0.00;
 
   constructor(private router: Router, private route: ActivatedRoute, private payServices: PayPageService) { }
 
   ngOnInit(): void {
-    this.loadVendors();
+    this.getAllVendors();
+    
   }
 
-  loadVendors() {
-    this.submitted =  true;
+  getAllVendors() {
     this.payServices.allVendor().then((res: any) => {
       console.log(res);
-      this.allVendorList = res.content;
+      this.allVendors = res.content;
       this.totalRecord = res.totalElements;
       this.submitted = false;
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted = false;
-      }
-    )
+    })
+    .catch((err) => {
+      console.log(err);
+      this.submitted = false;
+    })
   }
 
   // Change the Active Vendor
-  changeVender(vl: Vendor) {
-    this.currentDue = 0;
-    this.activeVendor = vl;
-    this.showAllVendorPO(vl);
-    this.showAllVendorPI(vl);
-    this.showAllVendorSI(vl);
+  changeVender(vendor: Vendor) {
+    this.refreshAll();
+    this.activeVendor = vendor;
+    this.getAllPurchageOrder(vendor);
+    this.getAllPurchaseInvoice(vendor);
   }
 
-  // Create Vendor Function Navigation
-  createVendor() {
-    this.router.navigate(['/pay/vendor/create']);
-  }
-
-  changeOrder(Id: any) {
-
+  refreshAll(){
+    this.allPurchaseOrders  = [] ; // customer only have Purchase Orders
+    this.allPurchaseInvoices = [];
+    this.showOrders = true ;
+    this.showInvoices  = false;
   }
 
   showOrdersPage() {
@@ -103,110 +66,61 @@ export class VendorDashboardComponent implements OnInit {
     this.showInvoices = false;
   }
 
-  // Getting all PO by vendor
-  // showAllVendorPO(vendor: Vendor) {
-  //   this.showOrdersPage();
-  //   if (this.currentSelectedOrder == 1) {
-  //     this.submitted = true;
-  //     this.payServices.getPOByVendor(vendor)
-  //       .then((res: any) => {
-  //         console.log(res);
-  //         this.allVendorPO = res;
-  //         this.submitted = false;
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         this.submitted = false;
-  //       })
-  //   }
-  // }
-
-  showAllVendorPO(vendor: Vendor){
-    this.submitted = true;
-      this.payServices.getPOByVendor(vendor)
-        .then((res: any) => {
-          console.log(res);
-          this.allVendorPO = res;
-          this.submitted = false;
-        })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        })
-  }
-
-  showAllVendorSO(vendor: Vendor) {
-    this.showOrdersPage();
-    if (this.currentSelectedOrder == 2) {
-      this.submitted = true;
-      this.payServices.getSOByVendor(vendor).then((res: any) => {
-        this.allVendorPI = res;
-        this.submitted = false;
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        })
-    }
-  }
-
-  showInvoicesPage() {
+  showInvoicesPage(vendor: Vendor) {
     this.showInvoices = true;
     this.showOrders = false;
-  }
 
-  // showAllVendorPI(vendor: Vendor) {
-  //   this.showInvoicesPage();
-  //   if (this.currentSelectedInvoice == 1) {
-  //     this.showVendorPI = true;
-  //     this.showVendorSI = false;
-
-  //     this.submitted = true;
-  //     this.payServices.getPIByVendor(vendor).then(
-  //       (res: any) => {
-  //         console.log(res);
-  //         this.allVendorPI = res;
-  //         this.submitted = false;
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         this.submitted = false;
-  //       })
-  //   }
-  // }
-
-  showAllVendorPI(vendor: Vendor) {
     this.submitted = true;
-    this.payServices.getPIByVendor(vendor).then(
-      (res: any) => {
-        console.log(res);
-        this.allVendorPI = res;
-        this.submitted = false;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
-      })
-
+    this.payServices.getPurchaseInvoiceById(vendor)
+    .then((res: any) => {
+      this.allPurchaseInvoices = res;
+      this.submitted = false;
+    })
+    .catch((err) => {
+      console.log(err);
+      this.submitted = false;
+    })
   }
 
-  showAllVendorSI(vendor: Vendor) {
-    this.showInvoicesPage();
-    if (this.currentSelectedInvoice == 2) {
-      this.showVendorPI = false;
-      this.showVendorSI = true;
+  // Getting all PO by vendor
+  getAllPurchageOrder(vendor: Vendor) {
+    this.submitted = true;
+    this.payServices.getPurchageOrderById(vendor)
+    .then((res: any) => {
+      console.log(res);
+      this.allPurchaseOrders = res;
+      this.submitted = false;
+    })
+    .catch((err) => {
+      console.log(err);
+      this.submitted = false;
+    })
+  }
 
-      this.submitted = true;
-      this.payServices.getSIByVendor(vendor).then(
-        (res: any) => {
-          this.allVendorSI = res;
-          this.submitted = false;
-        })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        })
-    }
+  getAllPurchaseInvoice(vendor: Vendor){
+    this.submitted = true;
+    this.payServices.getPurchaseInvoiceById(vendor)
+    .then((res: any) => {
+      console.log(res);
+      this.allPurchaseInvoices = res;
+      this.totalRemainingAmount = this.allPurchaseInvoices
+      .reduce((total, PI) => 
+        total + PI.remainingAmount, 0
+      );
+      this.totalGrossAmount = this.allPurchaseInvoices
+      .reduce((total, PI) => 
+        total + PI.grossTotal, 0
+      )
+      this.submitted = false;
+    })
+    .catch((err) => {
+      console.log(err);
+      this.submitted = false;
+    })
+  }
+
+  createVendor() {
+    this.router.navigate(['/pay/vendor/create']);
   }
 
 }

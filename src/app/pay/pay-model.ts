@@ -1,5 +1,6 @@
 import { SalesOrder } from "../invoice/invoice-model";
 import { Product } from "../profile/profile-models";
+import { Vendor } from "../settings/customers/customer";
 
 export class PayModel {
 }
@@ -12,6 +13,7 @@ export interface ReturnRefund{
     salesOrder ?: SalesOrder;
     grossTotal ?: number;
     reason ?: string;
+
   }
 
   // export interface OrderLine{
