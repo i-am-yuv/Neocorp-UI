@@ -77,19 +77,19 @@
                             <div *ngIf="activeVendor.id">
                                 <div class="flex bg-gray-700  rounded-div1 mr-3 p-1">
 
-                                    <div class="field col-4  mt-2 ml-1">
+                                    <div class="field col-4  mt-2 ml-1 font-light">
                                         <div>
-                                            <p class="text-2xl text-white"><b>{{this.activeVendor.firstName}} {{this.activeVendor.lastName}}</b></p>
+                                            <p class="text-2xl font-light text-white">{{this.activeVendor.firstName}} {{this.activeVendor.lastName}}</p>
                                         </div>
                                         <div class="mt-2">
-                                            <p class="text-sm text-gray-200">{{this.activeVendor.email}}</p>
+                                            <p class="text-sm  text-gray-200">{{this.activeVendor.email}}</p>
                                             <p class="text-sm text-gray-200">+91 {{this.activeVendor.mobileNumber}}</p>
                                         </div>
                                     </div>
 
                                     <div class="field col-8">
                                         <div class="iconSCSS  bg-white rounded-div1 mt-2 ">
-                                            <div class="field col-2   ">
+                                            <div class="field col-2"><div class="  p-3 m-2 border-1 border-primary border-round-lg">
                                                 <div class="centerItem">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none">
@@ -98,6 +98,7 @@
                                                             fill="#3579F3" />
                                                     </svg>
                                                 </div>
+                                            </div>
                                             </div>
                                             <div class="field col-5 text-left">
                                                 <p class="text-xl">₹ {{totalGrossAmount}} </p>
@@ -122,8 +123,9 @@
                                                 </div>
                                             </div>
                                             <div class="field col-5" *ngIf="totalRemainingAmount <= 0">
-                                                <div class="flex gap-1  w-full bg-green-300 rounded-div1 p-1">
-                                                    <div class="col-3 leftP text-right">
+                                                <div class="flex">
+                                                <div class="bg-green-300 rounded-div1 px-4 py-1">
+                                                    <div class="leftP text-right">
                                                         <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                             viewBox="0 0 18 18" fill="none">
                                                             <path
@@ -138,6 +140,7 @@
                                                         Paid
                                                     </div>
                                                 </div>
+                                            </div>
                                             </div>
                                         </div>
 
