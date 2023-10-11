@@ -40,14 +40,14 @@
                             <div class="field col-6">
                                 <label class="mr-3 required">Order Date</label><br>
                                 <p-calendar formControlName="orderDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                    placeholder="Choose Order Date">
+                                    placeholder="Choose Order Date" [showButtonBar]="true">
                                 </p-calendar>
                                 <error-message [controlName]="viForm.controls['orderDate']"></error-message>
                             </div>
                             <div class="field col-6">
                                 <label class="mr-3 required">Due Date</label><br>
                                 <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                    placeholder="Choose Due Date">
+                                    placeholder="Choose Due Date" [showButtonBar]="true">
                                 </p-calendar>
                                 <error-message [controlName]="viForm.controls['dueDate']"></error-message>
                             </div>
