@@ -8,6 +8,8 @@ import { BillsService } from '../bills.service';
 import { LineItem, PurchaseOrder } from '../bills-model';
 import { Product } from 'src/app/profile/profile-models';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
+import { branch } from 'src/app/auth/auth-model';
 
 
 @Component({
@@ -37,6 +39,7 @@ export class PurchaseOrderComponent implements OnInit {
   groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
   currentPoOrder: PurchaseOrder = {};
+  currentBranch : branch = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -49,18 +52,6 @@ export class PurchaseOrderComponent implements OnInit {
   uploadMessage = '';
   poSubTotal: number = 0.00;
 
-   
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
-
   vendorVisible : boolean =  false;
   customerVisible : boolean =  false;
 
@@ -70,7 +61,8 @@ export class PurchaseOrderComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private billS: BillsService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
 
@@ -96,6 +88,8 @@ export class PurchaseOrderComponent implements OnInit {
     this.loadProducts();
     this.loadState();
     this.getPoOrder();
+    this.loadBranch();
+
 
   }
 
@@ -124,19 +118,6 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
 
-  billToSelect()
-  {
-     if( this.poForm.value.billToName == "Vendor" )
-     {
-        this.vendorVisible = true;
-        this.customerVisible = false;
-     }
-     else if( this.poForm.value.billToName == "Customer" ){
-      this.customerVisible = true;
-      this.vendorVisible = false;
-     } 
-  }
-
   initForm() {
     this.poForm = new FormGroup({
       id : new FormControl(''),
@@ -150,14 +131,11 @@ export class PurchaseOrderComponent implements OnInit {
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      customer: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       grossTotal: new FormControl(''),
-      billToName: new FormControl('')
+      branch : new FormControl('')
     });
 
     this.lineItemForm = new FormGroup(
@@ -186,15 +164,6 @@ export class PurchaseOrderComponent implements OnInit {
           console.log(order);
           this.currentPoOrder = order;
           this.poForm.patchValue(order);
-          if( order.customer != null )
-          {
-             this.poForm.patchValue({ billToName : 'Customer' });
-             this.billToSelect();
-          }
-          else{
-            this.poForm.patchValue({ billToName : 'Vendor' }) ;
-            this.billToSelect();
-          }
           this.submitted = false;
           this.getLines(order); //Because backend api is not ready
         }
@@ -206,6 +175,26 @@ export class PurchaseOrderComponent implements OnInit {
       )
     }
 
+  }
+
+  loadBranch()
+  {
+    this.submitted = true;
+
+      var userId = this.authS.getUserId()+'' ;
+     // alert(userId);
+      this.billS.getBranchByUserId(userId).then(
+        (res: any) => {
+          console.log(res);
+          this.currentBranch = res;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
   getLines(order: PurchaseOrder) {
@@ -295,21 +284,15 @@ export class PurchaseOrderComponent implements OnInit {
     //this.poForm.value.customer = null;
     //this.poForm.value.purchaseFrom = null;
 
-    if(this.poForm.value.vendor.id == null || this.poForm.value.vendor.id == "" )
-    {
-      this.poForm.value.vendor = null ;
-    }
-    else{
-      this.poForm.value.customer = null ;
-    }
+    this.poForm.value.branch = this.currentBranch ;
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
     alert(JSON.stringify(poFormVal)) ;
 
     if (poFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
+      
       this.submitted = true;
-      poFormVal.grossTotal= null;
+     
       this.billS.updatePurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -340,6 +323,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.upload(); // for upload file if attached
       this.submitted = true;
       poFormVal.grossTotal= null;
+      poFormVal.status = null;
+      poFormVal.orderNumber = null;
       this.billS.createPurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -562,12 +547,12 @@ export class PurchaseOrderComponent implements OnInit {
             } else if (event.ok == true) {
               // this.message = event.body.message;
               this.submitted = false;
-              this.message.add({
-                severity: 'success',
-                summary: 'Success',
-                detail: 'File Added Successfully ',
-                life: 3000,
-              });
+              // this.message.add({
+              //   severity: 'success',
+              //   summary: 'Success',
+              //   detail: 'File Added Successfully ',
+              //   life: 3000,
+              // });
               // this.fileInfos = this.uploadService.getFiles();
             }
           },
@@ -608,13 +593,6 @@ export class PurchaseOrderComponent implements OnInit {
   finalPoSubmitPage() {
     // updated complete PO so that gross total can be updated
     this.submitted = true;
-    if(this.poForm.value.vendor.id == null  || this.poForm.value.vendor.id == "" )
-    {
-      this.poForm.value.vendor = null ;
-    }
-    else{
-      this.poForm.value.customer = null ;
-    }
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
     poFormVal.grossTotal = this.poSubTotal ;
@@ -642,7 +620,6 @@ export class PurchaseOrderComponent implements OnInit {
         life: 3000,
       });
       this.router.navigate(['/bills/purchaseOrder']) ;
-    
   }
 
   createPO()

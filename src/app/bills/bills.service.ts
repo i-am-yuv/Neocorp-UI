@@ -141,4 +141,10 @@ export class BillsService {
     return amount;
   }
 
+  async getBranchByUserId(userId : any) {
+    var url = this.apiurlNew + 'branch/user/'+encodeURIComponent(userId) ;
+    const branch = await lastValueFrom(this.http.get<any>(url));
+    return branch;
+  }
+
 }

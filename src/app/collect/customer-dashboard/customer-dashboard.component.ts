@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CollectService } from '../collect.service';
 import { CustomeR } from 'src/app/settings/customers/customer';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { CustomerOrderComponent } from 'src/app/store/customer-order/customer-order.component';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -13,101 +14,51 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class CustomerDashboardComponent implements OnInit {
 
-  submitted : boolean =  false;
-  totalRecords: number = 0 ;
+  submitted: boolean = false;
+  totalRecords: number = 0;
 
-  allCustomers : any[] = [] ;
-  allCustomerOrders : any[] = [] ; // customer only have Purchase Orders
+  allCustomers: any[] = [];
+  allCustomerOrders: any[] = []; // customer only have Purchase Orders
 
-  allCustomerSI : any[] = [];
+  allCustomerSI: any[] = [];
 
-  activeCustomer : CustomeR = {};
+  activeCustomer: CustomeR = {};
 
-  showOrders : boolean = true ;
-  showInvoices : boolean  = false;
+  showOrders: boolean = true;
+  showInvoices: boolean = false;
+
+  totalRemainingAmount : number = 0 ;
+  totalGrossAmount : number = 0.00 ;
+
+  //currentInvoiceStatus : string = '' ;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private collectS: CollectService,
-    private otherS : PayPageService,
+    private otherS: PayPageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.getAllCustomers();
   }
 
-  showOrdersPage()
-  {
+  showOrdersPage() {
     this.showInvoices = false;
     this.showOrders = true;
   }
 
-  showInvoicesPage(customer : CustomeR)
-  {
+  showInvoicesPage(customer: CustomeR) {
     this.showInvoices = true;
     this.showOrders = false;
     this.submitted = true;
-      
-      this.collectS.allSalesInvoicesById(customer).then(
-       (res:any) => {
-          console.log(res) ;
-          this.allCustomerSI = res ;
-          this.submitted = false;
-       }
-     ).catch(
-       (err) => {
-         console.log(err);
-         this.submitted = false;
-       }
-     )
-  }
 
-  getAllCustomers()
-  {
-    this.otherS.allCustomer().then(
-      (res:any) => {
-         console.log(res) ;
-         this.allCustomers = res.content ;
-         this.totalRecords = res.totalElements;
-         this.submitted = false;
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
-  }
-
-  changeCustomer( customer : CustomeR)
-  {
-    //this.currentDue = 0;
-    this.refeshAll();
-    this.activeCustomer = customer;
-    this.getCustomerData(customer);
-    this.getAllSalesOrders(customer);
-  }
-
-  refeshAll()
-  {
-  //this.allCustomers = [] ;
-  this.allCustomerOrders  = [] ; // customer only have Purchase Orders
-  this.allCustomerSI = [];
-
-  this.showOrders = true ;
-  this.showInvoices  = false;
-  }
-
-  getAllSalesOrders(customer : CustomeR)
-  {
-    this.submitted = true;
-    this.collectS.allSalesOrdersById(customer).then(
-      (res:any) => {
-         console.log(res) ;
-         this.allCustomerOrders = res ;
-         //this.totalRecords = res.totalElements;
-         this.submitted = false;
+    this.collectS.allSalesInvoicesById(customer).then(
+      (res: any) => {
+        console.log(res);
+        this.allCustomerSI = res;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
@@ -117,14 +68,85 @@ export class CustomerDashboardComponent implements OnInit {
     )
   }
 
-  getCustomerData(customer : CustomeR)
+  getAllCustomers() {
+    this.otherS.allCustomer().then(
+      (res: any) => {
+        console.log(res);
+        this.allCustomers = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
+  changeCustomer(customer: CustomeR) {
+    //this.currentDue = 0;
+    this.refeshAll();
+    this.activeCustomer = customer;
+    this.getCustomerData(customer);
+    this.getAllSalesOrders(customer);
+    this.getAllSalesInvoices(customer);
+  }
+
+  getAllSalesInvoices(customer: CustomeR) 
   {
+    this.submitted =  true;
+    this.collectS.allSalesInvoicesById(customer).then(
+      (res: any) => {
+        console.log(res);
+        this.allCustomerSI = res;
+      this.totalRemainingAmount = this.allCustomerSI.reduce(
+        (total, oneSI) => total + oneSI.remainingAmount, 0
+      );
+      this.totalGrossAmount = this.allCustomerSI.reduce(
+        (total, oneSI) => total + oneSI.grossTotal, 0
+      );
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
+  }
+
+  refeshAll() {
+    //this.allCustomers = [] ;
+    this.allCustomerOrders = []; // customer only have Purchase Orders
+    this.allCustomerSI = [];
+
+    this.showOrders = true;
+    this.showInvoices = false;
+  }
+
+  getAllSalesOrders(customer: CustomeR) {
+    this.submitted = true;
+    this.collectS.allSalesOrdersById(customer).then(
+      (res: any) => {
+        console.log(res);
+        this.allCustomerOrders = res;
+        //this.totalRecords = res.totalElements;
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
+  }
+
+  getCustomerData(customer: CustomeR) {
 
   }
 
-  CreateNewCustomer()
-  {
-    this.router.navigate(['/collect/createCustomer']); 
+  CreateNewCustomer() {
+    this.router.navigate(['/collect/createCustomer']);
   }
 
   // changeInvoice(customer : CustomeR)
@@ -157,7 +179,7 @@ export class CustomerDashboardComponent implements OnInit {
   //     this.showCustomerSI = true;
 
   //     this.submitted = true;
-      
+
   //     this.collectS.allSalesInvoicesById(customer).then(
   //      (res:any) => {
   //         console.log(res) ;

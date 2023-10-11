@@ -25,6 +25,12 @@ export class LoginService {
     return login;
   }
 
+  async createBranch(data: any) {
+    var url = this.apiurlNew + '/branch';
+    const branch = await lastValueFrom(this.http.post<any>(url, data));
+    return branch;
+  }
+
   async verifyAadhar(data: any) {
     var url = this.apiurlNew + 'api/aadhaar/initiate?aadhaarNumber='+data;
     const aadharVerified = await lastValueFrom(this.http.post<any>(url,data));

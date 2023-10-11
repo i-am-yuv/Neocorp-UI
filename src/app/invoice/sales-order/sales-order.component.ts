@@ -22,7 +22,7 @@ export class SalesOrderComponent implements OnInit {
   submitted : boolean =  false;
   createNew : boolean =  false;
 
-  vendors: Vendor[] = [];
+  customers: Vendor[] = [];
   products: Product[] = [];
   states: State[] = [];
 
@@ -66,7 +66,7 @@ export class SalesOrderComponent implements OnInit {
 
     this.initForm();
     this.soForm.value.enablePartialPayments = false;
-    this.loadVendors();
+    this.loadCustomer();
     this.loadProducts();
     this.loadState();
     this.getSoOrder();
@@ -76,11 +76,11 @@ export class SalesOrderComponent implements OnInit {
     this.soForm = new FormGroup({
       id: new FormControl(''),
       documentno: new FormControl(''),
-      dueDate: new FormControl('', Validators.required),//
-      billDate: new FormControl('', Validators.required),//
-      termsOfPayments: new FormControl('', Validators.required),//
-      termsOfDelivery: new FormControl('', Validators.required),//
-      vendor: this.fb.group({
+      dueDate: new FormControl('', Validators.required),
+      billDate: new FormControl('', Validators.required),
+      termsOfPayments: new FormControl(''),
+      termsOfDelivery: new FormControl(''),
+      customer: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
@@ -160,10 +160,10 @@ export class SalesOrderComponent implements OnInit {
       );
   }
 
-  loadVendors() {
-    this.usedService.allVendor().then(
+  loadCustomer() {
+    this.usedService.allCustomer().then(
       (res) => {
-        this.vendors = res.content;
+        this.customers = res.content;
         console.log(res);
       }
     ).catch(
@@ -216,7 +216,7 @@ export class SalesOrderComponent implements OnInit {
 
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
-    console.log(soFormVal);
+    alert( JSON.stringify(soFormVal) );
     if (soFormVal.id) 
     {
       this.submitted = true;
