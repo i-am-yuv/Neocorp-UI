@@ -25,7 +25,9 @@
 <div class="h-auto ">
     
     
-        <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()">
+        <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"  
+        [ngClass]="{ 'defaultSCSS ': true,'onClickButton':changecolor }"
+        >
             <div class="flex gap-2">
                 <div class="field">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">

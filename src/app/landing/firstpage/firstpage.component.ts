@@ -157,20 +157,20 @@ export class FirstpageComponent implements OnInit {
   refreshAll(){
     // this.allPurchaseOrders  = [] ; // customer only have Purchase Orders
     // this.allPurchaseInvoices = [];
-    this.showOrders = true ;
-    this.showInvoices  = false;
+    this.showDebit = true ;
+    this.showCredit  = false;
   }
-  showOrders : boolean = true ;
-  showInvoices : boolean  = false;
+  showDebit : boolean = true ;
+  showCredit : boolean  = false;
 
-  showOrdersPage() {
-    this.showOrders = true;
-    this.showInvoices = false;
+  showDebitPage() {
+    this.showDebit = true;
+    this.showCredit = false;
   }
 
-  showInvoicesPage() {
-    this.showInvoices = true;
-    this.showOrders = false;
+  showCreditPage() {
+    this.showCredit = true;
+    this.showDebit = false;
 
   }
 
