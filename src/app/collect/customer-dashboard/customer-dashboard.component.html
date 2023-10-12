@@ -65,8 +65,11 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeCustomer.id">
-                                <img src="assets/empty.svg" width="250" /><br />
-                                Select Customer
+                                <div class="">
+                                    <img height="400" width="500" src="/assets/bill.png" alt="Image" class="">
+                                </div>
+                                <!-- <img src="assets/empty.svg" width="250" /><br />
+                                Select Customer -->
                             </div>
                             <div *ngIf="activeCustomer.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>

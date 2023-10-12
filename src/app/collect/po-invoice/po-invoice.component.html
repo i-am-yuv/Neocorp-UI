@@ -24,7 +24,7 @@
         <div class=" bg-white ">
             <div class="border-bottom-1 border-200 text-right p-3">
                 <button type="button" pButton label="Close" (click)="OnCancelPI()"
-                    class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600  "></button>
+                    class="mr-3 p-button-secondary "></button>
                 <button type="button" pButton label="Create Purchase Invoice" (click)="finalPoInvoiceSubmit()"
                     [disabled]="this.poInvoiceSubTotal == 0"
                     class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
@@ -320,7 +320,7 @@
 
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelPI()"
-                        class="mr-3 bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600   "></button>
+                        class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Create Purchase Invoice" (click)="finalPoInvoiceSubmit()"
                         [disabled]="this.poInvoiceSubTotal == 0"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
