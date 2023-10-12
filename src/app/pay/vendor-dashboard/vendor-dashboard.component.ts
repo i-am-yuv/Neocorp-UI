@@ -34,6 +34,7 @@ export class VendorDashboardComponent implements OnInit {
   }
 
   getAllVendors() {
+    this.submitted = true;
     this.payServices.allVendor().then((res: any) => {
       console.log(res);
       this.allVendors = res.content;

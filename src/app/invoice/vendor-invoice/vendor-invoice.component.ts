@@ -79,7 +79,7 @@ export class VendorInvoiceComponent implements OnInit {
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       grosstotal: new FormControl(''),
-      status: new FormControl('', Validators.required)
+      status: new FormControl('')
     });
   }
 
@@ -92,7 +92,7 @@ export class VendorInvoiceComponent implements OnInit {
         var count = res.totalElements;
         //count=0
         if (count > 0) {
-          this.router.navigate(['/invoice/vendorInvoices]']);
+          this.router.navigate(['/invoice/vendorInvoices']);
         }
         else {
           this.createNew = false;

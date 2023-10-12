@@ -120,13 +120,13 @@
                     </div>
                     <div class="flex gap-3">
                         <div class="field col-6">
-                            <label class="mr-3 ">Billing Name</label>
+                            <label class="mr-3 required">Billing Name</label>
                             <input pInputText formControlName="billingName" placeholder="Enter Billing Name"
                                 class="w-full custom-input" />
                             <error-message [controlName]="addressDetailsForm.controls['billingName']"></error-message>
                         </div>
                         <div class="field col-6">
-                            <label class="mr-3 ">Billing Address</label>
+                            <label class="mr-3 required">Billing Address</label>
                             <input pInputText formControlName="billingAddress" placeholder="Enter Billing Address"
                                 class="w-full custom-input" />
                             <error-message
@@ -136,13 +136,13 @@
 
                     <div class="flex gap-2">
                         <div class="field col-4">
-                            <label class="mr-3 ">Pincode</label>
+                            <label class="mr-3 required">Pincode</label>
                             <input pInputText name="Pincode" formControlName="pincode" pattern="^(\d{4}|\d{6})$"
                                 placeholder="Enter Pincode" maxlength="6" class="w-full custom-input" required />
                             <error-message [controlName]="addressDetailsForm.controls['pincode']"></error-message>
                         </div>
                         <div class="field col-4">
-                            <label class="mr-3 ">City / Town</label>
+                            <label class="mr-3 required">City / Town</label>
                             <input pInputText formControlName="city" placeholder="Enter town or city"
                                 class="w-full custom-input" />
                             <error-message [controlName]="addressDetailsForm.controls['city']"></error-message>
@@ -154,9 +154,11 @@
                             <input (click)="ShippingAddressVisibility()" id="link-checkbox" type="checkbox" value=""
                                 checked>
                             <label for="link-checkbox">Shipping Address Same As Billing Address</label>
+                            <!-- <div><p-checkbox formControlName="isShippingAddressSameAsBillingAddress" inputId="binary" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="ml-2"><label for="binary">Shipping Address Same As Billing Address</label></div> -->
                         </div>
                     </div>
-
                     <div *ngIf="this.shippingAddressVisible">
                         <div class="flex gap-3">
                             <div class="field col-6">
@@ -205,3 +207,6 @@
         </form>
     </div>
 </div>
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

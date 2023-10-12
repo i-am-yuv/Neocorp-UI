@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
+import { ProductCategory } from '../product-category';
 
 @Component({
   selector: 'app-category',
@@ -11,15 +12,45 @@ import { ProfilepageService } from '../profilepage.service';
 })
 export class CategoryComponent implements OnInit {
 
+  id: string | null = '';
   productCategoryForm!: FormGroup;
   categories: any[] = [];
+  createNew: boolean = false;
+  submitted: boolean = false;
+  currentProductCategory: ProductCategory = {};
 
   constructor(private router: Router,
     private message: MessageService,
     private profileS: ProfilepageService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+        this.availableProductCategory();
+      }
+    });
+
+
+
+    this.initProductCategoryForm();
+    this.getAllProductCategory();
+    this.getProductCategoryDetails();
+
+  }
+
+  initProductCategoryForm() {
     this.productCategoryForm = new FormGroup({
       searchKey: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
@@ -28,20 +59,16 @@ export class CategoryComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       })
     });
-
-    this.loadCategory();
-
   }
 
-  loadCategory()
-  {
-    this.profileS.getAllCategory().then(
-      (res)=>{
-         console.log(res);
-         this.categories = res.content;
+  getAllProductCategory() {
+    this.profileS.getAllProductCategory().then(
+      (res) => {
+        console.log(res);
+        this.categories = res.content;
       }
-     ).catch(
-      (err)=>{
+    ).catch(
+      (err) => {
         this.message.add({
           severity: 'error',
           summary: 'Product Category',
@@ -49,32 +76,109 @@ export class CategoryComponent implements OnInit {
           life: 3000,
         });
       }
-     )
+    )
   }
 
-  onSubmitPC()
-  {
-     console.log(this.productCategoryForm.value);
-     this.profileS.createProductCategory(this.productCategoryForm.value).then(
-      (res)=>{
-         console.log(res);
-         this.message.add({
-          severity: 'success',
-          summary: 'Product Category Saved',
-          detail: 'Product Category Added Successfully',
-          life: 3000,
-        });
-      }
-     ).catch(
-      (err)=>{
-        this.message.add({
-          severity: 'error',
-          summary: 'Product Category',
-          detail: 'Error While fetching Product Category',
-          life: 3000,
-        });
-      }
-     )
+  availableProductCategory() {
+    this.submitted = true;
+    this.profileS.getAllProductCategory()
+      .then((res: any) => {
+        var count = res.totalElements;
+        this.submitted = false;
+
+        if (count > 0) {
+          this.router.navigate(['/profile/productCategory']);
+        } else {
+          this.createNew = false;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+  getProductCategoryDetails() {
+    if (this.id) {
+      this.submitted = true;
+      this.profileS.getProductCategoryById(this.id)
+        .then((productCategory: ProductCategory) => {
+          console.log(productCategory);
+          this.currentProductCategory = productCategory;
+          this.productCategoryForm.patchValue(productCategory);
+          this.submitted = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
+
+  onSubmitPC() {
+
+    // if( this.productCategoryForm.value.parent == "" || this.productCategoryForm.value.parent == undefined )
+    // {
+    //   this.productCategoryForm.value.parent = null ;
+    // }
+    this.productCategoryForm.value.parent = null;
+
+    var productCategoryFormVal = this.productCategoryForm.value;
+    productCategoryFormVal.id = this.id;
+    
+    alert(JSON.stringify(productCategoryFormVal));
+
+    if (productCategoryFormVal.id) {
+      this.submitted = true;
+      this.profileS.updateProductCategory(productCategoryFormVal)
+        .then((res: any) => {
+          console.log(res);
+          this.productCategoryForm.patchValue = { ...res };
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Product Updated',
+            detail: 'Product updated',
+            life: 3000,
+          });
+          this.router.navigate(['/profile/productCategories']);
+        })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Sales Order updated Error',
+              detail: 'Some Server Error',
+              life: 3000,
+            });
+          })
+    } else {
+      console.log(this.productCategoryForm.value);
+      this.profileS.createProductCategory(this.productCategoryForm.value).then(
+        (res) => {
+          console.log(res);
+          this.message.add({
+            severity: 'success',
+            summary: 'Product Category Saved',
+            detail: 'Product Category Added Successfully',
+            life: 3000,
+          });
+          this.router.navigate(['/profile/productCategories']);
+        })
+        .catch((err) => {
+          this.message.add({
+            severity: 'error',
+            summary: 'Product Category',
+            detail: 'Error While fetching Product Category',
+            life: 3000,
+          });
+        }
+      )
+
+    }
+
   }
 
 }

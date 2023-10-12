@@ -15,6 +15,7 @@ export class VendorComponent implements OnInit {
   createNew : boolean =  false;
 
   isSidebarVisible : boolean =  true;
+  submitted : boolean = false;
 
   vendorForm!: FormGroup;
   addressDetailsForm !: FormGroup;
@@ -106,6 +107,7 @@ export class VendorComponent implements OnInit {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
       // save account details API
+      this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
         (res) => {
           // this.customerForm.get('accountDetails')?.patchValue({
@@ -114,15 +116,23 @@ export class VendorComponent implements OnInit {
           //this.customerDetails.accountDetails = res;
           this.vendorForm.value.accountDetails = res;
           console.log("Account Saved");
+          this.submitted = false;
           this.saveAddress();
         }
       ).catch((err) => {
         console.log("Account error");
+        this.submitted = false;
       })
     }
     else{
       this.vendorForm.value.accountDetails = null ;
-      this.saveAddress();
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please, fill the mandatory account details',
+        life: 3000,
+      });
+     // this.saveAddress();
     }
     
   }
@@ -138,6 +148,7 @@ export class VendorComponent implements OnInit {
       else {
       this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
       }
+      this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
           //this.addressDetailS = res;
@@ -145,81 +156,49 @@ export class VendorComponent implements OnInit {
           this.vendorForm.value.address = res;
           //this.add.push(res);
           console.log("Complete Address Saved");
+          this.submitted = false;
           this.saveVendor();
         }
       ).catch((err) => {
         console.log("Complete Address error");
+        this.submitted = false;
       })
     }
     else{
       this.vendorForm.value.address = null;
       this.saveVendor();
-    }
-    // else if (this.addressDetailsForm.status == 'INVALID') {
-    //   if ((this.addressDetailsForm.value.billingName != ""   &&
-    //     this.addressDetailsForm.value.billingAddress != "" ) &&
-    //     (this.addressDetailsForm.value.pincode != "" &&
-    //       this.addressDetailsForm.value.city != "")) {
-    //     this.payPageS.createAddress(this.addressDetailsForm.value).then(
-    //       (res) => {
-    //          //this.addressDetailS = res;
-
-    //        // this.customerDetails.address=res;
-    //        this.vendorForm.value.address = res;
-    //         //   this.add.push(res);
-    //         console.log("Billing Address Saved");
-    //         this.saveVendor();
-    //         this.ngOnInit();
-    //       }
-    //     ).catch((err) => {
-    //       console.log("BIlling Address error");
-    //     })
-    //   }
-      
+    }  
   }
 
   saveVendor() {
-    //console.log("Step 3\n\n"+JSON.stringify(this.customerForm?.value) );
+   
     console.log(this.vendorForm.value);
-    //console.log("\n\n"+this.accountDetailS+"\n\n");
-    // alert(JSON.stringify(this.bank));
-
-    // this.customerDetails.displayName = this.customerForm.value.displayName;
-    // this.customerDetails.contactName = this.customerForm.value.contactName;
-    // this.customerDetails.email = this.customerForm.value.email;
-    // this.customerDetails.mobileNumber = this.customerForm.value.mobileNumber;
-    // if (this.accountSaved == true) {
-    //   this.customerDetails.accountDetails = this.bank[0];
-    // }
-    // if (this.addressSaved == true) {
-    //   this.customerDetails.address = this.add[0];
-    // }
-    /// console.log(JSON.stringify(this.customerDetails));
+    this.submitted = true;
     this.payPageS.createVendor(this.vendorForm.value).then(
       (res) => {
         console.log(res);
         console.log("Vendor Saved");
+        this.submitted =  false;
+
         this.message.add({
           severity: 'success',
           summary: 'Vendor Saved',
           detail: 'Vendor Added',
           life: 3000,
         });
-        // this.customerForm.reset();
-        // this.addressDetailsForm.reset();
-        // this.accountDetailsForm.reset();
+        
+        this.router.navigate(['/pay/vendors']) ;
       }
     ).catch((err) => {
       console.log("Vendor error");
+      this.submitted = false;
       this.message.add({
         severity: 'error',
         summary: 'Vendor Error',
         detail: 'Vendor Not Added',
         life: 3000,
       });
-      // this.vendorForm.reset();
-      // this.addressDetailsForm.reset();
-      // this.accountDetailsForm.reset();
+      
     })
   }
 

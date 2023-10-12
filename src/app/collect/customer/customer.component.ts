@@ -13,6 +13,7 @@ export class CustomerComponent implements OnInit {
 
   isSidebarVisible: boolean = true;
 
+  submitted : boolean = false;
   customerForm!: FormGroup;
   addressDetailsForm !: FormGroup;
   accountDetailsForm !: FormGroup;
@@ -55,7 +56,7 @@ export class CustomerComponent implements OnInit {
       city: new FormControl('', Validators.required),
       shippingName: new FormControl(''),
       shippingAddress: new FormControl(''),
-      isShippingAddressSameAsBillingAddress: new FormControl(true)
+      isShippingAddressSameAsBillingAddress: new FormControl('')
     });
 
     // Default making billing Address same as Shipping Address
@@ -74,14 +75,17 @@ export class CustomerComponent implements OnInit {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
       // save account details API
+      this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
         (res) => {
           this.customerForm.value.accountDetails = res;
           console.log("Account Saved");
+          this.submitted = false;
           this.saveAddress();
         }
       ).catch((err) => {
         console.log("Account error");
+        this.submitted = false;
       })
     }
     else {
@@ -103,6 +107,7 @@ export class CustomerComponent implements OnInit {
       }
 
       // save Address Details API
+      this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
           //this.addressDetailS = res;
@@ -110,62 +115,54 @@ export class CustomerComponent implements OnInit {
           this.customerForm.value.address = res;
           //this.add.push(res);
           console.log("Complete Address Saved");
+          this.submitted = false;
           this.saveCustomer();
         }
       ).catch((err) => {
         console.log("Complete Address error");
+        this.submitted = false;
       })
     }
     else {
       this.customerForm.value.address = null;
-      this.saveCustomer();
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please, fill the mandatory Address details',
+        life: 3000,
+      });
+      //this.saveCustomer();
     }
 
 
   }
 
   saveCustomer() {
-    //console.log("Step 3\n\n"+JSON.stringify(this.customerForm?.value) );
+    
     console.log(this.customerForm.value);
-    //console.log("\n\n"+this.accountDetailS+"\n\n");
-    // alert(JSON.stringify(this.bank));
-
-    // this.customerDetails.displayName = this.customerForm.value.displayName;
-    // this.customerDetails.contactName = this.customerForm.value.contactName;
-    // this.customerDetails.email = this.customerForm.value.email;
-    // this.customerDetails.mobileNumber = this.customerForm.value.mobileNumber;
-    // if (this.accountSaved == true) {
-    //   this.customerDetails.accountDetails = this.bank[0];
-    // }
-    // if (this.addressSaved == true) {
-    //   this.customerDetails.address = this.add[0];
-    // }
-    /// console.log(JSON.stringify(this.customerDetails));
+    this.submitted = true;
     this.payPageS.createCustomer(this.customerForm.value).then(
       (res) => {
         console.log(res);
         console.log("Customer Saved");
+        this.submitted = false;
         this.message.add({
           severity: 'success',
           summary: 'Customer Saved',
-          detail: 'Customer Added',
+          detail: 'Customer Added Successfully',
           life: 3000,
         });
-        // this.customerForm.reset();
-        // this.addressDetailsForm.reset();
-        // this.accountDetailsForm.reset();
+        this.router.navigate(['/collect/customers']) ;
       }
     ).catch((err) => {
       console.log("customer error");
+      this.submitted = false;
       this.message.add({
         severity: 'error',
         summary: 'Customer Error',
         detail: 'Customer Not Added',
         life: 3000,
       });
-      this.customerForm.reset();
-      this.addressDetailsForm.reset();
-      this.accountDetailsForm.reset();
     })
   }
 
@@ -193,7 +190,7 @@ export class CustomerComponent implements OnInit {
   }
 
   onCloseCustomer() {
-    this.router.navigate(['/collect/Customers']);
+    this.router.navigate(['/collect/customers']);
   }
 
 }
