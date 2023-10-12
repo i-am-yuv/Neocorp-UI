@@ -70,13 +70,16 @@ isClass2Applied = true; // Class 2 is initially not applied
 
   getPI( id : any)
   {
+    this.submitted = true;
     this.payS.getPI(id).then(
       (res) => {
         console.log(res);
+        this.submitted = false;
         this.currentPurchaseInvoice = res;
       }
     ).catch(
       (err) => {
+        this.submitted = false;
         console.log(err);
       }
     )
@@ -93,12 +96,7 @@ isClass2Applied = true; // Class 2 is initially not applied
 
         this.payPI.amount = this.enteredAmount;
         this.payPI.invoiceId = this.id;
-        //  find vendor by invoice id
-
         this.payPI.vendorId = this.currentPurchaseInvoice.vendor?.id  ;
-
-       // this.payM.vendorId = '0afa0a7c-8abb-1049-818a-bc563cb1001d';
-
         this.payPI.paymentType = this.choosedM;
         this.payPI.paymentRequest = null;
 
@@ -107,25 +105,29 @@ isClass2Applied = true; // Class 2 is initially not applied
         this.payS.makePaymentPI(this.payPI).then(
           (res) => {
             console.log(res);
+            this.router.navigate(['/collect/purchaseInvoices']);
+
             this.message.add({
               severity: 'success',
               summary: 'payment Done',
-              detail: 'Payment Done',
+              detail: 'Payment Done Successfully',
               life: 3000,
             });
+            
+            //this.goToList();
           }
         ).catch(
           (err) => {
             console.log(err);
             this.message.add({
               severity: 'error',
-              summary: err.error.message,
-              detail: err.error.message,
+              summary: err.error.error,
+              detail: err.error.error,
               life: 3000,
             });
           }
         )
-
+        
       }
       else if (lastSegment && lastSegment.path == 'si') {
 
@@ -163,9 +165,9 @@ isClass2Applied = true; // Class 2 is initially not applied
 
       }
     });
-
-
   }
+
+ 
 }
 
 

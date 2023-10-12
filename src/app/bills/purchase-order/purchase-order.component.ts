@@ -397,20 +397,10 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
   delete(lineItem: LineItem) {
-    //(JSON.stringify(lineItem));
-    // this.confirmationService.confirm({
-    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-    //   header: 'Confirm',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-
-    //   },
-    // });
+    
     this.confirmationService.confirm({
       message:
-        'Are you sure you want to delete this Line Item ' +
-        lineItem.expenseName?.name +
-        '?',
+        'Are you sure you want to delete this Line Item?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {

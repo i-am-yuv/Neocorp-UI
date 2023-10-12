@@ -17,8 +17,11 @@ export class PaymentService {
     var url = this.apiurlNew + 'payments/'+encodeURIComponent(data.invoiceId)+'?vendorId='
     +encodeURIComponent(data.vendorId)+'&amount='+data.amount+'&paymentType='+data.paymentType
     +'&paymentRequest='+data.paymentRequest;
-    const payment = await lastValueFrom(this.http.post<any>(url,data));
-    return payment;
+    // const payment = await lastValueFrom(this.http.post<any>(url,data));
+    // return payment;
+    this.http.post<any>(url,data).subscribe((res)=>{
+      return res;
+    }) ;
   }
 
   async makePaymentSI(data: any) {

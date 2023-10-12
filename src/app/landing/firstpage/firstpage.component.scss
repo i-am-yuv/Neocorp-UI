@@ -6,3 +6,28 @@
   .sidebar {
     width: 100px !important; /* Adjust the width to your desired value */
   }
+
+  // for account SCSS
+  .button-container {
+    display: flex;
+    justify-items: center;
+  }
+  
+  .defaultSCSS {
+    background-color: white;
+    color: black;
+    border: none;
+    ;
+    border-bottom: 3px solid lightgrey;  
+    cursor: pointer;
+    
+    width: 100%;/* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+  }
+  
+  .onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid rgb(92, 92, 238);  /* Change the bottom border color on hover (e.g., blue) */
+    color: #1560E0;
+    background-color: white;/* Change the text color on hover (optional) */
+  }

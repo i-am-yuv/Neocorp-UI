@@ -35,14 +35,14 @@
                         <span class="p-inputgroup-addon">+91</span>
                         <input pInputText type="text" formControlName="mobileNumber"
                             class="form-control custom-input inputfield w-full" name="login" minlength="10"
-                            maxlength="10" [pKeyFilter]="'int'" placeholder="Enter 10 Digits  of your mobile number" />
+                            maxlength="10" [pKeyFilter]="'int'" NumbersOnly placeholder="Enter 10 Digits  of your mobile number" />
                     </div>
                     <error-message [controlName]="vendorForm.controls['mobileNumber']"></error-message>
                 </div>
                 <div class="field col-6">
                     <label class="mr-3 required">Email</label>
                     <input pInputText type="text" formControlName="email" placeholder="Enter Email Id"
-                        class="form-control custom-input inputfield w-full" name="login" email minlength="6"
+                        class="form-control custom-input inputfield w-full" name="login" email minlength="3"
                         maxlength="60" />
                     <error-message [controlName]="vendorForm.controls['email']"></error-message>
                 </div>
@@ -79,13 +79,13 @@
                     </div>
                     <div class="flex gap-3">
                         <div class="field col-6">
-                            <label class="mr-3 ">Account Number</label>
-                            <input pInputText formControlName="accountNumber" placeholder="Enter Your Account Number"
-                                class="w-full custom-input" />
+                            <label class="mr-3 required ">Account Number</label>
+                            <input pInputText formControlName="accountNumber" NumbersOnly placeholder="Enter Your Account Number"
+                                class="w-full custom-input" minlength="9" />
                             <error-message [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
                         </div>
                         <div class="field col-6">
-                            <label class="mr-3 ">Account type</label>
+                            <label class="mr-3 required">Account type</label>
                             <input pInputText formControlName="accountType" placeholder="Enter Your Account Type"
                                 class="w-full custom-input" />
                             <error-message [controlName]="accountDetailsForm.controls['accountType']"></error-message>
@@ -94,21 +94,21 @@
 
                     <div class="flex gap-2">
                         <div class="field col-4">
-                            <label class="mr-3 ">IFSC</label>
+                            <label class="mr-3 required">IFSC</label>
                             <input pInputText formControlName="ifsc" placeholder="Enter Your IFSC code"
-                                class="w-full custom-input" />
+                                class="w-full custom-input" maxlength="20"/>
                             <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
                         </div>
 
                         <div class="field col-4">
-                            <label class="mr-3 ">Bank Name</label>
+                            <label class="mr-3 required">Bank Name</label>
                             <input pInputText formControlName="bankname" placeholder="Enter Bank Name"
                                 class="w-full custom-input" />
                             <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
                         </div>
 
                         <div class="field col-4">
-                            <label class="mr-3 ">Branch Name</label>
+                            <label class="mr-3 required">Branch Name</label>
                             <input pInputText formControlName="branchName" placeholder="Enter Branch Name"
                                 class="w-full custom-input" />
                             <error-message [controlName]="accountDetailsForm.controls['branchName']"></error-message>
@@ -233,7 +233,9 @@
         </form>
     </div>
 </div>
-
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>
 
 <!-- 
         </div>
