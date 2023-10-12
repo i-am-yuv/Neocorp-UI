@@ -71,10 +71,13 @@
 
                         </ng-template>
                         <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeCustomer.id">
+                            <div class="text-center m-5" *ngIf="!activeCustomer.id && allCustomers.length > 0">
                                 <div class="">
-                                    <img height="400" width="500" src="/assets/bill.png" alt="Image" class=""><br>
-                                    Select Customer
+                                    <img  src="/assets/bill.png" width="400"><br>
+                                    <p class="mt-4 text-xl">Please, Select Customer</p>
+                                </div>
+                                <div class="text-center m-5" *ngIf="allCustomers.length === 0">
+                                    No Customer Found
                                 </div>
                             </div>
                             <div class="text-center m-5" *ngIf="allCustomers.length === 0">

@@ -15,12 +15,12 @@
         <form (ngSubmit)="onSubmitPC()" [formGroup]="productCategoryForm" class="p-6">
             <h3 class="text-xl text-blue-700">Product Category Details</h3> <br>
 
-            <div class="flex">
-                <label class="mr-3 required">Parent Category</label>
+            <div class="field">
+                <label class="mr-3 ">Parent Category</label>
                 <ng-container formGroupName="parent">
                     <div class="payment-dropdown ">
                         <p-dropdown [options]="categories" placeholder="Choose Category" optionValue="id"
-                            formControlName="id" optionLabel="name" [showClear]="true">
+                            formControlName="id" optionLabel="name" [showClear]="true" [style]="{ width: '50%' }" >
                         </p-dropdown>
                     </div>
                 </ng-container>

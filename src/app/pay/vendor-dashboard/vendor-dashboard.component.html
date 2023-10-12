@@ -74,10 +74,13 @@
 
                         <!-- COMPLETE RIGHT PANEL -->
                         <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeVendor.id">
+                            <div class="text-center m-5" *ngIf="!activeVendor.id && allVendors.length >0">
                                 <div class="">
-                                    <img height="400" width="500" src="/assets/bill.png" alt="Image" class=""><br>
-                                    Select Vendor
+                                    <img  src="/assets/bill.png" alt="Image" width="400"><br>
+                                    <p class="mt-4 text-xl">Please, Select Vendor</p>
+                                </div>
+                                <div class="text-center m-5" *ngIf="allVendors.length === 0">
+                                    No Vender Found
                                 </div>
                                 <!-- <img src="assets/empty.svg" width="250" /><br />
                                 Select Vendor -->
