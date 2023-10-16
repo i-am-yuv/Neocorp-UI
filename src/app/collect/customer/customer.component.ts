@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
@@ -22,11 +22,16 @@ export class CustomerComponent implements OnInit {
   addressDetailsVisible: boolean = false;
   shippingAddressVisible: boolean = false;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private message: MessageService,
     private payPageS: PayPageService) { }
 
   ngOnInit(): void {
+
+    this.items = [{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
+
     this.customerForm = new FormGroup({
       id: new FormControl(''),
       displayName: new FormControl('', Validators.required),
@@ -152,7 +157,10 @@ export class CustomerComponent implements OnInit {
           detail: 'Customer Added Successfully',
           life: 3000,
         });
-        this.router.navigate(['/collect/customers']) ;
+        setTimeout(() => {
+          this.router.navigate(['/collect/customers']) ;
+        }, 2000);
+        
       }
     ).catch((err) => {
       console.log("customer error");

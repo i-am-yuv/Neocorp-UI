@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { ProductCategory } from '../product-category';
 
@@ -19,6 +19,11 @@ export class CategoryComponent implements OnInit {
   submitted: boolean = false;
   currentProductCategory: ProductCategory = {};
 
+  showSaveButton: boolean = true;
+
+  items: MenuItem[] = [];
+  home: MenuItem[] = [];
+
   constructor(private router: Router,
     private message: MessageService,
     private profileS: ProfilepageService,
@@ -26,7 +31,6 @@ export class CategoryComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -41,6 +45,10 @@ export class CategoryComponent implements OnInit {
         this.availableProductCategory();
       }
     });
+
+    this.items = [{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
+
+    // this.home = { icon:  routerLink: '/profile/productCategory' };
 
 
 
@@ -69,6 +77,7 @@ export class CategoryComponent implements OnInit {
       }
     ).catch(
       (err) => {
+        console.log(err);
         this.message.add({
           severity: 'error',
           summary: 'Product Category',
@@ -116,16 +125,15 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmitPC() {
+    this.productCategoryForm.value.parent = null;
 
     // if( this.productCategoryForm.value.parent == "" || this.productCategoryForm.value.parent == undefined )
     // {
     //   this.productCategoryForm.value.parent = null ;
     // }
-    this.productCategoryForm.value.parent = null;
 
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
-    
     alert(JSON.stringify(productCategoryFormVal));
 
     if (productCategoryFormVal.id) {
@@ -141,7 +149,10 @@ export class CategoryComponent implements OnInit {
             detail: 'Product updated',
             life: 3000,
           });
-          this.router.navigate(['/profile/productCategories']);
+          setTimeout(() => {
+            this.router.navigate(['/profile/productCategories']);
+          }, 2000);
+          
         })
         .catch(
           (err) => {
@@ -165,7 +176,10 @@ export class CategoryComponent implements OnInit {
             detail: 'Product Category Added Successfully',
             life: 3000,
           });
-          this.router.navigate(['/profile/productCategories']);
+          setTimeout(() => {
+            this.router.navigate(['/profile/productCategories']);
+          }, 2000);
+          
         })
         .catch((err) => {
           this.message.add({
@@ -174,11 +188,16 @@ export class CategoryComponent implements OnInit {
             detail: 'Error While fetching Product Category',
             life: 3000,
           });
-        }
-      )
-
+        })
     }
+  }
 
+  changeRoute() {
+
+  }
+
+  cancelProductCategory() {
+    this.router.navigate(['/profile/productCategories']);
   }
 
 }

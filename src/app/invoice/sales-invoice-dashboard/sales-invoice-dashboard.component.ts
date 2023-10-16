@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { SalesInvoice } from '../invoice-model';
 
@@ -23,6 +23,7 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   siSubTotal: number = 0;
 
   currentDue : number = 0 ;
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -32,6 +33,8 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] } ];
+
     this.loadSI();
   }
 

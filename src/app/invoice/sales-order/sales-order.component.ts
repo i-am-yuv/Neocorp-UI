@@ -4,7 +4,7 @@ import { Product, State } from 'src/app/profile/profile-models';
 import { Vendor } from 'src/app/settings/customers/customer';
 import { SalesOrder, SalesOrderLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { HttpEventType } from '@angular/common/http';
@@ -19,8 +19,8 @@ export class SalesOrderComponent implements OnInit {
   id: string | null = '';
   soForm!: FormGroup;
 
-  submitted : boolean =  false;
-  createNew : boolean =  false;
+  submitted: boolean = false;
+  createNew: boolean = false;
 
   customers: Vendor[] = [];
   products: Product[] = [];
@@ -39,7 +39,9 @@ export class SalesOrderComponent implements OnInit {
 
   uploadMessage = '';
   soSubTotal: number = 0;
- 
+
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -55,14 +57,17 @@ export class SalesOrderComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableSO();
       }
     });
+
+    this.items = [{ label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
+
 
     this.initForm();
     this.soForm.value.enablePartialPayments = false;
@@ -94,28 +99,26 @@ export class SalesOrderComponent implements OnInit {
     });
   }
 
-  availableSO()
-  {
+  availableSO() {
     this.submitted = true;
     this.invoiceS.getAllSo().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/invoice/salesOrders']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/invoice/salesOrders']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
   getSoOrder() {
@@ -153,7 +156,7 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
         }
       }).catch(
-        (err)=>{
+        (err) => {
           console.log(err);
           this.submitted = false;
         }
@@ -193,8 +196,7 @@ export class SalesOrderComponent implements OnInit {
       )
   }
 
-  loadState()
-  {
+  loadState() {
     this.usedService.allState().then(
       (res) => {
         this.states = res.content;
@@ -206,19 +208,17 @@ export class SalesOrderComponent implements OnInit {
       }
     )
   }
-  
 
-  onSubmitSO()
-  {
-    
-    this.soForm.value.company = null ;  // tempo
+
+  onSubmitSO() {
+
+    this.soForm.value.company = null;  // tempo
     //this.soForm.value.documentno = null ;
 
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
-    alert( JSON.stringify(soFormVal) );
-    if (soFormVal.id) 
-    {
+    alert(JSON.stringify(soFormVal));
+    if (soFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateSalesOrder(soFormVal).then(
         (res) => {
@@ -247,10 +247,10 @@ export class SalesOrderComponent implements OnInit {
     }
     else {
       //  soFormVal.grossTotal = this.soSubTotal ;
-     // this.upload(); // for upload file if attached
-     this.submitted = true;
-     soFormVal.grossTotal = null ;
-     soFormVal.documentno = null;
+      // this.upload(); // for upload file if attached
+      this.submitted = true;
+      soFormVal.grossTotal = null;
+      soFormVal.documentno = null;
       this.invoiceS.createSalesOrder(soFormVal).then(
         (res) => {
           console.log(res);
@@ -284,7 +284,7 @@ export class SalesOrderComponent implements OnInit {
   }
 
 
-  selectVendor() { 
+  selectVendor() {
   }
 
   setLineValues(lineItem: SalesOrderLine) {
@@ -327,7 +327,7 @@ export class SalesOrderComponent implements OnInit {
 
   }
   onRowEditSave(lineItem: SalesOrderLine) {
-   alert(JSON.stringify(lineItem));
+    alert(JSON.stringify(lineItem));
 
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
@@ -355,7 +355,7 @@ export class SalesOrderComponent implements OnInit {
       console.log(lineItem);
 
       var _lineItem = lineItem;
-    
+
       if (_lineItem.id) {
         alert("Update  Sales Line Item Entered");
         this.submitted = true;
@@ -494,7 +494,7 @@ export class SalesOrderComponent implements OnInit {
     alert("Final Sales Order Submission Done");
     var sFormVal = this.soForm.value;
     sFormVal.id = this.id;
-    sFormVal.grossTotal = this.soSubTotal ;
+    sFormVal.grossTotal = this.soSubTotal;
     if (sFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -503,6 +503,15 @@ export class SalesOrderComponent implements OnInit {
           console.log(res);
           this.soForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Sales Order Updated Successfully',
+            detail: 'Sales Order updated',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/invoice/salesOrder']);
+          }, 2000);
         }
       ).catch(
         (err) => {
@@ -510,8 +519,7 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
         }
       )
-    }
-    
+    } else {
       this.message.add({
         severity: 'success',
         summary: 'Sales Order Created Successfully',
@@ -519,16 +527,18 @@ export class SalesOrderComponent implements OnInit {
         life: 3000,
       });
       this.upload();
-      this.router.navigate(['/invoice/salesOrder']);
+      setTimeout(() => {
+        this.router.navigate(['/invoice/salesOrder']);
+      }, 2000);
+
+    }
   }
 
-  createSO()
-  {
+  createSO() {
     this.router.navigate(['/invoice/salesOrder/create']);
   }
 
-  OnCancelSO()
-  {
+  OnCancelSO() {
     //this.createNew = false;
     this.router.navigate(['/invoice/salesOrder']);
   }

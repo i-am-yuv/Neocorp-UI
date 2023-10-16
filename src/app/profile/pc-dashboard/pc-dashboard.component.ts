@@ -3,6 +3,7 @@ import { Product } from '../profile-models';
 import { ProductCategory } from '../product-category';
 import { Router } from '@angular/router';
 import { ProfilepageService } from '../profilepage.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-pc-dashboard',
@@ -17,9 +18,14 @@ export class PcDashboardComponent implements OnInit {
 
   totalRecords : number = 0;
 
+  items!: MenuItem[];
+
   constructor(private router: Router, private profileService: ProfilepageService) { }
 
   ngOnInit(): void {
+
+    this.items = [{ label: 'Product Categories', routerLink: ['/profile/productCategories'] }];
+
     this.getAllProductCategories();
   }
 

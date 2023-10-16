@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PayPageService } from '../pay-page.service';
 import { Vendor } from 'src/app/settings/customers/customer';
-import { SelectItem } from 'primeng/api';
+import { MenuItem, SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-vendor-dashboard',
@@ -26,9 +26,14 @@ export class VendorDashboardComponent implements OnInit {
   totalRemainingAmount : number = 0;
   totalGrossAmount : number = 0.00;
 
+  items!: MenuItem[];
+
   constructor(private router: Router, private route: ActivatedRoute, private payServices: PayPageService) { }
 
   ngOnInit(): void {
+
+    this.items = [{ label: 'Vendors', routerLink: ['/pay/vendors'] }];
+
     this.getAllVendors();
     
   }

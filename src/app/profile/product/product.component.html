@@ -4,13 +4,15 @@
             <div class="bg-white">
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Cancel"
-                        class=" mr-3 p-button-secondary "></button>
-                    <button type="button" pButton label="Add Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
+                        class=" mr-3 p-button-secondary " (click)="cancelProduct()"></button>
+                    <button type="button" pButton label="Save Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
-
+            
             <div class="m-6 bg-white border-round-3xl">
+
+                <p-breadcrumb class="p-breadcrumb-chevron" [model]="items"></p-breadcrumb>
 
                 <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-6">
                     <h3 class="text-xl text-blue-700">Product Details</h3>
@@ -117,8 +119,8 @@
 
                     <div class="border-bottom-1 border-200 text-right p-3">
                         <button type="button" pButton label="Cancel"
-                            class=" mr-3 p-button-secondary"></button>
-                        <button type="button" pButton label="Add Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
+                            class=" mr-3 p-button-secondary" (click)="cancelProduct()"></button>
+                        <button type="button" pButton label="Save Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
                             class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                     </div>
 

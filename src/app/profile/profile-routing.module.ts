@@ -37,7 +37,7 @@ const routes: Routes = [
     path: 'productCategories',
     component:LayoutComponent ,
     children: [
-      { path: '', component: PcDashboardComponent }
+      { path: '', component: PcDashboardComponent}
     ],
   },
   {

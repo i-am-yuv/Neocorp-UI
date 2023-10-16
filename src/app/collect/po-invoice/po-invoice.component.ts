@@ -2,7 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Product } from 'src/app/profile/profile-models';
@@ -45,6 +45,8 @@ export class PoInvoiceComponent implements OnInit {
   currentFile?: File;
   progress = 0;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -70,6 +72,8 @@ export class PoInvoiceComponent implements OnInit {
         this.availablePI();
       }
     });
+
+    this.items = [{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
 
     this.initForm();
     this.loadVendors();
@@ -524,7 +528,10 @@ export class PoInvoiceComponent implements OnInit {
         detail: 'Purchase Invoice created',
         life: 3000,
       });
-      this.router.navigate(['/collect/purchaseInvoice']);
+      setTimeout(() => {
+        this.router.navigate(['/collect/purchaseInvoice']);
+      }, 2000);
+      
   }
 
   createPI()

@@ -146,14 +146,6 @@ export class FirstpageComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
   refreshAll(){
     // this.allPurchaseOrders  = [] ; // customer only have Purchase Orders
     // this.allPurchaseInvoices = [];

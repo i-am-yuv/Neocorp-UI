@@ -59,6 +59,7 @@ import { AddRowDirective } from './directives/add-row.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { DebounceKeyupDirective } from './directives/debounce.directive';
 
+
 @NgModule({
   declarations: [
     SidebarComponent,NavbarComponent, LayoutComponent
@@ -66,7 +67,7 @@ import { DebounceKeyupDirective } from './directives/debounce.directive';
     ErrorMessageComponent,
     AddRowDirective,
     NumbersOnlyDirective,
-    DebounceKeyupDirective
+    DebounceKeyupDirective,
   ],
   imports: [
     CommonModule,

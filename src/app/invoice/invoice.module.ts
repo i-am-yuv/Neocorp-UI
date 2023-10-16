@@ -17,6 +17,7 @@ import { SalesInvoiceDashboardComponent } from './sales-invoice-dashboard/sales-
 import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vendor-invoice-dashboard.component';
 
 
+
 @NgModule({
   declarations: [
     SalesOrderComponent,
@@ -28,7 +29,7 @@ import { VendorInvoiceDashboardComponent } from './vendor-invoice-dashboard/vend
     VendorInvoiceComponent,
     SalesInvoiceComponent,
     SalesInvoiceDashboardComponent,
-    VendorInvoiceDashboardComponent
+    VendorInvoiceDashboardComponent,
   ],
   imports: [
     CommonModule,

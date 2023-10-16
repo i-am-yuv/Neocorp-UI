@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -16,9 +17,13 @@ export class ProductDashboardComponent implements OnInit {
 
   totalRecords : number = 0;
 
+  items!: MenuItem[];
+
   constructor(private router: Router, private profileService: ProfilepageService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Products', routerLink: ['/profile/products'] }];
+    
     this.getAllProducts();
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { PurchaseOrder } from '../bills-model';
@@ -22,6 +22,8 @@ export class PoDashboardComponent implements OnInit {
   lineitems: any[] = [];
   poSubTotal: number = 0 ;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +33,7 @@ export class PoDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }];
 
     this.loadPO();
   }

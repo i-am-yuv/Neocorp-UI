@@ -13,6 +13,9 @@
     </div>
 
     <div class="m-6 bg-white border-round-3xl">
+
+        <p-breadcrumb [model]="items"></p-breadcrumb>
+        
         <div class="p-5">
             <div class="flex gap-4" style=" justify-content: center;">
 
@@ -118,6 +121,28 @@
                                         <p>{{ this.activeProductCategory.description}}</p>
                                     </div>
 
+                                </div>
+                                <hr class="custom-hr">
+
+                                <div class="field col-8">
+                                    <h4 class="">Parent Category Details:</h4>
+                                </div>
+                                <div class="flex flex-wrap">
+
+                                    <div class="field col-6">
+                                        <label class="mr-3 blueText">Parent Name: </label>
+                                        <p>{{ this.activeProductCategory.parent?.name}}</p>
+                                    </div>
+
+                                    <div class="field col-6">
+                                        <label class="mr-3 blueText">Search Key:</label>
+                                        <p>{{ this.activeProductCategory.parent?.searchKey}}</p>
+                                    </div>
+
+                                    <div class="field col-6">
+                                        <label class="mr-3 blueText">Description:</label>
+                                        <p>{{ this.activeProductCategory.parent?.description}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

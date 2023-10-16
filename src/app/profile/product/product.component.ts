@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 
@@ -29,8 +29,8 @@ export class ProductComponent implements OnInit {
   ];
 
   chooseProductTypeId: any;
-
   currentProduct: Product = {};
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -53,10 +53,13 @@ export class ProductComponent implements OnInit {
       }
     });
 
+    this.items = [{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
+
     this.initForm();
     this.getProductDetails();
   }
 
+  // Product Init Form
   initForm() {
     this.productForm = new FormGroup({
       name: new FormControl('', Validators.required), //
@@ -79,8 +82,8 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  // Submit Product Function
   onSubmitProduct() {
-
     this.productForm.value.category = null;
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
@@ -103,7 +106,10 @@ export class ProductComponent implements OnInit {
             detail: 'Product updated',
             life: 3000,
           });
-          this.router.navigate(['/profile/products']);
+          setTimeout(() => {
+            this.router.navigate(['/profile/products']);
+          }, 2000);
+
         })
         .catch(
           (err) => {
@@ -127,7 +133,10 @@ export class ProductComponent implements OnInit {
             detail: 'Product Added',
             life: 3000,
           });
-          this.router.navigate(['/profile/products']);
+          setTimeout(() => {
+            this.router.navigate(['/profile/products']);
+          }, 2000);
+
         }
       ).catch(
         (err) => {
@@ -142,6 +151,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  // Function For Choose the Product Type 
   chooseProductType() {
     if (this.chooseProductTypeId == 1) {
       this.productForm.value.productType = this.productType.find(
@@ -155,6 +165,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  // Load Available Function
   availableProducts() {
     this.submitted = true;
     this.profileS.getAllProduct()
@@ -174,6 +185,7 @@ export class ProductComponent implements OnInit {
       })
   }
 
+  // Patch The Values in the exsting fields
   getProductDetails() {
     if (this.id) {
       this.submitted = true;
@@ -189,6 +201,11 @@ export class ProductComponent implements OnInit {
           this.submitted = false;
         })
     }
+  }
+
+  // Cancel Product
+  cancelProduct() {
+    this.router.navigate(['/profile/products']);
   }
 
 }
