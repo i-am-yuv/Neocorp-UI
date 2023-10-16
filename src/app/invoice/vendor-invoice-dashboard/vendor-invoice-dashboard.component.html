@@ -36,7 +36,7 @@
                                                         item.vendor?.lastName.charAt(0) }}</div>
                                                 </div>
                                                 <div class=" col-10">
-                                                    <div class="text-base "><b>{{ item.orderNumber }}</b></div>
+                                                    <div class="text-base "><b>{{ item.documentnumber }}</b></div>
                                                     <div class="flex gap-2 ">
                                                         <div class="col-8  text-base  ">
                                                             {{ item.vendor?.firstName }} {{ item.vendor?.lastName }} <br>
@@ -62,100 +62,7 @@
                         </p-panel>
                     </div>
 
-                    <!-- <div class="col-6 raised-container bg-white ">
-                        <p-panel>
-                            <ng-template pTemplate="header">
-                                <div class="w-full">
-                                    <div class="grid m-0">
-                                        <div class="col-6 p-0">
-                                            <span class="p-panel-title">Vendor Invoice</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ng-template>
-                            <div class="right-panel-content">
-                                <div class="text-center m-5" *ngIf="!activeInvoice.id">
-                                    <img src="assets/empty.svg" width="250" /><br />
-                                    Select Vendor Invoice
-                                </div>
-                                <div *ngIf="activeInvoice.id">
-                                    
-                                    <div class="flex">
-                                        <div class="field col-11">
-                                        </div>
-                                        <div class="field col-1">
-                                            <button pButton type="button" icon="pi pi-pencil"
-                                                (click)="onEditVI(activeInvoice.id)"></button>
-                                        </div>
-                                    </div>
-                                    <div class="flex">
-                                        <div class="field col-4">
-                                            <label class="mr-3 text-blue-500">Vendor Invoice:</label>
-                                            <h5>#{{ this.activeInvoice.documentnumber}}</h5>
-                                        </div>
-
-                                        <div class="field col-4">
-                                            <label class="mr-3">Order Date:</label>
-                                            <h5>{{ this.activeInvoice.orderDate | date : "short"}}</h5>
-                                        </div>
-                                        <div class="field col-4">
-                                            <label class="mr-3">Invoice Date:</label>
-                                            <h5>{{ this.activeInvoice.dueDate | date : "short"}}</h5>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p-table [value]="lineitems">
-                                            <ng-template pTemplate="header">
-                                                <tr>
-                                                    <th>Item Detils</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Discount</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </ng-template>
-                                            <ng-template let-lineItem pTemplate="body">
-                                                <tr>
-                                                    <td>{{ lineItem.expenseName?.name }}</td>
-                                                    <td>{{ lineItem.unitPrice }}</td>
-                                                    <td>{{ lineItem.quantity }}</td>
-                                                    <td>{{ lineItem.discount }}</td>
-                                                    <td>{{ lineItem.amount }}</td>
-                                                </tr>
-                                            </ng-template>
-                                        </p-table>
-
-                                        <div class="flex mt-5">
-                                            <div class="field col-6">
-
-                                            </div>
-                                            <div class="field col-6">
-                                                <label class="mr-3">SubTotal:<b> {{this.viSubTotal}}</b> </label>
-
-                                                <hr>
-                                                <label class="mr-3">Total:<b> {{this.viSubTotal}}</b> </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex">
-                                        <div class="field col-8">
-                                            <h4 class="text-blue-600">Status:</h4>
-                                            <p>{{this.activeInvoice.status}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </p-panel>
-                    </div> -->
-
-
-
-
-
-
+                   
                     <div class="col-7  ">
                         <p-panel>
                             <ng-template pTemplate="header">
@@ -168,11 +75,15 @@
                                 </div>
                             </ng-template>
                             <div class="right-panel-content">
-                                <div class="text-center m-5" *ngIf="!activeInvoice.id">
-                                    <img src="/assets/invoices.png"  width="400">
+                                <div class="text-center m-5" *ngIf="!activeInvoice.id && allVIs.length > 0">
+                                    <img src="/assets/invoices.png"  width="400"><br>
+                                    <p class="mt-4 text-xl">Please, Select Vendor Invoice</p>
 
                                     <!-- <img src="assets/empty.svg" width="250" /><br />
                                     Select Vendor Invoice -->
+                                </div>
+                                <div class="text-center m-5" *ngIf="allVIs.length === 0">
+                                    No Vendor Invoice Found, Please Create One
                                 </div>
                                 <div *ngIf="activeInvoice.id">
                                     
@@ -210,12 +121,12 @@
             
                                         <div class="field col-3">
                                             <label class="mr-3 ">Order Date:</label>
-                                            <p>{{ this.activeInvoice.orderDate | date :"short"}}</p>
+                                            <p>{{ this.activeInvoice.orderDate | date :"yyyy-MM-dd"}}</p>
                                         </div>
             
                                         <div class="field col-3">
                                             <label class="mr-3 ">Invoice Date:</label>
-                                            <p>{{ this.activeInvoice.dueDate | date : "short"}}</p>
+                                            <p>{{ this.activeInvoice.dueDate | date :"yyyy-MM-dd"}}</p>
                                         </div>
                                     </div>
                                     <hr class="custom-hr">

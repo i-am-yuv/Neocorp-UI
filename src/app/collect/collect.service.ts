@@ -60,6 +60,12 @@ export class CollectService {
     const remainingAmount = await lastValueFrom(this.http.get<any>(url));
     return remainingAmount;
   }
+
+  async getRemainingAmountBySalesInvoice(sInvoice: any) {
+    var url = this.apiurlNew + 'salesInvoicePayments/'+ encodeURIComponent(sInvoice.id)+"/remaining";
+    const remainingAmountOfSI = await lastValueFrom(this.http.get<any>(url));
+    return remainingAmountOfSI;
+  }
   
 
   async allSalesOrdersById(customer: any) {

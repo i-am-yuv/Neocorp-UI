@@ -1,0 +1,175 @@
+.order-list {
+    .list-item {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .list-item:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+}
+
+.left-panel-content {
+    // height: 810px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.right-panel-content {
+    // height: 773.5px;
+    height: 346px;
+    overflow-y: scroll;
+}
+
+:host::ng-deep {
+    .left-panel {
+        .p-panel-content {
+            padding: 2;
+        }
+    }
+}
+
+.invoice-box {
+    margin: auto;
+    line-height: 24px;
+    color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+    .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+    //width: 600px;
+}
+
+.iconSCSS {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-border-input {
+    border: none;
+    /* Remove the border */
+    outline: none;
+    /* Remove the focus outline */
+}
+
+.ptpBtn {
+    border-radius: 6.488px;
+    background: #3579F3;
+}
+
+.custom-input {
+    // height: 100px;
+    // box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
+    // /* Add any other custom styles as needed */
+    width: 200px;
+    /* Adjust the width to your desired size */
+    height: 68px;
+    /* Adjust the height to your desired size */
+    font-size: 50px;
+    /* Adjust the font size to your desired size */
+}
+
+.custom-input {
+    height: 40px;
+    // box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
+    /* Add any other custom styles as needed */
+}
+
+.rupee-sign {
+    width: 80px;
+    /* Adjust the width to your desired size */
+    height: 48px;
+    /* Adjust the height to your desired size */
+    font-size: 40px;
+}
+
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.custom-radio-button.ui-radiobutton {
+    width: 24px;
+    /* Set the desired width */
+    height: 24px;
+    /* Set the desired height */
+}
+
+.custom-radio-button.ui-radiobutton .ui-radiobutton-box {
+    width: 24px;
+    /* Set the same width as above */
+    height: 24px;
+    /* Set the same height as above */
+}
+
+.bIcon {
+
+    background-color: #33B41E;
+}
+
+.bText {
+    color: #7DD28B;
+    ;
+}
+
+.custom-hr {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+.custom-input1 {
+    width: 30px;
+    /* Adjust the width to your desired size */
+    height: 18px;
+    /* Adjust the height to your desired size */
+    font-size: 10px;
+}
+
+.bgColor {
+    border-radius: 5.53px;
+    background: #FFE2DD;
+}
+
+.field {
+    margin-bottom: 0rem;
+}
+
+.SVGAdd {
+    border-radius: 50%;
+}
+
+//   div{
+//     padding: 0px !important;
+//     margin: 0px !important;
+//   }

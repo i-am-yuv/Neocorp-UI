@@ -235,6 +235,14 @@ export class PayPageService {
     return PIByVendor;
   }
 
+  
+  async getRemainingAmountByPurchaseInvoice(pi: any){
+    var url = this.apiurlNew + 'payments/' + encodeURIComponent(pi.id)+'/remaining';
+    const remainingAmount = await lastValueFrom(this.http.get<any>(url));
+    return remainingAmount;
+  }
+
+
   fileUploadForPurchaseOrder(poId: any, file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     var url = this.apiurlNew + 'api/PurchaseOrder/uploadFile/' + encodeURIComponent(poId);

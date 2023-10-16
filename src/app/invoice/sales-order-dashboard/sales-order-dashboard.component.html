@@ -120,10 +120,14 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeOrder.id">
-                                <img src="/assets/firstSO.png"  width="400">
+                                <img src="/assets/firstSO.png"  width="400"><br>
+                                <p class="mt-4 text-xl">Please, Select Sales Order</p>
 <!-- 
                                 <img src="assets/empty.svg" width="250" /><br />
                                 Select Sales Order -->
+                            </div>
+                            <div class="text-center m-5" *ngIf="allSalesOrder.length === 0">
+                                No Sales Order Found, Please Create One
                             </div>
                             <div *ngIf="activeOrder.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>

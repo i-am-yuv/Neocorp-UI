@@ -104,10 +104,31 @@ export class VendorDashboardComponent implements OnInit {
     .then((res: any) => {
       console.log(res);
       this.allPurchaseInvoices = res;
-      this.totalRemainingAmount = this.allPurchaseInvoices
-      .reduce((total, PI) => 
-        total + PI.remainingAmount, 0
-      );
+      // this.totalRemainingAmount = this.allPurchaseInvoices
+      // .reduce((total, PI) => 
+      //   total + PI.remainingAmount, 0
+      // );
+
+      this.totalRemainingAmount = 0 ;
+      for (const purchaseInvoice of this.allPurchaseInvoices) 
+        {
+          // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
+          //   person.amount = amount; // Update the person's amount
+          //   this.calculateTotalAmount();
+          // });
+
+          this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+            (res) => {
+              this.totalRemainingAmount += res;
+              console.log(res);
+            }
+          ).catch(
+            (err) => {
+              console.log(err);
+            }
+          )
+        }
+
       this.totalGrossAmount = this.allPurchaseInvoices
       .reduce((total, PI) => 
         total + PI.grossTotal, 0

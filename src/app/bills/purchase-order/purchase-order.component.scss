@@ -19,6 +19,17 @@
 //       padding: 20px; /* Add padding for content */
 //     }
 //   }
+
+.ui-table {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove borders and other styling */
+.ui-table table {
+  border: none;
+  /* Add other custom styles as needed */
+}
   .center-container {
     display: flex;
     justify-content: center; /* Center horizontally */

@@ -27,8 +27,8 @@ export class CustomerDashboardComponent implements OnInit {
   showOrders: boolean = true;
   showInvoices: boolean = false;
 
-  totalRemainingAmount : number = 0 ;
-  totalGrossAmount : number = 0.00 ;
+  totalRemainingAmount: number = 0;
+  totalGrossAmount: number = 0.00;
 
   //currentInvoiceStatus : string = '' ;
 
@@ -92,19 +92,39 @@ export class CustomerDashboardComponent implements OnInit {
     this.getAllSalesInvoices(customer);
   }
 
-  getAllSalesInvoices(customer: CustomeR) 
-  {
-    this.submitted =  true;
+  getAllSalesInvoices(customer: CustomeR) {
+    this.submitted = true;
     this.collectS.allSalesInvoicesById(customer).then(
       (res: any) => {
         console.log(res);
         this.allCustomerSI = res;
-      this.totalRemainingAmount = this.allCustomerSI.reduce(
-        (total, oneSI) => total + oneSI.remainingAmount, 0
-      );
-      this.totalGrossAmount = this.allCustomerSI.reduce(
-        (total, oneSI) => total + oneSI.grossTotal, 0
-      );
+        this.totalRemainingAmount = 0 ;
+        for (const salesInvoice of this.allCustomerSI) 
+        {
+          // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
+          //   person.amount = amount; // Update the person's amount
+          //   this.calculateTotalAmount();
+          // });
+
+          this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).then(
+            (res) => {
+              this.totalRemainingAmount += res;
+              console.log(res);
+            }
+          ).catch(
+            (err) => {
+              console.log(err);
+            }
+          )
+        }
+
+        // this.totalRemainingAmount = this.allCustomerSI.reduce(
+        //   (total, oneSI) => total + oneSI.remainingAmount, 0
+        // );
+
+        this.totalGrossAmount = this.allCustomerSI.reduce(
+          (total, oneSI) => total + oneSI.grossTotal, 0
+        );
         this.submitted = false;
       }
     ).catch(
