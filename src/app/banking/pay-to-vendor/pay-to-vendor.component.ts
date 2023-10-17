@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
+import { Beneficiary } from 'src/app/profile/profile-models';
+import { PayModelsPI, PayModelsSI } from '../banking-model';
+import { PurchaseInvoice } from 'src/app/collect/collect-models';
 
 @Component({
   selector: 'app-pay-to-vendor',
@@ -12,17 +15,24 @@ import { BankingService } from '../banking.service';
 export class PayToVendorComponent implements OnInit {
 
   sidebarVisibleB: boolean = false;
+  submitted : boolean = false;
 
   enteredAmount: number | undefined;
-  amount: any;
+  id: any;
+  amount : any;
 
   allBeneficairy: any[] = [];
+
+  payPI: PayModelsPI = {};
+  paySI: PayModelsSI = {};
+
+  currentPurchaseInvoice :  PurchaseInvoice = {};
 
   FirstPage: boolean = true;
   ingredient!: string;
   selectedOption: string = 'on';
 
-  selectedBeneficiary: string | undefined;
+  selectedBeneficiary: Beneficiary = {};
 
 
   impsForm !: FormGroup;
@@ -106,9 +116,41 @@ export class PayToVendorComponent implements OnInit {
       mmid: new FormControl('', [Validators.required])
     });
 
+    this.id = this.route.snapshot.paramMap.get('id');
     this.amount = this.route.snapshot.paramMap.get('amount');
+    //alert(this.id + '  '+this.amount);
 
+    this.getPI( this.id ); 
   }
+
+  getPI( id : any)
+  {
+    if( id )
+    {
+      this.submitted = true;
+      this.bankingS.getPI(id).then(
+        (res) => {
+          console.log(res);
+          this.submitted = false;
+          this.currentPurchaseInvoice = res;
+        }
+      ).catch(
+        (err) => {
+          this.submitted = false;
+          console.log(err);
+        }
+      )
+    }
+    else{
+      this.message.add({
+        severity: 'error',
+        summary: 'Purchase Invoice Not Persent',
+        detail: 'Purchase Invoice Not Persent',
+        life: 3000,
+      });
+    }
+    
+  }  
 
   selectType(name: any) {
     // this.selectType = name;
@@ -144,7 +186,7 @@ export class PayToVendorComponent implements OnInit {
   amountEntered() {
     // this.FirstPage =  false;
     if (this.enteredAmount != null || this.enteredAmount != undefined) {
-      this.router.navigate(['banking/payToVendor/amount/' + this.enteredAmount]);
+      this.router.navigate(['banking/payToVendor/pi/' + this.id+'/amount/'+this.enteredAmount]);
     }
     else {
       this.message.add({
@@ -157,11 +199,57 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  selectBeneficiary(beneficiary: any) {
-    //alert(beneficiary.name);
+  selectBeneficiaryM(beneficiary: any) {
+   
+    this.selectedBeneficiary= beneficiary ;
+    //alert(this.selectedBeneficiary.beneficaryName);
   }
 
   sendOTP() {
+
+  }
+
+  sendOTPBeneficairy()
+  {
+    // alert(this.id); // confirmed
+    // alert(this.amount) ; // confirmed
+    // alert( this.selectedType ); // confirmed 
+    // alert( JSON.stringify(this.selectedBeneficiary) ) ; // confirmed
+
+
+        this.payPI.amount = this.amount;
+        this.payPI.invoiceId = this.id;
+        this.payPI.vendorId = this.currentPurchaseInvoice.vendor?.id  ;
+        this.payPI.paymentType = this.selectedType;
+        
+        this.payPI.beneficiary =  this.selectedBeneficiary ;
+        this.payPI.accountDetails = null ;
+
+        alert(JSON.stringify(this.payPI));
+
+        this.bankingS.makePaymentPI(this.payPI).then(
+          (res) => {
+            console.log(res);
+           // this.router.navigate(['/collect/purchaseInvoices']);
+
+            this.message.add({
+              severity: 'success',
+              summary: 'payment Done',
+              detail: 'Payment Done Successfully',
+              life: 3000,
+            });
+          }
+        ).catch(
+          (err) => {
+            console.log(err);
+            this.message.add({
+              severity: 'error',
+              summary: err.error.error,
+              detail: err.error.error,
+              life: 3000,
+            });
+          }
+        )
 
   }
 
@@ -175,6 +263,7 @@ export class PayToVendorComponent implements OnInit {
 
   onSubmitQuickPay() {
 
+    alert( JSON.stringify(this.QuickPayForm.value ) );
   }
 
   onSubmitUPI() {

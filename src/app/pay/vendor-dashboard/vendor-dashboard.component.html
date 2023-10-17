@@ -241,13 +241,16 @@
                                                 <p class="blueText">Purchase Invoice Number:</p>
                                                 <div class="">
                                                     <div class="iconSCSS w-full gap-1">
-                                                        <div class="col-8 text-left">
+                                                        <div class="col-6 text-left">
                                                             <div class="text-lg">#{{item.invoiceNo }}</div>
                                                             <div class="font-light text-sm">Invoice Date:
                                                                 {{item.invoiceDate | date:
                                                                 'yyyy-MM-dd'}}</div>
                                                         </div>
-                                                        <div class="col-4 text-right">
+                                                        <div class="col-6 text-right">
+                                                            <div class="">
+                                                                <p>Remaining Amount: ₹{{item.remainingAmount}}</p>
+                                                            </div>
                                                             <div class="">
 
                                                                 <p>Total: ₹{{item.grossTotal ? item.grossTotal : '0.00'

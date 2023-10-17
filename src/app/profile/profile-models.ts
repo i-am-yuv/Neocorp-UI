@@ -38,7 +38,9 @@ export interface Product {
     accountNumber ?: string,
     ifscCode ?: string,
     mobileNumber ?: number,
-    mmid ?: string
+    mmid ?: string,
+    signupTime ?: any;
+    
   }
 
   export interface State {

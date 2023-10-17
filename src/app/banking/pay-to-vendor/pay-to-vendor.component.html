@@ -14,7 +14,7 @@
                     <div class="flex w-full">
                         <!-- <span class="text-lg font-light">₹</span> -->
                         <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
-                             class="w-full custom-input text-center no-border-input" />
+                            class="w-full custom-input text-center no-border-input" />
                         <br>
                     </div>
 
@@ -146,11 +146,11 @@
                             </div>
                             <div class="right-panel-content">
                                 <div *ngFor="let beneficiary of allBeneficairy" class="beneficiary-item ">
-                                    <div class="pb-3 pt-3 pl-4 pr-1">
+                                    <div class="pb-3 pt-3 pl-4 pr-1" (click)="selectBeneficiaryM(beneficiary)">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
                                             [(ngModel)]="selectedBeneficiary"
-                                            (click)="selectBeneficiary(beneficiary)"></p-radioButton>
-                                        <label (click)="selectBeneficiary(beneficiary)" class="ml-3 text-lg">
+                                            ></p-radioButton>
+                                        <label class="ml-3 text-lg">
                                             {{beneficiary.beneficaryName }} ({{beneficiary.nickname}} ) </label>
                                         <hr class="custom-hr mt-3">
                                     </div>
@@ -164,8 +164,8 @@
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTP()"
-                                class=" w-full mr-3 ptpBtn "></button>
+                            <button type="button" pButton label="Send OTP" (click)="sendOTPBeneficairy()"
+                                [disabled]="selectedBeneficiary == null" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>
@@ -199,8 +199,8 @@
                                     <div class="pb-3 pt-3 pl-4 pr-1">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
                                             [(ngModel)]="selectedBeneficiary"
-                                            (click)="selectBeneficiary(beneficiary)"></p-radioButton>
-                                        <label (click)="selectBeneficiary(beneficiary)" class="ml-3 text-lg">
+                                            (click)="selectBeneficiaryM(beneficiary)"></p-radioButton>
+                                        <label (click)="selectBeneficiaryM(beneficiary)" class="ml-3 text-lg">
                                             {{beneficiary.name }}</label>
                                         <hr class="custom-hr mt-3">
                                     </div>
@@ -294,13 +294,13 @@
 
                                     <div class="field col-12">
                                         <label class="required">Account Number</label>
-                                        <input pInputText class="w-full" formControlName="accountNumber"
+                                        <input pInputText class="w-full" formControlName="accountNumber" NumbersOnly
                                             placeholder="Enter Account Number" />
                                     </div>
                                     <div class="field col-12">
                                         <label class="required">Confirm Account Number</label>
-                                        <input pInputText formControlName="confirmAccountNumber" class="w-full"
-                                            placeholder="Re-Enter Account Number" />
+                                        <input pInputText formControlName="confirmAccountNumber" NumbersOnly
+                                            class="w-full" placeholder="Re-Enter Account Number" />
                                     </div>
 
 
@@ -318,7 +318,8 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTP()"
-                                class=" w-full mr-3 ptpBtn "></button>
+                                [disabled]="!this.QuickPayForm.valid" class=" w-full mr-3 ptpBtn"
+                                (click)="onSubmitQuickPay()"></button>
                         </div>
 
                     </div>
@@ -381,39 +382,40 @@
             <form (ngSubmit)="onSubmitBeneficairy()" [formGroup]="beneficairyForm" class="p-2 mt-2">
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Beneficairy Name</label>
-                    <input pInputText formControlName="beneficairyName" laceholder="Enter Beneficairy Name"
+                    <input pInputText formControlName="beneficairyName" placeholder="Enter Beneficairy Name"
                         class="w-full" />
                     <error-message [controlName]="beneficairyForm.controls['beneficairyName']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Nick Name</label>
-                    <input pInputText formControlName="nickName" laceholder="Enter Nick Name" class="w-full " />
+                    <input pInputText formControlName="nickName" placeholder="Enter Nick Name" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['nickName']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Account Number</label>
-                    <input pInputText formControlName="accountNumber" laceholder="Enter Account Number"
+                    <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
                         class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['accountNumber']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">IFSC Code</label>
-                    <input pInputText formControlName="ifsc" laceholder="Enter IFSC Code" class="w-full " />
+                    <input pInputText formControlName="ifsc" placeholder="Enter IFSC Code" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['ifsc']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Mobile Number</label>
-                    <input pInputText formControlName="mobileNumber" laceholder="Enter Mobile Number" class="w-full " />
+                    <input pInputText formControlName="mobileNumber" placeholder="Enter Your 10 digit Mobile Number "
+                        class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['mobileNumber']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">MMID</label>
-                    <input pInputText formControlName="mmid" laceholder="Enter MMID" class="w-full " />
+                    <input pInputText formControlName="mmid" placeholder="Enter MMID" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['mmid']"></error-message>
                 </div>
 
@@ -431,3 +433,7 @@
     </div>
 
 </div>
+
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

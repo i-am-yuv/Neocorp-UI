@@ -10,6 +10,8 @@ const routes: Routes = [
     children: [
       { path: '', component: PayToVendorComponent },
       { path: 'amount/:amount', component: PayToVendorComponent },
+      { path: 'pi/:id', component: PayToVendorComponent },
+      { path: 'pi/:id/amount/:amount', component: PayToVendorComponent },
     ],
   }
 ];
