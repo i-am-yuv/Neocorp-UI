@@ -22,6 +22,23 @@
                     <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
                         class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                 </div>
+
+                <!-- Show Cooling Period Dialog -->
+                <!-- <button type="button" pButton label="Show Dialog" (click)="showDialog()"
+                    class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
+
+                <p-dialog header="Cooling Period" [(visible)]="visible" [modal]="true" [style]="{ width: '30vw' }"
+                    [draggable]="false" [resizable]="true">
+                    <p class="m-0 text-center">
+                        You cannot do payment during the cooling period !!
+                    </p>
+                    <ng-template pTemplate="footer">
+                        <p-button icon="pi pi-check" (click)="visible = false" label="Ok"
+                            styleClass="p-button-text"></p-button>
+                    </ng-template>
+                </p-dialog> -->
+                <!-- Show Cooling Period Dialog Ends -->
+
             </div>
         </div>
     </div>
@@ -215,9 +232,9 @@
                                     <div class="pb-3 pt-3 pl-4 pr-1">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
                                             [(ngModel)]="selectedBeneficiary"
-                                            (click)="selectBeneficiaryM(beneficiary)"></p-radioButton>
-                                        <label (click)="selectBeneficiaryM(beneficiary)" class="ml-3 text-lg">
-                                            {{beneficiary.name }}</label>
+                                            (click)="selectBeneficiary(beneficiary)"></p-radioButton>
+                                        <label (click)="selectBeneficiary(beneficiary)" class="ml-3 text-lg">
+                                            {{beneficiary.beneficaryName }}</label>
                                         <hr class="custom-hr mt-3">
                                     </div>
 
@@ -416,15 +433,15 @@
             <form (ngSubmit)="onSubmitBeneficairy()" [formGroup]="beneficairyForm" class="p-2 mt-2">
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Beneficairy Name</label>
-                    <input pInputText formControlName="beneficairyName" placeholder="Enter Beneficairy Name"
+                    <input pInputText formControlName="beneficaryName" laceholder="Enter Beneficairy Name"
                         class="w-full" />
-                    <error-message [controlName]="beneficairyForm.controls['beneficairyName']"></error-message>
+                    <error-message [controlName]="beneficairyForm.controls['beneficaryName']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Nick Name</label>
-                    <input pInputText formControlName="nickName" placeholder="Enter Nick Name" class="w-full " />
-                    <error-message [controlName]="beneficairyForm.controls['nickName']"></error-message>
+                    <input pInputText formControlName="nickname" laceholder="Enter Nick Name" class="w-full " />
+                    <error-message [controlName]="beneficairyForm.controls['nickname']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
@@ -436,8 +453,8 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">IFSC Code</label>
-                    <input pInputText formControlName="ifsc" placeholder="Enter IFSC Code" class="w-full " />
-                    <error-message [controlName]="beneficairyForm.controls['ifsc']"></error-message>
+                    <input pInputText formControlName="ifscCode" laceholder="Enter IFSC Code" class="w-full " />
+                    <error-message [controlName]="beneficairyForm.controls['ifscCode']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">

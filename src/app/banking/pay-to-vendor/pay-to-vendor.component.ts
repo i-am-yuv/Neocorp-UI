@@ -98,6 +98,11 @@ export class PayToVendorComponent implements OnInit {
 
   value: string = 'Saving';
 
+  visible: boolean = false;
+
+  // currentTime = this.getLocalDateTime();
+  currentTime = new Date();
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private message: MessageService,
@@ -126,10 +131,10 @@ export class PayToVendorComponent implements OnInit {
 
     this.beneficairyForm = new FormGroup({
       id: new FormControl(''),
-      beneficairyName: new FormControl('', [Validators.required]),
-      nickName: new FormControl('', [Validators.required]),
+      beneficaryName: new FormControl('', [Validators.required]),
+      nickname: new FormControl('', [Validators.required]),
       accountNumber: new FormControl('', [Validators.required]),
-      ifsc: new FormControl('', [Validators.required]),
+      ifscCode: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
       mmid: new FormControl('', [Validators.required])
     });
@@ -185,6 +190,7 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
+  // Select Payment Type
   selectType(name: any) {
 
     // alert(name);
@@ -408,14 +414,17 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  onSubmitBeneficairy() {
-    alert(JSON.stringify(this.beneficairyForm.value));
+  
 
-    this.submitted = true;
-    this.bankingS.createBeneficiary(this.beneficairyForm.value).then(
+  onSubmitBeneficairy() {
+    var beneficiaryFormVal = this.beneficairyForm.value;
+    beneficiaryFormVal.signupTime = this.currentTime;
+    alert(JSON.stringify(beneficiaryFormVal));
+
+    this.bankingS.createBeneficiary(beneficiaryFormVal).then(
       (res) => {
         console.log(res);
-        this.beneficairyForm.patchValue = { ...res };
+        // this.beneficairyForm.patchValue = { ...res };
         //this.currbeneficiary = res;
         this.submitted = false;
         this.message.add({
@@ -436,6 +445,7 @@ export class PayToVendorComponent implements OnInit {
           life: 3000,
         });
       })
+
   }
 
   formatNumber(event: any) {
@@ -451,6 +461,11 @@ export class PayToVendorComponent implements OnInit {
       event.target.value = formattedValue;
     }
     this.enteredAmount = event.target.value;
+  }
+
+
+  showDialog() {
+    this.visible = true;
   }
 
 }
