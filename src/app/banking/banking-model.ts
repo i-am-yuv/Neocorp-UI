@@ -4,14 +4,12 @@ import { AccountDetails } from "../settings/customers/customer";
 export class BankingModel {
 }
 
-export interface PayModelsPI {
-    id ?: string;
-    invoiceId ?: string;
-    vendorId ?: string;
+export interface PaymentRequest {
     amount ?: number;
     paymentType ?: string;
     beneficiary ?: Beneficiary | null ;
-    accountDetails ?: AccountDetails | null;
+    paymentMethod ?: string;
+    debitAccountDetails ?: DebitAccountDetails | null;
     upiId ?: string ;
 }
 
@@ -21,4 +19,13 @@ export interface PayModelsSI {
     customerId ?: string;
     amount ?: number;
     paymentType ?: string;
+}
+
+export interface DebitAccountDetails {
+    id ?: string;
+    AccountType ?: string;
+    accountNumber ?: string;
+    confirmAccountNumber ?: number;
+    IFSC ?: string;
+    bankname ?: string;
 }

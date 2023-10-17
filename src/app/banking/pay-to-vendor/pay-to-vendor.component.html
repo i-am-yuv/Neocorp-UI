@@ -8,9 +8,10 @@
             </div>
             <div class="p-3 ">
                 <div class=" text-center mt-5">
-                    <p class="text-xl">Paying to <b>Your Loan Account</b></p><br>
-                    <p class="text-lg">456789052994</p><br>
-                    <p class="text-lg">banking name: Dharshana.s.S</p><br>
+                    <p class="text-xl">Paying to <b>This Account</b></p><br>
+                    <p class="text-lg">{{currentPurchaseInvoice.vendor?.accountDetails?.AccountNumber}}</p><br>
+                    <p class="text-lg">Vendor name: {{currentPurchaseInvoice.vendor?.firstName}}
+                        {{currentPurchaseInvoice.vendor?.lastName}}</p><br>
                     <div class="flex w-full">
                         <!-- <span class="text-lg font-light">₹</span> -->
                         <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
@@ -58,57 +59,72 @@
                         </ng-template>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
-                                <div class="flex  gap-1">
-                                    <div class="field col-1  text-left">
-                                        <p-radioButton name="radio" class=" mt-5 custom-radio-button" value="On"
-                                            [(ngModel)]="ingredient" (ngModelChange)="handleToggle($event)"
-                                            inputId="option1"></p-radioButton>
-                                    </div>
-                                    <div class="field col-10">
-                                        <div class="flex gap-2">
-                                            <div class="field col-8  text-left">
-                                                <p class="text-lg">Business Account</p>
-                                                <p class="font-light text-base">A/c NO: 401692342987</p>
-                                            </div>
-                                            <div class="field col-4 text-right">
-                                                <p class="text-xl">₹12,567.00</p>
-                                            </div>
-                                        </div>
 
-                                        <div class="field mb-4">
-                                            <label class="mr-3 required">Payment Type</label>
-                                            <div class="items-center">
-                                                <p-dropdown [options]="paymentTypes" placeholder="Choose Payment type"
-                                                    [(ngModel)]="selectedType" (ngModelChange)="selectType($event)"
-                                                    optionLabel="name" optionValue="name" [showClear]="true"
-                                                    [style]="{ width: '100%' }">
-                                                </p-dropdown>
-                                            </div>
-                                        </div>
+                                <div *ngFor="let debitAccount of allDebitAccount" class="debitAccount-item ">
+                                    <div class="flex  gap-1">
+                                        <div class="field col-1  text-left">
 
+                                            <p-radioButton name="debitAccount" class=" mt-5 custom-radio-button"
+                                                [value]="debitAccount"
+                                                (ngModelChange)="selectYourDebitAccount(debitAccount)"
+                                                [(ngModel)]="selectedDebitAccount"></p-radioButton>
+                                        </div>
+                                        <div class="field col-10">
+                                            <div class="flex gap-2">
+                                                <div class="field col-8  text-left">
+                                                    <p class="text-xl font-semibold">{{debitAccount.bankname}}</p>
+                                                    <p class="font-light text-base">A/c NO: {{debitAccount.accountNumber
+                                                        }}</p>
+                                                </div>
+                                                <div class="field col-4 text-right">
+                                                    <p class="text-xl">₹ {{this.amount}}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="field mb-4 mt-1" *ngIf="debitAccount.id === selectedDebitAccount.id" > 
+                                                <label class="mr-3 required">Payment Type</label>
+                                                <div class="items-center">
+                                                    <p-dropdown [options]="paymentTypes"
+                                                        placeholder="Choose Payment type" [(ngModel)]="selectedType"
+                                                        (ngModelChange)="selectType($event)" optionLabel="name"
+                                                        optionValue="name" [showClear]="true"
+                                                        [style]="{ width: '100%' }"
+                                                        [disabled]="!selectedDebitAccount.id">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+
+                                            <div class="field mb-3 mt-1" *ngIf="selectedType == 'Quick Pay' && debitAccount.id === selectedDebitAccount.id" >
+                                                <label class="mr-3 required">Payment Method</label>
+                                                <div class="items-center">
+                                                    <p-dropdown [options]="paymentMethodsQuick"
+                                                        placeholder="Choose Payment Method"
+                                                        [(ngModel)]="selectedTypeMethod"
+                                                        (ngModelChange)="selectTypeMethod($event)" optionLabel="name"
+                                                        optionValue="name" [showClear]="true"
+                                                        [style]="{ width: '100%' }">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+
+                                            <div class="field mb-3 mt-1" *ngIf="selectedType == 'Normal Pay' && debitAccount.id === selectedDebitAccount.id">
+                                                <label class="mr-3 required">Payment Method</label>
+                                                <div class="items-center">
+                                                    <p-dropdown [options]="paymentMethodsNormal"
+                                                        placeholder="Choose Payment Method"
+                                                        [(ngModel)]="selectedTypeMethod"
+                                                        (ngModelChange)="selectTypeMethod($event)" optionLabel="name"
+                                                        optionValue="name" [showClear]="true"
+                                                        [style]="{ width: '100%' }">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
+                                    <hr class="custom-hr">
+                                    <!-- <app-debit-account [debitAccount]="debitAccount"></app-debit-account> -->
                                 </div>
-
-                                <hr>
-                                <div class="flex  gap-1">
-                                    <div class="field col-1  text-left">
-                                        <p-radioButton name="radio" class=" mt-5 custom-radio-button" value="Off"
-                                            [(ngModel)]="ingredient" (ngModelChange)="handleToggle($event)"
-                                            inputId="option2"></p-radioButton>
-                                    </div>
-                                    <div class="field col-10">
-                                        <div class="flex gap-2">
-                                            <div class="field col-8  text-left">
-                                                <p class="text-lg">Default Account</p>
-                                                <p class="font-light text-base">A/c NO: 401692342987</p>
-                                            </div>
-                                            <div class="field col-4 text-right">
-                                                <p class="text-xl">₹10,567.00</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </ng-template>
                     </p-panel>
@@ -118,7 +134,7 @@
 
             <div class="field col-6">
 
-                <div *ngIf="selectedType =='NEFT' ">
+                <div *ngIf="selectedTypeMethod =='NEFT' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
                             <ng-template pTemplate="header">
@@ -148,8 +164,7 @@
                                 <div *ngFor="let beneficiary of allBeneficairy" class="beneficiary-item ">
                                     <div class="pb-3 pt-3 pl-4 pr-1" (click)="selectBeneficiaryM(beneficiary)">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
-                                            [(ngModel)]="selectedBeneficiary"
-                                            ></p-radioButton>
+                                            [(ngModel)]="selectedBeneficiary"></p-radioButton>
                                         <label class="ml-3 text-lg">
                                             {{beneficiary.beneficaryName }} ({{beneficiary.nickname}} ) </label>
                                         <hr class="custom-hr mt-3">
@@ -163,15 +178,16 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
+                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPBeneficairy()"
-                                [disabled]="selectedBeneficiary == null" class=" w-full mr-3 ptpBtn "></button>
+                                [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>
                 </div>
 
-                <div *ngIf="selectedType =='RTGS' ">
+                <div *ngIf="selectedTypeMethod =='RTGS' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
                             <ng-template pTemplate="header">
@@ -195,13 +211,24 @@
                             <hr class="custom-hr mb-2 mt-2">
 
                             <div class="right-panel-content">
-                                <div *ngFor="let beneficiary of allBeneficiary" class="beneficiary-item ">
+                                <!-- <div *ngFor="let beneficiary of allBeneficairy" class="beneficiary-item ">
                                     <div class="pb-3 pt-3 pl-4 pr-1">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
                                             [(ngModel)]="selectedBeneficiary"
                                             (click)="selectBeneficiaryM(beneficiary)"></p-radioButton>
                                         <label (click)="selectBeneficiaryM(beneficiary)" class="ml-3 text-lg">
                                             {{beneficiary.name }}</label>
+                                        <hr class="custom-hr mt-3">
+                                    </div>
+
+                                </div> -->
+
+                                <div *ngFor="let beneficiary of allBeneficairy" class="beneficiary-item ">
+                                    <div class="pb-3 pt-3 pl-4 pr-1" (click)="selectBeneficiaryM(beneficiary)">
+                                        <p-radioButton name="beneficiary" [value]="beneficiary"
+                                            [(ngModel)]="selectedBeneficiary"></p-radioButton>
+                                        <label class="ml-3 text-lg">
+                                            {{beneficiary.beneficaryName }} ({{beneficiary.nickname}} ) </label>
                                         <hr class="custom-hr mt-3">
                                     </div>
 
@@ -213,15 +240,16 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
+                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTP()"
-                                class=" w-full mr-3 ptpBtn"></button>
+                            <button type="button" pButton label="Send OTP" (click)="sendOTPRTGS()"
+                                [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn"></button>
                         </div>
 
                     </div>
                 </div>
 
-                <div *ngIf="selectedType =='IMPS' ">
+                <div *ngIf="selectedTypeMethod =='IMPS' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
                             <ng-template pTemplate="header">
@@ -233,7 +261,7 @@
                                 <form (ngSubmit)="onSubmitIMPS()" [formGroup]="impsForm" class="p-2">
                                     <div class="field col-12">
                                         <label class="mr-3 required">Enter MMID Number</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="mmId"
+                                        <input pInputText [style]="{ width: '100%' }" formControlName="mmid" NumbersOnly
                                             placeholder="Enter seven-digit number MMID Number" />
                                     </div>
 
@@ -250,16 +278,17 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
+                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTP()"
-                                class=" w-full mr-3 ptpBtn "></button>
+                            <button type="button" pButton label="Send OTP" (click)="sendOTPIMPS()"
+                                [disabled]="!impsForm.valid" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>
                 </div>
 
 
-                <div *ngIf="selectedType =='Quick Pay' ">
+                <!-- <div *ngIf="selectedType =='Quick Pay' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
                             <ng-template pTemplate="header">
@@ -271,43 +300,43 @@
                                 <form (ngSubmit)="onSubmitQuickPay()" [formGroup]="QuickPayForm" class="p-2">
                                     <div class="field col-12">
                                         <label class="mr-3 required">Bank Name</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="bankName"
+                                        <input pInputText [style]="{ width: '100%' }" formControlName="bankname"
                                             placeholder="Enter your bank name" />
+                                        <error-message
+                                            [controlName]="QuickPayForm.controls['bankname']"></error-message>
                                     </div>
 
                                     <div class="field col-12">
                                         <div class="flex w-full">
                                             <label class="mr-3 required col-4">Account Type</label>
                                             <p-selectButton [options]="stateOptions" class="col-8 text-right"
-                                                [style]="{ width: '100%' }" formControlName="accountType"
+                                                [style]="{ width: '100%' }" formControlName="AccountType"
                                                 optionLabel="label" optionValue="value"></p-selectButton>
                                         </div>
 
                                     </div>
 
                                     <div class="field col-12">
-                                        <label class="mr-3 required">Name</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="name"
-                                            placeholder="Enter sender’s name" />
-                                    </div>
-
-
-                                    <div class="field col-12">
                                         <label class="required">Account Number</label>
-                                        <input pInputText class="w-full" formControlName="accountNumber" NumbersOnly
+                                        <input pInputText class="w-full" formControlName="AccountNumber" NumbersOnly
                                             placeholder="Enter Account Number" />
+                                        <error-message
+                                            [controlName]="QuickPayForm.controls['AccountNumber']"></error-message>
                                     </div>
                                     <div class="field col-12">
                                         <label class="required">Confirm Account Number</label>
                                         <input pInputText formControlName="confirmAccountNumber" NumbersOnly
                                             class="w-full" placeholder="Re-Enter Account Number" />
+                                        <error-message
+                                            [controlName]="QuickPayForm.controls['confirmAccountNumber']"></error-message>
                                     </div>
 
 
                                     <div class="field col-12">
                                         <label class="mr-3 required">IFSC Code</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="ifsc"
+                                        <input pInputText [style]="{ width: '100%' }" formControlName="IFSC"
                                             placeholder="Enter IFSC Code" />
+                                        <error-message [controlName]="QuickPayForm.controls['IFSC']"></error-message>
                                     </div>
                                 </form>
                             </div>
@@ -316,16 +345,17 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
+                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTP()"
+                            <button type="button" pButton label="Send OTP" (click)="sendOTPQuickPay()"
                                 [disabled]="!this.QuickPayForm.valid" class=" w-full mr-3 ptpBtn"
                                 (click)="onSubmitQuickPay()"></button>
                         </div>
 
                     </div>
-                </div>
+                </div> -->
 
-                <div *ngIf="selectedType =='UPI' ">
+                <div *ngIf="selectedTypeMethod =='UPI' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
                             <ng-template pTemplate="header">
@@ -339,7 +369,9 @@
                                         <label class="mr-3 required">Enter your UPI ID / Mobile number</label>
                                         <input pInputText [style]="{ width: '100%' }" formControlName="upiId"
                                             placeholder="Enter your UPI iD / Mobile Number" />
+                                        <error-message [controlName]="upiForm.controls['upiId']"></error-message>
                                     </div>
+
                                     <div class="iconSCSS w-full bgColor">
                                         <div class="field col-1 justify-center items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
@@ -353,6 +385,7 @@
                                             This UPI id doesn't exist, Recheck the UPI id
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
 
@@ -360,9 +393,10 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
+                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Proceed To Payment" (click)="sendOTP()"
-                                class=" w-full mr-3 ptpBtn "></button>
+                            <button type="button" pButton label="Proceed To Payment" [disabled]="!this.upiForm.valid"
+                                (click)="sendOTPUPI()" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>

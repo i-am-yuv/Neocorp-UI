@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
-import { PayModelsPI, PayModelsSI } from '../banking-model';
+import { DebitAccountDetails, PayModelsSI, PaymentRequest } from '../banking-model';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 
 @Component({
@@ -15,24 +15,28 @@ import { PurchaseInvoice } from 'src/app/collect/collect-models';
 export class PayToVendorComponent implements OnInit {
 
   sidebarVisibleB: boolean = false;
-  submitted : boolean = false;
+  accounntSelected: boolean = false;
+
+  submitted: boolean = false;
 
   enteredAmount: number | undefined;
   id: any;
-  amount : any;
+  amount: any;
 
   allBeneficairy: any[] = [];
+  allDebitAccount: any[] = [];
 
-  payPI: PayModelsPI = {};
+  paymentRequest: PaymentRequest = {};
   paySI: PayModelsSI = {};
 
-  currentPurchaseInvoice :  PurchaseInvoice = {};
+  currentPurchaseInvoice: PurchaseInvoice = {};
 
   FirstPage: boolean = true;
   ingredient!: string;
   selectedOption: string = 'on';
 
   selectedBeneficiary: Beneficiary = {};
+  selectedDebitAccount: DebitAccountDetails = {};
 
 
   impsForm !: FormGroup;
@@ -53,6 +57,28 @@ export class PayToVendorComponent implements OnInit {
   paymentTypes: any = [
     {
       "id": "1",
+      "name": "Quick Pay"
+    },
+    {
+      "id": "2",
+      "name": "Normal Pay"
+    }
+  ];
+
+  paymentMethodsQuick: any = [
+    {
+      "id": "1",
+      "name": "IMPS"
+    },
+    {
+      "id": "2",
+      "name": "UPI"
+    }
+  ];
+
+  paymentMethodsNormal: any = [
+    {
+      "id": "1",
       "name": "NEFT"
     },
     {
@@ -61,19 +87,12 @@ export class PayToVendorComponent implements OnInit {
     },
     {
       "id": "3",
-      "name": "IMPS"
-    },
-    {
-      "id": "4",
-      "name": "Quick Pay"
-    },
-    {
-      "id": "5",
-      "name": "UPI"
+      "name": "Fund Transfer"
     }
   ];
 
   selectedType: string | undefined;
+  selectedTypeMethod: string | undefined;
 
   stateOptions: any[] = [{ label: 'Saving', value: 'Saving' }, { label: 'Current', value: 'Current' }];
 
@@ -87,18 +106,17 @@ export class PayToVendorComponent implements OnInit {
   ngOnInit(): void {
     this.impsForm = new FormGroup({
       id: new FormControl(''),
-      mmId: new FormControl('', [Validators.required]),
+      mmid: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', Validators.required)
     });
 
     this.QuickPayForm = new FormGroup({
       id: new FormControl(''),
-      bankName: new FormControl('', [Validators.required]),
-      accountType: new FormControl('', Validators.required),
-      accountNumber: new FormControl('', Validators.required),
+      bankname: new FormControl('', [Validators.required]),
+      AccountType: new FormControl('', Validators.required),
+      AccountNumber: new FormControl('', Validators.required),
       confirmAccountNumber: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
-      ifsc: new FormControl('', Validators.required)
+      IFSC: new FormControl('', Validators.required)
     });
 
     this.upiForm = new FormGroup({
@@ -120,13 +138,28 @@ export class PayToVendorComponent implements OnInit {
     this.amount = this.route.snapshot.paramMap.get('amount');
     //alert(this.id + '  '+this.amount);
 
-    this.getPI( this.id ); 
+    this.getPI(this.id);
+    this.getAllDebitAccount();
   }
 
-  getPI( id : any)
-  {
-    if( id )
-    {
+  getAllDebitAccount() {
+    this.submitted = true;
+    this.bankingS.getAllDebitAccount().then(
+      (res) => {
+        console.log(res);
+        this.submitted = false;
+        this.allDebitAccount = res.content;
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
+  }
+
+  getPI(id: any) {
+    if (id) {
       this.submitted = true;
       this.bankingS.getPI(id).then(
         (res) => {
@@ -141,7 +174,7 @@ export class PayToVendorComponent implements OnInit {
         }
       )
     }
-    else{
+    else {
       this.message.add({
         severity: 'error',
         summary: 'Purchase Invoice Not Persent',
@@ -149,44 +182,66 @@ export class PayToVendorComponent implements OnInit {
         life: 3000,
       });
     }
-    
-  }  
+
+  }
 
   selectType(name: any) {
-    // this.selectType = name;
-    //alert(this.selectType);
 
+    // alert(name);
+    this.selectedTypeMethod = undefined;
+    this.selectedBeneficiary = {};
+  }
+
+  selectTypeMethod(name: any) {
+    // alert(name);
+    this.selectedBeneficiary = {}; // Need to select again
     if (name === 'NEFT') {
       // loading all the available beneficairy 
+      this.submitted = true;
       this.bankingS.getAllBeneficairy().then(
-        (res : any ) => {
+        (res: any) => {
           console.log(res);
-          this.allBeneficairy =  res.content;
+          this.allBeneficairy = res.content;
+          this.submitted = false;
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    else if (name === 'RTGS') {
+      // loading all the available beneficairy 
+      this.submitted = true;
+      this.bankingS.getAllBeneficairy().then(
+        (res: any) => {
+          console.log(res);
+          this.allBeneficairy = res.content;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
         }
       )
     }
   }
 
-  handleToggle(event: any) {
-    if (event.value === 'on') {
-      // Handle the "On" state
-      console.log('Toggled On');
-      // Call any specific function for the "On" state
-    } else {
-      // Handle the "Off" state
-      console.log('Toggled Off');
-      // Call any specific function for the "Off" state
-    }
+  selectYourDebitAccount(debitAccount: any) {
+
+    this.selectedDebitAccount = debitAccount;
+    this.selectedType = undefined;
+    this.selectedTypeMethod = undefined;
+    // alert(JSON.stringify(this.selectedDebitAccount));
+
   }
 
   amountEntered() {
     // this.FirstPage =  false;
     if (this.enteredAmount != null || this.enteredAmount != undefined) {
-      this.router.navigate(['banking/payToVendor/pi/' + this.id+'/amount/'+this.enteredAmount]);
+      this.router.navigate(['banking/payToVendor/pi/' + this.id + '/amount/' + this.enteredAmount]);
     }
     else {
       this.message.add({
@@ -200,57 +255,140 @@ export class PayToVendorComponent implements OnInit {
   }
 
   selectBeneficiaryM(beneficiary: any) {
-   
-    this.selectedBeneficiary= beneficiary ;
+
+    this.selectedBeneficiary = beneficiary;
     //alert(this.selectedBeneficiary.beneficaryName);
+  }
+
+  selectDebitAccountM(debitAccount: any) {
+    this.selectedDebitAccount = debitAccount;
   }
 
   sendOTP() {
 
   }
 
-  sendOTPBeneficairy()
-  {
-    // alert(this.id); // confirmed
-    // alert(this.amount) ; // confirmed
-    // alert( this.selectedType ); // confirmed 
-    // alert( JSON.stringify(this.selectedBeneficiary) ) ; // confirmed
+  sendOTPBeneficairy() {
+    this.paymentRequest.amount = this.amount;
+    this.paymentRequest.paymentType = this.selectedType;
+    this.paymentRequest.paymentMethod = this.selectedTypeMethod;
+    this.paymentRequest.beneficiary = this.selectedBeneficiary;
+    this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
+
+    alert(this.id + ' ' + this.currentPurchaseInvoice.vendor?.id);
+    alert(JSON.stringify(this.paymentRequest));
+    this.makePayment(this.paymentRequest);
+
+  }
+
+  sendOTPRTGS() {
+
+    this.paymentRequest.amount = this.amount;
+    this.paymentRequest.paymentType = this.selectedType;
+    this.paymentRequest.beneficiary = this.selectedBeneficiary;
+    this.paymentRequest.debitAccountDetails = null;
+    this.makePayment(this.paymentRequest);
+
+  }
 
 
-        this.payPI.amount = this.amount;
-        this.payPI.invoiceId = this.id;
-        this.payPI.vendorId = this.currentPurchaseInvoice.vendor?.id  ;
-        this.payPI.paymentType = this.selectedType;
-        
-        this.payPI.beneficiary =  this.selectedBeneficiary ;
-        this.payPI.accountDetails = null ;
+  sendOTPIMPS() {
+    // First Need to create the Beneficairy with MMID and mobile Number
+    var BaneData = this.impsForm.value;
 
-        alert(JSON.stringify(this.payPI));
+    this.submitted = true;
+    this.bankingS.createBeneficiary(BaneData).then(
+      (res: any) => {
+        console.log(res);
+        this.paymentRequest.amount = this.amount;
+        this.paymentRequest.paymentType = this.selectedType;
+        this.paymentRequest.beneficiary = res;
+        this.paymentRequest.debitAccountDetails = null;
 
-        this.bankingS.makePaymentPI(this.payPI).then(
-          (res) => {
-            console.log(res);
-           // this.router.navigate(['/collect/purchaseInvoices']);
+        this.makePayment(this.paymentRequest);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Beneficairy Creation Error',
+          detail: 'Error While Creating the Beneficairy for IMPS',
+          life: 3000,
+        });
+      }
+    )
+  }
 
-            this.message.add({
-              severity: 'success',
-              summary: 'payment Done',
-              detail: 'Payment Done Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log(err);
-            this.message.add({
-              severity: 'error',
-              summary: err.error.error,
-              detail: err.error.error,
-              life: 3000,
-            });
-          }
-        )
+  sendOTPQuickPay() {
+    // first we will create the debit account
+    alert(this.QuickPayForm.value);
+    this.submitted = true;
+    this.bankingS.createDebitAccount(this.QuickPayForm.value).then(
+      (res: any) => {
+        console.log(res);
+        this.paymentRequest.amount = this.amount;
+        this.paymentRequest.paymentType = this.selectedType;
+        this.paymentRequest.beneficiary = null;
+        this.paymentRequest.debitAccountDetails = res;
 
+        this.makePayment(this.paymentRequest);
+
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Beneficairy Creation Error',
+          detail: 'Error While Creating the Beneficairy for IMPS',
+          life: 3000,
+        });
+      }
+    )
+  }
+
+  sendOTPUPI() {
+    this.paymentRequest.amount = this.amount;
+
+    this.paymentRequest.paymentType = this.selectedType;
+
+    this.paymentRequest.beneficiary = null;
+    this.paymentRequest.debitAccountDetails = null;
+    this.paymentRequest.upiId = this.upiForm.value.upiId;
+
+    this.makePayment(this.paymentRequest);
+  }
+
+  makePayment(payPI: any) {
+    alert(payPI);
+    this.submitted = true;
+    this.bankingS.makePayment(this.id, this.currentPurchaseInvoice.vendor?.id, this.paymentRequest).then(
+      (res) => {
+        console.log(res);
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Payment Done',
+          detail: 'Payment Done successfully',
+          life: 3000,
+        });
+
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Payment Error',
+          detail: 'Error While Doing Payment',
+          life: 3000,
+        });
+      }
+    )
   }
 
   OnCancelOTP() {
@@ -263,7 +401,7 @@ export class PayToVendorComponent implements OnInit {
 
   onSubmitQuickPay() {
 
-    alert( JSON.stringify(this.QuickPayForm.value ) );
+    alert(JSON.stringify(this.QuickPayForm.value));
   }
 
   onSubmitUPI() {
@@ -271,14 +409,15 @@ export class PayToVendorComponent implements OnInit {
   }
 
   onSubmitBeneficairy() {
-    alert(JSON.stringify( this.beneficairyForm.value  ));
- 
+    alert(JSON.stringify(this.beneficairyForm.value));
+
+    this.submitted = true;
     this.bankingS.createBeneficiary(this.beneficairyForm.value).then(
       (res) => {
         console.log(res);
         this.beneficairyForm.patchValue = { ...res };
         //this.currbeneficiary = res;
-      
+        this.submitted = false;
         this.message.add({
           severity: 'success',
           summary: 'Beneficiary Added',
@@ -289,6 +428,7 @@ export class PayToVendorComponent implements OnInit {
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
         this.message.add({
           severity: 'error',
           summary: 'Beneficiary error',
@@ -312,4 +452,5 @@ export class PayToVendorComponent implements OnInit {
     }
     this.enteredAmount = event.target.value;
   }
+
 }

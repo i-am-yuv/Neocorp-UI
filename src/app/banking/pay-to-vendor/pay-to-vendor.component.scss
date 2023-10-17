@@ -96,6 +96,12 @@
     /* Add any other custom styles as needed */
 }
 
+.custom-hr {
+    border: none; /* Remove the default border */
+    border-top: 1px solid lightgray; /* Set the border color to light gray */
+    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
+  }
+
 .rupee-sign {
     width: 80px;
     /* Adjust the width to your desired size */
