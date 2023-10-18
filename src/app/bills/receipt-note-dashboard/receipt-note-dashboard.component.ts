@@ -84,8 +84,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     this.router.navigate(['/bills/receiptNote/edit/'+id]); 
   }
 
-  getRemainingAmount(RN:any)
-  {
+  getRemainingAmount(RN:any){
     this.submitted  = true;
     this.billS.getRemainingAmountReceipt(RN).then(
       (res)=>{

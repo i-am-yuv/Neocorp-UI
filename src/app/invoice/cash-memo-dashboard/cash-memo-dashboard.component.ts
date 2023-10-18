@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CashMemo } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 
@@ -23,6 +23,8 @@ export class CashMemoDashboardComponent implements OnInit {
   lineitems: any[] = [];
   cmSubTotal: number = 0 ;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +33,8 @@ export class CashMemoDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }];
+
     this.getAllCashMemo();
   }
 

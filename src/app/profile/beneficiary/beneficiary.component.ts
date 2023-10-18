@@ -19,6 +19,7 @@ export class BeneficiaryComponent implements OnInit {
   currbeneficiary : Beneficiary = {};
 
   id: string | null = '';
+  currentDateTime = new Date();
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -56,6 +57,7 @@ export class BeneficiaryComponent implements OnInit {
     console.log(this.beneficiaryForm.value) ;
    
     var beneficiaryFormVal = this.beneficiaryForm.value;
+    beneficiaryFormVal.signupTime = this.currentDateTime;
     beneficiaryFormVal.id = this.id;
 
     console.log(beneficiaryFormVal) ;
@@ -100,7 +102,10 @@ export class BeneficiaryComponent implements OnInit {
             detail: 'Beneficiary Details Saved Successfully',
             life: 3000,
           });
-          this.router.navigate(['profile/beneficiary/edit/' + res.id]);
+          // setTimeout(() => {
+          //   this.router.navigate(['profile/beneficiary/edit/' + res.id]);
+          // }, 2000);
+          
         }
       ).catch(
         (err) => {

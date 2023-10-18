@@ -85,7 +85,7 @@ export interface UOM{
 export interface AccountDetails{
   id?: string;
   AccountType?: string;
-  AccountNumber?: string;
+  accountNumber?: string;
   IFSC?: string;
   bankname?: string;
   branchName?: string;

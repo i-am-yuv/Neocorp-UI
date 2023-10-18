@@ -23,7 +23,7 @@ export class DebitNoteComponent implements OnInit {
   dnForm !: FormGroup ;
 
   vendors: Vendor[] = [];
-  customers: CustomeR[] = [];
+  
   products: Product[] = [];
   states: State[] = [];
 
@@ -44,19 +44,6 @@ export class DebitNoteComponent implements OnInit {
   mergedOptions: any[] = [];
   selectedOption : any;
 
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
-
-  vendorVisible : boolean =  false;
-  customerVisible : boolean =  false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -79,13 +66,12 @@ export class DebitNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        this.availableDN();
+        //this.availableDN();
       }
     });
 
     this.initForm();
     this.loadVendors();
-    this.loadCustomer();
     this.loadStates();
     this.loadProducts();
     this.getDebitNote();
@@ -102,19 +88,15 @@ export class DebitNoteComponent implements OnInit {
       duedate: new FormControl('', Validators.required),//
       internalNotes: new FormControl(''),//
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
-      customer: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
-      placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
       }),
+      placeOfSupply: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      }),
       debitNote: new FormControl('') ,
-      grossTotal: new FormControl(''),
-      billToName : new FormControl('')
+      grossTotal: new FormControl('')
     });
   }
 
@@ -144,25 +126,30 @@ export class DebitNoteComponent implements OnInit {
 
   loadStates()
   {
+    this.submitted = true;
     this.usedService.allState().then(
       (res) => {
         this.states = res.content;
+        this.submitted = false;
         console.log(res);
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
   }
 
   getDebitNote() {
     if (this.id) {
+      this.submitted = true;
       this.billS.getCurrentDn(this.id).then(
         (debitNote: DebitNote) => {
           debitNote.duedate = debitNote.duedate ? new Date(debitNote.duedate) : undefined;
           debitNote.startDate = debitNote.startDate ? new Date(debitNote.startDate) : undefined;
           console.log(debitNote);
+          this.submitted = false;
           this.currDebitNote = debitNote;
           this.dnForm.patchValue(debitNote);
           this.getLines(debitNote); //Because backend api is not ready
@@ -170,12 +157,14 @@ export class DebitNoteComponent implements OnInit {
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
         }
       )
     }
   }
 
   getLines(debitNote: DebitNote) {
+    this.submitted = true;
     this.billS
       .getLineitemsByDn(debitNote)
       .then((data: any) => {
@@ -184,52 +173,41 @@ export class DebitNoteComponent implements OnInit {
           this.dnSubTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.amount, 0
           );
+          this.submitted = false;
         }
+        this.submitted = false;
       });
   }
 
   loadVendors() {
+    this.submitted = true;
     this.usedService.allVendor().then(
       (res) => {
         this.vendors = res.content;
         console.log(res);
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
-      }
-    )
-  }
-
-  loadCustomer() {
-    this.usedService.allCustomer().then(
-      (res) => {
-        this.customers = res.content;
-
-        // this.mergedOptions = this.customers.map(customer => ({
-        //   label: customer.displayName+" "+ "["+customer.mobileNumber+"]",
-        //   value: customer.id,
-        // }));
-
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
+        this.submitted = false;
       }
     )
   }
 
   loadProducts() {
+    this.submitted = true;
     this.usedService.allProduct().then(
       (res) => {
         this.products = res.content;
         console.log(res);
+        this.submitted = false;
       }
     )
       .catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'All Product error',
@@ -240,53 +218,23 @@ export class DebitNoteComponent implements OnInit {
       )
   }
 
-  billToSelect()
-  {
-     if( this.dnForm.value.billToName == "Vendor" )
-     {
-        this.vendorVisible = true;
-        this.customerVisible = false;
-     }
-     else if( this.dnForm.value.billToName == "Customer" ){
-      this.customerVisible = true;
-      this.vendorVisible = false;
-     } 
-  }
-
-  // bind()
-  // {
-  //   var vend = this.vendors ;
-  //   var cust = this.customers;
-  //   this.mergedOptions = [
-  //       ...vend.map(vendor => ({ label: vendor.firstName, value: vendor.id })),
-  //       ...cust.map(customer => ({ label: customer.displayName, value: customer.id })),
-  //     ];
-  // }
   selectVendor(){}
 
   onSubmitDN()
   {
-   // this.dnForm.value.customer = null;
-    //this.dnForm.value.placeOfSupply = null ;
-   // this.cnForm.value.requestStatus = null
-
-   if(this.dnForm.value.vendor.id == null  || this.dnForm.value.vendor.id == "" )
-    {
-      this.dnForm.value.vendor = null ;
-    }
-    else{
-      this.dnForm.value.customer = null ;
-    }
 
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
+    dnFormVal.placeOfSupply = null ;
     alert(JSON.stringify(dnFormVal));
 
     if (dnFormVal.id) {
+      this.submitted = true;
       this.billS.updateDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);
           this.dnForm.patchValue = { ...res };
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Debit Note Updated',
@@ -297,6 +245,7 @@ export class DebitNoteComponent implements OnInit {
       ).catch(
         (err) => {
           console.log(err)
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Debit Note updated Error',
@@ -309,6 +258,8 @@ export class DebitNoteComponent implements OnInit {
     else {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
+      this.submitted =  true;
+
       this.billS.createDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);
@@ -318,6 +269,7 @@ export class DebitNoteComponent implements OnInit {
           console.log("Debit Note Added");
           console.log(this.currDebitNote);
           this.viewLineItemTable = true;
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Debit Note Saved',
@@ -330,6 +282,7 @@ export class DebitNoteComponent implements OnInit {
         (err) => {
           console.log(err);
           this.viewLineItemTable = false;
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Debit Note error',
@@ -368,17 +321,18 @@ export class DebitNoteComponent implements OnInit {
 
   }
   delete(lineItem: dnLineItem) {
+
     //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+    // this.confirmationService.confirm({
+    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+    //   header: 'Confirm',
+    //   icon: 'pi pi-exclamation-triangle',
+    //   accept: () => {
 
-      },
-    });
-
+    //   },
+    // });
   }
+
   onRowEditSave(lineItem: dnLineItem) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -411,11 +365,13 @@ export class DebitNoteComponent implements OnInit {
       if (_lineItem.id) {
         alert("Update Line Item Entered");
         // line line item should have id inside
+        this.submitted = true;
         this.usedService.updateDebitNoteLineItem(lineItem).then(
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
            // this.lineitem.Amount = res.Amount;
+           this.submitted = false;
             this.getDebitNote();
             this.message.add({
               severity: 'success',
@@ -427,6 +383,7 @@ export class DebitNoteComponent implements OnInit {
         ).catch(
           (err) => {
             console.log("Line Item Updated Error");
+            this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Line item Update Error',
@@ -437,10 +394,12 @@ export class DebitNoteComponent implements OnInit {
         )
       }
       else {
+        this.submitted = true;
         this.usedService.createDebitNoteLineItem(lineItem).then(
           (res) => {
             console.log(res);
             _lineItem = res;
+            this.submitted = false;
             this.getDebitNote();
             this.message.add({
               severity: 'success',
@@ -451,6 +410,7 @@ export class DebitNoteComponent implements OnInit {
           }
         ).catch((err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Line Item Error',
@@ -485,23 +445,28 @@ export class DebitNoteComponent implements OnInit {
 
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    this.message.add({
+      severity: 'success',
+      summary: 'File Attached',
+      detail: 'File Attached Successfully',
+      life: 2000,
+    });
   }
 
   upload() {
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
-      //var data = this.productForm.value;
-      //console.log(this.productForm.value);
-      //var jsonString = JSON.stringify(this.productForm.value);
       if (file) {
         this.currentFile = file;
 
+        
         this.usedService.fileUploadForDebitNote(this.id, this.currentFile).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);
             } else if (event.ok == true) {
               // this.message = event.body.message;
+              
               this.message.add({
                 severity: 'success',
                 summary: 'Success',
@@ -537,31 +502,24 @@ export class DebitNoteComponent implements OnInit {
   }
 
   finalDNSubmitPage() {
-    // updated complete PO so that gross total can be updated
-
-    if(this.dnForm.value.vendor.id == null  || this.dnForm.value.vendor.id == "" )
-    {
-      this.dnForm.value.vendor = null ;
-    }
-    else{
-      this.dnForm.value.customer = null ;
-    }
+    
 
     var rnFormVal = this.dnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.grossTotal = this.dnSubTotal ;
     if (rnFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
-     // this.dnForm.value.customer = null;
-   // this.dnForm.value.placeOfSupply = null ;
+
+      this.submitted = true;
       this.billS.updateDebitNote(rnFormVal).then(
         (res) => {
           console.log(res);
+          this.submitted = false;
           this.dnForm.patchValue = { ...res };
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
         }
       )
     }

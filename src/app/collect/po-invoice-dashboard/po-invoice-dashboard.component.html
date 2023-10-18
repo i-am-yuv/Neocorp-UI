@@ -19,6 +19,7 @@
 
         <div class="p-5">
             <div class="flex gap-4" style=" justify-content: center;">
+                
                 <div class="col-5">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
@@ -162,7 +163,7 @@
                                             <div class="mt-5">
                                                 <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
                                                     date:'yyyy-MM-dd' }}</h5>
-                                                <hr class="border-gray-200">
+                                                <hr class="custom-hr">
                                                 <h5 class="text-white">Due Date: {{ this.activeInvoice.duedate |
                                                     date:'yyyy-MM-dd' }}</h5>
                                             </div>

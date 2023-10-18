@@ -4,7 +4,7 @@ import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { CashMemo, CashMemoLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { HttpEventType } from '@angular/common/http';
@@ -17,17 +17,17 @@ import { HttpEventType } from '@angular/common/http';
 export class CashMemoComponent implements OnInit {
 
   id: string | null = '';
-  cashMemoForm !: FormGroup ;
+  cashMemoForm !: FormGroup;
 
-  submitted : boolean =  false;
-  createNew : boolean = false;
+  submitted: boolean = false;
+  createNew: boolean = false;
 
   vendors: Vendor[] = [];
   products: Product[] = [];
-  customers : CustomeR[] = [];
+  customers: CustomeR[] = [];
 
   lineitems: any[] = [];
-  currCashMemo: CashMemo= {};
+  currCashMemo: CashMemo = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -51,8 +51,8 @@ export class CashMemoComponent implements OnInit {
     }
   ];
 
-  vendorVisible : boolean =  false;
-  customerVisible : boolean =  false;
+  vendorVisible: boolean = false;
+  customerVisible: boolean = false;
 
   requestStatus: any = [
     {
@@ -85,6 +85,8 @@ export class CashMemoComponent implements OnInit {
     }
   ];
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -94,21 +96,23 @@ export class CashMemoComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    
+
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableCM();
       }
     });
+
+    this.items =[ {label: 'Cash Memo', routerLink: ['/invoice/cashMemo']}, {label: 'Create', routerLink: ['/invoice/cashMemo/create']}]
 
     this.initForm();
     this.loadVendors();
@@ -118,16 +122,15 @@ export class CashMemoComponent implements OnInit {
 
   }
 
-  initForm()
-  {
+  initForm() {
 
     this.cashMemoForm = new FormGroup({
       id: new FormControl(''),
       cashMemoNumber: new FormControl(''),
       startDate: new FormControl('', Validators.required),//
       dueDate: new FormControl('', Validators.required),//
-      decription: new FormControl('',Validators.required),//
-      internalNotes: new FormControl('',Validators.required),//
+      decription: new FormControl('', Validators.required),//
+      internalNotes: new FormControl('', Validators.required),//
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
@@ -135,35 +138,32 @@ export class CashMemoComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       grossTotal: new FormControl(''),
-      requestStatus: new FormControl('',Validators.required),
-      billToName : new FormControl('')
+      billToName: new FormControl('')
     });
 
   }
 
 
-  availableCM()
-  {
+  availableCM() {
     this.submitted = true;
     this.invoiceS.getAllCashMemo().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/invoice/cashMemos']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/invoice/cashMemos']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
   getCashMemo() {
@@ -248,31 +248,27 @@ export class CashMemoComponent implements OnInit {
         }
       )
   }
-  selectVendor(){}
+  selectVendor() { }
 
-  billToSelect()
-  {
-     if( this.cashMemoForm.value.billToName == "Vendor" )
-     {
-        this.vendorVisible = true;
-        this.customerVisible = false;
-     }
-     else if( this.cashMemoForm.value.billToName == "Customer" ){
+  billToSelect() {
+    if (this.cashMemoForm.value.billToName == "Vendor") {
+      this.vendorVisible = true;
+      this.customerVisible = false;
+    }
+    else if (this.cashMemoForm.value.billToName == "Customer") {
       this.customerVisible = true;
       this.vendorVisible = false;
-     } 
+    }
   }
 
-  onSubmitCashMemo()
-  {
-    
-    if(this.cashMemoForm.value.vendor.id == null  || this.cashMemoForm.value.vendor.id == "" )
-   {
-     this.cashMemoForm.value.vendor = null ;
-   }
-   else{
-     this.cashMemoForm.value.customer = null ;
-   }
+  onSubmitCashMemo() {
+
+    if (this.cashMemoForm.value.vendor.id == null || this.cashMemoForm.value.vendor.id == "") {
+      this.cashMemoForm.value.vendor = null;
+    }
+    else {
+      this.cashMemoForm.value.customer = null;
+    }
 
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
@@ -311,7 +307,7 @@ export class CashMemoComponent implements OnInit {
       this.invoiceS.createCashMemo(cashMemoFormVal).then(
         (res) => {
           console.log(res);
-          
+
           this.cashMemoForm.patchValue = { ...res };
           this.currCashMemo = res;
           // this.id = res.id;
@@ -357,18 +353,13 @@ export class CashMemoComponent implements OnInit {
     }
   }
 
-  setLineQtyValuesPrice(e: any, lineItem: CashMemoLine) {
+  setLineQtyValuesPrice(e: any, lineItem: CashMemoLine) {}
 
-  }
-
-  setLineQtyValuesDiscount(e: any, lineItem: CashMemoLine) {
-
-  }
+  setLineQtyValuesDiscount(e: any, lineItem: CashMemoLine) {}
 
 
-  onRowEditInit(lineItem: CashMemoLine) {
-
-  }
+  onRowEditInit(lineItem: CashMemoLine) {}
+  
   delete(lineItem: CashMemoLine) {
     //(JSON.stringify(lineItem));
     this.confirmationService.confirm({
@@ -381,6 +372,7 @@ export class CashMemoComponent implements OnInit {
     });
 
   }
+
   onRowEditSave(lineItem: CashMemoLine) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -418,7 +410,7 @@ export class CashMemoComponent implements OnInit {
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
-           // this.lineitem.Amount = res.Amount;
+            // this.lineitem.Amount = res.Amount;
             this.getCashMemo();
             this.submitted = false;
             this.message.add({
@@ -478,6 +470,7 @@ export class CashMemoComponent implements OnInit {
     this.newRecord = false;
     this.islineAvaliable = false;
   }
+
   newRow(): any {
     return { expenseName: {}, quantity: 1 };
   }
@@ -546,51 +539,60 @@ export class CashMemoComponent implements OnInit {
   }
 
   finalCashMemoSubmitPage() {
-    // updated complete PO so that gross total can be updated
-
-    if(this.cashMemoForm.value.vendor.id == null  || this.cashMemoForm.value.vendor.id == "" )
-    {
-      this.cashMemoForm.value.vendor = null ;
+    if (this.cashMemoForm.value.vendor.id == null || this.cashMemoForm.value.vendor.id == "") {
+      this.cashMemoForm.value.vendor = null;
     }
-    else{
-      this.cashMemoForm.value.customer = null ;
+    else {
+      this.cashMemoForm.value.customer = null;
     }
 
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
-    cashMemoFormVal.grossTotal = this.cashMemoSubTotal ;
-    if (cashMemoFormVal.id) {
+    cashMemoFormVal.grossTotal = this.cashMemoSubTotal;
+
+    if(cashMemoFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateCashMemo(cashMemoFormVal).then(
         (res) => {
           console.log(res);
           this.cashMemoForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Cash Memo Updated Successfully',
+            detail: 'Cash Memo Updated',
+            life: 3000
+          });
+          setTimeout(() => {
+            this.router.navigate(['/invoice/cashMemo']);
+          }, 2000);
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
-    }
+        })
+    } else {
+      this.upload();
       this.message.add({
         severity: 'success',
         summary: 'Cash Memo Created Successfully',
         detail: 'Cash Memo created',
         life: 3000,
       });
-      this.upload();
-      this.router.navigate(['/invoice/cashMemo']);
+      setTimeout(() => {
+        this.router.navigate(['/invoice/cashMemo']);
+      }, 2000);
+    }
+      
+
   }
 
-  createCM()
-  {
+  createCM() {
     this.router.navigate(['/invoice/cashMemo/create']);
   }
 
-  OnCancelCM()
-  {
+  OnCancelCM() {
     //this.createNew = false;
     this.router.navigate(['/invoice/cashMemo']);
   }

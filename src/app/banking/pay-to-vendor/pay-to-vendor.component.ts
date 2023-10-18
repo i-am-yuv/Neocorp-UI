@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
@@ -98,13 +98,14 @@ export class PayToVendorComponent implements OnInit {
 
   value: string = 'Saving';
 
-  visible: boolean = false;
+  displayCoolingPDialog: boolean = false;
 
   // currentTime = this.getLocalDateTime();
   currentTime = new Date();
 
   constructor(private route: ActivatedRoute,
     private router: Router,
+    private formBuilder: FormBuilder,
     private message: MessageService,
     private bankingS: BankingService) { }
 
@@ -129,6 +130,7 @@ export class PayToVendorComponent implements OnInit {
       upiId: new FormControl('', [Validators.required])
     });
 
+
     this.beneficairyForm = new FormGroup({
       id: new FormControl(''),
       beneficaryName: new FormControl('', [Validators.required]),
@@ -136,12 +138,11 @@ export class PayToVendorComponent implements OnInit {
       accountNumber: new FormControl('', [Validators.required]),
       ifscCode: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
-      mmid: new FormControl('', [Validators.required])
+      mmid: new FormControl('', [Validators.required]),
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.amount = this.route.snapshot.paramMap.get('amount');
-    //alert(this.id + '  '+this.amount);
 
     this.getPI(this.id);
     this.getAllDebitAccount();
@@ -207,7 +208,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
           this.submitted = false;
         }
       ).catch(
@@ -223,7 +224,8 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content;
+         // this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
           this.submitted = false;
         }
       ).catch(
@@ -260,10 +262,19 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  selectBeneficiaryM(beneficiary: any) {
+  selectBeneficiaryM(beneficiary: Beneficiary) {
 
-    this.selectedBeneficiary = beneficiary;
+   
     //alert(this.selectedBeneficiary.beneficaryName);
+
+    if(beneficiary.inCoolingPeriod ){
+      this.displayCoolingPDialog =true;
+     // alert(this.displayCoolingPDialog );
+    } else {
+      this.displayCoolingPDialog = false;
+      this.selectedBeneficiary = beneficiary;
+    }
+
   }
 
   selectDebitAccountM(debitAccount: any) {
@@ -274,9 +285,10 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  sendOTPBeneficairy() {
+  sendOTPNEFT() {
     this.paymentRequest.amount = this.amount;
-    this.paymentRequest.paymentType = this.selectedType;
+    // this.paymentRequest.paymentType = this.selectedType;
+    this.paymentRequest.paymentType = "NORMALPAY";
     this.paymentRequest.paymentMethod = this.selectedTypeMethod;
     this.paymentRequest.beneficiary = this.selectedBeneficiary;
     this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
@@ -290,9 +302,12 @@ export class PayToVendorComponent implements OnInit {
   sendOTPRTGS() {
 
     this.paymentRequest.amount = this.amount;
-    this.paymentRequest.paymentType = this.selectedType;
+    //this.paymentRequest.paymentType = this.selectedType;
+    this.paymentRequest.paymentType = "NORMALPAY";
+    this.paymentRequest.paymentMethod = this.selectedTypeMethod;
     this.paymentRequest.beneficiary = this.selectedBeneficiary;
-    this.paymentRequest.debitAccountDetails = null;
+    this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
+
     this.makePayment(this.paymentRequest);
 
   }
@@ -301,15 +316,19 @@ export class PayToVendorComponent implements OnInit {
   sendOTPIMPS() {
     // First Need to create the Beneficairy with MMID and mobile Number
     var BaneData = this.impsForm.value;
-
+    BaneData.inCoolingPeriod = true;
+    //BaneData.signupTime =  new Date();
     this.submitted = true;
     this.bankingS.createBeneficiary(BaneData).then(
       (res: any) => {
         console.log(res);
+        //alert("created");
         this.paymentRequest.amount = this.amount;
-        this.paymentRequest.paymentType = this.selectedType;
+        //this.paymentRequest.paymentType = this.selectedType;
+        this.paymentRequest.paymentType = "QUICKPAY";
+        this.paymentRequest.paymentMethod = this.selectedTypeMethod;
         this.paymentRequest.beneficiary = res;
-        this.paymentRequest.debitAccountDetails = null;
+        this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
 
         this.makePayment(this.paymentRequest);
       }
@@ -327,78 +346,98 @@ export class PayToVendorComponent implements OnInit {
     )
   }
 
-  sendOTPQuickPay() {
-    // first we will create the debit account
-    alert(this.QuickPayForm.value);
-    this.submitted = true;
-    this.bankingS.createDebitAccount(this.QuickPayForm.value).then(
-      (res: any) => {
-        console.log(res);
-        this.paymentRequest.amount = this.amount;
-        this.paymentRequest.paymentType = this.selectedType;
-        this.paymentRequest.beneficiary = null;
-        this.paymentRequest.debitAccountDetails = res;
+  // sendOTPQuickPay() {
+  //   // first we will create the debit account
+  //   alert(this.QuickPayForm.value);
+  //   this.submitted = true;
+  //   this.bankingS.createDebitAccount(this.QuickPayForm.value).then(
+  //     (res: any) => {
+  //       console.log(res);
+  //       this.paymentRequest.amount = this.amount;
+  //       this.paymentRequest.paymentType = this.selectedType;
+  //       this.paymentRequest.beneficiary = null;
+  //       this.paymentRequest.debitAccountDetails = res;
 
-        this.makePayment(this.paymentRequest);
+  //       this.makePayment(this.paymentRequest);
 
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Beneficairy Creation Error',
-          detail: 'Error While Creating the Beneficairy for IMPS',
-          life: 3000,
-        });
-      }
-    )
-  }
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //       this.message.add({
+  //         severity: 'error',
+  //         summary: 'Beneficairy Creation Error',
+  //         detail: 'Error While Creating the Beneficairy for IMPS',
+  //         life: 3000,
+  //       });
+  //     }
+  //   )
+  // }
 
   sendOTPUPI() {
     this.paymentRequest.amount = this.amount;
-
-    this.paymentRequest.paymentType = this.selectedType;
-
+    // this.paymentRequest.paymentType = this.selectedType;
+    this.paymentRequest.paymentType = "QUICKPAY";
+    this.paymentRequest.paymentMethod = this.selectedTypeMethod;
     this.paymentRequest.beneficiary = null;
-    this.paymentRequest.debitAccountDetails = null;
+    this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
     this.paymentRequest.upiId = this.upiForm.value.upiId;
+
+    alert(JSON.stringify(this.paymentRequest));
 
     this.makePayment(this.paymentRequest);
   }
 
   makePayment(payPI: any) {
-    alert(payPI);
     this.submitted = true;
-    this.bankingS.makePayment(this.id, this.currentPurchaseInvoice.vendor?.id, this.paymentRequest).then(
-      (res) => {
-        console.log(res);
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Payment Done',
-          detail: 'Payment Done successfully',
-          life: 3000,
-        });
+    var vendorId = this.currentPurchaseInvoice.vendor?.id;
+    if (this.id == null || vendorId == null || vendorId == undefined || vendorId == ""
+      || this.id == undefined || this.id == "" || this.amount == "" || this.amount == null) {
 
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted = false;
         this.message.add({
           severity: 'error',
-          summary: 'Payment Error',
-          detail: 'Error While Doing Payment',
+          summary: 'Data Missing',
+          detail: 'Some data is missing for doing payment',
           life: 3000,
         });
-      }
-    )
+    }
+    else {
+
+      this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then(
+        (res) => {
+          console.log(res);
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Payment Done',
+            detail: 'Payment Done successfully',
+            life: 3000,
+          });
+          this.OnCancelOTP();
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Payment Error',
+            detail: 'Error While Doing Payment',
+            life: 3000,
+          });
+        }
+      )
+
+    }
+
   }
 
   OnCancelOTP() {
-
+    setTimeout(() => {
+      this.router.navigate(['/banking/payToVendor/pi/'+this.id]);
+    }, 2000);
+    
   }
 
   onSubmitIMPS() {
@@ -415,13 +454,13 @@ export class PayToVendorComponent implements OnInit {
   }
 
   
+  onSubmitBeneficairy(){
+    var BeneData = this.beneficairyForm.value;
+    BeneData.signupTime = new Date();
+    BeneData.inCoolingPeriod = true;
 
-  onSubmitBeneficairy() {
-    var beneficiaryFormVal = this.beneficairyForm.value;
-    beneficiaryFormVal.signupTime = this.currentTime;
-    alert(JSON.stringify(beneficiaryFormVal));
-
-    this.bankingS.createBeneficiary(beneficiaryFormVal).then(
+    this.submitted = true;
+    this.bankingS.createBeneficiary(BeneData).then(
       (res) => {
         console.log(res);
         // this.beneficairyForm.patchValue = { ...res };
@@ -461,11 +500,6 @@ export class PayToVendorComponent implements OnInit {
       event.target.value = formattedValue;
     }
     this.enteredAmount = event.target.value;
-  }
-
-
-  showDialog() {
-    this.visible = true;
   }
 
 }

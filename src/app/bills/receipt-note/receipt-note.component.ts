@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Product, State } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
@@ -55,6 +55,8 @@ export class ReceiptNoteComponent implements OnInit {
   vendorVisible : boolean =  false;
   customerVisible : boolean =  false;
 
+  items!: MenuItem[]
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -78,6 +80,8 @@ export class ReceiptNoteComponent implements OnInit {
         this.availableRN();
       }
     });
+
+    this.items = [{label: 'Receipt Notes', routerLink: ['/bills/receiptNote']}, { label: 'create', routerLink: ['/bills/receiptNote/create        ']}]
 
     this.initForm();
     this.loadVendors();
