@@ -9,6 +9,8 @@ import { CategoryComponent } from './category/category.component';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { ProductDashboardComponent } from './product-dashboard/product-dashboard.component';
 import { PcDashboardComponent } from './pc-dashboard/pc-dashboard.component';
+import { ToastModule } from 'primeng/toast';
+import { MenubarModule } from 'primeng/menubar';
 
 
 
@@ -23,8 +25,9 @@ import { PcDashboardComponent } from './pc-dashboard/pc-dashboard.component';
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    SharedModule
-    //DutchModule
+    SharedModule,
+    ToastModule,
+    MenubarModule
   ]
 })
 export class ProfileModule { }

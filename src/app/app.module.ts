@@ -18,6 +18,7 @@ import { CollectModule } from './collect/collect.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { SettingModule } from './setting/setting.module';
 import { PaymentModule } from './payment/payment.module';
+import { BankingModule } from './banking/banking.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { PaymentModule } from './payment/payment.module';
     HttpClientModule,
     BrowserAnimationsModule,
     PaymentModule,
+    BankingModule,
     // ProfileModule,
     // BillsModule,
     // CollectModule,

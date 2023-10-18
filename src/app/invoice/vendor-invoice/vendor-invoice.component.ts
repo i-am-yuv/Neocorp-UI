@@ -4,9 +4,10 @@ import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { VendorInvoice, VendorInvoiceLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
+
 
 @Component({
   selector: 'app-vendor-invoice',
@@ -23,7 +24,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   vendors: Vendor[] = [];
   products: Product[] = [];
-  
+
   lineitems: any[] = [];
   currvendorInvoice: VendorInvoice = {};
 
@@ -38,6 +39,8 @@ export class VendorInvoiceComponent implements OnInit {
   uploadMessage = '';
   viSubTotal: number = 0;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -46,7 +49,11 @@ export class VendorInvoiceComponent implements OnInit {
     private invoiceS: InvoiceService,
     private confirmationService: ConfirmationService) { }
 
+
   ngOnInit(): void {
+    
+    this.items = [{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
+
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -68,8 +75,7 @@ export class VendorInvoiceComponent implements OnInit {
     this.getVI();
   }
 
-  initForm() 
-  {
+  initForm() {
     this.viForm = new FormGroup({
       id: new FormControl(''),
       documentnumber: new FormControl(''),
@@ -453,7 +459,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   finalVISubmitPage() {
     // updated complete PO so that gross total can be updated
-   
+
     var viFormVal = this.viForm.value;
     viFormVal.id = this.id;
     viFormVal.grosstotal = this.viSubTotal;
@@ -465,6 +471,15 @@ export class VendorInvoiceComponent implements OnInit {
           console.log(res);
           this.viForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Vendor Invoice Updated Successfully',
+            detail: 'Vendor Invoice Updated',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/invoice/vendorInvoices']);
+          }, 2000);
         }
       ).catch(
         (err) => {
@@ -472,17 +487,20 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
         }
       )
+    } else {
+      //  this.upload();
+      //this.router.navigate(['/invoice/salesInvoice']);
+      // this.router.navigate(['/invoice/vendorInvoice']);
+      this.message.add({
+        severity: 'success',
+        summary: 'Vendor Invoice Created Successfully',
+        detail: 'Vendor Invoice created',
+        life: 3000,
+      });
+      setTimeout(() => {
+        this.router.navigate(['/invoice/vendorInvoices']);
+      }, 2000);
     }
-    //  this.upload();
-    //this.router.navigate(['/invoice/salesInvoice']);
-    this.router.navigate(['/invoice/vendorInvoice']);
-    this.message.add({
-      severity: 'success',
-      summary: 'Vendor Invoice Created Successfully',
-      detail: 'Vendor Invoice created',
-      life: 3000,
-    });
-    this.router.navigate(['/invoice/vendorInvoices']);
   }
 
   createVI() {

@@ -4,12 +4,15 @@
         <div class="border-bottom-1 border-200 text-right p-3">
             <button type="button" pButton label="Close" (click)="onCloseCustomer()"
                 class="mr-3 p-button-secondary"></button>
-            <button type="button" pButton label="Create Customer" (click)="onSubmit()" [disabled]="!customerForm.valid"
+            <button type="button" pButton label="Save Customer" (click)="onSubmit()" [disabled]="!customerForm.valid"
                 class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
         </div>
     </div>
 
     <div class="m-6 bg-white border-round-3xl">
+
+        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+
         <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="p-6">
             <h4 class="text-xl text-blue-700">Basic Details</h4>
 
@@ -199,7 +202,7 @@
             <div class="border-bottom-1 border-200 text-right p-3">
                 <button type="button" pButton label="Close" (click)="onCloseCustomer()"
                     class="mr-3 p-button-secondary"></button>
-                <button type="button" pButton label="Create Customer" (click)="onSubmit()"
+                <button type="button" pButton label="Save Customer" (click)="onSubmit()"
                     [disabled]="!customerForm.valid"
                     class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>

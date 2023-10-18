@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CollectService } from '../collect.service';
 import { CustomeR } from 'src/app/settings/customers/customer';
 import { PayPageService } from 'src/app/pay/pay-page.service';
@@ -27,10 +27,10 @@ export class CustomerDashboardComponent implements OnInit {
   showOrders: boolean = true;
   showInvoices: boolean = false;
 
-  totalRemainingAmount : number = 0 ;
-  totalGrossAmount : number = 0.00 ;
+  totalRemainingAmount: number = 0;
+  totalGrossAmount: number = 0.00;
 
-  //currentInvoiceStatus : string = '' ;
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -41,6 +41,9 @@ export class CustomerDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+
+    this.items = [{ label: 'Customers', routerLink: ['/collect/customers']  }];
+
     this.getAllCustomers();
   }
 
@@ -92,19 +95,18 @@ export class CustomerDashboardComponent implements OnInit {
     this.getAllSalesInvoices(customer);
   }
 
-  getAllSalesInvoices(customer: CustomeR) 
-  {
-    this.submitted =  true;
+  getAllSalesInvoices(customer: CustomeR) {
+    this.submitted = true;
     this.collectS.allSalesInvoicesById(customer).then(
       (res: any) => {
         console.log(res);
         this.allCustomerSI = res;
-      this.totalRemainingAmount = this.allCustomerSI.reduce(
-        (total, oneSI) => total + oneSI.remainingAmount, 0
-      );
-      this.totalGrossAmount = this.allCustomerSI.reduce(
-        (total, oneSI) => total + oneSI.grossTotal, 0
-      );
+        this.totalRemainingAmount = this.allCustomerSI.reduce(
+          (total, oneSI) => total + oneSI.remainingAmount, 0
+        );
+        this.totalGrossAmount = this.allCustomerSI.reduce(
+          (total, oneSI) => total + oneSI.grossTotal, 0
+        );
         this.submitted = false;
       }
     ).catch(

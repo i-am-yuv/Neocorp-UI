@@ -16,6 +16,9 @@
     </div>
 
     <div class="m-6 bg-white border-round-3xl">
+
+        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+
         <div class="p-5">
 
             <div class="flex gap-4" style=" justify-content: center;">
@@ -120,10 +123,14 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeOrder.id">
-                                <img src="/assets/firstSO.png"  width="400">
+                                <img src="/assets/firstSO.png"  width="400"><br>
+                                <p class="mt-4 text-xl">Please, Select Sales Order</p>
 <!-- 
                                 <img src="assets/empty.svg" width="250" /><br />
                                 Select Sales Order -->
+                            </div>
+                            <div class="text-center m-5" *ngIf="allSalesOrder.length === 0">
+                                No Sales Order Found, Please Create One
                             </div>
                             <div *ngIf="activeOrder.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>

@@ -4,7 +4,7 @@ import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { SalesInvoice, SalesInvoiceLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { HttpEventType } from '@angular/common/http';
@@ -43,6 +43,8 @@ export class SalesInvoiceComponent implements OnInit {
   uploadMessage = '';
   siSubTotal: number = 0;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -66,6 +68,8 @@ export class SalesInvoiceComponent implements OnInit {
         this.availableSI();
       }
     });
+
+    this.items = [{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, {label: 'Create', routerLink: ['/invoice/salesInvoice/create']} ];
 
     this.initForm();
 
@@ -533,7 +537,10 @@ export class SalesInvoiceComponent implements OnInit {
       life: 3000,
     });
     //  this.upload();
-    this.router.navigate(['/invoice/salesInvoice']);
+    setTimeout(() => {
+      this.router.navigate(['/invoice/salesInvoice']);
+    }, 2000);
+    
   }
 
   createSI() {

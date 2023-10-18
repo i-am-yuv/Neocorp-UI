@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseInvoice } from '../collect-models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { CollectService } from '../collect.service';
 
@@ -23,6 +23,9 @@ export class PoInvoiceDashboardComponent implements OnInit {
 
   currentDue: number = 0;
 
+  items!: MenuItem[];
+
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +34,8 @@ export class PoInvoiceDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }];
+
     this.loadPI();
     this.currentDue = 0;
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SalesOrder } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 
 @Component({
@@ -23,6 +23,9 @@ export class SalesOrderDashboardComponent implements OnInit {
   lineitems: any[] = [];
   soSubTotal: number = 0 ;
 
+  items!: MenuItem[];
+
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +34,8 @@ export class SalesOrderDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] }, ];
+
     this.getAllSalesOrders();
   }
 

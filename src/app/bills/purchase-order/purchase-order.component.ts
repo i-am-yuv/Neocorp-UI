@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { BillsService } from '../bills.service';
@@ -55,6 +55,8 @@ export class PurchaseOrderComponent implements OnInit {
   vendorVisible: boolean = false;
   customerVisible: boolean = false;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -80,6 +82,8 @@ export class PurchaseOrderComponent implements OnInit {
         this.availablePO();
       }
     });
+
+    this.items = [{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
 
     this.initForm();
     this.poForm.value.enablePartialPayments = false;
@@ -397,7 +401,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
   delete(lineItem: LineItem) {
-    
+
     this.confirmationService.confirm({
       message:
         'Are you sure you want to delete this Line Item?',
@@ -618,6 +622,15 @@ export class PurchaseOrderComponent implements OnInit {
           console.log(res);
           this.poForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Purchage Order Updated Successfully',
+            detail: 'Purchase Order Updated',
+            life: 3000
+          })
+          setTimeout(() => {
+            this.router.navigate(['/bills/purchaseOrder']);
+          }, 2000);
         }
       ).catch(
         (err) => {
@@ -625,15 +638,20 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
         }
       )
+    } else {
+      this.upload();
+      this.message.add({
+        severity: 'success',
+        summary: 'Purchase Order Created Successfully',
+        detail: 'Purchase Order created',
+        life: 3000,
+      });
+      setTimeout(() => {
+        this.router.navigate(['/bills/purchaseOrder']);
+      }, 2000);
     }
-    this.upload();
-    this.message.add({
-      severity: 'success',
-      summary: 'Purchase Order Created Successfully',
-      detail: 'Purchase Order created',
-      life: 3000,
-    });
-    this.router.navigate(['/bills/purchaseOrder']);
+
+
   }
 
   createPO() {

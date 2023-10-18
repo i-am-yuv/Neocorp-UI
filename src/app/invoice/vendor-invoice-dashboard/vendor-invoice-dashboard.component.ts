@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { VendorInvoice } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
-import { Vendor } from 'src/app/settings/customers/customer';
+
 
 @Component({
   selector: 'app-vendor-invoice-dashboard',
@@ -22,6 +22,7 @@ export class VendorInvoiceDashboardComponent implements OnInit {
   lineitems: any[] = [];
   viSubTotal: number = 0;
 
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -31,6 +32,8 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] } ];
+
     this.loadVI();
   }
 

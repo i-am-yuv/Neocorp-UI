@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from '../pay-page.service';
 
 @Component({
@@ -11,11 +11,11 @@ import { PayPageService } from '../pay-page.service';
 })
 export class VendorComponent implements OnInit {
 
-  id : string | null = '';
-  createNew : boolean =  false;
+  id: string | null = '';
+  createNew: boolean = false;
 
-  isSidebarVisible : boolean =  true;
-  submitted : boolean = false;
+  isSidebarVisible: boolean = true;
+  submitted: boolean = false;
 
   vendorForm!: FormGroup;
   addressDetailsForm !: FormGroup;
@@ -25,10 +25,12 @@ export class VendorComponent implements OnInit {
   addressDetailsVisible: boolean = false;
   shippingAddressVisible: boolean = false;
 
+  items!: MenuItem[]
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private payPageS:PayPageService) { }
+    private payPageS: PayPageService) { }
 
   ngOnInit(): void {
 
@@ -38,14 +40,16 @@ export class VendorComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         // this.availablePI();
       }
     });
+
+    this.items = [{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
 
     this.vendorFormFields();
     this.accountDetailsFormFields();
@@ -55,24 +59,24 @@ export class VendorComponent implements OnInit {
     //this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
 
-  vendorFormFields(){
+  vendorFormFields() {
     this.vendorForm = new FormGroup({
-      id: new FormControl('') ,
+      id: new FormControl(''),
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       mobileNumber: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
       address: new FormControl(''),
       accountDetails: new FormControl(''),
-      notes : new FormControl(''),
-      username : new FormControl('', Validators.required),
-      password : new FormControl('', Validators.required)
+      notes: new FormControl(''),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
     });
   }
 
-  accountDetailsFormFields(){
+  accountDetailsFormFields() {
     this.accountDetailsForm = new FormGroup({
-      id: new FormControl('') ,
+      id: new FormControl(''),
       bankname: new FormControl('', Validators.required),
       branchName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -81,9 +85,9 @@ export class VendorComponent implements OnInit {
     });
   }
 
-  addressDetailsFormFields(){
+  addressDetailsFormFields() {
     this.addressDetailsForm = new FormGroup({
-      id: new FormControl('') ,
+      id: new FormControl(''),
       billingName: new FormControl('', [Validators.required]),
       billingAddress: new FormControl('', [Validators.required]),
       pincode: new FormControl('', Validators.required),
@@ -124,29 +128,28 @@ export class VendorComponent implements OnInit {
         this.submitted = false;
       })
     }
-    else{
-      this.vendorForm.value.accountDetails = null ;
+    else {
+      this.vendorForm.value.accountDetails = null;
       this.message.add({
         severity: 'error',
         summary: 'Error',
         detail: 'Please, fill the mandatory account details',
         life: 3000,
       });
-     // this.saveAddress();
+      // this.saveAddress();
     }
-    
+
   }
 
   saveAddress() {
     console.log("Step 2");
     if (this.addressDetailsForm.status == 'VALID') {
       // save Address Details API
-      if( this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName== "")
-      {
+      if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
       else {
-      this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
+        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
       }
       this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
@@ -164,21 +167,21 @@ export class VendorComponent implements OnInit {
         this.submitted = false;
       })
     }
-    else{
+    else {
       this.vendorForm.value.address = null;
       this.saveVendor();
-    }  
+    }
   }
 
   saveVendor() {
-   
+
     console.log(this.vendorForm.value);
     this.submitted = true;
     this.payPageS.createVendor(this.vendorForm.value).then(
       (res) => {
         console.log(res);
         console.log("Vendor Saved");
-        this.submitted =  false;
+        this.submitted = false;
 
         this.message.add({
           severity: 'success',
@@ -186,8 +189,10 @@ export class VendorComponent implements OnInit {
           detail: 'Vendor Added',
           life: 3000,
         });
-        
-        this.router.navigate(['/pay/vendors']) ;
+        setTimeout(() => {
+          this.router.navigate(['/pay/vendors']);
+        }, 2000);
+
       }
     ).catch((err) => {
       console.log("Vendor error");
@@ -198,7 +203,7 @@ export class VendorComponent implements OnInit {
         detail: 'Vendor Not Added',
         life: 3000,
       });
-      
+
     })
   }
 
@@ -225,8 +230,7 @@ export class VendorComponent implements OnInit {
     this.addressDetailsVisible = true;
   }
 
-  onCloseVendor()
-  {
+  onCloseVendor() {
     this.router.navigate(['/pay/vendors']);
   }
 
