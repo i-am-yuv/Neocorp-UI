@@ -29,13 +29,31 @@
                             </div>
                         </div>
 
+                        <div>
+
+                            <div class="field col-12">
+                                <label class="mr-3 required">Privileges</label>
+                                <!-- <input pInputText formControlName="privilege" placeholder="privileges" class="w-full"/> -->
+                                <div class="payment-dropdown ">
+                                    <p-dropdown class="bg-slate-200" formControlName="privilege"  [style]="{ width: '100%' }"
+                                        placeholder="privileges" optionLabel="name" optionValue="name" [options]="privileges"
+                                        formControlName="productType"></p-dropdown>
+                                </div>
+                                <error-message [controlName]="roleForm.controls['privilege']"></error-message>    
+                            </div>
+                        </div>
+
                         <div class="flex">
                             <div class="field col-12">
                                 <label class="mr-3 required">Description</label>
                                 <textarea pInputText formControlName="description" placeholder="Enter Description" class="w-full"></textarea>
                                 <error-message [controlName]="roleForm.controls['description']"></error-message>    
                             </div>
+                            
                         </div>
+
+
+                        
 
                         <!-- <div class="flex ">
                             <div class="field col-4 text-right w-full">
@@ -56,3 +74,25 @@
                     
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

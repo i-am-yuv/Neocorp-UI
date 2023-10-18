@@ -10,11 +10,12 @@ import { SettingService } from '../setting.service';
   styleUrls: ['./delegation-role.component.scss']
 })
 export class DelegationRoleComponent implements OnInit {
-
+  id: string | null = '';
 
   delroleForm !: FormGroup ;
 
   roles : any[] = [] ;
+  submitted!: boolean;
 
   constructor(private router: Router,
     private message: MessageService,
@@ -24,6 +25,7 @@ export class DelegationRoleComponent implements OnInit {
   ngOnInit(): void {
     this.laodRoles();
     this.initForm();
+    // this.getDelegationRole();
   }
 
   initForm()
@@ -39,6 +41,9 @@ export class DelegationRoleComponent implements OnInit {
       })
     });  
   }
+
+
+
 
   laodRoles()
   {
@@ -67,10 +72,80 @@ export class DelegationRoleComponent implements OnInit {
   }
   selectVendor(){}
 
-  onSubmitDelegationRole()
-  {
-    alert(JSON.stringify(this.delroleForm.value) ) ;
+  // onSubmitDelegationRole()
+  // {
+  //   alert(JSON.stringify(this.delroleForm.value) ) ;
     
+  //     this.service.createDelegationRole(this.delroleForm.value).then(
+  //       (res)=>{
+  //          console.log(res);
+  //          this.message.add({
+  //           severity: 'success',
+  //           summary: 'Delegation Role Saved',
+  //           detail: 'Delegation Role Added Successfully',
+  //           life: 3000,
+  //         });
+  //       }
+  //     ).catch(
+  //       (err)=>{
+  //         console.log(err);
+  //         this.message.add({
+  //           severity: 'error',
+  //           summary: 'Delegation Role Error',
+  //           detail: 'Please check the server',
+  //           life: 3000,
+  //         });
+  //       }
+  //     )
+  // }
+
+
+
+
+
+
+
+
+  onSubmitDelegationRole() {
+
+    // this.delroleForm.value.delegationName = null;
+    // this.delroleForm.value.delegationDescription = null;
+    // this.delroleForm.value.delegationAmount = null;
+    // this.delroleForm.value.role = null;
+
+    var productFormVal = this.delroleForm.value;
+    productFormVal.id = this.id;
+    alert(JSON.stringify(productFormVal));
+
+    if (productFormVal.id) {
+      this.submitted = true;
+      this.service.updateDelegationRole(productFormVal)
+        .then((res: any) => {
+          console.log(res);
+          this.delroleForm.patchValue = { ...res };
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Delegation Role Updated',
+            detail: 'Delegation Role updated',
+            life: 3000,
+          });
+          this.router.navigate(['/setting/delegationRoless']);
+        })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Delegation Role updated Error',
+              detail: 'Some Server Error',
+              life: 3000,
+            });
+          })
+    } 
+    else {
+      console.log(this.delroleForm);
       this.service.createDelegationRole(this.delroleForm.value).then(
         (res)=>{
            console.log(res);
@@ -92,6 +167,18 @@ export class DelegationRoleComponent implements OnInit {
           });
         }
       )
+
+    }
+  }
+
+
+
+
+
+
+
+  onCancel(){
+    this.router.navigate(['/setting/delegationRoless']);
   }
 
 }

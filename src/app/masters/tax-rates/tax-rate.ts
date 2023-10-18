@@ -8,6 +8,7 @@ export interface TaxRate {
     cgst?: number;
     sgst?: number;
     utgst?: number;
+    
 }
 
 export interface TaxRateForm {

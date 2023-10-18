@@ -17,6 +17,8 @@ export class ProductComponent implements OnInit {
   productForm!: FormGroup;
   createNew: boolean = false;
 
+  category: Product[] = [];
+
   productType: any = [
     {
       "id": "1",
@@ -55,6 +57,7 @@ export class ProductComponent implements OnInit {
 
     this.initForm();
     this.getProductDetails();
+    this.loadCategories();
   }
 
   initForm() {
@@ -191,4 +194,24 @@ export class ProductComponent implements OnInit {
     }
   }
 
+
+
+  selectProductCategory(){
+
+  }
+
+
+
+  loadCategories() {
+    this.profileS.getAllProductCategory().then(
+      (res) => {
+        this.category = res.content;
+        console.log(res);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
 }
