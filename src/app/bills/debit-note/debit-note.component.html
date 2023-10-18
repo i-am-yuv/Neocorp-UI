@@ -4,22 +4,22 @@
 
     <!-- CREATE NEW DEBIT NOTE BUTTON -->
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-        <div class="center-container mt-5 p-3 ">
-            <div class="field col-3"></div>
-            <div class="field col-6">
-                <div class="">
-                    <img src="/assets/debitNote.png" alt="Image" class="w-1/2 h-1/2">
+        <div class="center-container mt-1">
+            <div class="field col-2"></div>
+            <div class="field col-8">
+                <div class="text-center">
+                    <img src="/assets/debitNote.png" width="300" height="auto">
                 </div>
                 <div class="text-center">
-                    <b>Ready to keep track of your financial transactions?</b><br>
+                    <p><b>Ready to keep track of your financial transactions?</b></p>
                     <p>Start by creating your first Debit note.</p>
                 </div>
                 <div class="text-center">
                     <button type="button" pButton label="Create Debit Note" (click)="createDN()"
-                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                        class="mb-3 text-lg Btn"></button>
                 </div>
             </div>
-            <div class="field col-3"></div>
+            <div class="field col-2"></div>
 
         </div>
     </div>
@@ -32,14 +32,13 @@
                 <button type="button" pButton label="Close" (click)="OnCancelDN()"
                     class="mr-3 p-button-secondary  "></button>
                 <button type="button" pButton label="Create Debit Note" (click)="finalDNSubmitPage()"
-                    [disabled]="this.dnSubTotal == 0"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  "></button>
+                    [disabled]="this.dnSubTotal == 0" class=" mr-3 Btn "></button>
             </div>
         </div>
 
         <div class="m-6 bg-white border-round-3xl">
             <form (ngSubmit)="onSubmitDN()" [formGroup]="dnForm" class="p-6">
-                <h4 class="text-xl text-blue-700">Debit Note Details: </h4>
+                <h4 class="text-lg textColor">Debit Note Details: </h4>
 
                 <div class="flex gap-3">
                     <div class="field col-6">
@@ -56,7 +55,7 @@
                         </p-calendar>
                         <error-message [controlName]="dnForm.controls['duedate']"></error-message>
                     </div>
-                    
+
                 </div>
 
                 <div class="flex gap-3">
@@ -81,7 +80,7 @@
                 </div>
 
                 <div class="flex gap-1">
-                    <div class="field col-6 " >
+                    <div class="field col-6 ">
                         <label class="mr-3 required">Vendor</label>
                         <ng-container formGroupName="vendor" class="w-full">
                             <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
@@ -94,7 +93,7 @@
                     <div class="field col-6 ">
                         <label class="mr-3">Internal Notes</label>
                         <input pInputText formControlName="internalNotes" placeholder="Enter Internal Notes"
-                            class="w-full custom-input"/>
+                            class="w-full custom-input" />
                         <error-message [controlName]="dnForm.controls['internalNotes']"></error-message>
                     </div>
                 </div>
@@ -110,13 +109,14 @@
 
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="submit" pButton label="Save Debit Note" [disabled]="!dnForm.valid"
-                        class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                        class="mb-6 text-lg Btn "></button>
                 </div>
 
             </form>
 
-            <div *ngIf="id" class="p-3">
-                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
+            <div *ngIf="true" class="p-3">
+
+                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" >
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="text-center" width="200">Product</th>
@@ -148,7 +148,7 @@
                                 </p-cellEditor>
                             </td>
                             <td class="text-right">
-                                <!-- {{ lineItem?.unitprice | number : "1.2-2" }} -->
+
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <p-inputNumber [(ngModel)]="lineItem.unitPrice"
@@ -162,7 +162,7 @@
                                 </p-cellEditor>
                             </td>
                             <td class="text-right">
-                                <!-- {{ lineItem?.quantity | number : "1.2-2" }} -->
+
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <p-inputNumber [(ngModel)]="lineItem.quantity"
@@ -176,7 +176,7 @@
                                 </p-cellEditor>
                             </td>
                             <td class="text-right">
-                                <!-- {{ lineItem?.discount | number : "1.2-2" }} -->
+
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <p-inputNumber [(ngModel)]="lineItem.discount"
@@ -227,18 +227,12 @@
 
                 <div class="flex gap-5 mt-5">
                     <!-- <div class="field col-1"></div> -->
-                    <div class="field col-4 cursor-pointer" >
+                    <div class="field col-4 cursor-pointer">
                         <label for="fileInput" class="">
                             <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-12">
                         </label>
-                        <input
-                            type="file"
-                            id="fileInput"
-                            name="file"
-                            accept="image/*"
-                            class="hidden"
-                            (change)="selectFile($event)"
-                        >  
+                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
+                            (change)="selectFile($event)">
                     </div>
                 </div>
 
@@ -251,15 +245,6 @@
                     </div>
                 </div>
 
-
-                <!-- <div class="flex">
-                            <div class="field col-12 text-right w-full">
-                                <button type="button" pButton label="Create Debit Note" [disabled]="this.dnSubTotal == 0"
-                                    (click)="finalDNSubmitPage()"
-                                    class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                            </div>
-                        </div> -->
-
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelDN()"
                         class="mr-3 p-button-secondary"></button>
@@ -270,6 +255,7 @@
 
 
             </div>
+
         </div>
 
     </div>

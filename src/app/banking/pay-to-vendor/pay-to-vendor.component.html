@@ -158,7 +158,7 @@
                             <hr class="custom-hr mb-2 mt-2">
 
                             <div *ngIf="allBeneficairy.length === 0 ">
-                                <p> No Beneficairy Found, Please create one/p>
+                                <p> No Beneficairy Found, Please create one</p>
                             </div>
                             <div class="right-panel-content">
                                 <div *ngFor="let beneficiary of allBeneficairy" class="beneficiary-item ">
@@ -178,7 +178,6 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
-                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPNEFT()"
                                 [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn "></button>
@@ -240,7 +239,6 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
-                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPRTGS()"
                                 [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn"></button>
@@ -280,7 +278,6 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
-                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPIMPS()"
                                 [disabled]="!impsForm.valid" class=" w-full mr-3 ptpBtn "></button>
@@ -326,7 +323,6 @@
 
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
-                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Proceed To Payment" [disabled]="!this.upiForm.valid"
                                 (click)="sendOTPUPI()" class=" w-full mr-3 ptpBtn "></button>
@@ -349,15 +345,15 @@
             <form (ngSubmit)="onSubmitBeneficairy()" [formGroup]="beneficairyForm" class="p-2 mt-2">
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Beneficairy Name</label>
-                    <input pInputText formControlName="beneficairyName" placeholder="Enter Beneficairy Name"
+                    <input pInputText formControlName="beneficaryName" placeholder="Enter Beneficairy Name"
                         class="w-full" />
-                    <error-message [controlName]="beneficairyForm.controls['beneficairyName']"></error-message>
+                    <error-message [controlName]="beneficairyForm.controls['beneficaryName']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Nick Name</label>
-                    <input pInputText formControlName="nickName" placeholder="Enter Nick Name" class="w-full " />
-                    <error-message [controlName]="beneficairyForm.controls['nickName']"></error-message>
+                    <input pInputText formControlName="nickname" placeholder="Enter Nick Name" class="w-full " />
+                    <error-message [controlName]="beneficairyForm.controls['nickname']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
@@ -369,8 +365,8 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">IFSC Code</label>
-                    <input pInputText formControlName="ifsc" placeholder="Enter IFSC Code" class="w-full " />
-                    <error-message [controlName]="beneficairyForm.controls['ifsc']"></error-message>
+                    <input pInputText formControlName="ifscCode" placeholder="Enter IFSC Code" class="w-full " />
+                    <error-message [controlName]="beneficairyForm.controls['ifscCode']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">

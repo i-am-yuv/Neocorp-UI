@@ -66,7 +66,7 @@ export class DebitNoteComponent implements OnInit {
         this.createNew =  true;
       }
       else{
-        this.availableDN();
+        //this.availableDN();
       }
     });
 
@@ -93,9 +93,7 @@ export class DebitNoteComponent implements OnInit {
         })
       }),
       placeOfSupply: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
       debitNote: new FormControl('') ,
       grossTotal: new FormControl('')
@@ -227,6 +225,7 @@ export class DebitNoteComponent implements OnInit {
 
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
+    dnFormVal.placeOfSupply = null ;
     alert(JSON.stringify(dnFormVal));
 
     if (dnFormVal.id) {
@@ -260,6 +259,7 @@ export class DebitNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted =  true;
+
       this.billS.createDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);

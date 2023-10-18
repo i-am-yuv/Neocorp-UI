@@ -128,10 +128,10 @@ export class PayToVendorComponent implements OnInit {
 
     this.beneficairyForm = new FormGroup({
       id: new FormControl(''),
-      beneficairyName: new FormControl('', [Validators.required]),
-      nickName: new FormControl('', [Validators.required]),
+      beneficaryName: new FormControl('', [Validators.required]),
+      nickname: new FormControl('', [Validators.required]),
       accountNumber: new FormControl('', [Validators.required]),
-      ifsc: new FormControl('', [Validators.required]),
+      ifscCode: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
       mmid: new FormControl('', [Validators.required])
     });
@@ -202,7 +202,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
           this.submitted = false;
         }
       ).catch(
@@ -218,7 +218,8 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content;
+         // this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
           this.submitted = false;
         }
       ).catch(
@@ -300,11 +301,13 @@ export class PayToVendorComponent implements OnInit {
   sendOTPIMPS() {
     // First Need to create the Beneficairy with MMID and mobile Number
     var BaneData = this.impsForm.value;
-
+    BaneData.inCoolingPeriod = true;
+    //BaneData.signupTime =  new Date();
     this.submitted = true;
     this.bankingS.createBeneficiary(BaneData).then(
       (res: any) => {
         console.log(res);
+        //alert("created");
         this.paymentRequest.amount = this.amount;
         //this.paymentRequest.paymentType = this.selectedType;
         this.paymentRequest.paymentType = "QUICKPAY";
@@ -396,6 +399,7 @@ export class PayToVendorComponent implements OnInit {
             detail: 'Payment Done successfully',
             life: 3000,
           });
+          this.OnCancelOTP();
         }
       ).catch(
         (err) => {
@@ -415,7 +419,7 @@ export class PayToVendorComponent implements OnInit {
   }
 
   OnCancelOTP() {
-
+     this.router.navigate(['/banking/payToVendor/pi/'+this.id]);
   }
 
   onSubmitIMPS() {
@@ -434,8 +438,12 @@ export class PayToVendorComponent implements OnInit {
   onSubmitBeneficairy() {
     alert(JSON.stringify(this.beneficairyForm.value));
 
+    var BeneData = this.beneficairyForm.value;
+    BeneData.signupTime = new Date();
+    BeneData.inCoolingPeriod = true;
+
     this.submitted = true;
-    this.bankingS.createBeneficiary(this.beneficairyForm.value).then(
+    this.bankingS.createBeneficiary(BeneData).then(
       (res) => {
         console.log(res);
         this.beneficairyForm.patchValue = { ...res };
