@@ -22,6 +22,8 @@ export class PurchaseOrderComponent implements OnInit {
   createNew: boolean = false;
   submitted: boolean = false;
 
+  DeleteDialLogvisible: boolean = false;
+
   id: string | null = '';
   poForm!: FormGroup;
   lineItemForm !: FormGroup;
@@ -401,39 +403,45 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
   delete(lineItem: LineItem) {
-
-    this.confirmationService.confirm({
-      message:
-        'Are you sure you want to delete this Line Item?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.billS
-          .deleteLineItem(lineItem.id)
-          .then((data) => {
-            this.lineitems = this.lineitems.filter(
-              (val) => val.id !== lineItem.id
-            );
-            // this.customer = {};
-            this.message.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Line Item Deleted',
-              life: 3000,
-            });
-          })
-          .catch(() => {
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Line item Deletion Error, Please refresh and try again',
-              life: 3000,
-            });
-          });
-      },
-    });
-
+    this.DeleteDialLogvisible  = true ;
   }
+
+  deleteConfirm(lineItem: LineItem)
+  {
+    this.submitted = true;
+    this.billS
+    .deleteLineItem(lineItem.id)
+    .then((data) => {
+      this.lineitems = this.lineitems.filter(
+        (val) => val.id !== lineItem.id
+      );
+      this.DeleteDialLogvisible  = false ;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Line Item Deleted',
+        life: 3000,
+      });
+    })
+    .catch((err) => {
+       console.log(err);
+      this.submitted = false;
+      this.DeleteDialLogvisible  = false ;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Line item Deletion Error, Please refresh and try again',
+        life: 3000,
+      });
+    });
+  }
+
+  cancelDeleteConfirm()
+  {
+    this.DeleteDialLogvisible  = false ;
+  }
+
   onRowEditSave(lineItem: LineItem) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);

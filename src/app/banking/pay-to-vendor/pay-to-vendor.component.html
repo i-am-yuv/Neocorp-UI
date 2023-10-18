@@ -9,7 +9,7 @@
             <div class="p-3 ">
                 <div class=" text-center mt-5">
                     <p class="text-xl">Paying to <b>This Account</b></p><br>
-                    <p class="text-lg">{{currentPurchaseInvoice.vendor?.accountDetails?.AccountNumber}}</p><br>
+                    <p class="text-lg">{{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p><br>
                     <p class="text-lg">Vendor name: {{currentPurchaseInvoice.vendor?.firstName}}
                         {{currentPurchaseInvoice.vendor?.lastName}}</p><br>
                     <div class="flex w-full">
@@ -34,8 +34,8 @@
                     <img src="/assets/makePayment.png" alt="Image" class="w-10 h-auto ">
                 </span>
                 <div class="field col-3 text-left mt-4">
-                    <p class="text-lg">Paying to <b>Vendor</b></p> <br>
-                    <p class="text-lg">Acc No: 456789052994</p> <br>
+                    <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}} {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
+                    <p class="text-lg">Acc No: {{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p> <br>
                 </div>
                 <div class="field col-7 text-right">
                     <p class="text-3xl">₹ {{this.amount? this.amount : '0.00'}}</p>
@@ -180,7 +180,7 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 [routerLink]="['/banking/payToVendor/pi/'+this.id]"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTPBeneficairy()"
+                            <button type="button" pButton label="Send OTP" (click)="sendOTPNEFT()"
                                 [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
@@ -263,6 +263,7 @@
                                         <label class="mr-3 required">Enter MMID Number</label>
                                         <input pInputText [style]="{ width: '100%' }" formControlName="mmid" NumbersOnly
                                             placeholder="Enter seven-digit number MMID Number" />
+                                            <error-message [controlName]="impsForm.controls['mmid']"></error-message>
                                     </div>
 
                                     <div class="field col-12">
@@ -270,6 +271,7 @@
                                         <input pInputText [style]="{ width: '100%' }" formControlName="mobileNumber"
                                             minlength="10" maxlength="10" NumbersOnly
                                             placeholder="Enter your mobile number" />
+                                            <error-message [controlName]="impsForm.controls['mobileNumber']"></error-message>
                                     </div>
                                 </form>
                             </div>
@@ -287,74 +289,6 @@
                     </div>
                 </div>
 
-
-                <!-- <div *ngIf="selectedType =='Quick Pay' ">
-                    <div class="mr-6 border-round-3xl bg-white">
-                        <p-panel class="right-panel ">
-                            <ng-template pTemplate="header">
-                                <span class="p-panel-title" style="padding: 1px ; color: black;">Enter the below details
-                                    to proceed payment</span>
-                            </ng-template>
-
-                            <div class="right-panel-content">
-                                <form (ngSubmit)="onSubmitQuickPay()" [formGroup]="QuickPayForm" class="p-2">
-                                    <div class="field col-12">
-                                        <label class="mr-3 required">Bank Name</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="bankname"
-                                            placeholder="Enter your bank name" />
-                                        <error-message
-                                            [controlName]="QuickPayForm.controls['bankname']"></error-message>
-                                    </div>
-
-                                    <div class="field col-12">
-                                        <div class="flex w-full">
-                                            <label class="mr-3 required col-4">Account Type</label>
-                                            <p-selectButton [options]="stateOptions" class="col-8 text-right"
-                                                [style]="{ width: '100%' }" formControlName="AccountType"
-                                                optionLabel="label" optionValue="value"></p-selectButton>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="field col-12">
-                                        <label class="required">Account Number</label>
-                                        <input pInputText class="w-full" formControlName="AccountNumber" NumbersOnly
-                                            placeholder="Enter Account Number" />
-                                        <error-message
-                                            [controlName]="QuickPayForm.controls['AccountNumber']"></error-message>
-                                    </div>
-                                    <div class="field col-12">
-                                        <label class="required">Confirm Account Number</label>
-                                        <input pInputText formControlName="confirmAccountNumber" NumbersOnly
-                                            class="w-full" placeholder="Re-Enter Account Number" />
-                                        <error-message
-                                            [controlName]="QuickPayForm.controls['confirmAccountNumber']"></error-message>
-                                    </div>
-
-
-                                    <div class="field col-12">
-                                        <label class="mr-3 required">IFSC Code</label>
-                                        <input pInputText [style]="{ width: '100%' }" formControlName="IFSC"
-                                            placeholder="Enter IFSC Code" />
-                                        <error-message [controlName]="QuickPayForm.controls['IFSC']"></error-message>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </p-panel>
-
-                        <div class="iconSCSS mt-3 p-3">
-                            <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
-                                [routerLink]="['/banking/payToVendor/pi/'+this.id]"
-                                class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTPQuickPay()"
-                                [disabled]="!this.QuickPayForm.valid" class=" w-full mr-3 ptpBtn"
-                                (click)="onSubmitQuickPay()"></button>
-                        </div>
-
-                    </div>
-                </div> -->
-
                 <div *ngIf="selectedTypeMethod =='UPI' ">
                     <div class="mr-6 border-round-3xl bg-white">
                         <p-panel class="right-panel ">
@@ -369,10 +303,9 @@
                                         <label class="mr-3 required">Enter your UPI ID / Mobile number</label>
                                         <input pInputText [style]="{ width: '100%' }" formControlName="upiId"
                                             placeholder="Enter your UPI iD / Mobile Number" />
-                                        <error-message [controlName]="upiForm.controls['upiId']"></error-message>
                                     </div>
 
-                                    <div class="iconSCSS w-full bgColor">
+                                    <div class="iconSCSS w-full bgColor" *ngIf="!upiForm.valid">
                                         <div class="field col-1 justify-center items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                                                 viewBox="0 0 24 24" fill="none">
