@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProfilepageService } from '../profilepage.service';
-import { PayPageService } from 'src/app/pay/pay-page.service';
-import { Beneficiary } from '../profile-models';
+import { Beneficiary } from 'src/app/profile/profile-models';
+import { ProfilepageService } from 'src/app/profile/profilepage.service';
+import { BankingService } from '../banking.service';
 
 @Component({
   selector: 'app-beneficiary',
@@ -13,8 +13,8 @@ import { Beneficiary } from '../profile-models';
 })
 export class BeneficiaryComponent implements OnInit {
 
-
   beneficiaryForm !: FormGroup ;
+  submitted : boolean =  false;
 
   currbeneficiary : Beneficiary = {};
 
@@ -24,7 +24,7 @@ export class BeneficiaryComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private profileS: ProfilepageService,
+    private bankingS: BankingService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
@@ -61,22 +61,33 @@ export class BeneficiaryComponent implements OnInit {
     console.log(beneficiaryFormVal) ;
 
     if (beneficiaryFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
 
-      this.profileS.updateBeneficiary(beneficiaryFormVal).then(
+      this.submitted = true;
+      // No chnage in these 3 values
+      beneficiaryFormVal.inCoolingPeriod = this.currbeneficiary.inCoolingPeriod ;
+      beneficiaryFormVal.signupTime =  this.currbeneficiary.signupTime ;
+      beneficiaryFormVal.coolingPeriodEnd =  this.currbeneficiary.coolingPeriodEnd ;
+
+      this.bankingS.updateBeneficiary(beneficiaryFormVal).then(
         (res) => {
           console.log(res);
           this.beneficiaryForm.patchValue = { ...res };
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Beneficiary Details Updated',
             detail: 'Beneficiary Details updated Successfully',
             life: 3000,
           });
+          setTimeout(() => {
+            this.router.navigate(['banking/beneficiaries']);
+          }, 2000);
+          
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Beneficiary Details updated Error',
@@ -88,24 +99,27 @@ export class BeneficiaryComponent implements OnInit {
     }
     else {
       
-      this.profileS.createBeneficiary(beneficiaryFormVal).then(
+      beneficiaryFormVal.signupTime = new Date();
+      beneficiaryFormVal.inCoolingPeriod =  true;
+      this.submitted = true;
+      this.bankingS.createBeneficiary(beneficiaryFormVal).then(
         (res) => {
           console.log(res);
           this.beneficiaryForm.patchValue = { ...res };
           this.currbeneficiary = res;
-        
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Beneficiary Added',
             detail: 'Beneficiary Details Saved Successfully',
             life: 3000,
           });
-          this.router.navigate(['profile/beneficiary/edit/' + res.id]);
+          this.router.navigate(['banking/beneficiaries']);
         }
       ).catch(
         (err) => {
           console.log(err);
-         
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Beneficiary error',
@@ -119,18 +133,26 @@ export class BeneficiaryComponent implements OnInit {
   getCurrbeneficiary()
   {
     if (this.id) {
-      this.profileS.getCurrBeneficiary(this.id).then(
+      this.submitted = true;
+      this.bankingS.getCurrBeneficiary(this.id).then(
         (res: any) => {
           console.log(res);
           this.currbeneficiary = res;
           this.beneficiaryForm.patchValue(res);
+          this.submitted = false;
         }
       ).catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
         }
       )
     }
+  }
+
+  onClickCancel()
+  {
+    this.router.navigate(['banking/beneficiaries']);
   }
 
 }

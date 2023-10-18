@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
-import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { LayoutComponent } from '../shared/layout/layout.component';
 import { ProductDashboardComponent } from './product-dashboard/product-dashboard.component';
 import { PcDashboardComponent } from './pc-dashboard/pc-dashboard.component';
@@ -38,14 +37,6 @@ const routes: Routes = [
     component:LayoutComponent ,
     children: [
       { path: '', component: PcDashboardComponent}
-    ],
-  },
-  {
-    path: 'beneficiary',
-    component:LayoutComponent ,
-    children: [
-      { path: 'create', component: BeneficiaryComponent },
-      { path: 'edit/:id', component: BeneficiaryComponent },
     ],
   }
 ];

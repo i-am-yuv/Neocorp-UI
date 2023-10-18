@@ -202,7 +202,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null) ;
           this.submitted = false;
         }
       ).catch(
