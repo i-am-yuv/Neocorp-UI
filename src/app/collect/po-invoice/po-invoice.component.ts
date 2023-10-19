@@ -48,6 +48,10 @@ export class PoInvoiceComponent implements OnInit {
 
   items!: MenuItem[];
 
+  stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
+
+  //value: string = 'off';
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -99,7 +103,8 @@ export class PoInvoiceComponent implements OnInit {
       }),
       purchaseOrder: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
-      })
+      }),
+      enablePartialPayments : new FormControl(true)
     });
   }
 

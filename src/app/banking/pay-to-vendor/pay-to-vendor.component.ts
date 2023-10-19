@@ -6,6 +6,7 @@ import { BankingService } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { DebitAccountDetails, PayModelsSI, PaymentRequest } from '../banking-model';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
+import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
   selector: 'app-pay-to-vendor',
@@ -17,9 +18,12 @@ export class PayToVendorComponent implements OnInit {
   sidebarVisibleB: boolean = false;
   accounntSelected: boolean = false;
 
+  partialPaymentStatus : boolean =  true;
+
   submitted: boolean = false;
 
-  enteredAmount: number | undefined;
+  enteredAmount: number = 0.00;
+  amountRemaining : number = 0.00 ;
   id: any;
   amount: any;
 
@@ -107,7 +111,8 @@ export class PayToVendorComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private message: MessageService,
-    private bankingS: BankingService) { }
+    private bankingS: BankingService,
+    private payS : PayPageService) { }
 
   ngOnInit(): void {
     this.impsForm = new FormGroup({
@@ -170,8 +175,21 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getPI(id).then(
         (res) => {
           console.log(res);
-          this.submitted = false;
+          this.partialPaymentStatus =  res.enablePartialPayments;
           this.currentPurchaseInvoice = res;
+          this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
+            (res)=>{
+               this.enteredAmount =  res; 
+               this.amountRemaining = res;
+               this.submitted = false;
+            }
+          ).catch(
+            (err)=>{
+              console.log(err);
+              this.submitted = false;
+            }
+          )
+          this.submitted = false;
         }
       ).catch(
         (err) => {

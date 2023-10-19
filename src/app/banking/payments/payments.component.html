@@ -43,16 +43,16 @@
                                                 </div>
                                                 <div class="col-3 text-left">
                                                     <p class="blueText text-lg">Purchase Invoice Number</p>
-                                                    <p class="font-semibold mt-2">#{{item.invoiceNo}}</p>
+                                                    <p class="font-semibold ">#{{item.invoiceNo}}</p>
                                                 </div>
                                                 <div class=" col-3 text-center">
                                                     <p class="blueText text-lg">Vendor Name</p>
-                                                    <p class="font-semibold text-center mt-2">{{item.vendor?.firstName}}
+                                                    <p class="font-semibold text-center ">{{item.vendor?.firstName}}
                                                         {{item.vendor?.lastName}}</p>
                                                 </div>
                                                 <div class=" col-2 text-center">
                                                     <p class="blueText text-lg">Due Amount</p>
-                                                    <p class="font-semibold dueAmount mt-2 text-lg text-center">₹ {{item.remainingAmount ? item.remainingAmount : '0.00'}}</p>
+                                                    <p class="font-semibold dueAmount  text-lg text-center">₹ {{ myFunction(item) }}</p>
                                                 </div>
                                                 <div class="col-1"></div>
                                                 <div class=" col-2 text-right ">
@@ -109,8 +109,7 @@
                                                 </div>
                                                 <div class=" col-2 text-center">
                                                     <p class="blueText text-lg">Due Amount</p>
-                                                    <p class="font-semibold dueAmount mt-2 text-lg text-center">₹
-                                                        {{item.grossTotal}}</p>
+                                                    <p class="font-semibold dueAmount mt-2 text-lg text-center">₹ {{ myFunction1(item) }}</p>
                                                 </div>
                                                 <div class="col-1"></div>
                                                 <div class=" col-2 text-right ">

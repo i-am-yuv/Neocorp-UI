@@ -11,13 +11,14 @@ export class PurchaseInvoice{
     invoiceDate?:Date;
     duedate?:Date;
     vendor?:Vendor;
-    // customer?:CustomeR;
     purchaseOrder ?: PurchaseOrder;
     penalty ?: number;
     description ?: string;
     status ?: string;
     grossTotal ?: number ;
     taxableTotal ?: number;
+    remainingAmount ?: number ;
+    enablePartialPayments ?: boolean ;
 }
 
 export interface PurchaseInvoiceLine{

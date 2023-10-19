@@ -99,10 +99,10 @@ export class CollectService {
     return Customers;
   }
 
+  async togglePartialPaymentStatus( id : any , status : boolean ) {
+    var url = this.apiurlNew + 'api/PurchaseInvoice/enable-partial-payments/'+id+'?enabled='+status ;
+    const result = await lastValueFrom(this.http.put<any>(url , id) ) ;
+    return result;
+  }
 
-  // async getLineitemsByCustomer(po:any) {
-  //   var url = this.apiurlNew + 'api/Customers/'+encodeURIComponent(po.id);
-  //   const currLineItems = await lastValueFrom(this.http.get<any>(url));
-  //   return currLineItems;
-  // }
 }

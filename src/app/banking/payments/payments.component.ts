@@ -105,4 +105,12 @@ export class PaymentsComponent implements OnInit {
     this.router.navigate(['banking/payToVendor/pi/'+pi.id]);
   }
 
+  myFunction(item: any): string {
+    return parseFloat(item.remainingAmount).toFixed(2);
+  }
+
+  myFunction1(item: any): string {
+    return parseFloat(item.grossTotal).toFixed(2);
+  }
+  
 }
