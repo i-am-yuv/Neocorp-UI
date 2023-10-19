@@ -49,6 +49,12 @@ export class CollectService {
     return updatedLineItem;
   }
 
+  async deleteInvoiceLineItem(id : any) {
+    var url = this.apiurlNew + 'purchaseInvoiceLine/'+ encodeURIComponent(id);
+    const deletedLineItem = await lastValueFrom(this.http.delete<any>(url));
+    return deletedLineItem;
+  }
+
   async getPurchaseLineItemsByInvoice(pInvoice: any) {
     var url = this.apiurlNew + 'purchaseInvoiceLine/byPurchaseInvoice/'+ encodeURIComponent(pInvoice.id);
     const _allLineItems = await lastValueFrom(this.http.get<any>(url));

@@ -110,6 +110,12 @@ export class InvoiceService {
     return updatedSoLineItem;
   }
 
+  async deletedSoLineItem(id : any) {
+    var url = this.apiurlNew + 'api/salesOrderLine/'+encodeURIComponent(id);
+    const deletedSoLineItem = await lastValueFrom(this.http.delete<any>(url ));
+    return deletedSoLineItem;
+  }
+
   async getCurrentCn(id: string) {
     var url = this.apiurlNew + 'creditNote/'+encodeURIComponent(id);
     const currCn = await lastValueFrom(this.http.get<any>(url));

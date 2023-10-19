@@ -18,6 +18,7 @@ export class DebitNoteComponent implements OnInit {
 
   submitted : boolean =  false;
   createNew : boolean = false;
+  DeleteDialLogvisible : boolean = false;
 
   id: string | null = '';
   dnForm !: FormGroup ;
@@ -95,7 +96,7 @@ export class DebitNoteComponent implements OnInit {
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      debitNote: new FormControl('') ,
+      notes: new FormControl('') ,
       grossTotal: new FormControl('')
     });
   }
@@ -276,7 +277,9 @@ export class DebitNoteComponent implements OnInit {
             detail: 'Debit Note Added',
             life: 3000,
           });
-          this.router.navigate(['bills/debitNote/edit/' + res.id]);
+          setTimeout(() => {
+            this.router.navigate(['bills/debitNote/edit/' + res.id]);
+          }, 2000); 
         }
       ).catch(
         (err) => {
@@ -321,16 +324,7 @@ export class DebitNoteComponent implements OnInit {
 
   }
   delete(lineItem: dnLineItem) {
-
-    //(JSON.stringify(lineItem));
-    // this.confirmationService.confirm({
-    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-    //   header: 'Confirm',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-
-    //   },
-    // });
+    this.DeleteDialLogvisible =  true;
   }
 
   onRowEditSave(lineItem: dnLineItem) {
@@ -510,28 +504,40 @@ export class DebitNoteComponent implements OnInit {
     if (rnFormVal.id) {
 
       this.submitted = true;
+      if(rnFormVal.placeOfSupply.id == "" || rnFormVal.placeOfSupply == undefined ||rnFormVal.placeOfSupply.id == undefined )
+      {
+        rnFormVal.placeOfSupply =  null ;
+      }
       this.billS.updateDebitNote(rnFormVal).then(
         (res) => {
           console.log(res);
           this.submitted = false;
           this.dnForm.patchValue = { ...res };
+          this.message.add({
+            severity: 'success',
+            summary: 'Debit Note Saved Successfully',
+            detail: 'Debit Note Saved',
+            life: 3000,
+          });
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Debit Note Error',
+            detail: 'Error while saving data',
+            life: 3000,
+          });
         }
       )
     }
-    
-      this.message.add({
-        severity: 'success',
-        summary: 'Debit Note Created Successfully',
-        detail: 'Debit Note created',
-        life: 3000,
-      });
       this.upload();
-      this.router.navigate(['/bills/debitNote']);
+      setTimeout(() => {
+        this.router.navigate(['/bills/debitNote']);
+      }, 2000);
+      
   }
 
   createDN()
@@ -545,5 +551,47 @@ export class DebitNoteComponent implements OnInit {
     this.router.navigate(['/bills/debitNote']);
   }
 
+
+  cancelDeleteConfirm()
+  {
+     this.DeleteDialLogvisible =  false;
+  }
+
+  deleteConfirm(lineItem : any)
+  {
+    this.submitted = true;
+    this.usedService
+      .deleteDebitNoteLineItem(lineItem.id)
+      .then((data) => {
+
+        this.lineitems = this.lineitems.filter(
+          (val) => val.id !== lineItem.id
+        );
+
+        this.dnSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+
+        this.DeleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.DeleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
+  }
 
 }

@@ -48,7 +48,8 @@
                                                     </div>
                                                     <div class="col-5   text-base text-right">
                                                         <b>Total: ₹</b>{{item.grossTotal?item.grossTotal : '0.00'}}<br>
-                                                        <p class="leftStatus">{{item.status}}</p>
+                                                        <p *ngIf="item.status != 'COMPLETED'"  class="leftStatus">{{item.status}}</p>
+                                                        <p *ngIf="item.status == 'COMPLETED'" class="text-green-600">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                                 
@@ -137,7 +138,7 @@
                                                 {{this.activeInvoice.status}}
                                             </h4> -->
                                             <h4 
-                                                class="text-center leftStatus text-base ">
+                                                class="text-center  text-base ">
                                                 <div class="flex gap-1  w-full">
                                                     <div class="col-3 leftP text-right">
                                                         <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"

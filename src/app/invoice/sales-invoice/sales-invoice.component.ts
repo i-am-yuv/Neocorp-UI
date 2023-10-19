@@ -18,6 +18,7 @@ export class SalesInvoiceComponent implements OnInit {
 
   id: string | null = '';
   siForm !: FormGroup;
+  DeleteDialLogvisible : boolean = false;
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -69,7 +70,7 @@ export class SalesInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, {label: 'Create', routerLink: ['/invoice/salesInvoice/create']} ];
+    this.items = [{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, { label: 'Create', routerLink: ['/invoice/salesInvoice/create'] }];
 
     this.initForm();
 
@@ -285,7 +286,10 @@ export class SalesInvoiceComponent implements OnInit {
             detail: 'Sales Invoice Added',
             life: 3000,
           });
-          this.router.navigate(['invoice/salesInvoice/edit/' + res.id]);
+          setTimeout(() => {
+            this.router.navigate(['invoice/salesInvoice/edit/' + res.id]);
+          }, 2000);
+          
         }
       ).catch(
         (err) => {
@@ -330,16 +334,7 @@ export class SalesInvoiceComponent implements OnInit {
 
   }
   delete(lineItem: SalesInvoiceLine) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-      },
-    });
-
+    this.DeleteDialLogvisible =  true;
   }
   onRowEditSave(lineItem: SalesInvoiceLine) {
     alert(JSON.stringify(lineItem));
@@ -453,6 +448,12 @@ export class SalesInvoiceComponent implements OnInit {
 
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    this.message.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'File Attached Successfully',
+      life: 3000,
+    });
   }
 
   // upload() {
@@ -522,25 +523,31 @@ export class SalesInvoiceComponent implements OnInit {
           console.log(res);
           this.siForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Sales Invoice Saved Successfully',
+            detail: 'Sales Invoice Saved',
+            life: 3000,
+          });
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Sales Invoice Error',
+            detail: 'Sales Invoice Error while Saving',
+            life: 3000,
+          });
         }
       )
     }
-    this.message.add({
-      severity: 'success',
-      summary: 'Sales Invoice Created Successfully',
-      detail: 'Sales Invoice created',
-      life: 3000,
-    });
     //  this.upload();
     setTimeout(() => {
       this.router.navigate(['/invoice/salesInvoice']);
     }, 2000);
-    
+
   }
 
   createSI() {
@@ -550,5 +557,45 @@ export class SalesInvoiceComponent implements OnInit {
   OnCancelSI() {
     this.router.navigate(['/invoice/salesInvoice']);
   }
+
+  cancelDeleteConfirm() {
+    this.DeleteDialLogvisible = false;
+  }
+
+  deleteConfirm(lineItem : any) {
+    this.submitted = true;
+    this.usedService
+      .deleteSILineItem(lineItem.id)
+      .then((data) => {
+        this.lineitems = this.lineitems.filter(
+          (val) => val.id !== lineItem.id
+        );
+
+        this.siSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+
+        this.DeleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.DeleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
+  }
+
 
 }
