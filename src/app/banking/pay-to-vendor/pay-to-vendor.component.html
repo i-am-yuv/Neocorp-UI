@@ -22,6 +22,13 @@
                     <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
                         class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                 </div>
+
+                <!-- Show Cooling Period Dialog -->
+
+
+
+                <!-- Show Cooling Period Dialog Ends -->
+
             </div>
         </div>
     </div>
@@ -81,7 +88,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="field mb-4 mt-1" *ngIf="debitAccount.id === selectedDebitAccount.id" > 
+                                            <div class="field mb-4 mt-1"
+                                                *ngIf="debitAccount.id === selectedDebitAccount.id">
                                                 <label class="mr-3 required">Payment Type</label>
                                                 <div class="items-center">
                                                     <p-dropdown [options]="paymentTypes"
@@ -94,7 +102,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="field mb-3 mt-1" *ngIf="selectedType == 'Quick Pay' && debitAccount.id === selectedDebitAccount.id" >
+                                            <div class="field mb-3 mt-1"
+                                                *ngIf="selectedType == 'Quick Pay' && debitAccount.id === selectedDebitAccount.id">
                                                 <label class="mr-3 required">Payment Method</label>
                                                 <div class="items-center">
                                                     <p-dropdown [options]="paymentMethodsQuick"
@@ -107,7 +116,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="field mb-3 mt-1" *ngIf="selectedType == 'Normal Pay' && debitAccount.id === selectedDebitAccount.id">
+                                            <div class="field mb-3 mt-1"
+                                                *ngIf="selectedType == 'Normal Pay' && debitAccount.id === selectedDebitAccount.id">
                                                 <label class="mr-3 required">Payment Method</label>
                                                 <div class="items-center">
                                                     <p-dropdown [options]="paymentMethodsNormal"
@@ -214,9 +224,9 @@
                                     <div class="pb-3 pt-3 pl-4 pr-1">
                                         <p-radioButton name="beneficiary" [value]="beneficiary"
                                             [(ngModel)]="selectedBeneficiary"
-                                            (click)="selectBeneficiaryM(beneficiary)"></p-radioButton>
-                                        <label (click)="selectBeneficiaryM(beneficiary)" class="ml-3 text-lg">
-                                            {{beneficiary.name }}</label>
+                                            (click)="selectBeneficiary(beneficiary)"></p-radioButton>
+                                        <label (click)="selectBeneficiary(beneficiary)" class="ml-3 text-lg">
+                                            {{beneficiary.beneficaryName }}</label>
                                         <hr class="custom-hr mt-3">
                                     </div>
 
@@ -261,7 +271,7 @@
                                         <label class="mr-3 required">Enter MMID Number</label>
                                         <input pInputText [style]="{ width: '100%' }" formControlName="mmid" NumbersOnly
                                             placeholder="Enter seven-digit number MMID Number" />
-                                            <error-message [controlName]="impsForm.controls['mmid']"></error-message>
+                                        <error-message [controlName]="impsForm.controls['mmid']"></error-message>
                                     </div>
 
                                     <div class="field col-12">
@@ -396,6 +406,18 @@
     </div>
 
 </div>
+
+<p-dialog header="Header" [(visible)]="displayCoolingPDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Info</span>
+    </ng-template>
+    <p class="m-0">The Beneficiary in cooling period. You cannot proceed with payment right now.</p>
+    <p class="m-0">Please wait !!</p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayCoolingPDialog = false" label="OK"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
 
 <p-blockUI [blocked]="submitted">
     <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>

@@ -6,12 +6,22 @@ import { RoleComponent } from './role/role.component';
 import { SharedModule } from '../shared/shared.module';
 import { DutchModule } from '../dutch/dutch.module';
 import { DelegationRoleComponent } from './delegation-role/delegation-role.component';
+import { WorkflowComponent } from './workflow/workflow.component';
+import { RolesComponent } from './roles/roles.component';
+import { PrivilegeComponent } from './privilege/privilege.component';
+import { RolesPrivilegeComponent } from './roles-privilege/roles-privilege.component';
+import { DelegationRoleDashboardComponent } from './delegation-role-dashboard/delegation-role-dashboard.component';
 
 
 @NgModule({
   declarations: [
     RoleComponent,
-    DelegationRoleComponent
+    DelegationRoleComponent,
+    WorkflowComponent,
+    RolesComponent,
+    PrivilegeComponent,
+    RolesPrivilegeComponent,
+    DelegationRoleDashboardComponent
   ],
   imports: [
     CommonModule,

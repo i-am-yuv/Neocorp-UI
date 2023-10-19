@@ -2,6 +2,7 @@ import { Brand } from "../masters/brands/brand";
 import { ProductCategories } from "../masters/product-categories/product-categories";
 import { TaxRate } from "../masters/tax-rates/tax-rate";
 import { UOM } from "../settings/customers/customer";
+import { ProductCategory } from "./product-category";
 
 export interface ProfileModels {
 }
@@ -19,7 +20,7 @@ export interface Product {
     imageName?: string
     imagePath?: string
     productType ?: string,
-    category ?:ProductCategories ,
+    category ?:Product ,
     taxRate ?: TaxRate ,
     brand ?: Brand ,
     uom ?: UOM,

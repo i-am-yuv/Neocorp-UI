@@ -1,9 +1,32 @@
+<!-- <div class=" ">
+    <div class="p-grid p-3">
+        <div class="p-col-12 p-md-6 p-lg-3">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Dashboard</h2>
+        </div>
+    </div>
+    <div class="p-grid p-3">
+        <h2 class="text-left text-base text-gray-700 w-100 mb-2">Essentials</h2>
+        <div class="p-col-12 p-md-6 p-lg-3 mb-3 payment-dropdown">
+            <div class="payment-dropdown ">
+                <p-dropdown class="bg-blue-200" id="paymentMethod" [options]="paymentOptions"
+                    [style]="{ width: '100%' }" placeholder="All Page" 
+                    (onChange)="viewPayPages()"
+                    optionLabel="name" 
+                    optionValue="id"
+                    [(ngModel)]="choosePayPageId"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-3 mb-3">
+            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Collect</h2>
+        </div>
+    </div>
+</div> -->
+
 <div class="h-auto ">
     
     
-        <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"  
-        [ngClass]="{ 'defaultSCSS ': true}"
-        >
+        <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"
+        [ngClass]="{ 'defaultSCSS ': true}">
             <div class="flex gap-2">
                 <div class="field">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">

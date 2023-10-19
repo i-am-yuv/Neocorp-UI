@@ -98,6 +98,11 @@ export class PayToVendorComponent implements OnInit {
 
   value: string = 'Saving';
 
+  displayCoolingPDialog: boolean = false;
+
+  // currentTime = this.getLocalDateTime();
+  currentTime = new Date();
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -133,7 +138,7 @@ export class PayToVendorComponent implements OnInit {
       accountNumber: new FormControl('', [Validators.required]),
       ifscCode: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
-      mmid: new FormControl('', [Validators.required])
+      mmid: new FormControl('', [Validators.required]),
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -186,6 +191,7 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
+  // Select Payment Type
   selectType(name: any) {
 
     // alert(name);
@@ -256,10 +262,19 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  selectBeneficiaryM(beneficiary: any) {
+  selectBeneficiaryM(beneficiary: Beneficiary) {
 
-    this.selectedBeneficiary = beneficiary;
+   
     //alert(this.selectedBeneficiary.beneficaryName);
+
+    if(beneficiary.inCoolingPeriod ){
+      this.displayCoolingPDialog =true;
+     // alert(this.displayCoolingPDialog );
+    } else {
+      this.displayCoolingPDialog = false;
+      this.selectedBeneficiary = beneficiary;
+    }
+
   }
 
   selectDebitAccountM(debitAccount: any) {
@@ -419,7 +434,10 @@ export class PayToVendorComponent implements OnInit {
   }
 
   OnCancelOTP() {
-     this.router.navigate(['/banking/payToVendor/pi/'+this.id]);
+    setTimeout(() => {
+      this.router.navigate(['/banking/payToVendor/pi/'+this.id]);
+    }, 2000);
+    
   }
 
   onSubmitIMPS() {
@@ -435,8 +453,11 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  onSubmitBeneficairy() {
-    alert(JSON.stringify(this.beneficairyForm.value));
+  
+  onSubmitBeneficairy(){
+    var BeneData = this.beneficairyForm.value;
+    BeneData.signupTime = new Date();
+    BeneData.inCoolingPeriod = true;
 
     var BeneData = this.beneficairyForm.value;
     BeneData.signupTime = new Date();
@@ -446,7 +467,7 @@ export class PayToVendorComponent implements OnInit {
     this.bankingS.createBeneficiary(BeneData).then(
       (res) => {
         console.log(res);
-        this.beneficairyForm.patchValue = { ...res };
+        // this.beneficairyForm.patchValue = { ...res };
         //this.currbeneficiary = res;
         this.submitted = false;
         this.message.add({
@@ -467,6 +488,7 @@ export class PayToVendorComponent implements OnInit {
           life: 3000,
         });
       })
+
   }
 
   formatNumber(event: any) {

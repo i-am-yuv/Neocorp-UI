@@ -21,6 +21,21 @@ export class RoleComponent implements OnInit {
     this.initForm();
   }
 
+
+  privileges: any = [
+    {
+      "id": "1",
+      "name": "ITEM"
+    },
+    {
+      "id": "2",
+      "name": "SERVICE"
+    }
+  ];
+
+
+
+
   initForm()
   {
     this.roleForm = new FormGroup({

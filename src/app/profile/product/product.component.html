@@ -40,9 +40,16 @@
                         </div>
                         <div class="field col-6">
                             <label class="mr-3 required">Product Category</label>
-                            <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" />
+                            <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
+                            <ng-container formGroupName="category" class="w-full">
+                                <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
+                                    formControlName="id" optionLabel="name" [showClear]="true"
+                                    (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
+                                </p-dropdown>
+                            </ng-container>
                             <error-message [controlName]="productForm.controls['category']"></error-message>
                         </div>
+                       
                     </div>
 
                     <div class="flex gap-2">
@@ -59,7 +66,7 @@
                         </div>
                         <div class="field col-6">
                             <label class="mr-3 ">Brand</label>
-                            <input pInputText formControlName="brand" placeholder="Enter Brand" class="w-full" />
+                            <input pInputText formControlName="brand"  placeholder="Enter Brand" class="w-full" />
                             <error-message [controlName]="productForm.controls['brand']"></error-message>
                         </div>
                     </div>
