@@ -112,7 +112,7 @@ export class CashMemoComponent implements OnInit {
       }
     });
 
-    this.items =[ {label: 'Cash Memo', routerLink: ['/invoice/cashMemo']}, {label: 'Create', routerLink: ['/invoice/cashMemo/create']}]
+    this.items = [{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
 
     this.initForm();
     this.loadVendors();
@@ -248,6 +248,7 @@ export class CashMemoComponent implements OnInit {
         }
       )
   }
+
   selectVendor() { }
 
   billToSelect() {
@@ -353,13 +354,13 @@ export class CashMemoComponent implements OnInit {
     }
   }
 
-  setLineQtyValuesPrice(e: any, lineItem: CashMemoLine) {}
+  setLineQtyValuesPrice(e: any, lineItem: CashMemoLine) { }
 
-  setLineQtyValuesDiscount(e: any, lineItem: CashMemoLine) {}
+  setLineQtyValuesDiscount(e: any, lineItem: CashMemoLine) { }
 
 
-  onRowEditInit(lineItem: CashMemoLine) {}
-  
+  onRowEditInit(lineItem: CashMemoLine) { }
+
   delete(lineItem: CashMemoLine) {
     //(JSON.stringify(lineItem));
     this.confirmationService.confirm({
@@ -550,7 +551,7 @@ export class CashMemoComponent implements OnInit {
     cashMemoFormVal.id = this.id;
     cashMemoFormVal.grossTotal = this.cashMemoSubTotal;
 
-    if(cashMemoFormVal.id) {
+    if (cashMemoFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateCashMemo(cashMemoFormVal).then(
         (res) => {
@@ -559,7 +560,7 @@ export class CashMemoComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Cash Memo Updated Successfully',
+            summary: 'Cash Memo Updated',
             detail: 'Cash Memo Updated',
             life: 3000
           });
@@ -572,20 +573,14 @@ export class CashMemoComponent implements OnInit {
           console.log(err);
           this.submitted = false;
         })
-    } else {
-      this.upload();
-      this.message.add({
-        severity: 'success',
-        summary: 'Cash Memo Created Successfully',
-        detail: 'Cash Memo created',
-        life: 3000,
-      });
-      setTimeout(() => {
-        this.router.navigate(['/invoice/cashMemo']);
-      }, 2000);
     }
-      
-
+    this.upload();
+    this.message.add({
+      severity: 'success',
+      summary: 'Cash Memo Saved',
+      detail: 'Cash Memo Saved',
+      life: 3000
+    });
   }
 
   createCM() {

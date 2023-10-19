@@ -208,7 +208,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null) ;
           this.submitted = false;
         }
       ).catch(
@@ -459,6 +459,10 @@ export class PayToVendorComponent implements OnInit {
     BeneData.signupTime = new Date();
     BeneData.inCoolingPeriod = true;
 
+    var BeneData = this.beneficairyForm.value;
+    BeneData.signupTime = new Date();
+    BeneData.inCoolingPeriod = true;
+
     this.submitted = true;
     this.bankingS.createBeneficiary(BeneData).then(
       (res) => {
@@ -501,5 +505,6 @@ export class PayToVendorComponent implements OnInit {
     }
     this.enteredAmount = event.target.value;
   }
+
 
 }

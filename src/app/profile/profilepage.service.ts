@@ -61,22 +61,4 @@ export class ProfilepageService {
     return updateProduct;
   }
 
-  async createBeneficiary(data: any) {
-    var url = this.apiurlNew + 'beneficiary'
-    const savedData = await lastValueFrom(this.http.post<any>(url, data));
-    return savedData;
-  }
-
-  async updateBeneficiary(data: any) {
-    var url = this.apiurlNew + 'beneficiary'
-    const updatedData = await lastValueFrom(this.http.put<any>(url, data));
-    return updatedData;
-  }
-
-  async getCurrBeneficiary(data: any) {
-    var url = this.apiurlNew + 'beneficiary/' + encodeURIComponent(data);
-    const getdata = await lastValueFrom(this.http.get<any>(url, data));
-    return getdata;
-  }
-
 }

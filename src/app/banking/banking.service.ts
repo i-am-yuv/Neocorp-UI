@@ -83,4 +83,28 @@ export class BankingService {
     return PI;
   }
 
+  async getCurrBeneficiary(data: any) {
+    var url = this.apiurlNew + 'beneficiary/' + encodeURIComponent(data);
+    const getdata = await lastValueFrom(this.http.get<any>(url, data));
+    return getdata;
+  }
+
+  async updateBeneficiary(data: any) {
+    var url = this.apiurlNew + 'beneficiary'
+    const updatedData = await lastValueFrom(this.http.put<any>(url, data));
+    return updatedData;
+  }
+  
+  async getAllCompletedPI() {
+    var url = this.apiurlNew + 'api/PurchaseInvoice/completed' ;
+    const allCompletedPI = await lastValueFrom(this.http.get<any>(url));
+    return allCompletedPI;
+  }
+
+  async getAllPI() {
+    var url = this.apiurlNew + 'api/PurchaseInvoice' ;
+    const allPI = await lastValueFrom(this.http.get<any>(url));
+    return allPI;
+  }
+
 }

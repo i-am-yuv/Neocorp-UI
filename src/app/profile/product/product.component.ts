@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
@@ -37,6 +37,7 @@ export class ProductComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
+    private fb: FormBuilder,
     private profileS: ProfilepageService) { }
 
   ngOnInit(): void {
@@ -78,7 +79,11 @@ export class ProductComponent implements OnInit {
       imagePath: new FormControl(''),//
       mrp: new FormControl('', Validators.required),
       productType: new FormControl(''),//
-      category: new FormControl(''),//
+      category: this.fb.group({
+        id: this.fb.nonNullable.control('', {
+          validators: Validators.required,
+        })
+      }),
       taxRate: new FormControl(''),//
       brand: new FormControl(''),//
       uom: new FormControl('')//

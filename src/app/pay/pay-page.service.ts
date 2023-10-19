@@ -139,6 +139,12 @@ export class PayPageService {
     return updatedCnLineItem;
   }
 
+  async deleteCreditNoteLineItem(id: any) {
+    var url = this.apiurlNew + 'api/creditNoteLine/'+encodeURIComponent(id);
+    const deletedCnLineItem = await lastValueFrom(this.http.delete<any>(url));
+    return deletedCnLineItem;
+  }
+
   async createDebitNoteLineItem(data: any) {
     var url = this.apiurlNew + 'api/debitNoteLine'
     const savedDnLineItem = await lastValueFrom(this.http.post<any>(url, data));

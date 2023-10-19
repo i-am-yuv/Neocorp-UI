@@ -41,7 +41,8 @@ export interface Product {
     mobileNumber ?: number,
     mmid ?: string,
     signupTime ?: any;
-    inCoolingPeriod?: boolean;
+    coolingPeriodEnd ?: any;
+    inCoolingPeriod ?: boolean ;
   }
 
   export interface State {

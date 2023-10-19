@@ -41,8 +41,7 @@
                     <img src="/assets/makePayment.png" alt="Image" class="w-10 h-auto ">
                 </span>
                 <div class="field col-3 text-left mt-4">
-                    <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}}
-                            {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
+                    <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}} {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
                     <p class="text-lg">Acc No: {{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p> <br>
                 </div>
                 <div class="field col-7 text-right">
@@ -280,8 +279,7 @@
                                         <input pInputText [style]="{ width: '100%' }" formControlName="mobileNumber"
                                             minlength="10" maxlength="10" NumbersOnly
                                             placeholder="Enter your mobile number" />
-                                        <error-message
-                                            [controlName]="impsForm.controls['mobileNumber']"></error-message>
+                                            <error-message [controlName]="impsForm.controls['mobileNumber']"></error-message>
                                     </div>
                                 </form>
                             </div>

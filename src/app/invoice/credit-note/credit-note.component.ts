@@ -9,6 +9,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from 'src/app/bills/bills.service';
 import { HttpEventType } from '@angular/common/http';
 import { InvoiceService } from '../invoice.service';
+import { LineItem } from 'src/app/bills/bills-model';
 
 @Component({
   selector: 'app-credit-note',
@@ -18,18 +19,19 @@ import { InvoiceService } from '../invoice.service';
 export class CreditNoteComponent implements OnInit {
 
 
-  submitted : boolean =  false;
-  createNew : boolean = false;
+  submitted: boolean = false;
+  createNew: boolean = false;
+  DeleteDialLogvisible: boolean = false;
 
   id: string | null = '';
-  cnForm !: FormGroup ;
+  cnForm !: FormGroup;
 
   vendors: Vendor[] = [];
   products: Product[] = [];
-  customers : CustomeR[] = [];
+  customers: CustomeR[] = [];
   states: State[] = [];
   lineitems: any[] = [];
-  currCreditNote:CreditNote = {};
+  currCreditNote: CreditNote = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -41,7 +43,7 @@ export class CreditNoteComponent implements OnInit {
 
   uploadMessage = '';
   cnSubTotal: number = 0;
-  
+
   requestStatus: any = [
     {
       "id": "1",
@@ -73,19 +75,7 @@ export class CreditNoteComponent implements OnInit {
     }
   ];
 
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
 
-  vendorVisible : boolean =  false;
-  customerVisible : boolean =  false;
 
 
   constructor(private router: Router,
@@ -95,11 +85,9 @@ export class CreditNoteComponent implements OnInit {
     private usedService: PayPageService,
     private invoiceS: InvoiceService,
     private confirmationService: ConfirmationService) {
-    //  this.combinedData = [...this.vendors, ...this.customers];
 
-     }
 
-  //  combinedData: any[] = [];
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -108,17 +96,16 @@ export class CreditNoteComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableCN();
       }
     });
 
     this.initForm();
-    this.loadVendors();
     this.loadStates();
     this.loadProducts();
     this.loadCustomer();
@@ -132,59 +119,58 @@ export class CreditNoteComponent implements OnInit {
       creditNoteNo: new FormControl(''),
       startdate: new FormControl('', Validators.required),//
       duedate: new FormControl('', Validators.required),//
-      creditNoteDescription: new FormControl('',Validators.required),//
-      notes: new FormControl('',Validators.required),//
-      requestStatus: new FormControl('',Validators.required),//
-      vendor: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
+      creditNoteDescription: new FormControl(''),//
+      notes: new FormControl(''),//
+      requestStatus: new FormControl(''),
       customer: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', {
+          validators: Validators.required,
+        })
       }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
       }),
-      grossTotal: new FormControl(''),
-      billToName : new FormControl('')
+      grossTotal: new FormControl('')
     });
   }
 
-  availableCN()
-  {
+  availableCN() {
     this.submitted = true;
     this.invoiceS.getAllCn().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/invoice/creditNotes']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+
+        var count = res.totalElements;
+        this.submitted = false;
+
+        if (count > 0) {
+          this.router.navigate(['/invoice/creditNotes']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
-  loadStates()
-  {
+  loadStates() {
+    this.submitted = true;
     this.usedService.allState().then(
       (res) => {
         this.states = res.content;
         console.log(res);
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
   }
@@ -223,82 +209,54 @@ export class CreditNoteComponent implements OnInit {
           );
           this.submitted = false;
         }
-      });
-  }
-
-  loadVendors() {
-    this.usedService.allVendor().then(
-      (res) => {
-        this.vendors = res.content;
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      );
   }
 
   loadCustomer() {
+    this.submitted = true;
     this.usedService.allCustomer().then(
       (res) => {
         this.customers = res.content;
         console.log(res);
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
   }
 
   loadProducts() {
+    this.submitted = true;
     this.usedService.allProduct().then(
       (res) => {
         this.products = res.content;
         console.log(res);
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'All Product error',
+          detail: 'Error While Fetching All product Details',
+          life: 3000,
+        });
       }
     )
-      .catch(
-        (err) => {
-          console.log(err);
-          this.message.add({
-            severity: 'error',
-            summary: 'All Product error',
-            detail: 'Error While Fetching All product Details',
-            life: 3000,
-          });
-        }
-      )
   }
-  selectVendor(){}
+  selectVendor() { }
 
-  billToSelect()
-  {
-     if( this.cnForm.value.billToName == "Vendor" )
-     {
-        this.vendorVisible = true;
-        this.customerVisible = false;
-     }
-     else if( this.cnForm.value.billToName == "Customer" ){
-      this.customerVisible = true;
-      this.vendorVisible = false;
-     } 
-  }
-
-  onSubmitCN()
-  {
-   // this.cnForm.value.creditToCustomer = null;
-    //this.cnForm.value.placeOfSupply = null ;
-   // this.cnForm.value.requestStatus = null
-
-   if(this.cnForm.value.vendor.id == null  || this.cnForm.value.vendor.id == "" )
-   {
-     this.cnForm.value.vendor = null ;
-   }
-   else{
-     this.cnForm.value.customer = null ;
-   }
+  onSubmitCN() {
 
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
@@ -334,15 +292,12 @@ export class CreditNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
+
       this.invoiceS.createCreditNote(cnFormVal).then(
         (res) => {
           console.log(res);
           this.cnForm.patchValue = { ...res };
           this.currCreditNote = res;
-          // this.id = res.id;
-          console.log("Credit Note Added");
-          console.log(this.currCreditNote);
-          this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
@@ -350,7 +305,10 @@ export class CreditNoteComponent implements OnInit {
             detail: 'Credit Note Added',
             life: 3000,
           });
-          this.router.navigate(['invoice/creditNote/edit/' + res.id]);
+          setTimeout(() => {
+            this.router.navigate(['invoice/creditNote/edit/' + res.id]);
+          }, 2000);
+
         }
       ).catch(
         (err) => {
@@ -395,16 +353,7 @@ export class CreditNoteComponent implements OnInit {
 
   }
   delete(lineItem: cnLineItem) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-      },
-    });
-
+    this.DeleteDialLogvisible = true;
   }
   onRowEditSave(lineItem: cnLineItem) {
     alert(JSON.stringify(lineItem));
@@ -443,7 +392,7 @@ export class CreditNoteComponent implements OnInit {
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
-           // this.lineitem.Amount = res.Amount;
+            // this.lineitem.Amount = res.Amount;
             this.getCreditNote();
             this.submitted = false;
             this.message.add({
@@ -518,6 +467,12 @@ export class CreditNoteComponent implements OnInit {
 
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    this.message.add({
+      severity: 'success',
+      summary: 'File Attached',
+      detail: 'File Attached Successfully',
+      life: 3000,
+    });
   }
 
   upload() {
@@ -571,25 +526,13 @@ export class CreditNoteComponent implements OnInit {
   }
 
   finalCNSubmitPage() {
-    // updated complete PO so that gross total can be updated
-
-    if(this.cnForm.value.vendor.id == null  || this.cnForm.value.vendor.id == "" )
-   {
-     this.cnForm.value.vendor = null ;
-   }
-   else{
-     this.cnForm.value.customer = null ;
-   }
 
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
-    cnFormVal.grossTotal = this.cnSubTotal ;
+    cnFormVal.grossTotal = this.cnSubTotal;
     if (cnFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
-      //this.cnForm.value.creditToCustomer = null;
-      //this.cnForm.value.placeOfSupply = null ;
-    //  this.cnForm.value.requestStatus = null
-    this.submitted = true;
+
+      this.submitted = true;
       this.invoiceS.updateCreditNote(cnFormVal).then(
         (res) => {
           console.log(res);
@@ -603,25 +546,59 @@ export class CreditNoteComponent implements OnInit {
         }
       )
     }
-      this.message.add({
-        severity: 'success',
-        summary: 'Credit Note Created Successfully',
-        detail: 'Credit Note created',
-        life: 3000,
-      });
-      this.upload();
+    this.message.add({
+      severity: 'success',
+      summary: 'Credit Note Created Successfully',
+      detail: 'Credit Note created',
+      life: 3000,
+    });
+    this.upload();
+    setTimeout(() => {
       this.router.navigate(['/invoice/creditNote']);
+    }, 2000);
   }
 
-  createCN()
-  {
+  createCN() {
     this.router.navigate(['/invoice/creditNote/create']);
   }
 
-  OnCancelCN()
-  {
+  OnCancelCN() {
     //this.createNew = false;
     this.router.navigate(['/invoice/creditNote']);
+  }
+
+  cancelDeleteConfirm() {
+    this.DeleteDialLogvisible = false;
+  }
+
+  deleteConfirm(lineItem : any) {
+    this.submitted = true;
+    this.usedService
+      .deleteCreditNoteLineItem(lineItem.id)
+      .then((data) => {
+        this.lineitems = this.lineitems.filter(
+          (val) => val.id !== lineItem.id
+        );
+        this.DeleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.DeleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
   }
 
 }
