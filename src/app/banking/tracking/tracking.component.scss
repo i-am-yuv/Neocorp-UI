@@ -1,0 +1,111 @@
+.order-list {
+    .list-item {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .list-item:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+}
+
+.left-panel-content {
+    // height: 810px;
+    height: 380px;
+    overflow-y: scroll;
+}
+
+.right-panel-content {
+    // height: 773.5px;
+    height: 480px;
+    overflow-y: scroll;
+}
+
+:host::ng-deep {
+    .left-panel {
+        .p-panel-content {
+            padding: 0;
+        }
+    }
+}
+
+.invoice-box {
+    margin: auto;
+    line-height: 24px;
+    color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+    .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+// more
+.person-icon {
+    width: 45px;
+    height: 45px;
+    background-color: white; /* Customize the background color as needed */
+    color: black; /* Customize the text color as needed */
+    border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120) ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+  }
+  .dueAmount{
+    color: #C22B39;
+   font-family: Red Hat Display;
+  }
+  .iconSCSS{
+      display: flex;
+      align-items: center;
+     // justify-content: end;
+    }
+    .h1,h2,h3,h4,h5,h6,p{
+     margin: 0px !important;
+     padding: 0px !important;
+    }
+  
+    .blueText{
+  color: #3579F3;;
+  // font-family: Elza;
+  // font-size: 12px;
+  // font-style: normal;
+  // font-weight: 400;
+  // line-height: normal;
+    }
+    
+    .custom-hr {
+      border: none; /* Remove the default border */
+      border-top: 1px solid lightgray; /* Set the border color to light gray */
+      //margin: 3px 0; /* Add margin for spacing (adjust as needed) */
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    .payNow
+    {
+       // border-radius: 4px;
+        background: #407BFF;
+    }
+    .paidBtn{
+        background: #709844;
+    }
+    .walletIcon{
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .iconBene{
+        background: #85a7f0;
+    }

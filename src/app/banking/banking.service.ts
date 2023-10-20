@@ -107,4 +107,10 @@ export class BankingService {
     return allPI;
   }
 
+  async getAllDebitPayment()
+  {
+    var url = this.apiurlNew + 'payments' ;
+    const allDebitPayments = await lastValueFrom(this.http.get<any>(url));
+    return allDebitPayments;
+  }
 }

@@ -1,5 +1,6 @@
+import { PurchaseInvoice } from "../collect/collect-models";
 import { Beneficiary } from "../profile/profile-models";
-import { AccountDetails } from "../settings/customers/customer";
+import { AccountDetails, Vendor } from "../settings/customers/customer";
 
 export class BankingModel {
 }
@@ -12,6 +13,8 @@ export interface PaymentRequest {
     debitAccountDetails ?: DebitAccountDetails | null;
     upiId ?: string ;
 }
+
+
 
 export interface PayModelsSI {
     id ?: string;

@@ -5,6 +5,7 @@ import { PayToVendorComponent } from './pay-to-vendor/pay-to-vendor.component';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { BeneficiaryDashboardComponent } from './beneficiary-dashboard/beneficiary-dashboard.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,13 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: PaymentsComponent }
+    ],
+  },
+  {
+    path: 'track',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: TrackingComponent }
     ],
   }
 ];
