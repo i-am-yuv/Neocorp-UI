@@ -85,7 +85,7 @@ export class PurchaseOrderComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
+    this.items = [{label: 'Bills'},{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
 
     this.initForm();
     this.poForm.value.enablePartialPayments = false;

@@ -50,3 +50,11 @@
 //     box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
 //     /* Add any other custom styles as needed */
 //   }
+
+::ng-deep {
+  .p-breadcrumb {
+      border: none !important;
+      margin-left: 25px;
+      align-items: center;
+  }
+}

@@ -24,7 +24,7 @@ export class PcDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.items = [{ label: 'Product Categories', routerLink: ['/profile/productCategories'] }];
+    this.items = [{label: 'Settings'},{ label: 'Product Categories', routerLink: ['/profile/productCategories'] }, { label: 'Dashboard'}];
 
     this.getAllProductCategories();
   }

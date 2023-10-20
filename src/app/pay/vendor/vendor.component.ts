@@ -49,7 +49,7 @@ export class VendorComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
+    this.items = [{label: 'Pay'},{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
 
     this.vendorFormFields();
     this.accountDetailsFormFields();

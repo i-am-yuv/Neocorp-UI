@@ -46,7 +46,7 @@ export class CategoryComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
+    this.items = [{label: 'Settings'},{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
 
     // this.home = { icon:  routerLink: '/profile/productCategory' };
 

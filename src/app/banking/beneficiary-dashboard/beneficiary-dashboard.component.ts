@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
 
@@ -19,6 +19,8 @@ export class BeneficiaryDashboardComponent implements OnInit {
 
   activeBeneficiary : Beneficiary = {};
 
+  items!: MenuItem[];
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -26,6 +28,8 @@ export class BeneficiaryDashboardComponent implements OnInit {
     private bankingS: BankingService) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Banking'}, {label: 'Beneficiary'}, {label: 'Dashbaord'}];
+    
     this.getAllBeneficiary();
   }
 

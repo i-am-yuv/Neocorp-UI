@@ -30,7 +30,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.items = [{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
+    this.items = [ {label: 'Collect'},{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
 
     this.customerForm = new FormGroup({
       id: new FormControl(''),

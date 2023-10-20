@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReturnRefund } from '../pay-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { PayPageService } from '../pay-page.service';
@@ -23,6 +23,8 @@ export class ReturnRefundDashboardComponent implements OnInit {
   lineitems: any[] = [];
   rrSubTotal: number = 0 ;
 
+  items!: MenuItem[]
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +33,8 @@ export class ReturnRefundDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }];
+
     this.getAllReturnRefund();
   }
 

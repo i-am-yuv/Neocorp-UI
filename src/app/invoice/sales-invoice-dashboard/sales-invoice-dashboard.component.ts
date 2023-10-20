@@ -33,7 +33,7 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] } ];
+    this.items = [{label: 'Invoices'},{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] }, {label: 'Dashboard'} ];
 
     this.loadSI();
   }

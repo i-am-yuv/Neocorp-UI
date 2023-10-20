@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DelegationRoleComponent } from '../delegation-role/delegation-role.component';
 import { Router } from '@angular/router';
 import { SettingService } from '../setting.service';
-import { ProductCategory } from 'src/app/profile/product-category';
 import { DelegationRole } from '../privilege/privilege';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-delegation-role-dashboard',
@@ -17,9 +16,13 @@ export class DelegationRoleDashboardComponent implements OnInit {
 
   totalRecords : number = 0;
 
+  items!: MenuItem[]
+
   constructor(private router: Router, private settingService: SettingService) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Settings'}, {label: 'Delegation Role'}, {label: 'Dashboard'}];
+
     this.getAlldelegationRoles();
   }
 

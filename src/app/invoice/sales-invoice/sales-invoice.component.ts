@@ -70,7 +70,7 @@ export class SalesInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, { label: 'Create', routerLink: ['/invoice/salesInvoice/create'] }];
+    this.items = [{label: 'Invoices'},{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, {label: 'Create', routerLink: ['/invoice/salesInvoice/create']} ];
 
     this.initForm();
 

@@ -52,7 +52,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.items = [{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
+    this.items = [{label: 'Invoices'},{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
 
     this.id = this.route.snapshot.paramMap.get('id');
 

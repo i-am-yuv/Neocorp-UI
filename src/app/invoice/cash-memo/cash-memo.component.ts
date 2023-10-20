@@ -112,7 +112,7 @@ export class CashMemoComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
+    this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
 
     this.initForm();
     this.loadVendors();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { CreditNote } from '../invoice-model';
 
@@ -24,6 +24,8 @@ export class CreditNoteDashboardComponent implements OnInit {
   cnSubTotal: number = 0 ;
   currentDue : number = 0 ;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -32,6 +34,7 @@ export class CreditNoteDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Invoices'}, {label: 'Credit Note', routerLink: ['/invoice/creditNotes']}, {label: 'Dashboard'}];
 
     this.getAllCreditNotes();
   }

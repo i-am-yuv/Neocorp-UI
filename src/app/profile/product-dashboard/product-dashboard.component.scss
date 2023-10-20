@@ -291,3 +291,11 @@ p {
     border: none !important;
     background: none !important;
 }
+
+::ng-deep {
+    .p-breadcrumb {
+      border: none !important;
+      margin-left: 25px;
+      align-items: center;
+    }
+  }

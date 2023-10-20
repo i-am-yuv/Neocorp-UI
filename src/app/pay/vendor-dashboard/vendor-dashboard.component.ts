@@ -32,7 +32,7 @@ export class VendorDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.items = [{ label: 'Vendors', routerLink: ['/pay/vendors'] }];
+    this.items = [{label: 'Pay'},{ label: 'Vendors', routerLink: ['/pay/vendors'] }, {label: 'Dashboard'}];
 
     this.getAllVendors();
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { PayPageService } from '../pay-page.service';
@@ -16,8 +16,8 @@ import { HttpEventType } from '@angular/common/http';
 export class ReturnRefundComponent implements OnInit {
 
 
-  submitted : boolean =  false;
-  createNew : boolean =  false;
+  submitted: boolean = false;
+  createNew: boolean = false;
 
   id: string | null = '';
   rrForm !: FormGroup;
@@ -27,7 +27,7 @@ export class ReturnRefundComponent implements OnInit {
 
 
   lineitems: any[] = [];
-  
+
   currReturnRefund: ReturnRefund = {};
 
   editing: any;
@@ -40,7 +40,9 @@ export class ReturnRefundComponent implements OnInit {
 
   uploadMessage = '';
   returnRefundSubTotal: number = 0;
-  returnRefundQty : number = 0 ;
+  returnRefundQty: number = 0;
+
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -56,14 +58,16 @@ export class ReturnRefundComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableRR();
       }
     });
+
+    this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefunds'] }, { label: 'Create' }];
 
     this.initForm();
     this.loadProducts();
@@ -89,28 +93,26 @@ export class ReturnRefundComponent implements OnInit {
 
   }
 
-  availableRR()
-  {
+  availableRR() {
     this.submitted = true;
     this.usedService.getAllRR().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/pay/returnAndRefunds']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/pay/returnAndRefunds']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
   loadProducts() {
@@ -147,11 +149,11 @@ export class ReturnRefundComponent implements OnInit {
 
   getReturnRefund() {
     if (this.id) {
-      this.submitted =  true;
+      this.submitted = true;
       this.usedService.getCurrentReturnRefund(this.id).then(
         (returnRefund: ReturnRefund) => {
           returnRefund.processDate = returnRefund.processDate ? new Date(returnRefund.processDate) : undefined;
-          
+
           console.log(returnRefund);
           this.currReturnRefund = returnRefund;
           this.rrForm.patchValue(returnRefund);
@@ -183,7 +185,7 @@ export class ReturnRefundComponent implements OnInit {
 
   onSubmitReturnRefund() {
 
-    var rrFormVal = this.rrForm.value ;
+    var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
     // rrFormVal['orderLine'] = {};
     // rrFormVal['orderLine']['order'] = {};
@@ -191,8 +193,7 @@ export class ReturnRefundComponent implements OnInit {
 
     console.log(rrFormVal);
 
-    if (rrFormVal.id) 
-    {
+    if (rrFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
       this.usedService.updateReturnRefund(rrFormVal).then(
@@ -221,8 +222,8 @@ export class ReturnRefundComponent implements OnInit {
       )
     }
     else {
-     // this.upload(); // for upload file if attached
-     this.submitted = true;
+      // this.upload(); // for upload file if attached
+      this.submitted = true;
       this.usedService.createReturnRefund(rrFormVal).then(
         (res) => {
           console.log(res);
@@ -256,7 +257,7 @@ export class ReturnRefundComponent implements OnInit {
     }
   }
 
-  selectVendor(){}
+  selectVendor() { }
 
   setLineValues(lineItem: ReturnRefundLine) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -334,7 +335,7 @@ export class ReturnRefundComponent implements OnInit {
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
-           // this.lineitem.Amount = res.Amount;
+            // this.lineitem.Amount = res.Amount;
             this.getReturnRefund();
             this.submitted = false;
             this.message.add({
@@ -464,8 +465,8 @@ export class ReturnRefundComponent implements OnInit {
     // updated complete PO so that gross total can be updated
     var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
-    rrFormVal.grossTotal = this.returnRefundSubTotal ;
-   
+    rrFormVal.grossTotal = this.returnRefundSubTotal;
+
     if (rrFormVal.id) {
       this.submitted = true;
       this.usedService.updateReturnRefund(rrFormVal).then(
@@ -481,22 +482,20 @@ export class ReturnRefundComponent implements OnInit {
         }
       )
     }
-      this.message.add({
-        severity: 'success',
-        summary: 'Return & Refund Created Successfully',
-        detail: 'Return & Refund  created',
-        life: 3000,
-      });
-      this.router.navigate(['/pay/returnAndRefund']);
+    this.message.add({
+      severity: 'success',
+      summary: 'Return & Refund Created Successfully',
+      detail: 'Return & Refund  created',
+      life: 3000,
+    });
+    this.router.navigate(['/pay/returnAndRefund']);
   }
 
-  createRR()
-  {
+  createRR() {
     this.router.navigate(['/pay/returnAndRefund/create']);
   }
 
-  OnCancelRR()
-  {
+  OnCancelRR() {
     this.router.navigate(['/pay/returnAndRefund']);
   }
 

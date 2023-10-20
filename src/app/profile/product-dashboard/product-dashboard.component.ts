@@ -22,7 +22,7 @@ export class ProductDashboardComponent implements OnInit {
   constructor(private router: Router, private profileService: ProfilepageService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Products', routerLink: ['/profile/products'] }];
+    this.items = [{label: 'Settings'},{ label: 'Products', routerLink: ['/profile/products'] }, { label: 'Dashboard'}];
     
     this.getAllProducts();
   }

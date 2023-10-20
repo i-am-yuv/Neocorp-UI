@@ -33,7 +33,7 @@ export class CashMemoDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }];
+    this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, {label: 'Dashboard'}];
 
     this.getAllCashMemo();
   }

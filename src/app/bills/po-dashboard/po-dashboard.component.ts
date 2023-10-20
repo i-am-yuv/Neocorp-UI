@@ -33,7 +33,7 @@ export class PoDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }];
+    this.items = [{label: 'Bills'},{ label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, {label: 'Dashboard'}];
 
     this.loadPO();
   }

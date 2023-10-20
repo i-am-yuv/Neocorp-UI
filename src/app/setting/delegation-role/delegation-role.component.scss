@@ -37,3 +37,11 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
+
+::ng-deep {
+    .p-breadcrumb {
+      border: none !important;
+      margin-left: 25px;
+      align-items: center;
+    }
+  }

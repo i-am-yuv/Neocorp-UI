@@ -56,7 +56,7 @@ export class ProductComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
+    this.items = [{label: 'Settings'},{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
     this.initForm();
     this.getProductDetails();

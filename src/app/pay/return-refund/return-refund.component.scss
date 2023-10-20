@@ -49,3 +49,11 @@
     align-items: center; /* Center vertically */
   //  height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
   }
+
+  ::ng-deep {
+    .p-breadcrumb {
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
+    }
+  }

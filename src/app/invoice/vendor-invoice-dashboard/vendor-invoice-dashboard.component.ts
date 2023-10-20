@@ -32,7 +32,7 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] } ];
+    this.items = [{label: 'Invoices'},{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] }, {label: 'Dashboard'} ];
 
     this.loadVI();
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { SettingService } from '../setting.service';
 
 @Component({
@@ -17,12 +17,15 @@ export class DelegationRoleComponent implements OnInit {
   roles : any[] = [] ;
   submitted!: boolean;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private message: MessageService,
     private service : SettingService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoless']}, {label: 'Create'}];
     this.laodRoles();
     this.initForm();
     // this.getDelegationRole();

@@ -4,7 +4,7 @@ import { Product, State } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { CreditNote, cnLineItem } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from 'src/app/bills/bills.service';
 import { HttpEventType } from '@angular/common/http';
@@ -75,7 +75,7 @@ export class CreditNoteComponent implements OnInit {
     }
   ];
 
-
+  items!: MenuItem[];
 
 
   constructor(private router: Router,
@@ -104,6 +104,8 @@ export class CreditNoteComponent implements OnInit {
         this.availableCN();
       }
     });
+
+    this.items = [{label: 'Invoices'}, {label: 'Credit Note', routerLink: ['/invoice/creditNotes']}, {label: 'Create', routerLink: ['/invoice/creditNote/create']}]
 
     this.initForm();
     this.loadStates();

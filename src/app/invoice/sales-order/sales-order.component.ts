@@ -67,7 +67,7 @@ export class SalesOrderComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
+    this.items = [{label: 'Invoices'},{ label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
 
 
     this.initForm();

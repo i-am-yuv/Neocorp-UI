@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 import { BankingService } from '../banking.service';
@@ -20,6 +20,8 @@ export class BeneficiaryComponent implements OnInit {
 
   id: string | null = '';
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -28,8 +30,9 @@ export class BeneficiaryComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-
     this.id = this.route.snapshot.paramMap.get('id');
+
+    this.items = [{label: 'Banking'}, {label: 'Beneficiary', routerLink: ['/banking/beneficiaries']}, {label: 'Create'}];
 
     this.initForm();
     this.getCurrbeneficiary();

@@ -1,7 +1,7 @@
 ::ng-deep {
-    .p-breadcrumb {
-      /* Override the styles of the inner p-breadcrumb component here */
-      border: none !important; /* For example, remove the border */
-      /* Add any other custom styles you need */
-    }
+  .p-breadcrumb {
+    border: none !important;
+    margin-left: 25px;
+    align-items: center;
   }
+}

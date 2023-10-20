@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReceiptNote } from '../bills-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
 
@@ -23,6 +23,8 @@ export class ReceiptNoteDashboardComponent implements OnInit {
   rnSubTotal: number = 0 ;
   currentDue : number = 0 ;
 
+  items!: MenuItem[]
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -31,6 +33,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
     this.getAllReceiptNotes();
   }
 

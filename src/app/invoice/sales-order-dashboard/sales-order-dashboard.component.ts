@@ -34,7 +34,7 @@ export class SalesOrderDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] }, ];
+    this.items = [{label: 'Invoices'},{ label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] },{ label: 'Dashboard'} ];
 
     this.getAllSalesOrders();
   }

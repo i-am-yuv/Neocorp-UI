@@ -81,7 +81,7 @@ export class ReceiptNoteComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create        '] }]
+    this.items = [{label: 'Bills'},{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
 
     this.initForm();
     this.loadVendors();

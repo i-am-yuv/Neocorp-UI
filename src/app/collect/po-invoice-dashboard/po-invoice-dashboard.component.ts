@@ -37,7 +37,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
     private payServices : PayPageService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }];
+    this.items = [{label: 'Bills'},{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard'}];
 
     this.loadPI();
     this.currentDue = 0;

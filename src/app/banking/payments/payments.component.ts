@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { PayPageService } from 'src/app/pay/pay-page.service';
@@ -12,15 +12,17 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class PaymentsComponent implements OnInit {
 
-  stateOptions: any[] = [{label: 'Pending', value: 'pending'}, {label: 'Completed', value: 'completed'}];
+  stateOptions: any[] = [{ label: 'Pending', value: 'pending' }, { label: 'Completed', value: 'completed' }];
   value: string = 'pending';
 
-  submitted : boolean = false;
-  allCompletedPI :  any[] = [] ;
-  allNonCompletedPI : any[] = [];
-  totalRecordsC : number = 0 ;
-  totalRecordsNC : number = 0;
-  activePI : PurchaseInvoice = {};
+  submitted: boolean = false;
+  allCompletedPI: any[] = [];
+  allNonCompletedPI: any[] = [];
+  totalRecordsC: number = 0;
+  totalRecordsNC: number = 0;
+  activePI: PurchaseInvoice = {};
+
+  items!: MenuItem[];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -29,14 +31,14 @@ export class PaymentsComponent implements OnInit {
     private payServices : PayPageService) { }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Banking' }, { label: 'Payment' }];
 
     //this.getAllCompletedPI();
     this.getAllPI();
   }
 
-  createNewPI()
-  {
-
+  createNewPI() {
+    this.router.navigate(['/collect/purchaseInvoice/create']);
   }
 
   // getAllCompletedPI()
@@ -57,8 +59,7 @@ export class PaymentsComponent implements OnInit {
   //    )
   // }
 
-  getAllPI()
-  {
+  getAllPI() {
     this.submitted = true;
     this.bankingS.getAllPI().then(
      (res)=>{
@@ -88,21 +89,19 @@ export class PaymentsComponent implements OnInit {
        this.submitted = false;
      }
     ).catch(
-     (err)=>{
-       console.log(err);
-       this.submitted = false;
-     }
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
     )
   }
 
-  changeActivePI( pi : PurchaseInvoice)
-  {
+  changeActivePI(pi: PurchaseInvoice) {
     this.activePI = pi;
   }
-  
-  goToVendorPaymentPage(pi : PurchaseInvoice)
-  {
-    this.router.navigate(['banking/payToVendor/pi/'+pi.id]);
+
+  goToVendorPaymentPage(pi: PurchaseInvoice) {
+    this.router.navigate(['banking/payToVendor/pi/' + pi.id]);
   }
 
   myFunction(item: any): string {

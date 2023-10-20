@@ -4,7 +4,7 @@ import { Product, State } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { DebitNote, dnLineItem } from '../bills-model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { HttpEventType } from '@angular/common/http';
@@ -45,6 +45,7 @@ export class DebitNoteComponent implements OnInit {
   mergedOptions: any[] = [];
   selectedOption : any;
 
+  items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -70,6 +71,8 @@ export class DebitNoteComponent implements OnInit {
         this.availableDN();
       }
     });
+
+    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
     this.initForm();
     this.loadVendors();

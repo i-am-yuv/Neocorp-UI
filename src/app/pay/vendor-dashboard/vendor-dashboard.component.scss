@@ -200,7 +200,7 @@ h6 {
     justify-content: end;
 }
 
-.walletIcon{
+.walletIcon {
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -289,6 +289,14 @@ p {
     /* Change the text color on hover (optional) */
 }
 
-.greenText{
+.greenText {
     color: #83D28F;
 }
+
+::ng-deep {
+    .p-breadcrumb {
+      border: none !important;
+      margin-left: 25px;
+      align-items: center;
+    }
+  }

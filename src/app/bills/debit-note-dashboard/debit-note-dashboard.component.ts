@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DebitNote } from '../bills-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { BillsService } from '../bills.service';
 
@@ -25,6 +25,8 @@ export class DebitNoteDashboardComponent implements OnInit {
   dnSubTotal: number = 0 ;
   currentDue : number = 0 ;
 
+  items!: MenuItem[];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -33,6 +35,7 @@ export class DebitNoteDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, {label: 'Dashboard'}]
     this.getAllDebitNotes();
   }
 

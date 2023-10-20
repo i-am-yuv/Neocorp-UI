@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 
 <div class="">
-
     <!-- CREATE NEW DEBIT NOTE BUTTON -->
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
         <div class="center-container mt-1">
@@ -27,12 +26,17 @@
 
 
     <div *ngIf="createNew">
-        <div class="bg-white">
-            <div class="border-bottom-1 border-200 text-right p-3">
-                <button type="button" pButton label="Close" (click)="OnCancelDN()"
-                    class="mr-3 p-button-secondary  "></button>
-                <button type="button" pButton label="Create Debit Note" (click)="finalDNSubmitPage()"
-                    [disabled]="this.dnSubTotal == 0" class=" mr-3 Btn "></button>
+        <div class="bg-white flex">
+            <div class="col-4 py-3">
+                <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+            </div>
+            <div class="col-8">
+                <div class="border-200 text-right p-3">
+                    <button type="button" pButton label="Close" (click)="OnCancelDN()"
+                        class="mr-3 p-button-secondary  "></button>
+                    <button type="button" pButton label="Create Debit Note" (click)="finalDNSubmitPage()"
+                        [disabled]="this.dnSubTotal == 0" class=" mr-3 Btn "></button>
+                </div>
             </div>
         </div>
 

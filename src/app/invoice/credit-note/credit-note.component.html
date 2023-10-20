@@ -22,12 +22,17 @@
             </div>
 
             <div *ngIf="createNew" >
-                <div class="bg-white">
-                    <div class="border-bottom-1 border-200 text-right p-3">
-                        <button type="button" pButton label="Close" (click)="OnCancelCN()"
-                            class="mr-3 p-button-secondary"></button>
-                        <button type="button" pButton label="Create Credit Note" (click)="finalCNSubmitPage()" [disabled]="this.cnSubTotal == 0"
-                            class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                <div class="bg-white flex">
+                    <div class="col-4 py-3">
+                        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+                    </div>
+                    <div class="col-8">
+                        <div class=" border-200 text-right p-3">
+                            <button type="button" pButton label="Close" (click)="OnCancelCN()"
+                                class="mr-3 p-button-secondary"></button>
+                            <button type="button" pButton label="Create Credit Note" (click)="finalCNSubmitPage()" [disabled]="this.cnSubTotal == 0"
+                                class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                        </div>
                     </div>
                 </div>
 

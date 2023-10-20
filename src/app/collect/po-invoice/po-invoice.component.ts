@@ -78,7 +78,7 @@ export class PoInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create', routerLink: ['/collect/purchaseInvoice/create'] }];
+    this.items = [{label: 'Bills'},{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
 
     this.initForm();
     this.loadVendors();

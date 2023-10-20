@@ -42,7 +42,7 @@ export class CustomerDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.items = [{ label: 'Customers', routerLink: ['/collect/customers']  }];
+    this.items = [{label: 'Collect'},{ label: 'Customers', routerLink: ['/collect/customers']  }, { label: 'Dashboard'}];
 
     this.getAllCustomers();
   }

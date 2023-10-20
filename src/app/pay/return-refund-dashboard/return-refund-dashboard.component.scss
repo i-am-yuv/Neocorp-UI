@@ -132,3 +132,11 @@ h1, h2, h3, h4, h5, h6 {
 .remainAmount{
 color: #f55a69;
 }
+
+::ng-deep {
+    .p-breadcrumb {
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
+    }
+  }

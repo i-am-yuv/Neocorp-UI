@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { BankingService } from '../banking.service';
+import { MessageService, MenuItem } from 'primeng/api';
+import { BankingService,  } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { DebitAccountDetails, PayModelsSI, PaymentRequest } from '../banking-model';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
@@ -107,6 +107,9 @@ export class PayToVendorComponent implements OnInit {
   // currentTime = this.getLocalDateTime();
   currentTime = new Date();
 
+  items!: MenuItem[];
+  items2!: MenuItem[];
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -115,6 +118,7 @@ export class PayToVendorComponent implements OnInit {
     private payS : PayPageService) { }
 
   ngOnInit(): void {
+    
     this.impsForm = new FormGroup({
       id: new FormControl(''),
       mmid: new FormControl('', [Validators.required]),
@@ -148,6 +152,9 @@ export class PayToVendorComponent implements OnInit {
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.amount = this.route.snapshot.paramMap.get('amount');
+
+    this.items = [{ label: 'Banking' }, { label: 'Amount' }];
+    this.items2 = [{ label: 'Banking' }, {label: 'Amount', routerLink: ['/banking/payToVendor/pi/' + this.id]}, { label: 'Payment' }];
 
     this.getPI(this.id);
     this.getAllDebitAccount();
@@ -226,7 +233,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null) ;
+          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
           this.submitted = false;
         }
       ).catch(
@@ -242,8 +249,8 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy().then(
         (res: any) => {
           console.log(res);
-         // this.allBeneficairy = res.content;
-          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
+          // this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);;
           this.submitted = false;
         }
       ).catch(
@@ -282,12 +289,12 @@ export class PayToVendorComponent implements OnInit {
 
   selectBeneficiaryM(beneficiary: Beneficiary) {
 
-   
+
     //alert(this.selectedBeneficiary.beneficaryName);
 
-    if(beneficiary.inCoolingPeriod ){
-      this.displayCoolingPDialog =true;
-     // alert(this.displayCoolingPDialog );
+    if (beneficiary.inCoolingPeriod) {
+      this.displayCoolingPDialog = true;
+      // alert(this.displayCoolingPDialog );
     } else {
       this.displayCoolingPDialog = false;
       this.selectedBeneficiary = beneficiary;
@@ -413,12 +420,12 @@ export class PayToVendorComponent implements OnInit {
     if (this.id == null || vendorId == null || vendorId == undefined || vendorId == ""
       || this.id == undefined || this.id == "" || this.amount == "" || this.amount == null) {
 
-        this.message.add({
-          severity: 'error',
-          summary: 'Data Missing',
-          detail: 'Some data is missing for doing payment',
-          life: 3000,
-        });
+      this.message.add({
+        severity: 'error',
+        summary: 'Data Missing',
+        detail: 'Some data is missing for doing payment',
+        life: 3000,
+      });
     }
     else {
 
@@ -453,9 +460,9 @@ export class PayToVendorComponent implements OnInit {
 
   OnCancelOTP() {
     setTimeout(() => {
-      this.router.navigate(['/banking/payToVendor/pi/'+this.id]);
+      this.router.navigate(['/banking/payToVendor/pi/' + this.id]);
     }, 2000);
-    
+
   }
 
   onSubmitIMPS() {
@@ -471,8 +478,8 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  
-  onSubmitBeneficairy(){
+
+  onSubmitBeneficairy() {
     var BeneData = this.beneficairyForm.value;
     BeneData.signupTime = new Date();
     BeneData.inCoolingPeriod = true;
@@ -524,5 +531,8 @@ export class PayToVendorComponent implements OnInit {
     this.enteredAmount = event.target.value;
   }
 
+  onClose(){
+    this.router.navigate(['/collect/purchaseInvoices']);
+  }
 
 }
