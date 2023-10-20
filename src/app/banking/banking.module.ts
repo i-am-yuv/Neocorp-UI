@@ -7,13 +7,15 @@ import { SharedModule } from '../shared/shared.module';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { BeneficiaryDashboardComponent } from './beneficiary-dashboard/beneficiary-dashboard.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 @NgModule({
   declarations: [
     PayToVendorComponent,
     BeneficiaryComponent,
     BeneficiaryDashboardComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    TrackingComponent
   ],
   imports: [
     CommonModule,

@@ -302,7 +302,7 @@ export class CreditNoteComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Credit Note Saved',
-            detail: 'Credit Note Added',
+            detail: 'Credit Note Saved',
             life: 3000,
           });
           setTimeout(() => {
@@ -548,8 +548,8 @@ export class CreditNoteComponent implements OnInit {
     }
     this.message.add({
       severity: 'success',
-      summary: 'Credit Note Created Successfully',
-      detail: 'Credit Note created',
+      summary: 'Credit Note Saving Successfully',
+      detail: 'Credit Note Saving',
       life: 3000,
     });
     this.upload();
@@ -579,6 +579,11 @@ export class CreditNoteComponent implements OnInit {
         this.lineitems = this.lineitems.filter(
           (val) => val.id !== lineItem.id
         );
+
+        this.cnSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+
         this.DeleteDialLogvisible = false;
         this.submitted = false;
         this.message.add({

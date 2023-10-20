@@ -18,6 +18,7 @@ export class SalesOrderComponent implements OnInit {
 
   id: string | null = '';
   soForm!: FormGroup;
+  DeleteDialLogvisible : boolean = false;
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -315,16 +316,7 @@ export class SalesOrderComponent implements OnInit {
 
   }
   delete(lineItem: SalesOrderLine) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-      },
-    });
-
+    this.DeleteDialLogvisible = true;
   }
   onRowEditSave(lineItem: SalesOrderLine) {
     alert(JSON.stringify(lineItem));
@@ -437,6 +429,14 @@ export class SalesOrderComponent implements OnInit {
 
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+
+    this.message.add({
+      severity: 'success',
+      summary: 'File Attached',
+      detail: 'File Attached Successfully ',
+      life: 3000,
+    });
+
   }
 
   upload() {
@@ -491,7 +491,7 @@ export class SalesOrderComponent implements OnInit {
   finalSoSubmitPage() {
     // updated complete PO so that gross total can be updated
 
-    alert("Final Sales Order Submission Done");
+   // alert("Final Sales Order Submission Done");
     var sFormVal = this.soForm.value;
     sFormVal.id = this.id;
     sFormVal.grossTotal = this.soSubTotal;
@@ -505,8 +505,8 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Sales Order Updated Successfully',
-            detail: 'Sales Order updated',
+            summary: 'Sales Order Saved Successfully',
+            detail: 'Sales Order Saved',
             life: 3000,
           });
           setTimeout(() => {
@@ -541,6 +541,44 @@ export class SalesOrderComponent implements OnInit {
   OnCancelSO() {
     //this.createNew = false;
     this.router.navigate(['/invoice/salesOrder']);
+  }
+
+  cancelDeleteConfirm() {
+    this.DeleteDialLogvisible = false;
+  }
+
+  deleteConfirm(lineItem : any) {
+    this.submitted = true;
+    this.invoiceS.deletedSoLineItem(lineItem.id)
+      .then((data) => {
+        this.lineitems = this.lineitems.filter(
+          (val) => val.id !== lineItem.id
+        );
+
+        this.soSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+
+        this.DeleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.DeleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
   }
 
 

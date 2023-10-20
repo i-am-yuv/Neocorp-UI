@@ -67,35 +67,30 @@ export class ProductComponent implements OnInit {
   initForm() {
     this.productForm = new FormGroup({
       name: new FormControl('', Validators.required), //
-      model: new FormControl('', Validators.required),//
-      description: new FormControl('', Validators.required), //
-      searchKey: new FormControl('', Validators.required),//
-      skuCode: new FormControl('', Validators.required),//
-      barCode: new FormControl('', Validators.required),//
-      thumbnail: new FormControl(''),//
+      model: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      searchKey: new FormControl(''),
+      skuCode: new FormControl(''),
+      barCode: new FormControl(''),
+      thumbnail: new FormControl(''),
       help: new FormControl(''),//
-      hsnCode: new FormControl('', Validators.required),//
-      imageName: new FormControl(''),//
-      imagePath: new FormControl(''),//
+      hsnCode: new FormControl(''),
+      imageName: new FormControl(''),
+      imagePath: new FormControl(''),
       mrp: new FormControl('', Validators.required),
-      productType: new FormControl(''),//
+      productType: new FormControl(''),
       category: this.fb.group({
-        id: this.fb.nonNullable.control('', {
-          validators: Validators.required,
-        })
+        id: this.fb.nonNullable.control('')
       }),
-      taxRate: new FormControl(''),//
-      brand: new FormControl(''),//
-      uom: new FormControl('')//
+      taxRate: new FormControl(''),
+      brand: new FormControl('')
     });
   }
 
   // Submit Product Function
   onSubmitProduct() {
-    this.productForm.value.category = null;
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
-    this.productForm.value.uom = null;
 
     var productFormVal = this.productForm.value;
     productFormVal.id = this.id;
@@ -138,7 +133,7 @@ export class ProductComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Product Saved',
-            detail: 'Product Added',
+            detail: 'Product Added Successfully',
             life: 3000,
           });
           setTimeout(() => {
@@ -214,10 +209,7 @@ export class ProductComponent implements OnInit {
 
 
   selectProductCategory(){
-
   }
-
-
 
   loadCategories() {
     this.profileS.getAllProductCategory().then(

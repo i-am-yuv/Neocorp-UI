@@ -76,5 +76,14 @@
       margin-left: 24px;
   }
 }
+.iconSCSS {
+  display: flex;
+  align-items: center;
+}
 
+.custom-rounded-select {
+  .ui-button {
+    border-radius: 40px; // Adjust the radius value as needed
+  }
+}
 

@@ -53,4 +53,8 @@ export class ProductDashboardComponent implements OnInit {
     this.router.navigate(['profile/product/edit/' + id])
   }
 
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
+  }
+
 }

@@ -12,15 +12,37 @@
                     <p class="text-lg">{{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p><br>
                     <p class="text-lg">Vendor name: {{currentPurchaseInvoice.vendor?.firstName}}
                         {{currentPurchaseInvoice.vendor?.lastName}}</p><br>
-                    <div class="flex w-full">
-                        <!-- <span class="text-lg font-light">₹</span> -->
-                        <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
-                            class="w-full custom-input text-center no-border-input" />
-                        <br>
+                    <div *ngIf="partialPaymentStatus">
+                        <div class="flex w-full">
+                            <!-- <span class="text-lg font-light text-right">₹</span> -->
+                            <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
+                                class="w-full custom-input text-center no-border-input"
+                                [ngClass]="{'exceeded-limit': enteredAmount > amountRemaining}" />
+                            <br>
+                        </div>
+                        <div class="mt-3" *ngIf="enteredAmount > amountRemaining">
+                            <p  class="error-message exceedAmount">*Value should not exceed <b class="text-lg">{{this.amountRemaining}}</b></p>
+                        </div>
+                        <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
+                        [disabled]="enteredAmount > amountRemaining"
+                          class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                     </div>
-
-                    <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
-                        class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
+                    <div *ngIf="!partialPaymentStatus">
+                        <div class="flex w-full">
+                            <!-- <span class="text-lg font-light text-right">₹</span> -->
+                            <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
+                                class="w-full custom-input text-center no-border-input"
+                                [ngClass]="{'exceeded-limit': enteredAmount != amountRemaining}" />
+                            <br>
+                        </div>
+                        <div class="mt-3" *ngIf="enteredAmount != amountRemaining">
+                            <p  class="error-message exceedAmount text-lg"><b>*Partial payment is not enabled for this Invoice!!</b></p>
+                            <p  class="error-message exceedAmount text-lg">*Due Amount <b>₹ {{this.amountRemaining}}</b></p>
+                        </div>
+                        <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
+                        [disabled]="enteredAmount != amountRemaining"
+                          class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
+                    </div>
                 </div>
 
                 <!-- Show Cooling Period Dialog -->

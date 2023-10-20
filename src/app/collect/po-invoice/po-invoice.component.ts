@@ -19,18 +19,19 @@ import { BillsService } from 'src/app/bills/bills.service';
 export class PoInvoiceComponent implements OnInit {
 
   id: string | null = '';
+  DeleteDialLogvisible: boolean = false;
 
-  submitted : boolean =  false;
+  submitted: boolean = false;
 
   poInvoiceForm !: FormGroup;
 
   vendors: Vendor[] = [];
-  allPOs : any[] = [] ;
-  createNew : boolean =  false;
+  allPOs: any[] = [];
+  createNew: boolean = false;
   customers: CustomeR[] = [];
   lineitems: any[] = [];
   products: Product[] = [];
-  currPurchaseInvoice : PurchaseInvoice = {};
+  currPurchaseInvoice: PurchaseInvoice = {};
 
   poInvoiceSubTotal: number = 0;
   uploadMessage = '';
@@ -46,6 +47,10 @@ export class PoInvoiceComponent implements OnInit {
   progress = 0;
 
   items!: MenuItem[];
+
+  stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
+
+  //value: string = 'off';
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -64,20 +69,20 @@ export class PoInvoiceComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availablePI();
       }
     });
 
-    this.items = [{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
+    this.items = [{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create', routerLink: ['/collect/purchaseInvoice/create'] }];
 
     this.initForm();
     this.loadVendors();
-    
+
     this.loadProducts();
     this.loadPOs();
     this.getPurchaseInvoice();
@@ -85,7 +90,7 @@ export class PoInvoiceComponent implements OnInit {
 
   initForm() {
     this.poInvoiceForm = new FormGroup({
-      id : new FormControl(''),
+      id: new FormControl(''),
       invoiceNo: new FormControl(''),
       duedate: new FormControl('', Validators.required),
       invoiceDate: new FormControl('', Validators.required),
@@ -97,8 +102,9 @@ export class PoInvoiceComponent implements OnInit {
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       purchaseOrder: this.fb.group({
-        id: this.fb.nonNullable.control('', Validators.required)   
-      })
+        id: this.fb.nonNullable.control('', Validators.required)
+      }),
+      enablePartialPayments : new FormControl(true)
     });
   }
 
@@ -135,16 +141,14 @@ export class PoInvoiceComponent implements OnInit {
       )
   }
 
-  selectVendor()
-  {}
+  selectVendor() { }
 
-  loadPOs()
-  {
+  loadPOs() {
     this.billS.getAllPo().then(
-      (res:any) => {
-         console.log(res) ;
-         this.allPOs = res.content ;
-        
+      (res: any) => {
+        console.log(res);
+        this.allPOs = res.content;
+
       }
     ).catch(
       (err) => {
@@ -153,55 +157,53 @@ export class PoInvoiceComponent implements OnInit {
     )
   }
 
-  availablePI()
-  {
-    this.submitted =  true;
+  availablePI() {
+    this.submitted = true;
     this.collectS.allPurchaseInvoice().then(
-      (res : any) => {
-        var count = res.totalElements ;
-        this.submitted =  false;
+      (res: any) => {
+        var count = res.totalElements;
+        this.submitted = false;
         //count=0
-        if( count > 0 )
-        {
-          this.router.navigate(['/collect/purchaseInvoices']) ; // temp
+        if (count > 0) {
+          this.router.navigate(['/collect/purchaseInvoices']); // temp
         }
-        else{
+        else {
           this.createNew = false;
         }
       }
     ).catch(
       (err) => {
         console.log(err);
-        this.submitted =  false;
+        this.submitted = false;
       }
     )
   }
 
   getPurchaseInvoice() {
     if (this.id) {
-      this.submitted =  true;
+      this.submitted = true;
       this.collectS.getPurchaseInvoiceById(this.id).then(
         (purchaseInvoice: PurchaseInvoice) => {
           purchaseInvoice.duedate = purchaseInvoice.duedate ? new Date(purchaseInvoice.duedate) : undefined;
           purchaseInvoice.invoiceDate = purchaseInvoice.invoiceDate ? new Date(purchaseInvoice.invoiceDate) : undefined;
           console.log("Purchase Invoice");
           console.log(purchaseInvoice);
-           this.currPurchaseInvoice = purchaseInvoice ;
+          this.currPurchaseInvoice = purchaseInvoice;
           this.poInvoiceForm.patchValue(purchaseInvoice);
-          this.submitted =  false;
+          this.submitted = false;
           this.getLines(purchaseInvoice); //Because backend api is not ready
         }
       ).catch(
         (err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
         }
       )
     }
   }
 
   getLines(purchaseInvoice: PurchaseInvoice) {
-    this.submitted =  true;
+    this.submitted = true;
     this.collectS
       .getPurchaseLineItemsByInvoice(purchaseInvoice)
       .then((data: any) => {
@@ -210,12 +212,12 @@ export class PoInvoiceComponent implements OnInit {
           this.poInvoiceSubTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.amount, 0
           );
-          this.submitted =  false;
+          this.submitted = false;
         }
       }).catch(
-        (err)=>{
+        (err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
         }
       );
   }
@@ -225,17 +227,16 @@ export class PoInvoiceComponent implements OnInit {
 
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
-    alert(JSON.stringify(invoiceFormVal) ) ;
+    alert(JSON.stringify(invoiceFormVal));
 
-    if (invoiceFormVal.id) 
-    {
-      this.submitted =  true;
-      invoiceFormVal.status = null ;
+    if (invoiceFormVal.id) {
+      this.submitted = true;
+      invoiceFormVal.status = null;
       this.collectS.updatePurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
-          this.submitted =  false;
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Purchase Invoice updated',
@@ -246,7 +247,7 @@ export class PoInvoiceComponent implements OnInit {
       ).catch(
         (err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Invoice Updated Error',
@@ -258,8 +259,8 @@ export class PoInvoiceComponent implements OnInit {
     }
     else {
       this.upload();
-      this.submitted =  true;
-      invoiceFormVal.status = null ;
+      this.submitted = true;
+      invoiceFormVal.status = null;
       //invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
@@ -267,19 +268,22 @@ export class PoInvoiceComponent implements OnInit {
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
           this.currPurchaseInvoice = res;
-          this.submitted =  false;
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Purchase Invoice Saved',
             detail: 'Purchase Invoice Added',
             life: 3000,
           });
-          this.router.navigate(['collect/purchaseInvoice/edit/' + res.id]);
+          setTimeout(() => {
+            this.router.navigate(['collect/purchaseInvoice/edit/' + res.id]);
+          }, 2000);
+
         }
       ).catch(
         (err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Order save Error',
@@ -322,16 +326,7 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   delete(lineItem: PurchaseInvoiceLine) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-      },
-    });
-
+    this.DeleteDialLogvisible = true;
   }
   onRowEditSave(lineItem: PurchaseInvoiceLine) {
     alert(JSON.stringify(lineItem));
@@ -354,7 +349,7 @@ export class PoInvoiceComponent implements OnInit {
     }
     else {
       lineItem.expenseName = currentProduct;
-      lineItem.purchaseInvoice = this.currPurchaseInvoice ; // this line will be change
+      lineItem.purchaseInvoice = this.currPurchaseInvoice; // this line will be change
 
       this.newRecord = false;
       this.islineAvaliable = true;
@@ -365,12 +360,12 @@ export class PoInvoiceComponent implements OnInit {
       if (_lineItem.id) {
         alert("Update Line Item Entered");
         // line line item should have id inside
-        this.submitted =  true;
+        this.submitted = true;
         this.collectS.updateInvoiceLineItem(lineItem).then(
           (res) => {
             console.log("Purchase Invoice Line Item Updated Successfully");
             _lineItem = res;
-            this.submitted =  false;
+            this.submitted = false;
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
@@ -382,7 +377,7 @@ export class PoInvoiceComponent implements OnInit {
         ).catch(
           (err) => {
             console.log("Line Item Updated Error");
-            this.submitted =  false;
+            this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Purchase Invoice Line item Update Error',
@@ -393,12 +388,12 @@ export class PoInvoiceComponent implements OnInit {
         )
       }
       else {
-        this.submitted =  true;
+        this.submitted = true;
         this.collectS.createInvoiceLineItem(lineItem).then(
           (res) => {
             console.log(res);
             _lineItem = res;
-            this.submitted =  false;
+            this.submitted = false;
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
@@ -409,7 +404,7 @@ export class PoInvoiceComponent implements OnInit {
           }
         ).catch((err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Purchase Invoice Line Item Error',
@@ -440,6 +435,12 @@ export class PoInvoiceComponent implements OnInit {
 
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    this.message.add({
+      severity: 'success',
+      summary: 'File Attached',
+      detail: 'File Attached Successfully ',
+      life: 3000,
+    });
   }
 
   upload() {
@@ -505,44 +506,82 @@ export class PoInvoiceComponent implements OnInit {
 
     if (poInvoiceFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
-      this.submitted =  true;
+      this.submitted = true;
       alert(JSON.stringify(poInvoiceFormVal));
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {
           console.log(res);
           this.poInvoiceForm.patchValue = { ...res };
-          this.submitted =  false;
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Purchase Invoice Saved Successfully',
+            detail: 'Purchase Invoice Saved',
+            life: 3000,
+          });
         }
       ).catch(
         (err) => {
           console.log(err);
-          this.submitted =  false;
+          this.submitted = false;
         }
       )
     }
-      this.upload();
-      this.submitted =  false;
-      this.message.add({
-        severity: 'success',
-        summary: 'Purchase Invoice Created Successfully',
-        detail: 'Purchase Invoice created',
-        life: 3000,
-      });
-      setTimeout(() => {
-        this.router.navigate(['/collect/purchaseInvoice']);
-      }, 2000);
-      
+    this.upload();
+
+    setTimeout(() => {
+      this.router.navigate(['/collect/purchaseInvoice']);
+    }, 2000);
+
   }
 
-  createPI()
-  {
+  createPI() {
     this.router.navigate(['/collect/purchaseInvoice/create']);
   }
 
-  OnCancelPI()
-  {
+  OnCancelPI() {
     this.router.navigate(['/collect/purchaseInvoice']);
 
+  }
+
+  cancelDeleteConfirm() {
+    this.DeleteDialLogvisible = false;
+  }
+
+  deleteConfirm(lineItem: any) {
+    this.submitted = true;
+    this.collectS
+      .deleteInvoiceLineItem(lineItem.id)
+      .then((data) => {
+
+        this.lineitems = this.lineitems.filter(
+          (val) => val.id !== lineItem.id
+        );
+
+        this.poInvoiceSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+
+        this.DeleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.DeleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
   }
 
 }

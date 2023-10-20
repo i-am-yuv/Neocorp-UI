@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
+import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
   selector: 'app-payments',
@@ -24,7 +25,8 @@ export class PaymentsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private message: MessageService,
-    private bankingS: BankingService) { }
+    private bankingS: BankingService,
+    private payServices : PayPageService) { }
 
   ngOnInit(): void {
 
@@ -64,6 +66,23 @@ export class PaymentsComponent implements OnInit {
       // this.allPI = res.content;
        this.allCompletedPI = res.content.filter((pi : PurchaseInvoice) => pi.status == 'COMPLETED'); 
        this.allNonCompletedPI = res.content.filter((pi : PurchaseInvoice) => pi.status != 'COMPLETED'); 
+
+      // this.totalRemainingAmount = 0;
+        for (const purchaseInvoice of this.allNonCompletedPI) {
+  
+          this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+            (res) => {
+              this.allNonCompletedPI.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+               console.log(res);
+                // this.totalRemainingAmount += res ;
+            }
+          ).catch(
+            (err) => {
+              console.log(err);
+            }
+          )
+        }
+
        this.totalRecordsC = this.allCompletedPI.length ;
        this.totalRecordsNC = this.allNonCompletedPI.length ;
        this.submitted = false;
@@ -86,4 +105,12 @@ export class PaymentsComponent implements OnInit {
     this.router.navigate(['banking/payToVendor/pi/'+pi.id]);
   }
 
+  myFunction(item: any): string {
+    return parseFloat(item.remainingAmount).toFixed(2);
+  }
+
+  myFunction1(item: any): string {
+    return parseFloat(item.grossTotal).toFixed(2);
+  }
+  
 }

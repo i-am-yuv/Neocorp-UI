@@ -33,13 +33,13 @@
                     </div>
                     <div class="flex gap-2">
                         <div class="field col-6">
-                            <label class="mr-3 required">Search key</label>
+                            <label class="mr-3 ">Search key</label>
                             <input pInputText formControlName="searchKey" placeholder="Enter Search key"
                                 class="w-full" />
                             <error-message [controlName]="productForm.controls['searchKey']"></error-message>
                         </div>
                         <div class="field col-6">
-                            <label class="mr-3 required">Product Category</label>
+                            <label class="mr-3 ">Product Category</label>
                             <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
                             <ng-container formGroupName="category" class="w-full">
                                 <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
@@ -91,12 +91,12 @@
 
                     <div class="flex gap-2">
                         <div class="field col-6">
-                            <label class="mr-3 required">Bar Code</label>
+                            <label class="mr-3 ">Bar Code</label>
                             <input pInputText formControlName="barCode" placeholder="Enter BarCode" class="w-full" />
                             <error-message [controlName]="productForm.controls['barCode']"></error-message>
                         </div>
                         <div class="field col-6">
-                            <label class="mr-3 required">HSN Code</label>
+                            <label class="mr-3 ">HSN Code</label>
                             <input pInputText formControlName="hsnCode" placeholder="Enter HSN Code" class="w-full" />
                             <error-message [controlName]="productForm.controls['hsnCode']"></error-message>
                         </div>
@@ -104,25 +104,18 @@
 
                     <div class="flex gap-2">
                         <div class="field col-6">
-                            <label class="mr-3 required">SKU Code</label>
+                            <label class="mr-3 ">SKU Code</label>
                             <input pInputText formControlName="skuCode" placeholder="Enter SKU Code"
                                 class="w-full" />
                             <error-message [controlName]="productForm.controls['skuCode']"></error-message>
                         </div>
                         <div class="field col-6">
-                            <label class="mr-3 required">Description</label>
+                            <label class="mr-3 ">Description</label>
                             <input pInputText formControlName="description" placeholder="Enter Description"
                                 class="w-full" />
                             <error-message [controlName]="productForm.controls['description']"></error-message>
                         </div> 
                     </div>
-
-                    <!-- <div class="flex ">
-                        <div class="field col-12 text-right w-full">
-                            <button type="submit" pButton label="Save" [disabled]="!productForm.valid"
-                                class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                        </div>
-                    </div> -->
 
                     <div class="border-bottom-1 border-200 text-right p-3">
                         <button type="button" pButton label="Cancel"
@@ -130,7 +123,6 @@
                         <button type="button" pButton label="Save Product" (click)="onSubmitProduct()" [disabled]="!productForm.valid"
                             class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                     </div>
-
                 </form>
             </div>
         </div>

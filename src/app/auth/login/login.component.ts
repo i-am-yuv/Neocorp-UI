@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   timer = 50;
 
+  stateOptions: any[] = [{label: 'Company', value: 'company'}, {label: 'Vendor', value: 'vendor'}];
+  value: string = 'company';
 
   constructor(
     private router: Router,

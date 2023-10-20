@@ -71,9 +71,8 @@ export interface LineItem{
     debitNoteNumber ?: string;
     startDate ?: Date ;
     duedate ?: Date ;
-    debitNote ?: string;
+    notes ?: string;
     internalNotes?: string;
-    customer ?: CustomeR;
     vendor ?: Vendor;
     placeOfSupply ?: any;
     grossTotal ?: number;

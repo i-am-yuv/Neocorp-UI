@@ -23,7 +23,7 @@
                 <div class="col-5">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">Sent to</span>
+                            <span class="p-panel-title" style="padding: 1px">All Products</span>
                         </ng-template>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -37,12 +37,9 @@
                                                 <div class="person-icon">{{ item.name.charAt(0) }}</div>
                                             </div>
                                             <div class="col-10">
-                                                <div class="text-base"><b>{{ item.name }}</b></div>
-                                                <div class="flex gap-1 ">
-                                                    <div class="col-10 text-base">
-                                                        <p class="text-sm">MRP: ₹{{item.mrp}}</p>
-                                                    </div>
-
+                                                <div class="iconSCSS gap-1 w-full">
+                                                    <div class="col-6 text-left text-lg">{{ item.name }}</div>
+                                                    <div class="col-6 text-right">MRP: <b>₹ </b> {{myFunction(item.mrp)}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +47,7 @@
                                 </div>
 
                                 <div class="text-center m-5" *ngIf="allProducts.length === 0">
-                                    No Purchase Order Available
+                                    No Purchase Order Available, Please add one!!
                                 </div>
                             </div>
                         </ng-template>
@@ -74,7 +71,11 @@
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeProduct.id">
                                 <img src="assets/empty.svg" alt="Image" width="250"><br>
-                                Select Product
+                                <p class="text-lg">Please, Select the Product to view details</p>
+                            </div>
+                            <div *ngIf="allProducts.length === 0" class="text-center m-5">
+                                <img src="assets/empty.svg" alt="Image" width="250"><br>
+                                No Product Found
                             </div>
 
                             <div *ngIf="activeProduct.id">
@@ -118,23 +119,23 @@
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Search Key:</label>
-                                        <p>{{ this.activeProduct.searchKey}}</p>
+                                        <p>{{ this.activeProduct.searchKey ? this.activeProduct.searchKey : 'NA'}}</p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product Category:</label>
-                                        <p>{{ this.activeProduct.category}}</p>
+                                        <p>{{ this.activeProduct.category?.name ? this.activeProduct.category?.name : 'NA' }}</p>
                                 
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product Type:</label>
-                                        <p>{{ this.activeProduct.productType}}</p>
+                                        <p>{{ this.activeProduct.productType ? this.activeProduct.productType : 'NA'}}</p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Brand:</label>
-                                        <p>{{ this.activeProduct.brand}}</p>
+                                        <p>{{ this.activeProduct.brand ? this.activeProduct.brand : 'NA'}}</p>
                                     </div>
 
                                 </div>
@@ -152,7 +153,7 @@
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Tax Rate:</label>
-                                        <p>{{ this.activeProduct.taxRate}}</p>
+                                        <p>{{ this.activeProduct.taxRate ? this.activeProduct.taxRate : 'NA'}}</p>
                                     </div>
                                 </div>
                                 <hr class="custom-hr">
@@ -164,25 +165,25 @@
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Bar Code: </label>
-                                        <p>₹{{ this.activeProduct.barCode}}</p>
+                                        <p>{{ this.activeProduct.barCode ? this.activeProduct.barCode : 'NA'}}</p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">HSN Code:</label>
-                                        <p>{{ this.activeProduct.hsnCode}}</p>
+                                        <p>{{ this.activeProduct.hsnCode ? this.activeProduct.hsnCode : 'NA' }}</p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">SKU Code:</label>
-                                        <p>{{ this.activeProduct.skuCode}}</p>
+                                        <p>{{ this.activeProduct.skuCode ? this.activeProduct.skuCode : 'NA'}}</p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Description:</label>
-                                        <p>{{ this.activeProduct.description}}</p>
+                                        <p>{{ this.activeProduct.description ? this.activeProduct.description : 'NA'}}</p>
                                     </div>
                                 </div>
-                                <hr class="custom-hr">
+                               
                             </div>
                         </div>
                     </p-panel>
