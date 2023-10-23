@@ -21,11 +21,11 @@ export class PayPageService {
 
   async createVendor(vendor: any) {
     var url = this.apiurlNew + 'api/vendor/signup'
-    // const _vendor = await lastValueFrom(this.http.post<any>(url, vendor));
-    // return _vendor;
     this.http.post<any>(url, vendor).subscribe(
       (res)=>{
         return res;
+      },(err)=>{
+        return err;
       }
     )
   }

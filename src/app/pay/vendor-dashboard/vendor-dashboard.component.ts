@@ -181,4 +181,8 @@ export class VendorDashboardComponent implements OnInit {
     this.router.navigate(['/pay/vendor/create']);
   }
 
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
+  }
+
 }

@@ -75,6 +75,11 @@
     align-items: center;
     justify-content: end;
 }
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+   // justify-content: end;
+}
 
 .h1,
 h2,
@@ -123,3 +128,9 @@ p {
         align-items: center;
     }
 }
+.raised-div {
+   // background-color: #fff; // Set the background color as needed
+    //padding: 20px; // Add padding for content
+    //border-radius: 10px; // Add rounded corners
+    box-shadow: 1px 1px 5px 1px rgba(197, 195, 195, 0.575); // Add a subtle shadow
+  }

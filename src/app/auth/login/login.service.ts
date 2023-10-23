@@ -19,6 +19,12 @@ export class LoginService {
     return login;
   }
 
+  async doVendorLogin(credentials: any) {
+    var url = this.apiurlNew + 'api/vendor/login?username='+credentials.username+'&password='+credentials.password;
+    const vendorLoginData = await lastValueFrom(this.http.post<any>(url, credentials));
+    return vendorLoginData;
+  }
+
   async signup(data: any) {
     var url = this.apiurl + '/auth/signup';
     const login = await lastValueFrom(this.http.post<any>(url, data));

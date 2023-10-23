@@ -146,7 +146,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
               life: 3000,
             });
           }
-          this.router.navigate(['/collect/purchaseInvoice/edit/' +invoiceId ]);
+          this.router.navigate(['/collect/purchaseInvoices' ]);
         }
        ).catch(
         (err)=>{

@@ -116,7 +116,7 @@
                                                 </div>
                                             </div>
                                             <div class="field col-5 text-left">
-                                                <p class="text-xl">₹ {{totalGrossAmount}}</p>
+                                                <p class="text-xl">₹ {{ myFunction(totalGrossAmount) }}</p>
                                                 <p class="text-lg blueText">Total Amount</p>
                                             </div>
                                             <div class="field col-5"
@@ -184,13 +184,13 @@
                                         <div class="mt-2 flex w-full ">
                                             <div class="field col-6">
                                                 <p class="text-base text-white">Total Amount paid</p>
-                                                <p class="text-lg greenText">₹ {{totalGrossAmount -
-                                                    totalRemainingAmount}}</p>
+                                                <p class="text-lg greenText">₹ {{myFunction( totalGrossAmount -
+                                                    totalRemainingAmount) }}</p>
                                             </div>
                                             <div class="vertical-line"></div>
                                             <div class="field col-6">
                                                 <p class="text-base text-white">Total Amount Due</p>
-                                                <p class="text-lg text-red-300">₹ {{totalRemainingAmount}}</p>
+                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount) }}</p>
 
                                             </div>
                                         </div>
@@ -225,7 +225,7 @@
                                                     <div class="col-4 text-right">
                                                         <div class="">
                                                             <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                            <p>Total: ₹{{item.grossTotal ? item.grossTotal : '0.00' }}
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal)  ? myFunction(item.grossTotal)  : '0.00' }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -254,7 +254,7 @@
                                                         <div class="col-4 text-right">
                                                             <div class="">
                                                                 <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                                <p>Total: ₹{{item.grossTotal ? item.grossTotal : '0.00'
+                                                                <p>Total: ₹{{ myFunction(item.grossTotal)  ? myFunction(item.grossTotal) : '0.00'
                                                                     }}
                                                                 </p>
                                                             </div>

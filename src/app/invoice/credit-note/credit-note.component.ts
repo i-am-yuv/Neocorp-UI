@@ -455,6 +455,7 @@ export class CreditNoteComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
+    this.isquantity =  true;
     return { expenseName: {}, quantity: 1 };
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 
@@ -11,6 +11,8 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class CustomerComponent implements OnInit {
 
+  id: string | null = '';
+  createNew: boolean = false;
   isSidebarVisible: boolean = true;
 
   submitted : boolean = false;
@@ -26,9 +28,26 @@ export class CustomerComponent implements OnInit {
 
   constructor(private router: Router,
     private message: MessageService,
-    private payPageS: PayPageService) { }
+    private payPageS: PayPageService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+         this.getAllCustomer();
+      }
+    });
 
     this.items = [ {label: 'Collect'},{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
 
@@ -61,11 +80,8 @@ export class CustomerComponent implements OnInit {
       city: new FormControl('', Validators.required),
       shippingName: new FormControl(''),
       shippingAddress: new FormControl(''),
-      isShippingAddressSameAsBillingAddress: new FormControl('')
+      isShippingAddressSameAsBillingAddress: new FormControl(true)
     });
-
-    // Default making billing Address same as Shipping Address
-    this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
 
   onSubmit() {
@@ -74,6 +90,33 @@ export class CustomerComponent implements OnInit {
     console.log(this.addressDetailsForm);
 
     this.saveAccount();
+  }
+
+  getAllCustomer()
+  {
+    this.submitted = true;
+    this.payPageS.allCustomer().then(
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/collect/customers']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch((err) => {
+      console.log("Vendor error");
+      this.submitted = false;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error while fetching all Vendors',
+        life: 3000,
+      });
+    })
   }
 
   saveAccount() {
@@ -199,6 +242,11 @@ export class CustomerComponent implements OnInit {
 
   onCloseCustomer() {
     this.router.navigate(['/collect/customers']);
+  }
+
+  createCustomer() {
+    //this.createNew = true;
+    this.router.navigate(['/collect/customer/create']);
   }
 
 }

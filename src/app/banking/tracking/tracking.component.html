@@ -13,21 +13,30 @@
             </button>
         </div>
     </div>
-    
+
 
 
     <div>
-        <div class="mt-6 ml-6 mb-3 text-left">
+        <div class="mt-5 ml-6 text-left">
             <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
                 optionValue="value"></p-selectButton>
         </div>
 
-        <div class="m-6 bg-white border-round-xl">
+        <div class="ml-6 mr-6 mb-6 mt-5 bg-white border-round-xl raised-div">
             <div *ngIf="value == 'disburse'" class="p-5">
                 <div>
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">Debit Account Transaction:</span>
+                            <div class="iconSCSS gap-2 w-full">
+                                <div class=" col-5 text-left">
+                                    <p class="p-panel-title">Debit Account Transaction:</p>
+                                </div>
+                                <div class=" col-6 ml-4 text-right">
+                                    <p class="p-panel-title">Total Debited Amount: <a class="text-lg dueAmount">₹
+                                            {{myFunction(this.totalDebitedAmount) }}</a></p>
+                                </div>
+                            </div>
+
                         </ng-template>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -44,28 +53,31 @@
                                                 </div>
                                                 <div class="col-2 text-left">
                                                     <p class="text-lg  blueText font-semibold">
-                                                        SBI</p>
+                                                        {{item.paymentRequest?.debitAccountDetails?.bankname ? item.paymentRequest?.debitAccountDetails?.bankname : 'NA'}} </p>
                                                     <p class=" text-sm">Account No.</p>
-                                                    <p class="text-sm ">4321456723459089</p>
+                                                    <p class="text-sm ">
+                                                        {{item.paymentRequest?.debitAccountDetails?.accountNumber ? item.paymentRequest?.debitAccountDetails?.accountNumber : 'NA'}} </p>
                                                 </div>
                                                 <div class="col-2 text-left">
                                                     <p class="blueText text-lg">Purchase Invoice</p>
-                                                    <p class="font-semibold ">#PI/SPS/123</p>
-                                                    <p class="text-sm">Status: <a class="dueAmount">Due</a></p>
+                                                    <p class="font-semibold ">#{{item.invoice?.invoiceNo ? item.invoice?.invoiceNo : 'NA'}}</p>
+                                                    <p class="text-sm">Status: <a
+                                                            class="dueAmount">{{item.invoice?.status ? item.invoice?.status :'NA'}}</a></p>
                                                 </div>
 
                                                 <div class=" col-3 text-left">
                                                     <p class="blueText text-lg">Paid To</p>
-                                                    <p class="font-semibold  ">{{item.vendor?.firstName}}
-                                                        {{item.vendor?.lastName}}</p>
-                                                    <p class="text-ms">Mobile no. {{item.vendor?.mobileNumber}}
+                                                    <p class="font-semibold  ">{{item.vendor?.firstName ? item.vendor?.firstName : 'NA'}}
+                                                        {{item.vendor?.lastName ? item.vendor?.lastName : 'NA'}}</p>
+                                                    <p class="text-ms">Mobile no. {{item.vendor?.mobileNumber ? item.vendor?.mobileNumber : 'NA'}}
                                                     </p>
                                                 </div>
 
                                                 <div class=" col-2 text-left">
                                                     <p class="blueText text-lg">Payment Mode</p>
                                                     <div class="iconSCSS gap-2 mt-2">
-                                                        <div class="text-left">NEFT</div>
+                                                        <div class="text-left">{{item.paymentRequest?.paymentMethod ? item.paymentRequest?.paymentMethod : 'NA'}}
+                                                        </div>
                                                         <!-- <div class="text-center ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="18"
                                                                 height="18" viewBox="0 0 32 32" fill="none" >
@@ -74,14 +86,15 @@
                                                                     fill="#343330" />
                                                             </svg>
                                                         </div> -->
-                                                        <div class=" border-1 border-gray-200 border-round-lg hover:bg-blue-100 p-1 cursor-pointer"  (click)="openBeneInfo()" >
+                                                        <div *ngIf="item.paymentRequest?.paymentMethod != 'UPI' && item.paymentRequest != null " class=" border-1 border-gray-200 border-round-lg hover:bg-blue-100 p-1 cursor-pointer"
+                                                            (click)="openBeneInfo(item)">
                                                             <div class="centerItem">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                                height="14" viewBox="0 0 32 32" fill="none" >
-                                                                <path
-                                                                    d="M28.8651 26.5C26.9613 23.2087 24.0276 20.8487 20.6038 19.73C22.2974 18.7218 23.6132 17.1856 24.3491 15.3572C25.0851 13.5289 25.2005 11.5095 24.6777 9.60918C24.1548 7.70887 23.0227 6.03272 21.4551 4.83814C19.8874 3.64355 17.971 2.99658 16.0001 2.99658C14.0292 2.99658 12.1128 3.64355 10.5451 4.83814C8.9775 6.03272 7.84534 7.70887 7.32252 9.60918C6.7997 11.5095 6.91513 13.5289 7.65108 15.3572C8.38703 17.1856 9.7028 18.7218 11.3963 19.73C7.97259 20.8475 5.03884 23.2075 3.13509 26.5C3.06528 26.6138 3.01897 26.7405 2.99891 26.8725C2.97884 27.0045 2.98541 27.1392 3.01825 27.2687C3.05108 27.3981 3.10951 27.5197 3.19008 27.6262C3.27066 27.7326 3.37174 27.8219 3.48738 27.8887C3.60301 27.9555 3.73085 27.9985 3.86335 28.015C3.99586 28.0316 4.13034 28.0215 4.25887 27.9853C4.3874 27.949 4.50737 27.8874 4.6117 27.8041C4.71604 27.7207 4.80262 27.6173 4.86634 27.5C7.22134 23.43 11.3838 21 16.0001 21C20.6163 21 24.7788 23.43 27.1338 27.5C27.1976 27.6173 27.2842 27.7207 27.3885 27.8041C27.4928 27.8874 27.6128 27.949 27.7413 27.9853C27.8698 28.0215 28.0043 28.0316 28.1368 28.015C28.2693 27.9985 28.3972 27.9555 28.5128 27.8887C28.6284 27.8219 28.7295 27.7326 28.8101 27.6262C28.8907 27.5197 28.9491 27.3981 28.9819 27.2687C29.0148 27.1392 29.0213 27.0045 29.0013 26.8725C28.9812 26.7405 28.9349 26.6138 28.8651 26.5ZM9.00009 12C9.00009 10.6155 9.41064 9.26214 10.1798 8.11099C10.949 6.95985 12.0422 6.06264 13.3213 5.53283C14.6004 5.00301 16.0079 4.86439 17.3657 5.13449C18.7236 5.40458 19.9709 6.07127 20.9498 7.05023C21.9288 8.0292 22.5955 9.27648 22.8656 10.6344C23.1357 11.9922 22.9971 13.3997 22.4673 14.6788C21.9374 15.9578 21.0402 17.0511 19.8891 17.8203C18.7379 18.5894 17.3846 19 16.0001 19C14.1442 18.998 12.3649 18.2599 11.0525 16.9475C9.74022 15.6352 9.00208 13.8559 9.00009 12Z"
-                                                                    fill="#343330" />
-                                                            </svg>
+                                                                    height="14" viewBox="0 0 32 32" fill="none">
+                                                                    <path
+                                                                        d="M28.8651 26.5C26.9613 23.2087 24.0276 20.8487 20.6038 19.73C22.2974 18.7218 23.6132 17.1856 24.3491 15.3572C25.0851 13.5289 25.2005 11.5095 24.6777 9.60918C24.1548 7.70887 23.0227 6.03272 21.4551 4.83814C19.8874 3.64355 17.971 2.99658 16.0001 2.99658C14.0292 2.99658 12.1128 3.64355 10.5451 4.83814C8.9775 6.03272 7.84534 7.70887 7.32252 9.60918C6.7997 11.5095 6.91513 13.5289 7.65108 15.3572C8.38703 17.1856 9.7028 18.7218 11.3963 19.73C7.97259 20.8475 5.03884 23.2075 3.13509 26.5C3.06528 26.6138 3.01897 26.7405 2.99891 26.8725C2.97884 27.0045 2.98541 27.1392 3.01825 27.2687C3.05108 27.3981 3.10951 27.5197 3.19008 27.6262C3.27066 27.7326 3.37174 27.8219 3.48738 27.8887C3.60301 27.9555 3.73085 27.9985 3.86335 28.015C3.99586 28.0316 4.13034 28.0215 4.25887 27.9853C4.3874 27.949 4.50737 27.8874 4.6117 27.8041C4.71604 27.7207 4.80262 27.6173 4.86634 27.5C7.22134 23.43 11.3838 21 16.0001 21C20.6163 21 24.7788 23.43 27.1338 27.5C27.1976 27.6173 27.2842 27.7207 27.3885 27.8041C27.4928 27.8874 27.6128 27.949 27.7413 27.9853C27.8698 28.0215 28.0043 28.0316 28.1368 28.015C28.2693 27.9985 28.3972 27.9555 28.5128 27.8887C28.6284 27.8219 28.7295 27.7326 28.8101 27.6262C28.8907 27.5197 28.9491 27.3981 28.9819 27.2687C29.0148 27.1392 29.0213 27.0045 29.0013 26.8725C28.9812 26.7405 28.9349 26.6138 28.8651 26.5ZM9.00009 12C9.00009 10.6155 9.41064 9.26214 10.1798 8.11099C10.949 6.95985 12.0422 6.06264 13.3213 5.53283C14.6004 5.00301 16.0079 4.86439 17.3657 5.13449C18.7236 5.40458 19.9709 6.07127 20.9498 7.05023C21.9288 8.0292 22.5955 9.27648 22.8656 10.6344C23.1357 11.9922 22.9971 13.3997 22.4673 14.6788C21.9374 15.9578 21.0402 17.0511 19.8891 17.8203C18.7379 18.5894 17.3846 19 16.0001 19C14.1442 18.998 12.3649 18.2599 11.0525 16.9475C9.74022 15.6352 9.00208 13.8559 9.00009 12Z"
+                                                                        fill="#343330" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -94,10 +107,11 @@
                                                     <p class="font-semibold dueAmount  text-lg">₹ {{
                                                         myFunction(item.amount) }}</p>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <hr class="custom-hr">
+
                                     </div>
 
                                     <div class="text-center " *ngIf="allDebitPayments.length === 0">
@@ -113,23 +127,109 @@
 
             <div *ngIf="value == 'collection'" class="p-5">
                 <div>
+                    <p-panel class="left-panel ">
+                        <ng-template pTemplate="header">
+                            <span class="p-panel-title" style="padding: 1px">Credit Account Transaction:</span>
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <div class="left-panel-content">
+                                <br />
+                                <div class="left-panel-content">
+                                    <div *ngFor="let item of allDebitPayments"
+                                        [ngClass]="{ 'bg-gray-100': activePayment.id === item.id }">
+                                        <div class="">
+                                            <div class="flex w-full p-1">
+                                                <div class="col-1 text-left">
+                                                    <div class="person-icon">{{
+                                                        item.vendor?.firstName.charAt(0)}}{{item.vendor?.lastName.charAt(0)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 text-left">
+                                                    <p class="text-lg  blueText font-semibold">
+                                                        ICICI</p>
+                                                    <p class=" text-sm">Account No.</p>
+                                                    <p class="text-sm ">4321456723459089</p>
+                                                </div>
+                                                <div class="col-2 text-left">
+                                                    <p class="blueText text-lg">Purchase Invoice</p>
+                                                    <p class="font-semibold ">#PI/SPS/123</p>
+                                                    <p class="text-sm">Status: <a class="dueAmount">Due</a></p>
+                                                </div>
+
+                                                <div class=" col-3 text-left">
+                                                    <p class="blueText text-lg">From</p>
+                                                    <p class="font-semibold  ">{{item.vendor?.firstName}}
+                                                        {{item.vendor?.lastName}}</p>
+                                                    <p class="text-ms">Mobile no. {{item.vendor?.mobileNumber}}
+                                                    </p>
+                                                </div>
+
+                                                <div class=" col-2 text-left">
+                                                    <p class="blueText text-lg">Payment Mode</p>
+                                                    <div class="iconSCSS gap-2 mt-2">
+                                                        <div class="text-left">UPI</div>
+                                                        <!-- <div class="text-center ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                height="18" viewBox="0 0 32 32" fill="none" >
+                                                                <path
+                                                                    d="M28.8651 26.5C26.9613 23.2087 24.0276 20.8487 20.6038 19.73C22.2974 18.7218 23.6132 17.1856 24.3491 15.3572C25.0851 13.5289 25.2005 11.5095 24.6777 9.60918C24.1548 7.70887 23.0227 6.03272 21.4551 4.83814C19.8874 3.64355 17.971 2.99658 16.0001 2.99658C14.0292 2.99658 12.1128 3.64355 10.5451 4.83814C8.9775 6.03272 7.84534 7.70887 7.32252 9.60918C6.7997 11.5095 6.91513 13.5289 7.65108 15.3572C8.38703 17.1856 9.7028 18.7218 11.3963 19.73C7.97259 20.8475 5.03884 23.2075 3.13509 26.5C3.06528 26.6138 3.01897 26.7405 2.99891 26.8725C2.97884 27.0045 2.98541 27.1392 3.01825 27.2687C3.05108 27.3981 3.10951 27.5197 3.19008 27.6262C3.27066 27.7326 3.37174 27.8219 3.48738 27.8887C3.60301 27.9555 3.73085 27.9985 3.86335 28.015C3.99586 28.0316 4.13034 28.0215 4.25887 27.9853C4.3874 27.949 4.50737 27.8874 4.6117 27.8041C4.71604 27.7207 4.80262 27.6173 4.86634 27.5C7.22134 23.43 11.3838 21 16.0001 21C20.6163 21 24.7788 23.43 27.1338 27.5C27.1976 27.6173 27.2842 27.7207 27.3885 27.8041C27.4928 27.8874 27.6128 27.949 27.7413 27.9853C27.8698 28.0215 28.0043 28.0316 28.1368 28.015C28.2693 27.9985 28.3972 27.9555 28.5128 27.8887C28.6284 27.8219 28.7295 27.7326 28.8101 27.6262C28.8907 27.5197 28.9491 27.3981 28.9819 27.2687C29.0148 27.1392 29.0213 27.0045 29.0013 26.8725C28.9812 26.7405 28.9349 26.6138 28.8651 26.5ZM9.00009 12C9.00009 10.6155 9.41064 9.26214 10.1798 8.11099C10.949 6.95985 12.0422 6.06264 13.3213 5.53283C14.6004 5.00301 16.0079 4.86439 17.3657 5.13449C18.7236 5.40458 19.9709 6.07127 20.9498 7.05023C21.9288 8.0292 22.5955 9.27648 22.8656 10.6344C23.1357 11.9922 22.9971 13.3997 22.4673 14.6788C21.9374 15.9578 21.0402 17.0511 19.8891 17.8203C18.7379 18.5894 17.3846 19 16.0001 19C14.1442 18.998 12.3649 18.2599 11.0525 16.9475C9.74022 15.6352 9.00208 13.8559 9.00009 12Z"
+                                                                    fill="#343330" />
+                                                            </svg>
+                                                        </div> -->
+                                                        <div class=" border-1 border-gray-200 border-round-lg hover:bg-blue-100 p-1 cursor-pointer"
+                                                            (click)="openBeneInfo(item)">
+                                                            <div class="centerItem">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                    height="14" viewBox="0 0 32 32" fill="none">
+                                                                    <path
+                                                                        d="M28.8651 26.5C26.9613 23.2087 24.0276 20.8487 20.6038 19.73C22.2974 18.7218 23.6132 17.1856 24.3491 15.3572C25.0851 13.5289 25.2005 11.5095 24.6777 9.60918C24.1548 7.70887 23.0227 6.03272 21.4551 4.83814C19.8874 3.64355 17.971 2.99658 16.0001 2.99658C14.0292 2.99658 12.1128 3.64355 10.5451 4.83814C8.9775 6.03272 7.84534 7.70887 7.32252 9.60918C6.7997 11.5095 6.91513 13.5289 7.65108 15.3572C8.38703 17.1856 9.7028 18.7218 11.3963 19.73C7.97259 20.8475 5.03884 23.2075 3.13509 26.5C3.06528 26.6138 3.01897 26.7405 2.99891 26.8725C2.97884 27.0045 2.98541 27.1392 3.01825 27.2687C3.05108 27.3981 3.10951 27.5197 3.19008 27.6262C3.27066 27.7326 3.37174 27.8219 3.48738 27.8887C3.60301 27.9555 3.73085 27.9985 3.86335 28.015C3.99586 28.0316 4.13034 28.0215 4.25887 27.9853C4.3874 27.949 4.50737 27.8874 4.6117 27.8041C4.71604 27.7207 4.80262 27.6173 4.86634 27.5C7.22134 23.43 11.3838 21 16.0001 21C20.6163 21 24.7788 23.43 27.1338 27.5C27.1976 27.6173 27.2842 27.7207 27.3885 27.8041C27.4928 27.8874 27.6128 27.949 27.7413 27.9853C27.8698 28.0215 28.0043 28.0316 28.1368 28.015C28.2693 27.9985 28.3972 27.9555 28.5128 27.8887C28.6284 27.8219 28.7295 27.7326 28.8101 27.6262C28.8907 27.5197 28.9491 27.3981 28.9819 27.2687C29.0148 27.1392 29.0213 27.0045 29.0013 26.8725C28.9812 26.7405 28.9349 26.6138 28.8651 26.5ZM9.00009 12C9.00009 10.6155 9.41064 9.26214 10.1798 8.11099C10.949 6.95985 12.0422 6.06264 13.3213 5.53283C14.6004 5.00301 16.0079 4.86439 17.3657 5.13449C18.7236 5.40458 19.9709 6.07127 20.9498 7.05023C21.9288 8.0292 22.5955 9.27648 22.8656 10.6344C23.1357 11.9922 22.9971 13.3997 22.4673 14.6788C21.9374 15.9578 21.0402 17.0511 19.8891 17.8203C18.7379 18.5894 17.3846 19 16.0001 19C14.1442 18.998 12.3649 18.2599 11.0525 16.9475C9.74022 15.6352 9.00208 13.8559 9.00009 12Z"
+                                                                        fill="#343330" />
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class=" col-2 text-center">
+                                                    <p class="blueText text-lg">Amount</p>
+                                                    <p class="font-semibold text-green-500 text-lg">₹ {{
+                                                        myFunction(item.amount) }}</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <hr class="custom-hr">
+                                    </div>
+
+                                    <div class="text-center " *ngIf="allDebitPayments.length === 0">
+                                        <p class="text-lg">No Credit account transaction available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <p-footer> Total: {{ this.totalRecords}} </p-footer>
+                    </p-panel>
                 </div>
             </div>
         </div>
     </div>
 
-    <p-dialog header="Header" [(visible)]="displayBeneDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+    <p-dialog header="Header" [(visible)]="displayBeneDialog" [modal]="true" [style]="{ width: '30vw' }"
+        [draggable]="false" [resizable]="false">
         <ng-template pTemplate="header">
             <span class="text-xl font-bold">Beneficiary Information</span>
         </ng-template>
-        <p class="m-0">Beneficairy Name : Karan Kumar (Nick Name)</p><br>
-        <p class="m-0">Mobile Number: 98988987657</p><br>
-        <p class="m-0">Account Number: 23424524234234</p><br>
-        <p class="m-0">IFSC: SBI121</p><br>
-        <p class="m-0">MMID: mmid1232</p>
-        
+        <p class="m-0"><a class="blueText text-lg">Beneficairy Name :</a> {{this.activePayment.paymentRequest?.beneficiary?.beneficaryName ? this.activePayment.paymentRequest?.beneficiary?.beneficaryName : 'NA'}} ({{this.activePayment.paymentRequest?.beneficiary?.nickname ? this.activePayment.paymentRequest?.beneficiary?.nickname : 'NA'}})</p><br>
+        <p class="m-0"><a class="blueText text-lg">Mobile Number :</a> {{this.activePayment.paymentRequest?.beneficiary?.mobileNumber ? this.activePayment.paymentRequest?.beneficiary?.mobileNumber : 'NA'}}</p><br>
+        <p class="m-0"><a class="blueText text-lg">Account Number :</a> {{this.activePayment.paymentRequest?.beneficiary?.accountNumber ? this.activePayment.paymentRequest?.beneficiary?.accountNumber : 'NA'}}</p><br>
+        <p class="m-0"><a class="blueText text-lg">IFSC :</a> {{this.activePayment.paymentRequest?.beneficiary?.ifscCode ? this.activePayment.paymentRequest?.beneficiary?.ifscCode : 'NA'}}</p><br>
+        <p class="m-0"><a class="blueText text-lg">MMID :</a> {{this.activePayment.paymentRequest?.beneficiary?.mmid ? this.activePayment.paymentRequest?.beneficiary?.mmid : 'NA'}}</p>
+
     </p-dialog>
-  
+
+
     <p-blockUI [blocked]="submitted">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
     </p-blockUI>

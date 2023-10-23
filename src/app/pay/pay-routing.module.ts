@@ -13,6 +13,7 @@ const routes: Routes = [
     path: 'vendor',
     component: LayoutComponent,
     children: [
+      { path: '', component: VendorComponent },
       { path: 'create', component: VendorComponent }
     ],
   },

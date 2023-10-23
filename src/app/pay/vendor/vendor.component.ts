@@ -45,7 +45,7 @@ export class VendorComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        // this.availablePI();
+         this.getAllVendor();
       }
     });
 
@@ -69,8 +69,8 @@ export class VendorComponent implements OnInit {
       address: new FormControl(''),
       accountDetails: new FormControl(''),
       notes: new FormControl(''),
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+      username: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required)
     });
   }
 
@@ -105,6 +105,33 @@ export class VendorComponent implements OnInit {
     console.log(this.accountDetailsForm);
     console.log(this.addressDetailsForm);
     this.saveAccount();
+  }
+
+  getAllVendor()
+  {
+    this.submitted = true;
+    this.payPageS.allVendor().then(
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/pay/vendors']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch((err) => {
+      console.log("Vendor error");
+      this.submitted = false;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error while fetching all Vendors',
+        life: 3000,
+      });
+    })
   }
 
   saveAccount() {
@@ -152,6 +179,7 @@ export class VendorComponent implements OnInit {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
       }
       this.submitted = true;
+      alert(JSON.stringify(this.addressDetailsForm.value));
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
           //this.addressDetailS = res;
@@ -232,6 +260,11 @@ export class VendorComponent implements OnInit {
 
   onCloseVendor() {
     this.router.navigate(['/pay/vendors']);
+  }
+
+  createVendor() {
+    //this.createNew = true;
+    this.router.navigate(['/pay/vendor/create']);
   }
 
 

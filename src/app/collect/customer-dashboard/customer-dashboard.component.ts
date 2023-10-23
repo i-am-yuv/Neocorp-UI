@@ -148,53 +148,13 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   CreateNewCustomer() {
-    this.router.navigate(['/collect/createCustomer']);
+    this.router.navigate(['/collect/customer/create']);
   }
 
-  // changeInvoice(customer : CustomeR)
-  // {
-  //    if( this.currentSelectedInvoice == 1 )
-  //    {
-  //     // Here is Customer Purchase Invoices
-  //     this.showCustomerPI = true;
-  //     this.showCustomerSI = false;
+  
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
+  }
 
-  //     this.submitted = true;
-  //      this.collectS.allPurchaseInvoicesById(customer).then(
-  //       (res:any) => {
-  //          console.log(res) ;
-  //          this.allCustomerPI = res ;
-  //          this.submitted = false;
-  //       }
-  //     ).catch(
-  //       (err) => {
-  //         console.log(err);
-  //         this.submitted = false;
-  //       }
-  //     )
-
-  //    }
-  //    else if( this.currentSelectedInvoice == 2 )
-  //    {
-  //     // Here is Customer Sales Invoices
-  //     this.showCustomerPI = false;
-  //     this.showCustomerSI = true;
-
-  //     this.submitted = true;
-
-  //     this.collectS.allSalesInvoicesById(customer).then(
-  //      (res:any) => {
-  //         console.log(res) ;
-  //         this.allCustomerSI = res ;
-  //         this.submitted = false;
-  //      }
-  //    ).catch(
-  //      (err) => {
-  //        console.log(err);
-  //        this.submitted = false;
-  //      }
-  //    )
-  //    }
-  // }
 
 }

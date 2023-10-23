@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BankingService } from '../banking.service';
 import { MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { Payment } from '../banking-model';
 
 @Component({
   selector: 'app-tracking',
@@ -16,7 +17,9 @@ export class TrackingComponent implements OnInit {
 
   submitted : boolean = false;
 
-  activePayment : any = {};
+  totalDebitedAmount : number = 0 ;
+
+  activePayment : Payment = {};
 
   allDebitPayments : any[] = [];
   totalRecords: number = 0 ;
@@ -42,6 +45,10 @@ export class TrackingComponent implements OnInit {
        console.log(res);
        this.allDebitPayments = res.content;
        this.totalRecords = res.totalElements;
+       this.totalDebitedAmount = this.allDebitPayments
+          .reduce((total, PI) =>
+            total + PI.amount, 0
+          )
        this.submitted = false;
      }
     ).catch(
@@ -61,9 +68,10 @@ export class TrackingComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
-  openBeneInfo()
+  openBeneInfo(item : any)
   {
     this.displayBeneDialog = true;
+    this.activePayment = item;
   }
 
 }
