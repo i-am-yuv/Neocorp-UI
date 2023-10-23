@@ -52,4 +52,5 @@ export class DelegationRoleDashboardComponent implements OnInit {
     this.router.navigate(['setting/delegationRole/edit/' + id]);
   }
 
+
 }

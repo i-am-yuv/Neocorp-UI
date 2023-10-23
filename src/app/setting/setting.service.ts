@@ -34,8 +34,8 @@ export class SettingService {
 
   async getDelegationRoleById(id: any) {
     var url = this.apiurlNew + 'delegationRole/' + encodeURIComponent(id);
-    const productById = await lastValueFrom(this.http.get<any>(url));
-    return productById;
+    const delegationRoleById = await lastValueFrom(this.http.get<any>(url));
+    return delegationRoleById;
   }
   
 

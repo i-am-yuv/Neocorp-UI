@@ -45,3 +45,13 @@
       align-items: center;
     }
   }
+
+
+
+.center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+   // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+    //width: 600px;
+  }
