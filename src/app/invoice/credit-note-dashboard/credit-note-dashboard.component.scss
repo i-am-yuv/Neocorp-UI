@@ -115,7 +115,7 @@
 
 .remainAmount {
     color: #C22B39;
-//font-family: Red Hat Display;
+    //font-family: Red Hat Display;
 }
 
 .person-icon {
@@ -135,7 +135,7 @@
 
 .leftStatus {
     color: #C22B39;
-    
+
 }
 
 .iconSCSS {
@@ -187,4 +187,10 @@ p {
         margin-left: 25px;
         align-items: center;
     }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
 }

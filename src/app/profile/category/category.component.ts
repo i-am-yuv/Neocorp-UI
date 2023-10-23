@@ -200,4 +200,6 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/profile/productCategories']);
   }
 
+  createPC(){}
+
 }

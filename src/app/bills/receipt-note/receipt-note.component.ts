@@ -55,7 +55,8 @@ export class ReceiptNoteComponent implements OnInit {
   vendorVisible: boolean = false;
   customerVisible: boolean = false;
 
-  items!: MenuItem[]
+  items!: MenuItem[];
+  deleteDialogvisible: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -81,7 +82,7 @@ export class ReceiptNoteComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Bills'},{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
 
     this.initForm();
     this.loadVendors();
@@ -351,18 +352,6 @@ export class ReceiptNoteComponent implements OnInit {
 
   onRowEditInit(lineItem: rnLineItem) { }
 
-  delete(lineItem: rnLineItem) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-      },
-    });
-  }
-
   onRowEditSave(lineItem: rnLineItem) {
     //alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -536,7 +525,6 @@ export class ReceiptNoteComponent implements OnInit {
 
   finalRNSubmitPage() {
     // updated complete PO so that gross total can be updated
-
     if (this.rnForm.value.vendor.id == null || this.rnForm.value.vendor.id == "") {
       this.rnForm.value.vendor = null;
     } else {
@@ -549,8 +537,7 @@ export class ReceiptNoteComponent implements OnInit {
 
     if (rnFormVal.id) {
       this.submitted = true;
-      this.billS.updateReceiptNote(rnFormVal).then(
-        (res) => {
+      this.billS.updateReceiptNote(rnFormVal).then((res: any) => {
           console.log(res);
           this.rnForm.patchValue = { ...res };
           this.submitted = false;
@@ -590,4 +577,54 @@ export class ReceiptNoteComponent implements OnInit {
 
   }
 
+  delete(lineItem: rnLineItem) {
+    this.deleteDialogvisible = true;
+    //(JSON.stringify(lineItem));
+    // this.confirmationService.confirm({
+    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+    //   header: 'Confirm',
+    //   icon: 'pi pi-exclamation-triangle',
+    //   accept: () => {
+
+    //   },
+    // });
+  }
+
+  cancelDeleteConfirm() {
+    this.deleteDialogvisible = false;
+  }
+
+  deleteConfirm(lineItem: any) {
+    this.submitted = true;
+    this.usedService.deleteReceiptNoteLineItem(lineItem.id).then((data: any) => {
+      this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
+
+      this.rnSubTotal =this.lineitems.reduce((total, lineItem) => {
+        total + lineItem.amount, 0
+      });
+
+      this.deleteDialogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      this.submitted = false;
+      this.deleteDialogvisible = false;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Line item Deletion Error, Please refresh and try again',
+        life: 3000,
+      });
+    });
+  }
+
 }
+
+

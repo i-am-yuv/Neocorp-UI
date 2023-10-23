@@ -168,9 +168,14 @@ p {
 
 ::ng-deep {
     .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
     }
-  }
+}
 
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+}

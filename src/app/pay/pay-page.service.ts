@@ -127,6 +127,12 @@ export class PayPageService {
     return updatedRnLineItem;
   }
 
+  async deleteReceiptNoteLineItem(id: any) {
+    var url = this.apiurlNew + 'receiptNoteLine/'+encodeURIComponent(id);
+    const deleteReceiptNoteLineItem = await lastValueFrom(this.http.delete<any>(url));
+    return deleteReceiptNoteLineItem;
+  }
+
   async createCreditNoteLineItem(data: any) {
     var url = this.apiurlNew + 'api/creditNoteLine'
     const savedCnLineItem = await lastValueFrom(this.http.post<any>(url, data));
@@ -173,6 +179,12 @@ export class PayPageService {
     var url = this.apiurlNew + 'api/cashMemoLine'
     const updatedCashMemoLineItem = await lastValueFrom(this.http.put<any>(url, data));
     return updatedCashMemoLineItem;
+  }
+
+  async deleteCashMemoLineItem(id: any){
+    var url = this.apiurlNew + 'api/cashMemoLine/' + encodeURIComponent(id);
+    const deleteCashMemoLineItem = await lastValueFrom(this.http.delete<any>(url));
+    return deleteCashMemoLineItem;
   }
 
   async createSILineItem(data: any) {

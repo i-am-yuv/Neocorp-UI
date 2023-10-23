@@ -354,9 +354,11 @@ export class CreditNoteComponent implements OnInit {
   onRowEditInit(lineItem: cnLineItem) {
 
   }
+
   delete(lineItem: cnLineItem) {
     this.DeleteDialLogvisible = true;
   }
+  
   onRowEditSave(lineItem: cnLineItem) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);

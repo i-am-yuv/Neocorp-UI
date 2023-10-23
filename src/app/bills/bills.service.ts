@@ -43,6 +43,12 @@ export class BillsService {
     return _updatedReceiptNote;
   }
 
+  async deleteReceiptNote(id: any){
+    var url = this.apiurlNew + 'api/ReceiptNote/' + encodeURIComponent(id);
+    const deleteReceiptNote = await lastValueFrom(this.http.delete<any>(url));
+    return deleteReceiptNote;
+  }
+
   async updateDebitNote(rn: any ) {
     var url = this.apiurlNew + 'api/debitNote';
     const _updatedDebitNote = await lastValueFrom(this.http.put<any>(url, rn));

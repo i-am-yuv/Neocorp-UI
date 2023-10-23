@@ -283,19 +283,25 @@ p {
     /* Change the text color on hover (optional) */
 }
 
-.greenText{
+.greenText {
     color: #83D28F;
 }
 
-.custom-breadcrumb{
+.custom-breadcrumb {
     border: none !important;
     background: none !important;
 }
 
 ::ng-deep {
     .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
     }
-  }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+}

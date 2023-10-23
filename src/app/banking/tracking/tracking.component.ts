@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BankingService } from '../banking.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
@@ -11,49 +11,53 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class TrackingComponent implements OnInit {
 
-  stateOptions: any[] = [{label: 'Disburse', value: 'disburse'}, {label: 'Collection', value: 'collection'}];
+  stateOptions: any[] = [{ label: 'Disburse', value: 'disburse' }, { label: 'Collection', value: 'collection' }];
   value: string = 'disburse';
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  activePayment : any = {};
+  activePayment: any = {};
 
-  allDebitPayments : any[] = [];
-  totalRecords: number = 0 ;
+  allDebitPayments: any[] = [];
+  totalRecords: number = 0;
 
-  displayBeneDialog: boolean =  false;
+  displayBeneDialog: boolean = false;
+
+  items1!: MenuItem[];
+  items2!: MenuItem[];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private message: MessageService,
     private bankingS: BankingService,
-    private payServices : PayPageService) { }
+    private payServices: PayPageService) { }
 
   ngOnInit(): void {
+    this.items1 = [{ label: 'Banking' }, { label: 'Disburse' }];
+    this.items2 = [{ label: 'Banking' }, { label: 'Collection' }];
+
     // for disburse  
     this.getAllPayments();
   }
 
-  getAllPayments()
-  {
+  getAllPayments() {
     this.submitted = true;
     this.bankingS.getAllDebitPayment().then(
-     (res)=>{
-       console.log(res);
-       this.allDebitPayments = res.content;
-       this.totalRecords = res.totalElements;
-       this.submitted = false;
-     }
+      (res) => {
+        console.log(res);
+        this.allDebitPayments = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      }
     ).catch(
-     (err)=>{
-       console.log(err);
-       this.submitted = false;
-     }
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
     )
   }
 
-  addAccount()
-  {
+  addAccount() {
 
   }
 
@@ -61,8 +65,7 @@ export class TrackingComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
-  openBeneInfo()
-  {
+  openBeneInfo() {
     this.displayBeneDialog = true;
   }
 
