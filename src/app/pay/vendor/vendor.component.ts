@@ -25,7 +25,18 @@ export class VendorComponent implements OnInit {
   addressDetailsVisible: boolean = false;
   shippingAddressVisible: boolean = false;
 
-  items!: MenuItem[]
+  items!: MenuItem[] ;
+
+  accountType: any = [
+    {
+      "id": "1",
+      "name": "Current"
+    },
+    {
+      "id": "2",
+      "name": "Saving"
+    }
+  ];
 
   constructor(private router: Router,
     private route: ActivatedRoute,

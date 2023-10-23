@@ -439,7 +439,8 @@ export class PayToVendorComponent implements OnInit {
             detail: 'Payment Done successfully',
             life: 3000,
           });
-          this.OnCancelOTP();
+         // this.OnCancelOTP();
+          this.router.navigate(['/collect/purchaseInvoices']);
         }
       ).catch(
         (err) => {

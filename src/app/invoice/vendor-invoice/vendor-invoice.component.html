@@ -68,13 +68,22 @@
                             </div>
                             <div class="field col-6 payment-dropdown" >
                                 <label class="mr-3 required">Vendor</label>
-                                <ng-container formGroupName="vendor">
+                                <!-- <ng-container formGroupName="vendor">
                                     <div class="payment-dropdown ">
                                         <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
                                             formControlName="id" optionLabel="firstName" [showClear]="true"
                                             (ngChange)="selectVendor()" [style]="{ width: '100%' }">
                                         </p-dropdown>
                                     </div>
+                                </ng-container> -->
+                                <ng-container formGroupName="vendor" class="w-full">
+                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                        [style]="{ width: '100%' }" optionLabel="firstName">
+                                        <ng-template let-vendor pTemplate="option">
+                                            <span>{{ vendor.firstName }} {{ vendor.lastName }}, (Mobile No: {{ vendor.mobileNumber}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
                                 </ng-container>
                             </div>
                         </div>

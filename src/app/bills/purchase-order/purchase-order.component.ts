@@ -10,6 +10,7 @@ import { Product } from 'src/app/profile/profile-models';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { branch } from 'src/app/auth/auth-model';
+import { ProfilepageService } from 'src/app/profile/profilepage.service';
 
 
 @Component({
@@ -21,11 +22,13 @@ export class PurchaseOrderComponent implements OnInit {
 
   createNew: boolean = false;
   submitted: boolean = false;
+  sidebarVisibleProduct : boolean = false;
 
   DeleteDialLogvisible: boolean = false;
 
   id: string | null = '';
   poForm!: FormGroup;
+  productForm !: FormGroup ;
   lineItemForm !: FormGroup;
   enablePP: boolean = true;
 
@@ -40,6 +43,7 @@ export class PurchaseOrderComponent implements OnInit {
   singleLineItem: LineItem = {};
   groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
+  category : any[] = [];
   currentPoOrder: PurchaseOrder = {};
   currentUser: any = {};
 
@@ -59,6 +63,17 @@ export class PurchaseOrderComponent implements OnInit {
 
   items!: MenuItem[];
 
+  productType: any = [
+    {
+      "id": "1",
+      "name": "ITEM"
+    },
+    {
+      "id": "2",
+      "name": "SERVICE"
+    }
+  ];
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -66,7 +81,8 @@ export class PurchaseOrderComponent implements OnInit {
     private usedService: PayPageService,
     private billS: BillsService,
     private confirmationService: ConfirmationService,
-    private authS: AuthService) { }
+    private authS: AuthService,
+    private profileS : ProfilepageService) { }
 
   ngOnInit(): void {
 
@@ -95,8 +111,6 @@ export class PurchaseOrderComponent implements OnInit {
     this.loadState();
     this.getPoOrder();
     this.loadUser();
-
-
   }
 
   availablePO() {
@@ -683,4 +697,8 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
 
+  OpenProductForm()
+  { 
+    this.sidebarVisibleProduct =  true;
+  }
 }

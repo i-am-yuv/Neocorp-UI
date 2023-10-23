@@ -19,6 +19,7 @@ export class SalesInvoiceComponent implements OnInit {
   id: string | null = '';
   siForm !: FormGroup;
   DeleteDialLogvisible : boolean = false;
+  currCustomer : CustomeR = {} ;
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -138,6 +139,8 @@ export class SalesInvoiceComponent implements OnInit {
           console.log(si);
           this.currSI = si;
           this.siForm.patchValue(si);
+          this.currCustomer.displayName =  this.currSI?.customer?.displayName  ;
+          this.currCustomer.mobileNumber =  this.currSI?.customer?.mobileNumber  ;
           this.submitted = false;
           this.getLines(si); //Because backend api is not ready
         }
@@ -227,16 +230,40 @@ export class SalesInvoiceComponent implements OnInit {
       }
     )
   }
+  selectVendor()
+  {
 
-  selectVendor() { }
+  }
+
+  changeCustomer(e : any) {
+    this.submitted = true;
+    this.invoiceS.getCurrentSo(e.value).then(
+      (res)=>{
+        this.submitted = false;
+        this.currCustomer  = res.customer ;
+      }
+    ).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While fetching the customer',
+          life: 3000,
+        });
+      }
+    )
+   }
 
   onSubmitSI() {
 
     if (this.siForm.value.vendorInvoice.id == null || this.siForm.value.vendorInvoice.id == "") {
       this.siForm.value.vendorInvoice = null;
     }
-
+    
     var siFormVal = this.siForm.value;
+    siFormVal.customer = this.currCustomer ;
     siFormVal.id = this.id;
     if (siFormVal.id) {
       //this.poForm.value.id = poFormVal.id;

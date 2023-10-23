@@ -128,6 +128,12 @@ export class BillsService {
     return allPos;
   }
 
+  async getAllProductCategory() {
+    var url = this.apiurlNew + 'api/productCategory' ;
+    const allPCs = await lastValueFrom(this.http.get<any>(url));
+    return allPCs;
+  }
+
   
   async getRemainingAmount(dn : any) {
     var url = this.apiurlNew + 'debitNotePayments/'+encodeURIComponent(dn.id)+'/remaining' ;

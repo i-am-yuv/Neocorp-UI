@@ -36,7 +36,7 @@
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
-            
+
         </div>
 
 
@@ -58,10 +58,20 @@
 
                     <div class="field col-6 ">
                         <label class="mr-3 required">Vendor</label>
-                        <ng-container formGroupName="vendor" class="w-full">
+                        <!-- <ng-container formGroupName="vendor" class="w-full">
                             <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
                                 formControlName="id" optionLabel="firstName" [showClear]="true"
                                 (onChange)="selectVendor()" [style]="{ width: '100%' }">
+                            </p-dropdown>
+                        </ng-container> -->
+                        <ng-container formGroupName="vendor" class="w-full">
+                            <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                [style]="{ width: '80%' }" optionLabel="firstName">
+                                <ng-template let-vendor pTemplate="option">
+                                    <span>{{ vendor.firstName }} {{ vendor.lastName }}, (Mobile No: {{
+                                        vendor.mobileNumber}}) </span>
+                                </ng-template>
                             </p-dropdown>
                         </ng-container>
                     </div>
@@ -164,11 +174,20 @@
 
             </form>
 
-            <div *ngIf="id" class="p-1">
-                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="">
+            <div *ngIf="true" class="p-1">
+                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="" >
                     <ng-template pTemplate="header">
                         <tr>
-                            <th class="text-center" width="100">Product</th>
+                            <th class="" width="100">
+                                <span class="">Product</span>
+                                <span class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer" (click)="OpenProductForm()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg></span>
+                            </th>
                             <th class="text-center" width="100">Price</th>
                             <th class="text-center" width="100">Quantity</th>
                             <th class="text-center" width="100">Discount (₹)</th>
@@ -274,14 +293,17 @@
                             </ng-template>
                         </p-dialog> -->
 
-                        <p-dialog header="Header" [(visible)]="DeleteDialLogvisible" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                        <p-dialog header="Header" [(visible)]="DeleteDialLogvisible" [modal]="true"
+                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                             <ng-template pTemplate="header">
                                 <span class="text-xl font-bold">Confirmation</span>
                             </ng-template>
                             <p class="m-0">Are you sure you want to delete this Line Item?</p>
                             <ng-template pTemplate="footer">
-                                    <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel" styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes" styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
+                                    styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes"
+                                    styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>
 
@@ -355,6 +377,119 @@
 
 
 </div>
+
+<div *ngIf="sidebarVisibleProduct">
+    <app-product-sidebar></app-product-sidebar>
+</div>
+
+<!-- <div class="card flex justify-content-center">
+    <p-sidebar [(visible)]="sidebarVisibleProduct" position="right" styleClass="w-30rem">
+        <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-2 mt-2">
+            
+            <h3 class="text-xl text-blue-700">Product Details</h3>
+
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 required">Product Name</label>
+                    <input pInputText formControlName="name" placeholder="Enter Product Name" class="w-full" />
+                    <error-message [controlName]="productForm.controls['name']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 required">Model</label>
+                    <input pInputText formControlName="model" placeholder="Enter Product Model" class="w-full" />
+                    <error-message [controlName]="productForm.controls['model']"></error-message>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 ">Search key</label>
+                    <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
+                    <error-message [controlName]="productForm.controls['searchKey']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 ">Product Category</label>
+                    
+                    <ng-container formGroupName="category" class="w-full">
+                        <p-dropdown [options]="category" placeholder="Category" optionValue="id"
+                            formControlName="id" optionLabel="name" [showClear]="true"
+                            (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
+                        </p-dropdown>
+                    </ng-container>
+                    <error-message [controlName]="productForm.controls['category']"></error-message>
+                </div>
+
+            </div>
+
+            <div class="flex gap-2">
+                <div class="field col-6 payment-dropdown">
+                    <label class="mr-3 required">Product Type</label>
+                    
+                    <div class="payment-dropdown ">
+                        <p-dropdown class="bg-slate-200" [options]="productType" [style]="{ width: '100%' }"
+                            placeholder="Type" optionLabel="name" optionValue="name"
+                            formControlName="productType"></p-dropdown>
+                    </div>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 ">Brand</label>
+                    <input pInputText formControlName="brand" placeholder="Enter Brand" class="w-full" />
+                    <error-message [controlName]="productForm.controls['brand']"></error-message>
+                </div>
+            </div>
+
+
+            <h4 class="text-base text-blue-700">Price Details</h4>
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 required">Product's MRP</label>
+                    <input pInputText formControlName="mrp" placeholder="Enter Product MRP" class="w-full" />
+                    <error-message [controlName]="productForm.controls['mrp']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 ">Tax Rate</label>
+                    <input pInputText formControlName="taxRate" placeholder="Enter Tax Rate" class="w-full" />
+                    <error-message [controlName]="productForm.controls['taxRate']"></error-message>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 ">Bar Code</label>
+                    <input pInputText formControlName="barCode" placeholder="Enter BarCode" class="w-full" />
+                    <error-message [controlName]="productForm.controls['barCode']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 ">HSN Code</label>
+                    <input pInputText formControlName="hsnCode" placeholder="Enter HSN Code" class="w-full" />
+                    <error-message [controlName]="productForm.controls['hsnCode']"></error-message>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 ">SKU Code</label>
+                    <input pInputText formControlName="skuCode" placeholder="Enter SKU Code" class="w-full" />
+                    <error-message [controlName]="productForm.controls['skuCode']"></error-message>
+                </div>
+                <div class="field col-6">
+                    <label class="mr-3 ">Description</label>
+                    <input pInputText formControlName="description" placeholder="Enter Description" class="w-full" />
+                    <error-message [controlName]="productForm.controls['description']"></error-message>
+                </div>
+            </div>
+
+            <div class="border-bottom-1 border-200 text-right p-3">
+                <button type="button" pButton label="Cancel" class=" mr-3 p-button-secondary"
+                    (click)="cancelProduct()"></button>
+                <button type="button" pButton label="Save Product" (click)="onSubmitProduct()"
+                    [disabled]="!productForm.valid"
+                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+            </div>
+
+        </form>
+    </p-sidebar>
+</div> -->
 
 
 <p-blockUI [blocked]="submitted">

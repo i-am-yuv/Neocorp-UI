@@ -15,6 +15,7 @@ import { DebitNoteComponent } from './debit-note/debit-note.component';
 import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';
 import { DebitNoteDashboardComponent } from './debit-note-dashboard/debit-note-dashboard.component';
 import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-note-dashboard.component';
+import { ProductSidebarComponent } from './product-sidebar/product-sidebar.component';
 @NgModule({
   declarations: [
     PurchaseOrderComponent,
@@ -22,7 +23,8 @@ import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-
     DebitNoteComponent,
     PoDashboardComponent,
     DebitNoteDashboardComponent,
-    ReceiptNoteDashboardComponent
+    ReceiptNoteDashboardComponent,
+    ProductSidebarComponent
   ],
   imports: [
     CommonModule,

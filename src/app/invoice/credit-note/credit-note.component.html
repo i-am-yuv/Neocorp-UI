@@ -81,13 +81,22 @@
                         <div class="flex gap-3">
                             <div class="field col-6 payment-dropdown" >
                                 <label class="mr-3 required">Customer</label>
-                                <ng-container formGroupName="customer" class="w-full">
+                                <!-- <ng-container formGroupName="customer" class="w-full">
                                     <div class="payment-dropdown ">
                                         <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
                                             formControlName="id" optionLabel="displayName" [showClear]="true"
                                             (onChange)="selectVendor()" [style]="{ width: '100%' }">
                                         </p-dropdown>
                                     </div>
+                                </ng-container> -->
+                                <ng-container formGroupName="customer" class="w-full">
+                                    <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                        [style]="{ width: '100%' }" optionLabel="displayName">
+                                        <ng-template let-customer pTemplate="option">
+                                            <span>{{ customer.displayName }}, (Mobile No: {{ customer.mobileNumber}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
                                 </ng-container>
                             </div>
 

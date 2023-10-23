@@ -585,4 +585,8 @@ export class PoInvoiceComponent implements OnInit {
       });
   }
 
+  myFunction1(item: any): string {
+    return parseFloat(item.grossTotal).toFixed(2);
+  }
+
 }

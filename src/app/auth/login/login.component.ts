@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   submitted = false;
+  fieldTextType!: boolean;
   timer = 50;
 
   stateOptions: any[] = [{ label: 'Company', value: 'company' }, { label: 'Vendor', value: 'vendor' }];
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit {
               severity: 'sucess',
               summary: 'Sign In Successful',
               detail: res.message,
-              life: 3000,
+              life: 2000,
             });
             setTimeout(() => {
               this.router.navigate(['/dashboard']);
@@ -154,7 +155,10 @@ export class LoginComponent implements OnInit {
 
         });
     }
-
-
   }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
 }

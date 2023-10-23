@@ -119,9 +119,10 @@
                                     [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
                             </div>
                             <div class="field col-6">
-                                <label class="mr-3 required">Account type</label>
-                                <input pInputText formControlName="accountType" placeholder="Enter Your Account Type"
-                                    class="w-full custom-input" />
+                                <label class="mr-3 required">Account Type</label>
+                                <p-dropdown class="bg-slate-200" [options]="accountType" [style]="{ width: '100%' }"
+                                    placeholder="Choose Account Type" optionLabel="name" optionValue="name"
+                                    formControlName="productType"></p-dropdown>
                                 <error-message
                                     [controlName]="accountDetailsForm.controls['accountType']"></error-message>
                             </div>
