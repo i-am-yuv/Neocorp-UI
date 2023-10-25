@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { BillsService } from '../bills.service';
+import { BillsService } from 'src/app/bills/bills.service';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 
 @Component({
-  selector: 'app-product-sidebar',
-  templateUrl: './product-sidebar.component.html',
-  styleUrls: ['./product-sidebar.component.scss']
+  selector: 'app-slide-product',
+  templateUrl: './slide-product.component.html',
+  styleUrls: ['./slide-product.component.scss']
 })
-export class ProductSidebarComponent implements OnInit {
+export class SlideProductComponent implements OnInit {
 
   submitted : boolean = false;
   isOpen : boolean = true;
@@ -122,5 +122,6 @@ export class ProductSidebarComponent implements OnInit {
 
   selectProductCategory(){
   }
+
 
 }

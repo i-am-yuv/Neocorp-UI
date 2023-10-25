@@ -103,6 +103,8 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.items = [{label: 'Bills'},{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
 
+    this.sidebarVisibleProduct =  false;
+
     this.initForm();
     this.poForm.value.enablePartialPayments = false;
     this.loadVendors();
@@ -695,10 +697,5 @@ export class PurchaseOrderComponent implements OnInit {
     //this.createNew = false;
     this.router.navigate(['/bills/purchaseOrder']);
 
-  }
-
-  OpenProductForm()
-  { 
-    this.sidebarVisibleProduct =  true;
   }
 }

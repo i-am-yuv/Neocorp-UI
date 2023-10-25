@@ -45,48 +45,54 @@
 
             <form (ngSubmit)="onSubmitPO()" [formGroup]="poForm" class="p-6">
 
-                <div class="flex gap-2">
-
-                    <!-- <div class="field col-6 payment-dropdown">
-                        <label class="mr-3 required">Bill To</label>
-                        <div class="payment-dropdown ">
-                            <p-dropdown class="bg-slate-200" [options]="billTo" [style]="{ width: '100%' }"
-                                placeholder="Please Select" optionLabel="name" optionValue="name"
-                                formControlName="billToName" (onChange)="billToSelect()"></p-dropdown>
-                        </div>
-                    </div> -->
-
+                <!-- <div class="iconSCSS gap-1">
                     <div class="field col-6 ">
                         <label class="mr-3 required">Vendor</label>
-                        <!-- <ng-container formGroupName="vendor" class="w-full">
-                            <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
-                                formControlName="id" optionLabel="firstName" [showClear]="true"
-                                (onChange)="selectVendor()" [style]="{ width: '100%' }">
-                            </p-dropdown>
-                        </ng-container> -->
+                        
                         <ng-container formGroupName="vendor" class="w-full">
                             <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
                                 formControlName="id" [showClear]="true" (onChange)="selectVendor()"
-                                [style]="{ width: '80%' }" optionLabel="firstName">
+                                [style]="{ width: '100%' }" optionLabel="firstName">
                                 <ng-template let-vendor pTemplate="option">
-                                    <span>{{ vendor.firstName }} {{ vendor.lastName }}, (Mobile No: {{
-                                        vendor.mobileNumber}}) </span>
+                                    <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
+                                        }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
                                 </ng-template>
                             </p-dropdown>
                         </ng-container>
-                    </div>
-                    <!-- <div class="field col-6 payment-dropdown" *ngIf="this.customerVisible">
-                        <label class="mr-3 required">Customer</label>
-                        <ng-container formGroupName="customer" class="w-full">
-                            <div class="payment-dropdown ">
-                                <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
-                                    formControlName="id" optionLabel="displayName" [showClear]="true"
-                                    (onChange)="selectVendor()" [style]="{ width: '100%' }">
-                                </p-dropdown>
-                            </div>
-                        </ng-container>
                     </div> -->
+                <div class="iconSCSS gap-1">
+                    <div class="field col-6 ">
+                        <div class="iconSCSS w-full">
+                            <div class="field col-9">
+                                <ng-container formGroupName="vendor" class="w-full">
+                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                        [style]="{ width: '100%' }" optionLabel="firstName">
+                                        <ng-template let-vendor pTemplate="option">
+                                            <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
+                                                }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </ng-container>
+                            </div>
+                            <div class="field col-3 text-left">
+                                <span [routerLink]="['/pay/vendor/create']"
+                                    class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-6 ">
+                    </div>
                 </div>
+
+
 
                 <hr class="border-gray-50 mt-3 mb-3">
 
@@ -100,13 +106,6 @@
                             class="w-full custom-input " [disabled]="true" />
                     </div>
 
-                    <!-- <div class="field col-4">
-                        <label class="mr-3 required">Order Status</label>
-                        <input pInputText formControlName="status" placeholder="Enter Status"
-                            class="w-full custom-input" />
-                        <error-message [controlName]="poForm.controls['status']"></error-message>
-                    </div> -->
-
                     <div class="field col-6">
                         <label class="mr-3 required">Place Of Supply</label><br>
                         <ng-container formGroupName="placeOfSupply" class="w-full">
@@ -119,6 +118,8 @@
                         </ng-container>
                     </div>
                 </div>
+
+
 
                 <div class="flex gap-3 ">
 
@@ -150,7 +151,7 @@
 
                 <div class="flex gap-1 ">
                     <div class="field col-12">
-                        <label class="mr-3">Internsl Notes</label>
+                        <label class="mr-3">Internal Notes</label>
                         <input pInputText formControlName="internslNotes"
                             placeholder="Enter Your internal Notes Of Purchase Order" class="w-full custom-input" />
                         <error-message [controlName]="poForm.controls['internslNotes']"></error-message>
@@ -159,13 +160,13 @@
 
                 <!-- <hr class="border-gray-50 mt-3 mb-3"> -->
 
-                <div class="flex gap-2 ">
+                <!-- <div class="flex gap-2 ">
                     <div class="field col-4">
                         <label class="mr-3">Enable Partial Payments</label>
                         <p-toggleButton onLabel="Confirm" offLabel="Reject"
                             formControlName="enablePartialPayments"></p-toggleButton>
-                    </div>
-                </div>
+                    </div> -->
+
 
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
                     <button type="submit" pButton label="Save" [disabled]="!poForm.valid"
@@ -174,13 +175,15 @@
 
             </form>
 
-            <div *ngIf="true" class="p-1">
-                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="" >
+            <div *ngIf="id" class="p-1">
+                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="">
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="" width="100">
                                 <span class="">Product</span>
-                                <span class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer" (click)="OpenProductForm()">
+                                <span
+                                    class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
+                                    (click)="sidebarVisibleProduct = !sidebarVisibleProduct">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
                                         viewBox="0 0 20 20" fill="none">
                                         <path
@@ -202,12 +205,13 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-lineItem let-editing="editing" let-ri="rowIndex">
                         <tr [pEditableRow]="lineItem">
-                            <td class="text-center">
+                            <td class="text-left">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
-                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)">
+                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
+                                            [style]="{ width: '100%' }" [appendTo]="'body'">
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">
@@ -330,9 +334,9 @@
                 </div> -->
 
 
-                <div class="flex gap-5 mt-5">
-                    <div class="field col-1"></div>
-                    <div class="field col-4">
+                <div class="iconSCSS mt-5">
+
+                    <div class=" col-4">
                         <label for="fileInput" class="image-upload-label">
                             <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-11">
                         </label>
@@ -340,26 +344,19 @@
                             (change)="selectFile($event)">
                         <span id="selectedFileName" class="ml-2"></span>
                     </div>
-                </div>
 
-
-                <!-- <div class="flex">
-                                <div class="field col-12 text-right w-full">
-                                    <button type="button" pButton label="Create Purchase Order"
-                                        [disabled]="this.poSubTotal == 0" (click)="finalPoSubmitPage()"
-                                        class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                                </div>
-                            </div> -->
-
-
-                <div class=" border-200 text-right mr-6 mb-3">
-                    <div class="text-xl ">
-                        SUB TOTAL: ₹ {{this.poSubTotal}}
-                    </div> <br>
-                    <div class="text-xl">
-                        TOTAL: ₹ {{this.poSubTotal}}
+                    <div class=" col-7 text-right border-200">
+                        <div class="text-xl ">
+                            SUB TOTAL: ₹ {{this.poSubTotal}}
+                        </div> <br>
+                        <div class="text-xl">
+                            TOTAL: ₹ {{this.poSubTotal}}
+                        </div>
                     </div>
+
                 </div>
+
+
 
 
                 <div class="border-bottom-1 border-200 text-right p-3">
@@ -379,118 +376,8 @@
 </div>
 
 <div *ngIf="sidebarVisibleProduct">
-    <app-product-sidebar></app-product-sidebar>
+    <app-slide-product></app-slide-product>
 </div>
-
-<!-- <div class="card flex justify-content-center">
-    <p-sidebar [(visible)]="sidebarVisibleProduct" position="right" styleClass="w-30rem">
-        <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-2 mt-2">
-            
-            <h3 class="text-xl text-blue-700">Product Details</h3>
-
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 required">Product Name</label>
-                    <input pInputText formControlName="name" placeholder="Enter Product Name" class="w-full" />
-                    <error-message [controlName]="productForm.controls['name']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 required">Model</label>
-                    <input pInputText formControlName="model" placeholder="Enter Product Model" class="w-full" />
-                    <error-message [controlName]="productForm.controls['model']"></error-message>
-                </div>
-            </div>
-
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 ">Search key</label>
-                    <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
-                    <error-message [controlName]="productForm.controls['searchKey']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">Product Category</label>
-                    
-                    <ng-container formGroupName="category" class="w-full">
-                        <p-dropdown [options]="category" placeholder="Category" optionValue="id"
-                            formControlName="id" optionLabel="name" [showClear]="true"
-                            (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
-                        </p-dropdown>
-                    </ng-container>
-                    <error-message [controlName]="productForm.controls['category']"></error-message>
-                </div>
-
-            </div>
-
-            <div class="flex gap-2">
-                <div class="field col-6 payment-dropdown">
-                    <label class="mr-3 required">Product Type</label>
-                    
-                    <div class="payment-dropdown ">
-                        <p-dropdown class="bg-slate-200" [options]="productType" [style]="{ width: '100%' }"
-                            placeholder="Type" optionLabel="name" optionValue="name"
-                            formControlName="productType"></p-dropdown>
-                    </div>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">Brand</label>
-                    <input pInputText formControlName="brand" placeholder="Enter Brand" class="w-full" />
-                    <error-message [controlName]="productForm.controls['brand']"></error-message>
-                </div>
-            </div>
-
-
-            <h4 class="text-base text-blue-700">Price Details</h4>
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 required">Product's MRP</label>
-                    <input pInputText formControlName="mrp" placeholder="Enter Product MRP" class="w-full" />
-                    <error-message [controlName]="productForm.controls['mrp']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">Tax Rate</label>
-                    <input pInputText formControlName="taxRate" placeholder="Enter Tax Rate" class="w-full" />
-                    <error-message [controlName]="productForm.controls['taxRate']"></error-message>
-                </div>
-            </div>
-
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 ">Bar Code</label>
-                    <input pInputText formControlName="barCode" placeholder="Enter BarCode" class="w-full" />
-                    <error-message [controlName]="productForm.controls['barCode']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">HSN Code</label>
-                    <input pInputText formControlName="hsnCode" placeholder="Enter HSN Code" class="w-full" />
-                    <error-message [controlName]="productForm.controls['hsnCode']"></error-message>
-                </div>
-            </div>
-
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 ">SKU Code</label>
-                    <input pInputText formControlName="skuCode" placeholder="Enter SKU Code" class="w-full" />
-                    <error-message [controlName]="productForm.controls['skuCode']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">Description</label>
-                    <input pInputText formControlName="description" placeholder="Enter Description" class="w-full" />
-                    <error-message [controlName]="productForm.controls['description']"></error-message>
-                </div>
-            </div>
-
-            <div class="border-bottom-1 border-200 text-right p-3">
-                <button type="button" pButton label="Cancel" class=" mr-3 p-button-secondary"
-                    (click)="cancelProduct()"></button>
-                <button type="button" pButton label="Save Product" (click)="onSubmitProduct()"
-                    [disabled]="!productForm.valid"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
-            </div>
-
-        </form>
-    </p-sidebar>
-</div> -->
-
 
 <p-blockUI [blocked]="submitted">
     <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>

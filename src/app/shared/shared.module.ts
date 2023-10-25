@@ -58,6 +58,7 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
 import { AddRowDirective } from './directives/add-row.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { DebounceKeyupDirective } from './directives/debounce.directive';
+import { SlideProductComponent } from './slide-product/slide-product.component';
 
 
 @NgModule({
@@ -68,21 +69,23 @@ import { DebounceKeyupDirective } from './directives/debounce.directive';
     AddRowDirective,
     NumbersOnlyDirective,
     DebounceKeyupDirective,
+    SlideProductComponent
   ],
   imports: [
     CommonModule,
     MenubarModule,
     FormsModule,
-    // DutchModule,
-    // LayoutComponent
-    // MenuModule,
-    // InputTextModule,
-    // ToastModule,
-    // ConfirmDialogModule,
-    // ToolbarModule,
-    DropdownModule
+    DropdownModule,
+    BlockUIModule,
+    ToastModule,
+    SidebarModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule
   ],
   exports:[
+    SlideProductComponent,
     FormsModule,
     ReactiveFormsModule,
     ErrorMessageComponent,
@@ -140,7 +143,8 @@ import { DebounceKeyupDirective } from './directives/debounce.directive';
     PasswordModule,
     KeyFilterModule,
     NgPipesModule,
-    DebounceKeyupDirective,
+    DebounceKeyupDirective
+    
   ]
 })
 export class SharedModule { }

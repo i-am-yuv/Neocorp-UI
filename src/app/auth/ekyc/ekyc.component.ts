@@ -16,6 +16,8 @@ export class EkycComponent implements OnInit {
   submitted: boolean = false;
   panVerifiedSuccess: boolean = false;
 
+  comName = sessionStorage.getItem('companyName') ?sessionStorage.getItem('companyName') : 'Nil';
+
   constructor(private router: Router,
     private loginService: LoginService,
     private message: MessageService) { }
@@ -33,6 +35,7 @@ export class EkycComponent implements OnInit {
         Validators.maxLength(10),
       ]),
     });
+
   }
 
   // onSubmitEKyc1() {
@@ -51,11 +54,12 @@ export class EkycComponent implements OnInit {
         if(res.data.status == 'VALID')
       {
         console.log("PAN Card Status VALID");
-        console.log("PAN Card Status VALID");
+        this.submitted = false;
         this.verifyAadhar();
         this.submitted = false;
       }
       else{
+        this.submitted = false;
         console.log("PAN Card Status VALID");
         this.submitted = false;
         this.message.add({
@@ -64,11 +68,11 @@ export class EkycComponent implements OnInit {
           detail: 'Check your Pan Number',
           life: 3000,
         });
-        this.submitted = false;
       }
       this.submitted = false;
       })
       .catch((err) => {
+        this.submitted = false;
         if (err.status === 0) {
           this.message.add({
             severity: 'error',
@@ -96,10 +100,12 @@ export class EkycComponent implements OnInit {
   }
 
   verifyAadhar() {
+    this.submitted= true;
     this.loginService.verifyAadhar(this.eKycForm.value.aadhaarNumber).
       then((res) => {
         if (res) {
           console.log("Aadhar Verification Initiated");
+          this.submitted = false;
           console.log(res);
           if (res.data.ref_id != null) {
             sessionStorage.setItem('goToAadharOtpPage', 'aadharOtpSent');
@@ -113,6 +119,7 @@ export class EkycComponent implements OnInit {
           }
           this.submitted = false;
         } else {
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Aadhar Verify Error',
@@ -123,6 +130,7 @@ export class EkycComponent implements OnInit {
         }
       })
       .catch((err) => {
+        this.submitted = false;
         if (err.status === 0) {
           this.message.add({
             severity: 'error',
