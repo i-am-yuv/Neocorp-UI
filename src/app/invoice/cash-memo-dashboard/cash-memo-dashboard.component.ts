@@ -44,6 +44,11 @@ export class CashMemoDashboardComponent implements OnInit {
     this.invoiceS.getAllCashMemo().then(
       (res : any) => {
         this.allCashMemo = res.content;
+        if (this.allCashMemo.length > 0) {
+          this.changeOrder(this.allCashMemo[0]);
+        } else {
+          this.activeCM = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted =  false;
       }

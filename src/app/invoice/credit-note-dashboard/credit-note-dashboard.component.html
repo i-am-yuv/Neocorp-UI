@@ -86,7 +86,8 @@
                                                         'NA' }}
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
-                                                        <b>₹: </b>{{item.grossTotal ? item.grossTotal : '0.00'}}
+                                                        <b>₹: </b>{{item.grossTotal ? item.grossTotal : '0.00'}}<br>
+                                                        <p class="text-black">{{item.requestStatus}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,17 +193,17 @@
                                 <div class="flex ">
                                     <div class="field col-4">
                                         <label class="mr-3 blueText">Credit Note Number:</label>
-                                        <h5>#{{ this.activeCN.creditNoteNo}}</h5>
+                                        <p>#{{ this.activeCN.creditNoteNo}}</p>
                                     </div>
 
                                     <div class="field col-4">
                                         <label class="mr-3 ">Start on:</label>
-                                        <h5>{{ this.activeCN.startdate | date:'yyyy-MM-dd'}}</h5>
+                                        <p>{{ this.activeCN.startdate | date:'yyyy-MM-dd'}}</p>
                                     </div>
 
                                     <div class="field col-4">
                                         <label class="mr-3 ">Due Date:</label>
-                                        <h5>{{ this.activeCN.duedate | date:'yyyy-MM-dd'}}</h5>
+                                        <p>{{ this.activeCN.duedate | date:'yyyy-MM-dd'}}</p>
                                     </div>
                                 </div>
 
@@ -212,14 +213,14 @@
                                     <div class="field col-7">
                                         <!-- <h4 class="text-blue-500">Bill From</h4> <br>  -->
                                         <label class="mr-3 blueText">Bill From:</label>
-                                        <h5>{{this.activeCN.customer?.address?.billingName}}</h5>
-                                        <h5>{{this.activeCN.customer?.address?.billingAddress}}</h5>
-                                        <h5>{{this.activeCN.customer?.address?.city}}
-                                            ,{{this.activeCN.customer?.address?.pincode}}</h5>
+                                        <p>{{this.activeCN.customer?.address?.billingName}}</p>
+                                        <p>{{this.activeCN.customer?.address?.billingAddress}}</p>
+                                        <p>{{this.activeCN.customer?.address?.city}}
+                                            ,{{this.activeCN.customer?.address?.pincode}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <label class="mr-3 blueText">Place of Supply</label>
-                                        <h4>{{this.activeCN.placeOfSupply?.stateName}}</h4>
+                                        <p>{{this.activeCN.placeOfSupply?.stateName}}</p>
                                     </div>
                                     <br>
                                 </div>

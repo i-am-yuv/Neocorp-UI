@@ -76,6 +76,11 @@ export class CustomerDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allCustomers = res.content;
+        if (this.allCustomers.length > 0) {
+          this.changeCustomer(this.allCustomers[0]);
+        } else {
+          this.activeCustomer = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }

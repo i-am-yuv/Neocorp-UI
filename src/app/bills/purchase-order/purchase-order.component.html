@@ -175,11 +175,11 @@
 
             </form>
 
-            <div *ngIf="id" class="p-1">
+            <div *ngIf="true" class="p-1">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="">
                     <ng-template pTemplate="header">
-                        <tr>
-                            <th class="" width="100">
+                        <tr >
+                            <th class="text-center" width="200">
                                 <span class="">Product</span>
                                 <span
                                     class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
@@ -205,16 +205,16 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-lineItem let-editing="editing" let-ri="rowIndex">
                         <tr [pEditableRow]="lineItem">
-                            <td class="text-left">
+                            <td class="text-left" >
                                 <p-cellEditor>
-                                    <ng-template pTemplate="input">
+                                    <ng-template pTemplate="input" class="fixed-width-dropdown">
                                         <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
                                             [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
-                                            [style]="{ width: '100%' }" [appendTo]="'body'">
+                                             [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown">
                                         </p-dropdown>
                                     </ng-template>
-                                    <ng-template pTemplate="output">
+                                    <ng-template pTemplate="output" >
                                         {{ lineItem?.expenseName?.name }}
                                     </ng-template>
                                 </p-cellEditor>
@@ -336,8 +336,8 @@
 
                 <div class="iconSCSS mt-5">
 
-                    <div class=" col-4">
-                        <label for="fileInput" class="image-upload-label">
+                    <div class=" col-4 ">
+                        <label for="fileInput" class="image-upload-label cursor-pointer">
                             <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-11">
                         </label>
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"

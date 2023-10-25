@@ -121,3 +121,6 @@ text-transform: capitalize;
 //   cursor: pointer; /* Show pointer cursor on hover */
 //   outline: none; /* Remove the default outline style */
 // }
+.fixed-width-dropdown {
+  width: 200px !important; /* Set your desired fixed width for the dropdown */
+}

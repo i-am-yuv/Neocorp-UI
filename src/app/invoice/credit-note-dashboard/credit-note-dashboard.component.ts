@@ -45,6 +45,11 @@ export class CreditNoteDashboardComponent implements OnInit {
     this.invoiceS.getAllCn().then(
       (res : any) => {
         this.allCreditNotes = res.content;
+        if (this.allCreditNotes.length > 0) {
+          this.changeOrder(this.allCreditNotes[0]);
+        } else {
+          this.activeCN = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }

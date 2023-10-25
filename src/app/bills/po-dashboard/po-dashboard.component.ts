@@ -13,14 +13,14 @@ import { PurchaseOrder } from '../bills-model';
 })
 export class PoDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allPOs : any[] = [];
-  totalRecords: number = 0 ;
-  
-  activeOrder: PurchaseOrder = {} ;
+  allPOs: any[] = [];
+  totalRecords: number = 0;
+
+  activeOrder: PurchaseOrder = {};
   lineitems: any[] = [];
-  poSubTotal: number = 0 ;
+  poSubTotal: number = 0;
 
   items!: MenuItem[];
 
@@ -33,62 +33,68 @@ export class PoDashboardComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'},{ label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, {label: 'Dashboard'}];
+    this.items = [{ label: 'Bills' }, { label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }];
 
     this.loadPO();
   }
 
-  loadPO()
-  {
+  loadPO() {
     this.submitted = true;
     this.billS.getAllPo().then(
-      (res:any) => {
-         console.log(res) ;
-         this.allPOs = res.content ;
-         this.totalRecords = res.totalElements;
-         this.submitted = false;
+      (res: any) => {
+        console.log(res);
+        this.allPOs = res.content;
+        if (this.allPOs.length > 0) {
+          this.changeOrder(this.allPOs[0]);
+        } else {
+          this.activeOrder = {};
+        }
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
       }
     )
-    
+
   }
 
-  changeOrder( po : PurchaseOrder)
-  {
+  changeOrder(po: PurchaseOrder) {
     this.activeOrder = po;
     this.getOrderLines(po);
   }
 
-  getOrderLines(order:PurchaseOrder)
-  {
+  getOrderLines(order: PurchaseOrder) {
     this.submitted = true;
     this.billS
-    .getLineitemsByPo(order)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.poSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-      }
-      this.submitted = false ;
-    });
-    
+      .getLineitemsByPo(order)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.poSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+        }
+        this.submitted = false;
+      });
+
   }
 
-  CreateNewPO()
-  {
+  CreateNewPO() {
     this.router.navigate(['/bills/purchaseOrder/create']);
   }
 
-  onEditPO(id:string)
-  {
-    this.router.navigate(['/bills/purchaseOrder/edit/'+id]); 
+  onEditPO(id: string) {
+    this.router.navigate(['/bills/purchaseOrder/edit/' + id]);
   }
-  
+
+  searchOrder: any;
+  searchOrders(e: any) {
+    alert(e);
+    // here this allPOs should be change
+  }
+
 
 }
 

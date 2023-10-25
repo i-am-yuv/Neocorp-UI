@@ -43,15 +43,15 @@
                                                 </div>
                                                 <div class=" col-10">
                                                     <div class="text-base "><b>{{ item.documentnumber }}</b></div>
-                                                    <div class="flex gap-2 ">
+                                                    <div class="flex gap-1 w-full">
                                                         <div class="col-8  text-base  ">
                                                             {{ item.vendor?.firstName }} {{ item.vendor?.lastName }} <br>
                                                             <p class="font-light text-sm">Date: {{item.dueDate| date
                                                                 :'yyyy-MM-dd'}}</p>
                                                             </div>
                                                             <div class="col-4 text-base text-right">
-                                                                <b>₹: </b>{{this.viSubTotal ?this.viSubTotal : '0.00' }} <br>
-                                                                <p class="leftStatus">{{item.status}}</p>
+                                                                <b>₹: </b>{{item.grosstotal ? item.grosstotal : '0.00' }} <br>
+                                                                <p class="text-right">{{item.status}}</p>
                                                             </div>
                                                     </div>
                                                 </div>
@@ -184,16 +184,7 @@
             
                                     </div>
                                     <hr class="custom-hr">
-                                    <div class="flex gap-2 w-full">
-                                        <div class="field col-5">
-                                            <label class="mr-3  blueText">Description</label><br>
-                                            <p class="text-light">{{this.activeInvoice.description}}</p>
-                                        </div>
-                                        <div class="field col-5">
-                                            <label class="mr-3 blueText">Status:</label><br>
-                                            <p class="text-light">{{this.activeInvoice.status}}</p>
-                                        </div>
-                                    </div>
+                                    
             
                                 </div>
                             </div>

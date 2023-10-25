@@ -26,6 +26,17 @@ export class CustomerComponent implements OnInit {
 
   items!: MenuItem[];
 
+  accountType: any = [
+    {
+      "id": "1",
+      "name": "Current"
+    },
+    {
+      "id": "2",
+      "name": "Saving"
+    }
+  ];
+
   constructor(private router: Router,
     private message: MessageService,
     private payPageS: PayPageService,

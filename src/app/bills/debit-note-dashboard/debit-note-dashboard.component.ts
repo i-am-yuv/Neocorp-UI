@@ -45,6 +45,11 @@ export class DebitNoteDashboardComponent implements OnInit {
     this.billS.getAllDn().then(
       (res : any) => {
         this.allDebitNotes = res.content;
+        if (this.allDebitNotes.length > 0) {
+          this.changeOrder(this.allDebitNotes[0]);
+        } else {
+          this.activeDN = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted =  false;
       }

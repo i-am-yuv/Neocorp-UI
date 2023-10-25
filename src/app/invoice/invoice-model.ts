@@ -27,6 +27,7 @@ export interface SalesInvoice {
   vendor ?: Vendor;
   grossTotal ?: number;
   status ?: string;
+  remainingAmount ?: number ;
 }
 
 export interface SalesInvoiceLine{

@@ -44,6 +44,11 @@ export class SalesInvoiceDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allSIs = res.content;
+        if (this.allSIs.length > 0) {
+          this.changeOrder(this.allSIs[0]);
+        } else {
+          this.activeInvoice = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }
@@ -88,18 +93,24 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   getRemainingAmount(SI:any)
   {
     this.submitted  = true;
-    this.invoiceS.getRemainingAmount(SI).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
-      }
-    ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
-      }
-    )
+    this.currentDue = SI.remainingAmount;
+    // this.invoiceS.getRemainingAmount(SI).then(
+    //   (res)=>{
+    //         console.log(res);
+    //         this.currentDue = res;
+    //         this.submitted  = false;
+    //   }
+    // ).catch(
+    //   (err)=>{
+    //      console.log(err);
+    //      this.submitted  = false;
+    //   }
+    // )
+  }
+
+
+  myFunction(item: any): string {
+     return parseFloat(item).toFixed(2);
   }
 
 

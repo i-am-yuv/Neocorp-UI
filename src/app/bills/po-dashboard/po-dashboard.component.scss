@@ -130,7 +130,26 @@
     font-weight: 400;
     line-height: normal;
 }
+.appStatus{
+    color: #64c574;
+    text-align: right;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
 
+.pendingStatus{
+    
+    color: #C22B39;
+    text-align: right;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
 .iconSCSS {
     display: flex;
     align-items: center;

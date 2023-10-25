@@ -2,18 +2,18 @@
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
@@ -36,11 +36,11 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
-  
+
 //   .raised-container {
 //     padding: 20px; /* Optional: Add padding for spacing around the content */
 //     background-color: #fff; /* Optional: Set the background color */
-  
+
 //     /* Box shadow to create the raised effect */
 //     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
 //   }
@@ -97,22 +97,22 @@
 
 
 
-    // .layout {
+// .layout {
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
@@ -129,11 +129,11 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
-  
+
 //   .raised-container {
 //     padding: 20px; /* Optional: Add padding for spacing around the content */
 //     background-color: #fff; /* Optional: Set the background color */
-  
+
 //     /* Box shadow to create the raised effect */
 //     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
 //   }
@@ -142,12 +142,12 @@
 
 .order-list {
   .list-item {
-      border-bottom: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
   }
 
   .list-item:hover {
-      background-color: #eeeeee;
-      cursor: pointer;
+    background-color: #eeeeee;
+    cursor: pointer;
   }
 }
 
@@ -165,9 +165,9 @@
 
 :host::ng-deep {
   .left-panel {
-      .p-panel-content {
-          padding: 0;
-      }
+    .p-panel-content {
+      padding: 0;
+    }
   }
 }
 
@@ -179,68 +179,78 @@
 
 @media only screen and (max-width: 600px) {
   .invoice-box table tr.top table td {
-      width: 100%;
-      display: block;
-      text-align: center;
+    width: 100%;
+    display: block;
+    text-align: center;
   }
 
   .invoice-box table tr.information table td {
-      width: 100%;
-      display: block;
-      text-align: center;
+    width: 100%;
+    display: block;
+    text-align: center;
   }
 }
 
 // /* Round icon styles */
 .person-icon {
-width: 45px;
-height: 45px;
-background-color: white; /* Customize the background color as needed */
-color: black; /* Customize the text color as needed */
-border-radius: 50%;
-border: 1px solid rgb(122, 120, 120) ;
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 18px;
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  /* Customize the background color as needed */
+  color: black;
+  /* Customize the text color as needed */
+  border-radius: 50%;
+  border: 1px solid rgb(122, 120, 120);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
 }
-.leftStatus{
-color: #C22B39;
-text-align: right;
-font-family: Elza;
-font-size: 12px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+
+.leftStatus {
+  color: #C22B39;
+  text-align: right;
 }
-.iconSCSS{
+
+.iconSCSS {
   display: flex;
   align-items: center;
   justify-content: end;
 }
-.h1,h2,h3,h4,h5,h6,p{
- margin: 0px !important;
- padding: 0px !important;
+
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
-.blueText{
-color: #1560E0;
-// font-family: Elza;
-// font-size: 12px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
+.blueText {
+  color: #1560E0;
+  // font-family: Elza;
+  // font-size: 12px;
+  // font-style: normal;
+  // font-weight: 400;
+  // line-height: normal;
 }
+
 .custom-hr {
-  border: none; /* Remove the default border */
-  border-top: 1px solid lightgray; /* Set the border color to light gray */
-  margin: 3px 0; /* Add margin for spacing (adjust as needed) */
+  border: none;
+  /* Remove the default border */
+  border-top: 1px solid lightgray;
+  /* Set the border color to light gray */
+  margin: 3px 0;
+  /* Add margin for spacing (adjust as needed) */
 }
 
 ::ng-deep {
   .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
+    border: none !important;
+    margin-left: 25px;
+    align-items: center;
   }
 }

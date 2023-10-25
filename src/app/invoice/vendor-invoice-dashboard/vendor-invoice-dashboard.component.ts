@@ -43,6 +43,11 @@ export class VendorInvoiceDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allVIs = res.content;
+        if (this.allVIs.length > 0) {
+          this.changeOrder(this.allVIs[0]);
+        } else {
+          this.activeInvoice = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }

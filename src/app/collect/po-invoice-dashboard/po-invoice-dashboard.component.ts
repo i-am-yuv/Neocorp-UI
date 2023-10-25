@@ -49,6 +49,11 @@ export class PoInvoiceDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allPIs = res.content;
+        if (this.allPIs.length > 0) {
+          this.changeOrder(this.allPIs[0]);
+        } else {
+          this.activeInvoice = {};
+        }
         this.totalRecords = res.totalElements;
         for (const purchaseInvoice of this.allPIs) {
   
@@ -153,5 +158,8 @@ export class PoInvoiceDashboardComponent implements OnInit {
           console.log(err);
         }
        )
+  }
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
   }
 }

@@ -46,6 +46,11 @@ export class SalesOrderDashboardComponent implements OnInit {
     this.invoiceS.getAllSo().then(
       (res : any) => {
         this.allSalesOrder = res.content;
+        if (this.allSalesOrder.length > 0) {
+          this.changeOrder(this.allSalesOrder[0]);
+        } else {
+          this.activeOrder = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }
