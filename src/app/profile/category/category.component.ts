@@ -46,7 +46,7 @@ export class CategoryComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Settings'},{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
+    this.items = [{ label: 'Settings' }, { label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
 
     // this.home = { icon:  routerLink: '/profile/productCategory' };
 
@@ -152,7 +152,7 @@ export class CategoryComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/profile/productCategories']);
           }, 2000);
-          
+
         })
         .catch(
           (err) => {
@@ -179,7 +179,7 @@ export class CategoryComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/profile/productCategories']);
           }, 2000);
-          
+
         })
         .catch((err) => {
           this.message.add({
@@ -200,6 +200,6 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/profile/productCategories']);
   }
 
-  createPC(){}
+  createPC() { }
 
 }
