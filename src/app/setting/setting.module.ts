@@ -11,6 +11,7 @@ import { RolesComponent } from './roles/roles.component';
 import { PrivilegeComponent } from './privilege/privilege.component';
 import { RolesPrivilegeComponent } from './roles-privilege/roles-privilege.component';
 import { DelegationRoleDashboardComponent } from './delegation-role-dashboard/delegation-role-dashboard.component';
+import { RolesDashboardComponent } from './roles-dashboard/roles-dashboard.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DelegationRoleDashboardComponent } from './delegation-role-dashboard/de
     RolesComponent,
     PrivilegeComponent,
     RolesPrivilegeComponent,
-    DelegationRoleDashboardComponent
+    DelegationRoleDashboardComponent,
+    RolesDashboardComponent
   ],
   imports: [
     CommonModule,

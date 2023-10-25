@@ -220,3 +220,27 @@ p {
     align-items: center;
     // justify-content: end;
 }
+
+
+
+.box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+    margin: 10px 0;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+p {
+    margin: 0;
+}

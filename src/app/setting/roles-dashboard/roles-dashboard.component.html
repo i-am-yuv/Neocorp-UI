@@ -1,19 +1,14 @@
 <div class="">
-    <div class="bg-white iconSCSS1">
-        <div class="col-4">
-            <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
-        </div>
-        <div class="col-8">
-            <div class=" border-200 text-right">
-                <button type="button" pButton (click)="onSubmitDelegationRole()"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20" fill="none">
-                        <path
-                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
-                            fill="white" />
-                    </svg> Add Delegation Role
-                </button>
-            </div>
+    <div class="bg-white">
+        <div class="border-bottom-1 border-200 text-right p-3">
+            <button type="button" pButton (click)="openNew()"
+                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20" fill="none">
+                    <path
+                        d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                        fill="white" />
+                </svg> Add Role
+            </button>
         </div>
     </div>
 
@@ -25,24 +20,24 @@
                 <div class="col-5">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title text-blue-500" style="padding: 1px">Delegations</span>
+                            <span class="p-panel-title text-blue-500" style="padding: 1px">Roles</span>
                         </ng-template>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
 
-                                <div *ngFor="let item of alldelegationRoles" class="order-list"
+                                <div *ngFor="let item of allRoles" class="order-list"
                                     [ngClass]="{ 'bg-gray-100': activeProductCategory.id === item.id }">
                                     <div class=" list-item" (click)="changeProductCategory(item)">
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class="col-2  justify-center align-center">
-                                                <div class="person-icon">{{ item.delegationName.charAt(0) }}</div>
+                                                <div class="person-icon">{{ item.name.charAt(0) }}</div>
                                             </div>
                                             <div class="col-10">
-                                                <div class="text-base"><b>{{ item.delegationName }}</b></div>
+                                                <div class="text-base"><b>{{ item.name }}</b></div>
                                                 <div class="flex gap-1 ">
                                                     <div class="col-10 text-base">
-                                                        <p class="text-sm">MRP: ₹{{item.delegationAmount}}</p>
+                                                        <p class="text-sm">RoleType: {{item.roleType}}</p>
                                                     </div>
 
                                                 </div>
@@ -51,8 +46,8 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center m-5" *ngIf="alldelegationRoles.length === 0">
-                                    No Delegation Roles 
+                                <div class="text-center m-5" *ngIf="allRoles.length === 0">
+                                    No Roles 
                                 </div>
                             </div>
                         </ng-template>
@@ -78,17 +73,17 @@
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeProductCategory.id">
                                 <img src="assets/empty.svg" width="250" /><br />
-                                Select DelegationRole
+                                Select Role
                             </div>
 
                             <div *ngIf="activeProductCategory.id">
                                 
                                 <div class="flex">
                                     <div class="field col-8">
-                                        <h4 class="">DelegationRole Details:</h4>
+                                        <h4 class="">Role Details:</h4>
                                     </div>
                                     
-                                    <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer" (click)="onEditDelegationRole(activeProductCategory.id)">
+                                    <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer" (click)="onEditRole(activeProductCategory.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
                                             viewBox="0 0 10 11" fill="none">
                                             <g clip-path="url(#clip0_862_17281)">
@@ -104,69 +99,41 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <div class="text-sm font-light">Edit DelegationRole</div>
+                                        <div class="text-sm font-light">Edit Role</div>
                                     </div>
 
                                 </div>
                                 <div class="flex flex-wrap">
 
-                                    <!-- <div class="field col-12">
-                                        <label class="mr-3 blueText">Delegation Name: </label>
-                                        <p class="w-full">{{ this.activeProductCategory.delegationName}}</p>
-                                    </div>
-
-                                    <div class="field col-12">
-                                        <label class="mr-3 blueText">Delegation Amount:</label>
-                                        <p>{{ this.activeProductCategory.delegationAmount}}</p>
-                                    </div>
-
-                                    <div class="field col-12">
-                                        <label class="mr-3 blueText">Delegation Description:</label>
-                                        <p>{{ this.activeProductCategory.delegationDescription}}</p>
-                                    </div>
-
-                                    <div class="field col-12">
-                                        <label class="mr-3 blueText">Role:</label>
-                                        <p>{{ this.activeProductCategory.role?.name}}</p>
-                                    </div> -->
-
-                               
-
-
-
-
-
-
-
-
+                            
                                 <div class="field col-9">
-                                    <label class="mr-3 blueText">Delegation Name: </label>
+                                    <label class="mr-3 blueText">Role Name: </label>
 
                                     <div class="box">
-                                        <p class="w-full ">{{ this.activeProductCategory.delegationName}}</p>
+                                        <p class="w-full ">{{ this.activeProductCategory.name}}</p>
                                     </div>
                                 </div>
                                 
                                 
                                     <div class="field col-9">
-                                        <label class="mr-3 blueText">Delegation Amount:</label>
+                                        <label class="mr-3 blueText">Role Type:</label>
                                         <div class="box">
-                                              <p>{{ this.activeProductCategory.delegationAmount}}</p>
+                                              <p>{{ this.activeProductCategory.roleType}}</p>
                                     </div>
                                 </div>
                                 
                                
                                     <div class="field col-9">
-                                        <label class="mr-3 blueText">Delegation Description:</label>
+                                        <label class="mr-3 blueText">Role Description:</label>
                                         <div class="box">
-                                              <p>{{ this.activeProductCategory.delegationDescription}}</p>
+                                              <p>{{ this.activeProductCategory.description}}</p>
                                     </div>
                                 </div>
                                 
                                     <div class="field col-9">
-                                        <label class="mr-3 blueText">Role:</label>
+                                        <label class="mr-3 blueText">Privileges:</label>
                                         <div class="box">
-                                              <p>{{ this.activeProductCategory.role?.name}}</p>
+                                              <p>{{ this.activeProductCategory.privileges?.name}}</p>
                                     </div>
                                 </div>
                                 

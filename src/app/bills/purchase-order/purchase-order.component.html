@@ -35,6 +35,16 @@
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
+            <div class="col-8">
+                <div class=" border-200 text-right p-3">
+                    <button type="button" pButton label="Cancel" (click)="OnCancelPO()"
+                        class="mr-3 p-button-secondary"></button>
+                    <button type="button" pButton label="Save Purchase Order" (click)="finalPoSubmitPage()"
+                        [disabled]="this.poSubTotal == 0"
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                </div>
+            </div>
+            
         </div>
 
         <div class="m-6 bg-white border-round-3xl">

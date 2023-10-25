@@ -14,11 +14,13 @@ export class PrivilegeService {
 
   constructor(private http: HttpClient) { }
 
-  async getPrivileges(pageNo: number,
+  async getPrivileges(
+    pageNo: number,
     pageSize: number,
     sortField : any,
     sortDir : any,
-    filter: string) {
+    filter: string
+    ) {
     var url = this.apiurl + '/privilege/all?pageNo='+ pageNo + '&pageSize=' + pageSize + '&sortField=' + sortField + '&sortDir=' + sortDir + filter ;
     const res = await lastValueFrom(this.http.get<any>(url));
     return res;

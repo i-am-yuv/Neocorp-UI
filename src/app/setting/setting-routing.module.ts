@@ -11,21 +11,31 @@ import { PrivilegeComponent } from './privilege/privilege.component';
 import { RolesPrivilegeComponent } from './roles-privilege/roles-privilege.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { DelegationRoleDashboardComponent } from './delegation-role-dashboard/delegation-role-dashboard.component';
+import { RolesDashboardComponent } from './roles-dashboard/roles-dashboard.component';
 
 
 const routes: Routes = [
   {
-    path: 'role/create',
+    path: 'role',
     component:LayoutComponent ,
     children: [
       { path: '', component: RolesComponent },
+      { path: 'create', component: RolesComponent },
       { path: 'edit/:id', component: RolesComponent },
+    ],
+  },
+  {
+    path: 'roles',
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: RolesDashboardComponent }
     ],
   },
   {
     path: 'delegationRole',
     component:LayoutComponent ,
     children: [
+      { path: '', component: DelegationRoleComponent },
       { path: 'create', component: DelegationRoleComponent },
       { path: 'edit/:id', component: DelegationRoleComponent },
     ],

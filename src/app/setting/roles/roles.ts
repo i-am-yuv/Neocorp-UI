@@ -1,8 +1,11 @@
+import { Privilege } from "../privilege/privilege";
+
 export interface Roles {
     id?: string;
     name?: string;
     description?: string;
     roleType?: string;
+    privileges?:Privilege;
 }
 
 export interface Workflow {

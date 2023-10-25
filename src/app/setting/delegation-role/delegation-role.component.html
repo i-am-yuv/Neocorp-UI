@@ -1,8 +1,31 @@
 <p-toast></p-toast>
         <div class="">
-            <div class="bg-white iconSCSS1">
-                <div class="col-4">
-                    <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+            <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+                <div class="center-container mt-5 p-3 ">
+                    <div class="field col-3"></div>
+                    <div class="field col-6 ">
+                        <div class="image-container">
+                            <img src="/assets/role.png" alt="Image" class="w-full h-auto">
+                        </div>
+                        <div class="text-center">
+                            <b class="text-2xl">Delegation Made Simple</b><br>
+                            <p>EmpowerYour Team by Delegating Tasks and Responsibilities</p>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" pButton label="Create Delegation" (click)="createDelRole()"
+                                class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                        </div>
+                    </div>
+                    <div class="field col-3"></div>
+                </div>
+            </div>
+            <div *ngIf="createNew">
+            <div class="bg-white">
+                <div class="border-bottom-1 border-200 text-right p-3">
+                    <button type="button" pButton label="Cancel"
+                        class=" mr-3 p-button-secondary"></button>
+                    <button type="button" pButton label="Add Delegation role" (click)="onSubmitDelegationRole()" [disabled]="!delroleForm.valid"
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
                 <div class="col-8">
                     <div class="border-200 text-right">
@@ -14,28 +37,27 @@
                 </div>   
             </div>
 
-            <div class="m-6 bg-white border-round-3xl">
-                <form (ngSubmit)="onSubmitDelegationRole()" [formGroup]="delroleForm" class="p-6">
+            <div class="m-8 bg-white border-round-3xl">
+                <form (ngSubmit)="onSubmitDelegationRole()" [formGroup]="delroleForm" class="p-6 ml-8">
                     <h3 class="text-xl text-blue-700">Delegation Role Details</h3>
 
-                    <div class="flex gap-2">
-                        <div class="field col-6">
+                   
+                        <div class="field col-8">
                             <label class="mr-3 required">Delegation Name</label>
                             <input pInputText formControlName="delegationName" placeholder="Enter Delegation Role Name"
                                 class="w-full" />
                             <error-message [controlName]="delroleForm.controls['delegationName']"></error-message>
                         </div>
                         
-                        <div class="field col-6">
+                        <div class="field col-8">
                             <label class="mr-3 required">Delegation Amount</label>
                             <input pInputText formControlName="delegationAmount"
                                 placeholder="Enter Delegation Amount" class="w-full"/>
                             <error-message [controlName]="delroleForm.controls['delegationAmount']"></error-message>
                         </div>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <div class="field col-6">
+                    
+                   
+                        <div class="field col-8">
                             <label class="mr-3 required">Delegation Description</label>
                             <textarea pInputText formControlName="delegationDescription"
                                 placeholder="Enter Delegation Description" class="w-full"></textarea>
@@ -43,7 +65,7 @@
                                 [controlName]="delroleForm.controls['delegationDescription']"></error-message>
                         </div>
 
-                        <div class="field col-6">
+                        <div class="field col-8">
                             <label class="mr-3 required">Select Role</label>
                             <ng-container formGroupName="role">
                                 <div class="payment-dropdown ">
@@ -54,7 +76,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                    </div>
+                    
 
                     <!-- <div class="flex ">
                         <div class="field col-4 text-right w-full">
@@ -74,3 +96,9 @@
 
             </div>
         </div>
+        </div>
+
+
+        <p-blockUI [blocked]="submitted">
+            <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+        </p-blockUI>
