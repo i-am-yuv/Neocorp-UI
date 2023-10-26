@@ -19,6 +19,48 @@ export class InvoiceService {
     return _salesOrder;
   }
 
+  async searchSO( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/salesOrder?filter=documentno~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or customer.contactName~'%" + query + "%' or grossTotal~'%" + query + "%'or customer.mobileNumber~'%" + query + "%'");
+ 
+     const filteredSOs = await lastValueFrom(this.http.get<any>(url));
+     return filteredSOs;
+   }
+
+   async searchSI( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/salesInvoice?filter=invoiceNo~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or grossTotal~'%" + query +"%'or remainingAmount~'%" + query + "%'");
+ 
+     const filteredSIs = await lastValueFrom(this.http.get<any>(url));
+     return filteredSIs;
+   }
+
+   async searchVI( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'api/vendorInvoice?filter=documentnumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  vendor.firstName~'%" + query + "%' or  vendor.lastName~'%" + query + "%' or grosstotal~'%" + query +"%'or status~'%" + query + "%'");
+ 
+     const filteredVIs = await lastValueFrom(this.http.get<any>(url));
+     return filteredVIs;
+   }
+
+   async searchCN( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'creditNote?filter=creditNoteNo~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or grossTotal~'%" + query +"%'or requestStatus~'%" + query + "%'");
+     const filteredCNs = await lastValueFrom(this.http.get<any>(url));
+     return filteredCNs;
+   }
+
+   async searchCM( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'cashMemo?filter=cashMemoNumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or grossTotal~'%" + query +"%'or requestStatus~'%" + query + "%'or vendor.firstName~'%" + query + "%'or vendor.lastName~'%" + query + "%'");
+     const filteredCMs = await lastValueFrom(this.http.get<any>(url));
+     return filteredCMs;
+   }
+
   async updateSalesOrder(so: any ) {
     var url = this.apiurlNew + 'api/salesOrder';
     const _updatedSalesOrder = await lastValueFrom(this.http.put<any>(url, so));

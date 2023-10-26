@@ -111,4 +111,34 @@ export class DebitNoteDashboardComponent implements OnInit {
     )
   }
 
+  searchDN: any;
+  searchDNs(value: any) {
+    if (value === null) {
+    //  alert(value);
+      this.getAllDebitNotes();
+    }
+    else{
+     // this.submitted = true;
+      this.billS.searchDN(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allDebitNotes = res.content;
+          if (this.allDebitNotes.length > 0) {
+            this.changeOrder(this.allDebitNotes[0]);
+          } else {
+            this.activeDN = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
 }

@@ -90,6 +90,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'vendorPortal',
+    loadChildren: () => import('./vendor-portal/vendor-portal.module').then(m => m.VendorPortalModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   }

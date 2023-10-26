@@ -55,6 +55,29 @@ export class BillsService {
     return _purchaseOrder;
   }
 
+  async searchPurchaseOrder( query: any) {
+   // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    
+   var url = this.apiurlNew + 'api/PurchaseOrder?filter=orderNumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  vendor.firstName~'%" + query + "%' or vendor.lastName~'%" + query + "%' or grossTotal~'%" + query + "%'");
+
+    const filteredPos = await lastValueFrom(this.http.get<any>(url));
+    return filteredPos;
+  }
+
+  async searchDN( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'api/debitNote?filter=debitNoteNumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  vendor.firstName~'%" + query + "%' or vendor.lastName~'%" + query + "%' or grossTotal~'%" + query + "%'or status~'%" + query + "%'");
+     const filteredDNs = await lastValueFrom(this.http.get<any>(url));
+     return filteredDNs;
+   }
+
+   async searchRN( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'api/ReceiptNote?filter=receiptNoteNumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or grossTotal~'%" + query +"%'or status~'%" + query + "%'or vendor.firstName~'%" + query + "%'or vendor.lastName~'%" + query + "%'");
+     const filteredDNs = await lastValueFrom(this.http.get<any>(url));
+     return filteredDNs;
+   }
+
   async createPoLineItem(lineItem: any) {
     var url = this.apiurlNew + 'lineItem'
     const _lineItemSaved = await lastValueFrom(this.http.post<any>(url, lineItem));

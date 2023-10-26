@@ -33,7 +33,7 @@
                             <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
                                 > -->
                                 <input pInputText  placeholder="Search" [(ngModel)]="searchOrder"
-                                    class="w-full custom-input"  />
+                                    class="w-full custom-input" (ngModelChange)="searchOrders(searchOrder)" />
                             <button type="button" pButton pRipple icon="pi pi-search" (click)="searchOrders(searchOrder)"
                                 styleClass="p-button-success"></button>
                         </div>

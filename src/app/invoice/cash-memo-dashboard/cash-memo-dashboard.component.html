@@ -31,8 +31,17 @@
                 <div class="col-5">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">Sent to</span>
+                            <span class="p-panel-title" style="padding: 1px">All Cash Memos</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+
+                            <input pInputText placeholder="Search" [(ngModel)]="searchCM" class="w-full custom-input"
+                                (ngModelChange)="searchCMs(searchCM)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchCMs(searchCM)"
+                                styleClass="p-button-success">
+                            </button>
+
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />

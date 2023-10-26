@@ -1,56 +1,59 @@
-<!-- <div class=" ">
-    <div class="p-grid p-3">
-        <div class="p-col-12 p-md-6 p-lg-3">
-            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Dashboard</h2>
-        </div>
-    </div>
-    <div class="p-grid p-3">
-        <h2 class="text-left text-base text-gray-700 w-100 mb-2">Essentials</h2>
-        <div class="p-col-12 p-md-6 p-lg-3 mb-3 payment-dropdown">
-            <div class="payment-dropdown ">
-                <p-dropdown class="bg-blue-200" id="paymentMethod" [options]="paymentOptions"
-                    [style]="{ width: '100%' }" placeholder="All Page" 
-                    (onChange)="viewPayPages()"
-                    optionLabel="name" 
-                    optionValue="id"
-                    [(ngModel)]="choosePayPageId"></p-dropdown>
-            </div>
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-3 mb-3">
-            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Collect</h2>
-        </div>
-    </div>
-</div> -->
-
 <div class="h-auto ">
-    
-    
-        <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"
+
+    <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"
         [ngClass]="{ 'defaultSCSS ': true}">
-            <div class="flex gap-2">
-                <div class="field">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">
-                        <path
-                            d="M9 1.82812C7.58154 1.82812 6.19493 2.24875 5.01552 3.0368C3.83611 3.82486 2.91688 4.94495 2.37405 6.25544C1.83123 7.56593 1.68921 9.00796 1.96593 10.3992C2.24266 11.7904 2.92572 13.0683 3.92872 14.0713C4.93173 15.0743 6.20963 15.7573 7.60084 16.0341C8.99205 16.3108 10.4341 16.1688 11.7446 15.6259C13.055 15.0831 14.1751 14.1639 14.9632 12.9845C15.7513 11.8051 16.1719 10.4185 16.1719 9C16.1696 7.09859 15.4133 5.27569 14.0688 3.93119C12.7243 2.58668 10.9014 1.83036 9 1.82812ZM14.2552 5.47875L9.42188 8.26945V2.68594C10.3874 2.7509 11.3252 3.03644 12.1631 3.52061C13.001 4.00477 13.7167 4.67466 14.2552 5.47875ZM8.57813 2.68594V8.75672L3.32157 11.7914C2.86314 10.8588 2.64146 9.82755 2.67612 8.7889C2.71078 7.75024 3.0007 6.73611 3.52028 5.83609C4.03986 4.93607 4.7731 4.17786 5.65523 3.62845C6.53736 3.07904 7.54122 2.75534 8.57813 2.68594ZM9 15.3281C7.96093 15.3277 6.93796 15.0714 6.02144 14.5818C5.10491 14.0923 4.32303 13.3846 3.74485 12.5212L14.6784 6.20859C15.1526 7.17332 15.3732 8.24293 15.3195 9.31654C15.2657 10.3902 14.9393 11.4324 14.3711 12.3449C13.8029 13.2574 13.0116 14.0101 12.0719 14.5321C11.1322 15.054 10.075 15.328 9 15.3281Z"
-                            fill="black" />
-                    </svg>
-                </div>
-                <div class="field">
-                    Dashboard
-                </div>
+        <div class="flex gap-2">
+            <div class="field">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">
+                    <path
+                        d="M9 1.82812C7.58154 1.82812 6.19493 2.24875 5.01552 3.0368C3.83611 3.82486 2.91688 4.94495 2.37405 6.25544C1.83123 7.56593 1.68921 9.00796 1.96593 10.3992C2.24266 11.7904 2.92572 13.0683 3.92872 14.0713C4.93173 15.0743 6.20963 15.7573 7.60084 16.0341C8.99205 16.3108 10.4341 16.1688 11.7446 15.6259C13.055 15.0831 14.1751 14.1639 14.9632 12.9845C15.7513 11.8051 16.1719 10.4185 16.1719 9C16.1696 7.09859 15.4133 5.27569 14.0688 3.93119C12.7243 2.58668 10.9014 1.83036 9 1.82812ZM14.2552 5.47875L9.42188 8.26945V2.68594C10.3874 2.7509 11.3252 3.03644 12.1631 3.52061C13.001 4.00477 13.7167 4.67466 14.2552 5.47875ZM8.57813 2.68594V8.75672L3.32157 11.7914C2.86314 10.8588 2.64146 9.82755 2.67612 8.7889C2.71078 7.75024 3.0007 6.73611 3.52028 5.83609C4.03986 4.93607 4.7731 4.17786 5.65523 3.62845C6.53736 3.07904 7.54122 2.75534 8.57813 2.68594ZM9 15.3281C7.96093 15.3277 6.93796 15.0714 6.02144 14.5818C5.10491 14.0923 4.32303 13.3846 3.74485 12.5212L14.6784 6.20859C15.1526 7.17332 15.3732 8.24293 15.3195 9.31654C15.2657 10.3902 14.9393 11.4324 14.3711 12.3449C13.8029 13.2574 13.0116 14.0101 12.0719 14.5321C11.1322 15.054 10.075 15.328 9 15.3281Z"
+                        fill="black" />
+                </svg>
             </div>
-        </h2>
-    
-        <div class="field w-full px-4">
-            <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
-                <div class="payment-dropdown ">
-                    <ul class="list-none p-0" *ngFor="let paymentOption of paymentOptions">
-                        <h2 class="text-left text-base font-light text-gray-700 w-100 mb-4">{{paymentOption.heading}}
-                        </h2>
-                        <li *ngFor="let item of paymentOption.items" class="p-2 cursor-pointer  border-round-xl "
-                            [routerLink]="item.url">
-                            <!-- <i class="pi pi-{{item.icon || 'file'}} "></i>  -->
-                            <div class="flex gap-2">
+            <div class="field">
+                Dashboard
+            </div>
+        </div>
+    </h2>
+
+    <div *ngIf="true" class="field w-full px-4">
+        <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
+            <div class="payment-dropdown ">
+                <ul class="list-none p-0" *ngFor="let component of sidebarOptionsAdmin">
+                    <h2 class="text-left font-semibold text-base text-gray-700 w-100 ">{{component.heading}}
+                    </h2>
+                    <ul *ngFor="let items of component.items" class=" p-1 cursor-pointer list-none border-round-xl ">
+                        <div class="iconSCSS w-full" (click)="makeItVisible(visibleCom, items.itemTitle)">
+                            <div class="text-left col-6">
+                                <p class="text-left text-base font-light text-gray-700 w-100 ">{{items.itemTitle}}</p>
+                            </div>
+                            <div class="text-right col-3" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32"
+                                    fill="none">
+                                    <path
+                                        d="M26.7075 12.7074L16.7075 22.7074C16.6146 22.8004 16.5043 22.8742 16.3829 22.9245C16.2615 22.9748 16.1314 23.0007 16 23.0007C15.8686 23.0007 15.7385 22.9748 15.6171 22.9245C15.4957 22.8742 15.3854 22.8004 15.2925 22.7074L5.29251 12.7074C5.10487 12.5198 4.99945 12.2653 4.99945 11.9999C4.99945 11.7346 5.10487 11.4801 5.29251 11.2924C5.48015 11.1048 5.73464 10.9994 6.00001 10.9994C6.26537 10.9994 6.51987 11.1048 6.70751 11.2924L16 20.5862L25.2925 11.2924C25.3854 11.1995 25.4957 11.1258 25.6171 11.0756C25.7385 11.0253 25.8686 10.9994 26 10.9994C26.1314 10.9994 26.2615 11.0253 26.3829 11.0756C26.5043 11.1258 26.6146 11.1995 26.7075 11.2924C26.8004 11.3854 26.8741 11.4957 26.9244 11.617C26.9747 11.7384 27.0006 11.8686 27.0006 11.9999C27.0006 12.1313 26.9747 12.2614 26.9244 12.3828C26.8741 12.5042 26.8004 12.6145 26.7075 12.7074Z"
+                                        fill="#343330" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div *ngIf="visibleCom && currentTitle == items.itemTitle">
+                            <li  *ngFor="let itemC of items.itemComponents" class="p-2 cursor-pointer  border-round-xl">
+                                <div class="flex gap-2" [routerLink]="itemC.url">
+                                    <div class="field">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18"
+                                            fill="none">
+                                            <path [attr.d]="itemC.icon" [attr.fill]="itemC.fill" />
+                                        </svg>
+                                    </div>
+                                    <div class="field">
+                                        {{itemC.name}}
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        
+                    </ul>
+                    <!-- <div class="flex gap-2">
                                 <div class="field">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18"
                                         fill="none">
@@ -60,26 +63,35 @@
                                 <div class="field">
                                     {{item.name}}
                                 </div>
-                            </div>
-
-
-                        </li>
-                    </ul>
-                    <!-- <p-dropdown class="bg-blue-200" id="paymentMethod" [options]="paymentOptions"
-                        [style]="{ width: '100%' }" 
-                        placeholder="All Page"
-                        (onChange)="viewPayPages()"
-                        optionLabel="name" 
-                        optionValue="id" 
-                        [(ngModel)]= "choosePayPageId"
-                        ></p-dropdown> -->
-                </div>
+                            </div> -->
+                </ul>
             </div>
         </div>
-    
-    <!-- <div class="flex">
-        <div class="field w-full">
-            <h2 class="text-center text-2xl text-gray-700 w-100 bg-blue-200">Collect</h2>
+    </div>
+
+    <div *ngIf="false" class="field w-full px-4">
+        <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
+            <div class="payment-dropdown ">
+                <ul class="list-none p-0" *ngFor="let component of sidebarOptionsVendor">
+                    <h2 class="text-left text-base font-light text-gray-700 w-100 mb-4">{{component.heading}}
+                    </h2>
+                    <li *ngFor="let item of component.items" class="p-2 cursor-pointer  border-round-xl "
+                        [routerLink]="item.url">
+                        <!-- <i class="pi pi-{{item.icon || 'file'}} "></i>  -->
+                        <div class="flex gap-2">
+                            <div class="field">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18"
+                                    fill="none">
+                                    <path [attr.d]="item.icon" [attr.fill]="item.fill" />
+                                </svg>
+                            </div>
+                            <div class="field">
+                                {{item.name}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div> -->
+    </div>
 </div>

@@ -99,4 +99,35 @@ export class SalesOrderDashboardComponent implements OnInit {
     this.router.navigate(['/invoice/salesOrder/edit/'+id]); 
   }
 
+  searchSO: any;
+  searchSOs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllSalesOrders();
+    }
+    else{
+     // this.submitted = true;
+      this.invoiceS.searchSO(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allSalesOrder = res.content;
+          if (this.allSalesOrder.length > 0) {
+            this.changeOrder(this.allSalesOrder[0]);
+          } else {
+            this.activeOrder = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
+
 }

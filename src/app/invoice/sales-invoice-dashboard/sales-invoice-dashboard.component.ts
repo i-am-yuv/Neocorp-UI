@@ -113,5 +113,35 @@ export class SalesInvoiceDashboardComponent implements OnInit {
      return parseFloat(item).toFixed(2);
   }
 
+  
+  searchSI: any;
+  searchSIs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.loadSI();
+    }
+    else{
+     // this.submitted = true;
+      this.invoiceS.searchSI(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allSIs = res.content;
+          if (this.allSIs.length > 0) {
+            this.changeOrder(this.allSIs[0]);
+          } else {
+            this.activeInvoice = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
 
 }

@@ -30,6 +30,14 @@
                         <ng-template pTemplate="header">
                             <span class="p-panel-title" style="padding: 1px">Sent to</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+                            <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
+                                > -->
+                                <input pInputText  placeholder="Search" [(ngModel)]="searchRN"
+                                    class="w-full custom-input" (ngModelChange)="searchRNs(searchRN)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchRNs(searchRN)"
+                                styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />

@@ -30,6 +30,33 @@ export class PayPageService {
     )
   }
 
+  async searchVendor( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/vendor?filter=firstName~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  lastName~'%" + query + "%' or mobileNumber~'%" + query + "%' or email~'%" + query + "%'");
+ 
+     const filteredVendors = await lastValueFrom(this.http.get<any>(url));
+     return filteredVendors;
+   }
+
+   async searchCustomer( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'customer?filter=displayName~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  contactName~'%" + query + "%' or mobileNumber~'%" + query + "%' or email~'%" + query + "%'");
+ 
+     const filteredCustomers = await lastValueFrom(this.http.get<any>(url));
+     return filteredCustomers;
+   }
+
+   async searchPI( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/PurchaseInvoice?filter=invoiceNo~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  vendor.firstName~'%" + query + "%' or vendor.lastName~'%" + query + "%' or remainingAmount~'%" + query + "%'or vendor.mobileNumber~'%" + query + "%'");
+ 
+     const filteredPIs = await lastValueFrom(this.http.get<any>(url));
+     return filteredPIs;
+   }
+
   async createAddress(address: any) {
     var url = this.apiurlNew + 'address'
     const _address = await lastValueFrom(this.http.post<any>(url, address));

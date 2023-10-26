@@ -57,4 +57,35 @@ export class ProductDashboardComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
+  searchProduct: any;
+  searchProducts(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllProducts();
+    }
+    else{
+     // this.submitted = true;
+      this.profileService.searchProduct(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allProducts = res.content;
+          if (this.allProducts.length > 0) {
+            this.changeProduct(this.allProducts[0]);
+          } else {
+            this.activeProduct = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
+
 }

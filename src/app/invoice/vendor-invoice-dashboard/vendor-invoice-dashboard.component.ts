@@ -88,5 +88,37 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     this.router.navigate(['/invoice/vendorInvoice/edit/' + id]);
   }
 
+  
+  searchVI: any;
+  searchVIs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.loadVI();
+    }
+    else{
+     // this.submitted = true;
+      this.invoiceS.searchVI(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allVIs = res.content;
+          if (this.allVIs.length > 0) {
+            this.changeOrder(this.allVIs[0]);
+          } else {
+            this.activeInvoice = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
+
 
 }

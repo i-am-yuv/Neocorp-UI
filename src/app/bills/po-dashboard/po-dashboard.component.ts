@@ -55,6 +55,7 @@ export class PoDashboardComponent implements OnInit {
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
 
@@ -90,9 +91,33 @@ export class PoDashboardComponent implements OnInit {
   }
 
   searchOrder: any;
-  searchOrders(e: any) {
-    alert(e);
-    // here this allPOs should be change
+  searchOrders(value: any) {
+    if (value === null) {
+    //  alert(value);
+      this.loadPO();
+    }
+    else{
+     // this.submitted = true;
+      this.billS.searchPurchaseOrder(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allPOs = res.content;
+          if (this.allPOs.length > 0) {
+            this.changeOrder(this.allPOs[0]);
+          } else {
+            this.activeOrder = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
   }
 
 

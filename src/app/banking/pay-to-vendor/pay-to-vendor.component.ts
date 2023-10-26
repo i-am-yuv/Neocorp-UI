@@ -428,7 +428,7 @@ export class PayToVendorComponent implements OnInit {
       });
     }
     else {
-
+      alert("happening");
       this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then(
         (res) => {
           console.log(res);
@@ -439,8 +439,9 @@ export class PayToVendorComponent implements OnInit {
             detail: 'Payment Done successfully',
             life: 3000,
           });
-         // this.OnCancelOTP();
-          this.router.navigate(['/collect/purchaseInvoices']);
+          setTimeout(() => {
+            this.router.navigate(['/collect/purchaseInvoices']);
+          }, 2000);
         }
       ).catch(
         (err) => {

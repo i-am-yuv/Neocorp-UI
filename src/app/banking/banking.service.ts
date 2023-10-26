@@ -37,14 +37,21 @@ export class BankingService {
     return savedData;
   }
 
-  async makePayment(invoiceId : any, vendorId : any,  paymentRequest : any) {
-    var url = this.apiurlNew + 'payments/'+ encodeURIComponent(invoiceId)+'?vendorId='+vendorId;
+  async makePayment(invoiceId: any, vendorId: any, paymentRequest: any) {
+    var url = this.apiurlNew + 'payments/' + encodeURIComponent(invoiceId) + '?vendorId=' + vendorId;
     // const payment = await lastValueFrom(this.http.post<any>(url, paymentRequest));
     // return payment;
 
-    this.http.post<any>(url,paymentRequest).subscribe((res)=>{
+    this.http.post<any>(url, paymentRequest).subscribe((res) => {
       return res;
-    }) ;
+    });
+  }
+
+  async searchBeneficiary(query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'beneficiary?filter=beneficaryName~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  nickname~'%" + query + "%' or mobileNumber~'%" + query + "%' or mmid~'%" + query + "%'or accountNumber~'%" + query + "%'");
+    const filteredBeneficiarys = await lastValueFrom(this.http.get<any>(url));
+    return filteredBeneficiarys;
   }
 
   // async makePaymentPI(data: any) {
@@ -94,22 +101,32 @@ export class BankingService {
     const updatedData = await lastValueFrom(this.http.put<any>(url, data));
     return updatedData;
   }
-  
+
   async getAllCompletedPI() {
-    var url = this.apiurlNew + 'api/PurchaseInvoice/completed' ;
+    var url = this.apiurlNew + 'api/PurchaseInvoice/completed';
     const allCompletedPI = await lastValueFrom(this.http.get<any>(url));
     return allCompletedPI;
   }
 
   async getAllPI() {
-    var url = this.apiurlNew + 'api/PurchaseInvoice' ;
+    var url = this.apiurlNew + 'api/PurchaseInvoice';
     const allPI = await lastValueFrom(this.http.get<any>(url));
     return allPI;
   }
 
-  async getAllDebitPayment()
-  {
-    var url = this.apiurlNew + 'payments' ;
+  async getAllPIs(pageNo: number,
+    pageSize: number,
+    sortField: any,
+    sortDir: any,
+    filter: string) {
+    var url =
+      this.apiurlNew + 'api/PurchaseInvoice' + '?pageNo=' + pageNo + '&pageSize=' + pageSize + '&sortField=' + sortField + '&sortDir=' + sortDir + filter;
+    const allPIs = await lastValueFrom(this.http.get<any>(url));
+    return allPIs;
+  }
+
+  async getAllDebitPayment() {
+    var url = this.apiurlNew + 'payments';
     const allDebitPayments = await lastValueFrom(this.http.get<any>(url));
     return allDebitPayments;
   }

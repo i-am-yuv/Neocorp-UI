@@ -162,4 +162,35 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
 
+  searchCustomer: any;
+  searchCustomers(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllCustomers();
+    }
+    else{
+     // this.submitted = true;
+      this.otherS.searchCustomer(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allCustomers = res.content;
+          if (this.allCustomers.length > 0) {
+            this.changeCustomer(this.allCustomers[0]);
+          } else {
+            this.activeCustomer = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
+
 }

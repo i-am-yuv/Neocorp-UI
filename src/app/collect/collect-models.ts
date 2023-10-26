@@ -15,6 +15,7 @@ export class PurchaseInvoice{
     penalty ?: number;
     description ?: string;
     status ?: string;
+    requestStatus ?: string;
     grossTotal ?: number ;
     taxableTotal ?: number;
     remainingAmount ?: number ;

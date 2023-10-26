@@ -3,4 +3,9 @@
 <app-store-dashboard *ngIf="roles.includes('Store') || roles.includes('Cashier')"></app-store-dashboard> -->
 <!-- <app-corp-dashboard></app-corp-dashboard> -->
 <!-- <app-po></app-po> -->
-<app-firstpage></app-firstpage>
+<div *ngIf="false">
+    <app-firstpage></app-firstpage>
+</div>
+<div *ngIf="true">
+    <app-corp-vendor-dashboard></app-corp-vendor-dashboard>
+</div>

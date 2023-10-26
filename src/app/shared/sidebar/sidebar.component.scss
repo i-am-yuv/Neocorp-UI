@@ -9,17 +9,21 @@
   .hover-div:hover {
     background-color: #a6c9f0; /* Replace with the desired hover background color */
   }
-  .h2{
+  .p{
     margin: 0 !important;
   padding: 0 !important;
   }
 
-
-
-
-  .defaultSCSS {
-    
+  .iconSCSS {
+    display: flex;
+    align-items: center;
+  //  justify-content: end;
 }
+
+
+//   .defaultSCSS {
+    
+// }
 
 .onClickButton {
   //border-bottom: 2px solid blue;

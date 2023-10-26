@@ -190,4 +190,34 @@ export class VendorDashboardComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
+  searchVendor: any;
+  searchVendors(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllVendors();
+    }
+    else{
+     // this.submitted = true;
+      this.payServices.searchVendor(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allVendors = res.content;
+          if (this.allVendors.length > 0) {
+            this.changeVender(this.allVendors[0]);
+          } else {
+            this.activeVendor = {};
+          }
+          this.totalRecord = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
 }

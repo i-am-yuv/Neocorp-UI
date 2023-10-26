@@ -60,11 +60,6 @@
   </div>
 </div>
 
-
-
-
-
-
 <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="w-30rem">
   <!-- <div class="card flex justify-content-center">
     <p-selectButton (click)="sidebarVisible2=!sidebarVisible2" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
@@ -83,14 +78,6 @@
     class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
 
 </p-sidebar>
-
-
-
-
-
-
-
-
 
 <div [ngSwitch]="value">
   <p-sidebar [(visible)]="sidebarVisible3" position="right" styleClass="w-30rem">
@@ -221,39 +208,6 @@
   </p-sidebar>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-<p-blockUI [blocked]="submitted">
-  <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
-</p-blockUI>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem" class="button-container">
   <button type="button" label="Debit" class="p-2.5 ml-6"
     [ngClass]="{ 'defaultSCSS ': true ,'debSCSS ': true ,'onClickButton':showDebit }" (click)="showDebitPage()">Debit
@@ -370,3 +324,7 @@
     </div>
   </div>
 </p-sidebar>
+
+<p-blockUI [blocked]="submitted">
+  <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

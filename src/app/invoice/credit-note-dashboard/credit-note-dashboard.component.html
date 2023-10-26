@@ -37,6 +37,15 @@
                         <ng-template pTemplate="header">
                             <span class="p-panel-title" style="padding: 1px">All Credit Notes</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+
+                            <input pInputText placeholder="Search" [(ngModel)]="searchCN" class="w-full custom-input"
+                                (ngModelChange)="searchCNs(searchCN)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchCNs(searchCN)"
+                                styleClass="p-button-success">
+                            </button>
+
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
