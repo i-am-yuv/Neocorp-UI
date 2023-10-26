@@ -16,9 +16,9 @@ import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 export class RolesDashboardComponent implements OnInit {
 
   allRoles: any[] = [];
-  activeProductCategory : Roles = {};
+  activeProductCategory: Roles = {};
 
-  totalRecords : number = 0;
+  totalRecords: number = 0;
 
 
 
@@ -32,7 +32,7 @@ export class RolesDashboardComponent implements OnInit {
 
   role!: Roles;
 
-  roleTypes: string[] = ['ACCOUNTANT', 'ADMIN'];
+  // roleTypes: string[] = ['ACCOUNTANT', 'ADMIN'];
   roleForm!: FormGroup;
   selectedRoles!: any;
 
@@ -54,81 +54,64 @@ export class RolesDashboardComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.getAllRoles();
-    this.items = [{ label: 'Roles' }];
-    this.home = { icon: 'pi pi-home', routerLink: '/dashboard' };
-    // this.roleService.getRoles().then((data) => (this.roles = data));
+    this.items = [{ label: 'Settings' }, { label: 'Roles' }, { label: 'Dashboard' }];
 
-    this.roleForm = this.fb.group({
-      id: [],
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
-      roleId: [],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
-    });
+    this.getAllRoles();
+
+    // this.roleForm = this.fb.group({
+    //   id: [],
+    //   name: [
+    //     '',
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(6),
+    //       Validators.maxLength(20),
+    //     ],
+    //   ],
+    //   roleId: [],
+    //   description: [
+    //     '',
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(6),
+    //       Validators.maxLength(20),
+    //     ],
+    //   ],
+    // });
   }
 
 
-  getAllRoles(){
+  getAllRoles() {
     this.submitted = true;
     this.rolesService.getRoles()
-    .then((res: any) =>{
-      this.allRoles = res.content;
-      this.totalRecords = res.totalElements;
-      this.submitted = false;
-    })
-    .catch((err) => {
-      console.log(err);
-      this.submitted = false;
-    })
+      .then((res: any) => {
+        this.allRoles = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 
-  changeProductCategory(delegationRole: Roles){
+  changeProductCategory(delegationRole: Roles) {
     this.activeProductCategory = delegationRole;
   }
 
 
-  onEditRole(id: string){
+  onEditRole(id: string) {
     this.router.navigate(['setting/role/edit/' + id]);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
- 
   editPrivileges(role: any) {
     this.router.navigate(['/setting/roles-privilege/' + role.id]);
   }
 
-
-
- 
   editRole(role: Roles) {
     this.role = { ...role };
     this.roleDialog = true;
@@ -154,13 +137,10 @@ export class RolesDashboardComponent implements OnInit {
   //   });
   // }
 
-
-
-  
   openNew() {
     this.router.navigate(['/setting/role/create']);
   }
- 
+
 }
 
 

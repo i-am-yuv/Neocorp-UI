@@ -32,6 +32,21 @@ export class DelegationRoleComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+        this.availableDelegationRole();
+      }
+    });
+
     this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoless']}, {label: 'Create'}];
     this.laodRoles();
     this.initForm();
@@ -59,7 +74,6 @@ export class DelegationRoleComponent implements OnInit {
           this.submitted = false;
         }
       )
-  
     }
 
   initForm()
@@ -157,11 +171,6 @@ export class DelegationRoleComponent implements OnInit {
 
 
   onSubmitDelegationRole() {
-
-    // this.delroleForm.value.delegationName = null;
-    // this.delroleForm.value.delegationDescription = null;
-    // this.delroleForm.value.delegationAmount = null;
-    // this.delroleForm.value.role = null;
 
     var productFormVal = this.delroleForm.value;
     productFormVal.id = this.id;

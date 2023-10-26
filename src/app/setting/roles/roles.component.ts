@@ -17,9 +17,9 @@ import { PrivilegeService } from '../privilege/privilege.service';
 export class RolesComponent implements OnInit {
 
   allRoles: any[] = [];
-  activeProductCategory : Roles = {};
+  activeProductCategory: Roles = {};
 
-  totalRecords : number = 0;
+  totalRecords: number = 0;
 
   id: string | null = '';
 
@@ -28,7 +28,7 @@ export class RolesComponent implements OnInit {
   chooseRoleId: any;
   currentRole: Roles = {};
 
-  
+
 
 
 
@@ -59,18 +59,18 @@ export class RolesComponent implements OnInit {
   constructor(
     private router: Router,
     private rolesService: RolesServiceService,
-    private privService: PrivilegeService,
+    private privilageService: PrivilegeService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private route: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
-  
-   
+  ) { }
+
+
 
   ngOnInit() {
     this.openNew();
- this.loadPrivileges();
+    this.loadPrivileges();
 
 
 
@@ -95,34 +95,20 @@ export class RolesComponent implements OnInit {
       }
     });
 
+  }
 
-
+  initForm(){
     this.roleForm = this.fb.group({
       id: [],
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
+      name: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20),]],
       roleId: [],
-      roleType : new FormControl('' , Validators.required),
-      description: [
-        '',
-        [
-          Validators.required,
-
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
+      roleType: new FormControl('', Validators.required),
+      description: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       privilege: this.fb.group({
-        id: this.fb.nonNullable.control('', 
-        // {
-        //   validators: Validators.required,
-        // }
+        id: this.fb.nonNullable.control('',
+          // {
+          //   validators: Validators.required,
+          // }
         )
       })
     });
@@ -130,8 +116,7 @@ export class RolesComponent implements OnInit {
 
 
 
-  loadPrivileges()
-  {
+  loadPrivileges() {
     // this.privService.getPrivileges().then(
     //   (res)=>{
     //      console.log(res);
@@ -184,7 +169,7 @@ export class RolesComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/setting/Roles/create']);
           }, 2000);
-          
+
         })
         .catch(
           (err) => {
@@ -197,13 +182,13 @@ export class RolesComponent implements OnInit {
               life: 3000,
             });
           })
-    } 
+    }
     else {
       console.log(this.roleForm);
       this.rolesService.createRole(this.roleForm.value).then(
-        (res)=>{
-           console.log(res);
-           this.messageService.add({
+        (res) => {
+          console.log(res);
+          this.messageService.add({
             severity: 'success',
             summary: ' Role Saved',
             detail: ' Role Saved Successfully',
@@ -214,7 +199,7 @@ export class RolesComponent implements OnInit {
           }, 2000);
         }
       ).catch(
-        (err)=>{
+        (err) => {
           console.log(err);
           this.messageService.add({
             severity: 'error',
@@ -230,7 +215,7 @@ export class RolesComponent implements OnInit {
 
 
 
-  availableRole(){
+  availableRole() {
     this.submitted = true;
     this.rolesService.getRoles().then(
       (res) => {
@@ -255,27 +240,27 @@ export class RolesComponent implements OnInit {
 
 
 
-  getAllRoles(){
+  getAllRoles() {
     this.submitted = true;
     this.rolesService.getRoles()
-    .then((res: any) =>{
-      this.allRoles = res.content;
-      this.totalRecords = res.totalElements;
-      this.submitted = false;
-    })
-    .catch((err) => {
-      console.log(err);
-      this.submitted = false;
-    })
+      .then((res: any) => {
+        this.allRoles = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 
-  changeProductCategory(delegationRole: Roles){
+  changeProductCategory(delegationRole: Roles) {
     this.activeProductCategory = delegationRole;
   }
 
 
-  onEditDelegationRole(id: string){
+  onEditDelegationRole(id: string) {
     this.router.navigate(['setting/Roles/edit/' + id]);
   }
 
@@ -289,7 +274,7 @@ export class RolesComponent implements OnInit {
 
 
 
- 
+
   editPrivileges(role: any) {
     this.router.navigate(['/setting/roles-privilege/' + role.id]);
   }
@@ -299,7 +284,7 @@ export class RolesComponent implements OnInit {
     this.submitted = false;
     this.roleDialog = true;
   }
-  
+
 
   deleteSelectedRoles() {
     this.confirmationService.confirm({
@@ -349,7 +334,7 @@ export class RolesComponent implements OnInit {
 
 
 
- 
+
   saveRole() {
     this.submitted = true;
 
@@ -412,7 +397,7 @@ export class RolesComponent implements OnInit {
 
 
 
-  onCancel(){
+  onCancel() {
     this.router.navigate(['/setting/roles']);
   }
 }

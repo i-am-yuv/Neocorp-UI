@@ -211,11 +211,11 @@ p {
 
 
 .box {
-    border: 1px solid #ccc;
+    // border: 1px solid #aaa5a5;
     padding: 10px;
     margin: 20px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #fafafa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -230,4 +230,18 @@ label {
 
 p {
     margin: 0;
+}
+
+::ng-deep {
+    .p-breadcrumb {
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
+    }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
 }

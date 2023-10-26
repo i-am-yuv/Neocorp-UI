@@ -1,14 +1,20 @@
 <div class="">
-    <div class="bg-white">
-        <div class="border-bottom-1 border-200 text-right p-3">
-            <button type="button" pButton (click)="openNew()"
-                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20" fill="none">
-                    <path
-                        d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
-                        fill="white" />
-                </svg> Add Role
-            </button>
+    <div class="bg-white iconSCSS1">
+        <div class="col-4">
+            <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+        </div>
+        <div class="col-8">
+            <div class="border-200 text-right">
+                <button type="button" pButton (click)="openNew()"
+                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
+                        fill="none">
+                        <path
+                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                            fill="white" />
+                    </svg> Add Role
+                </button>
+            </div>
         </div>
     </div>
 
@@ -17,10 +23,10 @@
             <div class="flex gap-4" style=" justify-content: center;">
 
                 <!-- Left List Panel -->
-                <div class="col-5">
+                <div class="col-4">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title text-blue-500" style="padding: 1px">Roles</span>
+                            <span class="p-panel-title" style="padding: 1px">Roles</span>
                         </ng-template>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -47,19 +53,16 @@
                                 </div>
 
                                 <div class="text-center m-5" *ngIf="allRoles.length === 0">
-                                    No Roles 
+                                    No Roles
                                 </div>
                             </div>
                         </ng-template>
                         <p-footer> Total: {{ this.totalRecords}} </p-footer>
                     </p-panel>
                 </div>
-                
 
-
-
-
-                <div class="col-7  ">
+                <!-- Right Panel of Listing Details -->
+                <div class="col-8">
                     <p-panel>
                         <ng-template pTemplate="header">
                             <div class="w-full">
@@ -77,13 +80,14 @@
                             </div>
 
                             <div *ngIf="activeProductCategory.id">
-                                
+
                                 <div class="flex">
-                                    <div class="field col-8">
+                                    <!-- <div class="field col-8">
                                         <h4 class="">Role Details:</h4>
-                                    </div>
-                                    
-                                    <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer" (click)="onEditRole(activeProductCategory.id)">
+                                    </div> -->
+
+                                    <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer"
+                                        (click)="onEditRole(activeProductCategory.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
                                             viewBox="0 0 10 11" fill="none">
                                             <g clip-path="url(#clip0_862_17281)">
@@ -99,59 +103,49 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <div class="text-sm font-light">Edit Role</div>
+                                        <div class="text-sm blueText">Edit Role</div>
                                     </div>
 
                                 </div>
+
                                 <div class="flex flex-wrap">
 
-                            
-                                <div class="field col-9">
-                                    <label class="mr-3 blueText">Role Name: </label>
-
-                                    <div class="box">
-                                        <p class="w-full ">{{ this.activeProductCategory.name}}</p>
+                                    <div class="field col-12">
+                                        <label class="ml-4">Role Name: </label>
+                                        <div class="box mt-1">
+                                            <p class="w-full ">{{ this.activeProductCategory.name}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                
-                                    <div class="field col-9">
-                                        <label class="mr-3 blueText">Role Type:</label>
-                                        <div class="box">
-                                              <p>{{ this.activeProductCategory.roleType}}</p>
+
+
+                                    <div class="field col-12">
+                                        <label class="ml-4">Role Type:</label>
+                                        <div class="box mt-1">
+                                            <p>{{ this.activeProductCategory.roleType}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                               
-                                    <div class="field col-9">
-                                        <label class="mr-3 blueText">Role Description:</label>
-                                        <div class="box">
-                                              <p>{{ this.activeProductCategory.description}}</p>
+
+
+                                    <div class="field col-12">
+                                        <label class="ml-4">Role Description:</label>
+                                        <div class="box mt-1">
+                                            <p>{{ this.activeProductCategory.description}}</p>
+                                        </div>
                                     </div>
+
+                                    <!-- <div class="field col-12">
+                                        <label class="ml-4">Role:</label>
+                                        <div class="box mt-1">
+                                            <p>{{ this.activeProductCategory.privileges?.name}}</p>
+                                        </div>
+                                    </div> -->
+
                                 </div>
-                                
-                                    <div class="field col-9">
-                                        <label class="mr-3 blueText">Privileges:</label>
-                                        <div class="box">
-                                              <p>{{ this.activeProductCategory.privileges?.name}}</p>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-
-
-
-
-                                
-
-
-                                
                             </div>
                         </div>
                     </p-panel>
                 </div>
-                <!-- Right Panel Ends-->
+                <!-- Right Panel of Listing Details Ends-->
 
             </div>
         </div>

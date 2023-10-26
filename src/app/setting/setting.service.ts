@@ -8,10 +8,10 @@ import { Roles, Workflow } from './roles/roles';
   providedIn: 'root'
 })
 export class SettingService {
- 
+
 
   apiurl: string = environment.apiurl;
-  apiurlNew:string = environment.apiurlNew ;
+  apiurlNew: string = environment.apiurlNew;
 
   constructor(private http: HttpClient) { }
 
@@ -21,12 +21,24 @@ export class SettingService {
     return role;
   }
 
+  async updateRole(product: any) {
+    var url = this.apiurlNew + 'api/roles'
+    const updateRole = await lastValueFrom(this.http.put<any>(url, product));
+    return updateRole;
+  }
+
+  async getAllRolesById(id: any){
+    var url = this.apiurlNew + 'api/roles/' + encodeURIComponent(id);
+    const getAllRolesById = await lastValueFrom(this.http.get<any>(url));
+    return getAllRolesById;
+  }
+
   async createDelegationRole(product: any) {
     var url = this.apiurlNew + 'delegationRole'
     const delegationRole = await lastValueFrom(this.http.post<any>(url, product));
     return delegationRole;
   }
-  async updateDelegationRole(product: any ) {
+  async updateDelegationRole(product: any) {
     var url = this.apiurlNew + 'delegationRole';
     const updatedelegationRole = await lastValueFrom(this.http.put<any>(url, product));
     return updatedelegationRole;
@@ -37,7 +49,7 @@ export class SettingService {
     const delegationRoleById = await lastValueFrom(this.http.get<any>(url));
     return delegationRoleById;
   }
-  
+
 
   async getAlldelegationRole() {
     var url = this.apiurlNew + 'delegationRole'
@@ -58,11 +70,11 @@ export class SettingService {
   }
 
 
-//   createWorkflow(role: Roles) {
-//     var url = this.apiurlNew + 'workflow'
-//     return this.http.post<any>(url, role)
-//         .toPromise()
-//         // .then(res => <Role>res.data)
-//         .then(data => { return data; });
-// }
+  //   createWorkflow(role: Roles) {
+  //     var url = this.apiurlNew + 'workflow'
+  //     return this.http.post<any>(url, role)
+  //         .toPromise()
+  //         // .then(res => <Role>res.data)
+  //         .then(data => { return data; });
+  // }
 }
