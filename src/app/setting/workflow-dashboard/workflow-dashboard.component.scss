@@ -1,0 +1,253 @@
+.order-list {
+    .list-item {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .list-item:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+}
+
+.left-panel-content {
+    // height: 810px;
+    height: 580px;
+    overflow-y: scroll;
+}
+
+.right-panel-content {
+    // height: 773.5px;
+    height: 580px;
+    overflow-y: scroll;
+}
+
+:host::ng-deep {
+    .left-panel {
+        .p-panel-content {
+            padding: 0;
+        }
+    }
+}
+
+.invoice-box {
+    margin: auto;
+    line-height: 24px;
+    color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+    .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+.rounded-div1 {
+    border: 3px solid #0000;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
+    //padding: 5px; /* Add padding to the content inside the div if desired */
+
+}
+
+.rounded-div {
+    border: 1px solid #ffff;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
+    //padding: 5px; /* Add padding to the content inside the div if desired */
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.rightP {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.leftP {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.remainAmount {
+    color: #C22B39;
+    //font-family: Red Hat Display;
+}
+
+.person-icon {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    /* Customize the background color as needed */
+    color: black;
+    /* Customize the text color as needed */
+    border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.leftStatus {
+    color: #C22B39;
+
+}
+
+.iconSCSS {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.iconEdit {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.blueText {
+    color: #1560E0;
+    // font-family: Elza;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.custom-hr {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+.amp-col {
+    color: #83D28F;
+    font-size: 30px;
+}
+
+.amd-col {
+    color: #FF5A5A;
+    font-size: 30px;
+}
+
+.amount-text {
+    color: #292C30;
+    font-size: 30px;
+}
+
+.title-name {
+    color: #FFF;
+}
+
+.button-container {
+    display: flex;
+    justify-items: center;
+}
+
+.defaultSCSS {
+    background-color: white;
+    color: black;
+    border: none;
+    border-bottom: 3px solid lightgrey;
+    width: 100%;
+    font-weight: 700;
+    /* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+}
+
+.onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid #3579F3;
+    /* Change the bottom border color on hover (e.g., blue) */
+    color: #3579F3;
+    background-color: white;
+    font-weight: 700;
+    /* Change the text color on hover (optional) */
+}
+
+.greenText {
+    color: #83D28F;
+}
+
+
+
+
+.box {
+    // border: 1px solid #aaa5a5;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+    margin: 10px 0;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+p {
+    margin: 0;
+}
+
+::ng-deep {
+    .p-breadcrumb {
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
+    }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+}

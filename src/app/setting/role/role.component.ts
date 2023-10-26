@@ -31,7 +31,7 @@ export class RoleComponent implements OnInit {
     }
   ];
 
-  currentRole: Role = {};
+  currentRole: Roles = {};
 
   items!: MenuItem[];
 
@@ -148,6 +148,9 @@ export class RoleComponent implements OnInit {
             detail: 'Role Added Successfully',
             life: 3000,
           });
+          setTimeout(() => {
+            this.router.navigate(['/setting/roles']);
+          }, 2000);
         }
       ).catch(
         (err) => {

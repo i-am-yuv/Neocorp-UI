@@ -13,6 +13,7 @@ export interface Roles {
 }
 
 export interface Workflow {
+    id?: string;
     makerRole?: Roles;
     checkerRole?: Roles;
     isIncrease?: boolean;

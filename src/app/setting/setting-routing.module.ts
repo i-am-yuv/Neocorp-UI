@@ -8,6 +8,7 @@ import { WorkflowComponent } from './workflow/workflow.component';
 import { DelegationRoleDashboardComponent } from './delegation-role-dashboard/delegation-role-dashboard.component';
 import { RolesDashboardComponent } from './roles-dashboard/roles-dashboard.component';
 import { RoleComponent } from './role/role.component';
+import { WorkflowDashboardComponent } from './workflow-dashboard/workflow-dashboard.component';
 
 
 const routes: Routes = [
@@ -66,23 +67,17 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: WorkflowComponent },
-      // { path: 'edit/:id', component: PrivilegeComponent },
-
+      { path: 'create', component: WorkflowComponent },
+      { path: 'edit/:id', component: WorkflowComponent },
     ],
   },
-
-  // {
-  //       path: 'roles',
-  //       component: RolesComponent
-  //     },
-  //     {
-  //       path: 'privileges',
-  //       component: PrivilegesComponent
-  //     },
-  //     {
-  //       path: 'role-privileges/:roleid',
-  //       component: RolePrivilegesComponent
-  //     }
+  {
+    path: 'workflows',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: WorkflowDashboardComponent }
+    ]
+  }
 ];
 
 @NgModule({

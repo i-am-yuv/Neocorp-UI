@@ -16,14 +16,8 @@ import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 export class RolesDashboardComponent implements OnInit {
 
   allRoles: any[] = [];
-  activeProductCategory: Roles = {};
-
+  activeRole: Roles = {};
   totalRecords: number = 0;
-
-
-
-
-
   roleDialog!: boolean;
 
   roles!: Roles[];
@@ -99,8 +93,8 @@ export class RolesDashboardComponent implements OnInit {
   }
 
 
-  changeProductCategory(delegationRole: Roles) {
-    this.activeProductCategory = delegationRole;
+  changeRole(role: Roles) {
+    this.activeRole = role;
   }
 
 
@@ -108,14 +102,14 @@ export class RolesDashboardComponent implements OnInit {
     this.router.navigate(['setting/role/edit/' + id]);
   }
 
-  editPrivileges(role: any) {
-    this.router.navigate(['/setting/roles-privilege/' + role.id]);
-  }
+  // editPrivileges(role: any) {
+  //   this.router.navigate(['/setting/roles-privilege/' + role.id]);
+  // }
 
-  editRole(role: Roles) {
-    this.role = { ...role };
-    this.roleDialog = true;
-  }
+  // editRole(role: Roles) {
+  //   this.role = { ...role };
+  //   this.roleDialog = true;
+  // }
 
   // deleteRole(role: Roles) {
   //   this.confirmationService.confirm({
