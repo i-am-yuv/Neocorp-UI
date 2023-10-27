@@ -61,4 +61,12 @@ export class ProfilepageService {
     return updateProduct;
   }
 
+  async searchProduct( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/product?filter=searchKey~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  name~'%" + query + "%' or model~'%" + query + "%' or productType~'%" + query + "%'or mrp~'%" + query + "%'");
+     const filteredProducts = await lastValueFrom(this.http.get<any>(url));
+     return filteredProducts;
+   }
+
 }

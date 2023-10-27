@@ -16,13 +16,13 @@
         <div class="field col-6 bg-blue-50">
             <div class="p-8">
                 <h2 class=" text-3xl font-semibold text-center">Sign In</h2>
-                    <p class="text-center">Login to access some useful features</p>
-                    <div class="text-center">
-                        <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
-                            optionValue="value"></p-selectButton>
-                    </div>
+                <p class="text-center">Login to access some useful features</p>
+                <div class="text-center">
+                    <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
+                        optionValue="value"></p-selectButton>
+                </div>
                 <form class="" (ngSubmit)="onSubmitLogin()" [formGroup]="loginForm">
-                    <div class="p-4" *ngIf="value=='company' " >
+                    <div class="p-4" *ngIf="value=='company' ">
                         <div class="field">
                             <div class="p-inputgroup">
                                 <div class="iconSCSS gap-2 w-full">
@@ -58,8 +58,11 @@
                                             fill="#6F7174" />
                                     </svg>
                                     <input pInputText type="text" class="custom-input "
+                                        [type]="fieldTextType ? 'text' : 'password'"
                                         style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem; border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
                                         formControlName="password" minlength="1" placeholder="Password" />
+                                    <!-- <i class="pi pi-eye" style="margin-left: -30px;" class="cursor-pointer"
+                                        (click)="toggleFieldTextType()"></i> -->
                                 </div>
 
                             </div>
@@ -96,7 +99,7 @@
                                     </svg>
                                     <input pInputText type="text" class="custom-input "
                                         style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem; border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
-                                        formControlName="username" minlength="10" maxlength="10"
+                                        formControlName="username" minlength="10"
                                         placeholder="Your Registered Phone Number*" />
                                 </div>
 
@@ -117,8 +120,12 @@
                                             fill="#6F7174" />
                                     </svg>
                                     <input pInputText type="text" class="custom-input "
+                                        [type]="fieldTextType ? 'text' : 'password'"
                                         style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem; border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
                                         formControlName="password" minlength="1" placeholder="Password" />
+                                    <!-- <i class="pi pi-eye" style="margin-left: -30px;"
+                                        (click)="toggleFieldTextType()"></i> -->
+
                                 </div>
 
                             </div>

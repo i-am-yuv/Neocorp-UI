@@ -74,7 +74,6 @@ export class SignupComponent implements OnInit {
       mobileNumber: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       agreeTnC: new FormControl('', Validators.required),
-      partnerCode: new FormControl(''),
       panNumber: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
       selectedOptionGST: new FormControl(false),
@@ -82,12 +81,6 @@ export class SignupComponent implements OnInit {
       branchName: new FormControl('', [Validators.required]),
       branchCode: new FormControl('', [Validators.required]),
     });
-
-    // this.branchForm = new FormGroup({
-    //   id : new FormControl(''),
-      
-    // });
-
   }
 
   onSubmitOtp() {
@@ -140,29 +133,23 @@ export class SignupComponent implements OnInit {
       });
   }
 
-  // onSubmitSignUp1()
-  // {
-  //   console.log(this.signUpForm.value);
-  //   // sessionStorage.setItem('mobileNo','7300234997');
-  //   //       this.router.navigate(['/verifyotp']);
-  //   alert(JSON.stringify(this.signUpForm.value));
-  // }
 
   onSubmitSignUp() {
     this.submitted = true;
-    this.signUpForm.value.agreeTnC = true;
+    //alert(JSON.stringify(this.signUpForm.value));
+    
     if (this.signUpForm.value.agreeTnC == false) {
-      this.submitted = true;
+    
       this.message.add({
         severity: 'error',
-        summary: 'Sign Up Error',
-        detail: 'Please check the validation checkbox',
+        summary: 'Error',
+        detail: 'Please confirm the validation checkbox',
         life: 3000,
       });
-      this.submitted = false;
+      
     }
     else {
-      // first branch add
+      
       var branchData : branch = {} ;
       branchData.branchName = this.signUpForm.value.branchName;
       branchData.branchCode = this.signUpForm.value.branchCode;
@@ -179,6 +166,7 @@ export class SignupComponent implements OnInit {
           this.saveComapany();
         })
         .catch((err) => {
+          this.submitted = false;
           if (err.code === 404) {
             this.errorMessage = err.message;
             this.message.add({
@@ -196,41 +184,34 @@ export class SignupComponent implements OnInit {
               life: 3000,
             });
           }
-          this.submitted = false;
         });
     }
   }
 
     saveComapany()
     {
-     // alert(JSON.stringify(this.signUpForm.value) ) ;
+      alert(JSON.stringify(this.signUpForm.value) ) ;
       this.submitted =  true;
       this.loginService
         .signup(this.signUpForm.value)
         .then((res) => {
           if (res) {
-            console.log("sign up success");
-            // this.message.add({
-            //   severity: 'success',
-            //   summary: 'Signup Successful',
-            //   detail: 'Signup Successful',
-            //   life: 3000,
-            // });
-            alert("Sign Up Done"); // temp
             this.submitted = false;
+            console.log("sign up success");
             this.sendOtp(this.signUpForm.value.mobileNumber);
           } else {
+            this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Sign Up Error',
               detail: 'Invalid Sign Up, please check details',
               life: 3000,
             });
-            this.submitted = false;
           }
           this.submitted = false;
         })
         .catch((err) => {
+          this.submitted = false;
           if (err.code === 404) {
             this.errorMessage = err.message;
             this.message.add({
@@ -248,7 +229,6 @@ export class SignupComponent implements OnInit {
               life: 3000,
             });
           }
-          this.submitted = false;
         });
     }
   
@@ -256,19 +236,27 @@ export class SignupComponent implements OnInit {
 
   sendOtp(enteredMobile: string) {
     this.sendOtpFormat.mobile = enteredMobile;
+    this.submitted = true;
     this.loginService.sendOtp(this.sendOtpFormat).then(
       (res) => {
         if (res) {
           console.log(res);
+          this.submitted = false;
           sessionStorage.setItem('mobileNo', this.sendOtpFormat.mobile);
-          this.router.navigate(['/verifyotp']);
+          sessionStorage.setItem('companyName', this.signUpForm.value.companyName);
           this.message.add({
             severity: 'sucess',
             summary: 'Sign Up Successful, Verify your OTP',
             detail: res.message,
             life: 3000,
           });
+
+          setTimeout(() => {
+            this.router.navigate(['/verifyotp']);
+          }, 2000 );
+
         } else {
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Sign Up Error',
@@ -279,6 +267,7 @@ export class SignupComponent implements OnInit {
         this.submitted = false;
       }
     ).catch((err) => {
+      this.submitted = false;
       if (err.code === 404) {
         this.errorMessage = err.message;
         this.message.add({
@@ -300,46 +289,47 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  resendTimer(minute: number) {
-    let seconds: number = minute * 60;
-    let textSec: any = '0';
-    let statSec: number = 60;
+  // resendTimer(minute: number) {
+  //   let seconds: number = minute * 60;
+  //   let textSec: any = '0';
+  //   let statSec: number = 60;
 
-    const prefix = minute < 10 ? '0' : '';
+  //   const prefix = minute < 10 ? '0' : '';
 
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+  //   if (this.timer) {
+  //     clearInterval(this.timer);
+  //   }
 
-    this.timer = setInterval(() => {
-      seconds--;
-      if (statSec != 0) statSec--;
-      else statSec = 59;
-      if (statSec < 10) {
-        textSec = '0' + statSec;
-      } else textSec = statSec;
+  //   this.timer = setInterval(() => {
+  //     seconds--;
+  //     if (statSec != 0) statSec--;
+  //     else statSec = 59;
+  //     if (statSec < 10) {
+  //       textSec = '0' + statSec;
+  //     } else textSec = statSec;
 
-      this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+  //     this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
 
-      if (seconds == 0) {
-        this.isAuth = true;
+  //     if (seconds == 0) {
+  //       this.isAuth = true;
 
-        clearInterval(this.timer);
-      }
-    }, 1000);
-  }
+  //       clearInterval(this.timer);
+  //     }
+  //   }, 1000);
+  // }
 
 
-  resendOtp() {
-    this.loginService
-      .resendOtp(this.signUpForm.controls['mobileNumber'].value)
-      .then((res) => {
-        if (res) {
-        }
-      });
-    this.verifyOtpForm.reset();
-    this.verifyOtpFlag = false;
-    this.submitted = false;
-    this.resendTimer(1);
-  }
+  // resendOtp() {
+  //   this.loginService
+  //     .resendOtp(this.signUpForm.controls['mobileNumber'].value)
+  //     .then((res) => {
+  //       if (res) {
+  //       }
+  //     });
+  //   this.verifyOtpForm.reset();
+  //   this.verifyOtpFlag = false;
+  //   this.submitted = false;
+  //   this.resendTimer(1);
+  // }
+
 }

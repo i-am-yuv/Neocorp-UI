@@ -43,6 +43,11 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     this.billS.getAllRn().then(
       (res : any) => {
         this.allReceiptNotes = res.content;
+        if (this.allReceiptNotes.length > 0) {
+          this.changeOrder(this.allReceiptNotes[0]);
+        } else {
+          this.activeRN = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }
@@ -102,5 +107,38 @@ export class ReceiptNoteDashboardComponent implements OnInit {
       }
     )
   }
+
+
+  
+  searchRN: any;
+  searchRNs(value: any) {
+    if (value === null) {
+    //  alert(value);
+      this.getAllReceiptNotes();
+    }
+    else{
+     // this.submitted = true;
+      this.billS.searchRN(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allReceiptNotes = res.content;
+          if (this.allReceiptNotes.length > 0) {
+            this.changeOrder(this.allReceiptNotes[0]);
+          } else {
+            this.activeRN = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
 
 }

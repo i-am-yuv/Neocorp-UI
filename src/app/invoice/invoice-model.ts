@@ -23,10 +23,11 @@ export interface SalesInvoice {
   vendorInvoice ?: VendorInvoice;
   salesOrder ?: SalesOrder;
   invoiceDate ?: Date;
-  customer ?: CustomeR;
+  customer ?: CustomeR | undefined;
   vendor ?: Vendor;
   grossTotal ?: number;
   status ?: string;
+  remainingAmount ?: number ;
 }
 
 export interface SalesInvoiceLine{

@@ -60,43 +60,68 @@
                             
                         </div>
     
-                        <div class="flex gap-3">
-                            <div class="field col-6 payment-dropdown" >
-                                <label class="mr-3 required">Customer</label>
-                                <ng-container formGroupName="customer">
-                                    <div class="payment-dropdown ">
-                                        <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
-                                            formControlName="id" optionLabel="displayName" [showClear]="true"
-                                            (ngChange)="selectVendor()"  [style]="{ width: '100%' }"  >
-                                        </p-dropdown>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
+                        
     
                         <div class="flex gap-3">
                             <div class="field col-6">
-                                <label class="mr-3 required">Vendor Invoice</label>
-                                <ng-container formGroupName="vendorInvoice">
+                                <label class="mr-3 ">Vendor Invoice</label>
+                                <!-- <ng-container formGroupName="vendorInvoice">
                                     <div class="payment-dropdown ">
                                         <p-dropdown [options]="vendorInvoices" placeholder="Choose Vendor Invoice" optionValue="id"
                                             formControlName="id" optionLabel="documentnumber" [showClear]="true"
                                             (ngChange)="selectVendor()" [style]="{ width: '100%' }">
                                         </p-dropdown>
                                     </div>
+                                </ng-container>   -->
+                                <ng-container formGroupName="vendorInvoice" class="w-full">
+                                    <p-dropdown [options]="vendorInvoices" placeholder="Choose Vendor Invoice" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                        [style]="{ width: '100%' }" optionLabel="documentnumber">
+                                        <ng-template let-vi pTemplate="option">
+                                            <span>{{ vi.documentnumber }} , (Gross Total: ₹{{ vi.grosstotal}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
                                 </ng-container>    
                             </div>
                             <div class="field col-6">
                                 <label class="mr-3 required">Sales Order</label>
-                                <ng-container formGroupName="salesOrder">
+                                <!-- <ng-container formGroupName="salesOrder">
                                     <div class="payment-dropdown ">
                                         <p-dropdown [options]="salesOrders" placeholder="Choose Sales Order" optionValue="id"
                                             formControlName="id" optionLabel="documentno" [showClear]="true"
                                             (ngChange)="selectVendor()" [style]="{ width: '100%' }">
                                         </p-dropdown>
                                     </div>
-                                </ng-container>    
+                                </ng-container>   -->
+                                <ng-container formGroupName="salesOrder" class="w-full">
+                                    <p-dropdown [options]="salesOrders" placeholder="Choose Sales Order" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="changeCustomer($event)"
+                                        [style]="{ width: '100%' }" optionLabel="documentno">
+                                        <ng-template let-so pTemplate="option">
+                                            <span>{{ so.documentno }} , (Gross Total: ₹{{ so.grossTotal}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </ng-container>  
                             </div>
+                        </div>
+
+                        <!-- <div class="flex gap-3">
+                            <div class="field col-6 payment-dropdown" >
+                                <label class="mr-3">Customer Details</label>
+                                <ng-container formGroupName="customer">
+                                    <div class="payment-dropdown">
+                                        <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
+                                            formControlName="id" optionLabel="displayName" [showClear]="true"
+                                            (ngChange)="selectVendor()"  [style]="{ width: '100%' }" [disabled]="true" >
+                                        </p-dropdown>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div> -->
+                        <div class="field col-6">
+                            <label class="mr-3">Customer Details:</label>
+                            <input pInputText value="{{this.currCustomer.displayName }} {{this.currCustomer.mobileNumber}}" placeholder="From Sales Order"
+                                class="w-full custom-input" [disabled]="true" />
                         </div>
 
                         <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id" >

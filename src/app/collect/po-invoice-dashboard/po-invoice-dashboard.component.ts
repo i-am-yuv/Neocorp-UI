@@ -49,6 +49,11 @@ export class PoInvoiceDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allPIs = res.content;
+        if (this.allPIs.length > 0) {
+          this.changeOrder(this.allPIs[0]);
+        } else {
+          this.activeInvoice = {};
+        }
         this.totalRecords = res.totalElements;
         for (const purchaseInvoice of this.allPIs) {
   
@@ -68,6 +73,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
       }
     ).catch(
       (err) => {
+        this.submitted = false;
         console.log(err);
       }
     )
@@ -146,7 +152,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
               life: 3000,
             });
           }
-          this.router.navigate(['/collect/purchaseInvoice/edit/' +invoiceId ]);
+          this.router.navigate(['/collect/purchaseInvoices' ]);
         }
        ).catch(
         (err)=>{
@@ -154,4 +160,38 @@ export class PoInvoiceDashboardComponent implements OnInit {
         }
        )
   }
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
+  }
+
+  searchPI: any;
+  searchPIs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.loadPI();
+    }
+    else{
+     // this.submitted = true;
+      this.payServices.searchPI(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allPIs = res.content;
+          if (this.allPIs.length > 0) {
+            this.changeOrder(this.allPIs[0]);
+          } else {
+            this.activeInvoice = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
+
 }

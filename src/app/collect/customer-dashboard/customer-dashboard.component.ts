@@ -76,6 +76,11 @@ export class CustomerDashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.allCustomers = res.content;
+        if (this.allCustomers.length > 0) {
+          this.changeCustomer(this.allCustomers[0]);
+        } else {
+          this.activeCustomer = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }
@@ -148,53 +153,44 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   CreateNewCustomer() {
-    this.router.navigate(['/collect/createCustomer']);
+    this.router.navigate(['/collect/customer/create']);
   }
 
-  // changeInvoice(customer : CustomeR)
-  // {
-  //    if( this.currentSelectedInvoice == 1 )
-  //    {
-  //     // Here is Customer Purchase Invoices
-  //     this.showCustomerPI = true;
-  //     this.showCustomerSI = false;
+  
+  myFunction(item: any): string {
+    return parseFloat(item).toFixed(2);
+  }
 
-  //     this.submitted = true;
-  //      this.collectS.allPurchaseInvoicesById(customer).then(
-  //       (res:any) => {
-  //          console.log(res) ;
-  //          this.allCustomerPI = res ;
-  //          this.submitted = false;
-  //       }
-  //     ).catch(
-  //       (err) => {
-  //         console.log(err);
-  //         this.submitted = false;
-  //       }
-  //     )
 
-  //    }
-  //    else if( this.currentSelectedInvoice == 2 )
-  //    {
-  //     // Here is Customer Sales Invoices
-  //     this.showCustomerPI = false;
-  //     this.showCustomerSI = true;
+  searchCustomer: any;
+  searchCustomers(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllCustomers();
+    }
+    else{
+     // this.submitted = true;
+      this.otherS.searchCustomer(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allCustomers = res.content;
+          if (this.allCustomers.length > 0) {
+            this.changeCustomer(this.allCustomers[0]);
+          } else {
+            this.activeCustomer = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
+  }
 
-  //     this.submitted = true;
-
-  //     this.collectS.allSalesInvoicesById(customer).then(
-  //      (res:any) => {
-  //         console.log(res) ;
-  //         this.allCustomerSI = res ;
-  //         this.submitted = false;
-  //      }
-  //    ).catch(
-  //      (err) => {
-  //        console.log(err);
-  //        this.submitted = false;
-  //      }
-  //    )
-  //    }
-  // }
 
 }

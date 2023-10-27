@@ -425,6 +425,7 @@ export class PoInvoiceComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
+    this.isquantity =  true;
     return { expenseName: {}, quantity: 1 };
   }
 
@@ -582,6 +583,10 @@ export class PoInvoiceComponent implements OnInit {
           life: 3000,
         });
       });
+  }
+
+  myFunction1(item: any): string {
+    return parseFloat(item.grossTotal).toFixed(2);
   }
 
 }

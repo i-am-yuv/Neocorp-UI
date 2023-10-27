@@ -31,38 +31,24 @@
                     <input pInputText formControlName="model" placeholder="Enter Product Model" class="w-full" />
                     <error-message [controlName]="productForm.controls['model']"></error-message>
                 </div>
+            </div>
 
-                <div class="flex gap-2">
-                    <div class="field col-6">
-                        <label class="mr-3 required">Product Name</label>
-                        <input pInputText formControlName="name" placeholder="Enter Product Name" class="w-full" />
-                        <error-message [controlName]="productForm.controls['name']"></error-message>
-                    </div>
-                    <div class="field col-6">
-                        <label class="mr-3 required">Model</label>
-                        <input pInputText formControlName="model" placeholder="Enter Product Model" class="w-full" />
-                        <error-message [controlName]="productForm.controls['model']"></error-message>
-                    </div>
-
+            <div class="flex gap-2">
+                <div class="field col-6">
+                    <label class="mr-3 ">Search key</label>
+                    <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
+                    <error-message [controlName]="productForm.controls['searchKey']"></error-message>
                 </div>
-                <div class="flex gap-2">
-                    <div class="field col-6">
-                        <label class="mr-3 ">Search key</label>
-                        <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
-                        <error-message [controlName]="productForm.controls['searchKey']"></error-message>
-                    </div>
-                    <div class="field col-6">
-                        <label class="mr-3 ">Product Category</label>
-                        <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
-                        <ng-container formGroupName="category" class="w-full">
-                            <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
-                                formControlName="id" optionLabel="name" [showClear]="true"
-                                (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
-                            </p-dropdown>
-                        </ng-container>
-                        <error-message [controlName]="productForm.controls['category']"></error-message>
-                    </div>
-
+                <div class="field col-6">
+                    <label class="mr-3 ">Product Category</label>
+                    <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
+                    <ng-container formGroupName="category" class="w-full">
+                        <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
+                            formControlName="id" optionLabel="name" [showClear]="true"
+                            (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
+                        </p-dropdown>
+                    </ng-container>
+                    <error-message [controlName]="productForm.controls['category']"></error-message>
                 </div>
 
             </div>

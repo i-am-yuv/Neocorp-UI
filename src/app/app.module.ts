@@ -19,6 +19,7 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { SettingModule } from './setting/setting.module';
 import { PaymentModule } from './payment/payment.module';
 import { BankingModule } from './banking/banking.module';
+import { VendorPortalModule } from './vendor-portal/vendor-portal.module';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BankingModule } from './banking/banking.module';
     BrowserAnimationsModule,
     PaymentModule,
     BankingModule,
+    VendorPortalModule,
     // ProfileModule,
     // BillsModule,
     // CollectModule,

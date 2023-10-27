@@ -9,6 +9,7 @@ import { SuperadminDashboardComponent } from './superadmin-dashboard/superadmin-
 import { DistributorDashboardComponent } from './distributor-dashboard/distributor-dashboard.component';
 import { FirstpageComponent } from './firstpage/firstpage.component';
 import { SharedModule } from '../shared/shared.module';
+import { CorpVendorDashboardComponent } from './corp-vendor-dashboard/corp-vendor-dashboard.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     StoreDashboardComponent,
     SuperadminDashboardComponent,
     DistributorDashboardComponent,
-    FirstpageComponent
+    FirstpageComponent,
+    CorpVendorDashboardComponent
   ],
   imports: [
     CommonModule,

@@ -27,6 +27,14 @@
                         <ng-template pTemplate="header">
                             <span class="p-panel-title" style="padding: 1px">All Debit Notes</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+                            <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
+                                > -->
+                                <input pInputText  placeholder="Search" [(ngModel)]="searchDN"
+                                    class="w-full custom-input" (ngModelChange)="searchDNs(searchDN)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchDNs(searchDN)"
+                                styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -82,7 +90,7 @@
                                                     </div>
                                                     <div class="col-4 text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }} <br>
-                                                        <p class="leftStatus">{{item.status}}</p>
+                                                        <p class="text-black">{{item.status}}</p>
                                                     </div>
                                                 </div>
                                             </div>

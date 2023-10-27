@@ -125,13 +125,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmitPC() {
-    this.productCategoryForm.value.parent = null;
-
-    // if( this.productCategoryForm.value.parent == "" || this.productCategoryForm.value.parent == undefined )
-    // {
-    //   this.productCategoryForm.value.parent = null ;
-    // }
-
+    //this.productCategoryForm.value.parent = null;
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
     alert(JSON.stringify(productCategoryFormVal));

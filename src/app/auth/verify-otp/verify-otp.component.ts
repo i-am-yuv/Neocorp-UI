@@ -129,10 +129,14 @@ export class VerifyOtpComponent implements OnInit {
               life: 3000,
             });
             this.submitted = false;
-            this.router.navigate(['/eKyc']);
+            setTimeout(() => {
+              this.router.navigate(['/eKyc']);
+            }, 2000);
+           
           }
           this.submitted = false;
         } else {
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'verify Mobile OTP Error',
@@ -140,16 +144,17 @@ export class VerifyOtpComponent implements OnInit {
             life: 3000,
           });
         }
-        this.submitted = false;
+       
       })
       .catch((err) => {
+        this.submitted = false;
         this.message.add({
           severity: 'error',
           summary: 'Verify OTP Error',
           detail: 'Invalid OTP, please check ' + err,
           life: 3000,
         });
-        this.submitted = false;
+       // this.submitted = false;
       });
   }
 }

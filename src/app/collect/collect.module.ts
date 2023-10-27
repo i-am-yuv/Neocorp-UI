@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CustomerComponent } from './customer/customer.component';
 import { PoInvoiceDashboardComponent } from './po-invoice-dashboard/po-invoice-dashboard.component';
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
-
+import { BillsModule } from '../bills/bills.module';
 
 @NgModule({
   declarations: [

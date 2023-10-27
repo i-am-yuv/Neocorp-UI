@@ -44,6 +44,11 @@ export class CashMemoDashboardComponent implements OnInit {
     this.invoiceS.getAllCashMemo().then(
       (res : any) => {
         this.allCashMemo = res.content;
+        if (this.allCashMemo.length > 0) {
+          this.changeOrder(this.allCashMemo[0]);
+        } else {
+          this.activeCM = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted =  false;
       }
@@ -85,6 +90,37 @@ export class CashMemoDashboardComponent implements OnInit {
   onEditCM(id:string)
   {
     this.router.navigate(['/invoice/cashMemo/edit/'+id]); 
+  }
+
+  
+  searchCM: any;
+  searchCMs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllCashMemo();
+    }
+    else{
+     // this.submitted = true;
+      this.invoiceS.searchCM(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allCashMemo = res.content;
+          if (this.allCashMemo.length > 0) {
+            this.changeOrder(this.allCashMemo[0]);
+          } else {
+            this.activeCM = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
   }
 
 

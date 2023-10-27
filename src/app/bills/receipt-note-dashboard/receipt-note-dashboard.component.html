@@ -18,6 +18,7 @@
                 </button>
             </div>
         </div>
+        
     </div>
 
     <div class="m-6 bg-white border-round-3xl">
@@ -29,6 +30,14 @@
                         <ng-template pTemplate="header">
                             <span class="p-panel-title" style="padding: 1px">Sent to</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+                            <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
+                                > -->
+                                <input pInputText  placeholder="Search" [(ngModel)]="searchRN"
+                                    class="w-full custom-input" (ngModelChange)="searchRNs(searchRN)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchRNs(searchRN)"
+                                styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -48,7 +57,8 @@
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
                                                     </div>
                                                     <div class="col-4   text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal}}<br>
+                                                        <p>{{item.status}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-2" *ngIf="item.customer">
@@ -56,7 +66,8 @@
                                                         {{ item.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal}}<br>
+                                                        <p>{{item.status}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,9 +105,8 @@
                                 No Receipt Note Found, Please Create One
                             </div>
                             <div *ngIf="activeRN.id">
-                                <!-- <h3 class="text-lg ">Purchase Order Details</h3>
-                                        <br> -->
-                                <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
+
+                                <!-- <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
                                     <div class="field col-7  ml-3 ">
                                         <h4 class="rightMain">Payment Activity</h4>
                                         <h4 class="text-white">#{{this.activeRN.receiptNoteNumber}}
@@ -137,9 +147,7 @@
                                         </div>
                                         <div *ngIf="this.activeRN.status=='COMPLETED'"
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
-                                            <!-- <h4 class="text-center text-base leftStatus ">Status:
-                                                {{this.activeInvoice.status}}
-                                            </h4> -->
+                                            
                                             <h4 class="text-center leftStatus text-base ">
                                                 <div class="flex gap-1  w-full">
                                                     <div class="col-3 leftP text-right">
@@ -166,52 +174,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- <div class="flex mt-3">
-                                    <div class="field col-8">
-                                        <h4 class="text-blue-700">Purchase Invoice Details:</h4>
-                                    </div>
-                                    <div class="field col-4 text-right">
-                                        <button pButton type="button" icon="pi pi-pencil"
-                                            (click)="onEditPI(activeInvoice.id)"></button>
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Purchase Invoice:</label>
-                                        <p><b>#{{ this.activeRN.invoiceNo}}</b></p>
-                                    </div>
-
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Invoice Date:</label>
-                                        <p>{{ this.activeRN.invoiceDate | date:'yyyy-MM-dd' }}</p>
-                                    </div>
-
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Due Date:</label>
-                                        <p>{{ this.activeRN.duedate | date:'yyyy-MM-dd' }}</p>
-                                    </div>
-                                </div>
-                                <hr class="custom-hr">
-                                <div class="flex">
-                                    <div class="field col-11">
-                                        <label class="mr-3 blueText">Purchase Order Details:</label>
-                                        <p class="text-sm"><b>Purchase Order Number: #
-                                                {{this.activeRN.purchaseOrder?.orderNumber}}</b>
-                                        </p>
-                                    </div>
                                 </div> -->
-                                <!-- <hr class="custom-hr"> -->
+
+
 
 
                                 <div *ngIf="this.activeRN.vendor">
                                     <div class="flex">
                                         <div class="field col-8">
-                                            <h4 class="">Vendor Details:</h4>
+                                            <h4 class="">Receipt Note Details:</h4>
                                         </div>
-                                        <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer"
-                                            (click)="onEditRN(activeRN.id)">
+                                        <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer" (click)="onEditRN(activeRN.id)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
                                                 viewBox="0 0 10 11" fill="none">
                                                 <g clip-path="url(#clip0_862_17281)">
@@ -232,33 +205,53 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="field col-3">
+                                        <div class="field col-4">
+                                            <label class="mr-3 blueText">Receipt Note Number:</label>
+                                            <h5>#{{ this.activeRN.receiptNoteNumber}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">Start on:</label>
+                                            <h5>{{ this.activeRN.startDate | date : 'yyyy-MM-dd'}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">End Date:</label>
+                                            <h5>{{ this.activeRN.endDate | date : 'yyyy-MM-dd'}}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="field col-8">
+                                        <h4 class="">Vendor Details:</h4>
+                                    </div>
+
+                                    <div class="flex w-full">
+                                        <div class="field col-5">
                                             <label class="mr-3 blueText">Vendor Name</label>
                                             <p>{{ this.activeRN.vendor.firstName}} {{this.activeRN.vendor.lastName}}</p>
                                         </div>
 
-                                        <div class="field col-3">
-                                            <label class="mr-3 blueText">Mobile Number</label>
+                                        <div class="field col-5 text-right">
+                                            <label class="blueText">Mobile Number</label>
                                             <p>{{ this.activeRN.vendor.mobileNumber}}</p>
                                         </div>
 
-                                        <div class="field col-5">
+                                        <!-- <div class="field col-5 text-right">
                                             <label class="mr-3  blueText">Address</label><br>
                                             <p>{{this.activeRN.vendor.address?.billingName}}</p>
                                             <p>{{this.activeRN.vendor.address?.billingAddress}}</p>
                                             <p>{{this.activeRN.vendor.address?.city}}
                                                 ,{{this.activeRN.vendor.address?.pincode}}</p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
                                 <div *ngIf="this.activeRN.customer">
                                     <div class="flex">
                                         <div class="field col-8">
-                                            <h4 class="">Customer Details:</h4>
+                                            <h4 class="">Receipt Note Details:</h4>
                                         </div>
-                                        <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer"
-                                            (click)="onEditRN(activeRN.id)">
+                                        <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer" (click)="onEditRN(activeRN.id)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
                                                 viewBox="0 0 10 11" fill="none">
                                                 <g clip-path="url(#clip0_862_17281)">
@@ -277,7 +270,29 @@
                                             <div class="text-sm font-light">Edit Receipt Note</div>
                                         </div>
                                     </div>
+
                                     <div class="flex">
+                                        <div class="field col-4">
+                                            <label class="mr-3 blueText">Receipt Note Number:</label>
+                                            <h5>#{{ this.activeRN.receiptNoteNumber}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">Start on:</label>
+                                            <h5>{{ this.activeRN.startDate | date : 'yyyy-MM-dd'}}</h5>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3">End Date:</label>
+                                            <h5>{{ this.activeRN.endDate | date : 'yyyy-MM-dd'}}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="field col-8">
+                                        <h4 class="">Customer Details:</h4>
+                                    </div>
+
+                                    <div class="flex w-full">
                                         <div class="field col-3">
                                             <label class="mr-3 blueText">Customer Name</label>
                                             <p>{{ this.activeRN.customer.displayName}}</p>
@@ -287,7 +302,7 @@
                                             <label class="mr-3 blueText">Mobile Number</label>
                                             <p>{{ this.activeRN.customer.mobileNumber}}</p>
                                         </div>
-                                        <div class="field col-5">
+                                        <div class="field col-5 text-right">
                                             <label class="mr-3  blueText">Address</label><br>
                                             <p>{{this.activeRN.customer.address?.billingName}}</p>
                                             <p>{{this.activeRN.customer.address?.billingAddress}}</p>

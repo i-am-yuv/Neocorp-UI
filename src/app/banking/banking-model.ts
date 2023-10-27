@@ -1,11 +1,12 @@
 import { PurchaseInvoice } from "../collect/collect-models";
 import { Beneficiary } from "../profile/profile-models";
-import { AccountDetails, Vendor } from "../settings/customers/customer";
+import { AccountDetails, CustomeR, Vendor } from "../settings/customers/customer";
 
 export class BankingModel {
 }
 
 export interface PaymentRequest {
+    id ?: string ;
     amount ?: number;
     paymentType ?: string;
     beneficiary ?: Beneficiary | null ;
@@ -32,3 +33,15 @@ export interface DebitAccountDetails {
     IFSC ?: string;
     bankname ?: string;
 }
+
+export interface Payment{
+    id ?: string;
+    vendor ?: Vendor;
+    invoice ?: PurchaseInvoice;
+    amount ?: number;
+    paymentDate ?: Date;
+    customer ?: CustomeR
+    paymentRequest ?: PaymentRequest;
+}
+
+

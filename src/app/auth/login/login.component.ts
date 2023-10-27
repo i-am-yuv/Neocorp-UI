@@ -13,11 +13,12 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  
+
   submitted = false;
+  fieldTextType!: boolean;
   timer = 50;
 
-  stateOptions: any[] = [{label: 'Company', value: 'company'}, {label: 'Vendor', value: 'vendor'}];
+  stateOptions: any[] = [{ label: 'Company', value: 'company' }, { label: 'Vendor', value: 'vendor' }];
   value: string = 'company';
 
   constructor(
@@ -25,14 +26,13 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private message: MessageService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10),
+        Validators.minLength(10)
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -41,65 +41,124 @@ export class LoginComponent implements OnInit {
     });
 
     sessionStorage.removeItem('mobileNo');
-    sessionStorage.removeItem('AadharOtpRefId') ;
-    sessionStorage.removeItem('goToAadharOtpPage') ;
+    sessionStorage.removeItem('AadharOtpRefId');
+    sessionStorage.removeItem('goToAadharOtpPage');
   }
 
   decodedToken: any;
 
   onSubmitLogin() {
     this.submitted = true;
-    this.loginService
-      .doLogin(this.loginForm.value)
-      .then((res) => {
-        if (res) {
-          console.log("Sign In Done");
+
+    if (this.value == 'company') {
+      this.loginService
+        .doLogin(this.loginForm.value)
+        .then((res) => {
+          if (res) {
+            console.log("Sign In Done");
+            sessionStorage.setItem('token', res.jwt);
+            sessionStorage.setItem('refreshToken', res.refreshToken);
+            this.submitted = false;
+            this.message.add({
+              severity: 'sucess',
+              summary: 'Sign In Successful',
+              detail: res.message,
+              life: 2000,
+            });
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 2000);
+
+          } else {
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: 'Invalid Login, please check credentials',
+              life: 3000,
+            });
+
+          }
+          this.submitted = false;
+        })
+        .catch((err) => {
+          this.submitted = false;
+          if (err.status === 0) {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: 'Check Server Connection',
+              life: 3000,
+            });
+          } else if (err.code === 404) {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: 'Check Server Connection',
+              life: 3000,
+            });
+          } else {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: err.error.message,
+              life: 3000,
+            });
+          }
+
+        });
+    }
+    else if (this.value == 'vendor') {
+      this.loginService
+        .doVendorLogin(this.loginForm.value)
+        .then((res: any) => {
+          console.log("Vendor Sign In Done");
           sessionStorage.setItem('token', res.jwt);
           sessionStorage.setItem('refreshToken', res.refreshToken);
           this.submitted = false;
-          this.router.navigate(['/dashboard']);
+
           this.message.add({
             severity: 'sucess',
             summary: 'Sign In Successful',
             detail: res.message,
             life: 3000,
           });
-
-        } else {
-          this.message.add({
-            severity: 'error',
-            summary: 'Login Error',
-            detail: 'Invalid Login, please check credentials',
-            life: 3000,
-          });
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 2000);
+        }
+        ).catch((err) => {
           this.submitted = false;
-        }
-        this.submitted = false;
-      })
-      .catch((err) => {
-        if (err.status === 0) {
-          this.message.add({
-            severity: 'error',
-            summary: 'Login Error',
-            detail: 'Check Server Connection',
-            life: 3000,
-          });
-        } else if (err.code === 404) {
-          this.message.add({
-            severity: 'error',
-            summary: 'Login Error',
-            detail: 'Check Server Connection',
-            life: 3000,
-          });
-        } else {
-          this.message.add({
-            severity: 'error',
-            summary: 'Login Error',
-            detail: err.error.message,
-            life: 3000,
-          });
-        }
-        this.submitted = false;
-      });
+
+          if (err.status === 0) {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: 'Check Server Connection',
+              life: 3000,
+            });
+          } else if (err.code === 404) {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: 'Check Server Connection',
+              life: 3000,
+            });
+          } else {
+            this.message.add({
+              severity: 'error',
+              summary: 'Login Error',
+              detail: err.error.message,
+              life: 3000,
+            });
+          }
+
+        });
+    }
   }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
 }

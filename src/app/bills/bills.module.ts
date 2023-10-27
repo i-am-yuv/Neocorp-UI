@@ -4,7 +4,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { BillsRoutingModule } from './bills-routing.module';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { SharedModule } from '../shared/shared.module';
-import { DutchModule } from '../dutch/dutch.module';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import {ConfirmationService, MessageService} from 'primeng/api'
@@ -15,6 +14,7 @@ import { DebitNoteComponent } from './debit-note/debit-note.component';
 import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';
 import { DebitNoteDashboardComponent } from './debit-note-dashboard/debit-note-dashboard.component';
 import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-note-dashboard.component';
+
 @NgModule({
   declarations: [
     PurchaseOrderComponent,

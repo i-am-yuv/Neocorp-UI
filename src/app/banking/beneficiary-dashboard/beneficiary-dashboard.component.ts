@@ -39,8 +39,13 @@ export class BeneficiaryDashboardComponent implements OnInit {
     this.bankingS.getAllBeneficairy().then(
       (res: any) => {
         console.log(res);
-        this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null); ;
-        this.totalRecords = res.totalElements;
+        this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null );
+        if (this.allBeneficairy.length > 0) {
+          this.changeBeneficiary(this.allBeneficairy[0]);
+        } else {
+          this.activeBeneficiary = {};
+        }
+        this.totalRecords =this.allBeneficairy.length;
         this.submitted = false;
       }
     ).catch(
@@ -64,6 +69,38 @@ export class BeneficiaryDashboardComponent implements OnInit {
   CreateNewBeneficiary()
   {
     this.router.navigate(['/banking/beneficiary/create']); 
+  }
+
+  
+  searchBN: any;
+  searchBNs(value: any) {
+    if (value == null) {
+      alert("Came");
+      this.getAllBeneficiary();
+    }
+    else{
+     // this.submitted = true;
+      this.bankingS.searchBeneficiary(value).then(
+        (res: any) => {
+          console.log(res);
+          //this.allBeneficairy = res.content;
+          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null );
+          if (this.allBeneficairy.length > 0) {
+            this.changeBeneficiary(this.allBeneficairy[0]);
+          } else {
+            this.activeBeneficiary = {};
+          }
+          this.totalRecords = this.allBeneficairy.length ;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
   }
 
 }

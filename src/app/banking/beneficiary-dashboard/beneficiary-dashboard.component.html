@@ -5,9 +5,9 @@
             <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
         </div>
         <div class="col-8">
-            <div class=" border-200 text-right">
+            <div class=" border-200 text-right ">
                 <button type="button" pButton (click)="CreateNewBeneficiary()"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 ">
+                    class=" mr-3 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -28,6 +28,14 @@
                     <ng-template pTemplate="header">
                         <span class="p-panel-title" style="padding: 1px">All Beneficiary</span>
                     </ng-template>
+                    <div class="p-inputgroup pl-2 pr-2 pt-2">
+                        <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
+                            > -->
+                            <input pInputText  placeholder="Search" [(ngModel)]="searchBN"
+                                class="w-full custom-input" (ngModelChange)="searchBNs(searchBN)" />
+                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchBNs(searchBN)"
+                            styleClass="p-button-success"></button>
+                    </div>
                     <ng-template pTemplate="content">
                         <div class="left-panel-content">
                             <br />
@@ -37,7 +45,7 @@
                                 <div class="list-item" (click)="changeBeneficiary(item)">
                                     <div class="iconSCSS w-full  p-3">
                                         <div class=" col-2  justify-center align-center">
-                                            <div class="person-icon">{{item.beneficaryName.charAt(0)}}{{item.beneficaryName.split(' ')[1] ? item.beneficaryName.split(' ')[1].charAt(0) : '' }}</div>
+                                            <div class="person-icon">{{item.beneficaryName.charAt(0)}}</div>
                                         </div>
                                         <div class=" col-10">
                                             <div class="text-base"><b>{{ item.beneficaryName }} {{item.nickname}}</b>
@@ -166,7 +174,6 @@
                     </div>
                 </div>
             </p-panel>
-
         </div>
 
     </div>

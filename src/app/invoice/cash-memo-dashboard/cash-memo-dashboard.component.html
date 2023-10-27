@@ -31,8 +31,17 @@
                 <div class="col-5">
                     <p-panel class="left-panel ">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">Sent to</span>
+                            <span class="p-panel-title" style="padding: 1px">All Cash Memos</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+
+                            <input pInputText placeholder="Search" [(ngModel)]="searchCM" class="w-full custom-input"
+                                (ngModelChange)="searchCMs(searchCM)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchCMs(searchCM)"
+                                styleClass="p-button-success">
+                            </button>
+
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -52,7 +61,8 @@
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
                                                     </div>
                                                     <div class="col-4   text-base text-right">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal}}<br>
+                                                        <p>{{item.requestStatus}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-2" *ngIf="item.customer">
@@ -60,7 +70,8 @@
                                                         {{ item.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
-                                                        <b>₹: </b>{{item.grossTotal}}
+                                                        <b>₹: </b>{{item.grossTotal}}<br>
+                                                        <p>{{item.requestStatus}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,8 +166,8 @@
                                     <div class="field col-8">
                                         <h4 class="">Vendor Details:</h4>
                                     </div>
-                                    <div class="flex">
-                                        <div class="field col-3">
+                                    <div class="flex w-full">
+                                        <div class="field col-4">
                                             <label class="mr-3 blueText">Vendor Name</label>
                                             <p>{{ this.activeCM.vendor.firstName}} {{this.activeCM.vendor.lastName}}</p>
                                         </div>
@@ -166,7 +177,7 @@
                                             <p>{{ this.activeCM.vendor.mobileNumber}}</p>
                                         </div>
 
-                                        <div class="field col-5">
+                                        <div class="field col-5 text-right">
                                             <label class="mr-3  blueText">Address</label><br>
                                             <p>{{this.activeCM.vendor.address?.billingName}}</p>
                                             <p>{{this.activeCM.vendor.address?.billingAddress}}</p>
@@ -180,7 +191,7 @@
                                     <div class="field col-8">
                                         <h4 class="">Customer Details:</h4>
                                     </div>
-                                    <div class="flex">
+                                    <div class="flex w-full">
                                         <div class="field col-3">
                                             <label class="mr-3 blueText">Customer Name</label>
                                             <p>{{ this.activeCM.customer.displayName}}</p>
@@ -190,7 +201,7 @@
                                             <label class="mr-3 blueText">Mobile Number</label>
                                             <p>{{ this.activeCM.customer.mobileNumber}}</p>
                                         </div>
-                                        <div class="field col-5">
+                                        <div class="field col-5 text-right">
                                             <label class="mr-3  blueText">Address</label><br>
                                             <p>{{this.activeCM.customer.address?.billingName}}</p>
                                             <p>{{this.activeCM.customer.address?.billingAddress}}</p>

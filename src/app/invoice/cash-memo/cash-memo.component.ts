@@ -476,6 +476,7 @@ export class CashMemoComponent implements OnInit {
   }
 
   newRow(): any {
+    this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
   }
 

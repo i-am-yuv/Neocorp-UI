@@ -24,11 +24,11 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'createCustomer',
+    path: 'customer',
     component:LayoutComponent ,
     children: [
-      { path: '', component: CustomerComponent  },
-      // { path: 'create', component: CustomerComponent },
+      { path: 'create', component: CustomerComponent  },
+      { path: '', component: CustomerComponent },
       { path: 'edit/:id', component: CustomerComponent },
     ]
   },

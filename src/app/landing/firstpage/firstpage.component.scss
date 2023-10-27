@@ -3,18 +3,45 @@
     // box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
     /* Add any other custom styles as needed */
   }
+
   .sidebar {
-    width: 100px !important; /* Adjust the width to your desired value */
+    width: 100px !important;
+    /* Adjust the width to your desired value */
   }
 
+  .pp {
+    margin-top: auto;
+  }
 
+  .custom-button {
+    background: #DAE8FF;
+    border: 0.562px solid #FFF;
+  }
+  .custom-button:hover {
+    background: #bad2f8;
+   // border: #353434;
+  }
+  // Override the default text color
+  .custom-button .p-button-text {
+    color: #ffffff;
+  }
+  
+  // .custom-button .p-button-text :hover {
+  //   color: #718edb;
+  // }
+  // Override the default border radius
+  .custom-button {
+    border-radius: 4.498px;
+  //  box-shadow: 0px 1.12446px 4.49782px 0px rgba(0, 0, 0, 0.06);
+  }
 
-
+  // .connectBtn {
+  // }
 
   .defaultSCSS {
     background-color: white;
     color: black;
-    border:1px solid rgb(221, 214, 214);
+    border: 1px solid rgb(221, 214, 214);
     border-radius: 13px;
     padding: 12px 28px;
     // border-bottom: 3px solid lightgrey;
@@ -22,48 +49,51 @@
     font-weight: 700;
     /* Remove the default button border */
     //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
-}
+  }
 
-.onClickButton {
-  //border-bottom: 2px solid blue;
-  // border-bottom: 3px solid #3579F3;
-  /* Change the bottom border color on hover (e.g., blue) */
-  color: white;
-  background-color: rgb(21, 143, 243);
-  font-weight: 700;
-  /* Change the text color on hover (optional) */
-}
-
-
-.debSCSS{
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.credSCSS{
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
+  .onClickButton {
+    //border-bottom: 2px solid blue;
+    // border-bottom: 3px solid #3579F3;
+    /* Change the bottom border color on hover (e.g., blue) */
+    color: white;
+    background-color: rgb(21, 143, 243);
+    font-weight: 700;
+    /* Change the text color on hover (optional) */
+  }
 
 
+  .debSCSS {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 
-// .responsive-image {
-//   max-width: 100%;
-//   height: auto;
-// }
-
-.responsive-image {
-  max-width: 100%;
-  // max-height: 350px; /* Adjust the height as desired */
-  // width: auto;
-  height: auto;
-}
+  .credSCSS {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
 
 
 
-.acc{
-  max-width: 100%;
+  // .responsive-image {
+  //   max-width: 100%;
+  //   height: auto;
+  // }
+
+  .responsive-image {
+    max-width: 100%;
+    // max-height: 350px; /* Adjust the height as desired */
+    // width: auto;
+    height: auto;
+  }
+
+
+
+  .acc {
+    max-width: 100%;
     // height: auto;
+  }
+  .iconSCSS1 {
+    display: flex;
+    align-items: center;
+   // justify-content: end;
 }
-
-

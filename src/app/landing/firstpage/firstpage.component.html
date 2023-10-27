@@ -15,23 +15,31 @@
             <b class="text-base">Choose your bank for a quick and secure connection</b>
             <br>
 
-            <div class="mt-5">
+            <div class="mt-5 iconSCSS1">
               <!-- <a class="text-lg text-blue-500 cursor-pointer" (click)="sidebarVisible2=!sidebarVisible2">Create Account
                 <i class="pi pi-arrow-right" style="font-size: 1rem"></i>
               </a> -->
-              <button type="submit" pButton label="" (click)="sidebarVisible2=!sidebarVisible2"
-                class=" text-lg bg-blue-100 text-blue-600 px-4 py-2.5 rounded-md hover:bg-blue-700 hover:text-white">Connect Your Bank Account <b class="text-gray-900">&nbsp;&nbsp;&nbsp;&nbsp;></b></button>
+              <button type="submit"  label="" (click)="sidebarVisible2=!sidebarVisible2"
+                class=" text-lg custom-button p-2 cursor-pointer iconSCSS1">
+                <div>Connect Your Bank Account</div>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none" class="ml-1">
+                    <path d="M14.9017 10.9642L8.33917 17.5267C8.2782 17.5876 8.20582 17.636 8.12615 17.669C8.04649 17.702 7.9611 17.719 7.87488 17.719C7.78865 17.719 7.70327 17.702 7.6236 17.669C7.54394 17.636 7.47155 17.5876 7.41058 17.5267C7.34961 17.4657 7.30124 17.3933 7.26824 17.3137C7.23525 17.234 7.21826 17.1486 7.21826 17.0624C7.21826 16.9761 7.23525 16.8908 7.26824 16.8111C7.30124 16.7314 7.34961 16.6591 7.41058 16.5981L13.5096 10.4999L7.41058 4.40167C7.28744 4.27853 7.21826 4.11152 7.21826 3.93738C7.21826 3.76323 7.28744 3.59622 7.41058 3.47308C7.53372 3.34994 7.70073 3.28076 7.87488 3.28076C8.04902 3.28076 8.21603 3.34994 8.33917 3.47308L14.9017 10.0356C14.9627 10.0965 15.0111 10.1689 15.0441 10.2486C15.0771 10.3282 15.0941 10.4136 15.0941 10.4999C15.0941 10.5861 15.0771 10.6715 15.0441 10.7512C15.0111 10.8308 14.9627 10.9032 14.9017 10.9642Z" fill="#343330"/>
+                    </svg>
+                </div>
+                
+              </button>
             </div>
             <!-- class=" text-lg bg-blue-100 text-blue-600 px-4 py-2.5 rounded-md hover:bg-blue-700 hover:text-white">Connect Your Bank Account <b class="text-gray-900">&nbsp;&nbsp;&nbsp;&nbsp;></b></button> -->
 
           </div>
-          <div class="field col-5 ">
+          <div class="field col-5  pp">
             <!-- <img src="/assets/AccountD.png" alt="Image" class="a"> -->
             <img src="/assets/AccountD.png" width="350">
           </div>
         </div>
 
-        
+
 
 
       </div>
@@ -40,263 +48,227 @@
 
   </div>
   <div class=" ">
-  <!-- <div class="field col-12 bg-white mt-6 border-round-3xl">
+    <!-- <div class="field col-12 bg-white mt-6 border-round-3xl">
     <img height="400px" width="1552px" src="/assets/111.png" alt="Image" class="">
   </div> -->
-  <div class="field col-12 bg-white mt-6 border-round-3xl">
-    <!-- <img src="/assets/111.png" alt="Image" class="responsive-image"> -->
-    <img src="/assets/111.png" alt="Image" width="980">
-</div>
+    <div class="field col-12 bg-white mt-6 border-round-3xl">
+      <!-- <img src="/assets/111.png" alt="Image" class="responsive-image"> -->
+      <img src="/assets/111.png" alt="Image" width="980">
+    </div>
 
 
   </div>
 </div>
-
-
-
-
-
 
 <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="w-30rem">
   <!-- <div class="card flex justify-content-center">
     <p-selectButton (click)="sidebarVisible2=!sidebarVisible2" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
   </div> -->
-  
-<div class="card flex justify-content-center">
-  <form [formGroup]="formGroup">
-      <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value"></p-selectButton>
-  </form>
-</div>
-  <button type="submit" pButton label="Debit Account" (click)="sidebarVisible2=!sidebarVisible2" class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
 
-<button type="submit" pButton label="Credit Account" (click)="sidebarVisible3=!sidebarVisible3" class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+  <div class="card flex justify-content-center">
+    <form [formGroup]="formGroup">
+      <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label"
+        optionValue="value"></p-selectButton>
+    </form>
+  </div>
+  <button type="submit" pButton label="Debit Account" (click)="sidebarVisible2=!sidebarVisible2"
+    class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+
+  <button type="submit" pButton label="Credit Account" (click)="sidebarVisible3=!sidebarVisible3"
+    class="text-base bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
 
 </p-sidebar>
 
-
-
-
-
-
-
-
-
- <div [ngSwitch]="value">
+<div [ngSwitch]="value">
   <p-sidebar [(visible)]="sidebarVisible3" position="right" styleClass="w-30rem">
     <!-- <div class="card flex justify-content-center">
     <p-selectButton (click)="sidebarVisible3=!sidebarVisible3" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
   </div> -->
-  <div class="card flex justify-content-center">
-    <form [formGroup]="formGroup">
-        <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value"></p-selectButton>
-    <!-- </form>
+    <div class="card flex justify-content-center">
+      <form [formGroup]="formGroup">
+        <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label"
+          optionValue="value"></p-selectButton>
+        <!-- </form>
   </div> -->
-  <div class="w-full">
-    <form *ngSwitchCase="'Credit Account'"  (ngSubmit)="onSubmitAccount()"  [formGroup]="newAccountForm" class="m-2">
-      <h4 class="text-xl text-blue-700">Account Details</h4>
+        <div class="w-full">
+          <form *ngSwitchCase="'Credit Account'" (ngSubmit)="onSubmitAccount()" [formGroup]="newAccountForm"
+            class="m-2">
+            <h4 class="text-xl text-blue-700">Account Details</h4>
 
 
-      <div class="field">
-        <label class="mr-3 required">Account Number</label>
-        <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
-          class="w-full custom-input" NumbersOnly />
-        <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Account Number</label>
+              <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+                class="w-full custom-input" NumbersOnly />
+              <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Confirm Account Number</label>
-        <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
-          class="w-full custom-input" NumbersOnly />
-        <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Confirm Account Number</label>
+              <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+                class="w-full custom-input" NumbersOnly />
+              <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">IFSC</label>
-        <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">IFSC</label>
+              <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Bank Name</label>
-        <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Bank Name</label>
+              <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Account Type</label>
-        <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Account Type</label>
+              <input pInputText formControlName="AccountType" placeholder="Enter Account Type"
+                class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
+            </div>
 
-      <div class="text-right ">
-        <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
-          class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-      </div>
+            <div class="text-right ">
+              <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
+                class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+            </div>
 
-    </form>
+          </form>
 
-  </div>
-</form>
-</div>
-</p-sidebar> 
-
-
-
-
-
+        </div>
+      </form>
+    </div>
+  </p-sidebar>
 
 
 
-<p-sidebar  position="right" styleClass="w-30rem">
-  <!-- <div class="card flex justify-content-center">
+
+
+
+
+
+  <p-sidebar position="right" styleClass="w-30rem">
+    <!-- <div class="card flex justify-content-center">
     <p-selectButton (click)="sidebarVisible2=!sidebarVisible2" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
   </div> -->
-  <div class="card flex justify-content-center">
-    <form [formGroup]="formGroup">
-        <p-selectButton [options]="stateOptions" formControlName="value" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
-    <!-- </form>
+    <div class="card flex justify-content-center">
+      <form [formGroup]="formGroup">
+        <p-selectButton [options]="stateOptions" formControlName="value" [(ngModel)]="value" optionLabel="label"
+          optionValue="value"></p-selectButton>
+        <!-- </form>
   </div> -->
-  <div class="w-full">
-    <form *ngSwitchCase="'Debit Account'" (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1" class="m-2">
-      <h4 class="text-xl text-blue-700">Account Details</h4>
-      <div class="field">
-        <label class="mr-3 required">Account Number</label>
-        <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
-          class="w-full custom-input" NumbersOnly />
-        <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
-      </div>
+        <div class="w-full">
+          <form *ngSwitchCase="'Debit Account'" (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1"
+            class="m-2">
+            <h4 class="text-xl text-blue-700">Account Details</h4>
+            <div class="field">
+              <label class="mr-3 required">Account Number</label>
+              <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+                class="w-full custom-input" NumbersOnly />
+              <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Confirm Account Number</label>
-        <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
-          class="w-full custom-input" NumbersOnly />
-        <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Confirm Account Number</label>
+              <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+                class="w-full custom-input" NumbersOnly />
+              <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">IFSC</label>
-        <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">IFSC</label>
+              <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Bank Name</label>
-        <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Bank Name</label>
+              <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
+            </div>
 
-      <div class="field">
-        <label class="mr-3 required">Account Type</label>
-        <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
-        <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
-      </div>
+            <div class="field">
+              <label class="mr-3 required">Account Type</label>
+              <input pInputText formControlName="AccountType" placeholder="Enter Account Type"
+                class="w-full custom-input" />
+              <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
+            </div>
 
-      <div class="text-right ">
-        <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
-          class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-      </div>
+            <div class="text-right ">
+              <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
+                class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+            </div>
 
-    </form>
+          </form>
 
-  </div>
-</form>
+        </div>
+      </form>
+    </div>
+  </p-sidebar>
 </div>
-</p-sidebar> 
- </div>
 
-
-
-
-
-
-
-
-
-
-
-
-<p-blockUI [blocked]="submitted">
-  <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
-</p-blockUI>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem" class="button-container">
-      <button type="button" label="Debit" class="p-2.5 ml-6" 
-          [ngClass]="{ 'defaultSCSS ': true ,'debSCSS ': true ,'onClickButton':showDebit }"
-          (click)="showDebitPage()">Debit Account</button>
-      <button type="button" label="Credit" class="p-2.5"
-          [ngClass]="{'defaultSCSS': true ,'credSCSS ': true ,'onClickButton': showCredit}"
-          (click)="showCreditPage()">Credit Account</button>
+<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="w-30rem" class="button-container">
+  <button type="button" label="Debit" class="p-2.5 ml-6"
+    [ngClass]="{ 'defaultSCSS ': true ,'debSCSS ': true ,'onClickButton':showDebit }" (click)="showDebitPage()">Debit
+    Account</button>
+  <button type="button" label="Credit" class="p-2.5"
+    [ngClass]="{'defaultSCSS': true ,'credSCSS ': true ,'onClickButton': showCredit}" (click)="showCreditPage()">Credit
+    Account</button>
 
   <div *ngIf="showDebit" class="mt-5">
-      <div class="w-full">
-        <form  (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1" class="m-2">
-          <h4 class="text-xl text-blue-700">Account Details</h4>
-          <div class="field">
-            <label class="mr-3 required">Account Number</label>
-            <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
-              class="w-full custom-input" NumbersOnly />
-            <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
-          </div>
-    
-          <div class="field">
-            <label class="mr-3 required">Confirm Account Number</label>
-            <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
-              class="w-full custom-input" NumbersOnly />
-            <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
-          </div>
-    
-          <div class="field">
-            <label class="mr-3 required">IFSC</label>
-            <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
-            <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
-          </div>
-    
-          <div class="field">
-            <label class="mr-3 required">Bank Name</label>
-            <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
-            <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
-          </div>
-    
-          <div class="field">
-            <label class="mr-3 required">Account Type</label>
-            <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
-            <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
-          </div>
-    
-          <div class="text-right ">
-            <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
-              class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-          </div>
-    
-        </form>
-      </div>
+    <div class="w-full">
+      <form (ngSubmit)="onSubmitAccount1()" [formGroup]="newAccountForm1" class="m-2">
+        <h4 class="text-xl text-blue-700">Account Details</h4>
+        <div class="field">
+          <label class="mr-3 required">Account Number</label>
+          <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+            class="w-full custom-input" NumbersOnly />
+          <error-message [controlName]="newAccountForm1.controls['AccountNumber']"></error-message>
+        </div>
+
+        <div class="field">
+          <label class="mr-3 required">Confirm Account Number</label>
+          <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+            class="w-full custom-input" NumbersOnly />
+          <error-message [controlName]="newAccountForm1.controls['confirmAccountNumber']"></error-message>
+        </div>
+
+        <div class="field">
+          <label class="mr-3 required">IFSC</label>
+          <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+          <error-message [controlName]="newAccountForm1.controls['IFSC']"></error-message>
+        </div>
+
+        <div class="field">
+          <label class="mr-3 required">Bank Name</label>
+          <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+          <error-message [controlName]="newAccountForm1.controls['bankname']"></error-message>
+        </div>
+
+        <div class="field">
+          <label class="mr-3 required">Account Type</label>
+          <input pInputText formControlName="AccountType" placeholder="Enter Account Type"
+            class="w-full custom-input" />
+          <error-message [controlName]="newAccountForm1.controls['AccountType']"></error-message>
+        </div>
+
+        <div class="text-right ">
+          <button type="submit" pButton label="Save Debit Account" [disabled]="!newAccountForm1.valid"
+            class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+        </div>
+
+      </form>
+    </div>
   </div>
 
   <div *ngIf="showCredit" class="mt-5 ">
-      <div  class="">
-              <div class="w-full">
-                <form (ngSubmit)="onSubmitAccount()"  [formGroup]="newAccountForm" class="m-2">
-                  <h4 class="text-xl text-blue-700">Account Details</h4>
-            
-                  <!-- <div class="field">
+    <div class="">
+      <div class="w-full">
+        <form (ngSubmit)="onSubmitAccount()" [formGroup]="newAccountForm" class="m-2">
+          <h4 class="text-xl text-blue-700">Account Details</h4>
+
+          <!-- <div class="field">
                     <div class="p-field-checkbox">
                       <div class="flex gap-1">
                         <div><p-checkbox formControlName="isPrimaryAccount" inputId="binary" [binary]="true"></p-checkbox>
@@ -307,47 +279,52 @@
                       </div>
                     </div>
                   </div> -->
-            
-                  <div class="field">
-                    <label class="mr-3 required">Account Number</label>
-                    <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
-                      class="w-full custom-input" NumbersOnly />
-                    <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
-                  </div>
-            
-                  <div class="field">
-                    <label class="mr-3 required">Confirm Account Number</label>
-                    <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
-                      class="w-full custom-input" NumbersOnly />
-                    <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
-                  </div>
-            
-                  <div class="field">
-                    <label class="mr-3 required">IFSC</label>
-                    <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
-                    <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
-                  </div>
-            
-                  <div class="field">
-                    <label class="mr-3 required">Bank Name</label>
-                    <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
-                    <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
-                  </div>
-            
-                  <div class="field">
-                    <label class="mr-3 required">Account Type</label>
-                    <input pInputText formControlName="AccountType" placeholder="Enter Account Type" class="w-full custom-input" />
-                    <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
-                  </div>
-            
-                  <div class="text-right ">
-                    <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
-                      class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                  </div>
-            
-                </form>
-            
-              </div>
+
+          <div class="field">
+            <label class="mr-3 required">Account Number</label>
+            <input pInputText formControlName="AccountNumber" placeholder="Enter Your Account Number"
+              class="w-full custom-input" NumbersOnly />
+            <error-message [controlName]="newAccountForm.controls['AccountNumber']"></error-message>
+          </div>
+
+          <div class="field">
+            <label class="mr-3 required">Confirm Account Number</label>
+            <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+              class="w-full custom-input" NumbersOnly />
+            <error-message [controlName]="newAccountForm.controls['confirmAccountNumber']"></error-message>
+          </div>
+
+          <div class="field">
+            <label class="mr-3 required">IFSC</label>
+            <input pInputText formControlName="IFSC" placeholder="Enter Your IFSC" class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm.controls['IFSC']"></error-message>
+          </div>
+
+          <div class="field">
+            <label class="mr-3 required">Bank Name</label>
+            <input pInputText formControlName="bankname" placeholder="Enter Bank Name" class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm.controls['bankname']"></error-message>
+          </div>
+
+          <div class="field">
+            <label class="mr-3 required">Account Type</label>
+            <input pInputText formControlName="AccountType" placeholder="Enter Account Type"
+              class="w-full custom-input" />
+            <error-message [controlName]="newAccountForm.controls['AccountType']"></error-message>
+          </div>
+
+          <div class="text-right ">
+            <button type="submit" pButton label="Save Credit Account" [disabled]="!newAccountForm.valid"
+              class=" text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+          </div>
+
+        </form>
+
       </div>
+    </div>
   </div>
 </p-sidebar>
+
+<p-blockUI [blocked]="submitted">
+  <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

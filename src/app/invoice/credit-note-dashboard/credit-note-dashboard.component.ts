@@ -45,6 +45,11 @@ export class CreditNoteDashboardComponent implements OnInit {
     this.invoiceS.getAllCn().then(
       (res : any) => {
         this.allCreditNotes = res.content;
+        if (this.allCreditNotes.length > 0) {
+          this.changeOrder(this.allCreditNotes[0]);
+        } else {
+          this.activeCN = {};
+        }
         this.totalRecords = res.totalElements;
         this.submitted = false;
       }
@@ -104,6 +109,37 @@ export class CreditNoteDashboardComponent implements OnInit {
          this.submitted  = false;
       }
     )
+  }
+
+  
+  searchCN: any;
+  searchCNs(value: any) {
+    if (value === null) {
+      //alert(value);
+      this.getAllCreditNotes();
+    }
+    else{
+     // this.submitted = true;
+      this.invoiceS.searchCN(value).then(
+        (res: any) => {
+          console.log(res);
+          this.allCreditNotes = res.content;
+          if (this.allCreditNotes.length > 0) {
+            this.changeOrder(this.allCreditNotes[0]);
+          } else {
+            this.activeCN = {};
+          }
+          this.totalRecords = res.totalElements;
+          this.submitted = false;
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
+    
   }
 
 }
