@@ -125,8 +125,12 @@ export class BankingService {
     return allPIs;
   }
 
-  async getAllDebitPayment() {
-    var url = this.apiurlNew + 'payments';
+  async getAllDebitPayment(pageNo: number,
+    pageSize: number,
+    sortField: any,
+    sortDir: any,
+    filter: string) {
+    var url = this.apiurlNew + 'payments' + '?pageNo=' + pageNo + '&pageSize=' + pageSize + '&sortField=' + sortField + '&sortDir=' + sortDir + filter;;
     const allDebitPayments = await lastValueFrom(this.http.get<any>(url));
     return allDebitPayments;
   }

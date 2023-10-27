@@ -33,7 +33,6 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [{ label: 'Banking' }, { label: 'Payment' }];
-    //this.getAllCompletedPI();
     this.getAllPI();
   }
 
@@ -42,7 +41,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   getAllPI() {
-    this.submitted = true;
+    
     // this.bankingS.getAllPI().then(
     //   (res) => {
     //     console.log(res);
@@ -89,6 +88,7 @@ export class PaymentsComponent implements OnInit {
       ];
       filter = FilterBuilder.build(filtercols, this.search);
     }
+    this.submitted = true;
     this.bankingS.getAllPIs(this.pageNo, this.pageSize, this.sortField, this.sortDir, filter)
       .then(
         (res) => {
@@ -98,23 +98,23 @@ export class PaymentsComponent implements OnInit {
           this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status != 'COMPLETED');
 
           // this.totalRemainingAmount = 0;
-          for (const purchaseInvoice of this.allNonCompletedPI) {
-            this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-              (res) => {
-                var amount = res;
-                if (amount == null) {
-                  amount = 0;
-                }
-                this.allNonCompletedPI.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
-                console.log(res);
-                // this.totalRemainingAmount += res ;
-              }
-            ).catch(
-              (err) => {
-                console.log(err);
-              }
-            )
-          }
+          // for (const purchaseInvoice of this.allNonCompletedPI) {
+          //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+          //     (res) => {
+          //       var amount = res;
+          //       if (amount == null) {
+          //         amount = 0;
+          //       }
+          //       this.allNonCompletedPI.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+          //       console.log(res);
+          //       // this.totalRemainingAmount += res ;
+          //     }
+          //   ).catch(
+          //     (err) => {
+          //       console.log(err);
+          //     }
+          //   )
+          // }
           this.totalRecordsC = this.allCompletedPI.length;
           this.totalRecordsNC = this.allNonCompletedPI.length;
           this.submitted = false;
@@ -125,12 +125,11 @@ export class PaymentsComponent implements OnInit {
           this.submitted = false;
         }
       )
-
   }
 
-  changeActivePI(pi: PurchaseInvoice) {
-    this.activePI = pi;
-  }
+  // changeActivePI(pi: PurchaseInvoice) {
+  //   this.activePI = pi;
+  // }
 
   goToVendorPaymentPage(pi: PurchaseInvoice) {
     this.router.navigate(['banking/payToVendor/pi/' + pi.id]);
@@ -206,20 +205,20 @@ export class PaymentsComponent implements OnInit {
           this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status != 'COMPLETED');
 
           // this.totalRemainingAmount = 0;
-          for (const purchaseInvoice of this.allNonCompletedPI) {
+          // for (const purchaseInvoice of this.allNonCompletedPI) {
 
-            this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-              (res) => {
-                this.allNonCompletedPI.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
-                console.log(res);
-                // this.totalRemainingAmount += res ;
-              }
-            ).catch(
-              (err) => {
-                console.log(err);
-              }
-            )
-          }
+          //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+          //     (res) => {
+          //       this.allNonCompletedPI.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+          //       console.log(res);
+          //       // this.totalRemainingAmount += res ;
+          //     }
+          //   ).catch(
+          //     (err) => {
+          //       console.log(err);
+          //     }
+          //   )
+          // }
           this.totalRecordsC = this.allCompletedPI.length;
           this.totalRecordsNC = this.allNonCompletedPI.length;
           this.submitted = false;
@@ -230,7 +229,6 @@ export class PaymentsComponent implements OnInit {
           this.submitted = false;
         }
       )
-
   }
 
 

@@ -198,7 +198,7 @@
                 </div> -->
             
                 <p-table #dt [value]="allCompletedPI" [rows]="10" [filterDelay]="500" [paginator]="true"
-                    [lazy]="true" (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecordsNC"
+                    [lazy]="true" (onLazyLoad)="loadPage($event)" [totalRecords]="totalRecordsC"
                     [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [(selection)]="selectedInventories"
                      dataKey="id" 
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -243,7 +243,6 @@
                             <td> <button type="button" pButton label="Paid"
                                 class=" bg-green-500 w-full text-lg cursor-not-allowed">
                             </button></td>
-
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary">
