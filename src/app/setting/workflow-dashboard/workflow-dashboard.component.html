@@ -39,14 +39,53 @@
                                             <!-- <div class="col-2  justify-center align-center">
                                                 <div class="person-icon">{{ item.name.charAt(0) }}</div>
                                             </div> -->
-                                            <div class="col-10">
+                                            <div class="col-8">
                                                 <div class="text-base">Maker: <b>{{ item.makerRole?.name }}</b></div>
                                                 <div class="text-base">
                                                     <p class="text-sm">Checker: <b>{{item.checkerRole?.name}}</b></p>
                                                 </div>
-                                                <!-- <div class="flex">
-                                                    
-                                                </div> -->
+
+                                            </div>
+                                            <div class="4">
+                                                <div class="">
+                                                    <div *ngIf="item.increase === true">
+                                                        <div class="status-true bg-blue-500">
+                                                            <div>Increase</div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="item.increase === false">
+                                                        <div class="status-false bg-gray-500">
+                                                            <div>Increase</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-1">
+                                                    <div *ngIf="item.sanctioner === true">
+                                                        <div class="status-true bg-blue-500">
+                                                            <div>Sanctioner</div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="item.sanctioner === false">
+                                                        <div class="status-false bg-gray-500">
+                                                            <div>Sanctioner</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-1">
+                                                    <div *ngIf="item.ratificationer === true">
+                                                        <div class="status-true bg-blue-500">
+                                                            <div>Ratificationer</div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="item.ratificationer === false">
+                                                        <div class="status-false bg-gray-500">
+                                                            <div>Ratificationer</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -130,6 +169,48 @@
                                         <label class="ml-4">Description:</label>
                                         <div class="box mt-1">
                                             <p>{{ this.activeWorkflow.description}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="field col-12 flex">
+
+                                        <div class="field col-4">
+                                            <div *ngIf="this.activeWorkflow.increase === true">
+                                                <div class="boxSF bg-blue-500">
+                                                    <p class="">Increase</p>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="this.activeWorkflow.increase === false">
+                                                <div class="boxSF bg-gray-500">
+                                                    <p>Increase</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <div *ngIf="this.activeWorkflow.sanctioner== true">
+                                                <div class="boxSF bg-blue-500">
+                                                    <p class="">Sanctioner</p>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="this.activeWorkflow.sanctioner === false">
+                                                <div class="boxSF bg-gray-500">
+                                                    <p>Sanctioner</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <div *ngIf="this.activeWorkflow.ratificationer === true">
+                                                <div class="boxSF bg-blue-500">
+                                                    <p class="">Ratificationer</p>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="this.activeWorkflow.ratificationer === false">
+                                                <div class="boxSF bg-gray-500">
+                                                    <p>Ratificationer</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 

@@ -71,21 +71,18 @@
 
         <div class="field col-9 flex">
           <div class="flex align-items-center col-3">
-            <p-radioButton name="increase"  formControlName="increase"
-              (click)="deSelectButton(this.firstOption)"></p-radioButton>
-            <label for="increase" class="ml-2">Is Increase</label>
+            <p-checkbox formControlName="increase" inputId="binary" [binary]="true"></p-checkbox>
+            <label for="increase" class="ml-2">Increase</label>
           </div>
 
           <div class="flex align-items-center col-3">
-            <p-radioButton name="sanctioner" formControlName="sanctioner"
-              (click)="deSelectButton(this.secondOption)"></p-radioButton>
-            <label for="sanctioner" class="ml-2">Is Sanctioner</label>
+            <p-checkbox formControlName="sanctioner" inputId="binary" [binary]="true"></p-checkbox>
+            <label for="sanctioner" class="ml-2">Sanctioner</label>
           </div>
 
           <div class="flex align-items-center col-3">
-            <p-radioButton name="ratificationer"
-              formControlName="ratificationer" (click)="deSelectButton(this.thirdOption)"></p-radioButton>
-            <label for="ratificationer" class="ml-2">Is Ratificationer</label>
+            <p-checkbox formControlName="ratificationer" inputId="binary" [binary]="true"></p-checkbox>
+            <label for="ratificationer" class="ml-2">Ratificationer</label>
           </div>
         </div>
 

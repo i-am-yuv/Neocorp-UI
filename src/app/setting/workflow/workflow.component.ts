@@ -56,6 +56,7 @@ export class WorkflowComponent implements OnInit {
 
   initForm() {
     this.workflowForm = new FormGroup({
+      id: new FormControl(''),
       makerRole: this.fb.group({
         id: new FormControl(''),
       }),
@@ -63,9 +64,9 @@ export class WorkflowComponent implements OnInit {
         id: new FormControl(''),
       }),
       description: new FormControl('', Validators.required),
-      increase: new FormControl(false),
-      sanctioner: new FormControl(false),
-      ratificationer: new FormControl(false),
+      increase: new FormControl(''),
+      sanctioner: new FormControl(''),
+      ratificationer: new FormControl(''),
     });
   }
 
@@ -162,42 +163,6 @@ export class WorkflowComponent implements OnInit {
           });
     }
 
-  }
-  firstOption : string = 'increase' ;
-  secondOption : string = 'sanctioner' ;
-  thirdOption : string = 'ratificationer' ;
-  deSelectButton( name : any) {
-    if( name == 'increase')
-    {
-       this.selectedOption1 = !this.selectedOption1;
-       alert( this.selectedOption1 );
-    }else if( name == 'sanctioner')
-    {
-       this.selectedOption2 = !this.selectedOption2;
-       alert( this.selectedOption2 );
-    }
-    else if( name  == 'ratificationer' )
-    {
-      this.selectedOption3 =  !this.selectedOption3;
-      alert( this.selectedOption3 );
-    }
-    // if (this.selectedOption1 === true) {
-    //   this.selectedOption1 = false;
-    // } else {
-    //   this.selectedOption1 = true;
-    // }
-
-    // if (this.selectedOption2 === true) {
-    //   this.selectedOption2 = false;
-    // } else {
-    //   this.selectedOption2 = true;
-    // }
-
-    // if (this.selectedOption3 === true) {
-    //   this.selectedOption3 = false;
-    // } else {
-    //   this.selectedOption3 = true;
-    // }
   }
 
   createWorkflow() {
