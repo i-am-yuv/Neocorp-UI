@@ -57,6 +57,7 @@ export class ReceiptNoteComponent implements OnInit {
 
   items!: MenuItem[];
   deleteDialogvisible: boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -84,6 +85,8 @@ export class ReceiptNoteComponent implements OnInit {
 
     this.items = [{ label: 'Bills' }, { label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
 
+    this.sidebarVisibleProduct = false;
+    
     this.initForm();
     this.loadVendors();
     this.loadCustomer();

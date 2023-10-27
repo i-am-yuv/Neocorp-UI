@@ -46,6 +46,7 @@ export class DebitNoteComponent implements OnInit {
   selectedOption : any;
 
   items!: MenuItem[];
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -74,6 +75,8 @@ export class DebitNoteComponent implements OnInit {
 
     this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
+    this.sidebarVisibleProduct = false;
+    
     this.initForm();
     this.loadVendors();
     this.loadStates();

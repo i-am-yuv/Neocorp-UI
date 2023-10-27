@@ -18,7 +18,7 @@ export class SalesOrderComponent implements OnInit {
 
   id: string | null = '';
   soForm!: FormGroup;
-  DeleteDialLogvisible : boolean = false;
+  DeleteDialLogvisible: boolean = false;
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -42,6 +42,7 @@ export class SalesOrderComponent implements OnInit {
   soSubTotal: number = 0;
 
   items!: MenuItem[];
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -67,8 +68,9 @@ export class SalesOrderComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Invoices'},{ label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
+    this.items = [{ label: 'Invoices' }, { label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
 
+    this.sidebarVisibleProduct = false;
 
     this.initForm();
     this.soForm.value.enablePartialPayments = false;
@@ -492,7 +494,7 @@ export class SalesOrderComponent implements OnInit {
   finalSoSubmitPage() {
     // updated complete PO so that gross total can be updated
 
-   // alert("Final Sales Order Submission Done");
+    // alert("Final Sales Order Submission Done");
     var sFormVal = this.soForm.value;
     sFormVal.id = this.id;
     sFormVal.grossTotal = this.soSubTotal;
@@ -548,7 +550,7 @@ export class SalesOrderComponent implements OnInit {
     this.DeleteDialLogvisible = false;
   }
 
-  deleteConfirm(lineItem : any) {
+  deleteConfirm(lineItem: any) {
     this.submitted = true;
     this.invoiceS.deletedSoLineItem(lineItem.id)
       .then((data) => {

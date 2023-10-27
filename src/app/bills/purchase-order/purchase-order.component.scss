@@ -30,29 +30,36 @@
   border: none;
   /* Add other custom styles as needed */
 }
-  .center-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-   // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
-    //width: 600px;
-  }
-  .iconSCSS {
-    display: flex;
-    align-items: center;
-   // justify-content: end;
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+  //width: 600px;
 }
+
+.iconSCSS {
+  display: flex;
+  align-items: center;
+  // justify-content: end;
+}
+
 .iconSCSSSVG {
-//  display: flex;
+  //  display: flex;
   align-items: center !important;
   justify-content: center !important;
- // justify-content: end;
+  // justify-content: end;
 }
+
 .walletIcon {
   align-items: center;
   justify-content: center;
   //text-align: center;
 }
+
 //   div{
 //     padding: 0 !important;
 //     // Use !important to ensure your styles take precedence
@@ -98,16 +105,26 @@
     align-items: center;
   }
 }
+
+.iconSCSS1 {
+  display: flex;
+  align-items: center;
+  // justify-content: end;
+}
+
 .custom-dropdown {
   // position: relative;
   // width: 100%;
-   max-height: 10px !important; /* Set the desired max height for the dropdown */
+  max-height: 10px !important;
+  /* Set the desired max height for the dropdown */
   //overflow-y: auto !important;
   overflow-y: scroll;
 }
+
 .ui-table {
   .ui-dropdown-panel {
-    z-index: 1001; /* Adjust the z-index as needed to ensure it's above other page elements */
+    z-index: 1001;
+    /* Adjust the z-index as needed to ensure it's above other page elements */
   }
 }
 
@@ -122,5 +139,6 @@
 //   outline: none; /* Remove the default outline style */
 // }
 .fixed-width-dropdown {
-  width: 200px !important; /* Set your desired fixed width for the dropdown */
+  width: 200px !important;
+  /* Set your desired fixed width for the dropdown */
 }

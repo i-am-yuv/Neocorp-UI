@@ -38,7 +38,7 @@
         <div class="m-6 bg-white border-round-3xl">
             <form (ngSubmit)="onSubmitReturnRefund()" [formGroup]="rrForm" class="p-6">
                 <h4 class="text-xl text-blue-700">Return And Refund Details:</h4>
-    
+
                 <div class="p-field-checkbox mt-5 mb-5">
                     <div class="flex gap-1">
                         <div><p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
@@ -48,14 +48,14 @@
                             </label></div>
                     </div>
                 </div>
-    
+
                 <div class="flex gap-3">
                     <div class="field col-6">
                         <label class="mr-3">Return And Refund Document Number:</label>
                         <input pInputText value="{{this.rrForm.value.documentNo}}"
                             placeholder="Your Return and Refund Number" class="w-full custom-input" [disabled]="true" />
                     </div>
-    
+
                     <div class="field col-6">
                         <label class="mr-3 required">Process Date</label>
                         <p-calendar formControlName="processDate" [showIcon]="true" dateFormat="dd-mm-yy"
@@ -64,7 +64,7 @@
                         <error-message [controlName]="rrForm.controls['processDate']"></error-message>
                     </div>
                 </div>
-    
+
                 <div class="flex gap-1">
                     <div class="field col-6">
                         <label class="mr-3 required">Select Your Sales Order Number</label>
@@ -78,7 +78,7 @@
                         </ng-container>
                     </div>
                 </div>
-    
+
                 <div class="flex">
                     <div class="field col-12">
                         <label class="mr-3 required">Reason</label>
@@ -87,14 +87,14 @@
                         <error-message [controlName]="rrForm.controls['reason']"></error-message>
                     </div>
                 </div>
-    
+
                 <!-- <div class="flex">
                             <div class="field col-4">
                                 <button type="submit" pButton label="Save" [disabled]="!rrForm.valid"
                                     class="mb-6 text-lg p-button-raised bg-green-500 text-white px-4 py-2.5 rounded-md hover:bg-green-600 "></button>
                             </div>
                         </div> -->
-    
+
                 <!-- <div class="flex">
                     <div class="field col-8"></div>
                     <div class="field col-4 text-right">
@@ -109,12 +109,23 @@
                 </div>
 
             </form>
-    
-            <div *ngIf="id" class="p-3">
+
+            <div *ngIf="true" class="p-3">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th class="text-center" width="100">Product</th>
+                            <th class="text-center" width="200">
+                                <span class="">Product</span>
+                                <span
+                                    class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
+                                    (click)="sidebarVisibleProduct = !sidebarVisibleProduct">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg></span>
+                            </th>
                             <th class="text-center" width="100">Price</th>
                             <th class="text-center" width="100">Quantity</th>
                             <th class="text-center" width="100">Discount</th>
@@ -131,10 +142,12 @@
                         <tr [pEditableRow]="lineItem">
                             <td>
                                 <p-cellEditor>
-                                    <ng-template pTemplate="input">
+                                    <ng-template pTemplate="input" class="fixed-width-dropdown">
                                         <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
-                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)">
+                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }"
+                                            class="fixed-width-dropdown">
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">
@@ -216,10 +229,10 @@
                             </td>
                         </tr>
                     </ng-template>
-    
+
                 </p-table>
-    
-    
+
+
                 <!-- <div class="flex">
                             <div class="col-6">
                                 <ul class="list-none p-0 m-0">
@@ -239,7 +252,7 @@
                                     class="w-full " chooseLabel="Upload File" />
                             </div>
                         </div> -->
-    
+
                 <!-- <div class="flex gap-5 mt-5">
                     <div class="field col-1"></div>
                     <div class="field col-4">
@@ -255,20 +268,13 @@
                         <label for="fileInput" class="">
                             <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-12">
                         </label>
-                        <input
-                            type="file"
-                            id="fileInput"
-                            name="file"
-                            accept="image/*"
-                            class="hidden"
-                            
-                            (change)="selectFile($event)"
-                        >
-                        
+                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
+                            (change)="selectFile($event)">
+
                     </div>
                 </div>
 
-              
+
 
 
 
@@ -282,7 +288,7 @@
                         TOTAL: ₹ {{this.returnRefundSubTotal}}
                     </div>
                 </div>
-    
+
                 <!-- <div class="flex">
                             <div class="field col-12 text-right w-full">
                                 <button type="button" pButton label="Create Return Refund"
@@ -290,7 +296,7 @@
                                     class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                             </div>
                         </div> -->
-    
+
                 <!-- <div class="flex button-container">
                     <button type="button" pButton label="Close" (click)="OnCancelRR()"
                         class=" mt-3 mb-3  p-button-secondary  "></button>
@@ -310,6 +316,14 @@
             </div>
         </div>
 
-        
+
     </div>
 </div>
+
+<div *ngIf="sidebarVisibleProduct">
+    <app-slide-product></app-slide-product>
+</div>
+
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

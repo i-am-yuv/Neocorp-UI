@@ -76,6 +76,7 @@ export class CreditNoteComponent implements OnInit {
   ];
 
   items!: MenuItem[];
+  sidebarVisibleProduct : boolean = false;
 
 
   constructor(private router: Router,
@@ -112,6 +113,7 @@ export class CreditNoteComponent implements OnInit {
     this.loadProducts();
     this.loadCustomer();
     this.getCreditNote();
+    this.sidebarVisibleProduct = false;
 
   }
 

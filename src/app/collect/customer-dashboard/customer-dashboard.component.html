@@ -29,11 +29,11 @@
                             <span class="p-panel-title" style="padding: 1px">All Customers</span>
                         </ng-template>
                         <div class="p-inputgroup pl-2 pr-2 pt-2">
-                            <input pInputText  placeholder="Search" [(ngModel)]="searchCustomer"
+                            <input pInputText placeholder="Search" [(ngModel)]="searchCustomer"
                                 class="w-full custom-input" (ngModelChange)="searchCustomers(searchCustomer)" />
-                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchCustomers(searchCustomer)"
-                            styleClass="p-button-success"></button>
-                    </div>
+                            <button type="button" pButton pRipple icon="pi pi-search"
+                                (click)="searchCustomers(searchCustomer)" styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -168,17 +168,7 @@
                                             <div class="field col-5" *ngIf="totalGrossAmount === 0">
                                                 <div class="flex">
                                                     <div class="bg-gray-300 rounded-div1 px-4 py-1">
-                                                        <div class="leftP text-right">
-                                                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                            viewBox="0 0 18 18" fill="none">
-                                                            <path
-                                                                d="M9 15.75C7.66498 15.75 6.35993 15.3541 5.2499 14.6124C4.13987 13.8707 3.27471 12.8165 2.76382 11.5831C2.25292 10.3497 2.11925 8.99252 2.3797 7.68314C2.64015 6.37377 3.28303 5.17104 4.22703 4.22703C5.17104 3.28303 6.37377 2.64015 7.68314 2.3797C8.99251 2.11925 10.3497 2.25292 11.5831 2.76382C12.8165 3.27471 13.8707 4.13987 14.6124 5.2499C15.3541 6.35994 15.75 7.66498 15.75 9C15.75 10.7902 15.0388 12.5071 13.773 13.773C12.5071 15.0388 10.7902 15.75 9 15.75ZM9 3.21429C7.8557 3.21429 6.73709 3.55361 5.78563 4.18936C4.83418 4.8251 4.09261 5.72871 3.6547 6.78591C3.21679 7.84311 3.10222 9.00642 3.32546 10.1287C3.5487 11.2511 4.09974 12.282 4.90888 13.0911C5.71803 13.9003 6.74895 14.4513 7.87127 14.6745C8.99358 14.8978 10.1569 14.7832 11.2141 14.3453C12.2713 13.9074 13.1749 13.1658 13.8106 12.2144C14.4464 11.2629 14.7857 10.1443 14.7857 9C14.7857 7.46554 14.1761 5.99392 13.0911 4.90889C12.0061 3.82385 10.5345 3.21429 9 3.21429Z"
-                                                                fill="#C22B39" />
-                                                            <path
-                                                                d="M10.6457 12.75L8.25 9.95501V5.25H9.10714V9.54001L11.25 12.045L10.6457 12.75Z"
-                                                                fill="#C22B39" />
-                                                        </svg> -->
-                                                        </div>
+                                                        <div class="leftP text-right"></div>
                                                         <div class="rightP text-center">
                                                             Nil
                                                         </div>
@@ -196,7 +186,8 @@
                                             <div class="vertical-line"></div>
                                             <div class="field col-6">
                                                 <p class="text-base text-white">Total Amount Due</p>
-                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount) }}</p>
+                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount) }}
+                                                </p>
 
                                             </div>
                                         </div>
@@ -231,7 +222,8 @@
                                                     <div class="col-4 text-right">
                                                         <div class="">
                                                             <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                            <p>Total: ₹{{ myFunction(item.grossTotal)  ? myFunction(item.grossTotal)  : '0.00' }}
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
+                                                                myFunction(item.grossTotal) : '0.00' }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -260,7 +252,8 @@
                                                         <div class="col-4 text-right">
                                                             <div class="">
                                                                 <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                                <p>Total: ₹{{ myFunction(item.grossTotal)  ? myFunction(item.grossTotal) : '0.00'
+                                                                <p>Total: ₹{{ myFunction(item.grossTotal) ?
+                                                                    myFunction(item.grossTotal) : '0.00'
                                                                     }}
                                                                 </p>
                                                             </div>

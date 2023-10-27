@@ -47,7 +47,7 @@ export class DelegationRoleComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoless']}, {label: 'Create'}];
+    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}, {label: 'Create'}];
     this.laodRoles();
     this.initForm();
     this.getDelegationRole();
@@ -62,7 +62,7 @@ export class DelegationRoleComponent implements OnInit {
           var count = res.totalElements;
           //count=0
           if (count > 0) {
-            this.router.navigate(['/setting/delegationRoless']);
+            this.router.navigate(['/setting/delegationRoles']);
           }
           else {
             this.createNew = false;
@@ -246,7 +246,7 @@ export class DelegationRoleComponent implements OnInit {
 
 
   onCancel(){
-    this.router.navigate(['/setting/delegationRoless']);
+    this.router.navigate(['/setting/delegationRoles']);
   }
 
 }

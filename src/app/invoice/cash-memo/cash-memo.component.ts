@@ -87,14 +87,9 @@ export class CashMemoComponent implements OnInit {
 
   items!: MenuItem[];
   deleteDialogvisible: boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private message: MessageService,
-    private fb: FormBuilder,
-    private usedService: PayPageService,
-    private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
 
@@ -120,6 +115,7 @@ export class CashMemoComponent implements OnInit {
     this.loadProducts();
     this.loadCustomer();
     this.getCashMemo();
+    this.sidebarVisibleProduct = false;
 
   }
 

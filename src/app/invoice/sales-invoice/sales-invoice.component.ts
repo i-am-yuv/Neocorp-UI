@@ -46,6 +46,7 @@ export class SalesInvoiceComponent implements OnInit {
   siSubTotal: number = 0;
 
   items!: MenuItem[];
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -72,6 +73,8 @@ export class SalesInvoiceComponent implements OnInit {
     });
 
     this.items = [{label: 'Invoices'},{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, {label: 'Create', routerLink: ['/invoice/salesInvoice/create']} ];
+
+    this.sidebarVisibleProduct = false;
 
     this.initForm();
 

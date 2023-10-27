@@ -40,7 +40,7 @@
 
             <form (ngSubmit)="onSubmitSO()" [formGroup]="soForm" class="p-6">
                 <h4 class="text-xl text-blue-700">Sales Order Details: </h4>
-        
+
                 <div class="flex">
                     <!-- <div class="field col-6">
                                         <label class="mr-3 required">Company:</label>
@@ -52,7 +52,7 @@
                             class="w-full custom-input" [disabled]="true" />
                     </div>
                 </div>
-        
+
                 <div class="flex gap-3">
                     <div class="field col-6">
                         <label class="mr-3 required">Bill Date</label>
@@ -69,9 +69,9 @@
                         <error-message [controlName]="soForm.controls['dueDate']"></error-message>
                     </div>
                 </div>
-        
+
                 <div class="iconSCSS gap-2">
-        
+
                     <div class="field col-6">
                         <label class="mr-3 required">Customer</label>
                         <div class="iconSCSS w-full">
@@ -98,24 +98,24 @@
                                     </svg></span>
                             </div>
                         </div>
-        
+
                     </div>
-        
+
                     <div class="field col-6">
                         <label class="mr-3 required">Place Of Supply</label>
                         <ng-container formGroupName="placeOfSupply">
                             <div class="payment-dropdown ">
-                                <p-dropdown [options]="states" placeholder="Choose State" optionValue="id" formControlName="id"
-                                    optionLabel="stateName" [showClear]="true" (ngChange)="selectVendor()"
-                                    [style]="{ width: '100%' }">
+                                <p-dropdown [options]="states" placeholder="Choose State" optionValue="id"
+                                    formControlName="id" optionLabel="stateName" [showClear]="true"
+                                    (ngChange)="selectVendor()" [style]="{ width: '100%' }">
                                 </p-dropdown>
                             </div>
                         </ng-container>
                     </div>
-        
-        
+
+
                 </div>
-        
+
                 <div class="flex gap-1">
                     <div class="field col-12">
                         <label class="mr-3 ">Terms Of Payments</label>
@@ -123,9 +123,9 @@
                             class="w-full custom-input" />
                         <error-message [controlName]="soForm.controls['termsOfPayments']"></error-message>
                     </div>
-        
+
                 </div>
-        
+
                 <div class="flex gap-1">
                     <div class="field col-12">
                         <label class="mr-3 ">Terms Of Delivary</label>
@@ -134,19 +134,30 @@
                         <error-message [controlName]="soForm.controls['termsOfDelivery']"></error-message>
                     </div>
                 </div>
-        
+
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
                     <button type="submit" pButton label="Save" [disabled]="!soForm.valid"
                         class="mb-6  bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
-        
+
             </form>
-        
-            <div *ngIf="id" class="p-1">
+
+            <div *ngIf="true" class="p-1">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th class="text-center" width="100">Product</th>
+                            <th class="text-center" width="200">
+                                <span class="">Product</span>
+                                <span
+                                    class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
+                                    (click)="sidebarVisibleProduct = !sidebarVisibleProduct">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg></span>
+                            </th>
                             <th class="text-center" width="100">Price</th>
                             <th class="text-center" width="100">Quantity</th>
                             <th class="text-center" width="100">Discount</th>
@@ -163,10 +174,12 @@
                         <tr [pEditableRow]="lineItem">
                             <td class="text-center">
                                 <p-cellEditor>
-                                    <ng-template pTemplate="input">
+                                    <ng-template pTemplate="input" class="fixed-width-dropdown">
                                         <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
-                                            placeholder="Choose Product" optionValue="id" optionLabel="name" [showClear]="true"
-                                            (ngModelChange)="setLineValues(lineItem)">
+                                            placeholder="Choose Product" optionValue="id" optionLabel="name"
+                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }"
+                                            class="fixed-width-dropdown">
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">
@@ -222,23 +235,24 @@
                             </td>
                             <td *ngIf="!viewOnly" class="text-right">
                                 <div>
-                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                                        (click)="onRowEditInit(lineItem)" class="p-button-rounded p-button-text"></button>
-                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
-                                        (click)="delete(lineItem)"
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-pencil" (click)="onRowEditInit(lineItem)"
+                                        class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-trash" (click)="delete(lineItem)"
                                         class="p-button-rounded p-button-text p-button-danger"></button>
-                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                                        (click)="onRowEditSave(lineItem)"
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onRowEditSave(lineItem)"
                                         class="p-button-rounded p-button-text p-button-success mr-2"
                                         [disabled]="!isquantity"></button>
-                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                                        (click)="onRowEditCancel(lineItem, ri)"
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times" (click)="onRowEditCancel(lineItem, ri)"
                                         class="p-button-rounded p-button-text p-button-danger"></button>
                                 </div>
                             </td>
                         </tr>
-                        <p-dialog header="Header" [(visible)]="DeleteDialLogvisible" [modal]="true" [style]="{ width: '30vw' }"
-                            [draggable]="false" [resizable]="false">
+                        <p-dialog header="Header" [(visible)]="DeleteDialLogvisible" [modal]="true"
+                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                             <ng-template pTemplate="header">
                                 <span class="text-xl font-bold">Confirmation</span>
                             </ng-template>
@@ -260,9 +274,9 @@
                             </td>
                         </tr>
                     </ng-template>
-        
+
                 </p-table>
-        
+
                 <!-- <div class="flex">
                                     <div class="col-6">
                                         <ul class="list-none p-0 m-0">
@@ -282,7 +296,7 @@
                                             class="w-full " chooseLabel="Upload File" />
                                     </div>
                                 </div> -->
-        
+
                 <!-- <div class="flex gap-5 mt-5">
                                     <div class="field col-1"></div>
                                     <div class="field col-4">
@@ -291,8 +305,8 @@
                                             class="mt-2" chooseLabel="Upload File" />
                                     </div>
                                 </div> -->
-        
-        
+
+
                 <div class="flex gap-5 mt-5" class="text-left">
                     <div class="field col-1"></div>
                     <div class="field col-4">
@@ -301,17 +315,17 @@
                         </label>
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
-        
+
                     </div>
                 </div>
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
                 <!-- <div class="flex button-container">
                                     <div class="field col-3 ">
                                         <ul class="list-none p-0 m-0">
@@ -326,7 +340,7 @@
                                         </ul>
                                     </div>
                                 </div> -->
-        
+
                 <div class=" border-200 text-right mr-6 mb-3">
                     <div class="text-xl ">
                         SUB TOTAL: ₹ {{this.soSubTotal}}
@@ -335,7 +349,7 @@
                         TOTAL: ₹ {{this.soSubTotal}}
                     </div>
                 </div>
-        
+
                 <!-- <div class="flex">
                                     <div class="field col-12 text-right w-full">
                                         <button type="button" pButton label="Create Sales Order" [disabled]="this.soSubTotal == 0"
@@ -343,7 +357,7 @@
                                             class="mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                                     </div>
                                 </div> -->
-        
+
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelSO()"
                         class="mr-3 p-button-secondary "></button>
@@ -356,8 +370,9 @@
     </div>
 </div>
 
-
-
+<div *ngIf="sidebarVisibleProduct">
+    <app-slide-product></app-slide-product>
+</div>
 
 <p-blockUI [blocked]="submitted">
     <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>

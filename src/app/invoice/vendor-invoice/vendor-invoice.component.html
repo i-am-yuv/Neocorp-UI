@@ -1,103 +1,104 @@
 <p-toast></p-toast>
 
 
-        <div class="">
-            <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-                <div class="center-container  mt-5 p-3">
-                    <div class="field col-6">
-                        <div class="">
-                            <img src="/assets/invoices.png" alt="Image" class="w-full h-auto">
-                        </div>
-                        <div class="text-center">
-                            <b>Streamline procurement with ease?</b><br>
-                            <p>create your first Vendor Invoice today!</p>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" pButton label="Create Vendor Invoice" (click)="createVI()"
-                                class="mb-3 text-lg p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                        </div>
-                    </div>
+<div class="">
+    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+        <div class="center-container  mt-5 p-3">
+            <div class="field col-6">
+                <div class="">
+                    <img src="/assets/invoices.png" alt="Image" class="w-full h-auto">
+                </div>
+                <div class="text-center">
+                    <b>Streamline procurement with ease?</b><br>
+                    <p>create your first Vendor Invoice today!</p>
+                </div>
+                <div class="text-center">
+                    <button type="button" pButton label="Create Vendor Invoice" (click)="createVI()"
+                        class="mb-3 text-lg p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
             </div>
+        </div>
+    </div>
 
 
-            <div *ngIf="createNew" >
-                <div class="bg-white iconSCSS1">
-                    <div class="col-4">
-                        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+    <div *ngIf="createNew">
+        <div class="bg-white iconSCSS1">
+            <div class="col-4">
+                <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+            </div>
+            <div class="col-8">
+                <div class="border-200 text-right">
+                    <button type="button" pButton label="Cancel" (click)="OnCancelVI()"
+                        class="mr-3 p-button-secondary "></button>
+                    <button type="button" pButton label="Save Vendor Invoice" (click)="finalVISubmitPage()"
+                        [disabled]="this.viSubTotal == 0"
+                        class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-6 bg-white border-round-3xl">
+
+            <form (ngSubmit)="onSubmitVI()" [formGroup]="viForm" class="p-6">
+                <h3 class="text-xl">Create Vendor Invoice</h3>
+
+                <div class="flex gap-1">
+                    <div class="field col-6">
+                        <label class="mr-3 required">Order Date</label><br>
+                        <p-calendar formControlName="orderDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                            placeholder="Choose Order Date" [style]="{ width: '100%' }" [showButtonBar]="true">
+                        </p-calendar>
+                        <error-message [controlName]="viForm.controls['orderDate']"></error-message>
                     </div>
-                    <div class="col-8">
-                        <div class="border-200 text-right">
-                            <button type="button" pButton label="Cancel" (click)="OnCancelVI()"
-                                class="mr-3 p-button-secondary "></button>
-                            <button type="button" pButton label="Save Vendor Invoice" (click)="finalVISubmitPage()" [disabled]="this.viSubTotal == 0"
-                                class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Due Date</label><br>
+                        <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                            placeholder="Choose Due Date" [style]="{ width: '100%' }" [showButtonBar]="true">
+                        </p-calendar>
+                        <error-message [controlName]="viForm.controls['dueDate']"></error-message>
+                    </div>
+
+                </div>
+
+                <div class="flex gap-2">
+                    <div class="field col-6">
+                        <label class="mr-3">Vendor Invoice Number:</label>
+                        <!-- <h3>{{this.viForm.value.documentnumber}}</h3> -->
+                        <input pInputText value="{{this.viForm.value.documentnumber}}"
+                            placeholder="Your Vendor Invoice Number" class="w-full custom-input" [disabled]="true" />
+                    </div>
+                    <div class="field col-6 payment-dropdown">
+                        <label class="mr-3 required">Vendor</label>
+
+                        <div class="iconSCSS w-full">
+                            <div class="field col-10">
+                                <ng-container formGroupName="vendor" class="w-full">
+                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                        [style]="{ width: '100%' }" optionLabel="firstName">
+                                        <ng-template let-vendor pTemplate="option">
+                                            <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
+                                                }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </ng-container>
+                            </div>
+                            <div class="field col-2 text-left">
+                                <span [routerLink]="['/pay/vendor/create']"
+                                    class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-    
-                <div class="m-6 bg-white border-round-3xl">
 
-                    <form (ngSubmit)="onSubmitVI()" [formGroup]="viForm" class="p-6">
-                        <h3 class="text-xl">Create Vendor Invoice</h3>
-                        
-                        <div class="flex gap-1">
-                            <div class="field col-6">
-                                <label class="mr-3 required">Order Date</label><br>
-                                <p-calendar formControlName="orderDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                    placeholder="Choose Order Date" [style]="{ width: '100%' }"  [showButtonBar]="true">
-                                </p-calendar>
-                                <error-message [controlName]="viForm.controls['orderDate']"></error-message>
-                            </div>
-                            <div class="field col-6">
-                                <label class="mr-3 required">Due Date</label><br>
-                                <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                                    placeholder="Choose Due Date" [style]="{ width: '100%' }"  [showButtonBar]="true">
-                                </p-calendar>
-                                <error-message [controlName]="viForm.controls['dueDate']"></error-message>
-                            </div>
-                           
-                        </div>
-    
-                        <div class="flex gap-2">
-                            <div class="field col-6">
-                                <label class="mr-3">Vendor Invoice Number:</label>
-                                <!-- <h3>{{this.viForm.value.documentnumber}}</h3> -->
-                                <input pInputText value="{{this.viForm.value.documentnumber}}" placeholder="Your Vendor Invoice Number"
-                                    class="w-full custom-input" [disabled]="true" />
-                            </div>
-                            <div class="field col-6 payment-dropdown" >
-                                <label class="mr-3 required">Vendor</label>
-
-                                <div class="iconSCSS w-full">
-                                    <div class="field col-10">
-                                        <ng-container formGroupName="vendor" class="w-full">
-                                            <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
-                                                formControlName="id" [showClear]="true" (onChange)="selectVendor()"
-                                                [style]="{ width: '100%' }" optionLabel="firstName">
-                                                <ng-template let-vendor pTemplate="option">
-                                                    <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
-                                                        }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
-                                                </ng-template>
-                                            </p-dropdown>
-                                        </ng-container>
-                                    </div>
-                                    <div class="field col-2 text-left">
-                                        <span [routerLink]="['/pay/vendor/create']"
-                                            class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
-                                                viewBox="0 0 20 20" fill="none">
-                                                <path
-                                                    d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
-                                                    fill="black" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <!-- <div class="flex gap-2">
+                <!-- <div class="flex gap-2">
                             <div class="field col-12">
                                     <label class="mr-3 required">Status</label>
                                     <textarea pInputText formControlName="status" placeholder="Enter Status"
@@ -106,135 +107,147 @@
                             </div>
                         </div> -->
 
-                        <div class="border-bottom-1 border-200 text-right p-3">
-                            <button type="submit" pButton label="Save" [disabled]="!viForm.valid"
-                                class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
-                        </div>
-    
-                    </form>
-    
-                    <div *ngIf="id" class="p-3">
-                        <p-table #dt [value]="lineitems" dataKey="id" editMode="row"
-                            styleClass="p-datatable-gridlines mt-2">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Product</th>
-                                    <th class="text-right" width="100">Price</th>
-                                    <th class="text-right" width="100">Quantity</th>
-                                    <th class="text-right" width="100">Discount</th>
-                                    <th class="text-right" width="100">Total</th>
-                                    <th width="160" *ngIf="!viewOnly">
-                                        <button pButton label="Add Item" icon="pi pi-plus"
-                                            class="p-button-secondary p-button-outlined mr-3" (click)="enableRowSubmit()"
-                                            (click)="newRecord = !newRecord" pAddRow [table]="dt" [newRow]="newRow()"
-                                            [inProgress]="newRecord" [disabled]="newRecord"></button>
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-lineItem let-editing="editing" let-ri="rowIndex">
-                                <tr [pEditableRow]="lineItem">
-                                    <td>
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
-                                                    placeholder="Choose Product" optionValue="id" optionLabel="name"
-                                                    [showClear]="true" (ngModelChange)="setLineValues(lineItem)">
-                                                </p-dropdown>
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{ lineItem?.expenseName?.name }}
-                                            </ng-template>
-                                        </p-cellEditor>
-                                    </td>
-                                    <td class="text-right">
-                                        <!-- {{ lineItem?.unitprice | number : "1.2-2" }} -->
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <p-inputNumber [(ngModel)]="lineItem.unitPrice"
-                                                    (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
-                                                    [required]="true">
-                                                </p-inputNumber>
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{ lineItem?.unitPrice }}
-                                            </ng-template>
-                                        </p-cellEditor>
-                                    </td>
-                                    <td class="text-right">
-                                        <!-- {{ lineItem?.quantity | number : "1.2-2" }} -->
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <p-inputNumber [(ngModel)]="lineItem.quantity"
-                                                    (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
-                                                    [required]="true">
-                                                </p-inputNumber>
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{ lineItem?.quantity }}
-                                            </ng-template>
-                                        </p-cellEditor>
-                                    </td>
-                                    <td class="text-right">
-                                        <!-- {{ lineItem?.discount | number : "1.2-2" }} -->
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <p-inputNumber [(ngModel)]="lineItem.discount"
-                                                    (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
-                                                    [required]="true">
-                                                </p-inputNumber>
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{ lineItem?.discount }}
-                                            </ng-template>
-                                        </p-cellEditor>
-                                    </td>
-                                    <td class="text-right">
-                                        {{ ((lineItem?.unitPrice)*(lineItem?.quantity))-(lineItem?.discount) | number :
-                                        "1.2-2" }}
-                                    </td>
-                                    <td *ngIf="!viewOnly">
-                                        <div>
-                                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
-                                                icon="pi pi-pencil" (click)="onRowEditInit(lineItem)"
-                                                class="p-button-rounded p-button-text"></button>
-                                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
-                                                icon="pi pi-trash" (click)="delete(lineItem)"
-                                                class="p-button-rounded p-button-text p-button-danger"></button>
-                                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
-                                                icon="pi pi-check" (click)="onRowEditSave(lineItem)"
-                                                class="p-button-rounded p-button-text p-button-success mr-2"
-                                                [disabled]="!isquantity"></button>
-                                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
-                                                icon="pi pi-times" (click)="onRowEditCancel(lineItem, ri)"
-                                                class="p-button-rounded p-button-text p-button-danger"></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="8">
-                                        <div class="text-center m-5">
-                                            No Vendor Invoice line Items found, Create one.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-    
-                        </p-table>
+                <div class="border-bottom-1 border-200 text-right p-3">
+                    <button type="submit" pButton label="Save" [disabled]="!viForm.valid"
+                        class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                </div>
 
+            </form>
 
-                            <div class=" border-200 text-right mr-6 mb-3 mt-5">
-                                <div class="text-xl ">
-                                    SUB TOTAL: ₹ {{this.viSubTotal}}
-                                </div> <br>
-                                <div class="text-xl">
-                                    TOTAL: ₹ {{this.viSubTotal}}
+            <div *ngIf="true" class="p-3">
+                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-center" width="200">
+                                <span class="">Product</span>
+                                <span
+                                    class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
+                                    (click)="sidebarVisibleProduct = !sidebarVisibleProduct">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
+                                        viewBox="0 0 20 20" fill="none">
+                                        <path
+                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                            fill="black" />
+                                    </svg></span>
+                            </th>
+                            <th class="text-right" width="100">Price</th>
+                            <th class="text-right" width="100">Quantity</th>
+                            <th class="text-right" width="100">Discount</th>
+                            <th class="text-right" width="100">Total</th>
+                            <th width="160" *ngIf="!viewOnly">
+                                <button pButton label="Add Item" icon="pi pi-plus"
+                                    class="p-button-secondary p-button-outlined mr-3" (click)="enableRowSubmit()"
+                                    (click)="newRecord = !newRecord" pAddRow [table]="dt" [newRow]="newRow()"
+                                    [inProgress]="newRecord" [disabled]="newRecord"></button>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-lineItem let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="lineItem">
+                            <td>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input" class="fixed-width-dropdown">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            placeholder="Choose Product" optionValue="id" optionLabel="name"
+                                            [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }"
+                                            class="fixed-width-dropdown">
+                                        </p-dropdown>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ lineItem?.expenseName?.name }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="text-right">
+                                <!-- {{ lineItem?.unitprice | number : "1.2-2" }} -->
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-inputNumber [(ngModel)]="lineItem.unitPrice"
+                                            (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
+                                            [required]="true">
+                                        </p-inputNumber>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ lineItem?.unitPrice }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="text-right">
+                                <!-- {{ lineItem?.quantity | number : "1.2-2" }} -->
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-inputNumber [(ngModel)]="lineItem.quantity"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
+                                            [required]="true">
+                                        </p-inputNumber>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ lineItem?.quantity }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="text-right">
+                                <!-- {{ lineItem?.discount | number : "1.2-2" }} -->
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-inputNumber [(ngModel)]="lineItem.discount"
+                                            (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
+                                            [required]="true">
+                                        </p-inputNumber>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ lineItem?.discount }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="text-right">
+                                {{ ((lineItem?.unitPrice)*(lineItem?.quantity))-(lineItem?.discount) | number :
+                                "1.2-2" }}
+                            </td>
+                            <td *ngIf="!viewOnly">
+                                <div>
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-pencil" (click)="onRowEditInit(lineItem)"
+                                        class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-trash" (click)="delete(lineItem)"
+                                        class="p-button-rounded p-button-text p-button-danger"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onRowEditSave(lineItem)"
+                                        class="p-button-rounded p-button-text p-button-success mr-2"
+                                        [disabled]="!isquantity"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times" (click)="onRowEditCancel(lineItem, ri)"
+                                        class="p-button-rounded p-button-text p-button-danger"></button>
                                 </div>
-                            </div>
-                            
-    
-                        <!-- <div class="flex">
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">
+                                <div class="text-center m-5">
+                                    No Vendor Invoice line Items found, Create one.
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                </p-table>
+
+
+                <div class=" border-200 text-right mr-6 mb-3 mt-5">
+                    <div class="text-xl ">
+                        SUB TOTAL: ₹ {{this.viSubTotal}}
+                    </div> <br>
+                    <div class="text-xl">
+                        TOTAL: ₹ {{this.viSubTotal}}
+                    </div>
+                </div>
+
+
+                <!-- <div class="flex">
                             <div class="field col-12 text-right w-full">
                                 <button type="button" pButton label="Create Vendor Invoice" [disabled]="this.viSubTotal == 0"
                                     (click)="finalVISubmitPage()"
@@ -242,22 +255,25 @@
                             </div>
                         </div> -->
 
-                        <div class="border-bottom-1 border-200 text-right p-3">
-                            <button type="button" pButton label="Close" (click)="OnCancelVI()"
-                                class="mr-3 p-button-secondary
+                <div class="border-bottom-1 border-200 text-right p-3">
+                    <button type="button" pButton label="Close" (click)="OnCancelVI()" class="mr-3 p-button-secondary
                                   "></button>
-                            <button type="button" pButton label="Save Vendor Invoice" (click)="finalVISubmitPage()"
-                                [disabled]="this.viSubTotal == 0"
-                                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
-                        </div>
-
-                    </div>
+                    <button type="button" pButton label="Save Vendor Invoice" (click)="finalVISubmitPage()"
+                        [disabled]="this.viSubTotal == 0"
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
-                    
+
             </div>
-            
         </div>
-    
-    <p-blockUI [blocked]="submitted">
-        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
-    </p-blockUI>
+
+    </div>
+
+</div>
+
+<div *ngIf="sidebarVisibleProduct">
+    <app-slide-product></app-slide-product>
+</div>
+
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

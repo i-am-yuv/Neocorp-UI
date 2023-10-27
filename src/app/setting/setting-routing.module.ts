@@ -38,7 +38,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'delegationRoless',
+    path: 'delegationRoles',
     component: LayoutComponent,
     children: [
       { path: '', component: DelegationRoleDashboardComponent }

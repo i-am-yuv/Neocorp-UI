@@ -21,6 +21,8 @@ export class PoInvoiceComponent implements OnInit {
   id: string | null = '';
   DeleteDialLogvisible: boolean = false;
 
+  sidebarVisibleProduct : boolean = false;
+
   submitted: boolean = false;
 
   poInvoiceForm !: FormGroup;
@@ -80,6 +82,8 @@ export class PoInvoiceComponent implements OnInit {
 
     this.items = [{label: 'Bills'},{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
 
+    this.sidebarVisibleProduct = false;
+    
     this.initForm();
     this.loadVendors();
 

@@ -49,12 +49,12 @@
                                             <div class="4">
                                                 <div class="">
                                                     <div *ngIf="item.increase === true">
-                                                        <div class="status-true bg-blue-500">
+                                                        <div class="status-true bg-blue-300">
                                                             <div>Increase</div>
                                                         </div>
                                                     </div>
                                                     <div *ngIf="item.increase === false">
-                                                        <div class="status-false bg-gray-500">
+                                                        <div class="status-false bg-gray-400">
                                                             <div>Increase</div>
                                                         </div>
                                                     </div>
@@ -62,12 +62,12 @@
 
                                                 <div class="mt-1">
                                                     <div *ngIf="item.sanctioner === true">
-                                                        <div class="status-true bg-blue-500">
+                                                        <div class="status-true bg-blue-300">
                                                             <div>Sanctioner</div>
                                                         </div>
                                                     </div>
                                                     <div *ngIf="item.sanctioner === false">
-                                                        <div class="status-false bg-gray-500">
+                                                        <div class="status-false bg-gray-400">
                                                             <div>Sanctioner</div>
                                                         </div>
                                                     </div>
@@ -75,12 +75,12 @@
 
                                                 <div class="mt-1">
                                                     <div *ngIf="item.ratificationer === true">
-                                                        <div class="status-true bg-blue-500">
+                                                        <div class="status-true bg-blue-300">
                                                             <div>Ratificationer</div>
                                                         </div>
                                                     </div>
                                                     <div *ngIf="item.ratificationer === false">
-                                                        <div class="status-false bg-gray-500">
+                                                        <div class="status-false bg-gray-400">
                                                             <div>Ratificationer</div>
                                                         </div>
                                                     </div>
@@ -114,16 +114,13 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeWorkflow.id">
-                                <img src="assets/empty.svg" width="250" /><br />
+                                <img src="/assets/workflow.png" width="400" /><br />
                                 Select Role
                             </div>
 
                             <div *ngIf="activeWorkflow.id">
 
                                 <div class="flex">
-                                    <!-- <div class="field col-8">
-                                        <h4 class="">Role Details:</h4>
-                                    </div> -->
 
                                     <div class="iconEdit w-full gap-1 mr-6 cursor-pointer"
                                         (click)="onEditWorkflow(activeWorkflow.id)">
@@ -176,12 +173,12 @@
 
                                         <div class="field col-4">
                                             <div *ngIf="this.activeWorkflow.increase === true">
-                                                <div class="boxSF bg-blue-500">
+                                                <div class="boxSF bg-blue-300">
                                                     <p class="">Increase</p>
                                                 </div>
                                             </div>
                                             <div *ngIf="this.activeWorkflow.increase === false">
-                                                <div class="boxSF bg-gray-500">
+                                                <div class="boxSF bg-gray-400">
                                                     <p>Increase</p>
                                                 </div>
                                             </div>
@@ -189,12 +186,12 @@
 
                                         <div class="field col-4">
                                             <div *ngIf="this.activeWorkflow.sanctioner== true">
-                                                <div class="boxSF bg-blue-500">
+                                                <div class="boxSF bg-blue-300">
                                                     <p class="">Sanctioner</p>
                                                 </div>
                                             </div>
                                             <div *ngIf="this.activeWorkflow.sanctioner === false">
-                                                <div class="boxSF bg-gray-500">
+                                                <div class="boxSF bg-gray-400">
                                                     <p>Sanctioner</p>
                                                 </div>
                                             </div>
@@ -202,27 +199,17 @@
 
                                         <div class="field col-4">
                                             <div *ngIf="this.activeWorkflow.ratificationer === true">
-                                                <div class="boxSF bg-blue-500">
+                                                <div class="boxSF bg-blue-300">
                                                     <p class="">Ratificationer</p>
                                                 </div>
                                             </div>
                                             <div *ngIf="this.activeWorkflow.ratificationer === false">
-                                                <div class="boxSF bg-gray-500">
+                                                <div class="boxSF bg-gray-400">
                                                     <p>Ratificationer</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="field col-12">
-                                        <div class="col-4">
-                                            <p-radioButton name="sanctioner" [checked]="this.activeWorkflow.sanctioner" [value]="true"
-                                            formControlName="sanctioner"></p-radioButton>
-                                          <label for="sanctioner" class="ml-2">Is Sanctioner</label>
-                                        </div>
-                                        <div class="col-4"></div>
-                                        <div class="col-4"></div>
-                                    </div> -->
 
                                 </div>
                             </div>

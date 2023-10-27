@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Product } from 'src/app/profile/profile-models';
-import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { PayPageService } from '../pay-page.service';
 import { ReturnRefund, ReturnRefundLine } from '../pay-model';
 import { HttpEventType } from '@angular/common/http';
@@ -43,6 +42,7 @@ export class ReturnRefundComponent implements OnInit {
   returnRefundQty: number = 0;
 
   items!: MenuItem[];
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -69,6 +69,8 @@ export class ReturnRefundComponent implements OnInit {
 
     this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefunds'] }, { label: 'Create' }];
 
+    this.sidebarVisibleProduct = false;
+    
     this.initForm();
     this.loadProducts();
     this.loadSalesOrder();
