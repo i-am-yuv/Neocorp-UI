@@ -13,16 +13,16 @@ import { ServiceService } from '../service.service';
 })
 export class ReceiptNoteComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allReceiptNotes : any[] =  [] ;
+  allReceiptNotes: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeRN: ReceiptNote = {} ;
+  totalRecords: number = 0;
+  activeRN: ReceiptNote = {};
 
   lineitems: any[] = [];
-  rnSubTotal: number = 0 ;
-  currentDue : number = 0 ;
+  rnSubTotal: number = 0;
+  currentDue: number = 0;
 
   items!: MenuItem[]
 
@@ -31,19 +31,19 @@ export class ReceiptNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private vendorS : ServiceService) { }
+    private vendorS: ServiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
+    this.items = [{ label: 'Vendor Portal' }, { label: 'Receipt Note', routerLink: ['/vendorPortal/receiptNotes'] }, { label: 'Dashboard' }];
+
     this.getAllReceiptNotes();
   }
 
-  getAllReceiptNotes()
-  {
+  getAllReceiptNotes() {
     this.submitted = true;
-    var vendorId = '0afa0a7c-8abb-1049-818a-bc5500b2001b' ;
+    var vendorId = '0afa0a7c-8abb-1049-818a-bc5500b2001b';
     this.vendorS.getAllReceiptNotesByVendor(vendorId).then(
-      (res : any) => {
+      (res: any) => {
         this.allReceiptNotes = res;
         if (this.allReceiptNotes.length > 0) {
           this.changeOrder(this.allReceiptNotes[0]);
@@ -61,33 +61,31 @@ export class ReceiptNoteComponent implements OnInit {
     )
   }
 
-  changeOrder(item : ReceiptNote )
-  {
-     this.activeRN = item;
+  changeOrder(item: ReceiptNote) {
+    this.activeRN = item;
     this.getNotesLines(item);
     this.getRemainingAmount(item);
   }
 
-  getNotesLines(item:ReceiptNote)
-  {
-    this.submitted  =true;
+  getNotesLines(item: ReceiptNote) {
+    this.submitted = true;
     this.billS
-    .getLineitemsByRn(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.rnSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted  =false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted = false;
-      }
-    );
-    
+      .getLineitemsByRn(item)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.rnSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      );
+
   }
 
   // CreateNewReceiptNote()
@@ -100,18 +98,18 @@ export class ReceiptNoteComponent implements OnInit {
   //   this.router.navigate(['/bills/receiptNote/edit/'+id]); 
   // }
 
-  getRemainingAmount(RN:any){
-    this.submitted  = true;
+  getRemainingAmount(RN: any) {
+    this.submitted = true;
     this.billS.getRemainingAmountReceipt(RN).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
+      (res) => {
+        console.log(res);
+        this.currentDue = res;
+        this.submitted = false;
       }
     ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
+      (err) => {
+        console.log(err);
+        this.submitted = false;
       }
     )
   }

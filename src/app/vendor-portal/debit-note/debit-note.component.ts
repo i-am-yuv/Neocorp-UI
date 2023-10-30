@@ -16,17 +16,17 @@ import { ServiceService } from '../service.service';
 })
 export class DebitNoteComponent implements OnInit {
 
-  submitted : boolean =  false;
-  createNew : boolean = false;
+  submitted: boolean = false;
+  createNew: boolean = false;
 
-  allDebitNotes : any[] =  [] ;
+  allDebitNotes: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeDN: DebitNote = {} ;
+  totalRecords: number = 0;
+  activeDN: DebitNote = {};
 
   lineitems: any[] = [];
-  dnSubTotal: number = 0 ;
-  currentDue : number = 0 ;
+  dnSubTotal: number = 0;
+  currentDue: number = 0;
 
   items!: MenuItem[];
 
@@ -35,19 +35,19 @@ export class DebitNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private vendorS : ServiceService) { }
+    private vendorS: ServiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, {label: 'Dashboard'}]
+    this.items = [{ label: 'Vendor Portal' }, { label: 'Debit Note', routerLink: ['/vendorPortal/debitNotes'] }, { label: 'Dashboard' }];
+
     this.getAllDebitNotesByVendor();
   }
 
-  getAllDebitNotesByVendor()
-  {
-    this.submitted =  true;
-    var vendorId = '0afa0a7c-8a88-11d6-818a-8807deb30008' ;
+  getAllDebitNotesByVendor() {
+    this.submitted = true;
+    var vendorId = '0afa0a7c-8a88-11d6-818a-8807deb30008';
     this.vendorS.getAllDebitNotesByVendor(vendorId).then(
-      (res : any) => {
+      (res: any) => {
         this.allDebitNotes = res;
         if (this.allDebitNotes.length > 0) {
           this.changeOrder(this.allDebitNotes[0]);
@@ -55,42 +55,40 @@ export class DebitNoteComponent implements OnInit {
           this.activeDN = {};
         }
         this.totalRecords = res.length;
-        this.submitted =  false;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
-        this.submitted =  false;
+        this.submitted = false;
         console.log(err);
       }
     )
   }
 
-  changeOrder(item : DebitNote )
-  {
-     this.activeDN = item;
+  changeOrder(item: DebitNote) {
+    this.activeDN = item;
     this.getNotesLines(item);
     this.getRemainingAmount(item);
   }
 
-  getNotesLines(item:DebitNote)
-  {
-    this.submitted =  true;
+  getNotesLines(item: DebitNote) {
+    this.submitted = true;
     this.billS
-    .getLineitemsByDn(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.dnSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted =  false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted =  false;
-      }
-    );
+      .getLineitemsByDn(item)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.dnSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      );
   }
 
   // CreateNewDebitNote()
@@ -103,19 +101,18 @@ export class DebitNoteComponent implements OnInit {
   //   this.router.navigate(['/bills/debitNote/edit/'+id]); 
   // }
 
-  getRemainingAmount(DN:any)
-  {
-    this.submitted  = true;
+  getRemainingAmount(DN: any) {
+    this.submitted = true;
     this.billS.getRemainingAmount(DN).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
+      (res) => {
+        console.log(res);
+        this.currentDue = res;
+        this.submitted = false;
       }
     ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
+      (err) => {
+        console.log(err);
+        this.submitted = false;
       }
     )
   }

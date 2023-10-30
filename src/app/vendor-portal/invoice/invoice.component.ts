@@ -29,18 +29,18 @@ export class InvoiceComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private vendorS : ServiceService,
-    private collectS : CollectService) { }
+    private vendorS: ServiceService,
+    private collectS: CollectService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'},{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard'}];
+    this.items = [{ label: 'Vendor Portal' }, { label: 'Sales Invoices', routerLink: ['/vendorPortal/invoices'] }, { label: 'Dashboard' }];
 
     this.loadPIByVendor();
   }
 
   loadPIByVendor() {
     this.submitted = true;
-    var vendorId = '7f000101-8b22-1cd7-818b-2287c165000c' ;
+    var vendorId = '7f000101-8b22-1cd7-818b-2287c165000c';
     this.vendorS.getAllPIByVendor(vendorId).then(
       (res: any) => {
         console.log(res);
@@ -123,36 +123,34 @@ export class InvoiceComponent implements OnInit {
   //   )
   // }
 
-  togglePartialPayment(invoiceId : any , bol : boolean)
-  {
-       this.collectS.togglePartialPaymentStatus(invoiceId , bol).then(
-        (res)=>{
+  togglePartialPayment(invoiceId: any, bol: boolean) {
+    this.collectS.togglePartialPaymentStatus(invoiceId, bol).then(
+      (res) => {
 
-          console.log(res);
-          if( bol == true )
-          {
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Enabled Successfully',
-              life: 3000,
-            });
-          }
-          else{
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Disabled Successfully',
-              life: 3000,
-            });
-          }
-         // this.router.navigate(['/collect/purchaseInvoices' ]);
+        console.log(res);
+        if (bol == true) {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Enabled Successfully',
+            life: 3000,
+          });
         }
-       ).catch(
-        (err)=>{
-          console.log(err);
+        else {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Disabled Successfully',
+            life: 3000,
+          });
         }
-       )
+        // this.router.navigate(['/collect/purchaseInvoices' ]);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
   }
   myFunction(item: any): string {
     return parseFloat(item).toFixed(2);

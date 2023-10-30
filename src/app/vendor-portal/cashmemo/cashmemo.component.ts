@@ -13,16 +13,16 @@ import { ServiceService } from '../service.service';
 })
 export class CashmemoComponent implements OnInit {
 
-  submitted : boolean = false;
-  createnew : boolean = false;
+  submitted: boolean = false;
+  createnew: boolean = false;
 
-  allCashMemo : any[] =  [] ;
+  allCashMemo: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeCM: CashMemo = {} ;
+  totalRecords: number = 0;
+  activeCM: CashMemo = {};
 
   lineitems: any[] = [];
-  cmSubTotal: number = 0 ;
+  cmSubTotal: number = 0;
 
   items!: MenuItem[];
 
@@ -31,20 +31,19 @@ export class CashmemoComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private vendorS : ServiceService) { }
+    private vendorS: ServiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, {label: 'Dashboard'}];
+    this.items = [{ label: 'Vendor Portal' }, { label: 'Cash Memo', routerLink: ['/vendorPortal/cashMemos'] }, { label: 'Dashboard' }];
 
     this.getAllCashMemoByVendor();
   }
 
-  getAllCashMemoByVendor()
-  {
-    this.submitted =  true;
-    var vendorId = '0afa0a7c-8a88-11d6-818a-880612290005' ;
+  getAllCashMemoByVendor() {
+    this.submitted = true;
+    var vendorId = '0afa0a7c-8a88-11d6-818a-880612290005';
     this.vendorS.getAllCashMemoByVendor(vendorId).then(
-      (res : any) => {
+      (res: any) => {
         this.allCashMemo = res;
         if (this.allCashMemo.length > 0) {
           this.changeOrder(this.allCashMemo[0]);
@@ -52,47 +51,35 @@ export class CashmemoComponent implements OnInit {
           this.activeCM = {};
         }
         this.totalRecords = res.length;
-        this.submitted =  false;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
-        this.submitted =  false;
+        this.submitted = false;
       }
     )
   }
 
-  changeOrder(item : CashMemo )
-  {
-     this.activeCM = item;
+  changeOrder(item: CashMemo) {
+    this.activeCM = item;
     this.getNotesLines(item);
   }
 
-  getNotesLines(item:CashMemo)
-  {
-    this.submitted =  true;
+  getNotesLines(item: CashMemo) {
+    this.submitted = true;
     this.invoiceS
-    .getLineitemsByCashmemo(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.cmSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted =  false;
-      }
-    });
+      .getLineitemsByCashmemo(item)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.cmSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.submitted = false;
+        }
+      });
   }
-
-  // CreateNewCashMemo()
-  // {
-  //   this.router.navigate(['/invoice/cashMemo/create']); 
-  // }
-
-  // onEditCM(id:string)
-  // {
-  //   this.router.navigate(['/invoice/cashMemo/edit/'+id]); 
-  // }
 
 
 }

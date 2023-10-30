@@ -16,7 +16,7 @@
         </div>
     </h2>
 
-    <div *ngIf="false" class="field w-full px-4">
+    <div *ngIf="true" class="field w-full px-4">
         <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
             <div class="payment-dropdown ">
                 <ul class="list-none p-0" *ngFor="let component of sidebarOptionsAdmin">
@@ -26,12 +26,12 @@
                         <div class="flex gap-2 w-full" [routerLink]="items.url"
                             (click)="makeItVisible(visibleCom, items.itemTitle)">
                             <div class="field col-3">
-                                <svg *ngIf="items.itemTitle != 'Setting'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18"
-                                    fill="none">
+                                <svg *ngIf="items.itemTitle != 'Setting'" xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" viewBox="0 0 18 18" fill="none">
                                     <path [attr.d]="items.icon" [attr.fill]="items.fill" />
                                 </svg>
-                                <svg *ngIf="items.itemTitle == 'Setting'" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 32 32"
-                                    fill="none">
+                                <svg *ngIf="items.itemTitle == 'Setting'" xmlns="http://www.w3.org/2000/svg" width="21"
+                                    height="21" viewBox="0 0 32 32" fill="none">
                                     <path [attr.d]="items.icon" [attr.fill]="items.fill" />
                                 </svg>
                             </div>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div *ngIf="true" class="field w-full px-4">
+    <div *ngIf="false" class="field w-full px-4">
         <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
             <div class="payment-dropdown ">
                 <ul class="list-none p-0" *ngFor="let component of sidebarOptionsVendor">
