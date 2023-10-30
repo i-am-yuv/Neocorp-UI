@@ -1,0 +1,16 @@
+stages:
+  - build
+
+build-frontend:
+  stage: build
+  image: node:18
+
+  before_script:
+    - 'cd dist/'
+    - 'npm ci'
+  script:
+    - 'npm run build'
+  artifacts:
+    name: 'frontend-${CI_COMMIT_SHORT_SHA}'
+    paths:
+      - 'dist/'
