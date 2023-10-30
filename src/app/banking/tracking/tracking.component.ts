@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BankingService } from '../banking.service';
-import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Payment } from '../banking-model';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
@@ -13,27 +13,33 @@ import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 })
 export class TrackingComponent implements OnInit {
 
-  stateOptions: any[] = [{label: 'Disburse', value: 'disburse'}, {label: 'Collection', value: 'collection'}];
+  stateOptions: any[] = [{ label: 'Disburse', value: 'disburse' }, { label: 'Collection', value: 'collection' }];
   value: string = 'disburse';
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
   totalDebitedAmount : number = 0 ;
 
   activePayment : Payment = {};
 
-  allDebitPayments : any[] = [];
-  totalRecords: number = 0 ;
+  allDebitPayments: any[] = [];
+  totalRecords: number = 0;
 
-  displayBeneDialog: boolean =  false;
+  displayBeneDialog: boolean = false;
+
+  items1!: MenuItem[];
+  items2!: MenuItem[];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private message: MessageService,
     private bankingS: BankingService,
-    private payServices : PayPageService) { }
+    private payServices: PayPageService) { }
 
   ngOnInit(): void {
+    this.items1 = [{ label: 'Banking' }, { label: 'Disburse' }];
+    this.items2 = [{ label: 'Banking' }, { label: 'Collection' }];
+
     // for disburse  
     this.getAllPayments();
   }
@@ -70,15 +76,14 @@ export class TrackingComponent implements OnInit {
        this.submitted = false;
      }
     ).catch(
-     (err)=>{
-       console.log(err);
-       this.submitted = false;
-     }
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
     )
   }
 
-  addAccount()
-  {
+  addAccount() {
 
   }
 

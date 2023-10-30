@@ -218,6 +218,14 @@ export class InvoiceService {
     return currCashMemoLineItems;
   }
 
+  // ////////////////////////////////////////
+  // async deleteCashMemoLineItem(id: any){
+  //   var url = this.apiurlNew + 'api/cashMemoLine/byCashMemo/' + encodeURIComponent(id);
+  //   const deleteCashMemoLineItem = await lastValueFrom(this.http.delete<any>(url));
+  //   return deleteCashMemoLineItem;
+  // }
+  // //////////////////////////////////////////////////////////////////////////////
+
   async getLineitemsBySI(si:any) {
     var url = this.apiurlNew + 'salesInvoiceLine/bySalesInvoiceLine/'+encodeURIComponent(si.id);
     const currSILineItems = await lastValueFrom(this.http.get<any>(url));

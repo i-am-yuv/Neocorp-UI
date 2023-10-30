@@ -1,10 +1,22 @@
 ::ng-deep {
+  .p-breadcrumb {
+    border: none !important;
+    margin-left: 25px;
+    align-items: center;
+  }
+}
+
+.iconSCSS1 {
+  display: flex;
+  align-items: center;
+  // justify-content: end;
+}
     .p-breadcrumb {
       border: none !important;
       margin-left: 25px;
       align-items: center;
     }
-  }
+  
   .custom-button {
     background: #3B82F6;
     border-radius: 3.09px;

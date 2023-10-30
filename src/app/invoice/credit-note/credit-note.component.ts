@@ -76,6 +76,7 @@ export class CreditNoteComponent implements OnInit {
   ];
 
   items!: MenuItem[];
+  sidebarVisibleProduct : boolean = false;
 
 
   constructor(private router: Router,
@@ -112,6 +113,7 @@ export class CreditNoteComponent implements OnInit {
     this.loadProducts();
     this.loadCustomer();
     this.getCreditNote();
+    this.sidebarVisibleProduct = false;
 
   }
 
@@ -354,9 +356,11 @@ export class CreditNoteComponent implements OnInit {
   onRowEditInit(lineItem: cnLineItem) {
 
   }
+
   delete(lineItem: cnLineItem) {
     this.DeleteDialLogvisible = true;
   }
+  
   onRowEditSave(lineItem: cnLineItem) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);

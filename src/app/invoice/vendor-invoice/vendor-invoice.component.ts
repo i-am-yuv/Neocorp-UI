@@ -40,6 +40,7 @@ export class VendorInvoiceComponent implements OnInit {
   viSubTotal: number = 0;
 
   items!: MenuItem[];
+  sidebarVisibleProduct: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -51,8 +52,8 @@ export class VendorInvoiceComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
-    this.items = [{label: 'Invoices'},{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
+
+    this.items = [{ label: 'Invoices' }, { label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
 
     this.id = this.route.snapshot.paramMap.get('id');
 
@@ -68,6 +69,8 @@ export class VendorInvoiceComponent implements OnInit {
         this.availableVI();
       }
     });
+
+    this.sidebarVisibleProduct = false;
 
     this.initForm();
     this.loadVendors();

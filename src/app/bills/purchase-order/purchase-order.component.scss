@@ -2,18 +2,18 @@
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
@@ -30,29 +30,36 @@
   border: none;
   /* Add other custom styles as needed */
 }
-  .center-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-   // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
-    //width: 600px;
-  }
-  .iconSCSS {
-    display: flex;
-    align-items: center;
-   // justify-content: end;
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+  //width: 600px;
 }
+
+.iconSCSS {
+  display: flex;
+  align-items: center;
+  // justify-content: end;
+}
+
 .iconSCSSSVG {
-//  display: flex;
+  //  display: flex;
   align-items: center !important;
   justify-content: center !important;
- // justify-content: end;
+  // justify-content: end;
 }
+
 .walletIcon {
   align-items: center;
   justify-content: center;
   //text-align: center;
 }
+
 //   div{
 //     padding: 0 !important;
 //     // Use !important to ensure your styles take precedence
@@ -63,11 +70,11 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
-  
+
 //   .raised-container {
 //     padding: 20px; /* Optional: Add padding for spacing around the content */
 //     background-color: #fff; /* Optional: Set the background color */
-  
+
 //     /* Box shadow to create the raised effect */
 //     //box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 //     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);  /* Adjust values as needed */
@@ -80,15 +87,15 @@
 //     box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
 //     /* Add any other custom styles as needed */
 //   }
-  
-.blueText{
+
+.blueText {
   color: #1560E0;
-// font-family: Elza;
-// font-size: 18.815px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-text-transform: capitalize;
+  // font-family: Elza;
+  // font-size: 18.815px;
+  // font-style: normal;
+  // font-weight: 400;
+  // line-height: normal;
+  text-transform: capitalize;
 }
 
 ::ng-deep {
@@ -98,16 +105,26 @@ text-transform: capitalize;
     align-items: center;
   }
 }
+
+.iconSCSS1 {
+  display: flex;
+  align-items: center;
+  // justify-content: end;
+}
+
 .custom-dropdown {
   // position: relative;
   // width: 100%;
-   max-height: 10px !important; /* Set the desired max height for the dropdown */
+  max-height: 10px !important;
+  /* Set the desired max height for the dropdown */
   //overflow-y: auto !important;
   overflow-y: scroll;
 }
+
 .ui-table {
   .ui-dropdown-panel {
-    z-index: 1001; /* Adjust the z-index as needed to ensure it's above other page elements */
+    z-index: 1001;
+    /* Adjust the z-index as needed to ensure it's above other page elements */
   }
 }
 
@@ -122,5 +139,6 @@ text-transform: capitalize;
 //   outline: none; /* Remove the default outline style */
 // }
 .fixed-width-dropdown {
-  width: 200px !important; /* Set your desired fixed width for the dropdown */
+  width: 200px !important;
+  /* Set your desired fixed width for the dropdown */
 }

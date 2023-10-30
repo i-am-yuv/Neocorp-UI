@@ -1,5 +1,3 @@
-
-
 .order-list {
     .list-item {
         border-bottom: 1px solid #eeeeee;
@@ -93,7 +91,7 @@ h6 {
 
 .remainAmount {
     color: #C22B39;
-//font-family: Red Hat Display;
+    //font-family: Red Hat Display;
 }
 
 .person-icon {
@@ -113,12 +111,7 @@ h6 {
 
 .leftStatus {
     color: #C22B39;
-    text-align: right;
-    
-}
-.appStatus{
-    color: #64c574;
-    text-align: right;
+
 }
 
 .iconSCSS {
@@ -137,10 +130,6 @@ p {
     margin: 0px !important;
     padding: 0px !important;
 }
-.s{
-    margin: 0px !important;
-    padding: 0px !important;
-}
 
 .blueText {
     color: #1560E0;
@@ -150,29 +139,108 @@ p {
     // font-weight: 400;
     // line-height: normal;
 }
-.rightMain{
-color: #C5C5C5;
-// font-family: Elza;
-// font-size: 15.097px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-}
-.custom-hr {
-    border: none; /* Remove the default border */
-    border-top: 1px solid lightgray; /* Set the border color to light gray */
-    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
-  }
 
-  ::ng-deep {
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.custom-hr {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+.amp-col {
+    color: #83D28F;
+    font-size: 30px;
+}
+
+.amd-col {
+    color: #FF5A5A;
+    font-size: 30px;
+}
+
+.amount-text {
+    color: #292C30;
+    font-size: 30px;
+}
+
+.title-name {
+    color: #FFF;
+}
+
+.button-container {
+    display: flex;
+    justify-items: center;
+}
+
+.defaultSCSS {
+    background-color: white;
+    color: black;
+    border: none;
+    border-bottom: 3px solid lightgrey;
+    width: 100%;
+    font-weight: 700;
+    /* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+}
+
+.onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid #3579F3;
+    /* Change the bottom border color on hover (e.g., blue) */
+    color: #3579F3;
+    background-color: white;
+    font-weight: 700;
+    /* Change the text color on hover (optional) */
+}
+
+.greenText {
+    color: #83D28F;
+}
+
+
+
+
+.box {
+    // border: 1px solid #aaa5a5;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+    margin: 10px 0;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+p {
+    margin: 0;
+}
+
+::ng-deep {
     .p-breadcrumb {
         border: none !important;
         margin-left: 25px;
         align-items: center;
     }
-  }
+}
 
-  .iconSCSS1 {
+.iconSCSS1 {
     display: flex;
     align-items: center;
     // justify-content: end;

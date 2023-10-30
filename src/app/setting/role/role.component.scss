@@ -2,18 +2,18 @@
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
@@ -23,7 +23,7 @@
 //     padding: 0 !important;
 //     // Use !important to ensure your styles take precedence
 //   }
-  
+
 //   .flex{
 //     padding: 0 !important; 
 //   }
@@ -37,3 +37,27 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
+
+::ng-deep {
+    .p-breadcrumb {
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
+    }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    // height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
+    //width: 600px;
+}

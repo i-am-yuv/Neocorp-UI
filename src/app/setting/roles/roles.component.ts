@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Roles } from './roles';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RolesServiceService } from './roles-service.service';
 import { ConfirmationService, LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 import { Privilege } from '../privilege/privilege';
+import { PrivilegeService } from '../privilege/privilege.service';
 
 @Component({
   selector: 'app-roles',
@@ -14,6 +15,23 @@ import { Privilege } from '../privilege/privilege';
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
+
+  allRoles: any[] = [];
+  activeProductCategory: Roles = {};
+
+  totalRecords: number = 0;
+
+  id: string | null = '';
+
+  createNew: boolean = false;
+
+  chooseRoleId: any;
+  currentRole: Roles = {};
+
+
+
+
+
   roleDialog!: boolean;
 
   roles!: Roles[];
@@ -36,87 +54,227 @@ export class RolesComponent implements OnInit {
   sortDir: string = 'DESC';
 
   @ViewChild('dt') dt: Table | undefined;
-  totalRecords: any;
+  // totalRecords: any;
 
   constructor(
     private router: Router,
     private rolesService: RolesServiceService,
+    private privilageService: PrivilegeService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private route: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
+  ) { }
+
+
 
   ngOnInit() {
+    this.openNew();
+    this.loadPrivileges();
+
+
+
+
     this.items = [{ label: 'Roles' }];
     this.home = { icon: 'pi pi-home', routerLink: '/dashboard' };
-    // this.roleService.getRoles().then((data) => (this.roles = data));
 
+
+
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+        // this.availableRole();
+      }
+    });
+
+  }
+
+  initForm(){
     this.roleForm = this.fb.group({
       id: [],
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
+      name: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20),]],
       roleId: [],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
+      roleType: new FormControl('', Validators.required),
+      description: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      privilege: this.fb.group({
+        id: this.fb.nonNullable.control('',
+          // {
+          //   validators: Validators.required,
+          // }
+        )
+      })
     });
   }
-  applyFilterGlobal($event: any, stringVal: any) {
-    // this.sortField = this.store.storeName;
-    var searchString = ($event.target as HTMLInputElement).value;
 
-    // this.dt.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
-    if (searchString.length > 0) {
-      this.search = searchString;
-      this.getFilter(searchString);
-    } else {
-      this.getFilter(searchString);
-    }
+
+
+  loadPrivileges() {
+    // this.privService.getPrivileges().then(
+    //   (res)=>{
+    //      console.log(res);
+    //      this.roles = res.content;
+    //     //  this.message.add({
+    //     //   severity: 'success',
+    //     //   summary: 'Role Saved',
+    //     //   detail: 'Role Added Successfully',
+    //     //   life: 3000,
+    //     // });
+    //   }
+    // ).catch(
+    //   (err)=>{
+    //     console.log(err);
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: ' All Role Error',
+    //       detail: 'Error while fetching All role',
+    //       life: 3000,
+    //     });
+    //   }
+    // )
   }
 
-  loadPage(event: LazyLoadEvent) {
-    this.pageNo = event.first! / 10;
-    this.pageSize = event.rows!;
-    if (event.sortField) {
-      this.sortField = event.sortField;
-    }
-    this.sortDir = event.sortOrder! > 0 ? 'DESC' : 'ASC';
-    this.getFilter('');
-  }
-  getFilter(searchString: string) {
-    this.search = searchString;
-    var filter = '';
-    if (this.search !== '') {
-      var filtercols = ['name', 'description'];
-      filter = FilterBuilder.build(filtercols, this.search);
-    }
-    this.rolesService
-      .getRoles(
-        // this.pageNo,
-        // this.pageSize,
-        // this.sortField,
-        // this.sortDir,
-        // filter
-      )
-      .then((data) => {
-        if (data) {
-          this.roles = data.content;
 
-          this.totalRecords = data.totalElements;
+  onSubmitRole() {
+
+    // this.delroleForm.value.delegationName = null;
+    // this.delroleForm.value.delegationDescription = null;
+    // this.delroleForm.value.delegationAmount = null;
+    // this.delroleForm.value.role = null;
+
+    var productFormVal = this.roleForm.value;
+    productFormVal.id = this.id;
+    alert(JSON.stringify(productFormVal));
+
+    if (productFormVal.id) {
+      this.submitted = true;
+      this.rolesService.updateRole(productFormVal)
+        .then((res: any) => {
+          console.log(res);
+          this.roleForm.patchValue = { ...res };
+          this.submitted = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: ' Role Updated',
+            detail: ' Role updated',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/setting/Roles/create']);
+          }, 2000);
+
+        })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.messageService.add({
+              severity: 'error',
+              summary: ' Role updated Error',
+              detail: 'Some Server Error',
+              life: 3000,
+            });
+          })
+    }
+    else {
+      console.log(this.roleForm);
+      this.rolesService.createRole(this.roleForm.value).then(
+        (res) => {
+          console.log(res);
+          this.messageService.add({
+            severity: 'success',
+            summary: ' Role Saved',
+            detail: ' Role Saved Successfully',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/setting/Roles/create']);
+          }, 2000);
         }
-      });
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.messageService.add({
+            severity: 'error',
+            summary: ' Role Error',
+            detail: 'Please check the server',
+            life: 3000,
+          });
+        }
+      )
+
+    }
   }
+
+
+
+  availableRole() {
+    this.submitted = true;
+    this.rolesService.getRoles().then(
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/setting/roles']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
+
+  }
+
+
+
+  getAllRoles() {
+    this.submitted = true;
+    this.rolesService.getRoles()
+      .then((res: any) => {
+        this.allRoles = res.content;
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+
+  changeProductCategory(delegationRole: Roles) {
+    this.activeProductCategory = delegationRole;
+  }
+
+
+  onEditDelegationRole(id: string) {
+    this.router.navigate(['setting/Roles/edit/' + id]);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   editPrivileges(role: any) {
     this.router.navigate(['/setting/roles-privilege/' + role.id]);
   }
@@ -126,6 +284,7 @@ export class RolesComponent implements OnInit {
     this.submitted = false;
     this.roleDialog = true;
   }
+
 
   deleteSelectedRoles() {
     this.confirmationService.confirm({
@@ -175,10 +334,6 @@ export class RolesComponent implements OnInit {
 
 
 
-  hideDialog() {
-    this.roleDialog = false;
-    this.submitted = false;
-  }
 
   saveRole() {
     this.submitted = true;
@@ -232,5 +387,18 @@ export class RolesComponent implements OnInit {
   //     'contains'
   //   );
   // }
+
+
+
+  createRole() {
+    //this.createNew = true;
+    this.router.navigate(['/setting/role/create']);
+  }
+
+
+
+  onCancel() {
+    this.router.navigate(['/setting/roles']);
+  }
 }
 

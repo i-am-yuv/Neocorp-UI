@@ -86,14 +86,10 @@ export class CashMemoComponent implements OnInit {
   ];
 
   items!: MenuItem[];
+  deleteDialogvisible: boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private message: MessageService,
-    private fb: FormBuilder,
-    private usedService: PayPageService,
-    private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
 
@@ -112,13 +108,14 @@ export class CashMemoComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
+    this.items = [{ label: 'Invoices' }, { label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
 
     this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadCustomer();
     this.getCashMemo();
+    this.sidebarVisibleProduct = false;
 
   }
 
@@ -362,17 +359,19 @@ export class CashMemoComponent implements OnInit {
   onRowEditInit(lineItem: CashMemoLine) { }
 
   delete(lineItem: CashMemoLine) {
+    this.deleteDialogvisible = true;
     //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+    // this.confirmationService.confirm({
+    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+    //   header: 'Confirm',
+    //   icon: 'pi pi-exclamation-triangle',
+    //   accept: () => {
 
-      },
-    });
+    //   },
+    // });
 
   }
+
 
   onRowEditSave(lineItem: CashMemoLine) {
     alert(JSON.stringify(lineItem));
@@ -591,6 +590,41 @@ export class CashMemoComponent implements OnInit {
   OnCancelCM() {
     //this.createNew = false;
     this.router.navigate(['/invoice/cashMemo']);
+  }
+
+  cancelDeleteConfirm() {
+    this.deleteDialogvisible = false;
+  }
+
+  deleteConfirm(lineItem: any) {
+    this.submitted = true;
+    this.usedService.deleteCashMemoLineItem(lineItem.id).then((data: any) => {
+      this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
+
+      this.cashMemoSubTotal = this.lineitems.reduce((total, lineItem) => {
+        total + lineItem.amount, 0
+      });
+
+      this.deleteDialogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Line Item Deleted',
+        life: 3000,
+      });
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.deleteDialogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
   }
 
 

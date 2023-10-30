@@ -1,111 +1,133 @@
 <p-toast></p-toast>
-<!-- <p-breadcrumb [home]="home" [model]="items" styleClass="border-0"></p-breadcrumb> -->
-<div class="card">
-    <h2 class="p-2">Manage Roles</h2>
 
-            <!-- <p-fileUpload mode="basic" accept=".csv" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
-                class="mr-2 inline-block"></p-fileUpload>
-            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
-
-
-    <p-table #dt [value]="roles" [rows]="10" [paginator]="true" [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="[10,25,50]" [lazy]="true" (onLazyLoad)="loadPage($event)"
-        [globalFilterFields]="['roleIdentifier','roleCode', 'roleName','description']" responsiveLayout="scroll"
-        [(selection)]="selectedRoles" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <div>
-                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
-                        (click)="openNew()"></button>
-                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
-                        (click)="deleteSelectedRoles()" [disabled]="!selectedRoles || !selectedRoles.length"></button>
+   
+<div class="">
+    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+        <div class="center-container mt-5 p-3 ">
+            <div class="field col-3"></div>
+            <div class="field col-6 ">
+                <div class="image-container">
+                    <img src="/assets/role.png" alt="Image" class="w-full h-auto">
                 </div>
-                <div>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
-                            placeholder="Search..." />
-                    </span>
+                <div class="text-center">
+                    <b class="text-2xl">Delegation Made Simple</b><br>
+                    <p>EmpowerYour Team by Delegating Tasks and Responsibilities</p>
+                </div>
+                <div class="text-center">
+                    <button type="button" pButton label="Create Delegation" (click)="createRole()"
+                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+            <div class="field col-3"></div>
+        </div>
+    </div>
+    <div *ngIf="createNew">
+    <div class="bg-white">
+        <div class="border-bottom-1 border-200 text-right p-3">
+            <button type="button" pButton label="Cancel"
+                class=" mr-3 p-button-secondary"></button>
+            <button type="button" pButton label="Add Delegation role" (click)="onSubmitRole()" [disabled]="!roleForm.valid"
+                class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+        </div>
+    </div>
 
-                <th pSortableColumn="name">Role Name <p-sortIcon field="name"></p-sortIcon>
-                </th>
-                <th pSortableColumn="description">Role <p-sortIcon field="description"></p-sortIcon>
-                </th>
-                <!-- <th>Role</th> -->
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-role>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="role"></p-tableCheckbox>
-                </td>
-                <td>{{role.name}}</td>
-                <td>{{role.description}}</td>
-                <td>
-                    <button pButton pRipple icon="pi pi-file" class="p-button-text p-button-info p-0 mr-2"
-                        (click)="editPrivileges(role)"></button>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text p-button-info p-0 mr-2"
-                        (click)="editRole(role)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-danger p-0"
-                        (click)="deleteRole(role)"></button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                In total there are {{roles ? roles.length : 0 }} Roles.
+    <div class="m-8 bg-white border-round-3xl">
+        <form (ngSubmit)="onSubmitRole()" [formGroup]="roleForm" class="p-6 ml-8">
+            <h3 class="text-xl text-blue-700"> Role Details</h3>
+
+           
+            <div class="field col-8">
+                <label class="mr-3 required" >Role Name</label>
+                <input pInputText formControlName="name"
+                    pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255"  class="w-full" />
+                <error-message [controlName]="roleForm.controls['name']"></error-message>
             </div>
-        </ng-template>
-    </p-table>
-</div>
-<form #f="ngForm">
-    <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Role" [modal]="true" styleClass="p-fluid">
-        <ng-template pTemplate="content">
-            <div class="field">
-                <label for="roleName">Role Name</label>
-                <input type="text" pInputText name="name" #name="ngModel" [(ngModel)]="role.name" required
-                    pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
-                <error-message [controlName]="name"></error-message>
-            </div>
-            <div class="field">
-                <label for="roleType">Role Type</label>
-                <p-dropdown [options]="roleTypes" name="roleType" #roleType="ngModel" [(ngModel)]="role.roleType"
+            <div class="field col-8">
+                <label class="mr-3 required">Role Type</label>
+                <p-dropdown [options]="roleTypes" formControlName="roleType"
                     placeholder="Choose Role Type"></p-dropdown>
-                <error-message [controlName]="roleType"></error-message>
+                <error-message [controlName]="roleForm.controls['roleType']"></error-message>
             </div>
-            <div class="field">
-                <label for="description">Role Description</label>
-                <input type="text" pInputText name="description" #description="ngModel" [(ngModel)]="role.description"
-                    required />
-                <error-message [controlName]="description"></error-message>
+            <div class="field col-8">
+                <label class="mr-3 required">Role Description</label>
+                <input pInputText formControlName="description" placeholder="Enter Role Description"
+                class="w-full"  required />
+                <error-message [controlName]="roleForm.controls['description']"></error-message>
             </div>
-            <div class="field col-12">
-                <label class="mr-3 required">Privileges</label>
-                <!-- <input pInputText formControlName="privilege" placeholder="privileges" class="w-full"/> -->
+            <div class="field col-8">
+                <label class="mr-3 ">Privileges</label>
+                <ng-container formGroupName="privilege">
                 <div class="payment-dropdown ">
-                    <p-dropdown class="bg-slate-200" formControlName="privilege"  [style]="{ width: '100%' }"
-                        placeholder="privileges" optionLabel="name" optionValue="name" 
-                        formControlName="privileges"></p-dropdown>
+                    <p-dropdown class="bg-slate-200" formControlName="id"  [style]="{ width: '100%' }"
+                        placeholder="privileges" optionLabel="name" optionValue="id" [options]="privilege"
+                        [style]="{ width: '100%' }"></p-dropdown>
                 </div>
-                <!-- <error-message [controlName]="roleForm.controls['privilege']"></error-message>     -->
+            </ng-container>
+                <error-message [controlName]="roleForm.controls['privilege']"></error-message>    
             </div>
-        </ng-template>
+            
 
-        <ng-template pTemplate="footer">
-            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
-                (click)="hideDialog()"></button>
-            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button" (click)="saveRole()"
-                [disabled]="!f.valid"></button>
-        </ng-template>
-    </p-dialog>
-</form>
+
+            <div class="border-bottom-1 border-200 text-right p-3">
+                <button type="button" pButton label="Cancel" (click)="onCancel()"
+                    class=" mr-3 p-button-secondary "></button>
+                <button type="submit" pButton label="Add Role" [disabled]="!roleForm.valid"
+                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+</div>
+
+
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<div class="field col-8">
+    <label class="mr-3 required" for="roleName">Role Name</label>
+    <input type="text" pInputText name="name" #name="ngModel" [(ngModel)]="role.name" required
+        pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" minlength="1" maxlength="255" />
+    <error-message [controlName]="roleForm.controls['name']"></error-message>
+</div>
+<div class="field col-8">
+    <label class="mr-3 required" for="roleType">Role Type</label>
+    <p-dropdown [options]="roleTypes" name="roleType" #roleType="ngModel" [(ngModel)]="role.roleType"
+        placeholder="Choose Role Type"></p-dropdown>
+    <error-message [controlName]="roleType"></error-message>
+</div>
+<div class="field col-8">
+    <label class="mr-3 required" for="description">Role Description</label>
+    <input type="text" pInputText name="description" #description="ngModel" [(ngModel)]="role.description"
+        required />
+    <error-message [controlName]="description"></error-message>
+</div>
+<div class="field col-8">
+    <label class="mr-3 ">Privileges</label>
+    <div class="payment-dropdown ">
+        <p-dropdown class="bg-slate-200" formControlName="privilege"  [style]="{ width: '100%' }"
+            placeholder="privileges" optionLabel="name" optionValue="name" 
+            formControlName="privileges"></p-dropdown>
+    </div>
+    <error-message [controlName]="roleForm.controls['privilege']"></error-message>    
+</div> -->
+
+
+

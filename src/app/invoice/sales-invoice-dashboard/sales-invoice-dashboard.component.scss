@@ -2,18 +2,18 @@
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
@@ -36,11 +36,11 @@
 //     justify-content: flex-end; // Align items to the right
 //     gap: 10px; // Optional gap between buttons
 //   }
-  
+
 //   .raised-container {
 //     padding: 20px; /* Optional: Add padding for spacing around the content */
 //     background-color: #fff; /* Optional: Set the background color */
-  
+
 //     /* Box shadow to create the raised effect */
 //     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
 //   }
@@ -113,15 +113,17 @@
 
 // /* Round icon styles */
 .person-icon {
-  width: 40px;
-  height: 40px;
-  background-color: lightgrey; /* Customize the background color as needed */
-  color: #fff; /* Customize the text color as needed */
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
+    width: 40px;
+    height: 40px;
+    background-color: lightgrey;
+    /* Customize the background color as needed */
+    color: #fff;
+    /* Customize the text color as needed */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
 }
 
 // .rounded-div1 {
@@ -144,25 +146,29 @@
 //   color: #f55a69;
 //   }
 
-  .rounded-div1 {
-    border: 3px solid #0000; /* Set the border width and color as needed */
-    border-radius: 8px; /* Adjust the border-radius to control the roundness */
+.rounded-div1 {
+    border: 3px solid #0000;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
     //padding: 5px; /* Add padding to the content inside the div if desired */
-    
-  }
-  
-  .rounded-div {
-    border: 1px solid #ffff; /* Set the border width and color as needed */
-    border-radius: 8px; /* Adjust the border-radius to control the roundness */
+
+}
+
+.rounded-div {
+    border: 1px solid #ffff;
+    /* Set the border width and color as needed */
+    border-radius: 8px;
+    /* Adjust the border-radius to control the roundness */
     //padding: 5px; /* Add padding to the content inside the div if desired */
     // display: flex;
     // justify-content: center;
     // align-items: center;
-  }
-  
+}
+
 .remainAmount {
     color: #C22B39;
-//font-family: Red Hat Display;
+    //font-family: Red Hat Display;
 }
 
 .person-icon {
@@ -214,24 +220,35 @@ p {
     // font-weight: 400;
     // line-height: normal;
 }
-.rightMain{
-color: #C5C5C5;
-// font-family: Elza;
-// font-size: 15.097px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-}
-.custom-hr {
-    border: none; /* Remove the default border */
-    border-top: 1px solid lightgray; /* Set the border color to light gray */
-    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
-  }
 
-  ::ng-deep {
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+.custom-hr {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+::ng-deep {
     .p-breadcrumb {
         border: none !important;
         margin-left: 25px;
         align-items: center;
     }
-  }
+}
+
+.iconSCSS1 {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+}

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MessageService, MenuItem } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MenuItem, MessageService } from 'primeng/api';
 import { SettingService } from '../setting.service';
+import { DelegationRole } from '../privilege/privilege';
 
 @Component({
   selector: 'app-delegation-role',
@@ -12,6 +13,11 @@ import { SettingService } from '../setting.service';
 export class DelegationRoleComponent implements OnInit {
   id: string | null = '';
 
+  createNew: boolean = false;
+
+  chooseRoleId: any;
+  currentDelegationRole: DelegationRole = {};
+
   delroleForm !: FormGroup ;
 
   roles : any[] = [] ;
@@ -20,16 +26,55 @@ export class DelegationRoleComponent implements OnInit {
   items!: MenuItem[];
 
   constructor(private router: Router,
+    private route: ActivatedRoute,
     private message: MessageService,
     private service : SettingService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoless']}, {label: 'Create'}];
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+        this.availableDelegationRole();
+      }
+    });
+
+    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}, {label: 'Create'}];
     this.laodRoles();
     this.initForm();
-    // this.getDelegationRole();
+    this.getDelegationRole();
+    
   }
+
+  availableDelegationRole(){
+      this.submitted = true;
+      this.service.getAlldelegationRole().then(
+        (res) => {
+          this.submitted = false;
+          var count = res.totalElements;
+          //count=0
+          if (count > 0) {
+            this.router.navigate(['/setting/delegationRoles']);
+          }
+          else {
+            this.createNew = false;
+          }
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
+    }
 
   initForm()
   {
@@ -46,7 +91,23 @@ export class DelegationRoleComponent implements OnInit {
   }
 
 
-
+  getDelegationRole() {
+    if (this.id) {
+      this.submitted = true;
+      this.service.getDelegationRoleById(this.id)
+        .then((delRole: DelegationRole) => {
+          console.log(delRole);
+          this.currentDelegationRole = delRole;
+          this.delroleForm.patchValue(delRole);
+          this.submitted = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
+  
 
   laodRoles()
   {
@@ -111,11 +172,6 @@ export class DelegationRoleComponent implements OnInit {
 
   onSubmitDelegationRole() {
 
-    // this.delroleForm.value.delegationName = null;
-    // this.delroleForm.value.delegationDescription = null;
-    // this.delroleForm.value.delegationAmount = null;
-    // this.delroleForm.value.role = null;
-
     var productFormVal = this.delroleForm.value;
     productFormVal.id = this.id;
     alert(JSON.stringify(productFormVal));
@@ -133,7 +189,10 @@ export class DelegationRoleComponent implements OnInit {
             detail: 'Delegation Role updated',
             life: 3000,
           });
-          this.router.navigate(['/setting/delegationRoless']);
+          setTimeout(() => {
+            this.router.navigate(['/setting/delegationRoless']);
+          }, 2000);
+          
         })
         .catch(
           (err) => {
@@ -155,9 +214,12 @@ export class DelegationRoleComponent implements OnInit {
            this.message.add({
             severity: 'success',
             summary: 'Delegation Role Saved',
-            detail: 'Delegation Role Added Successfully',
+            detail: 'Delegation Role Saved Successfully',
             life: 3000,
           });
+          setTimeout(() => {
+            this.router.navigate(['/setting/delegationRoless']);
+          }, 2000);
         }
       ).catch(
         (err)=>{
@@ -176,12 +238,15 @@ export class DelegationRoleComponent implements OnInit {
 
 
 
-
+  createDelRole() {
+    //this.createNew = true;
+    this.router.navigate(['/setting/delegationRole/create']);
+  }
 
 
 
   onCancel(){
-    this.router.navigate(['/setting/delegationRoless']);
+    this.router.navigate(['/setting/delegationRoles']);
   }
 
 }
