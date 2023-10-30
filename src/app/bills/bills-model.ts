@@ -1,4 +1,5 @@
 import { branch } from "../auth/auth-model";
+import { CompanyNew, SalesOrder } from "../invoice/invoice-model";
 import { State } from "../profile/profile-models";
 import { Address, CustomeR, Product, Vendor } from "../settings/customers/customer";
 
@@ -79,4 +80,45 @@ export interface LineItem{
     status ?: string;
   }
 
+  export interface GoodsShipment{
+
+    id ?: string;
+    salesOrder ?: SalesOrder ;
+    documentno ?: string ;
+    vendor ?: Vendor ;
+    customer ?: CustomeR ;
+    company ?: CompanyNew ;
+    shipmentDate ?: Date ;
+    status ?: string ;
+    
+  }
+
+  export interface GoodsShipmentLine{
+    id ?: string;
+    goodsShipment ?: GoodsShipment ;
+    salesOrder ?: SalesOrder;
+    orderedQty ?: number ;
+    confirmedQty ?: number ;
+    shippedQty  ?: number ;
+  }
+
+  export interface GoodsReceipt{
+    id ?: string;
+    salesOrder ?: SalesOrder;
+    documentno ?: string ;
+    vendor ?: Vendor ;
+    company ?: CompanyNew ;
+    receivedDate ?: Date ;
+    status ?: string ;
+  }
   
+  export interface GoodsReceiptLine{
+    id ?: string;
+    goodsReceipt ?: GoodsReceipt ;
+    salesOrder ?: SalesOrder;
+    orderedQty ?: number ;
+    confirmedQty ?: number ;
+    shippedQty ?: number ;
+    receivedQty ?: number ;
+    landingcost ?: number ;
+  }

@@ -14,6 +14,10 @@ import { DebitNoteComponent } from './debit-note/debit-note.component';
 import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';
 import { DebitNoteDashboardComponent } from './debit-note-dashboard/debit-note-dashboard.component';
 import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-note-dashboard.component';
+import { GoodsShipmentComponent } from './goods-shipment/goods-shipment.component';
+import { GoodsShipmentDashboardComponent } from './goods-shipment-dashboard/goods-shipment-dashboard.component';
+import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
+import { GoodsReceiptDashboardComponent } from './goods-receipt-dashboard/goods-receipt-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-
     DebitNoteComponent,
     PoDashboardComponent,
     DebitNoteDashboardComponent,
-    ReceiptNoteDashboardComponent
+    ReceiptNoteDashboardComponent,
+    GoodsShipmentComponent,
+    GoodsShipmentDashboardComponent,
+    GoodsReceiptComponent,
+    GoodsReceiptDashboardComponent
   ],
   imports: [
     CommonModule,
