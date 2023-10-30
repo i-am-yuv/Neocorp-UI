@@ -7,6 +7,10 @@ import { PoDashboardComponent } from './po-dashboard/po-dashboard.component';
 import { DebitNoteDashboardComponent } from './debit-note-dashboard/debit-note-dashboard.component';
 import { ReceiptNoteDashboardComponent } from './receipt-note-dashboard/receipt-note-dashboard.component';
 import { LayoutComponent } from '../shared/layout/layout.component';
+import { GoodsShipmentComponent } from './goods-shipment/goods-shipment.component';
+import { GoodsShipmentDashboardComponent } from './goods-shipment-dashboard/goods-shipment-dashboard.component';
+import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
+import { GoodsReceiptDashboardComponent } from './goods-receipt-dashboard/goods-receipt-dashboard.component';
 
 
 const routes: Routes = [
@@ -57,6 +61,38 @@ const routes: Routes = [
     children: [
       { path: '', component: ReceiptNoteDashboardComponent },
     ]
+  },
+  {
+    path: 'goodsShipment',
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: GoodsShipmentComponent },
+      { path: 'create', component: GoodsShipmentComponent },
+      { path: 'edit/:id', component: GoodsShipmentComponent },
+    ],
+  },
+  {
+    path: 'goodsShipments',
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: GoodsShipmentDashboardComponent }
+    ],
+  },
+  {
+    path: 'goodsReceipt',
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: GoodsReceiptComponent },
+      { path: 'create', component: GoodsReceiptComponent },
+      { path: 'edit/:id', component: GoodsReceiptComponent },
+    ],
+  },
+  {
+    path: 'goodsReceipts',
+    component:LayoutComponent ,
+    children: [
+      { path: '', component: GoodsReceiptDashboardComponent }
+    ],
   }
 ];
 

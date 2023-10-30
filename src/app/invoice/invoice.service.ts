@@ -135,7 +135,7 @@ export class InvoiceService {
   }
 
   async getLineitemsBySo(so:any) {
-    var url = this.apiurlNew + 'api/salesOrderLine/bySalesOrder/'+encodeURIComponent(so.id!);
+    var url = this.apiurlNew + 'api/salesOrderLine/bySalesOrder/'+encodeURIComponent(so.id);
     const allLineItems = await lastValueFrom(this.http.get<any>(url));
     return allLineItems;
   }

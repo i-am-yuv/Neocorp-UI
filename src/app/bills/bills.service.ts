@@ -49,6 +49,55 @@ export class BillsService {
     return _updatedDebitNote;
   }
 
+  async createGoodsShipment(rn: any) {
+    var url = this.apiurlNew + 'goodsShipment'
+    const saved = await lastValueFrom(this.http.post<any>(url, rn));
+    return saved;
+  }
+
+  async updateGoodsShipment(gs: any ) {
+    var url = this.apiurlNew + 'goodsShipment';
+    const _updatedGS = await lastValueFrom(this.http.put<any>(url, gs));
+    return _updatedGS;
+  }
+
+  async createGoodsShipmentLine(gs: any ) {
+    var url = this.apiurlNew + 'goodsShipmentLine';
+    const saved = await lastValueFrom(this.http.post<any>(url, gs));
+    return saved;
+  }
+
+  async getLineItemsByGoodsShipmentId(gs: any) {
+    var url = this.apiurlNew + 'api/goodsShipmentLine/goodsShipment/'+ encodeURIComponent(gs.id);
+    const result = await lastValueFrom(this.http.get<any>(url));
+    return result;
+  }
+
+  async getLineItemsByGoodsReceiptId(gr: any) {
+    var url = this.apiurlNew + 'api/goodsReceiptLine/goodsReceipt/'+ encodeURIComponent(gr.id);
+    const result = await lastValueFrom(this.http.get<any>(url));
+    return result;
+  }
+
+  async createGoodsReceipt(rn: any) {
+    var url = this.apiurlNew + 'goodsReceipt'
+    const saved = await lastValueFrom(this.http.post<any>(url, rn));
+    return saved;
+  }
+
+  async updateGoodsReceipt(gs: any ) {
+    var url = this.apiurlNew + 'goodsReceipt';
+    const _updatedGS = await lastValueFrom(this.http.put<any>(url, gs));
+    return _updatedGS;
+  }
+
+  async createGoodsReceiptLine(gs: any ) {
+    var url = this.apiurlNew + 'goodsReceiptLine';
+    const saved = await lastValueFrom(this.http.post<any>(url, gs));
+    return saved;
+  }
+
+
   async getPurchaseorderById(poId: any) {
     var url = this.apiurlNew + 'api/PurchaseOrder/purchaseOrder/'+ encodeURIComponent(poId);
     const _purchaseOrder = await lastValueFrom(this.http.get<any>(url));
@@ -76,6 +125,20 @@ export class BillsService {
     var url = this.apiurlNew + 'api/ReceiptNote?filter=receiptNoteNumber~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or grossTotal~'%" + query +"%'or status~'%" + query + "%'or vendor.firstName~'%" + query + "%'or vendor.lastName~'%" + query + "%'");
      const filteredDNs = await lastValueFrom(this.http.get<any>(url));
      return filteredDNs;
+   }
+
+   async searchGS( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'goodsShipment?filter=documentno~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  customer.displayName~'%" + query + "%' or  customer.contactName~'%" + query + "%' or salesOrder.documentno~'%" + query +"%'or status~'%" + query + "%'or vendor.firstName~'%" + query + "%'or vendor.lastName~'%" + query + "%'or vendor.mobileNumber~'%" + query + "%'or customer.mobileNumber~'%" + query + "%'" );
+     const filteredGSs = await lastValueFrom(this.http.get<any>(url));
+     return filteredGSs;
+   }
+
+   async searchGR( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'goodsReceipt?filter=documentno~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or salesOrder.documentno~'%" + query +"%'or status~'%" + query + "%'or vendor.firstName~'%" + query + "%'or vendor.lastName~'%" + query + "%'or vendor.mobileNumber~'%" + query + "%'" );
+     const filteredGRs = await lastValueFrom(this.http.get<any>(url));
+     return filteredGRs;
    }
 
   async createPoLineItem(lineItem: any) {
@@ -114,6 +177,29 @@ export class BillsService {
     return allRn;
   }
 
+  async getAllGS() {
+    var url = this.apiurlNew + 'goodsShipment';
+    const allGS = await lastValueFrom(this.http.get<any>(url));
+    return allGS;
+  }
+
+  async getCurrentGs(id: string) {
+    var url = this.apiurlNew + 'goodsShipment/'+encodeURIComponent(id);
+    const currGs = await lastValueFrom(this.http.get<any>(url));
+    return currGs;
+  }
+
+  async getAllGR() {
+    var url = this.apiurlNew + 'goodsReceipt';
+    const allGR = await lastValueFrom(this.http.get<any>(url));
+    return allGR;
+  }
+
+  async getCurrentGr(id: string) {
+    var url = this.apiurlNew + 'goodsReceipt/'+encodeURIComponent(id);
+    const currGR = await lastValueFrom(this.http.get<any>(url));
+    return currGR;
+  }
 
   async getCurrentDn(id: string) {
     var url = this.apiurlNew + '/api/debitNote/'+encodeURIComponent(id);
