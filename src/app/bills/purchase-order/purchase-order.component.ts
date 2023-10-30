@@ -22,13 +22,13 @@ export class PurchaseOrderComponent implements OnInit {
 
   createNew: boolean = false;
   submitted: boolean = false;
-  sidebarVisibleProduct : boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
   DeleteDialLogvisible: boolean = false;
 
   id: string | null = '';
   poForm!: FormGroup;
-  productForm !: FormGroup ;
+  productForm !: FormGroup;
   lineItemForm !: FormGroup;
   enablePP: boolean = true;
 
@@ -43,7 +43,7 @@ export class PurchaseOrderComponent implements OnInit {
   singleLineItem: LineItem = {};
   groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
-  category : any[] = [];
+  category: any[] = [];
   currentPoOrder: PurchaseOrder = {};
   currentUser: any = {};
 
@@ -60,7 +60,6 @@ export class PurchaseOrderComponent implements OnInit {
 
   vendorVisible: boolean = false;
   customerVisible: boolean = false;
-
   items!: MenuItem[];
 
   productType: any = [
@@ -73,6 +72,7 @@ export class PurchaseOrderComponent implements OnInit {
       "name": "SERVICE"
     }
   ];
+  currentCompany: any = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -82,7 +82,7 @@ export class PurchaseOrderComponent implements OnInit {
     private billS: BillsService,
     private confirmationService: ConfirmationService,
     private authS: AuthService,
-    private profileS : ProfilepageService) { }
+    private profileS: ProfilepageService) { }
 
   ngOnInit(): void {
 
@@ -101,9 +101,9 @@ export class PurchaseOrderComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Bills'},{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
 
-    this.sidebarVisibleProduct =  false;
+    this.sidebarVisibleProduct = false;
 
     this.initForm();
     this.poForm.value.enablePartialPayments = false;
@@ -202,6 +202,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.authS.getUser().then(
       (res: any) => {
         this.currentUser = res;
+        this.currentCompany = res.comapny;
         this.submitted = false;
       }
     ).catch(
@@ -291,17 +292,14 @@ export class PurchaseOrderComponent implements OnInit {
     )
   }
 
-
   finalPoSubmit: boolean = false;
 
   onSubmitPO() {
-    //this.poForm.value.customer = null;
-    //this.poForm.value.purchaseFrom = null;
-
     this.poForm.value.branch = this.currentUser.branch;
-
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
+    poFormVal.comapny = this.currentCompany;
+
     alert(JSON.stringify(poFormVal));
 
     if (poFormVal.id) {
@@ -648,6 +646,7 @@ export class PurchaseOrderComponent implements OnInit {
     var poFormVal = this.poForm.value;
     poFormVal.id = this.id;
     poFormVal.grossTotal = this.poSubTotal;
+    poFormVal.comapny = this.currentCompany;
     if (poFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;

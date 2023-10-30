@@ -8,6 +8,8 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { HttpEventType } from '@angular/common/http';
+import { CompanyNew } from 'src/app/invoice/invoice-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-debit-note',
@@ -16,20 +18,20 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DebitNoteComponent implements OnInit {
 
-  submitted : boolean =  false;
-  createNew : boolean = false;
-  DeleteDialLogvisible : boolean = false;
+  submitted: boolean = false;
+  createNew: boolean = false;
+  DeleteDialLogvisible: boolean = false;
 
   id: string | null = '';
-  dnForm !: FormGroup ;
+  dnForm !: FormGroup;
 
   vendors: Vendor[] = [];
-  
+
   products: Product[] = [];
   states: State[] = [];
 
   lineitems: any[] = [];
-  currDebitNote:DebitNote = {};
+  currDebitNote: DebitNote = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -43,19 +45,19 @@ export class DebitNoteComponent implements OnInit {
   dnSubTotal: number = 0;
 
   mergedOptions: any[] = [];
-  selectedOption : any;
+  selectedOption: any;
 
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
+  currCompany: CompanyNew = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private billS: BillsService,
-    private confirmationService: ConfirmationService) {     
-     }
+    private billS: BillsService, private authS: AuthService) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -64,27 +66,25 @@ export class DebitNoteComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableDN();
       }
     });
 
-    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
     this.sidebarVisibleProduct = false;
-    
+
     this.initForm();
     this.loadVendors();
     this.loadStates();
     this.loadProducts();
     this.getDebitNote();
-    
- //   this.bind();
-    
+    this.loadUser();
   }
 
   initForm() {
@@ -102,37 +102,46 @@ export class DebitNoteComponent implements OnInit {
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      notes: new FormControl('') ,
+      notes: new FormControl(''),
       grossTotal: new FormControl('')
     });
   }
 
-  availableDN()
-  {
+  availableDN() {
     this.submitted = true;
     this.billS.getAllDn().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/bills/debitNotes']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/bills/debitNotes']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
-  loadStates()
-  {
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
+  loadStates() {
     this.submitted = true;
     this.usedService.allState().then(
       (res) => {
@@ -225,14 +234,14 @@ export class DebitNoteComponent implements OnInit {
       )
   }
 
-  selectVendor(){}
+  selectVendor() { }
 
-  onSubmitDN()
-  {
+  onSubmitDN() {
 
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
-    dnFormVal.placeOfSupply = null ;
+    dnFormVal.placeOfSupply = null;
+    dnFormVal.comapny = this.currCompany;
     alert(JSON.stringify(dnFormVal));
 
     if (dnFormVal.id) {
@@ -265,7 +274,7 @@ export class DebitNoteComponent implements OnInit {
     else {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
-      this.submitted =  true;
+      this.submitted = true;
 
       this.billS.createDebitNote(dnFormVal).then(
         (res) => {
@@ -285,7 +294,7 @@ export class DebitNoteComponent implements OnInit {
           });
           setTimeout(() => {
             this.router.navigate(['bills/debitNote/edit/' + res.id]);
-          }, 2000); 
+          }, 2000);
         }
       ).catch(
         (err) => {
@@ -330,7 +339,7 @@ export class DebitNoteComponent implements OnInit {
 
   }
   delete(lineItem: dnLineItem) {
-    this.DeleteDialLogvisible =  true;
+    this.DeleteDialLogvisible = true;
   }
 
   onRowEditSave(lineItem: dnLineItem) {
@@ -370,8 +379,8 @@ export class DebitNoteComponent implements OnInit {
           (res) => {
             console.log("Line Item Updated Successfully");
             _lineItem = res;
-           // this.lineitem.Amount = res.Amount;
-           this.submitted = false;
+            // this.lineitem.Amount = res.Amount;
+            this.submitted = false;
             this.getDebitNote();
             this.message.add({
               severity: 'success',
@@ -460,14 +469,14 @@ export class DebitNoteComponent implements OnInit {
       if (file) {
         this.currentFile = file;
 
-        
+
         this.usedService.fileUploadForDebitNote(this.id, this.currentFile).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);
             } else if (event.ok == true) {
               // this.message = event.body.message;
-              
+
               this.message.add({
                 severity: 'success',
                 summary: 'Success',
@@ -503,17 +512,17 @@ export class DebitNoteComponent implements OnInit {
   }
 
   finalDNSubmitPage() {
-    
+
 
     var rnFormVal = this.dnForm.value;
     rnFormVal.id = this.id;
-    rnFormVal.grossTotal = this.dnSubTotal ;
+    rnFormVal.grossTotal = this.dnSubTotal;
+    rnFormVal.comapny = this.currCompany;
     if (rnFormVal.id) {
 
       this.submitted = true;
-      if(rnFormVal.placeOfSupply.id == "" || rnFormVal.placeOfSupply == undefined ||rnFormVal.placeOfSupply.id == undefined )
-      {
-        rnFormVal.placeOfSupply =  null ;
+      if (rnFormVal.placeOfSupply.id == "" || rnFormVal.placeOfSupply == undefined || rnFormVal.placeOfSupply.id == undefined) {
+        rnFormVal.placeOfSupply = null;
       }
       this.billS.updateDebitNote(rnFormVal).then(
         (res) => {
@@ -540,32 +549,28 @@ export class DebitNoteComponent implements OnInit {
         }
       )
     }
-      this.upload();
-      setTimeout(() => {
-        this.router.navigate(['/bills/debitNote']);
-      }, 2000);
-      
+    this.upload();
+    setTimeout(() => {
+      this.router.navigate(['/bills/debitNote']);
+    }, 2000);
+
   }
 
-  createDN()
-  {
+  createDN() {
     this.router.navigate(['/bills/debitNote/create']);
   }
 
-  OnCancelDN()
-  {
+  OnCancelDN() {
     this.createNew = false;
     this.router.navigate(['/bills/debitNote']);
   }
 
 
-  cancelDeleteConfirm()
-  {
-     this.DeleteDialLogvisible =  false;
+  cancelDeleteConfirm() {
+    this.DeleteDialLogvisible = false;
   }
 
-  deleteConfirm(lineItem : any)
-  {
+  deleteConfirm(lineItem: any) {
     this.submitted = true;
     this.usedService
       .deleteDebitNoteLineItem(lineItem.id)

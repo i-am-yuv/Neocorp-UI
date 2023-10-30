@@ -13,24 +13,15 @@ import { PayPageService } from '../pay-page.service';
 })
 export class ReturnRefundDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
-
-  allRROrder : any[] =  [] ;
-
-  totalRecords : number = 0 ;
-  activeRR: ReturnRefund = {} ;
-
+  submitted: boolean = false;
+  allRROrder: any[] = [];
+  totalRecords: number = 0;
+  activeRR: ReturnRefund = {};
   lineitems: any[] = [];
-  rrSubTotal: number = 0 ;
-
+  rrSubTotal: number = 0;
   items!: MenuItem[]
 
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private message: MessageService,
-    private fb: FormBuilder,
-    private payS: PayPageService,
-    private confirmationService: ConfirmationService) { }
+  constructor(private router: Router, private payS: PayPageService) { }
 
   ngOnInit(): void {
     this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }];
@@ -38,11 +29,64 @@ export class ReturnRefundDashboardComponent implements OnInit {
     this.getAllReturnRefund();
   }
 
-  getAllReturnRefund()
-  {
+  getAllReturnRefund() {
     this.submitted = true;
-    this.payS.getAllRR().then(
-      (res : any) => {
+    this.payS.getAllRR().then((res: any) => {
+      this.allRROrder = res.content;
+      if (this.allRROrder.length > 0) {
+        this.changeOrder(this.allRROrder[0]);
+      } else {
+        this.activeRR = {};
+      }
+      this.totalRecords = res.totalElements;
+      this.submitted = false;
+    })
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        });
+  }
+
+  changeOrder(item: ReturnRefund) {
+    this.activeRR = item;
+    this.getLineItems(item);
+  }
+
+  getLineItems(item: ReturnRefund) {
+    this.submitted = true;
+    this.payS.getLineitemsByRR(item).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
+        this.rrSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+    })
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        });
+  }
+
+  openCreateNewRR() {
+    this.router.navigate(['/pay/returnAndRefund/create']);
+  }
+
+  onEditRR(id: string) {
+    this.router.navigate(['/pay/returnAndRefund/edit/' + id]);
+  }
+
+  searchRR: any;
+  searchRRs(value: any) {
+    if (value === null) {
+      this.getAllReturnRefund();
+    }
+    else {
+      this.payS.searchRR(value).then((res: any) => {
+        console.log(res);
         this.allRROrder = res.content;
         if (this.allRROrder.length > 0) {
           this.changeOrder(this.allRROrder[0]);
@@ -50,51 +94,15 @@ export class ReturnRefundDashboardComponent implements OnInit {
           this.activeRR = {};
         }
         this.totalRecords = res.totalElements;
-        this.submitted =  false;
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted =  false;
-      }
-    )
-  }
+        this.submitted = false;
+      })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+          });
+    }
 
-  changeOrder(item : ReturnRefund )
-  {
-     this.activeRR = item;
-    this.getLineItems(item);
-  }
-
-  getLineItems(item:ReturnRefund)
-  {
-    this.submitted =  true;
-    this.payS
-    .getLineitemsByRR(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.rrSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted =  false;
-      }
-    }).catch(
-      (err)=>{
-        console.log( err);
-        this.submitted =  false;
-      }
-    ) ;
-  }
-
-  CreateNewReturnRefund()
-  {
-    this.router.navigate(['/pay/returnAndRefund/create']); 
-  }
-
-  onEditRR(id:string)
-  {
-    this.router.navigate(['/pay/returnAndRefund/edit/'+id]); 
   }
 
 }

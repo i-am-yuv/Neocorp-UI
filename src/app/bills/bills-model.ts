@@ -6,119 +6,122 @@ import { Address, CustomeR, Product, Vendor } from "../settings/customers/custom
 export interface BillsModel {
 }
 export interface PurchaseOrder {
-    id?: string;
-    grossTotal?: number;
-    status?: string;
-    description ?: string;
-    orderNumber?:string,
-    enablePartialPayments ?: boolean;
-    internslNotes ?: string;
-    dueDate?: Date;
-    orderDate?: Date;
-    vendor ?: Vendor;
-    customer ?: CustomeR;
-    placeOfSupply ?: State;
-    branch ?: branch;
+  id?: string;
+  grossTotal?: number;
+  status?: string;
+  description?: string;
+  orderNumber?: string,
+  enablePartialPayments?: boolean;
+  internslNotes?: string;
+  dueDate?: Date;
+  orderDate?: Date;
+  vendor?: Vendor;
+  customer?: CustomeR;
+  placeOfSupply?: State;
+  branch?: branch;
+  comapny?: CompanyNew
 }
-export interface LineItem{
-    id ?: string;
-    expenseName ?: Product ;
-    unitPrice ?: number ;
-    quantity ?: number ;
-    Amount ?: number;
-    discount ?: number;
-    purchaseOrder ?: PurchaseOrder;
-  }
+export interface LineItem {
+  id?: string;
+  expenseName?: Product;
+  unitPrice?: number;
+  quantity?: number;
+  Amount?: number;
+  discount?: number;
+  purchaseOrder?: PurchaseOrder;
+}
 
-  export interface ReceiptNote{
-    id ?: string;
-    receiptNoteNumber ?: string;
-    startDate ?: Date;
-    endDate ?: Date;
-    customer ?: CustomeR;
-    vendor ?: Vendor;
-    description ?: string;
-    internalNotes ?: string;
-    clientNotes ?: string;
-    placeOfSupply ?: any;
-    grossTotal ?: number;
-    status ?: string;
-  }
+export interface ReceiptNote {
+  id?: string;
+  receiptNoteNumber?: string;
+  startDate?: Date;
+  endDate?: Date;
+  customer?: CustomeR;
+  vendor?: Vendor;
+  description?: string;
+  internalNotes?: string;
+  clientNotes?: string;
+  placeOfSupply?: any;
+  grossTotal?: number;
+  status?: string;
+  comapny ?: CompanyNew;
+}
 
-  export interface rnLineItem{
-    id ?: string;
-    expenseName ?: Product ;
-    unitPrice ?: number ;
-    quantity ?: number ;
-    Amount ?: number;
-    discount ?: number;
-    receiptNote?: ReceiptNote;
-  }
+export interface rnLineItem {
+  id?: string;
+  expenseName?: Product;
+  unitPrice?: number;
+  quantity?: number;
+  Amount?: number;
+  discount?: number;
+  receiptNote?: ReceiptNote;
+}
 
-  export interface dnLineItem{
-    id ?: string;
-    expenseName ?: Product ;
-    unitPrice ?: number ;
-    quantity ?: number ;
-    Amount ?: number;
-    discount ?: number;
-    debitNote?: DebitNote;
-  }
+export interface dnLineItem {
+  id?: string;
+  expenseName?: Product;
+  unitPrice?: number;
+  quantity?: number;
+  Amount?: number;
+  discount?: number;
+  debitNote?: DebitNote;
+}
 
 
 
-  export interface DebitNote{
-    id ?: string;
-    debitNoteNumber ?: string;
-    startDate ?: Date ;
-    duedate ?: Date ;
-    notes ?: string;
-    internalNotes?: string;
-    vendor ?: Vendor;
-    placeOfSupply ?: any;
-    grossTotal ?: number;
-    status ?: string;
-  }
+export interface DebitNote {
+  id?: string;
+  debitNoteNumber?: string;
+  startDate?: Date;
+  duedate?: Date;
+  notes?: string;
+  internalNotes?: string;
+  vendor?: Vendor;
+  placeOfSupply?: any;
+  grossTotal?: number;
+  status?: string;
+  comapny?: CompanyNew;
+}
 
-  export interface GoodsShipment{
+export interface GoodsShipment {
 
-    id ?: string;
-    salesOrder ?: SalesOrder ;
-    documentno ?: string ;
-    vendor ?: Vendor ;
-    customer ?: CustomeR ;
-    company ?: CompanyNew ;
-    shipmentDate ?: Date ;
-    status ?: string ;
-    
-  }
+  id?: string;
+  salesOrder?: SalesOrder;
+  documentno?: string;
+  vendor?: Vendor;
+  customer?: CustomeR;
+  company?: CompanyNew;
+  shipmentDate?: Date;
+  status?: string;
 
-  export interface GoodsShipmentLine{
-    id ?: string;
-    goodsShipment ?: GoodsShipment ;
-    salesOrder ?: SalesOrder;
-    orderedQty ?: number ;
-    confirmedQty ?: number ;
-    shippedQty  ?: number ;
-  }
+}
 
-  export interface GoodsReceipt{
-    id ?: string;
-    salesOrder ?: SalesOrder;
-    documentno ?: string ;
-    vendor ?: Vendor ;
-    company ?: CompanyNew ;
-    receivedDate ?: Date ;
-    status ?: string ;
-  }
-  
-  export interface GoodsReceiptLine{
-    id ?: string;
-    goodsReceipt ?: GoodsReceipt ;
-    salesOrder ?: SalesOrder;
-    orderedQty ?: number ;
-    confirmedQty ?: number ;
-    shippedQty ?: number ;
-    receivedQty ?: number ;
-    landingcost ?: number ;
-  }
+export interface GoodsShipmentLine {
+  id?: string;
+  goodsShipment?: GoodsShipment;
+  salesOrder?: SalesOrder;
+  orderedQty?: number;
+  confirmedQty?: number;
+  shippedQty?: number;
+}
+
+export interface GoodsReceipt {
+  id?: string;
+  salesOrder?: SalesOrder;
+  documentno?: string;
+  vendor?: Vendor;
+  company?: CompanyNew;
+  receivedDate?: Date;
+  status?: string;
+}
+
+export interface GoodsReceiptLine {
+  id?: string;
+  goodsReceipt?: GoodsReceipt;
+  salesOrder?: SalesOrder;
+  orderedQty?: number;
+  confirmedQty?: number;
+  shippedQty?: number;
+  receivedQty?: number;
+  landingcost?: number;
+}

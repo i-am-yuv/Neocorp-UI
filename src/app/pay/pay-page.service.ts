@@ -22,40 +22,46 @@ export class PayPageService {
   async createVendor(vendor: any) {
     var url = this.apiurlNew + 'api/vendor/signup'
     this.http.post<any>(url, vendor).subscribe(
-      (res)=>{
+      (res) => {
         return res;
-      },(err)=>{
+      }, (err) => {
         return err;
       }
     )
   }
 
-  async searchVendor( query: any) {
+  async searchVendor(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
-     
+
     var url = this.apiurlNew + 'api/vendor?filter=firstName~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  lastName~'%" + query + "%' or mobileNumber~'%" + query + "%' or email~'%" + query + "%'");
- 
-     const filteredVendors = await lastValueFrom(this.http.get<any>(url));
-     return filteredVendors;
-   }
 
-   async searchCustomer( query: any) {
+    const filteredVendors = await lastValueFrom(this.http.get<any>(url));
+    return filteredVendors;
+  }
+
+  async searchCustomer(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
-     
+
     var url = this.apiurlNew + 'customer?filter=displayName~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  contactName~'%" + query + "%' or mobileNumber~'%" + query + "%' or email~'%" + query + "%'");
- 
-     const filteredCustomers = await lastValueFrom(this.http.get<any>(url));
-     return filteredCustomers;
-   }
 
-   async searchPI( query: any) {
+    const filteredCustomers = await lastValueFrom(this.http.get<any>(url));
+    return filteredCustomers;
+  }
+
+  async searchPI(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
-     
+
     var url = this.apiurlNew + 'api/PurchaseInvoice?filter=invoiceNo~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  vendor.firstName~'%" + query + "%' or vendor.lastName~'%" + query + "%' or remainingAmount~'%" + query + "%'or vendor.mobileNumber~'%" + query + "%'");
- 
-     const filteredPIs = await lastValueFrom(this.http.get<any>(url));
-     return filteredPIs;
-   }
+    const filteredPIs = await lastValueFrom(this.http.get<any>(url));
+    return filteredPIs;
+  }
+
+  async searchRR(query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+    var url = this.apiurlNew + 'api/returnRefund?filter=documentNo~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  salesOrder.customer.displayName~'%" + query + "%' or grossTotal~'%" + query + "%'");
+    const filteredDNs = await lastValueFrom(this.http.get<any>(url));
+    return filteredDNs;
+  }
 
   async createAddress(address: any) {
     var url = this.apiurlNew + 'address'
@@ -155,7 +161,7 @@ export class PayPageService {
   }
 
   async deleteReceiptNoteLineItem(id: any) {
-    var url = this.apiurlNew + 'receiptNoteLine/'+encodeURIComponent(id);
+    var url = this.apiurlNew + 'receiptNoteLine/' + encodeURIComponent(id);
     const deleteReceiptNoteLineItem = await lastValueFrom(this.http.delete<any>(url));
     return deleteReceiptNoteLineItem;
   }
@@ -173,7 +179,7 @@ export class PayPageService {
   }
 
   async deleteCreditNoteLineItem(id: any) {
-    var url = this.apiurlNew + 'api/creditNoteLine/'+encodeURIComponent(id);
+    var url = this.apiurlNew + 'api/creditNoteLine/' + encodeURIComponent(id);
     const deletedCnLineItem = await lastValueFrom(this.http.delete<any>(url));
     return deletedCnLineItem;
   }
@@ -191,7 +197,7 @@ export class PayPageService {
   }
 
   async deleteDebitNoteLineItem(id: any) {
-    var url = this.apiurlNew + 'api/debitNoteLine/'+encodeURIComponent(id);
+    var url = this.apiurlNew + 'api/debitNoteLine/' + encodeURIComponent(id);
     const deletedDnLineItem = await lastValueFrom(this.http.delete<any>(url));
     return deletedDnLineItem;
   }
@@ -208,7 +214,7 @@ export class PayPageService {
     return updatedCashMemoLineItem;
   }
 
-  async deleteCashMemoLineItem(id: any){
+  async deleteCashMemoLineItem(id: any) {
     var url = this.apiurlNew + 'api/cashMemoLine/' + encodeURIComponent(id);
     const deleteCashMemoLineItem = await lastValueFrom(this.http.delete<any>(url));
     return deleteCashMemoLineItem;
@@ -227,7 +233,7 @@ export class PayPageService {
   }
 
   async deleteSILineItem(id: any) {
-    var url = this.apiurlNew + 'salesInvoiceLine/'+encodeURIComponent(id);
+    var url = this.apiurlNew + 'salesInvoiceLine/' + encodeURIComponent(id);
     const deleted = await lastValueFrom(this.http.delete<any>(url));
     return deleted;
   }
@@ -254,6 +260,12 @@ export class PayPageService {
     var url = this.apiurlNew + 'returnRefundLine'
     const updatedRRLine = await lastValueFrom(this.http.put<any>(url, data));
     return updatedRRLine;
+  }
+
+  async deleteReturnRefundLineItem(id: any) {
+    var url = this.apiurlNew + 'returnRefundLine/' + encodeURIComponent(id);
+    const deleteRRLineItem = await lastValueFrom(this.http.delete<any>(url));
+    return deleteRRLineItem;
   }
 
   async getAllLineItemsByPo(id: any) {
@@ -286,15 +298,15 @@ export class PayPageService {
     return POByVendor;
   }
 
-  async getPurchaseInvoiceById(vendor: any){
+  async getPurchaseInvoiceById(vendor: any) {
     var url = this.apiurlNew + 'api/PurchaseInvoice/vendor/' + encodeURIComponent(vendor.id);
     const PIByVendor = await lastValueFrom(this.http.get<any>(url));
     return PIByVendor;
   }
 
-  
-  async getRemainingAmountByPurchaseInvoice(pi: any){
-    var url = this.apiurlNew + 'payments/' + encodeURIComponent(pi.id)+'/remaining';
+
+  async getRemainingAmountByPurchaseInvoice(pi: any) {
+    var url = this.apiurlNew + 'payments/' + encodeURIComponent(pi.id) + '/remaining';
     const remainingAmount = await lastValueFrom(this.http.get<any>(url));
     return remainingAmount;
   }

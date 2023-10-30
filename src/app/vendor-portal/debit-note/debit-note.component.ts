@@ -4,10 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DebitNote } from 'src/app/bills/bills-model';
 import { BillsService } from 'src/app/bills/bills.service';
-import { PayPageService } from 'src/app/pay/pay-page.service';
-import { Product, State } from 'src/app/profile/profile-models';
-import { Vendor } from 'src/app/settings/customers/customer';
 import { ServiceService } from '../service.service';
+import { CompanyNew } from 'src/app/invoice/invoice-model';
 
 @Component({
   selector: 'app-debit-note',
@@ -29,6 +27,7 @@ export class DebitNoteComponent implements OnInit {
   currentDue: number = 0;
 
   items!: MenuItem[];
+  currentCompany: CompanyNew = {}
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -46,23 +45,22 @@ export class DebitNoteComponent implements OnInit {
   getAllDebitNotesByVendor() {
     this.submitted = true;
     var vendorId = '0afa0a7c-8a88-11d6-818a-8807deb30008';
-    this.vendorS.getAllDebitNotesByVendor(vendorId).then(
-      (res: any) => {
-        this.allDebitNotes = res;
-        if (this.allDebitNotes.length > 0) {
-          this.changeOrder(this.allDebitNotes[0]);
-        } else {
-          this.activeDN = {};
-        }
-        this.totalRecords = res.length;
-        this.submitted = false;
+    this.vendorS.getAllDebitNotesByVendor(vendorId).then((res: any) => {
+      this.allDebitNotes = res;
+      if (this.allDebitNotes.length > 0) {
+        this.changeOrder(this.allDebitNotes[0]);
+      } else {
+        this.activeDN = {};
       }
-    ).catch(
-      (err) => {
-        this.submitted = false;
-        console.log(err);
-      }
+      this.totalRecords = res.length;
+      this.submitted = false;
+    }
     )
+      .catch(
+        (err) => {
+          this.submitted = false;
+          console.log(err);
+        });
   }
 
   changeOrder(item: DebitNote) {
@@ -90,16 +88,6 @@ export class DebitNoteComponent implements OnInit {
         }
       );
   }
-
-  // CreateNewDebitNote()
-  // {
-  //   this.router.navigate(['/bills/debitNote/create']); 
-  // }
-
-  // onEditDN(id:string)
-  // {
-  //   this.router.navigate(['/bills/debitNote/edit/'+id]); 
-  // }
 
   getRemainingAmount(DN: any) {
     this.submitted = true;

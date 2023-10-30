@@ -97,14 +97,23 @@
     }
 }
 
+.iconSCSS {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.blueText {
+    color: #1560E0;
+}
+
 .person-icon {
-    width: 40px;
-    height: 40px;
-    background-color: lightgrey;
-    /* Customize the background color as needed */
-    color: #fff;
-    /* Customize the text color as needed */
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    color: black;
     border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,21 +122,12 @@
 
 .rounded-div1 {
     border: 3px solid #0000;
-    /* Set the border width and color as needed */
     border-radius: 8px;
-    /* Adjust the border-radius to control the roundness */
-    //padding: 5px; /* Add padding to the content inside the div if desired */
 }
 
 .rounded-div {
     border: 1px solid #ffff;
-    /* Set the border width and color as needed */
     border-radius: 8px;
-    /* Adjust the border-radius to control the roundness */
-    //padding: 5px; /* Add padding to the content inside the div if desired */
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
 }
 
 h1,
@@ -135,11 +135,17 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
     margin: 0 !important;
     padding: 0 !important;
 }
 
+.custom-hr {
+    border: none;
+    border-top: 1px solid lightgray;
+    margin: 3px 0;
+}
 
 .remainAmount {
     color: #f55a69;

@@ -157,20 +157,12 @@ p {
 
 .blueText {
     color: #1560E0;
-    // font-family: Elza;
-    // font-size: 12px;
-    // font-style: normal;
-    // font-weight: 400;
-    // line-height: normal;
 }
 
 .custom-hr {
     border: none;
-    /* Remove the default border */
     border-top: 1px solid lightgray;
-    /* Set the border color to light gray */
     margin: 3px 0;
-    /* Add margin for spacing (adjust as needed) */
 }
 
 ::ng-deep {

@@ -7,7 +7,7 @@
         </div>
         <div class="col-8">
             <div class="border-200 text-right">
-                <button type="button" pButton label="+ Create Return & Refund Order" (click)="CreateNewReturnRefund()"
+                <button type="button" pButton label="+ Create Return & Refund Order" (click)="openCreateNewRR()"
                     class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>
         </div>
@@ -17,50 +17,56 @@
         <div class="p-5">
             <div class="flex gap-4" style=" justify-content: center;">
 
+                <!-- Left Panel Listing -->
                 <div class="col-5">
                     <p-panel class="left-panel">
                         <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">Return & Refund Orders</span>
+                            <span class="p-panel-title" style="padding: 1px">All Return and Refund Orders</span>
                         </ng-template>
+                        <div class="p-inputgroup pl-2 pr-2 pt-2">
+                            <input pInputText placeholder="Search" [(ngModel)]="searchRR" class="w-full custom-input"
+                                (ngModelChange)="searchRRs(searchRR)" />
+                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchRRs(searchRR)"
+                                styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
 
                                 <div *ngFor="let item of allRROrder" class="order-list"
                                     [ngClass]="{ 'bg-gray-100': activeRR.id === item.id }">
-                                    <div class=" list-item" (click)="changeOrder(item)">
-                                        <div class="flex w-full">
-
-                                            <div class="col-2  justify-center align-center">
+                                    <div class="list-item" (click)="changeOrder(item)">
+                                        <div class="iconSCSS w-full gap-2 p-3">
+                                            <div class=" col-2  justify-center align-center">
                                                 <div class="person-icon">{{
-                                                    item.salesOrder?.vendor?.firstName.charAt(0) +
-                                                    item.salesOrder?.vendor?.lastName.charAt(0) }}</div>
+                                                    item.documentNo.charAt(0)}}</div>
                                             </div>
-                                            <div class="col-10">
+                                            <div class=" col-10">
                                                 <div class="text-base"><b>{{ item.documentNo }}</b></div>
                                                 <div class="flex gap-2 ">
                                                     <div class="col-8 font-italic text-base">
-                                                        {{ item.salesOrder?.vendor?.firstName }} {{ item.salesOrder?.vendor?.lastName }}
+                                                        {{ item.salesOrder?.customer?.displayName }}
                                                     </div>
                                                     <div class="col-4   text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal}}
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="text-center m-5" *ngIf="allRROrder.length === 0">
-                                    No Return & Refund Available
+                                    No Debit Notes Available
                                 </div>
                             </div>
                         </ng-template>
                         <p-footer> Total: {{ this.totalRecords}} </p-footer>
                     </p-panel>
                 </div>
+                <!-- Left Panel Listing Ends -->
 
+                <!-- Right Panel Details -->
                 <div class="col-7">
                     <p-panel>
                         <ng-template pTemplate="header">
@@ -74,42 +80,60 @@
                         </ng-template>
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeRR.id">
-                                <img  src="/assets/CM.png" width="400">
-
-                                <!-- <img src="assets/empty.svg" width="250" /><br />
-                                Select Return and Refund Order -->
+                                <img src="/assets/debitNote.png" width="200" height="auto">
+                                <br>
+                                <p class="mt-4 text-xl">Please, Select Return & Refund Order</p>
                             </div>
                             <div *ngIf="activeRR.id">
-                                <div class="flex">
-                                    <div class="field col-11">
-                                        <h4 class="text-blue-700">Return and Refund Details:</h4>
+                                <div class="flex w-full">
+                                    <div class="field col-8">
+                                        <h4 class="">Return & Refund Details:</h4>
                                     </div>
-                                    <div class="field col-1">
-                                        <button pButton type="button" icon="pi pi-pencil"
-                                            (click)="onEditRR(activeRR.id)"></button>
+                                    <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer"
+                                        (click)="onEditRR(activeRR.id)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
+                                            viewBox="0 0 10 11" fill="none">
+                                            <g clip-path="url(#clip0_862_17281)">
+                                                <path
+                                                    d="M7.0257 2.11389L7.72882 1.37075C8.03392 1.04829 8.52858 1.04829 8.83368 1.37075C9.13877 1.69321 9.13877 2.21602 8.83368 2.53848L4.40924 7.21469C4.18896 7.44751 3.91726 7.61864 3.6187 7.71264L2.5 8.06485L2.83324 6.88249C2.92218 6.56694 3.0841 6.27978 3.30438 6.04697L7.0257 2.11389ZM7.0257 2.11389L8.125 3.27574M7.5 6.30334V8.39513C7.5 8.94236 7.08027 9.38598 6.5625 9.38598H2.1875C1.66973 9.38598 1.25 8.94236 1.25 8.39513V3.77117C1.25 3.22394 1.66973 2.78032 2.1875 2.78032H4.16667"
+                                                    stroke="#6F7174" stroke-width="0.625" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_862_17281">
+                                                    <rect width="10" height="10.5691" fill="white"
+                                                        transform="translate(0 0.138184)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <div class="text-sm blueText">Edit Return & Refund</div>
+
                                     </div>
                                 </div>
                                 <div class="flex">
-                                    <div class="field col-6">
-                                        <label class="mr-3 text-blue-500">Return & Refund Number:</label>
+                                    <div class="field col-7">
+                                        <label class="mr-3 blueText">Return & Refund Number:</label>
                                         <h5>#{{ this.activeRR.documentNo}}</h5>
                                     </div>
 
                                     <div class="field col-4">
-                                        <label class="mr-3 text-blue-500">Process on:</label>
+                                        <label class="mr-3 blueText">Processed on:</label>
                                         <h5>{{ this.activeRR.processDate | date : "short"}}</h5>
                                     </div>
                                 </div>
+                                <hr class="custom-hr">
 
                                 <div class="flex">
-                                    <div class="field col-6">
-                                        <label class="mr-3 text-blue-500">Address</label>
-                                        <h4>{{this.activeRR.salesOrder?.customer?.address?.billingName}} <br>
-                                            {{this.activeRR.salesOrder?.customer?.address?.billingAddress}}<br>
-                                            {{this.activeRR.salesOrder?.customer?.address?.city}},
-                                            {{this.activeRR.salesOrder?.customer?.address?.pincode}}
-                                        </h4>
-                                        <br>
+                                    <div class="field col-7">
+                                        <label class="mr-3 blueText">Address</label>
+                                        <p>{{this.activeRR.salesOrder?.customer?.address?.billingName}}</p>
+                                        <p> {{this.activeRR.salesOrder?.customer?.address?.billingAddress}}</p>
+                                        <p>{{this.activeRR.salesOrder?.customer?.address?.city}},
+                                            {{this.activeRR.salesOrder?.customer?.address?.pincode}}</p>
+                                    </div>
+                                    <div class="field col-4">
+                                        <label class="mr-3 blueText ">Place Of Supply</label><br>
+                                        <p>{{this.activeRR.salesOrder?.placeOfSupply?.stateName}}</p><br>
                                     </div>
                                 </div>
 
@@ -117,11 +141,11 @@
                                     <p-table [value]="lineitems">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>Item Detils</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Discount</th>
-                                                <th>Total</th>
+                                                <th class="text-blue-600">Item Detils</th>
+                                                <th class="text-blue-600">Price</th>
+                                                <th class="text-blue-600">Quantity</th>
+                                                <th class="text-blue-600">Discount</th>
+                                                <th class="text-blue-600">Total</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template let-lineItem pTemplate="body">
@@ -136,26 +160,28 @@
                                     </p-table>
 
                                     <div class=" border-200 text-right mr-6 mb-3 mt-3">
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             SUB TOTAL: ₹ {{this.rrSubTotal}}
                                         </div> <br>
-                                        <div class="text-lg">
+                                        <div class="text-lg blueText">
                                             TOTAL: ₹ {{this.rrSubTotal}}
                                         </div>
                                     </div>
 
                                 </div>
+                                <hr class="custom-hr">
 
                                 <div class="flex">
                                     <div class="field col-12">
-                                        <label class="mr-3 text-blue-500">Reason:</label>
-                                        <h5>{{ this.activeRR.reason}}</h5>
+                                        <label class="mr-3 blueText">Reason:</label>
+                                        <p>{{ this.activeRR.reason}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </p-panel>
                 </div>
+                <!-- Right Panel Details -->
 
             </div>
         </div>

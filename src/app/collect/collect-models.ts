@@ -1,33 +1,35 @@
 import { PurchaseOrder } from "../bills/bills-model";
+import { CompanyNew } from "../invoice/invoice-model";
 import { Product } from "../profile/profile-models";
 import { CustomeR, Vendor } from "../settings/customers/customer";
 
 export class CollectModels {
 }
 
-export class PurchaseInvoice{
-    id ?: string;
-    invoiceNo ?: string;
-    invoiceDate?:Date;
-    duedate?:Date;
-    vendor?:Vendor;
-    purchaseOrder ?: PurchaseOrder;
-    penalty ?: number;
-    description ?: string;
-    status ?: string;
-    requestStatus ?: string;
-    grossTotal ?: number ;
-    taxableTotal ?: number;
-    remainingAmount ?: number ;
-    enablePartialPayments ?: boolean ;
+export class PurchaseInvoice {
+    id?: string;
+    invoiceNo?: string;
+    invoiceDate?: Date;
+    duedate?: Date;
+    vendor?: Vendor;
+    purchaseOrder?: PurchaseOrder;
+    penalty?: number;
+    description?: string;
+    status?: string;
+    requestStatus?: string;
+    grossTotal?: number;
+    taxableTotal?: number;
+    remainingAmount?: number;
+    enablePartialPayments?: boolean;
+    comapny?: CompanyNew;
 }
 
-export interface PurchaseInvoiceLine{
-    id ?: string;
-    expenseName ?: Product ;
-    unitPrice ?: number ;
-    quantity ?: number ;
-    Amount ?: number;
-    discount ?: number;
-    purchaseInvoice ?: PurchaseInvoice;
-  }
+export interface PurchaseInvoiceLine {
+    id?: string;
+    expenseName?: Product;
+    unitPrice?: number;
+    quantity?: number;
+    Amount?: number;
+    discount?: number;
+    purchaseInvoice?: PurchaseInvoice;
+}

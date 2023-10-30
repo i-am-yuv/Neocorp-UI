@@ -8,6 +8,8 @@ import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { BillsService } from '../bills.service';
 import { ReceiptNote, rnLineItem } from '../bills-model';
 import { HttpEventType } from '@angular/common/http';
+import { CompanyNew } from 'src/app/invoice/invoice-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-receipt-note',
@@ -58,14 +60,14 @@ export class ReceiptNoteComponent implements OnInit {
   items!: MenuItem[];
   deleteDialogvisible: boolean = false;
   sidebarVisibleProduct: boolean = false;
+  currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private billS: BillsService,
-    private confirmationService: ConfirmationService) { }
+    private billS: BillsService, private authS: AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -86,13 +88,14 @@ export class ReceiptNoteComponent implements OnInit {
     this.items = [{ label: 'Bills' }, { label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
 
     this.sidebarVisibleProduct = false;
-    
+
     this.initForm();
     this.loadVendors();
     this.loadCustomer();
     this.loadProducts();
     this.loadStates();
     this.getReceiptNote();
+    this.loadUser();
 
   }
 
@@ -141,6 +144,18 @@ export class ReceiptNoteComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
   getReceiptNote() {
@@ -267,7 +282,9 @@ export class ReceiptNoteComponent implements OnInit {
 
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
+    rnFormVal.comapny = this.currentCompany;
     alert(JSON.stringify(rnFormVal));
+
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -452,7 +469,7 @@ export class ReceiptNoteComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
-    this.isquantity =  true;
+    this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
   }
 
@@ -538,23 +555,24 @@ export class ReceiptNoteComponent implements OnInit {
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.grossTotal = this.rnSubTotal;
+    rnFormVal.comapny = this.currentCompany;
 
     if (rnFormVal.id) {
       this.submitted = true;
       this.billS.updateReceiptNote(rnFormVal).then((res: any) => {
-          console.log(res);
-          this.rnForm.patchValue = { ...res };
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Receipt Note Updated',
-            detail: 'Receipt Note Updated',
-            life: 3000
-          });
-          setTimeout(() => {
-            this.router.navigate(['/bills/receiptNote']);
-          }, 2000);
-        }
+        console.log(res);
+        this.rnForm.patchValue = { ...res };
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Receipt Note Updated',
+          detail: 'Receipt Note Updated',
+          life: 3000
+        });
+        setTimeout(() => {
+          this.router.navigate(['/bills/receiptNote']);
+        }, 2000);
+      }
       ).catch(
         (err) => {
           console.log(err);
@@ -583,15 +601,6 @@ export class ReceiptNoteComponent implements OnInit {
 
   delete(lineItem: rnLineItem) {
     this.deleteDialogvisible = true;
-    //(JSON.stringify(lineItem));
-    // this.confirmationService.confirm({
-    //   message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-    //   header: 'Confirm',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-
-    //   },
-    // });
   }
 
   cancelDeleteConfirm() {
@@ -603,7 +612,7 @@ export class ReceiptNoteComponent implements OnInit {
     this.usedService.deleteReceiptNoteLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-      this.rnSubTotal =this.lineitems.reduce((total, lineItem) => {
+      this.rnSubTotal = this.lineitems.reduce((total, lineItem) => {
         total + lineItem.amount, 0
       });
 
@@ -611,22 +620,22 @@ export class ReceiptNoteComponent implements OnInit {
       this.submitted = false;
       this.message.add({
         severity: 'success',
-          summary: 'Successful',
-          detail: 'Line Item Deleted',
-          life: 3000,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      this.submitted = false;
-      this.deleteDialogvisible = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Line item Deletion Error, Please refresh and try again',
+        summary: 'Successful',
+        detail: 'Line Item Deleted',
         life: 3000,
       });
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.deleteDialogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
   }
 
 }

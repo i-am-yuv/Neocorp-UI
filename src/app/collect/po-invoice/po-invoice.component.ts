@@ -10,6 +10,7 @@ import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { CollectService } from '../collect.service';
 import { PurchaseInvoice, PurchaseInvoiceLine } from '../collect-models';
 import { BillsService } from 'src/app/bills/bills.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-po-invoice',
@@ -21,7 +22,7 @@ export class PoInvoiceComponent implements OnInit {
   id: string | null = '';
   DeleteDialLogvisible: boolean = false;
 
-  sidebarVisibleProduct : boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
 
@@ -49,6 +50,7 @@ export class PoInvoiceComponent implements OnInit {
   progress = 0;
 
   items!: MenuItem[];
+  currentCompany: any = {};
 
   stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
 
@@ -61,7 +63,7 @@ export class PoInvoiceComponent implements OnInit {
     private usedService: PayPageService,
     private billS: BillsService,
     private confirmationService: ConfirmationService,
-    private collectS: CollectService) { }
+    private collectS: CollectService, private authS: AuthService) { }
 
   ngOnInit(): void {
 
@@ -80,16 +82,16 @@ export class PoInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Bills'},{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
+    this.items = [{ label: 'Bills' }, { label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create', routerLink: ['/collect/purchaseInvoice/create'] }];
 
     this.sidebarVisibleProduct = false;
-    
+
     this.initForm();
     this.loadVendors();
-
     this.loadProducts();
     this.loadPOs();
     this.getPurchaseInvoice();
+    this.loadUser();
   }
 
   initForm() {
@@ -108,9 +110,11 @@ export class PoInvoiceComponent implements OnInit {
       purchaseOrder: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
       }),
-      enablePartialPayments : new FormControl(true)
+      enablePartialPayments: new FormControl(true)
     });
   }
+
+  selectVendor() { }
 
   loadVendors() {
     this.usedService.allVendor().then(
@@ -145,8 +149,6 @@ export class PoInvoiceComponent implements OnInit {
       )
   }
 
-  selectVendor() { }
-
   loadPOs() {
     this.billS.getAllPo().then(
       (res: any) => {
@@ -159,6 +161,18 @@ export class PoInvoiceComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
   availablePI() {
@@ -231,6 +245,7 @@ export class PoInvoiceComponent implements OnInit {
 
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
+    invoiceFormVal.comapny = this.currentCompany;
     alert(JSON.stringify(invoiceFormVal));
 
     if (invoiceFormVal.id) {
@@ -429,7 +444,7 @@ export class PoInvoiceComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
-    this.isquantity =  true;
+    this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
   }
 
@@ -508,9 +523,9 @@ export class PoInvoiceComponent implements OnInit {
     var poInvoiceFormVal = this.poInvoiceForm.value;
     poInvoiceFormVal.id = this.id;
     poInvoiceFormVal.grossTotal = this.poInvoiceSubTotal;
+    poInvoiceFormVal.comapny = this.currentCompany;
 
     if (poInvoiceFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
       alert(JSON.stringify(poInvoiceFormVal));
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
