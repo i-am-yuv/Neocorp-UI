@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { CollectService } from 'src/app/collect/collect.service';
-import { PayPageService } from 'src/app/pay/pay-page.service';
 import { ServiceService } from '../service.service';
 
 @Component({
@@ -15,7 +14,6 @@ import { ServiceService } from '../service.service';
 export class InvoiceComponent implements OnInit {
 
   submitted: boolean = false;
-  currPIRemainingAmount : number = 0 ;
 
   allPIs: any[] = [];
   totalRecords: number = 0;
@@ -23,8 +21,6 @@ export class InvoiceComponent implements OnInit {
   activeInvoice: PurchaseInvoice = {};
   lineitems: any[] = [];
   piSubTotal: number = 0;
-
-  currentDue: number = 0;
 
   items!: MenuItem[];
 
@@ -40,7 +36,6 @@ export class InvoiceComponent implements OnInit {
     this.items = [{label: 'Bills'},{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard'}];
 
     this.loadPIByVendor();
-    this.currentDue = 0;
   }
 
   loadPIByVendor() {
@@ -56,19 +51,19 @@ export class InvoiceComponent implements OnInit {
           this.activeInvoice = {};
         }
         this.totalRecords = res.length;
-        for (const purchaseInvoice of this.allPIs) {
-          this.collectS.getRemainingAmount(purchaseInvoice).then(
-            (res) => {
-              this.allPIs.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
-               console.log(res);
-               //this.currPIRemainingAmount = res;
-            }
-          ).catch(
-            (err) => {
-              console.log(err);
-            }
-          )
-        }
+        // for (const purchaseInvoice of this.allPIs) {
+        //   this.collectS.getRemainingAmount(purchaseInvoice).then(
+        //     (res) => {
+        //       this.allPIs.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+        //        console.log(res);
+        //        //this.currPIRemainingAmount = res;
+        //     }
+        //   ).catch(
+        //     (err) => {
+        //       console.log(err);
+        //     }
+        //   )
+        // }
         this.submitted = false;
       }
     ).catch(
@@ -81,10 +76,9 @@ export class InvoiceComponent implements OnInit {
   }
 
   changeOrder(pi: PurchaseInvoice) {
-    this.currentDue = 0;
     this.activeInvoice = pi;
     this.getOrderLines(pi);
-    this.getRemainingAmount(pi);
+    //this.getRemainingAmount(pi);
   }
 
   getOrderLines(invoice: PurchaseInvoice) {
@@ -112,22 +106,22 @@ export class InvoiceComponent implements OnInit {
     this.router.navigate(['/collect/purchaseInvoice/edit/' + id]);
   }
 
-  getRemainingAmount(PI: any) {
-    this.submitted = true;
-    this.collectS.getRemainingAmount(PI).then(
-      (res) => {
-        console.log(res);
-        this.currentDue = res;
-        this.currPIRemainingAmount = res;
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted = false;
-      }
-    )
-  }
+  // getRemainingAmount(PI: any) {
+  //   this.submitted = true;
+  //   this.collectS.getRemainingAmount(PI).then(
+  //     (res) => {
+  //       console.log(res);
+  //       this.currentDue = res;
+  //       this.currPIRemainingAmount = res;
+  //       this.submitted = false;
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //     }
+  //   )
+  // }
 
   togglePartialPayment(invoiceId : any , bol : boolean)
   {
@@ -152,7 +146,7 @@ export class InvoiceComponent implements OnInit {
               life: 3000,
             });
           }
-          this.router.navigate(['/collect/purchaseInvoices' ]);
+         // this.router.navigate(['/collect/purchaseInvoices' ]);
         }
        ).catch(
         (err)=>{
@@ -163,6 +157,4 @@ export class InvoiceComponent implements OnInit {
   myFunction(item: any): string {
     return parseFloat(item).toFixed(2);
   }
-
-  
 }
