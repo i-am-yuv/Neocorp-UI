@@ -16,6 +16,7 @@ export class InvoiceComponent implements OnInit {
   submitted: boolean = false;
 
   allPIs: any[] = [];
+  allPays : any[] = [] ;
   totalRecords: number = 0;
 
   activeInvoice: PurchaseInvoice = {};
@@ -24,6 +25,9 @@ export class InvoiceComponent implements OnInit {
 
   items!: MenuItem[];
 
+  showInvoice : boolean = true;
+
+  showPayment : boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -79,7 +83,15 @@ export class InvoiceComponent implements OnInit {
     this.activeInvoice = pi;
     this.getOrderLines(pi);
     //this.getRemainingAmount(pi);
-  }
+    this.refreshAll();
+    }
+
+    refreshAll() {
+      // this.allPIs = []; 
+      // this.allPays = [];
+      this.showInvoice = true;
+      this.showPayment = false;
+    }
 
   getOrderLines(invoice: PurchaseInvoice) {
     this.submitted = true;
@@ -127,25 +139,27 @@ export class InvoiceComponent implements OnInit {
     this.collectS.togglePartialPaymentStatus(invoiceId, bol).then(
       (res) => {
 
-        console.log(res);
-        if (bol == true) {
-          this.message.add({
-            severity: 'success',
-            summary: 'success',
-            detail: 'Partial Payment Enabled Successfully',
-            life: 3000,
-          });
+          console.log(res);
+          if( bol == true )
+          {
+            this.message.add({
+              severity: 'success',
+              summary: 'success',
+              detail: 'Partial Payment Enabled Successfully',
+              life: 3000,
+            });
+          }
+          else{
+            this.message.add({
+              severity: 'success',
+              summary: 'success',
+              detail: 'Partial Payment Disabled Successfully',
+              life: 3000,
+            });
+          }
+          this.ngOnInit();
+         // this.router.navigate(['/collect/purchaseInvoices' ]);
         }
-        else {
-          this.message.add({
-            severity: 'success',
-            summary: 'success',
-            detail: 'Partial Payment Disabled Successfully',
-            life: 3000,
-          });
-        }
-        // this.router.navigate(['/collect/purchaseInvoices' ]);
-      }
     ).catch(
       (err) => {
         console.log(err);
@@ -155,4 +169,37 @@ export class InvoiceComponent implements OnInit {
   myFunction(item: any): string {
     return parseFloat(item).toFixed(2);
   }
+
+  showInvoicePage()
+{
+   this.showInvoice = true;
+   this.showPayment = false;
+}
+
+showPaymentPage(activeInvoice : PurchaseInvoice)
+{
+  this.showInvoice = false;
+  this.showPayment = true;
+  this.submitted = true;
+  this.vendorS.getAllPaymentsByVendor(activeInvoice.id).then(
+    (res)=>{
+      this.allPays = res ;
+     // alert(JSON.stringify(res));
+      this.submitted = false;
+    }
+  ).catch(
+    (err)=>{
+      console.log( err ) ;
+      this.submitted = false;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error while fetching the payments details',
+        life: 3000,
+      });
+    }
+  )
+
+}
+
 }

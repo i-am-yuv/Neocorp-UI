@@ -46,9 +46,11 @@
                                     <div class="list-item" (click)="changeOrder(item)">
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class=" col-2  justify-center align-center">
-                                                <div class="person-icon">{{
+                                                <div class="person-icon" *ngIf="item.vendor">{{
                                                     item.vendor?.firstName.charAt(0) +
                                                     item.vendor?.lastName.charAt(0) }}</div>
+                                                    <div class="person-icon" *ngIf="item.customer">{{
+                                                        item.customer?.displayName.charAt(0)}}</div>
                                             </div>
                                             <div class="col-10">
                                                 <div class="text-base"><b>{{ item.receiptNoteNumber }}</b></div>
@@ -288,15 +290,15 @@
                                 </div>
                                 <hr class="custom-hr">
                                 <div class="flex">
-                                    <div class="field col-4">
+                                    <!-- <div class="field col-4">
                                         <label class="blueText">Client Notes:</label>
                                         <p>{{this.activeRN.clientNotes}}</p>
-                                    </div>
-                                    <div class="field col-4">
+                                    </div> -->
+                                    <div class="field col-6">
                                         <label class="blueText">Description:</label>
                                         <p>{{this.activeRN.description}}</p>
                                     </div>
-                                    <div class="field col-4">
+                                    <div class="field col-6">
                                         <label class="blueText">Internal Notes:</label>
                                         <p>{{this.activeRN.internalNotes}}</p>
                                     </div>

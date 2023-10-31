@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  creatBtn : boolean = false;
+  roles : any[] = [];
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  selectVendor()
+  {
+    
+  }
 }

@@ -20,3 +20,23 @@
   .logo {
     max-width: 100%; /* Ensure the logo fits within its container */
   }
+
+  .iconSCSS {
+    display: flex;
+    align-items: center;
+ //   justify-content: end;
+}
+iconSCSS1{
+  display: flex;
+  align-items: center;
+//   justify-content: end;
+}
+.container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+ // height: 100vh; // Adjust as needed to control the vertical centering
+}
+.plusSCSS{
+  border-radius: 50% !important;
+}

@@ -183,6 +183,7 @@ export class GoodsReceiptComponent implements OnInit {
 
           this.grForm.patchValue(goodsReceipt);
           this.getLines(goodsReceipt?.salesOrder ); //Because backend api is not ready
+          this.getLineItemGR(goodsReceipt);
         }
       ).catch(
         (err) => {
@@ -192,6 +193,26 @@ export class GoodsReceiptComponent implements OnInit {
       )
     }
   }
+
+  getLineItemGR( gr : GoodsReceipt)
+  {
+    this.submitted  =true;
+    this.billS
+    .getLineItemsByGoodsReceiptId(gr)
+    .then((data: any) => {
+      if (data) {
+        var res = data[0] ;
+        this.grLineForm.patchValue(res);
+        this.submitted= false;
+      }
+    }).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted= false;
+      }
+    )
+  }
+
 
   getLines(so: SalesOrder | undefined) {
     this.submitted = true;
@@ -300,7 +321,6 @@ export class GoodsReceiptComponent implements OnInit {
     else {
       
       this.submitted =  true;
-
       this.billS.createGoodsReceipt(grFormVal).then(
         (res) => {
           console.log(res);
@@ -367,29 +387,67 @@ export class GoodsReceiptComponent implements OnInit {
     grFormVal.goodsReceipt.id = this.id ;
     grFormVal.salesOrder.id =  this.currSalesOrder.id ;
     alert( JSON.stringify( this.grLineForm.value));
-   this.submitted = true;
-    this.billS.createGoodsReceiptLine(grFormVal)
-      .then((data: any) => {
-        if (data) {
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Receipt Line Items Saved',
-            life: 3000,
-          });
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Goods Receipt Line Items Error',
-            life: 3000,
-          });
-        }
-      );
+
+    if( grFormVal.id )
+    {
+      this.submitted = true;
+      this.billS.updateGoodsReceiptLine(grFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Goods Receipt Line Items Updated',
+              life: 3000,
+            });
+            setTimeout(() => {
+              this.router.navigate(['bills/goodsReceipts']);
+            }, 2000); 
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Receipt Line Items Updation Error',
+              life: 3000,
+            });
+          }
+        );
+    }
+    else{
+      this.submitted = true;
+      this.billS.createGoodsReceiptLine(grFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            this.message.add({
+              severity: 'success' ,
+              summary: 'Success',
+              detail: 'Goods Receipt Line Items Saved',
+              life: 3000,
+            });
+            setTimeout(() => {
+              this.router.navigate(['bills/goodsReceipts']);
+            }, 2000); 
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Receipt Line Items Error',
+              life: 3000,
+            });
+          }
+        );
+    }
+
+   
   } 
 }

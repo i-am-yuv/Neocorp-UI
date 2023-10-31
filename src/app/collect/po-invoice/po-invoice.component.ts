@@ -279,8 +279,7 @@ export class PoInvoiceComponent implements OnInit {
     else {
       this.upload();
       this.submitted = true;
-      invoiceFormVal.status = null;
-      //invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
+      invoiceFormVal.requestStatus = 'DRAFT';
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log("Purchase Invoice Created");

@@ -29,6 +29,11 @@ export class WorkflowDashboardComponent implements OnInit {
     this.submitted = true;
     this.settingS.getAllWorkflow().then((res: any) => {
       this.allWorkflows = res.content;
+      if (this.allWorkflows.length > 0) {
+        this.changeWorkflow(this.allWorkflows[0]);
+      } else {
+        this.activeWorkflow = {};
+      }
       this.totalRecords = res.totalElements;
       this.submitted = false;
     })

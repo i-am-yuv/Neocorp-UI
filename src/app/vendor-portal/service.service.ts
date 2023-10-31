@@ -39,4 +39,10 @@ export class ServiceService {
     return allCMByVendor;
   }
 
+  async getAllPaymentsByVendor(piId : any) {
+    var url = this.apiurlNew + 'api/PurchaseInvoice/purchase-invoice/'+encodeURIComponent(piId)+'/payments';
+    const allPaysByVendor = await lastValueFrom(this.http.get<any>(url));
+    return allPaysByVendor;
+  }
+
 }

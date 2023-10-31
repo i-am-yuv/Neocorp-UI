@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
+import { ProductCategory } from '../product-category';
 
 @Component({
   selector: 'app-product',
@@ -16,6 +17,7 @@ export class ProductComponent implements OnInit {
   submitted: boolean = false;
   productForm!: FormGroup;
   createNew: boolean = false;
+  currentCategory : ProductCategory = {};
 
   category: Product[] = [];
 

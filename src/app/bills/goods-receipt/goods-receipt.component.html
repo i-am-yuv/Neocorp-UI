@@ -14,7 +14,7 @@
                     <p>Start by creating your first Goods Receipt.</p>
                 </div>
                 <div class="text-center mt-3">
-                    <button type="button" pButton label="Create Goods Shipment" (click)="createGR()"
+                    <button type="button" pButton label="Create Goods Receipt" (click)="createGR()"
                         class="mb-3 text-lg Btn"></button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
             <form (ngSubmit)="onSubmitGR()" [formGroup]="grForm" class="p-6">
                 <h4 class="text-lg textColor">Goods Receipt Details </h4> <br>
 
-                <div class="flex gap-3">
+                <div class="flex" >
                     <div class="field col-6">
                         <label class="mr-3 required">Received Date</label>
                         <p-calendar formControlName="receivedDate" [showIcon]="true" dateFormat="dd-mm-yy"
@@ -59,7 +59,7 @@
 
                 </div>
 
-                <div class="flex gap-2">
+                <div class="flex ">
                     
 
                     <div class="field col-6 ">
@@ -122,7 +122,7 @@
                         </ng-template>
                     </p-table>
 
-                    <div class=" border-200 text-right mr-6 mb-3 mt-3">
+                    <div class=" border-200 text-right mb-3 mt-3">
                         <div class="text-lg blueText">
                             SUB TOTAL: ₹ {{this.grSubTotal}}
                         </div> <br>
@@ -134,36 +134,35 @@
 
                 <form (ngSubmit)="onSubmitGRLine()" [formGroup]="grLineForm" class="">
                     <h4 class="text-lg textColor">Line Items Details</h4>
-
-                    <div class="flex mt-3 w-full">
-                        <div class="field col-3">
-                            <label class="mr-3 required ">Order Quantity</label>
+                    <div class="flex  w-full">
+                        <div class="field col-6 required">
+                            <label class=" required ">Order Quantity</label>
                             <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty" placeholder="Ordered Quantity" NumbersOnly
-                                class="w-full custom-input" [max]="salesLineItemsTotal" />
+                                class="w-full" [max]="salesLineItemsTotal" />
                             <error-message [controlName]="grLineForm.controls['orderedQty']"></error-message>
                         </div>
-                        <div class="field col-3 required">
-                            <label class="mr-3">Confirmed Quantity</label>
+                        <div class="field col-6 required">
+                            <label class="required">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
-                                class="w-full custom-input" NumbersOnly/>
+                                class="w-full" NumbersOnly/>
                             <error-message [controlName]="grLineForm.controls['confirmedQty']"></error-message>
                         </div>
-                        <div class="field col-3 required">
-                            <label class="mr-3">Shipped Quantity</label>
-                            <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
-                                class="w-full custom-input" NumbersOnly />
-                            <error-message [controlName]="grLineForm.controls['shippedQty']"></error-message>
                         </div>
-
-                        <div class="field col-3 required">
-                            <label class="mr-3">Received Quantity</label>
-                            <input pInputText formControlName="receivedQty" placeholder="Enter Received Quantity"
-                                class="w-full custom-input" NumbersOnly />
-                            <error-message [controlName]="grLineForm.controls['receivedQty']"></error-message>
+                        <div class="flex w-full">
+                            <div class="field col-6 required">
+                                <label class="required">Shipped Quantity</label>
+                                <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
+                                    class="w-full" NumbersOnly />
+                                <error-message [controlName]="grLineForm.controls['shippedQty']"></error-message>
+                            </div>
+    
+                            <div class="field col-6 required">
+                                <label class="required">Received Quantity</label>
+                                <input pInputText formControlName="receivedQty" placeholder="Enter Received Quantity"
+                                    class="w-full" NumbersOnly />
+                                <error-message [controlName]="grLineForm.controls['receivedQty']"></error-message>
+                            </div>
                         </div>
-
-                    </div>
-
                 </form>
 
 

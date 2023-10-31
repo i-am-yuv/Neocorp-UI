@@ -32,6 +32,11 @@ export class ProductDashboardComponent implements OnInit {
     this.profileService.getAllProduct()
       .then((res: any) => {
         this.allProducts = res.content;
+        if (this.allProducts.length > 0) {
+          this.changeProduct(this.allProducts[0]);
+        } else {
+          this.activeProduct = {};
+        }
         this.totalRecords = res.totalElements
         this.submitted = false;
       })

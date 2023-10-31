@@ -21,7 +21,7 @@
     <div class="m-6 bg-white border-round-3xl">
 
         <div class="p-5">
-            <div class="flex gap-4" style=" justify-content: center;">
+            <div class="flex" style=" justify-content: center;">
 
                 <!-- Left List Panel -->
                 <div class="col-5">
@@ -30,11 +30,11 @@
                             <span class="p-panel-title" style="padding: 1px">All Products</span>
                         </ng-template>
                         <div class="p-inputgroup pl-2 pr-2 pt-2">
-                            <input pInputText  placeholder="Search Product" [(ngModel)]="searchProduct"
+                            <input pInputText placeholder="Search Product" [(ngModel)]="searchProduct"
                                 class="w-full custom-input" (ngModelChange)="searchProducts(searchProduct)" />
-                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchProducts(searchProduct)"
-                            styleClass="p-button-success"></button>
-                    </div>
+                            <button type="button" pButton pRipple icon="pi pi-search"
+                                (click)="searchProducts(searchProduct)" styleClass="p-button-success"></button>
+                        </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -49,7 +49,8 @@
                                             <div class="col-10">
                                                 <div class="iconSCSS gap-1 w-full">
                                                     <div class="col-6 text-left text-lg">{{ item.name }}</div>
-                                                    <div class="col-6 text-right">MRP: <b>₹ </b> {{myFunction(item.mrp)}}</div>
+                                                    <div class="col-6 text-right">MRP: <b>₹ </b>
+                                                        {{myFunction(item.mrp)}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,7 +117,7 @@
                                     </div>
 
                                 </div>
-                                <div class="flex flex-wrap">
+                                <div class="flex ">
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product Name: </label>
@@ -127,6 +128,8 @@
                                         <label class="mr-3 blueText">Model:</label>
                                         <p>{{ this.activeProduct.model}}</p>
                                     </div>
+                                </div>
+                                <div class="flex">
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Search Key:</label>
@@ -135,27 +138,32 @@
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product Category:</label>
-                                        <p>{{ this.activeProduct.category?.name ? this.activeProduct.category?.name : 'NA' }}</p>
-                                
-                                    </div>
+                                        <p>{{ this.activeProduct.category?.name ? this.activeProduct.category?.name :
+                                            'NA' }}</p>
 
+                                    </div>
+                                </div>
+
+                                <div class="flex">
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product Type:</label>
-                                        <p>{{ this.activeProduct.productType ? this.activeProduct.productType : 'NA'}}</p>
+                                        <p>{{ this.activeProduct.productType ? this.activeProduct.productType : 'NA'}}
+                                        </p>
                                     </div>
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Brand:</label>
                                         <p>{{ this.activeProduct.brand ? this.activeProduct.brand : 'NA'}}</p>
                                     </div>
-
                                 </div>
+
+
                                 <hr class="custom-hr">
 
                                 <div class="field col-8">
                                     <h4 class="">Price Details:</h4>
                                 </div>
-                                <div class="flex flex-wrap">
+                                <div class="flex">
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Product MRP: </label>
@@ -169,10 +177,10 @@
                                 </div>
                                 <hr class="custom-hr">
 
-                                <div class="field col-8">
+                                <div class="field col-6">
                                     <h4 class="">Code Details:</h4>
                                 </div>
-                                <div class="flex flex-wrap">
+                                <div class="flex">
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Bar Code: </label>
@@ -183,7 +191,9 @@
                                         <label class="mr-3 blueText">HSN Code:</label>
                                         <p>{{ this.activeProduct.hsnCode ? this.activeProduct.hsnCode : 'NA' }}</p>
                                     </div>
+                                </div>
 
+                                <div class="flex">
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">SKU Code:</label>
                                         <p>{{ this.activeProduct.skuCode ? this.activeProduct.skuCode : 'NA'}}</p>
@@ -191,10 +201,11 @@
 
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Description:</label>
-                                        <p>{{ this.activeProduct.description ? this.activeProduct.description : 'NA'}}</p>
+                                        <p>{{ this.activeProduct.description ? this.activeProduct.description : 'NA'}}
+                                        </p>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </p-panel>

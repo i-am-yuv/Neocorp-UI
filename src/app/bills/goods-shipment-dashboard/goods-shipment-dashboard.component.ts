@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { BillsService } from '../bills.service';
 import { GoodsShipment, GoodsShipmentLine } from '../bills-model';
+import { InvoiceService } from 'src/app/invoice/invoice.service';
 
 @Component({
   selector: 'app-goods-shipment-dashboard',
@@ -30,7 +31,8 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private billS: BillsService) { }
+    private billS: BillsService,
+    private commonS : InvoiceService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
@@ -62,6 +64,26 @@ export class GoodsShipmentDashboardComponent implements OnInit {
   {
     this.activeGS = item;
     this.getLines(item);
+    this.getSoLines(item);
+  }
+
+  getSoLines(item:GoodsShipment)
+  {
+     this.submitted = true;
+     this.commonS.getLineitemsBySo(item.salesOrder).then(
+      (res)=>{
+        this.lineitems = res;
+        this.gsSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+     ).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted = false;
+      }
+     )
   }
 
   getLines(item:GoodsShipment)
@@ -71,7 +93,9 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     .getLineItemsByGoodsShipmentId(item)
     .then((data: any) => {
       if (data) {
-        this.activeGoodsShipmentLine = data;
+        this.activeGoodsShipmentLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0 ;
+        this.activeGoodsShipmentLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0 ;
+        this.activeGoodsShipmentLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
         this.submitted= false;
       }
     }).catch(

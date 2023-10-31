@@ -9,6 +9,7 @@ export interface PurchaseOrder {
   id?: string;
   grossTotal?: number;
   status?: string;
+  requestStatus?: string;
   description?: string;
   orderNumber?: string,
   enablePartialPayments?: boolean;
@@ -44,7 +45,7 @@ export interface ReceiptNote {
   placeOfSupply?: any;
   grossTotal?: number;
   status?: string;
-  comapny ?: CompanyNew;
+  comapny?: CompanyNew;
 }
 
 export interface rnLineItem {
@@ -93,7 +94,14 @@ export interface GoodsShipment {
   company?: CompanyNew;
   shipmentDate?: Date;
   status?: string;
-
+}
+export interface GoodsShipmentLine {
+  id?: string;
+  goodsShipment?: GoodsShipment;
+  salesOrder?: SalesOrder;
+  orderedQty?: number | 0;
+  confirmedQty?: number | 0;
+  shippedQty?: number | 0;
 }
 
 export interface GoodsShipmentLine {

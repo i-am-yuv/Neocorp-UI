@@ -43,10 +43,26 @@
                     <label class="mr-3 ">Product Category</label>
                     <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
                     <ng-container formGroupName="category" class="w-full">
-                        <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
+                        <!-- <p-dropdown [options]="category" placeholder="Choose Category" optionValue="id"
                             formControlName="id" optionLabel="name" [showClear]="true"
                             (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
+                        </p-dropdown> -->
+                        <p-dropdown [options]="category" [(ngModel)]="currentCategory.id" formControlName="id"
+                            [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                            optionLabel="name" optionValue="id" (onChange)="selectProductCategory()" [filter]="true"
+                            filterBy="name" [showClear]="true" placeholder="Choose Category">
+                            <ng-template pTemplate="currentCategory.id">
+                                <div class="flex align-items-center gap-2" *ngIf="currentCategory.id">
+                                    <div>{{ currentCategory.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-pc pTemplate="item">
+                                <div class="flex align-items-center gap-2">
+                                    <div>{{ pc.name}}</div>
+                                </div>
+                            </ng-template>
                         </p-dropdown>
+
                     </ng-container>
                     <error-message [controlName]="productForm.controls['category']"></error-message>
                 </div>

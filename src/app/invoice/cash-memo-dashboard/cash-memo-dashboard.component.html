@@ -58,7 +58,8 @@
                                                 <div class="text-base"><b>{{ item.cashMemoNumber }}</b></div>
                                                 <div class="flex gap-2 " *ngIf="item.vendor">
                                                     <div class="col-8 font-italic text-base">
-                                                        {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
+                                                        <p>{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
+                                                        <p>Mobile No. {{ item.vendor?.mobileNumber }}</p>
                                                     </div>
                                                     <div class="col-4   text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal}}<br>
@@ -67,7 +68,8 @@
                                                 </div>
                                                 <div class="flex gap-2" *ngIf="item.customer">
                                                     <div class="col-8 font-italic text-base ">
-                                                        {{ item.customer?.displayName }}
+                                                        <p>{{ item.customer?.displayName }}</p>
+                                                        <p>Mobile No. {{ item.customer?.mobileNumber }}</p>
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
                                                         <b>₹: </b>{{item.grossTotal}}<br>
@@ -247,11 +249,11 @@
 
                                 <div class="flex gap-2">
                                     <div class="field col-5">
-                                        <label class="mr-3 text-blue-500">Description:</label>
+                                        <label class="mr-3 blueText">Description:</label>
                                         <p>{{this.activeCM.decription}}</p>
                                     </div>
                                     <div class="field col-5">
-                                        <label class="mr-3 text-blue-500">Internal Notes</label>
+                                        <label class="mr-3 blueText">Internal Notes</label>
                                         <p>{{this.activeCM.internalNotes}}</p>
                                     </div>
                                 </div>

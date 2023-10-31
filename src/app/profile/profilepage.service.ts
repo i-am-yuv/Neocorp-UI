@@ -69,4 +69,12 @@ export class ProfilepageService {
      return filteredProducts;
    }
 
+   async searchProductCategory( query: any) {
+    // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
+     
+    var url = this.apiurlNew + 'api/productCategory?filter=searchKey~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  name~'%" + query + "%'");
+     const filteredProductCategories = await lastValueFrom(this.http.get<any>(url));
+     return filteredProductCategories;
+   }
+
 }

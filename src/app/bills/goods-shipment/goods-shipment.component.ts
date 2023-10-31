@@ -230,6 +230,7 @@ export class GoodsShipmentComponent implements OnInit {
 
           this.gsForm.patchValue(goodShipment);
           this.getLines(goodShipment?.salesOrder ); //Because backend api is not ready
+          this.getLineItems(goodShipment);
         }
       ).catch(
         (err) => {
@@ -238,6 +239,28 @@ export class GoodsShipmentComponent implements OnInit {
         }
       )
     }
+  }
+
+  getLineItems(item:GoodsShipment)
+  {
+    this.submitted  =true;
+    this.billS
+    .getLineItemsByGoodsShipmentId(item)
+    .then((data: any) => {
+      if (data) {
+        var res = data[0] ;
+        // this.gsLineForm.value.orderedQty = res.orderedQty;
+        // this.gsLineForm.value.confirmedQty = res.confirmedQty;
+        // this.gsLineForm.value.shippedQty = res.shippedQty;
+        this.gsLineForm.patchValue(res);
+        this.submitted= false;
+      }
+    }).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted= false;
+      }
+    )
   }
 
   getLines(so: SalesOrder | undefined) {
@@ -376,7 +399,7 @@ export class GoodsShipmentComponent implements OnInit {
     else {
       
       this.submitted =  true;
-
+      gsFormVal.status = 'DRAFT';
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
           console.log(res);
@@ -438,12 +461,42 @@ export class GoodsShipmentComponent implements OnInit {
   {
     // Here you can write a code to submit the GS again if some thing is edited
     this.onSubmitGS();
-
     var gsFormVal = this.gsLineForm.value;
     gsFormVal.goodsShipment.id = this.id ;
     gsFormVal.salesOrder.id =  this.currSalesOrder.id ;
     alert( JSON.stringify( this.gsLineForm.value));
-   this.submitted = true;
+   
+    if( gsFormVal.id)
+    {
+    this.submitted = true;
+    this.billS.updateGoodsShipmentLine(gsFormVal)
+      .then((data: any) => {
+        if (data) {
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Goods Shipment Line Items Updated',
+            life: 3000,
+          });
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Goods Shipment Line Items Error',
+            life: 3000,
+          });
+        }
+      );
+      
+    }
+    else{
+
+      this.submitted = true;
     this.billS.createGoodsShipmentLine(gsFormVal)
       .then((data: any) => {
         if (data) {
@@ -467,6 +520,12 @@ export class GoodsShipmentComponent implements OnInit {
           });
         }
       );
+    }
+ 
+    setTimeout(() => {
+      this.router.navigate(['bills/goodsShipments']);
+    }, 3000);
+    
   } 
 
 

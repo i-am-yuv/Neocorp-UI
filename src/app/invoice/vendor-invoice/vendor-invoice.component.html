@@ -67,33 +67,33 @@
                         <input pInputText value="{{this.viForm.value.documentnumber}}"
                             placeholder="Your Vendor Invoice Number" class="w-full custom-input" [disabled]="true" />
                     </div>
-                    <div class="field col-6 payment-dropdown">
-                        <label class="mr-3 required">Vendor</label>
-
-                        <div class="iconSCSS w-full">
-                            <div class="field col-10">
-                                <ng-container formGroupName="vendor" class="w-full">
-                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
-                                        formControlName="id" [showClear]="true" (onChange)="selectVendor()"
-                                        [style]="{ width: '100%' }" optionLabel="firstName">
-                                        <ng-template let-vendor pTemplate="option">
-                                            <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
-                                                }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
-                                        </ng-template>
-                                    </p-dropdown>
-                                </ng-container>
-                            </div>
-                            <div class="field col-2 text-left">
-                                <span [routerLink]="['/pay/vendor/create']"
-                                    class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
-                                        viewBox="0 0 20 20" fill="none">
-                                        <path
-                                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
-                                            fill="black" />
-                                    </svg>
-                                </span>
-                            </div>
+                    
+                </div>
+                <div class="col-6 payment-dropdown">
+                    <label class="mr-3 required">Vendor</label>
+                    <div class="iconSCSS w-full">
+                        <div class="field col-10">
+                            <ng-container formGroupName="vendor" class="w-full">
+                                <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                    formControlName="id" [showClear]="true" (onChange)="selectVendor()"
+                                    [style]="{ width: '100%' }" optionLabel="firstName">
+                                    <ng-template let-vendor pTemplate="option">
+                                        <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
+                                            }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
+                                    </ng-template>
+                                </p-dropdown>
+                            </ng-container>
+                        </div>
+                        <div class="field col-2 text-left">
+                            <span [routerLink]="['/pay/vendor/create']"
+                                class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
+                                    viewBox="0 0 20 20" fill="none">
+                                    <path
+                                        d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
+                                        fill="black" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -107,14 +107,14 @@
                             </div>
                         </div> -->
 
-                <div class="border-bottom-1 border-200 text-right p-3">
+                <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
                     <button type="submit" pButton label="Save" [disabled]="!viForm.valid"
                         class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 
             </form>
 
-            <div *ngIf="true" class="p-3">
+            <div *ngIf="id" class="p-3">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
                     <ng-template pTemplate="header">
                         <tr>
@@ -147,11 +147,25 @@
                             <td>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input" class="fixed-width-dropdown">
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                        <!-- <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
                                             [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
+                                        </p-dropdown> -->
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
+                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
+                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                            <ng-template pTemplate="lineItem.expenseName">
+                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                    <div>{{ lineItem.expenseName.name}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-product pTemplate="item">
+                                                <div class="flex align-items-center gap-2">
+                                                    <div>{{ product.name }}</div>
+                                                </div>
+                                            </ng-template>
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">
