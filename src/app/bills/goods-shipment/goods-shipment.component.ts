@@ -96,7 +96,7 @@ export class GoodsShipmentComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Good Shipments', routerLink: ['/bills/goodsShipment'] }, { label: 'Create', routerLink: ['/bills/goodsShipment/create'] }];
 
     this.initForm();
     this.loadVendors();
@@ -242,7 +242,7 @@ export class GoodsShipmentComponent implements OnInit {
           this.currSalesOrder.id = goodShipment?.salesOrder?.id;
 
           this.gsForm.patchValue(goodShipment);
-          this.getLines(goodShipment?.salesOrder ); //Because backend api is not ready
+          this.getLines(goodShipment?.salesOrder); //Because backend api is not ready
           this.getLineItems(goodShipment);
         }
       ).catch(
@@ -254,26 +254,25 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  getLineItems(item:GoodsShipment)
-  {
-    this.submitted  =true;
+  getLineItems(item: GoodsShipment) {
+    this.submitted = true;
     this.billS
-    .getLineItemsByGoodsShipmentId(item)
-    .then((data: any) => {
-      if (data) {
-        var res = data[0] ;
-        // this.gsLineForm.value.orderedQty = res.orderedQty;
-        // this.gsLineForm.value.confirmedQty = res.confirmedQty;
-        // this.gsLineForm.value.shippedQty = res.shippedQty;
-        this.gsLineForm.patchValue(res);
-        this.submitted= false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted= false;
-      }
-    )
+      .getLineItemsByGoodsShipmentId(item)
+      .then((data: any) => {
+        if (data) {
+          var res = data[0];
+          // this.gsLineForm.value.orderedQty = res.orderedQty;
+          // this.gsLineForm.value.confirmedQty = res.confirmedQty;
+          // this.gsLineForm.value.shippedQty = res.shippedQty;
+          this.gsLineForm.patchValue(res);
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
   getLines(so: SalesOrder | undefined) {
@@ -407,8 +406,8 @@ export class GoodsShipmentComponent implements OnInit {
       )
     }
     else {
-      
-      this.submitted =  true;
+
+      this.submitted = true;
       gsFormVal.status = 'DRAFT';
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
@@ -470,72 +469,71 @@ export class GoodsShipmentComponent implements OnInit {
     // Here you can write a code to submit the GS again if some thing is edited
     this.onSubmitGS();
     var gsFormVal = this.gsLineForm.value;
-    gsFormVal.goodsShipment.id = this.id ;
-    gsFormVal.salesOrder.id =  this.currSalesOrder.id ;
+    gsFormVal.goodsShipment.id = this.id;
+    gsFormVal.salesOrder.id = this.currSalesOrder.id;
     gsFormVal.comapny = this.currentCompany;
-    alert( JSON.stringify( this.gsLineForm.value));
-   
-    if( gsFormVal.id)
-    {
-    this.submitted = true;
-    this.billS.updateGoodsShipmentLine(gsFormVal)
-      .then((data: any) => {
-        if (data) {
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Shipment Line Items Updated',
-            life: 3000,
-          });
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Goods Shipment Line Items Error',
-            life: 3000,
-          });
-        }
-      );
-      
+    alert(JSON.stringify(this.gsLineForm.value));
+
+    if (gsFormVal.id) {
+      this.submitted = true;
+      this.billS.updateGoodsShipmentLine(gsFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Goods Shipment Line Items Updated',
+              life: 3000,
+            });
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Shipment Line Items Error',
+              life: 3000,
+            });
+          }
+        );
+
     }
-    else{
+    else {
 
       this.submitted = true;
-    this.billS.createGoodsShipmentLine(gsFormVal)
-      .then((data: any) => {
-        if (data) {
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Shipment Line Items Saved',
-            life: 3000,
-          });
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Goods Shipment Line Items Error',
-            life: 3000,
-          });
-        }
-      );
-  
- 
-    setTimeout(() => {
-      this.router.navigate(['bills/goodsShipments']);
-    }, 3000);
-    
-  } 
+      this.billS.createGoodsShipmentLine(gsFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Goods Shipment Line Items Saved',
+              life: 3000,
+            });
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Shipment Line Items Error',
+              life: 3000,
+            });
+          }
+        );
+
+
+      setTimeout(() => {
+        this.router.navigate(['bills/goodsShipments']);
+      }, 3000);
+
+    }
   }
 
 }

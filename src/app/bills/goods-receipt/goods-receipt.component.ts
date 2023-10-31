@@ -80,7 +80,7 @@ export class GoodsReceiptComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Good Receipt', routerLink: ['/bills/goodsReceipt'] }, { label: 'Create', routerLink: ['/bills/goodsReceipt/create'] }];
 
     this.initForm();
     this.loadVendors();
@@ -130,7 +130,6 @@ export class GoodsReceiptComponent implements OnInit {
       receivedQty: new FormControl('', Validators.required)
     });
   }
-
 
   availableGR() {
     this.submitted = true;
@@ -263,9 +262,7 @@ export class GoodsReceiptComponent implements OnInit {
     )
   }
 
-  selectVendor() {
-
-  }
+  selectVendor() { }
 
   selectSO(e: any) {
     //  alert( JSON.stringify(e) );
@@ -294,8 +291,6 @@ export class GoodsReceiptComponent implements OnInit {
 
   onSubmitGR() {
     this.grForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
-
-
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
     grFormVal.comapny = this.currentCompany;

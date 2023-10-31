@@ -35,7 +35,7 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     private commonS : InvoiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
+    this.items = [{label: 'Bills'}, {label: 'Good Shipments'}, {label: 'Dashboard'}]
     this.getAllGS();
   }
 
