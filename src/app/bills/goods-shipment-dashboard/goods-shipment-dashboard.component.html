@@ -52,7 +52,7 @@
                                             <div class="col-10">
                                                 <div class="text-base"><b>{{ item.documentno }}</b></div>
                                                 <div class="flex gap-2 ">
-                                                    <div class="col-8 font-italic text-base">
+                                                    <div class="col-8 text-base">
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
                                                         <p>Mobile No. {{ item.vendor?.mobileNumber }}</p>
                                                     </div>
@@ -70,9 +70,9 @@
                                             <div class="col-10">
                                                 <div class="text-base"><b>{{ item.documentno }}</b></div>
                                                 <div class="flex gap-2">
-                                                    <div class="col-8 font-italic text-base ">
+                                                    <div class="col-8 text-base ">
                                                         {{ item.customer?.displayName }}
-                                                        <p>Mobile No. {{ item.vendor?.mobileNumber }}</p>
+                                                        <p>Mobile No. {{ item.customer?.mobileNumber }}</p>
                                                     </div>
                                                     <div class="col-4 text-base text-right ">
                                                         <p>Status: {{item.status}}</p>

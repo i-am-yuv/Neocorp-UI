@@ -21,7 +21,7 @@ export class PoInvoiceComponent implements OnInit {
   id: string | null = '';
   DeleteDialLogvisible: boolean = false;
 
-  sidebarVisibleProduct : boolean = false;
+  sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
 
@@ -80,10 +80,10 @@ export class PoInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Bills'},{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' , routerLink: ['/collect/purchaseInvoice/create']}];
+    this.items = [{ label: 'Bills' }, { label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create', routerLink: ['/collect/purchaseInvoice/create'] }];
 
     this.sidebarVisibleProduct = false;
-    
+
     this.initForm();
     this.loadVendors();
 
@@ -108,7 +108,7 @@ export class PoInvoiceComponent implements OnInit {
       purchaseOrder: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
       }),
-      enablePartialPayments : new FormControl(true)
+      enablePartialPayments: new FormControl(true)
     });
   }
 
@@ -264,8 +264,7 @@ export class PoInvoiceComponent implements OnInit {
     else {
       this.upload();
       this.submitted = true;
-      invoiceFormVal.status = null;
-      //invoiceFormVal.purchaseOrder = null ; // temporary making PI without ordernumber . check every where you did this when changing
+      invoiceFormVal.requestStatus = 'DRAFT';
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log("Purchase Invoice Created");
@@ -429,7 +428,7 @@ export class PoInvoiceComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
-    this.isquantity =  true;
+    this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
   }
 

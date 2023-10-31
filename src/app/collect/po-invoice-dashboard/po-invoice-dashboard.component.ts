@@ -152,7 +152,8 @@ export class PoInvoiceDashboardComponent implements OnInit {
               life: 3000,
             });
           }
-          this.router.navigate(['/collect/purchaseInvoices' ]);
+          //this.router.navigate(['/collect/purchaseInvoices' ]);
+          this.ngOnInit();
         }
        ).catch(
         (err)=>{

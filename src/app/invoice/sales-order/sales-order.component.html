@@ -142,8 +142,8 @@
 
             </form>
 
-            <div *ngIf="true" class="p-1">
-                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass="p-datatable-gridlines mt-2">
+            <div *ngIf="id" class="p-1">
+                <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass=" mt-2">
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="text-center" width="200">

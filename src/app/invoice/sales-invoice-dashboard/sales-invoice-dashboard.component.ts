@@ -110,6 +110,10 @@ export class SalesInvoiceDashboardComponent implements OnInit {
 
 
   myFunction(item: any): string {
+    if( item == null )
+    {
+      return '0.00';
+    }
      return parseFloat(item).toFixed(2);
   }
 

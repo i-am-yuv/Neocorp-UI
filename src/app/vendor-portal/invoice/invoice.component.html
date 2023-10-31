@@ -128,7 +128,7 @@
                                         </div>
                                     </div>
                                     <div class="field col-4 bg-gray-700">
-                                        <div *ngIf="this.activeInvoice.status != 'COMPLETED' "
+                                        <div *ngIf="this.activeInvoice.requestStatus != 'COMPLETED' "
                                             class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1">
                                             <h4 class="text-center leftStatus text-base cursor-pointer">
                                                 <div class="flex gap-1  w-full">
@@ -144,12 +144,12 @@
                                                         </svg>
                                                     </div>
                                                     <div class="col-9 rightP text-left">
-                                                        {{activeInvoice.status}}
+                                                        {{activeInvoice.requestStatus}}
                                                     </div>
                                                 </div>
                                             </h4>
                                         </div>
-                                        <div *ngIf="this.activeInvoice.status == 'COMPLETED'"
+                                        <div *ngIf="this.activeInvoice.requestStatus == 'COMPLETED'"
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
                                             <h4 class="text-center  text-base ">
                                                 <div class="flex gap-1  w-full">
@@ -162,7 +162,7 @@
                                                         </svg>
                                                     </div>
                                                     <div class="col-9 rightP text-left">
-                                                        {{activeInvoice.status}}
+                                                        {{activeInvoice.requestStatus}}
                                                     </div>
                                                 </div>
                                             </h4>

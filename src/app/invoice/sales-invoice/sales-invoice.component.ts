@@ -300,6 +300,7 @@ export class SalesInvoiceComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       //this.upload(); // for upload file if attached
       this.submitted = true;
+      siFormVal.status = 'DRAFT';
       this.invoiceS.createSI(siFormVal).then(
         (res) => {
           console.log(res);

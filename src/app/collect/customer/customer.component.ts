@@ -199,6 +199,7 @@ export class CustomerComponent implements OnInit {
   saveCustomer() {
     
     console.log(this.customerForm.value);
+    this.customerForm.value.accountDetails = null ;
     this.submitted = true;
     this.payPageS.createCustomer(this.customerForm.value).then(
       (res) => {

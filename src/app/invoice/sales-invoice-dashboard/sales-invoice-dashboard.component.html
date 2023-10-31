@@ -59,12 +59,12 @@
                                                         <p class=" text-sm">Invoice Date: {{item.invoiceDate| date
                                                             :'yyyy-MM-dd'}}</p>
                                                     </div>
-                                                    <div *ngIf="item.remainingAmount > 0 "
+                                                    <div *ngIf="item.status != 'COMPLETED' "
                                                         class="col-4 text-base text-right">
                                                         <b>₹: </b>{{ myFunction(item.remainingAmount) ? myFunction(item.remainingAmount) :'0.00'}}<br>
                                                         <p class="leftStatus">Due</p>
                                                     </div>
-                                                    <div *ngIf="item.remainingAmount <= 0 "
+                                                    <div *ngIf="item.status == 'COMPLETED' "
                                                         class="col-4 text-base text-right">
                                                         <b>₹: </b>{{ myFunction(item.remainingAmount) ? myFunction(item.remainingAmount) :'0.00'}}<br>
                                                         <p class="appStatus">Paid</p>
@@ -116,7 +116,7 @@
                                         <div class="flex gap-5 bg-white rounded-div1 mt-3 ">
                                             <div class="field col-6">
                                                 <h5>Current Due</h5>
-                                                <h4 class="remainAmount text-xl">₹ {{myFunction(this.currentDue)? myFunction(this.currentDue) :'0.00' }}</h4>
+                                                <h4 class="remainAmount text-xl">₹ {{myFunction(this.activeInvoice.remainingAmount)? myFunction(this.activeInvoice.remainingAmount) :'0.00' }}</h4>
                                             </div>
                                             <div class="field col-6">
                                                 <h5>Total Amount</h5>
@@ -125,7 +125,7 @@
                                         </div>
                                     </div>
                                     <div class="field col-4 bg-gray-700">
-                                        <div *ngIf="this.currentDue > 0"
+                                        <div *ngIf="this.activeInvoice.status != 'COMPLETED' "
                                             class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1">
                                             <!-- <h4 class="text-center text-red-400 text-base">Status: {{this.activeInvoice.status}}
                                             </h4> -->
@@ -152,7 +152,7 @@
                                                 {{this.activeInvoice.status}}
                                             </h4> -->
                                         </div>
-                                        <div *ngIf="this.currentDue <= 0"
+                                        <div *ngIf="this.activeInvoice.status == 'COMPLETED' "
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
                                             <!-- <h4 class="text-center text-base leftStatus ">Status:
                                                 {{this.activeInvoice.status}}

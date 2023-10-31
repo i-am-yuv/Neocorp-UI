@@ -31,6 +31,11 @@ export class DelegationRoleDashboardComponent implements OnInit {
     this.settingService.getAlldelegationRole()
     .then((res: any) =>{
       this.alldelegationRoles = res.content;
+      if (this.alldelegationRoles.length > 0) {
+        this.changeProductCategory(this.alldelegationRoles[0]);
+      } else {
+        this.activeProductCategory = {};
+      }
       this.totalRecords = res.totalElements;
       this.submitted = false;
     })

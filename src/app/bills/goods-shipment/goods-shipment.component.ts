@@ -399,7 +399,7 @@ export class GoodsShipmentComponent implements OnInit {
     else {
       
       this.submitted =  true;
-
+      gsFormVal.status = 'DRAFT';
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
           console.log(res);

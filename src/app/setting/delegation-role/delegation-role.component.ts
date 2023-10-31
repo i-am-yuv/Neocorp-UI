@@ -190,7 +190,7 @@ export class DelegationRoleComponent implements OnInit {
             life: 3000,
           });
           setTimeout(() => {
-            this.router.navigate(['/setting/delegationRoless']);
+            this.router.navigate(['/setting/delegationRoles']);
           }, 2000);
           
         })
@@ -218,7 +218,7 @@ export class DelegationRoleComponent implements OnInit {
             life: 3000,
           });
           setTimeout(() => {
-            this.router.navigate(['/setting/delegationRoless']);
+            this.router.navigate(['/setting/delegationRoles']);
           }, 2000);
         }
       ).catch(

@@ -94,8 +94,8 @@ export class PaymentsComponent implements OnInit {
         (res) => {
           console.log(res);
           // this.allPI = res.content;
-          this.allCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status == 'COMPLETED');
-          this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status != 'COMPLETED');
+          this.allCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.requestStatus == 'COMPLETED');
+          this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.requestStatus != 'COMPLETED');
 
           // this.totalRemainingAmount = 0;
           // for (const purchaseInvoice of this.allNonCompletedPI) {
@@ -201,8 +201,8 @@ export class PaymentsComponent implements OnInit {
         (res) => {
           console.log(res);
           // this.allPI = res.content;
-          this.allCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status == 'COMPLETED');
-          this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.status != 'COMPLETED');
+          this.allCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.requestStatus == 'COMPLETED');
+          this.allNonCompletedPI = res.content.filter((pi: PurchaseInvoice) => pi.requestStatus != 'COMPLETED');
 
           // this.totalRemainingAmount = 0;
           // for (const purchaseInvoice of this.allNonCompletedPI) {

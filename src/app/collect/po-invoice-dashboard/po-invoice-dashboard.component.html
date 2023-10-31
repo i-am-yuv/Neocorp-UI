@@ -77,9 +77,9 @@
                                                     <div class="col-5   text-base text-right">
                                                         <b>Due: ₹</b>{{ myFunction(item.remainingAmount ) ?
                                                         myFunction(item.remainingAmount ) : '0.00'}}<br>
-                                                        <p *ngIf="item.remainingAmount > 0 " class="leftStatus">
+                                                        <p *ngIf="item.requestStatus  != 'COMPLETED' " class="leftStatus">
                                                             Payment Due</p>
-                                                        <p *ngIf="item.remainingAmount <= 0 " class="appStatus">Paid
+                                                        <p *ngIf="item.requestStatus  == 'COMPLETED' " class="appStatus">Paid
                                                         </p>
                                                     </div>
                                                 </div>
@@ -124,7 +124,7 @@
                             <div *ngIf="activeInvoice.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>
                                         <br> -->
-                                <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
+                                <div class="flex bg-gray-700 gap-1 rounded-div1 mr-3 p-2 ">
                                     <div class="field col-7  ml-3 ">
                                         <h4 class="rightMain">Payment Activity</h4>
                                         <h4 class="text-white">#{{this.activeInvoice.purchaseOrder?.orderNumber}}
@@ -143,9 +143,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="field col-4 bg-gray-700">
-                                        <div *ngIf="this.currPIRemainingAmount > 0 "
-                                            class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1">
+                                    <div class="field col-5 ">
+                                        <div *ngIf="this.activeInvoice.requestStatus != 'COMPLETED' "
+                                            class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1 ">
                                             <h4 class="text-center leftStatus text-base cursor-pointer"
                                                 [routerLink]="['/banking/payToVendor/pi/'+this.activeInvoice.id  ]">
                                                 <div class="flex gap-1  w-full">
@@ -160,13 +160,13 @@
                                                                 fill="#C22B39" />
                                                         </svg>
                                                     </div>
-                                                    <div class="col-9 rightP text-left">
-                                                        {{activeInvoice.status}}
+                                                    <div class="col-9 rightP text-left text-sm ">
+                                                        {{activeInvoice.requestStatus}}
                                                     </div>
                                                 </div>
                                             </h4>
                                         </div>
-                                        <div *ngIf="this.currPIRemainingAmount <= 0  "
+                                        <div *ngIf="this.activeInvoice.requestStatus == 'COMPLETED'"
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
                                             <h4 class="text-center  text-base ">
                                                 <div class="flex gap-1  w-full">
@@ -178,8 +178,8 @@
                                                                 fill="#343330" />
                                                         </svg>
                                                     </div>
-                                                    <div class="col-9 rightP text-left">
-                                                        {{activeInvoice.status}}
+                                                    <div class="col-9 rightP text-left text-sm p-1">
+                                                        {{activeInvoice.requestStatus}}
                                                     </div>
                                                 </div>
                                             </h4>

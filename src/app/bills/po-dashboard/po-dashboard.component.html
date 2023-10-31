@@ -60,8 +60,8 @@
                                                     </div>
                                                     <div class="col-4 text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }} <br>
-                                                        <p *ngIf="item.status == 'APPROVED' " class="appStatus">{{item.status}}</p>
-                                                        <p *ngIf="item.status != 'APPROVED' "  class="pendingStatus">{{item.status}}</p>
+                                                        <p *ngIf="item.requestStatus == 'APPROVED' " class="appStatus">{{item.requestStatus}}</p>
+                                                        <p *ngIf="item.requestStatus != 'APPROVED' "  class="pendingStatus">{{item.requestStatus}}</p>
                                                     </div>
                                                 </div>
                                                 
