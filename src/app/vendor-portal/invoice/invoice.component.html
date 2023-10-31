@@ -37,7 +37,7 @@
                             <!-- <span class="p-panel-title" style="padding: 1px">All Purchase Invoices</span>
                             <span class="p-panel-title text-right" style="padding: 1px; margin-left: 5px;">Export to Neo Ledger</span> -->
                         </ng-template>
-                        
+
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
                                 <br />
@@ -116,7 +116,8 @@
                                         <div class="flex gap-5 bg-white rounded-div1 mt-3 ">
                                             <div class="field col-6">
                                                 <h5>Current Due</h5>
-                                                <h4 class="remainAmount text-xl">₹ {{ myFunction(this.activeInvoice.remainingAmount) }}
+                                                <h4 class="remainAmount text-xl">₹ {{
+                                                    myFunction(this.activeInvoice.remainingAmount) }}
                                                 </h4>
                                             </div>
                                             <div class="field col-6">
@@ -148,7 +149,7 @@
                                                 </div>
                                             </h4>
                                         </div>
-                                        <div *ngIf="this.activeInvoice.status == 'COMPLETED'  "
+                                        <div *ngIf="this.activeInvoice.status == 'COMPLETED'"
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
                                             <h4 class="text-center  text-base ">
                                                 <div class="flex gap-1  w-full">
@@ -179,103 +180,156 @@
 
                                 </div>
 
-                                <div class=" mt-3">
-                                    <div class="field col-8 text-left">
-                                        <h4 class="text-blue-700 ">Sales Invoice Details:</h4>
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Purchase Invoice Number:</label>
-                                        <p><b>#{{ this.activeInvoice.invoiceNo}}</b></p>
+
+                                <div class="mt-3">
+
+                                    <div class="button-container">
+                                        <button type="button" label="Invoice Details" class="p-2" 
+                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true , 'onClickButton':showInvoice }"
+                                            (click)="showInvoicePage()">Invoice Details</button>
+                                        <button type="button" label="Payment Details" class="p-2" class="cursor-pointer"
+                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true, 'onClickButton': showPayment}"
+                                            (click)="showPaymentPage(activeInvoice)">Payment Details</button>
                                     </div>
 
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Invoice Date:</label>
-                                        <p>{{ this.activeInvoice.invoiceDate | date:'yyyy-MM-dd' }}</p>
-                                    </div>
+                                </div>
 
-                                    <div class="field col-4">
-                                        <label class="mr-3 blueText">Due Date:</label>
-                                        <p>{{ this.activeInvoice.duedate | date:'yyyy-MM-dd' }}</p>
-                                    </div>
-                                </div>
-                                <hr class="custom-hr">
-                                <div class="flex">
-                                    <div class="field col-11">
-                                        <label class="mr-3 blueText">Purchase Order Details:</label>
-                                        <p class="text-sm"><b>Purchase Order Number</b>
-                                        </p>
-                                        <p>#{{this.activeInvoice.purchaseOrder?.orderNumber}}</p>
-                                    </div>
-                                </div>
-                                <hr class="custom-hr">
-                                <div class="flex gap-2">
-                                    <div class="field col-7">
-                                        <!-- <h4 class="text-blue-500">Bill From</h4> <br>  -->
-                                        <label class="mr-3 blueText">Bill From:</label>
-                                        <p>{{this.activeInvoice.vendor?.address?.billingName}}</p>
-                                        <p>{{this.activeInvoice.vendor?.address?.billingAddress}}</p>
-                                        <p>{{this.activeInvoice.vendor?.address?.city}}
-                                            ,{{this.activeInvoice.vendor?.address?.pincode}}</p>
-                                    </div>
-                                    <div class="field col-4">
-                                        <!-- <h4 class="text-blue-500">Place Of Supply</h4>  -->
-                                        <label class="mr-3 blueText">Place Of Supply</label>
-                                        <p>{{this.activeInvoice.purchaseOrder?.placeOfSupply?.stateName}}</p><br>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p-table [value]="lineitems">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th class="text-blue-600">Item Detils</th>
-                                                <th class="text-blue-600">Price</th>
-                                                <th class="text-blue-600">Quantity</th>
-                                                <th class="text-blue-600">Discount</th>
-                                                <th class="text-blue-600">Total</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template let-lineItem pTemplate="body">
-                                            <tr>
-                                                <td>{{ lineItem.expenseName?.name }}</td>
-                                                <td>{{myFunction(lineItem.unitPrice ) }}</td>
-                                                <td>{{ myFunction(lineItem.quantity ) }}</td>
-                                                <td>{{myFunction(lineItem.discount) }}</td>
-                                                <td>{{myFunction(lineItem.amount) }}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                <div class="" *ngIf="showInvoice">
 
-                                    <div class=" border-200 text-right mr-6 mb-3 mt-3">
-                                        <div class="text-lg blueText">
-                                            SUB TOTAL: ₹ {{myFunction(this.piSubTotal) }}
-                                        </div> <br>
-                                        <div class="text-lg blueText">
-                                            TOTAL: ₹ {{myFunction(this.piSubTotal) }}
+                                    <div class=" mt-3">
+                                        <div class="field col-8 text-left">
+                                            <h4 class="text-blue-700 ">Sales Invoice Details:</h4>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="field col-4">
+                                            <label class="mr-3 blueText">Purchase Invoice Number:</label>
+                                            <p><b>#{{ this.activeInvoice.invoiceNo}}</b></p>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3 blueText">Invoice Date:</label>
+                                            <p>{{ this.activeInvoice.invoiceDate | date:'yyyy-MM-dd' }}</p>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label class="mr-3 blueText">Due Date:</label>
+                                            <p>{{ this.activeInvoice.duedate | date:'yyyy-MM-dd' }}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="custom-hr">
+                                    <div class="flex">
+                                        <div class="field col-11">
+                                            <label class="mr-3 blueText">Purchase Order Details:</label>
+                                            <p class="text-sm"><b>Purchase Order Number</b>
+                                            </p>
+                                            <p>#{{this.activeInvoice.purchaseOrder?.orderNumber}}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="custom-hr">
+                                    <div class="flex gap-2">
+                                        <div class="field col-7">
+                                            <!-- <h4 class="text-blue-500">Bill From</h4> <br>  -->
+                                            <label class="mr-3 blueText">Bill From:</label>
+                                            <p>{{this.activeInvoice.vendor?.address?.billingName}}</p>
+                                            <p>{{this.activeInvoice.vendor?.address?.billingAddress}}</p>
+                                            <p>{{this.activeInvoice.vendor?.address?.city}}
+                                                ,{{this.activeInvoice.vendor?.address?.pincode}}</p>
+                                        </div>
+                                        <div class="field col-4">
+                                            <!-- <h4 class="text-blue-500">Place Of Supply</h4>  -->
+                                            <label class="mr-3 blueText">Place Of Supply</label>
+                                            <p>{{this.activeInvoice.purchaseOrder?.placeOfSupply?.stateName}}</p><br>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p-table [value]="lineitems">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th class="text-blue-600">Item Detils</th>
+                                                    <th class="text-blue-600">Price</th>
+                                                    <th class="text-blue-600">Quantity</th>
+                                                    <th class="text-blue-600">Discount</th>
+                                                    <th class="text-blue-600">Total</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template let-lineItem pTemplate="body">
+                                                <tr>
+                                                    <td>{{ lineItem.expenseName?.name }}</td>
+                                                    <td>{{myFunction(lineItem.unitPrice ) }}</td>
+                                                    <td>{{ myFunction(lineItem.quantity ) }}</td>
+                                                    <td>{{myFunction(lineItem.discount) }}</td>
+                                                    <td>{{myFunction(lineItem.amount) }}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+
+                                        <div class=" border-200 text-right mr-6 mb-3 mt-3">
+                                            <div class="text-lg blueText">
+                                                SUB TOTAL: ₹ {{myFunction(this.piSubTotal) }}
+                                            </div> <br>
+                                            <div class="text-lg blueText">
+                                                TOTAL: ₹ {{myFunction(this.piSubTotal) }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr class="custom-hr">
+                                    <div class="flex gap-1">
+                                        <div class="field col-5">
+                                            <!-- <h4 class="text-blue-500">Description:</h4> -->
+                                            <label class="mr-3 blueText">Description</label>
+                                            <p>{{this.activeInvoice.description}}</p>
+                                        </div>
+
+                                        <div class="field col-6 text-left">
+                                            <label class=" blueText text-left">Partial Payment Status</label>
+                                            <div *ngIf="this.activeInvoice.enablePartialPayments">Enabled <p
+                                                    class="text-blue-400 underline cursor-pointer"
+                                                    (click)="togglePartialPayment( activeInvoice.id , false)">Tap to
+                                                    Disable
+                                                </p>
+                                            </div>
+                                            <div *ngIf="!this.activeInvoice.enablePartialPayments">Disabled <p
+                                                    class="text-blue-400 underline cursor-pointer"
+                                                    (click)="togglePartialPayment( activeInvoice.id , true)">Tap to
+                                                    Enable
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <hr class="custom-hr">
-                                <div class="flex gap-1">
-                                    <div class="field col-5">
-                                        <!-- <h4 class="text-blue-500">Description:</h4> -->
-                                        <label class="mr-3 blueText">Description</label>
-                                        <p>{{this.activeInvoice.description}}</p>
-                                    </div>
 
-                                    <div class="field col-6 text-left">
-                                        <label class=" blueText text-left">Partial Payment Status</label>
-                                        <div *ngIf="this.activeInvoice.enablePartialPayments">Enabled <p
-                                                class="text-blue-400 underline cursor-pointer"
-                                                (click)="togglePartialPayment( activeInvoice.id , false)">Tap to Disable
-                                            </p>
+                                <div *ngIf="showPayment">
+                                    <div class="">
+                                        <div *ngFor="let item of allPays" class="">
+                                            
+                                            <div class="">
+                                                <div class="iconSCSS w-full gap-1">
+                                                    <div class="col-6 text-left">
+                                                        
+                                                        <div class="text-lg blueText font-semibold">{{item.paymentRequest?.debitAccountDetails?.bankname}}</div>
+                                                        <div class="text-sm"><b>Account no.</b>{{item.paymentRequest?.debitAccountDetails?.accountNumber}}</div>
+                                                        <div class="text-sm"><b>Payment Date:</b> {{item.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                                    </div>
+                                                    <div class="col-6 text-right justify-center align-middle">
+                                                        <div class="">
+                                                            <p class="blueText font-semibold">{{item.paymentRequest?.paymentMethod}}</p>
+                                                            <p class="text-lg text-green-600 font-semibold">Paid Amount: ₹{{myFunction(item.amount)}} </p>
+                                                        </div>
+                                                        <!-- <div class="">
+                                                            <p>Total: ₹{{ myFunction(item.invoice.grossTotal) ? myFunction(item.invoice.grossTotal): '0.00'
+                                                                }}
+                                                            </p>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                                <hr class="custom-hr">
+                                            </div>
                                         </div>
-                                        <div *ngIf="!this.activeInvoice.enablePartialPayments">Disabled <p
-                                                class="text-blue-400 underline cursor-pointer"
-                                                (click)="togglePartialPayment( activeInvoice.id , true)">Tap to Enable
-                                            </p>
+                                        <div *ngIf="this.allPays.length == 0" class="order-list mt-5">
+                                            <p class="text-lg mt-3 text-center">No Payment Details available for this invoice</p>
                                         </div>
                                     </div>
                                 </div>

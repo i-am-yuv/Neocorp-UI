@@ -48,14 +48,31 @@
                         <div class="iconSCSS w-full">
                             <div class="field col-9">
                                 <ng-container formGroupName="vendor" class="w-full">
-                                    <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
+                                    <!-- <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
                                         formControlName="id" [showClear]="true" (onChange)="selectVendor()"
                                         [style]="{ width: '100%' }" optionLabel="firstName">
                                         <ng-template let-vendor pTemplate="option">
                                             <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
                                                 }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
                                         </ng-template>
+                                    </p-dropdown> -->
+
+                                    <p-dropdown [options]="vendors" [(ngModel)]="currentVendor.id" formControlName="id" [appendTo]="'body'"
+                                        [style]="{ width: '100%' }" class="fixed-width-dropdown" optionLabel="firstName" optionValue="id"
+                                        (onChange)="selectVendor()" [filter]="true" filterBy="firstName" [showClear]="true" placeholder="Choose Vendor">
+                                        <ng-template pTemplate="currentVendor.id">
+                                            <div class="flex align-items-center gap-2" *ngIf="currentVendor.id">
+                                                <div>{{ currentVendor.firstName}} {{ currentVendor.lastName}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-vendor pTemplate="item">
+                                            <div class="flex align-items-center gap-2">
+                                                <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
+                                                    }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
+                                            </div>
+                                        </ng-template>
                                     </p-dropdown>
+
                                 </ng-container>
                             </div>
                             <div class="field col-3 text-left">
@@ -180,11 +197,25 @@
                             <td class="text-left">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input" class="fixed-width-dropdown">
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                        <!-- <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
                                             [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
+                                        </p-dropdown> -->
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
+                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
+                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                            <ng-template pTemplate="lineItem.expenseName">
+                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                    <div>{{ lineItem.expenseName.name}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-product pTemplate="item">
+                                                <div class="flex align-items-center gap-2">
+                                                    <div>{{ product.name }}</div>
+                                                </div>
+                                            </ng-template>
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">

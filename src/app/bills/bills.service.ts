@@ -73,14 +73,20 @@ export class BillsService {
     return saved;
   }
 
+  async updateGoodsShipmentLine(gs: any ) {
+    var url = this.apiurlNew + 'goodsShipmentLine';
+    const updated = await lastValueFrom(this.http.put<any>(url, gs));
+    return updated;
+  }
+
   async getLineItemsByGoodsShipmentId(gs: any) {
-    var url = this.apiurlNew + 'api/goodsShipmentLine/goodsShipment/'+ encodeURIComponent(gs.id);
+    var url = this.apiurlNew + 'goodsShipmentLine/byGoodsShipment/'+ encodeURIComponent(gs.id);
     const result = await lastValueFrom(this.http.get<any>(url));
     return result;
   }
 
   async getLineItemsByGoodsReceiptId(gr: any) {
-    var url = this.apiurlNew + 'api/goodsReceiptLine/goodsReceipt/'+ encodeURIComponent(gr.id);
+    var url = this.apiurlNew + 'goodsReceiptLine/byGoodsReceipt/'+ encodeURIComponent(gr.id);
     const result = await lastValueFrom(this.http.get<any>(url));
     return result;
   }
@@ -101,6 +107,12 @@ export class BillsService {
     var url = this.apiurlNew + 'goodsReceiptLine';
     const saved = await lastValueFrom(this.http.post<any>(url, gs));
     return saved;
+  }
+
+  async updateGoodsReceiptLine(gs: any ) {
+    var url = this.apiurlNew + 'goodsReceiptLine';
+    const updated = await lastValueFrom(this.http.put<any>(url, gs));
+    return updated;
   }
 
 

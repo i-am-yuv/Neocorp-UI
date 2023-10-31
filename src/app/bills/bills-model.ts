@@ -9,6 +9,7 @@ export interface PurchaseOrder {
     id?: string;
     grossTotal?: number;
     status?: string;
+    requestStatus ?: string ;
     description ?: string;
     orderNumber?:string,
     enablePartialPayments ?: boolean;
@@ -97,9 +98,9 @@ export interface LineItem{
     id ?: string;
     goodsShipment ?: GoodsShipment ;
     salesOrder ?: SalesOrder;
-    orderedQty ?: number ;
-    confirmedQty ?: number ;
-    shippedQty  ?: number ;
+    orderedQty ?: number | 0 ;
+    confirmedQty ?: number | 0 ;
+    shippedQty  ?: number | 0 ;
   }
 
   export interface GoodsReceipt{

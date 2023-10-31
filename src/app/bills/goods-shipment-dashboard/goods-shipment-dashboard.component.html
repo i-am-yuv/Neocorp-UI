@@ -280,18 +280,17 @@
                                 </div>
                                 <hr class="custom-hr">
                                 <div class="flex">
-
                                     <div class="field col-4">
                                         <label class="blueText">Ordered Quantity:</label>
-                                        <p>{{this.activeGoodsShipmentLine.orderedQty}}</p>
+                                        <p>{{this.activeGoodsShipmentLine.orderedQty ? this.activeGoodsShipmentLine.orderedQty : '0' }}</p>
                                     </div>
                                     <div class="field col-4">
                                         <label class="blueText">Confirmed Quantity:</label>
-                                        <p>{{this.activeGoodsShipmentLine.confirmedQty}}</p>
+                                        <p>{{this.activeGoodsShipmentLine.confirmedQty ? this.activeGoodsShipmentLine.confirmedQty : '0'}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <label class="blueText">Shipped Quantity:</label>
-                                        <p>{{this.activeGoodsShipmentLine.shippedQty}}</p>
+                                        <p>{{this.activeGoodsShipmentLine.shippedQty ? this.activeGoodsShipmentLine.shippedQty : '0'}}</p>
                                     </div>
 
                                 </div>

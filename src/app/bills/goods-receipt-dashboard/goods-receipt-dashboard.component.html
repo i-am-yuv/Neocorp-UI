@@ -124,17 +124,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="flex">
-                                        <div class="field col-6">
+                                    <div class="flex w-full">
+                                        <div class="field col-6 text-left">
                                             <label class="mr-3 blueText">Goods Receipt Number:</label>
                                             <h5>#{{ this.activeGR.documentno}}</h5>
                                         </div>
 
-                                        <div class="field col-6">
-                                            <label class="mr-3">Received Date:</label>
+                                        <div class="field col-6 ">
+                                            <label class="mr-3 blueText">Received Date:</label>
                                             <h5>{{ this.activeGR.receivedDate | date : 'yyyy-MM-dd'}}</h5>
                                         </div>
                                     </div>
+                                    
+                                    <hr class="custom-hr">
 
                                     <div class="field col-8">
                                         <h4 class="">Vendor Details:</h4>
@@ -149,7 +151,7 @@
 
                                         <div class="field col-3 text-right">
                                             <label class="blueText">Mobile Number</label>
-                                            <p>{{ this.activeGR.vendor?.mobileNumber}}</p>
+                                            <p>+91 {{ this.activeGR.vendor?.mobileNumber}}</p>
                                         </div>
 
                                         <div class="field col-6 text-right">

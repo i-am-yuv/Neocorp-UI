@@ -20,6 +20,8 @@ export class PcDashboardComponent implements OnInit {
 
   items!: MenuItem[];
 
+  searchProductCategory : any ;
+
   constructor(private router: Router, private profileService: ProfilepageService) { }
 
   ngOnInit(): void {
@@ -53,6 +55,35 @@ export class PcDashboardComponent implements OnInit {
 
   onEditProductCategory(id: string){
     this.router.navigate(['profile/productCategory/edit/' + id]);
+  }
+
+  searchCategories( pc : ProductCategory)
+  {
+      if (pc === null) {
+        //alert(value);
+        this.getAllProductCategories();
+      }
+      else{
+       // this.submitted = true;
+        this.profileService.searchProductCategory(pc).then(
+          (res: any) => {
+            console.log(res);
+            this.allProductCategories = res.content;
+            // if (this.allProductCategories.length > 0) {
+            //   this.changeProductCategory(this.allProductCategories[0]);
+            // } else {
+            //   this.activeProductCategory = {};
+            // }
+            this.totalRecords = res.totalElements;
+            this.submitted = false;
+          }
+        ).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+          }
+        )
+      }
   }
 
 }

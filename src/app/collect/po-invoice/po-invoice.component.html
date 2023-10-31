@@ -185,11 +185,25 @@
                             <td class="text-center">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input" class="fixed-width-dropdown">
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                        <!-- <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             placeholder="Choose Product" optionValue="id" optionLabel="name"
                                             [showClear]="true" (ngModelChange)="setLineValues(lineItem)"
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
+                                        </p-dropdown> -->
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
+                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
+                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                            <ng-template pTemplate="lineItem.expenseName">
+                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                    <div>{{ lineItem.expenseName.name}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-product pTemplate="item">
+                                                <div class="flex align-items-center gap-2">
+                                                    <div>{{ product.name }}</div>
+                                                </div>
+                                            </ng-template>
                                         </p-dropdown>
                                     </ng-template>
                                     <ng-template pTemplate="output">

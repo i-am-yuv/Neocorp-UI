@@ -218,3 +218,80 @@ color: #C5C5C5;
         align-items: center;
     }
   }
+
+  // New
+  .custom-button {
+    background: #535353;
+    border: #535353;;
+  }
+  .custom-button:hover {
+    background: #353434;
+    border: #353434;
+  }
+  // Override the default text color
+  .custom-button .p-button-text {
+    color: #ffffff;
+  }
+  
+  // Override the default border radius
+  .custom-button {
+    border-radius: 4px;
+  }
+
+
+
+
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
+}
+
+
+.amp-col {
+    color: #83D28F;
+    font-size: 30px;
+}
+
+.amd-col {
+    color: #FF5A5A;
+    font-size: 30px;
+}
+
+.amount-text {
+    color: #292C30;
+    font-size: 30px;
+}
+
+.title-name {
+    color: #FFF;
+}
+
+.button-container {
+    display: flex;
+    justify-items: center;
+}
+
+.defaultSCSS {
+    background-color: white;
+    color: gray;
+    border: none;
+    border-bottom: 3px solid lightgrey;
+    width: 100%;
+  //  font-weight: 700;
+    /* Remove the default button border */
+    //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
+}
+
+.onClickButton {
+    //border-bottom: 2px solid blue;
+    border-bottom: 3px solid #3579F3;
+    /* Change the bottom border color on hover (e.g., blue) */
+    color: #3579F3;
+    background-color: white;
+    font-weight: 700;
+    /* Change the text color on hover (optional) */
+}

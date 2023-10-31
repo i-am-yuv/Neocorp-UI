@@ -16,7 +16,7 @@
         </div>
     </h2>
 
-    <div *ngIf="false" class="field w-full px-4">
+    <div *ngIf="true" class="field w-full px-4">
         <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
             <div class="payment-dropdown ">
                 <ul class="list-none p-0" *ngFor="let component of sidebarOptionsAdmin">
@@ -48,8 +48,11 @@
                             </div>
                         </div>
                         <div *ngIf="visibleCom && currentTitle == items.itemTitle">
-                            <li *ngFor="let itemC of items.itemComponents" class="p-2 cursor-pointer  border-round-xl">
-                                <div class="field text-left" [routerLink]="itemC.url">
+                            <li *ngFor="let itemC of items.itemComponents" class="">
+                                <div *ngIf="processString(itemC.name) != processString(this.routeName)"  class="field text-left  p-2 border-round  cursor-pointer" [routerLink]="itemC.url">
+                                    {{itemC.name}}
+                                </div>
+                                <div *ngIf="processString(itemC.name) == processString(this.routeName)" class="field text-left bg-blue-100 p-2 border-round  cursor-pointer" [routerLink]="itemC.url">
                                     {{itemC.name}}
                                 </div>
                             </li>
@@ -61,7 +64,7 @@
         </div>
     </div>
 
-    <div *ngIf="true" class="field w-full px-4">
+    <div *ngIf="false" class="field w-full px-4">
         <div class="p-col-12 p-lg-3 mb-3 payment-dropdown ">
             <div class="payment-dropdown ">
                 <ul class="list-none p-0" *ngFor="let component of sidebarOptionsVendor">

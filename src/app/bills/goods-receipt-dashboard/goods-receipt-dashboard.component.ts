@@ -4,6 +4,8 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
+import { PayPageService } from 'src/app/pay/pay-page.service';
+import { InvoiceService } from 'src/app/invoice/invoice.service';
 
 @Component({
   selector: 'app-goods-receipt-dashboard',
@@ -30,7 +32,8 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private billS: BillsService) { }
+    private billS: BillsService,
+    private commonS : InvoiceService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
@@ -62,6 +65,26 @@ export class GoodsReceiptDashboardComponent implements OnInit {
   {
     this.activeGR = item;
     this.getLines(item);
+    this.getSoLines(item);
+  }
+
+  getSoLines(item:GoodsReceipt)
+  {
+     this.submitted = true;
+     this.commonS.getLineitemsBySo(item.salesOrder).then(
+      (res)=>{
+        this.lineitems = res;
+        this.grSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+     ).catch(
+      (err)=>{
+        console.log(err);
+        this.submitted = false;
+      }
+     )
   }
 
   getLines(item:GoodsReceipt)
@@ -71,7 +94,7 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     .getLineItemsByGoodsReceiptId(item)
     .then((data: any) => {
       if (data) {
-        this.activeGoodsReceiptLine = data;
+        this.activeGoodsReceiptLine = data[0];
         this.submitted= false;
       }
     }).catch(
