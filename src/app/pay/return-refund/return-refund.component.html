@@ -245,23 +245,23 @@
 
                 </p-table>
 
-                <div class="flex gap-5 mt-5">
-                    <div class="field col-1"></div>
-                    <div class="field col-4">
-                        <label for="fileInput" class="">
-                            <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-12">
+                <div class="iconSCSS mt-5">
+                    <div class="col-4 ">
+                        <label for="fileInput" class="image-upload-label cursor-pointer flex text-left">
+                            <div>
+                                <img src="/assets/file_upload.png" alt="Upload Image" class=" ml-5 mt-3 w-6">
+                            </div>
+                            <div class="ml-3">
+                                <h3 class=" mb-0 fileTitle">+ Upload your file</h3>
+                                <p class="mt-0 greyText">Support JPG, JPG2000 & PNG</p>
+                            </div>
                         </label>
+
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
-
+                        <span id="selectedFileName" class="ml-2"></span>
                     </div>
                 </div>
-
-
-
-
-
-
 
                 <div class=" border-200 text-right mr-6 mb-3">
                     <div class="text-xl ">

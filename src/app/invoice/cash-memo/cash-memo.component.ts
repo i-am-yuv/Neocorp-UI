@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
-import { CashMemo, CashMemoLine } from '../invoice-model';
+import { CashMemo, CashMemoLine, CompanyNew } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-cash-memo',
@@ -88,8 +89,9 @@ export class CashMemoComponent implements OnInit {
   items!: MenuItem[];
   deleteDialogvisible: boolean = false;
   sidebarVisibleProduct: boolean = false;
+  currentCompany: CompanyNew = {};
 
-  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService, private confirmationService: ConfirmationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService, private authS: AuthService) { }
 
   ngOnInit(): void {
 
@@ -116,7 +118,7 @@ export class CashMemoComponent implements OnInit {
     this.loadCustomer();
     this.getCashMemo();
     this.sidebarVisibleProduct = false;
-
+    this.loadUser();
   }
 
   initForm() {
@@ -246,6 +248,18 @@ export class CashMemoComponent implements OnInit {
       )
   }
 
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
   selectVendor() { }
 
   billToSelect() {
@@ -270,6 +284,7 @@ export class CashMemoComponent implements OnInit {
 
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
+    cashMemoFormVal.comapny = this.currentCompany;
     if (cashMemoFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -550,6 +565,7 @@ export class CashMemoComponent implements OnInit {
     var cashMemoFormVal = this.cashMemoForm.value;
     cashMemoFormVal.id = this.id;
     cashMemoFormVal.grossTotal = this.cashMemoSubTotal;
+    cashMemoFormVal.comapny = this.currentCompany;
 
     if (cashMemoFormVal.id) {
       this.submitted = true;

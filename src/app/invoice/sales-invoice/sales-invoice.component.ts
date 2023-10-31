@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
-import { SalesInvoice, SalesInvoiceLine } from '../invoice-model';
+import { CompanyNew, SalesInvoice, SalesInvoiceLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-sales-invoice',
@@ -18,8 +19,8 @@ export class SalesInvoiceComponent implements OnInit {
 
   id: string | null = '';
   siForm !: FormGroup;
-  DeleteDialLogvisible : boolean = false;
-  currCustomer : CustomeR = {} ;
+  DeleteDialLogvisible: boolean = false;
+  currCustomer: CustomeR = {};
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -47,14 +48,14 @@ export class SalesInvoiceComponent implements OnInit {
 
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
+  currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+    private invoiceS: InvoiceService, private authS: AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -72,7 +73,7 @@ export class SalesInvoiceComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Invoices'},{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, {label: 'Create', routerLink: ['/invoice/salesInvoice/create']} ];
+    this.items = [{ label: 'Invoices' }, { label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, { label: 'Create', routerLink: ['/invoice/salesInvoice/create'] }];
 
     this.sidebarVisibleProduct = false;
 
@@ -83,6 +84,7 @@ export class SalesInvoiceComponent implements OnInit {
     this.loadSalesOrders();
     this.loadVendorInvoices();
     this.getSI();
+    this.loadUser();
   }
 
   initForm() {
@@ -142,8 +144,8 @@ export class SalesInvoiceComponent implements OnInit {
           console.log(si);
           this.currSI = si;
           this.siForm.patchValue(si);
-          this.currCustomer.displayName =  this.currSI?.customer?.displayName  ;
-          this.currCustomer.mobileNumber =  this.currSI?.customer?.mobileNumber  ;
+          this.currCustomer.displayName = this.currSI?.customer?.displayName;
+          this.currCustomer.mobileNumber = this.currSI?.customer?.mobileNumber;
           this.submitted = false;
           this.getLines(si); //Because backend api is not ready
         }
@@ -233,20 +235,32 @@ export class SalesInvoiceComponent implements OnInit {
       }
     )
   }
-  selectVendor()
-  {
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+  selectVendor() {
 
   }
 
-  changeCustomer(e : any) {
+  changeCustomer(e: any) {
     this.submitted = true;
     this.invoiceS.getCurrentSo(e.value).then(
-      (res)=>{
+      (res) => {
         this.submitted = false;
-        this.currCustomer  = res.customer ;
+        this.currCustomer = res.customer;
       }
     ).catch(
-      (err)=>{
+      (err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -257,17 +271,19 @@ export class SalesInvoiceComponent implements OnInit {
         });
       }
     )
-   }
+  }
 
   onSubmitSI() {
 
     if (this.siForm.value.vendorInvoice.id == null || this.siForm.value.vendorInvoice.id == "") {
       this.siForm.value.vendorInvoice = null;
     }
-    
+
     var siFormVal = this.siForm.value;
-    siFormVal.customer = this.currCustomer ;
+    siFormVal.customer = this.currCustomer;
     siFormVal.id = this.id;
+    siFormVal.comapny = this.currentCompany;
+
     if (siFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -320,7 +336,7 @@ export class SalesInvoiceComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['invoice/salesInvoice/edit/' + res.id]);
           }, 2000);
-          
+
         }
       ).catch(
         (err) => {
@@ -365,8 +381,9 @@ export class SalesInvoiceComponent implements OnInit {
 
   }
   delete(lineItem: SalesInvoiceLine) {
-    this.DeleteDialLogvisible =  true;
+    this.DeleteDialLogvisible = true;
   }
+
   onRowEditSave(lineItem: SalesInvoiceLine) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -547,8 +564,9 @@ export class SalesInvoiceComponent implements OnInit {
     var siFormVal = this.siForm.value;
     siFormVal.id = this.id;
     siFormVal.grossTotal = this.siSubTotal;
-    if (siFormVal.id) {
+    siFormVal.comapny = this.currentCompany;
 
+    if (siFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateSI(siFormVal).then(
         (res) => {
@@ -594,7 +612,7 @@ export class SalesInvoiceComponent implements OnInit {
     this.DeleteDialLogvisible = false;
   }
 
-  deleteConfirm(lineItem : any) {
+  deleteConfirm(lineItem: any) {
     this.submitted = true;
     this.usedService
       .deleteSILineItem(lineItem.id)

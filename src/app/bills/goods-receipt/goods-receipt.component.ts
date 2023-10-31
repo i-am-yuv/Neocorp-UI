@@ -7,8 +7,9 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillsService } from '../bills.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
-import { SalesOrder, SalesOrderLine } from 'src/app/invoice/invoice-model';
+import { CompanyNew, SalesOrder, SalesOrderLine } from 'src/app/invoice/invoice-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-goods-receipt',
@@ -17,23 +18,23 @@ import { InvoiceService } from 'src/app/invoice/invoice.service';
 })
 export class GoodsReceiptComponent implements OnInit {
 
-  
-  submitted : boolean =  false;
-  createNew : boolean = false;
+
+  submitted: boolean = false;
+  createNew: boolean = false;
   //DeleteDialLogvisible : boolean = false;
 
   id: string | null = '';
-  grForm !: FormGroup ;
-  grLineForm !: FormGroup ;
+  grForm !: FormGroup;
+  grLineForm !: FormGroup;
 
   vendors: Vendor[] = [];
-  allSo : SalesOrder[] = [];
-  
+  allSo: SalesOrder[] = [];
+
   products: Product[] = [];
 
   lineitems: any[] = [];
   currGoodsReceipt: GoodsReceipt = {};
-  currSalesOrder : SalesOrder = {};
+  currSalesOrder: SalesOrder = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -47,20 +48,21 @@ export class GoodsReceiptComponent implements OnInit {
   grSubTotal: number = 0;
 
   mergedOptions: any[] = [];
-  selectedOption : any;
+  selectedOption: any;
 
   items!: MenuItem[];
 
-  salesLineItemsTotal : number = 0 ;
+  salesLineItemsTotal: number = 0;
+  currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private invoiceS : InvoiceService,
-    private usedService : PayPageService) {     
-     }
+    private invoiceS: InvoiceService,
+    private usedService: PayPageService, private authS: AuthService) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -69,22 +71,24 @@ export class GoodsReceiptComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableGR();
       }
     });
 
-    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
     this.initForm();
     this.loadVendors();
     this.loadSalesOrder();
     this.getGR();
+    this.loadUser();
   }
+
   createGR() {
     //this.createNew = true;
     this.router.navigate(['/bills/goodsReceipt/create']);
@@ -120,43 +124,52 @@ export class GoodsReceiptComponent implements OnInit {
       salesOrder: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      orderedQty: new FormControl('',[Validators.required]) ,
-      shippedQty: new FormControl('',Validators.required) ,
-      confirmedQty: new FormControl('',Validators.required) ,
-      receivedQty : new FormControl('' , Validators.required)
+      orderedQty: new FormControl('', [Validators.required]),
+      shippedQty: new FormControl('', Validators.required),
+      confirmedQty: new FormControl('', Validators.required),
+      receivedQty: new FormControl('', Validators.required)
     });
   }
 
 
-  availableGR()
-  {
+  availableGR() {
     this.submitted = true;
     this.billS.getAllGR().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/bills/goodsReceipt']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
-      this.submitted = false;
-       console.log(err);
-     }
-   )
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/bills/goodsReceipt']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
   }
 
-  loadSalesOrder()
-  {
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+  loadSalesOrder() {
     this.submitted = true;
     this.invoiceS.getAllSo().then(
-      (res : any) => {
+      (res: any) => {
         this.allSo = res.content;
         this.submitted = false;
       }
@@ -179,10 +192,10 @@ export class GoodsReceiptComponent implements OnInit {
           this.submitted = false;
           this.currGoodsReceipt = goodsReceipt;
 
-          this.currSalesOrder.id =  goodsReceipt?.salesOrder?.id   ;
+          this.currSalesOrder.id = goodsReceipt?.salesOrder?.id;
 
           this.grForm.patchValue(goodsReceipt);
-          this.getLines(goodsReceipt?.salesOrder ); //Because backend api is not ready
+          this.getLines(goodsReceipt?.salesOrder); //Because backend api is not ready
           this.getLineItemGR(goodsReceipt);
         }
       ).catch(
@@ -194,23 +207,22 @@ export class GoodsReceiptComponent implements OnInit {
     }
   }
 
-  getLineItemGR( gr : GoodsReceipt)
-  {
-    this.submitted  =true;
+  getLineItemGR(gr: GoodsReceipt) {
+    this.submitted = true;
     this.billS
-    .getLineItemsByGoodsReceiptId(gr)
-    .then((data: any) => {
-      if (data) {
-        var res = data[0] ;
-        this.grLineForm.patchValue(res);
-        this.submitted= false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted= false;
-      }
-    )
+      .getLineItemsByGoodsReceiptId(gr)
+      .then((data: any) => {
+        if (data) {
+          var res = data[0];
+          this.grLineForm.patchValue(res);
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
 
@@ -220,7 +232,7 @@ export class GoodsReceiptComponent implements OnInit {
       .then((data: any) => {
         if (data) {
           this.lineitems = data;
-          
+
           this.grSubTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.amount, 0
           );
@@ -251,19 +263,18 @@ export class GoodsReceiptComponent implements OnInit {
     )
   }
 
-  selectVendor()
-  {
+  selectVendor() {
 
   }
 
-  selectSO(e : any){
-  //  alert( JSON.stringify(e) );
+  selectSO(e: any) {
+    //  alert( JSON.stringify(e) );
     this.submitted = true;
     var p = {
-      'id' : ""
+      'id': ""
     };
-    p.id = e.value ;
-    this.currSalesOrder.id = e.value ;
+    p.id = e.value;
+    this.currSalesOrder.id = e.value;
     this.invoiceS.getLineitemsBySo(p)
       .then((data: any) => {
         if (data) {
@@ -281,13 +292,13 @@ export class GoodsReceiptComponent implements OnInit {
       );
   }
 
-  onSubmitGR()
-  {
+  onSubmitGR() {
     this.grForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
 
-    
+
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
+    grFormVal.comapny = this.currentCompany;
     alert(JSON.stringify(grFormVal));
 
     if (grFormVal.id) {
@@ -296,7 +307,7 @@ export class GoodsReceiptComponent implements OnInit {
         (res) => {
           console.log(res);
           this.grForm.patchValue = { ...res };
-          this.currSalesOrder = res.salesOrder ;
+          this.currSalesOrder = res.salesOrder;
           this.submitted = false;
           this.message.add({
             severity: 'success',
@@ -319,14 +330,14 @@ export class GoodsReceiptComponent implements OnInit {
       )
     }
     else {
-      
-      this.submitted =  true;
+
+      this.submitted = true;
       this.billS.createGoodsReceipt(grFormVal).then(
         (res) => {
           console.log(res);
           this.grForm.patchValue = { ...res };
           this.currGoodsReceipt = res;
-          this.currSalesOrder = res.salesOrder ;
+          this.currSalesOrder = res.salesOrder;
           console.log("Goods Receipt Added");
           console.log(this.currGoodsReceipt);
           this.viewLineItemTable = true;
@@ -340,8 +351,8 @@ export class GoodsReceiptComponent implements OnInit {
 
           setTimeout(() => {
             this.router.navigate(['bills/goodsReceipt/edit/' + res.id]);
-          }, 2000); 
-          this.loadSalesOrderLineItems(this.grForm.value.salesOrder) ;
+          }, 2000);
+          this.loadSalesOrderLineItems(this.grForm.value.salesOrder);
         }
       ).catch(
         (err) => {
@@ -358,8 +369,7 @@ export class GoodsReceiptComponent implements OnInit {
     }
   }
 
-  loadSalesOrderLineItems(salesOrder : SalesOrder )
-  {
+  loadSalesOrderLineItems(salesOrder: SalesOrder) {
     this.submitted = true;
     this.invoiceS.getLineitemsBySo(salesOrder)
       .then((data: any) => {
@@ -378,18 +388,17 @@ export class GoodsReceiptComponent implements OnInit {
       );
   }
 
-  onSubmitGRLine()
-  {
+  onSubmitGRLine() {
     // Here you can write a code to submit the GS again if some thing is edited
     this.onSubmitGR();
 
     var grFormVal = this.grLineForm.value;
-    grFormVal.goodsReceipt.id = this.id ;
-    grFormVal.salesOrder.id =  this.currSalesOrder.id ;
-    alert( JSON.stringify( this.grLineForm.value));
+    grFormVal.goodsReceipt.id = this.id;
+    grFormVal.salesOrder.id = this.currSalesOrder.id;
+    grFormVal.comapny = this.currentCompany
+    alert(JSON.stringify(this.grLineForm.value));
 
-    if( grFormVal.id )
-    {
+    if (grFormVal.id) {
       this.submitted = true;
       this.billS.updateGoodsReceiptLine(grFormVal)
         .then((data: any) => {
@@ -403,7 +412,7 @@ export class GoodsReceiptComponent implements OnInit {
             });
             setTimeout(() => {
               this.router.navigate(['bills/goodsReceipts']);
-            }, 2000); 
+            }, 2000);
           }
         }).catch(
           (err) => {
@@ -418,21 +427,21 @@ export class GoodsReceiptComponent implements OnInit {
           }
         );
     }
-    else{
+    else {
       this.submitted = true;
       this.billS.createGoodsReceiptLine(grFormVal)
         .then((data: any) => {
           if (data) {
             this.submitted = false;
             this.message.add({
-              severity: 'success' ,
+              severity: 'success',
               summary: 'Success',
               detail: 'Goods Receipt Line Items Saved',
               life: 3000,
             });
             setTimeout(() => {
               this.router.navigate(['bills/goodsReceipts']);
-            }, 2000); 
+            }, 2000);
           }
         }).catch(
           (err) => {
@@ -448,6 +457,6 @@ export class GoodsReceiptComponent implements OnInit {
         );
     }
 
-   
-  } 
+
+  }
 }

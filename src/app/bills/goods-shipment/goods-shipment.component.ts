@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SalesOrder } from 'src/app/invoice/invoice-model';
+import { CompanyNew, SalesOrder } from 'src/app/invoice/invoice-model';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { GoodsShipment } from '../bills-model';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BillsService } from '../bills.service';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-goods-shipment',
@@ -17,24 +18,24 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class GoodsShipmentComponent implements OnInit {
 
- 
-  submitted : boolean =  false;
-  createNew : boolean = false;
-  DeleteDialLogvisible : boolean = false;
+
+  submitted: boolean = false;
+  createNew: boolean = false;
+  DeleteDialLogvisible: boolean = false;
 
   id: string | null = '';
-  gsForm !: FormGroup ;
-  gsLineForm !: FormGroup ;
+  gsForm !: FormGroup;
+  gsLineForm !: FormGroup;
 
   vendors: Vendor[] = [];
-  customers : CustomeR[] =[] ;
-  allSo : SalesOrder[] = [];
-  
+  customers: CustomeR[] = [];
+  allSo: SalesOrder[] = [];
+
   products: Product[] = [];
 
   lineitems: any[] = [];
   currGoodsShipment: GoodsShipment = {};
-  currSalesOrder : SalesOrder = {};
+  currSalesOrder: SalesOrder = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -48,14 +49,14 @@ export class GoodsShipmentComponent implements OnInit {
   gsSubTotal: number = 0;
 
   mergedOptions: any[] = [];
-  selectedOption : any;
+  selectedOption: any;
 
   items!: MenuItem[];
 
   vendorVisible: boolean = false;
   customerVisible: boolean = false;
 
-  salesLineItemsTotal : number = 0 ;
+  salesLineItemsTotal: number = 0;
 
   billTo: any = [
     {
@@ -68,14 +69,16 @@ export class GoodsShipmentComponent implements OnInit {
     }
   ];
 
+  currentCompany: CompanyNew = {};
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private invoiceS : InvoiceService,
-    private usedService : PayPageService) {     
-     }
+    private invoiceS: InvoiceService,
+    private usedService: PayPageService, private authS: AuthService) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -84,16 +87,16 @@ export class GoodsShipmentComponent implements OnInit {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
-      } 
-      else if(lastSegment && lastSegment.path == this.id){
-        this.createNew =  true;
       }
-      else{
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
         this.availableGS();
       }
     });
 
-    this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
+    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
     this.initForm();
     this.loadVendors();
@@ -101,9 +104,10 @@ export class GoodsShipmentComponent implements OnInit {
     this.loadProducts();
     this.loadSalesOrder();
     this.getGS();
-    
- //   this.bind();
-    
+    this.loadUser();
+
+    //   this.bind();
+
   }
   createGS() {
     //this.createNew = true;
@@ -143,8 +147,8 @@ export class GoodsShipmentComponent implements OnInit {
       company: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      status: new FormControl('') ,
-      billToName: new FormControl('') 
+      status: new FormControl(''),
+      billToName: new FormControl('')
     });
 
     this.gsLineForm = new FormGroup({
@@ -155,35 +159,45 @@ export class GoodsShipmentComponent implements OnInit {
       salesOrder: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      orderedQty: new FormControl('',[Validators.required]) ,
-      shippedQty: new FormControl('',Validators.required) ,
-      confirmedQty: new FormControl('',Validators.required) 
+      orderedQty: new FormControl('', [Validators.required]),
+      shippedQty: new FormControl('', Validators.required),
+      confirmedQty: new FormControl('', Validators.required)
     });
   }
 
 
-  availableGS()
-  {
+  availableGS() {
     this.submitted = true;
     this.billS.getAllGS().then(
-     (res) => {
-       this.submitted = false;
-       var count = res.totalElements ;
-       //count=0
-       if( count > 0 )
-       {
-         this.router.navigate(['/bills/goodsShipments']) ;
-       }
-       else{
-         this.createNew = false;
-       }
-     }
-   ).catch(
-     (err) => {
+      (res) => {
+        this.submitted = false;
+        var count = res.totalElements;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/bills/goodsShipments']);
+        }
+        else {
+          this.createNew = false;
+        }
+      }
+    ).catch(
+      (err) => {
+        this.submitted = false;
+        console.log(err);
+      }
+    )
+  }
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
       this.submitted = false;
-       console.log(err);
-     }
-   )
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
   loadCustomers() {
@@ -199,11 +213,10 @@ export class GoodsShipmentComponent implements OnInit {
     )
   }
 
-  loadSalesOrder()
-  {
+  loadSalesOrder() {
     this.submitted = true;
     this.invoiceS.getAllSo().then(
-      (res : any) => {
+      (res: any) => {
         this.allSo = res.content;
         this.submitted = false;
       }
@@ -226,7 +239,7 @@ export class GoodsShipmentComponent implements OnInit {
           this.submitted = false;
           this.currGoodsShipment = goodShipment;
 
-          this.currSalesOrder.id =  goodShipment?.salesOrder?.id   ;
+          this.currSalesOrder.id = goodShipment?.salesOrder?.id;
 
           this.gsForm.patchValue(goodShipment);
           this.getLines(goodShipment?.salesOrder ); //Because backend api is not ready
@@ -269,7 +282,7 @@ export class GoodsShipmentComponent implements OnInit {
       .then((data: any) => {
         if (data) {
           this.lineitems = data;
-          
+
           this.gsSubTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.amount, 0
           );
@@ -322,20 +335,18 @@ export class GoodsShipmentComponent implements OnInit {
         }
       )
   }
-  selectVendor()
-  {
 
-  }
+  selectVendor() { }
 
-  selectSO(e : any){
-  //  alert( JSON.stringify(e) );
-  
+  selectSO(e: any) {
+    //  alert( JSON.stringify(e) );
+
     this.submitted = true;
     var p = {
-      'id' : ""
+      'id': ""
     };
-    p.id = e.value ;
-    this.currSalesOrder.id = e.value ;
+    p.id = e.value;
+    this.currSalesOrder.id = e.value;
     this.invoiceS.getLineitemsBySo(p)
       .then((data: any) => {
         if (data) {
@@ -353,8 +364,7 @@ export class GoodsShipmentComponent implements OnInit {
       );
   }
 
-  onSubmitGS()
-  {
+  onSubmitGS() {
     this.gsForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
 
     if (this.gsForm.value.vendor.id == null || this.gsForm.value.vendor.id == "") {
@@ -363,26 +373,26 @@ export class GoodsShipmentComponent implements OnInit {
     else {
       this.gsForm.value.customer = null;
     }
-    
+
     var gsFormVal = this.gsForm.value;
     gsFormVal.id = this.id;
+    gsFormVal.comapny = this.currentCompany;
     alert(JSON.stringify(gsFormVal));
 
     if (gsFormVal.id) {
       this.submitted = true;
-      this.billS.updateGoodsShipment(gsFormVal).then(
-        (res) => {
-          console.log(res);
-          this.gsForm.patchValue = { ...res };
-          this.currSalesOrder = res.salesOrder ;
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Goods Shipment Updated',
-            detail: 'Goods Shipment updated',
-            life: 3000,
-          });
-        }
+      this.billS.updateGoodsShipment(gsFormVal).then((res) => {
+        console.log(res);
+        this.gsForm.patchValue = { ...res };
+        this.currSalesOrder = res.salesOrder;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Goods Shipment Updated',
+          detail: 'Goods Shipment updated',
+          life: 3000,
+        });
+      }
       ).catch(
         (err) => {
           console.log(err)
@@ -405,7 +415,7 @@ export class GoodsShipmentComponent implements OnInit {
           console.log(res);
           this.gsForm.patchValue = { ...res };
           this.currGoodsShipment = res;
-          this.currSalesOrder = res.salesOrder ;
+          this.currSalesOrder = res.salesOrder;
           console.log("Goods Shipment Added");
           console.log(this.currGoodsShipment);
           this.viewLineItemTable = true;
@@ -419,8 +429,8 @@ export class GoodsShipmentComponent implements OnInit {
 
           setTimeout(() => {
             this.router.navigate(['bills/goodsShipment/edit/' + res.id]);
-          }, 2000); 
-          this.loadSalesOrderLineItems(this.gsForm.value.salesOrder) ;
+          }, 2000);
+          this.loadSalesOrderLineItems(this.gsForm.value.salesOrder);
         }
       ).catch(
         (err) => {
@@ -437,8 +447,7 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  loadSalesOrderLineItems(salesOrder : SalesOrder )
-  {
+  loadSalesOrderLineItems(salesOrder: SalesOrder) {
     this.submitted = true;
     this.invoiceS.getLineitemsBySo(salesOrder)
       .then((data: any) => {
@@ -457,13 +466,13 @@ export class GoodsShipmentComponent implements OnInit {
       );
   }
 
-  onSubmitGSLine()
-  {
+  onSubmitGSLine() {
     // Here you can write a code to submit the GS again if some thing is edited
     this.onSubmitGS();
     var gsFormVal = this.gsLineForm.value;
     gsFormVal.goodsShipment.id = this.id ;
     gsFormVal.salesOrder.id =  this.currSalesOrder.id ;
+    gsFormVal.comapny = this.currentCompany;
     alert( JSON.stringify( this.gsLineForm.value));
    
     if( gsFormVal.id)
@@ -520,13 +529,16 @@ export class GoodsShipmentComponent implements OnInit {
           });
         }
       );
-    }
+  
  
     setTimeout(() => {
       this.router.navigate(['bills/goodsShipments']);
     }, 3000);
     
   } 
-
+  }
 
 }
+
+
+

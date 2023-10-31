@@ -1,25 +1,3 @@
-// .layout {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100vh; /* Adjust the height as needed */
-
-//     .content-wrapper {
-//       display: flex;
-//       flex-grow: 1;
-//     }
-
-//     .sidebar {
-//       width: 220px; /* Adjust the width as needed */
-//        /* Set the background color of the sidebar */
-//       color: white; /* Set the text color of the sidebar */
-//     }
-
-//     .main-content {
-//       flex-grow: 1;
-//       padding: 20px; /* Add padding for content */
-//     }
-//   }
-
 .ui-table {
   margin: 0;
   padding: 0;
@@ -90,11 +68,17 @@
 
 .blueText {
   color: #1560E0;
-  // font-family: Elza;
-  // font-size: 18.815px;
-  // font-style: normal;
-  // font-weight: 400;
-  // line-height: normal;
+  text-transform: capitalize;
+}
+
+.fileTitle {
+  color: #3a77df;
+  text-transform: capitalize;
+}
+
+.greyText {
+  color: #A4A4A4;
+  font-size: 12px;
   text-transform: capitalize;
 }
 

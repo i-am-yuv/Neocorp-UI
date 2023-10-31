@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product, State } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
-import { CreditNote, cnLineItem } from '../invoice-model';
+import { CompanyNew, CreditNote, cnLineItem } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
@@ -10,6 +10,7 @@ import { BillsService } from 'src/app/bills/bills.service';
 import { HttpEventType } from '@angular/common/http';
 import { InvoiceService } from '../invoice.service';
 import { LineItem } from 'src/app/bills/bills-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-credit-note',
@@ -76,7 +77,8 @@ export class CreditNoteComponent implements OnInit {
   ];
 
   items!: MenuItem[];
-  sidebarVisibleProduct : boolean = false;
+  sidebarVisibleProduct: boolean = false;
+  currentCompany: CompanyNew = {};
 
 
   constructor(private router: Router,
@@ -85,7 +87,7 @@ export class CreditNoteComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) {
+    private authS: AuthService) {
 
 
   }
@@ -106,7 +108,7 @@ export class CreditNoteComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Invoices'}, {label: 'Credit Note', routerLink: ['/invoice/creditNotes']}, {label: 'Create', routerLink: ['/invoice/creditNote/create']}]
+    this.items = [{ label: 'Invoices' }, { label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }, { label: 'Create', routerLink: ['/invoice/creditNote/create'] }]
 
     this.initForm();
     this.loadStates();
@@ -114,7 +116,7 @@ export class CreditNoteComponent implements OnInit {
     this.loadCustomer();
     this.getCreditNote();
     this.sidebarVisibleProduct = false;
-
+    this.loadUser();
   }
 
   initForm() {
@@ -258,12 +260,26 @@ export class CreditNoteComponent implements OnInit {
       }
     )
   }
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
   selectVendor() { }
 
   onSubmitCN() {
-
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
+    cnFormVal.comapny = this.currentCompany;
+
     if (cnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -360,7 +376,7 @@ export class CreditNoteComponent implements OnInit {
   delete(lineItem: cnLineItem) {
     this.DeleteDialLogvisible = true;
   }
-  
+
   onRowEditSave(lineItem: cnLineItem) {
     alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -459,7 +475,7 @@ export class CreditNoteComponent implements OnInit {
     this.islineAvaliable = false;
   }
   newRow(): any {
-    this.isquantity =  true;
+    this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
   }
 
@@ -533,12 +549,12 @@ export class CreditNoteComponent implements OnInit {
   }
 
   finalCNSubmitPage() {
-
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
     cnFormVal.grossTotal = this.cnSubTotal;
-    if (cnFormVal.id) {
+    cnFormVal.comapny = this.currentCompany;
 
+    if (cnFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateCreditNote(cnFormVal).then(
         (res) => {
@@ -578,7 +594,7 @@ export class CreditNoteComponent implements OnInit {
     this.DeleteDialLogvisible = false;
   }
 
-  deleteConfirm(lineItem : any) {
+  deleteConfirm(lineItem: any) {
     this.submitted = true;
     this.usedService
       .deleteCreditNoteLineItem(lineItem.id)

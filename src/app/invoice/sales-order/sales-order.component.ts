@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product, State } from 'src/app/profile/profile-models';
 import { Vendor } from 'src/app/settings/customers/customer';
-import { SalesOrder, SalesOrderLine } from '../invoice-model';
+import { CompanyNew, SalesOrder, SalesOrderLine } from '../invoice-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-sales-order',
@@ -43,14 +44,14 @@ export class SalesOrderComponent implements OnInit {
 
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
+  currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+    private invoiceS: InvoiceService, private authS: AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -78,6 +79,7 @@ export class SalesOrderComponent implements OnInit {
     this.loadProducts();
     this.loadState();
     this.getSoOrder();
+    this.loadUser();
   }
 
   initForm() {
@@ -212,6 +214,18 @@ export class SalesOrderComponent implements OnInit {
     )
   }
 
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
 
   onSubmitSO() {
 
@@ -220,6 +234,7 @@ export class SalesOrderComponent implements OnInit {
 
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
+    soFormVal.comapny = this.currentCompany;
     alert(JSON.stringify(soFormVal));
     if (soFormVal.id) {
       this.submitted = true;
@@ -287,8 +302,7 @@ export class SalesOrderComponent implements OnInit {
   }
 
 
-  selectVendor() {
-  }
+  selectVendor() { }
 
   setLineValues(lineItem: SalesOrderLine) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -305,21 +319,16 @@ export class SalesOrderComponent implements OnInit {
     }
   }
 
-  setLineQtyValuesPrice(e: any, lineItem: SalesOrderLine) {
+  setLineQtyValuesPrice(e: any, lineItem: SalesOrderLine) { }
 
-  }
+  setLineQtyValuesDiscount(e: any, lineItem: SalesOrderLine) { }
 
-  setLineQtyValuesDiscount(e: any, lineItem: SalesOrderLine) {
+  onRowEditInit(lineItem: SalesOrderLine) { }
 
-  }
-
-
-  onRowEditInit(lineItem: SalesOrderLine) {
-
-  }
   delete(lineItem: SalesOrderLine) {
     this.DeleteDialLogvisible = true;
   }
+  
   onRowEditSave(lineItem: SalesOrderLine) {
     alert(JSON.stringify(lineItem));
 
@@ -498,6 +507,8 @@ export class SalesOrderComponent implements OnInit {
     var sFormVal = this.soForm.value;
     sFormVal.id = this.id;
     sFormVal.grossTotal = this.soSubTotal;
+    sFormVal.comapny = this.currentCompany;
+
     if (sFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;

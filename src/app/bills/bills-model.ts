@@ -94,14 +94,7 @@ export interface GoodsShipment {
   company?: CompanyNew;
   shipmentDate?: Date;
   status?: string;
-}
-export interface GoodsShipmentLine {
-  id?: string;
-  goodsShipment?: GoodsShipment;
-  salesOrder?: SalesOrder;
-  orderedQty?: number | 0;
-  confirmedQty?: number | 0;
-  shippedQty?: number | 0;
+
 }
 
 export interface GoodsShipmentLine {
@@ -121,6 +114,7 @@ export interface GoodsReceipt {
   company?: CompanyNew;
   receivedDate?: Date;
   status?: string;
+  comapny?: CompanyNew;
 }
 
 export interface GoodsReceiptLine {
