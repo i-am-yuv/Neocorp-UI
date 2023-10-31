@@ -1,0 +1,9 @@
+stages:
+  - build
+
+build-frontend:
+  stage: build
+  image: node:18
+
+  script:
+    - ls
