@@ -87,6 +87,18 @@ export class PayPageService {
     return allCreaditAccounts;
   }
 
+  async updateCreditAccount(data: any) {
+    var url = this.apiurlNew + 'creditAccountDetails';
+    const updateCreaditAccount = await lastValueFrom(this.http.put<any>(url, data));
+    return updateCreaditAccount;
+  }
+
+  async getCreditAccountById(id: any) {
+    var url = this.apiurlNew + 'creditAccountDetails/' + encodeURIComponent(id);
+    const creditAccountById = await lastValueFrom(this.http.get<any>(url));
+    return creditAccountById;
+  }
+
   async saveDebitAccount(data: any) {
     var url = this.apiurlNew + 'debitAccountDetails'
     const account = await lastValueFrom(this.http.post<any>(url, data));
@@ -97,6 +109,18 @@ export class PayPageService {
     var url = this.apiurlNew + 'debitAccountDetails'
     const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
     return allDebitAccounts;
+  }
+
+  async updateDebitAccount(data: any) {
+    var url = this.apiurlNew + 'debitAccountDetails'
+    const updateDebitAccounts = await lastValueFrom(this.http.put<any>(url, data));
+    return updateDebitAccounts;
+  }
+
+  async getDebitAccountById(id: any) {
+    var url = this.apiurlNew + 'debitAccountDetails/' + encodeURIComponent(id);
+    const debitAccountById = await lastValueFrom(this.http.get<any>(url));
+    return debitAccountById;
   }
 
   async allVendor() {

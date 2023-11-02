@@ -31,7 +31,7 @@ export class ProfilepageService {
     return productById;
   }
 
-  async updateProduct(product: any ) {
+  async updateProduct(product: any) {
     var url = this.apiurlNew + 'api/product';
     const updateProduct = await lastValueFrom(this.http.put<any>(url, product));
     return updateProduct;
@@ -50,31 +50,31 @@ export class ProfilepageService {
   }
 
   async getProductCategoryById(id: any) {
-    var url = this.apiurlNew + 'api/productCategory/' +  encodeURIComponent(id) 
+    var url = this.apiurlNew + 'api/productCategory/' + encodeURIComponent(id)
     const allCategory = await lastValueFrom(this.http.get<any>(url));
     return allCategory;
   }
 
-  async updateProductCategory(productCategory: any ) {
+  async updateProductCategory(productCategory: any) {
     var url = this.apiurlNew + 'api/productCategory';
     const updateProduct = await lastValueFrom(this.http.put<any>(url, productCategory));
     return updateProduct;
   }
 
-  async searchProduct( query: any) {
+  async searchProduct(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
-     
-    var url = this.apiurlNew + 'api/product?filter=searchKey~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  name~'%" + query + "%' or model~'%" + query + "%' or productType~'%" + query + "%'or mrp~'%" + query + "%'");
-     const filteredProducts = await lastValueFrom(this.http.get<any>(url));
-     return filteredProducts;
-   }
 
-   async searchProductCategory( query: any) {
+    var url = this.apiurlNew + 'api/product?filter=searchKey~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  name~'%" + query + "%' or model~'%" + query + "%' or productType~'%" + query + "%'or mrp~'%" + query + "%'");
+    const filteredProducts = await lastValueFrom(this.http.get<any>(url));
+    return filteredProducts;
+  }
+
+  async searchProductCategory(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
-     
+
     var url = this.apiurlNew + 'api/productCategory?filter=searchKey~' + encodeURIComponent("'%" + query + "%'") + encodeURIComponent(" or  name~'%" + query + "%'");
-     const filteredProductCategories = await lastValueFrom(this.http.get<any>(url));
-     return filteredProductCategories;
-   }
+    const filteredProductCategories = await lastValueFrom(this.http.get<any>(url));
+    return filteredProductCategories;
+  }
 
 }

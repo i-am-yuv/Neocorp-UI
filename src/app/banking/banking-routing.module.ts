@@ -52,7 +52,8 @@ const routes: Routes = [
     path: 'accounts',
     component: LayoutComponent,
     children: [
-      { path: '', component: AccountsComponent }
+      { path: '', component: AccountsComponent },
+      {path: 'edit/:id', component: AccountsComponent}
     ]
   }
 ];
