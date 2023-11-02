@@ -8,6 +8,7 @@ import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { BeneficiaryDashboardComponent } from './beneficiary-dashboard/beneficiary-dashboard.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { TrackingComponent } from './tracking/tracking.component';
+import { AccountsComponent } from './accounts/accounts.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TrackingComponent } from './tracking/tracking.component';
     BeneficiaryComponent,
     BeneficiaryDashboardComponent,
     PaymentsComponent,
-    TrackingComponent
+    TrackingComponent,
+    AccountsComponent
   ],
   imports: [
     CommonModule,

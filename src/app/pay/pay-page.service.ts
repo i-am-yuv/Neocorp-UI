@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, last, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -81,10 +81,22 @@ export class PayPageService {
     return account;
   }
 
+  async getAllCreditAccount() {
+    var url = this.apiurlNew + 'creditAccountDetails';
+    const allCreaditAccounts = await lastValueFrom(this.http.get<any>(url));
+    return allCreaditAccounts;
+  }
+
   async saveDebitAccount(data: any) {
     var url = this.apiurlNew + 'debitAccountDetails'
     const account = await lastValueFrom(this.http.post<any>(url, data));
     return account;
+  }
+
+  async getAllDebitAccount() {
+    var url = this.apiurlNew + 'debitAccountDetails'
+    const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
+    return allDebitAccounts;
   }
 
   async allVendor() {

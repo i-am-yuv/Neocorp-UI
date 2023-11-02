@@ -57,9 +57,11 @@
                                         </ng-template>
                                     </p-dropdown> -->
 
-                                    <p-dropdown [options]="vendors" [(ngModel)]="currentVendor.id" formControlName="id" [appendTo]="'body'"
-                                        [style]="{ width: '100%' }" class="fixed-width-dropdown" optionLabel="firstName" optionValue="id"
-                                        (onChange)="selectVendor()" [filter]="true" filterBy="firstName" [showClear]="true" placeholder="Choose Vendor">
+                                    <p-dropdown [options]="vendors" [(ngModel)]="currentVendor.id" formControlName="id"
+                                        [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                                        optionLabel="firstName" optionValue="id" (onChange)="selectVendor()"
+                                        [filter]="true" filterBy="firstName" [showClear]="true"
+                                        placeholder="Choose Vendor">
                                         <ng-template pTemplate="currentVendor.id">
                                             <div class="flex align-items-center gap-2" *ngIf="currentVendor.id">
                                                 <div>{{ currentVendor.firstName}} {{ currentVendor.lastName}}</div>
@@ -203,11 +205,14 @@
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
                                         </p-dropdown> -->
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
-                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
-                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                                            optionLabel="name" optionValue="id"
+                                            (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
+                                            [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">
-                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                <div class="flex align-items-center gap-2"
+                                                    *ngIf="lineItem.expenseName.id">
                                                     <div>{{ lineItem.expenseName.name}}</div>
                                                 </div>
                                             </ng-template>
