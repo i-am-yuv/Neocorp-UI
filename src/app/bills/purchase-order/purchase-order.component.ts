@@ -9,7 +9,6 @@ import { LineItem, PurchaseOrder } from '../bills-model';
 import { Product } from 'src/app/profile/profile-models';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
-import { branch } from 'src/app/auth/auth-model';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 
 
@@ -74,7 +73,9 @@ export class PurchaseOrderComponent implements OnInit {
       "name": "SERVICE"
     }
   ];
+
   currentCompany: any = {};
+  uploadFileName: string = '';
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -573,13 +574,13 @@ export class PurchaseOrderComponent implements OnInit {
   progress = 0;
 
   selectFile(event: any) {
-    this.selectedFiles = event.target.files;
-    this.message.add({
-      severity: 'success',
-      summary: 'File Attached',
-      detail: 'File Attached Successfully ',
-      life: 3000,
-    });
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.uploadFileName = file.name;
+    } else {
+      this.uploadFileName = '+ Upload your file';
+    }
   }
 
   upload() {
