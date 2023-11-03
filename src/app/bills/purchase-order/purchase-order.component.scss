@@ -122,3 +122,24 @@
   color: rgb(126, 121, 121);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.custom-button {
+  background: #535353;
+  border: #535353;
+  ;
+}
+
+.custom-button:hover {
+  background: #353434;
+  border: #353434;
+}
+
+// Override the default text color
+.custom-button .p-button-text {
+  color: #ffffff;
+}
+
+// Override the default border radius
+.custom-button {
+  border-radius: 4px;
+}

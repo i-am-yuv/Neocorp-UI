@@ -6,8 +6,7 @@
         </div>
         <div class="col-8">
             <div class="border-200 text-right ">
-                <button type="button" pButton (click)="createVendor()"
-                    class=" mr-3  custom-button ">
+                <button type="button" pButton (click)="createVendor()" class=" mr-3  custom-button ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -31,10 +30,10 @@
                             <span class="p-panel-title" style="padding: 1px">All Vendors</span>
                         </ng-template>
                         <div class="p-inputgroup pl-2 pr-2 pt-2">
-                                <input pInputText  placeholder="Search" [(ngModel)]="searchVendor"
-                                    class="w-full custom-input" (ngModelChange)="searchVendors(searchVendor)" />
-                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchVendors(searchVendor)"
-                                styleClass="p-button-success"></button>
+                            <input pInputText placeholder="Search" [(ngModel)]="searchVendor"
+                                class="w-full custom-input" (ngModelChange)="searchVendors(searchVendor)" />
+                            <button type="button" pButton pRipple icon="pi pi-search"
+                                (click)="searchVendors(searchVendor)" styleClass="p-button-success"></button>
                         </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -105,7 +104,8 @@
 
                                     <div class="field col-4 mt-2 ml-1 font-light">
                                         <div>
-                                            <p class="text-2xl  font-semibold text-white">{{this.activeVendor.firstName}}
+                                            <p class="text-2xl  font-semibold text-white">
+                                                {{this.activeVendor.firstName}}
                                                 {{this.activeVendor.lastName}}</p>
                                         </div>
                                         <div class="mt-2">
@@ -132,7 +132,7 @@
                                                 <p class="text-xl">₹ {{myFunction(totalGrossAmount)}} </p>
                                                 <p class="text-lg blueText">Total Amount</p>
                                             </div>
-                                            <div class = "field col-5"></div>
+                                            <div class="field col-5"></div>
                                             <!-- <div class="field col-5"
                                                 *ngIf="totalRemainingAmount > 0 && totalGrossAmount != 0 ">
                                                 <div class="flex gap-1  w-full bg-red-100 rounded-div1 p-1">
@@ -187,7 +187,8 @@
                                             <div class="vertical-line"></div>
                                             <div class="field col-6">
                                                 <p class="text-base text-white">Total Amount Due</p>
-                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount)}}</p>
+                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount)}}
+                                                </p>
 
                                             </div>
                                         </div>
@@ -219,8 +220,10 @@
                                                     <div class="col-4 text-right">
                                                         <div class="">
                                                             <p>Total: ₹{{myFunction(item.grossTotal) }}</p>
-                                                            <p *ngIf="item.requestStatus == 'APPROVED'" class="text-green-700">{{item.requestStatus}}</p>
-                                                            <p *ngIf="item.requestStatus != 'APPROVED'" class="amd-col">{{item.requestStatus}}</p>
+                                                            <p *ngIf="item.requestStatus == 'APPROVED'"
+                                                                class="text-green-700">{{item.requestStatus}}</p>
+                                                            <p *ngIf="item.requestStatus != 'APPROVED'" class="amd-col">
+                                                                {{item.requestStatus}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -228,7 +231,8 @@
                                             </div>
                                         </div>
                                         <div *ngIf="allPurchaseOrders.length === 0" class="order-list mt-5">
-                                            <p class="text-lg mt-3 text-center">No purchase orders available for this vendor</p>
+                                            <p class="text-lg mt-3 text-center">No purchase orders available for this
+                                                vendor</p>
                                         </div>
                                     </div>
 
@@ -247,11 +251,13 @@
                                                         </div>
                                                         <div class="col-6 text-right">
                                                             <div class="">
-                                                                <p>Remaining Amount: ₹{{myFunction(item.remainingAmount)}}</p>
+                                                                <p>Remaining Amount:
+                                                                    ₹{{myFunction(item.remainingAmount)}}</p>
                                                             </div>
                                                             <div class="">
 
-                                                                <p>Total: ₹{{ myFunction(item.grossTotal) ? myFunction(item.grossTotal): '0.00'
+                                                                <p>Total: ₹{{ myFunction(item.grossTotal) ?
+                                                                    myFunction(item.grossTotal): '0.00'
                                                                     }}
                                                                 </p>
                                                             </div>
@@ -261,7 +267,8 @@
                                                 </div>
                                             </div>
                                             <div *ngIf="allPurchaseInvoices.length === 0" class="order-list mt-5">
-                                                <p class="text-lg mt-3 text-center">No purchase invoices available for this vendor</p>
+                                                <p class="text-lg mt-3 text-center">No purchase invoices available for
+                                                    this vendor</p>
                                             </div>
                                         </div>
 

@@ -6,8 +6,7 @@
         </div>
         <div class="col-8">
             <div class=" border-200 text-right">
-                <button type="button" pButton (click)="CreateNewPI()"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
+                <button type="button" pButton (click)="CreateNewPI()" class=" mr-3 custom-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -77,9 +76,11 @@
                                                     <div class="col-5   text-base text-right">
                                                         <b>Due: ₹</b>{{ myFunction(item.remainingAmount ) ?
                                                         myFunction(item.remainingAmount ) : '0.00'}}<br>
-                                                        <p *ngIf="item.requestStatus  != 'COMPLETED' " class="leftStatus">
+                                                        <p *ngIf="item.requestStatus  != 'COMPLETED' "
+                                                            class="leftStatus">
                                                             Payment Due</p>
-                                                        <p *ngIf="item.requestStatus  == 'COMPLETED' " class="appStatus">Paid
+                                                        <p *ngIf="item.requestStatus  == 'COMPLETED' "
+                                                            class="appStatus">Paid
                                                         </p>
                                                     </div>
                                                 </div>

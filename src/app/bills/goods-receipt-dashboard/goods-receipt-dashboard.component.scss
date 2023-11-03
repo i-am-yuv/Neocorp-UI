@@ -166,7 +166,7 @@ h6 {
 
 .remainAmount {
     color: #C22B39;
-//font-family: Red Hat Display;
+    //font-family: Red Hat Display;
 }
 
 .person-icon {
@@ -199,10 +199,11 @@ h6 {
     align-items: center;
     justify-content: end;
 }
-.iconSCSS1{
+
+.iconSCSS1 {
     display: flex;
     align-items: center;
-  //  justify-content: end;
+    //  justify-content: end;
 }
 
 .h1,
@@ -224,24 +225,50 @@ p {
     // font-weight: 400;
     // line-height: normal;
 }
-.rightMain{
-color: #C5C5C5;
-// font-family: Elza;
-// font-size: 15.097px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
+
+.rightMain {
+    color: #C5C5C5;
+    // font-family: Elza;
+    // font-size: 15.097px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: normal;
 }
+
 .custom-hr {
-    border: none; /* Remove the default border */
-    border-top: 1px solid lightgray; /* Set the border color to light gray */
-    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
-  }
-  
-  ::ng-deep {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+::ng-deep {
     .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
+        border: none !important;
+        margin-left: 25px;
+        align-items: center;
     }
-  }
+}
+
+.custom-button {
+    background: #535353;
+    border: #535353;
+    ;
+}
+
+.custom-button:hover {
+    background: #353434;
+    border: #353434;
+}
+
+// Override the default text color
+.custom-button .p-button-text {
+    color: #ffffff;
+}
+
+// Override the default border radius
+.custom-button {
+    border-radius: 4px;
+}

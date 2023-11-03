@@ -1,42 +1,23 @@
-// .layout {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100vh; /* Adjust the height as needed */
+.custom-button {
+    background: #535353;
+    border: #535353;
+    ;
+}
 
-//     .content-wrapper {
-//       display: flex;
-//       flex-grow: 1;
-//     }
+.custom-button:hover {
+    background: #353434;
+    border: #353434;
+}
 
-//     .sidebar {
-//       width: 220px; /* Adjust the width as needed */
-//        /* Set the background color of the sidebar */
-//       color: white; /* Set the text color of the sidebar */
-//     }
+// Override the default text color
+.custom-button .p-button-text {
+    color: #ffffff;
+}
 
-//     .main-content {
-//       flex-grow: 1;
-//       padding: 20px; /* Add padding for content */
-//     }
-//   }
-//   div{
-//     padding: 0 !important;
-//     // Use !important to ensure your styles take precedence
-//   }
-
-//   .flex{
-//     padding: 0 !important; 
-//   }
-
-//   // .custom-div {
-//   //   padding: 5px;
-//   // }
-
-//   .button-container {
-//     display: flex;
-//     justify-content: flex-end; // Align items to the right
-//     gap: 10px; // Optional gap between buttons
-//   }
+// Override the default border radius
+.custom-button {
+    border-radius: 4px;
+}
 
 ::ng-deep {
     .p-breadcrumb {

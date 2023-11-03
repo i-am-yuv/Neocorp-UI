@@ -229,7 +229,7 @@ p {
     margin: 20px;
     border-radius: 5px;
     background-color: #fafafa;
-    box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .field {
@@ -243,4 +243,25 @@ label {
 
 p {
     margin: 0;
+}
+
+.custom-button {
+    background: #535353;
+    border: #535353;
+    ;
+}
+
+.custom-button:hover {
+    background: #353434;
+    border: #353434;
+}
+
+// Override the default text color
+.custom-button .p-button-text {
+    color: #ffffff;
+}
+
+// Override the default border radius
+.custom-button {
+    border-radius: 4px;
 }

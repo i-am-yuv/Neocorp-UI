@@ -6,8 +6,7 @@
         </div>
         <div class="col-8">
             <div class="border-200 text-right">
-                <button type="button" pButton  (click)="CreateNewPO()"
-                    class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800  ">
+                <button type="button" pButton (click)="CreateNewPO()" class=" mr-3 custom-button ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -32,10 +31,10 @@
                         <div class="p-inputgroup pl-2 pr-2 pt-2">
                             <!-- <p-input [format]="false" [(ngModel)]="searchOrder" placeholder="Search Purchase Order"
                                 > -->
-                                <input pInputText  placeholder="Search" [(ngModel)]="searchOrder"
-                                    class="w-full custom-input" (ngModelChange)="searchOrders(searchOrder)" />
-                            <button type="button" pButton pRipple icon="pi pi-search" (click)="searchOrders(searchOrder)"
-                                styleClass="p-button-success"></button>
+                            <input pInputText placeholder="Search" [(ngModel)]="searchOrder" class="w-full custom-input"
+                                (ngModelChange)="searchOrders(searchOrder)" />
+                            <button type="button" pButton pRipple icon="pi pi-search"
+                                (click)="searchOrders(searchOrder)" styleClass="p-button-success"></button>
                         </div>
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -60,11 +59,13 @@
                                                     </div>
                                                     <div class="col-4 text-base text-right">
                                                         <b>₹: </b>{{item.grossTotal ?item.grossTotal : '0.00' }} <br>
-                                                        <p *ngIf="item.requestStatus == 'APPROVED' " class="appStatus">{{item.requestStatus}}</p>
-                                                        <p *ngIf="item.requestStatus != 'APPROVED' "  class="pendingStatus">{{item.requestStatus}}</p>
+                                                        <p *ngIf="item.requestStatus == 'APPROVED' " class="appStatus">
+                                                            {{item.requestStatus}}</p>
+                                                        <p *ngIf="item.requestStatus != 'APPROVED' "
+                                                            class="pendingStatus">{{item.requestStatus}}</p>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 

@@ -203,26 +203,29 @@ h6 {
 .iconSCSS1 {
     display: flex;
     align-items: center;
-   // justify-content: end;
+    // justify-content: end;
 }
 
 .custom-button {
     background: #535353;
-    border: #535353;;
-  }
-  .custom-button:hover {
+    border: #535353;
+    ;
+}
+
+.custom-button:hover {
     background: #353434;
     border: #353434;
-  }
-  // Override the default text color
-  .custom-button .p-button-text {
+}
+
+// Override the default text color
+.custom-button .p-button-text {
     color: #ffffff;
-  }
-  
-  // Override the default border radius
-  .custom-button {
+}
+
+// Override the default border radius
+.custom-button {
     border-radius: 4px;
-  }
+}
 
 .walletIcon {
     align-items: center;
@@ -270,12 +273,12 @@ p {
 
 .amp-col {
     color: #83D28F;
- //   font-size: 30px;
+    //   font-size: 30px;
 }
 
 .amd-col {
     color: #FF5A5A;
-   // font-size: 30px;
+    // font-size: 30px;
 }
 
 .amount-text {
