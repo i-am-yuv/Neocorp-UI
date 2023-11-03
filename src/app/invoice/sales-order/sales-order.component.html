@@ -181,11 +181,14 @@
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
                                         </p-dropdown> -->
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
-                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
-                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                                            optionLabel="name" optionValue="id"
+                                            (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
+                                            [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">
-                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                <div class="flex align-items-center gap-2"
+                                                    *ngIf="lineItem.expenseName.id">
                                                     <div>{{ lineItem.expenseName.name}}</div>
                                                 </div>
                                             </ng-template>
@@ -291,36 +294,6 @@
 
                 </p-table>
 
-                <!-- <div class="flex">
-                                    <div class="col-6">
-                                        <ul class="list-none p-0 m-0">
-                                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-                                                <div class="text-500 w-6 md:w-9 font-medium text-right">
-                                                    Sub Total
-                                                </div>
-                                                <div class=" w-full font-medium md:w-3 md:flex-order-0 flex-order-1 text-right">
-                                                    ₹ {{ this.soSubTotal}}
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="field col-6">
-                                        <label for="file">Upload File</label>
-                                        <input type="file" name="file" (change)="selectFile($event)" accept="image/*"
-                                            class="w-full " chooseLabel="Upload File" />
-                                    </div>
-                                </div> -->
-
-                <!-- <div class="flex gap-5 mt-5">
-                                    <div class="field col-1"></div>
-                                    <div class="field col-4">
-                                        <label for="file">Upload File :</label><br>
-                                        <input type="file" name="file" (change)="selectFile($event)" accept="image/*"
-                                            class="mt-2" chooseLabel="Upload File" />
-                                    </div>
-                                </div> -->
-
-
                 <div class="iconSCSS mt-5">
                     <div class="col-4 ">
                         <label for="fileInput" class="image-upload-label cursor-pointer flex text-left">
@@ -335,7 +308,7 @@
 
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
-                        <span id="selectedFileName" class="ml-2"></span>
+                        <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>
 

@@ -191,11 +191,14 @@
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
                                         </p-dropdown> -->
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
-                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
-                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                                            optionLabel="name" optionValue="id"
+                                            (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
+                                            [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">
-                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                <div class="flex align-items-center gap-2"
+                                                    *ngIf="lineItem.expenseName.id">
                                                     <div>{{ lineItem.expenseName.name}}</div>
                                                 </div>
                                             </ng-template>
@@ -315,7 +318,7 @@
 
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
-                        <span id="selectedFileName" class="ml-2"></span>
+                        <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>
 

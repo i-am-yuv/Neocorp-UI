@@ -2,40 +2,44 @@
 //     display: flex;
 //     flex-direction: column;
 //     height: 100vh; /* Adjust the height as needed */
-  
+
 //     .content-wrapper {
 //       display: flex;
 //       flex-grow: 1;
 //     }
-  
+
 //     .sidebar {
 //       width: 220px; /* Adjust the width as needed */
 //        /* Set the background color of the sidebar */
 //       color: white; /* Set the text color of the sidebar */
 //     }
-  
+
 //     .main-content {
 //       flex-grow: 1;
 //       padding: 20px; /* Add padding for content */
 //     }
 //   }
-  
-  .center-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
-  }
 
-  .round-button {
-    border-radius: 20%; /* Use a 50% border-radius for a completely round shape */
-  }
+.center-container {
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  height: 82vh;
+  /* Optional: Adjust the height as needed for vertical centering */
+}
+
+.round-button {
+  border-radius: 20%;
+  /* Use a 50% border-radius for a completely round shape */
+}
 
 ::ng-deep {
   .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
+    border: none !important;
+    margin-left: 25px;
+    align-items: center;
   }
 }
 
@@ -48,7 +52,7 @@
 .iconSCSS {
   display: flex;
   align-items: center;
- // justify-content: end;
+  // justify-content: end;
 }
 
 .fileTitle {
@@ -60,4 +64,10 @@
   color: #A4A4A4;
   font-size: 12px;
   text-transform: capitalize;
+}
+
+.showFileName {
+  margin-left: 97px;
+  color: rgb(126, 121, 121);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

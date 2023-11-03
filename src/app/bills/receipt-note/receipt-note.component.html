@@ -286,16 +286,6 @@
                 </p-table>
 
 
-                <!-- <div class="flex gap-5 mt-5">
-                    <div class="field col-4 cursor-pointer">
-                        <label for="fileInput" class="">
-                            <img src="/assets/uploadFile.png" alt="Upload Image" class="ml-2 mt-2 w-12">
-                        </label>
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
-                    </div>
-                </div> -->
-
                 <div class="iconSCSS mt-5">
                     <div class="col-4 ">
                         <label for="fileInput" class="image-upload-label cursor-pointer flex text-left">
@@ -310,7 +300,7 @@
 
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
-                        <span id="selectedFileName" class="ml-2"></span>
+                        <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>
 

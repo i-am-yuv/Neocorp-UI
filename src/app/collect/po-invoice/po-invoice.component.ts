@@ -452,14 +452,20 @@ export class PoInvoiceComponent implements OnInit {
     this.editing = true;
   }
 
+  uploadFileName: string = '';
   selectFile(event: any) {
-    this.selectedFiles = event.target.files;
-    this.message.add({
-      severity: 'success',
-      summary: 'File Attached',
-      detail: 'File Attached Successfully ',
-      life: 3000,
-    });
+    const file: File = event.target.files[0];
+    if (file) {
+      this.uploadFileName = file.name;
+      this.message.add({
+        severity: 'success',
+        summary: 'File uploaded',
+        detail: 'File uploaded',
+        life: 3000,
+      })
+    } else {
+      this.uploadFileName = '+ Upload your file';
+    }
   }
 
   upload() {

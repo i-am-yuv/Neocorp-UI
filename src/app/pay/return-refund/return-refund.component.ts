@@ -438,8 +438,20 @@ export class ReturnRefundComponent implements OnInit {
   currentFile?: File;
   progress = 0;
 
+  uploadFileName: string = '';
   selectFile(event: any) {
-    this.selectedFiles = event.target.files;
+    const file: File = event.target.files[0];
+    if (file) {
+      this.uploadFileName = file.name;
+      this.message.add({
+        severity: 'success',
+        summary: 'File uploaded',
+        detail: 'File uploaded',
+        life: 3000,
+      })
+    } else {
+      this.uploadFileName = '+ Upload your file';
+    }
   }
 
   upload() {
