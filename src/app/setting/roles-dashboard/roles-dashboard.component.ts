@@ -54,27 +54,6 @@ export class RolesDashboardComponent implements OnInit {
     this.items = [{ label: 'Settings' }, { label: 'Roles' }, { label: 'Dashboard' }];
 
     this.getAllRoles();
-
-    // this.roleForm = this.fb.group({
-    //   id: [],
-    //   name: [
-    //     '',
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(6),
-    //       Validators.maxLength(20),
-    //     ],
-    //   ],
-    //   roleId: [],
-    //   description: [
-    //     '',
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(6),
-    //       Validators.maxLength(20),
-    //     ],
-    //   ],
-    // });
   }
 
 

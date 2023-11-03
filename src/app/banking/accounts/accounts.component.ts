@@ -21,9 +21,10 @@ export class AccountsComponent implements OnInit {
 
   activeCreditAccount: any = {};
   activeDebitAccount: any = {};
-  totalRecords: number = 0;
+  totalCARecords: number = 0;
+  totalDARecords: number = 0;
 
-  visibleEditDialog: boolean = false;
+  deleteDialLogvisible: boolean = false;
 
   items1: MenuItem[] = [];
   items2: MenuItem[] = [];
@@ -82,7 +83,7 @@ export class AccountsComponent implements OnInit {
     this.submitted = true;
     this.payS.getAllCreditAccount().then((res: any) => {
       this.allCreditAccounts = res.content;
-      this.totalRecords = res.totalElements;
+      this.totalCARecords = res.totalElements;
       this.submitted = false;
     })
   }
@@ -91,7 +92,7 @@ export class AccountsComponent implements OnInit {
     this.submitted = true;
     this.payS.getAllDebitAccount().then((res: any) => {
       this.allDebitAccounts = res.content;
-      this.totalRecords = res.totalElements;
+      this.totalDARecords = res.totalElements;
       this.submitted = false;
     })
   }
@@ -146,7 +147,7 @@ export class AccountsComponent implements OnInit {
       })
   }
 
-  onSubmitCreditAccount() {
+  updateCreditAccount() {
     var creditAccountFormVal = this.creditAccountForm.value;
 
     this.submitted = true;
@@ -166,7 +167,7 @@ export class AccountsComponent implements OnInit {
       })
   }
 
-  onSubmitDebitAccount() {
+  updateDebitAccount() {
     var debitAccountFormVal = this.debitAccountForm.value;
 
     this.submitted = true;
@@ -185,6 +186,58 @@ export class AccountsComponent implements OnInit {
         this.submitted = false;
       })
 
+  }
+
+  deleteAccount() {
+    this.deleteDialLogvisible = true;
+  }
+
+  cancelDelete() {
+    this.deleteDialLogvisible = false;
+  }
+
+  deleteConfirmCA() {
+    this.submitted = true;
+    this.payS.deleteCreditAccount(this.activeCreditAccount.id).then((data: any) => {
+      this.allCreditAccounts = this.allCreditAccounts.filter(
+        (val) => val.id !== this.activeCreditAccount.id
+      );
+
+      this.deleteDialLogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Credit Account Deleted',
+        detail: 'Credit Account Deleted',
+        life: 3000,
+      })
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+  deleteConfirmDA() {
+    this.submitted = true;
+    this.payS.deleteDebitAccount(this.activeDebitAccount.id).then((data: any) => {
+      this.allDebitAccounts = this.allDebitAccounts.filter(
+        (val) => val.id !== this.activeDebitAccount.id
+      );
+
+      this.deleteDialLogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Debit Account Deleted',
+        detail: 'Debit Account Deleted',
+        life: 3000,
+      })
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }

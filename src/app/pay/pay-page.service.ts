@@ -99,6 +99,12 @@ export class PayPageService {
     return creditAccountById;
   }
 
+  async deleteCreditAccount(id: any) {
+    var url = this.apiurlNew + 'creditAccountDetails/' + encodeURIComponent(id);
+    const deleteCreditAccount = await lastValueFrom(this.http.delete<any>(url));
+    return deleteCreditAccount;
+  }
+
   async saveDebitAccount(data: any) {
     var url = this.apiurlNew + 'debitAccountDetails'
     const account = await lastValueFrom(this.http.post<any>(url, data));
@@ -121,6 +127,12 @@ export class PayPageService {
     var url = this.apiurlNew + 'debitAccountDetails/' + encodeURIComponent(id);
     const debitAccountById = await lastValueFrom(this.http.get<any>(url));
     return debitAccountById;
+  }
+
+  async deleteDebitAccount(id: any) {
+    var url = this.apiurlNew + 'debitAccountDetails/' + encodeURIComponent(id);
+    const deleteDebitAccount = await lastValueFrom(this.http.delete<any>(url));
+    return deleteDebitAccount;
   }
 
   async allVendor() {

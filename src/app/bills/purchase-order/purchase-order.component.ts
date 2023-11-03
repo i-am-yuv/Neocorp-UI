@@ -24,7 +24,7 @@ export class PurchaseOrderComponent implements OnInit {
   submitted: boolean = false;
   sidebarVisibleProduct: boolean = false;
 
-  currentVendor : Vendor = {};
+  currentVendor: Vendor = {};
 
   DeleteDialLogvisible: boolean = false;
 
@@ -337,7 +337,7 @@ export class PurchaseOrderComponent implements OnInit {
       this.submitted = true;
       poFormVal.grossTotal = null;
       poFormVal.requestStatus = 'DRAFT';
-     // poFormVal.orderNumber = null;
+      // poFormVal.orderNumber = null;
       this.billS.createPurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -417,6 +417,7 @@ export class PurchaseOrderComponent implements OnInit {
   onRowEditInit(lineItem: LineItem) {
 
   }
+
   delete(lineItem: LineItem) {
     this.DeleteDialLogvisible = true;
   }
@@ -461,7 +462,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: LineItem) {
-  //  alert(JSON.stringify(lineItem));
+    //  alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     alert(JSON.stringify(currentProduct));
     if (lineItem.discount == null || lineItem.discount == 0) {
