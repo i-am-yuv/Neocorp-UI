@@ -15,7 +15,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class PoInvoiceDashboardComponent implements OnInit {
 
   submitted: boolean = false;
-  //currPIRemainingAmount : number = 0 ;
 
   allPIs: any[] = [];
   totalRecords: number = 0;
@@ -32,17 +31,15 @@ export class PoInvoiceDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private collectS: CollectService,
-    private confirmationService: ConfirmationService,
-    private payServices : PayPageService ,
-    private authS : AuthService ) { }
+    private payServices: PayPageService,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'},{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard'}];
+    this.items = [{ label: 'Bills' }, { label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard' }];
 
     this.currentDue = 0;
-    this.loadUser();   
+    this.loadUser();
   }
 
   loadPI() {
@@ -58,7 +55,6 @@ export class PoInvoiceDashboardComponent implements OnInit {
         }
         this.totalRecords = res.length;
         // for (const purchaseInvoice of this.allPIs) {
-  
         //   this.collectS.getRemainingAmount(purchaseInvoice).then(
         //     (res) => {
         //       this.allPIs.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
@@ -86,7 +82,7 @@ export class PoInvoiceDashboardComponent implements OnInit {
     this.currentDue = 0;
     this.activeInvoice = pi;
     this.getOrderLines(pi);
-  //  this.getRemainingAmount(pi);
+    //  this.getRemainingAmount(pi);
   }
 
   getOrderLines(invoice: PurchaseInvoice) {
@@ -131,37 +127,35 @@ export class PoInvoiceDashboardComponent implements OnInit {
   //   )
   // }
 
-  togglePartialPayment(invoiceId : any , bol : boolean)
-  {
-       this.collectS.togglePartialPaymentStatus(invoiceId , bol).then(
-        (res)=>{
+  togglePartialPayment(invoiceId: any, bol: boolean) {
+    this.collectS.togglePartialPaymentStatus(invoiceId, bol).then(
+      (res) => {
 
-          console.log(res);
-          if( bol == true )
-          {
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Enabled Successfully',
-              life: 3000,
-            });
-          }
-          else{
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Disabled Successfully',
-              life: 3000,
-            });
-          }
-          //this.router.navigate(['/collect/purchaseInvoices' ]);
-          this.ngOnInit();
+        console.log(res);
+        if (bol == true) {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Enabled Successfully',
+            life: 3000,
+          });
         }
-       ).catch(
-        (err)=>{
-          console.log(err);
+        else {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Disabled Successfully',
+            life: 3000,
+          });
         }
-       )
+        //this.router.navigate(['/collect/purchaseInvoices' ]);
+        this.ngOnInit();
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
   }
   myFunction(item: any): string {
     return parseFloat(item).toFixed(2);
@@ -173,8 +167,8 @@ export class PoInvoiceDashboardComponent implements OnInit {
       //alert(value);
       this.loadPI();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.payServices.searchPI(value).then(
         (res: any) => {
           console.log(res);
@@ -194,11 +188,11 @@ export class PoInvoiceDashboardComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {

@@ -29,10 +29,8 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private authS : AuthService,
-    private confirmationService: ConfirmationService) { }
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'},{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] }, {label: 'Dashboard'} ];
@@ -58,6 +56,12 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     ).catch(
       (err) => {
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Sales Invoices',
+          life: 3000,
+        });
       }
     )
   }

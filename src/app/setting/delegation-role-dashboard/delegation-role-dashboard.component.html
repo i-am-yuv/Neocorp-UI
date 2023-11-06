@@ -33,7 +33,7 @@
                                 <br />
 
                                 <div *ngFor="let item of alldelegationRoles" class="order-list"
-                                    [ngClass]="{ 'bg-gray-100': activeProductCategory.id === item.id }">
+                                    [ngClass]="{ 'bg-gray-100': activeDele.id === item.id }">
                                     <div class=" list-item" (click)="changeProductCategory(item)">
                                         <div class="iconSCSS1 w-full gap-3 p-3">
                                             <div class="col-2  justify-center align-center">
@@ -75,16 +75,20 @@
                             </div>
                         </ng-template>
                         <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeProductCategory.id">
+                            <div class="text-center m-5" *ngIf="!activeDele.id && alldelegationRoles.length != 0">
                                 <img src="/assets/role.png" width="400" /><br />
                                 Select Delegation Role
                             </div>
+                            <div class="text-center m-5" *ngIf="alldelegationRoles.length === 0">
+                                <img src="/assets/role.png" width="400" /><br />
+                                No Delegation Role, Please Create One !!
+                            </div>
 
-                            <div *ngIf="activeProductCategory.id">
+                            <div *ngIf="activeDele.id">
 
                                 <div class="flex">
                                     <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer"
-                                        (click)="onEditDelegationRole(activeProductCategory.id)">
+                                        (click)="onEditDelegationRole(activeDele.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
                                             viewBox="0 0 10 11" fill="none">
                                             <g clip-path="url(#clip0_862_17281)">
@@ -110,7 +114,7 @@
                                     <div class="field col-12">
                                         <label class="ml-4">Delegation Name: </label>
                                         <div class="box mt-1">
-                                            <p class="w-full ">{{ this.activeProductCategory.delegationName}}</p>
+                                            <p class="w-full ">{{ this.activeDele.delegationName}}</p>
                                         </div>
                                     </div>
 
@@ -118,7 +122,7 @@
                                     <div class="field col-12">
                                         <label class="ml-4">Delegation Amount:</label>
                                         <div class="box mt-1">
-                                            <p>{{ this.activeProductCategory.delegationAmount}}</p>
+                                            <p>{{ this.activeDele.delegationAmount}}</p>
                                         </div>
                                     </div>
 
@@ -126,14 +130,14 @@
                                     <div class="field col-12">
                                         <label class="ml-4">Delegation Description:</label>
                                         <div class="box mt-1">
-                                            <p>{{ this.activeProductCategory.delegationDescription}}</p>
+                                            <p>{{ this.activeDele.delegationDescription}}</p>
                                         </div>
                                     </div>
 
                                     <div class="field col-12">
                                         <label class="ml-4">Role:</label>
                                         <div class="box mt-1">
-                                            <p>{{ this.activeProductCategory.role?.name}}</p>
+                                            <p>{{ this.activeDele.role?.name}}</p>
                                         </div>
                                     </div>
 

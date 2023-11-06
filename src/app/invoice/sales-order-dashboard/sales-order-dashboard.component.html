@@ -91,7 +91,7 @@
                             </div>
                         </ng-template>
                         <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeOrder.id">
+                            <div class="text-center m-5" *ngIf="!activeOrder.id && allSalesOrder.length > 0">
                                 <img src="/assets/firstSO.png" width="400"><br>
                                 <p class="mt-4 text-xl">Please, Select Sales Order</p>
                                 <!-- 
@@ -99,11 +99,11 @@
                                 Select Sales Order -->
                             </div>
                             <div class="text-center m-5" *ngIf="allSalesOrder.length === 0">
-                                No Sales Order Found, Please Create One
+                                <img src="/assets/firstSO.png" width="400"><br>
+                                No Sales Order Found, Please Create One !!
                             </div>
                             <div *ngIf="activeOrder.id">
-                                <!-- <h3 class="text-lg ">Purchase Order Details</h3>
-                                        <br> -->
+
                                 <div class="flex">
                                     <div class="field col-8">
                                         <h4 class="">Sales Order Details:</h4>
@@ -136,7 +136,8 @@
                                 <div class="flex">
                                     <div class="field col-4">
                                         <label class="mr-3 blueText">Company Name: </label>
-                                        <p>{{ this.activeOrder.company?.companyName ? this.activeOrder.company?.companyName  : 'Nil' }}</p>
+                                        <p>{{ this.activeOrder.company?.companyName ?
+                                            this.activeOrder.company?.companyName : 'Nil' }}</p>
                                     </div>
                                 </div>
 

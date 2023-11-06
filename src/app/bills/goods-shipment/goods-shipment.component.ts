@@ -186,6 +186,12 @@ export class GoodsShipmentComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All Goods Shipments',
+          life: 3000,
+        });
       }
     )
   }
@@ -229,6 +235,12 @@ export class GoodsShipmentComponent implements OnInit {
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All Sales Order',
+          life: 3000,
+        });
       }
     )
   }
@@ -382,7 +394,6 @@ export class GoodsShipmentComponent implements OnInit {
     var gsFormVal = this.gsForm.value;
     gsFormVal.id = this.id;
     gsFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(gsFormVal));
 
     if (gsFormVal.id) {
       this.submitted = true;
@@ -393,8 +404,8 @@ export class GoodsShipmentComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Goods Shipment Updated',
-          detail: 'Goods Shipment updated',
+          summary: 'Success',
+          detail: 'Goods Shipment Saved Successfully',
           life: 3000,
         });
       }
@@ -405,7 +416,7 @@ export class GoodsShipmentComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Goods Shipment updated Error',
-            detail: 'Goods Shipment Error',
+            detail: 'Goods Shipment Saved Error',
             life: 3000,
           });
         }
@@ -416,20 +427,20 @@ export class GoodsShipmentComponent implements OnInit {
       this.submitted =  true;
       gsFormVal.status = 'DRAFT';
       gsFormVal.user = this.currentUser ;
+
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
           console.log(res);
           this.gsForm.patchValue = { ...res };
           this.currGoodsShipment = res;
           this.currSalesOrder = res.salesOrder;
-          console.log("Goods Shipment Added");
-          console.log(this.currGoodsShipment);
+          
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Goods Shipment Saved',
-            detail: 'Goods Shipment Saved',
+            summary: 'Success',
+            detail: 'Goods Shipment Saved Successfully',
             life: 3000,
           });
 
@@ -480,7 +491,6 @@ export class GoodsShipmentComponent implements OnInit {
     gsFormVal.goodsShipment.id = this.id ;
     gsFormVal.salesOrder.id =  this.currSalesOrder.id ;
     gsFormVal.comapny = this.currentCompany;
-    alert( JSON.stringify( this.gsLineForm.value));
    
     if( gsFormVal.id)
     {

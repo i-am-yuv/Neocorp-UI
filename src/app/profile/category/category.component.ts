@@ -33,6 +33,12 @@ export class CategoryComponent implements OnInit {
     private authS  : AuthService ) { }
 
   ngOnInit(): void {
+
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -44,26 +50,22 @@ export class CategoryComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.loadUser();
-       
+        this.availableProductCategory();
       }
     });
 
     this.items = [{ label: 'Settings' }, { label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
-
-    // this.home = { icon:  routerLink: '/profile/productCategory' };
-
     this.initProductCategoryForm();
-    this.loadUser();
+    this.getAllProductCategory(); 
     this.getProductCategoryDetails();
-
   }
 
   initProductCategoryForm() {
     this.productCategoryForm = new FormGroup({
+      id: this.fb.nonNullable.control(''),
       searchKey: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       parent: this.fb.group({
         id: this.fb.nonNullable.control('')
       })
@@ -71,18 +73,21 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllProductCategory() {
+    this.submitted = true;
     this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
         console.log(res);
         this.categories = res;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
         this.message.add({
           severity: 'error',
-          summary: 'Product Category',
-          detail: 'Error While fetching Product Category',
+          summary: 'Error',
+          detail: 'Error While fetching All Product Category',
           life: 3000,
         });
       }
@@ -95,9 +100,8 @@ export class CategoryComponent implements OnInit {
       .then((res: any) => {
         var count = res.length;
         this.submitted = false;
-
         if (count > 0) {
-          this.router.navigate(['/profile/productCategory']);
+          this.router.navigate(['/profile/productCategories']);
         } else {
           this.createNew = false;
         }
@@ -105,6 +109,12 @@ export class CategoryComponent implements OnInit {
       .catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While fetching this Product Category',
+          life: 3000,
+        });
       })
   }
 
@@ -126,10 +136,9 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmitPC() {
-    //this.productCategoryForm.value.parent = null;
+   
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
-    alert(JSON.stringify(productCategoryFormVal));
 
     if (productCategoryFormVal.id) {
       this.submitted = true;
@@ -140,8 +149,8 @@ export class CategoryComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Product Updated',
-            detail: 'Product updated',
+            summary: 'Success',
+            detail: 'Product updated Successfully',
             life: 3000,
           });
           setTimeout(() => {
@@ -155,20 +164,20 @@ export class CategoryComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Sales Order updated Error',
-              detail: 'Some Server Error',
+              summary: 'Error',
+              detail: 'Error while updating the product category',
               life: 3000,
             });
           })
     } else {
-     // console.log(this.productCategoryForm.value);
+
      productCategoryFormVal.user = this.currentUser ;
       this.profileS.createProductCategory(productCategoryFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
             severity: 'success',
-            summary: 'Product Category Saved',
+            summary: 'Sucess',
             detail: 'Product Category Added Successfully',
             life: 3000,
           });
@@ -180,8 +189,8 @@ export class CategoryComponent implements OnInit {
         .catch((err) => {
           this.message.add({
             severity: 'error',
-            summary: 'Product Category',
-            detail: 'Error While fetching Product Category',
+            summary: 'Error',
+            detail: 'Error While Adding the Product Category',
             life: 3000,
           });
         })
@@ -206,9 +215,8 @@ export class CategoryComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser  = res ;
       this.submitted = false;
-      this.availableProductCategory();
-      this.getAllProductCategory();
-      
+     
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);

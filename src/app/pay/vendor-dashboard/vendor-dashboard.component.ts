@@ -4,6 +4,7 @@ import { PayPageService } from '../pay-page.service';
 import { Vendor } from 'src/app/settings/customers/customer';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-vendor-dashboard',
@@ -30,11 +31,11 @@ export class VendorDashboardComponent implements OnInit {
   items!: MenuItem[];
 
   constructor(private router: Router, private route: ActivatedRoute, 
-    private payServices: PayPageService , private authS : AuthService) { }
+    private payServices: PayPageService , private authS : AuthService, private breadCrumbService:BreadCrumbService) { }
 
   ngOnInit(): void {
 
-    this.items = [{label: 'Pay'},{ label: 'Vendors', routerLink: ['/pay/vendors'] }, {label: 'Dashboard'}];
+    this.breadCrumbService.breadCrumb( [{label: 'Pay'},{ label: 'Vendors', routerLink: ['/pay/vendors'] }, {label: 'Dashboard'}]);
 
     this.loadUser();
   //  this.getAllVendors();

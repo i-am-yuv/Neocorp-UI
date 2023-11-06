@@ -45,8 +45,12 @@ export class ProductComponent implements OnInit {
     private authS: AuthService) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
 
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -56,33 +60,33 @@ export class ProductComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.loadUser();
+        this.availableProducts();
       }
     });
 
     this.items = [{ label: 'Settings' }, { label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
     this.initForm();
+    this.loadCategories();
     this.getProductDetails();
-    this.loadUser();
   }
 
   // Product Init Form
   initForm() {
     this.productForm = new FormGroup({
-      name: new FormControl('', Validators.required), //
+      name: new FormControl('', Validators.required), 
       model: new FormControl('', Validators.required),
       description: new FormControl(''),
       searchKey: new FormControl(''),
       skuCode: new FormControl(''),
       barCode: new FormControl(''),
       thumbnail: new FormControl(''),
-      help: new FormControl(''),//
+      help: new FormControl(''),
       hsnCode: new FormControl(''),
       imageName: new FormControl(''),
       imagePath: new FormControl(''),
       mrp: new FormControl('', Validators.required),
-      productType: new FormControl(''),
+      productType: new FormControl('', Validators.required),
       category: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
@@ -98,7 +102,6 @@ export class ProductComponent implements OnInit {
 
     var productFormVal = this.productForm.value;
     productFormVal.id = this.id;
-    alert(JSON.stringify(productFormVal));
 
     if (productFormVal.id) {
       this.submitted = true;
@@ -109,7 +112,7 @@ export class ProductComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Product Updated',
+            summary: 'Success',
             detail: 'Product updated',
             life: 3000,
           });
@@ -124,8 +127,8 @@ export class ProductComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Sales Order updated Error',
-              detail: 'Some Server Error',
+              summary: 'Error',
+              detail: 'Error while updating the Product',
               life: 3000,
             });
           })
@@ -136,7 +139,7 @@ export class ProductComponent implements OnInit {
           console.log(res);
           this.message.add({
             severity: 'success',
-            summary: 'Product Saved',
+            summary: 'Success',
             detail: 'Product Added Successfully',
             life: 3000,
           });
@@ -149,8 +152,8 @@ export class ProductComponent implements OnInit {
         (err) => {
           this.message.add({
             severity: 'error',
-            summary: 'Product error',
-            detail: 'Product server error',
+            summary: 'Error',
+            detail: 'Error while saving the product',
             life: 3000,
           });
         })
@@ -213,14 +216,23 @@ export class ProductComponent implements OnInit {
   }
 
   loadCategories() {
+    this.submitted = true;
     this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
-        this.category = res.content;
+        this.category = res;
         console.log(res);
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching the product categories',
+          life: 3000,
+        });
       }
     )
   }
@@ -237,16 +249,13 @@ export class ProductComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser = res;
       this.submitted = false;
-      // other info
-      this.availableProducts();
-      this.loadCategories();
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
       });
   }
-
-
-
+  
 }

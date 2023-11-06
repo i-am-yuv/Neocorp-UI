@@ -35,3 +35,9 @@
     align-items: center;
    // justify-content: end;
   }
+
+  .custom-hr {
+    border: none; /* Remove the default border */
+    border-top: 1px solid lightgray; /* Set the border color to light gray */
+    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
+  }

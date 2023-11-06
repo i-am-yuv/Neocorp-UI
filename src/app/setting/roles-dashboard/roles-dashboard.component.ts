@@ -22,7 +22,7 @@ export class RolesDashboardComponent implements OnInit {
 
   roles!: Roles[];
 
-  privilege!: Privilege[]
+  privilege!: Privilege[] ;
 
   role!: Roles;
 
@@ -44,8 +44,7 @@ export class RolesDashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,
+    private message: MessageService,
     private fb: FormBuilder,
     private authS : AuthService,
     private SettingS : SettingService
@@ -63,18 +62,25 @@ export class RolesDashboardComponent implements OnInit {
     this.submitted = true;
     this.SettingS.getAllRoles(this.currentUser)
       .then((res: any) => {
-        this.allRoles = res.content;
-        this.totalRecords = res.totalElements;
+        this.allRoles = res;
+        this.totalRecords = res.length;
         this.submitted = false;
       })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Roles',
+          life: 3000,
+        });
       })
   }
 
 
-  changeRole(role: Roles) {
+  changeRole(role: Roles) 
+  {
     this.activeRole = role;
   }
 
@@ -95,6 +101,7 @@ export class RolesDashboardComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser  = res ;
       this.submitted = false;
+
       this.getAllRoles();
     })
       .catch((err) => {

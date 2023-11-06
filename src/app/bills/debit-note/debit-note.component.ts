@@ -62,11 +62,10 @@ export class DebitNoteComponent implements OnInit {
   ngOnInit(): void {
 
     this.loadUser();
-    
+
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -135,12 +134,12 @@ export class DebitNoteComponent implements OnInit {
     )
   }
 
-  currentUser : any = {} ;
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currCompany = res.comapny;
-      this.currentUser = res ;
+      this.currentUser = res;
       this.submitted = false;
       this.loadOtherInfo();
     })
@@ -246,12 +245,9 @@ export class DebitNoteComponent implements OnInit {
   selectVendor() { }
 
   onSubmitDN() {
-
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
-    dnFormVal.placeOfSupply = null;
     dnFormVal.comapny = this.currCompany;
-    alert(JSON.stringify(dnFormVal));
 
     if (dnFormVal.id) {
       this.submitted = true;
@@ -262,7 +258,7 @@ export class DebitNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Debit Note Updated',
+            summary: 'Success',
             detail: 'Debit Note updated',
             life: 3000,
           });
@@ -273,32 +269,30 @@ export class DebitNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Debit Note updated Error',
-            detail: 'Debit Note Error',
+            summary: 'Error',
+            detail: 'Debit Note Updation Error',
             life: 3000,
           });
         }
       )
     }
     else {
-      //  poFormVal.grossTotal = this.poSubTotal ;
-      this.upload(); // for upload file if attached
+
       this.submitted = true;
-      dnFormVal.currentUser = this.currentUser ;
+      dnFormVal.user = this.currentUser;
+
       this.billS.createDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);
           this.dnForm.patchValue = { ...res };
           this.currDebitNote = res;
-          // this.id = res.id;
-          console.log("Debit Note Added");
-          console.log(this.currDebitNote);
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Debit Note Saved',
-            detail: 'Debit Note Added',
+            summary: 'Success',
+            detail: 'Debit Note Added Successfully',
             life: 3000,
           });
           setTimeout(() => {
@@ -312,8 +306,8 @@ export class DebitNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Debit Note error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while saving debit note',
             life: 3000,
           });
         })
@@ -352,7 +346,7 @@ export class DebitNoteComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: dnLineItem) {
-    alert(JSON.stringify(lineItem));
+
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -381,19 +375,18 @@ export class DebitNoteComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
         // line line item should have id inside
         this.submitted = true;
         this.usedService.updateDebitNoteLineItem(lineItem).then(
           (res) => {
-            console.log("Line Item Updated Successfully");
+
             _lineItem = res;
             // this.lineitem.Amount = res.Amount;
             this.submitted = false;
             this.getDebitNote();
             this.message.add({
               severity: 'success',
-              summary: 'Line item Updated',
+              summary: 'Success',
               detail: 'Debit Note Line item Updated Successfully',
               life: 3000,
             });
@@ -404,7 +397,7 @@ export class DebitNoteComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Line item Update Error',
+              summary: 'Error',
               detail: 'Debit Note Error While updating Line Item',
               life: 3000,
             });
@@ -421,7 +414,7 @@ export class DebitNoteComponent implements OnInit {
             this.getDebitNote();
             this.message.add({
               severity: 'success',
-              summary: 'Line item Added',
+              summary: 'Success',
               detail: 'Debit Note Line item Added Successfully',
               life: 3000,
             });
@@ -431,7 +424,7 @@ export class DebitNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Line Item Error',
+            summary: 'Error',
             detail: 'Error while Adding Debit Note Line Item',
             life: 3000,
           });
@@ -522,17 +515,15 @@ export class DebitNoteComponent implements OnInit {
 
   finalDNSubmitPage() {
 
-
     var rnFormVal = this.dnForm.value;
+
     rnFormVal.id = this.id;
     rnFormVal.grossTotal = this.dnSubTotal;
     rnFormVal.comapny = this.currCompany;
-    if (rnFormVal.id) {
 
+    if (rnFormVal.id) {
       this.submitted = true;
-      if (rnFormVal.placeOfSupply.id == "" || rnFormVal.placeOfSupply == undefined || rnFormVal.placeOfSupply.id == undefined) {
-        rnFormVal.placeOfSupply = null;
-      }
+
       this.billS.updateDebitNote(rnFormVal).then(
         (res) => {
           console.log(res);
@@ -540,10 +531,11 @@ export class DebitNoteComponent implements OnInit {
           this.dnForm.patchValue = { ...res };
           this.message.add({
             severity: 'success',
-            summary: 'Debit Note Saved Successfully',
-            detail: 'Debit Note Saved',
+            summary: 'Success',
+            detail: 'Debit Note Saved Successfully',
             life: 3000,
           });
+          this.upload();
         }
       ).catch(
         (err) => {
@@ -551,14 +543,14 @@ export class DebitNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Debit Note Error',
-            detail: 'Error while saving data',
+            summary: 'Error',
+            detail: 'Error while saving debit note',
             life: 3000,
           });
         }
       )
     }
-    this.upload();
+
     setTimeout(() => {
       this.router.navigate(['/bills/debitNote']);
     }, 2000);
@@ -614,7 +606,4 @@ export class DebitNoteComponent implements OnInit {
         });
       });
   }
-
-  
-
 }

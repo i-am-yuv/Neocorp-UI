@@ -46,7 +46,8 @@
                 <div class="">
                     <div class="col-6 ">
                         <div class="iconSCSS w-full">
-                            <div class=" col-9">
+                            <div class="col-9">
+                                <label class="required">Vendor</label> <br>
                                 <ng-container formGroupName="vendor" class="w-full">
                                     <!-- <p-dropdown [options]="vendors" placeholder="Choose Vendor" optionValue="id"
                                         formControlName="id" [showClear]="true" (onChange)="selectVendor()"
@@ -75,7 +76,7 @@
 
                                 </ng-container>
                             </div>
-                            <div class=" col-3 text-left">
+                            <div class="mt-3 col-3 text-left">
                                 <span [routerLink]="['/pay/vendor/create']"
                                     class="ml-1 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class=""
@@ -92,7 +93,7 @@
                     </div>
                 </div>
 
-                <hr class="custom-hr ">
+                <hr class="custom-hr">
 
                 <h4 class="blueText"><b>Purchase Order Details</b></h4>
 
@@ -151,7 +152,7 @@
                     <div class="field col-12">
                         <label class="mr-3">Internal Notes</label>
                         <input pInputText formControlName="internslNotes"
-                            placeholder="Enter Your internal Notes Of Purchase Order" class="w-full " />
+                            placeholder="Enter Your Internal Notes For Purchase Order" class="w-full " />
                         <error-message [controlName]="poForm.controls['internslNotes']"></error-message>
                     </div>
                 </div>

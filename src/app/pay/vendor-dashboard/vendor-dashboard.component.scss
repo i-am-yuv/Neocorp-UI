@@ -66,11 +66,23 @@
 
 .right-panel-content {
     // height: 773.5px;
-    height: 580px;
-    overflow-y: scroll;
+    padding: 0;
+}
+.orderInvList{
+    height: 35rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
 }
 
+.vendorList{
+    height: 46rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
+}
+
+
 :host::ng-deep {
+  
     .left-panel {
         .p-panel-content {
             padding: 0;
@@ -97,32 +109,6 @@
         text-align: center;
     }
 }
-
-// .raised-container {
-//   padding: 20px; /* Optional: Add padding for spacing around the content */
-//   background-color: #fff; /* Optional: Set the background color */
-
-//   /* Box shadow to create the raised effect */
-//   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
-// }
-
-// .rounded-div {
-//   border-radius: 10px; /* Adjust the radius to control the roundness */
-//   /* Add any other custom styles as needed */
-// }
-
-// /* Round icon styles */
-// .person-icon {
-//   width: 40px;
-//   height: 40px;
-//   background-color: lightgrey; /* Customize the background color as needed */
-//   color: #fff; /* Customize the text color as needed */
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 18px;
-// }
 
 .rounded-div1 {
     border: 3px solid #0000;
@@ -186,12 +172,6 @@ h6 {
 
 .leftStatus {
     color: #C22B39;
-    // text-align: right;
-    // font-family: Elza;
-    // font-size: 12px;
-    // font-style: normal;
-    // font-weight: 400;
-    // line-height: normal;
 }
 
 .iconSCSS {
@@ -203,7 +183,7 @@ h6 {
 .iconSCSS1 {
     display: flex;
     align-items: center;
-   // justify-content: end;
+   
 }
 
 .custom-button {
@@ -293,12 +273,12 @@ p {
 }
 
 .defaultSCSS {
-    background-color: white;
+    background: none;
     color: black;
     border: none;
     border-bottom: 3px solid lightgrey;
     width: 100%;
-    font-weight: 700;
+    font-weight: 300;
     /* Remove the default button border */
     //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
 }
@@ -308,8 +288,8 @@ p {
     border-bottom: 3px solid #3579F3;
     /* Change the bottom border color on hover (e.g., blue) */
     color: #3579F3;
-    background-color: white;
-    font-weight: 700;
+    background: none;
+    font-weight: 600;
     /* Change the text color on hover (optional) */
 }
 
@@ -330,3 +310,10 @@ p {
     align-items: center;
     // justify-content: end;
 }
+
+  .custom-inputNew .pi-search {
+    background: none; /* Remove the blue background color from the search icon */
+   // color: #007bff; /* Set the desired color for the search icon */
+    font-size: 1rem; /* Adjust the font size as needed */
+  }
+ 

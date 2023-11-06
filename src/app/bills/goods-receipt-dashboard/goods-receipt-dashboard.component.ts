@@ -32,7 +32,6 @@ export class GoodsReceiptDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private billS: BillsService,
     private authS: AuthService,
     private commonS: InvoiceService) { }
@@ -58,6 +57,12 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     ).catch(
       (err) => {
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Goods Receipts',
+          life: 3000,
+        });
       }
     )
   }
@@ -149,11 +154,12 @@ export class GoodsReceiptDashboardComponent implements OnInit {
   currentUser: any = {};
   loadUser() {
     this.submitted = true;
-    this.authS.getUser().then((res: any) => {
+    this.authS.getUser().then((res: any) => 
+    {
       this.currentCompany = res.comapny;
       this.currentUser = res;
-      this.submitted = false;
 
+      this.submitted = false;
       this.getAllGR();
     })
       .catch((err) => {

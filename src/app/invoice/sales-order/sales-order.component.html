@@ -75,7 +75,7 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Customer</label>
                         <div class="iconSCSS w-full">
-                            <div class="field col-10">
+                            <div class="field col-10 ">
                                 <ng-container formGroupName="customer" class="w-full ">
                                     <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
                                         formControlName="id" [showClear]="true" (onChange)="selectVendor()"
@@ -87,7 +87,7 @@
                                     </p-dropdown>
                                 </ng-container>
                             </div>
-                            <div class="field col-2 text-left">
+                            <div class="field col-2">
                                 <span [routerLink]="['/collect/customer/create']"
                                     class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"

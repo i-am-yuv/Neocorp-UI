@@ -31,7 +31,6 @@ export class GoodsShipmentDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private billS: BillsService,
     private authS : AuthService,
     private commonS : InvoiceService) { }
@@ -58,6 +57,12 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     ).catch(
       (err) => {
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching all the goods shipments',
+          life: 3000,
+        });
       }
     )
   }

@@ -31,16 +31,13 @@ export class DebitNoteDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private billS: BillsService,
-    private authS : AuthService,
-    private confirmationService: ConfirmationService) { }
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, {label: 'Dashboard'}]
     
     this.loadUser();
-   
   }
 
   getAllDebitNotes()
@@ -61,6 +58,12 @@ export class DebitNoteDashboardComponent implements OnInit {
       (err) => {
         this.submitted =  false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Debit Notes',
+          life: 3000,
+        });
       }
     )
   }

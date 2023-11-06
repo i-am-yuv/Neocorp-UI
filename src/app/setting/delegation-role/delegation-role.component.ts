@@ -34,6 +34,11 @@ export class DelegationRoleComponent implements OnInit {
     private authS  : AuthService) { }
 
   ngOnInit(): void {
+      this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -45,13 +50,14 @@ export class DelegationRoleComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.loadUser();
+        this.availableDelegationRole();
       }
     });
 
     this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}, {label: 'Create'}];
     
     this.initForm();
+    this.laodRoles();
     this.getDelegationRole();
   }
 
@@ -60,7 +66,7 @@ export class DelegationRoleComponent implements OnInit {
       this.service.getAlldelegationRole(this.currentUser).then(
         (res) => {
           this.submitted = false;
-          var count = res.totalElements;
+          var count = res.length;
           //count=0
           if (count > 0) {
             this.router.navigate(['/setting/delegationRoles']);
@@ -81,7 +87,7 @@ export class DelegationRoleComponent implements OnInit {
   {
     this.delroleForm = new FormGroup({
       delegationName : new FormControl('', Validators.required), 
-      delegationDescription : new FormControl('' , Validators.required),
+      delegationDescription : new FormControl(''),
       delegationAmount : new FormControl('' , Validators.required),
       role: this.fb.group({
         id: this.fb.nonNullable.control('', {
@@ -122,7 +128,7 @@ export class DelegationRoleComponent implements OnInit {
         console.log(err);
         this.message.add({
           severity: 'error',
-          summary: ' All Role Error',
+          summary: 'Error',
           detail: 'Error while fetching All role',
           life: 3000,
         });
@@ -135,8 +141,7 @@ export class DelegationRoleComponent implements OnInit {
 
     var delroleFormVal = this.delroleForm.value;
     delroleFormVal.id = this.id;
-   // alert(JSON.stringify(delroleFormVal));
-
+   
     if (delroleFormVal.id) {
       this.submitted = true;
       this.service.updateDelegationRole(delroleFormVal)
@@ -146,7 +151,7 @@ export class DelegationRoleComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Delegation Role Updated',
+            summary: 'Success',
             detail: 'Delegation Role updated',
             life: 3000,
           });
@@ -161,21 +166,21 @@ export class DelegationRoleComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Delegation Role updated Error',
-              detail: 'Some Server Error',
+              summary: 'Error',
+              detail: 'Error While updating delegation role',
               life: 3000,
             });
           })
     } 
     else {
-      //console.log(this.delroleForm);
+      
       delroleFormVal.user  = this.currentUser ;
       this.service.createDelegationRole(this.delroleForm.value).then(
         (res)=>{
            console.log(res);
            this.message.add({
             severity: 'success',
-            summary: 'Delegation Role Saved',
+            summary: 'Success',
             detail: 'Delegation Role Saved Successfully',
             life: 3000,
           });
@@ -188,8 +193,8 @@ export class DelegationRoleComponent implements OnInit {
           console.log(err);
           this.message.add({
             severity: 'error',
-            summary: 'Delegation Role Error',
-            detail: 'Please check the server',
+            summary: 'Error',
+            detail: 'Error while saving the delegation role',
             life: 3000,
           });
         }
@@ -220,8 +225,9 @@ export class DelegationRoleComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser  = res ;
       this.submitted = false;
-      this.availableDelegationRole();
-      this.laodRoles();
+
+      this.loadOtherInfo();
+      
     })
       .catch((err) => {
         console.log(err);

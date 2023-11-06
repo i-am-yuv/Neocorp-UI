@@ -154,6 +154,12 @@ export class GoodsReceiptComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Goods Receipts',
+          life: 3000,
+        });
       }
     )
   }
@@ -185,6 +191,12 @@ export class GoodsReceiptComponent implements OnInit {
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Sales Order',
+          life: 3000,
+        });
       }
     )
   }
@@ -199,7 +211,6 @@ export class GoodsReceiptComponent implements OnInit {
           console.log(goodsReceipt);
           this.submitted = false;
           this.currGoodsReceipt = goodsReceipt;
-
           this.currSalesOrder.id = goodsReceipt?.salesOrder?.id;
 
           this.grForm.patchValue(goodsReceipt);
@@ -305,8 +316,7 @@ export class GoodsReceiptComponent implements OnInit {
 
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
-    grFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(grFormVal));
+    //grFormVal.comapny = this.currentCompany;  // Temp
 
     if (grFormVal.id) {
       this.submitted = true;
@@ -318,8 +328,8 @@ export class GoodsReceiptComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Goods Receipt Updated',
-            detail: 'Goods Receipt updated',
+            summary: 'Success',
+            detail: 'Goods Receipt updated Successfully',
             life: 3000,
           });
         }
@@ -329,8 +339,8 @@ export class GoodsReceiptComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Goods Receipt updated Error',
-            detail: 'Goods Receipt Error',
+            summary: 'Error',
+            detail: 'Goods Receipt Updation Error',
             life: 3000,
           });
         }
@@ -346,14 +356,13 @@ export class GoodsReceiptComponent implements OnInit {
           this.grForm.patchValue = { ...res };
           this.currGoodsReceipt = res;
           this.currSalesOrder = res.salesOrder;
-          console.log("Goods Receipt Added");
-          console.log(this.currGoodsReceipt);
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Goods Receipt Saved',
-            detail: 'Goods Receipt Saved',
+            summary: 'Success',
+            detail: 'Goods Receipt Saved Successfully',
             life: 3000,
           });
 
@@ -370,7 +379,7 @@ export class GoodsReceiptComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Goods Receipt Error',
+            detail: 'Goods Receipt Saving Error',
             life: 3000,
           });
         })
@@ -403,8 +412,8 @@ export class GoodsReceiptComponent implements OnInit {
     var grFormVal = this.grLineForm.value;
     grFormVal.goodsReceipt.id = this.id;
     grFormVal.salesOrder.id = this.currSalesOrder.id;
-    grFormVal.comapny = this.currentCompany
-    alert(JSON.stringify(this.grLineForm.value));
+
+    // grFormVal.comapny = this.currentCompany ;
 
     if (grFormVal.id) {
       this.submitted = true;
@@ -464,7 +473,6 @@ export class GoodsReceiptComponent implements OnInit {
           }
         );
     }
-
 
   }
 }

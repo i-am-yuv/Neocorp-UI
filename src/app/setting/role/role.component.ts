@@ -44,6 +44,12 @@ export class RoleComponent implements OnInit {
     private authS : AuthService) { }
 
   ngOnInit(): void {
+   
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -55,8 +61,7 @@ export class RoleComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.loadUser();
-       
+        this.availableRole();       
       }
     });
     this.items = [{ label: 'Settings' }, { label: 'Roles', routerLink: ['/setting/roles'] }, { label: 'Create' }];
@@ -69,7 +74,7 @@ export class RoleComponent implements OnInit {
     this.roleForm = new FormGroup({
       name: new FormControl('', Validators.required),
       roleType: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       privilege: new FormControl('')
     });
   }
@@ -90,6 +95,12 @@ export class RoleComponent implements OnInit {
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Roles',
+          life: 3000,
+        });
       }
     )
   }
@@ -106,6 +117,12 @@ export class RoleComponent implements OnInit {
       }).catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching this Roles',
+          life: 3000,
+        });
       })
     }
 
@@ -114,7 +131,6 @@ export class RoleComponent implements OnInit {
   onSubmitRole() {
     var roleFormVal = this.roleForm.value;
     roleFormVal.id = this.id;
-    alert(JSON.stringify(this.roleForm.value));
 
     if (roleFormVal.id) {
       this.submitted = true;
@@ -123,7 +139,7 @@ export class RoleComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Role Updated',
+          summary: 'Success',
           detail: 'Role updated',
           life: 3000,
         });
@@ -136,20 +152,21 @@ export class RoleComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Role updated Error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while updating the role',
             life: 3000,
           });
         })
     } else {
       
       roleFormVal.user = this.currentUser ;
+      
       this.settingS.createRole(roleFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
             severity: 'success',
-            summary: 'Role Saved',
+            summary: 'Success',
             detail: 'Role Added Successfully',
             life: 3000,
           });
@@ -162,8 +179,8 @@ export class RoleComponent implements OnInit {
           console.log(err);
           this.message.add({
             severity: 'error',
-            summary: 'Role Error',
-            detail: 'Please check the server',
+            summary: 'Error',
+            detail: 'Error while saving the role',
             life: 3000,
           });
         }
@@ -188,8 +205,8 @@ export class RoleComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser  = res ;
       this.submitted = false;
-      this.availableRole();
-      
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);

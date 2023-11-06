@@ -119,6 +119,12 @@ export class VendorInvoiceComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Vendor Invoices',
+          life: 3000,
+        });
       }
     )
   }
@@ -141,6 +147,12 @@ export class VendorInvoiceComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Fetching this vendor invoice',
+            life: 3000,
+          });
         }
       )
     }
@@ -212,9 +224,11 @@ export class VendorInvoiceComponent implements OnInit {
 
   onSubmitVI() {
     this.viForm.value.branch = this.currentUser.branch;
+
     var viFormVal = this.viForm.value;
     viFormVal.id = this.id;
     viFormVal.comapny = this.currentCompany;
+
     if (viFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -225,8 +239,8 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Vendor Invoice Updated',
-            detail: 'Vendor Invoice updated',
+            summary: 'Success',
+            detail: 'Vendor Invoice updated Successfully',
             life: 3000,
           });
         }
@@ -236,26 +250,24 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Vendor Invoice updated Error',
-            detail: 'Vendor Invoice Error',
+            summary: 'Error',
+            detail: 'Vendor Invoice updation error',
             life: 3000,
           });
         }
       )
     }
     else {
-      //  poFormVal.grossTotal = this.poSubTotal ;
-      //this.upload(); // for upload file if attached
+     
       this.submitted = true;
       viFormVal.user = this.currentUser ;
+
       this.invoiceS.createVI(viFormVal).then(
         (res) => {
           console.log(res);
           this.viForm.patchValue = { ...res };
           this.currvendorInvoice = res;
-          // this.id = res.id;
-          console.log("VI Added");
-          console.log(this.currvendorInvoice);
+          
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({

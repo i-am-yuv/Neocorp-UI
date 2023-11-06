@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div class="text-center m-5" *ngIf="allProducts.length === 0">
-                                    No Purchase Order Available, Please add one!!
+                                    No Product Available, Please add one!!
                                 </div>
                             </div>
                         </ng-template>
@@ -80,7 +80,7 @@
                             </div>
                         </ng-template>
                         <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeProduct.id">
+                            <div class="text-center m-5" *ngIf="!activeProduct.id && allProducts.length != 0">
                                 <img src="assets/empty.svg" alt="Image" width="250"><br>
                                 <p class="text-lg">Please, Select the Product to view details</p>
                             </div>

@@ -29,10 +29,8 @@ export class PoDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private usedService: PayPageService,
     private billS: BillsService,
-    private authS : AuthService,
-    private confirmationService: ConfirmationService) { }
+    private authS: AuthService) { }
 
   ngOnInit(): void {
     this.items = [{ label: 'Bills' }, { label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }];
@@ -51,13 +49,19 @@ export class PoDashboardComponent implements OnInit {
         } else {
           this.activeOrder = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The POs',
+          life: 3000
+        })
       }
     )
 
@@ -95,11 +99,11 @@ export class PoDashboardComponent implements OnInit {
   searchOrder: any;
   searchOrders(value: any) {
     if (value === null) {
-    //  alert(value);
+      //  alert(value);
       this.loadPO();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.billS.searchPurchaseOrder(value).then(
         (res: any) => {
           console.log(res);
@@ -119,11 +123,11 @@ export class PoDashboardComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
-  currentUser : any = {} ;
-  currentCompany : any  = {} ;
+  currentUser: any = {};
+  currentCompany: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then(
