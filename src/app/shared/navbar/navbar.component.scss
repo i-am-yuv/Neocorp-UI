@@ -1,42 +1,42 @@
 // .navbar {
 //     display: flex;
-    
+
 //     justify-content: space-between;
 //     align-items: center;
 //    // padding: 0 0px 0 0 ; /* Adjust padding as needed */
 //     background-color: #333; /* Set your desired background color */
 //   }
-  
+
 //   .navbar-left {
 //     width:20%;
 //   }
-  
+
 //   .navbar-right {
 //     width : 80% ;
 //     display: flex;
 //     justify-content: flex-end;
 //   }
 
-  .logo {
-    max-width: 100%; /* Ensure the logo fits within its container */
-  }
-
-  .iconSCSS {
-    display: flex;
-    align-items: center;
- //   justify-content: end;
+.logo {
+  max-width: 100%;
+  /* Ensure the logo fits within its container */
 }
-iconSCSS1{
+
+.iconSCSS {
   display: flex;
   align-items: center;
-//   justify-content: end;
+  //   justify-content: end;
 }
+
 .container {
   display: flex;
-  justify-content: end;
+  // justify-content: end;
   align-items: center;
- // height: 100vh; // Adjust as needed to control the vertical centering
+  border: 1px solid black;
+  border-radius: 30px;
+  // height: 100vh; // Adjust as needed to control the vertical centering
 }
-.plusSCSS{
+
+.plusSCSS {
   border-radius: 50% !important;
 }
