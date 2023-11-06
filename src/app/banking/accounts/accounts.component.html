@@ -159,14 +159,15 @@
 
 
                                             <div class="flex col-12">
-
-                                                <p-button label="Edit" icon="pi pi-pencil" iconPos="right"
-                                                    class="col-10 text-right"
-                                                    (click)="updateCreditAccount()"></p-button>
-                                                <p-button label="Delete" icon="pi pi-trash" iconPos="right"
-                                                    class="col-2 text-left deleteButton"
-                                                    (click)="deleteAccount()"></p-button>
+                                                <div class="col-9"></div>
+                                                <div class="flex col-3 text-right">
+                                                    <button type="button" pButton icon="pi pi-pencil" iconPos="right"
+                                                        class="ml-2" (click)="updateDebitAccount()"> Edit</button>
+                                                    <button type="button" pButton icon="pi pi-trash" iconPos="right"
+                                                        class="ml-2 deleteBtn" (click)="deleteAccount()">Delete</button>
+                                                </div>
                                             </div>
+
                                         </form>
 
                                         <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
@@ -311,12 +312,13 @@
                                             </div>
 
                                             <div class="flex col-12">
-
-                                                <p-button label="Edit" icon="pi pi-pencil" iconPos="right"
-                                                    class="col-10 text-right" (click)="updateDebitAccount()"></p-button>
-                                                <p-button label="Delete" icon="pi pi-trash" iconPos="right"
-                                                    class="col-2 text-left deleteButton"
-                                                    (click)="deleteAccount()"></p-button>
+                                                <div class="col-9"></div>
+                                                <div class="flex col-3 text-right">
+                                                    <button type="button" pButton icon="pi pi-pencil" iconPos="right"
+                                                        class="ml-2" (click)="updateDebitAccount()"> Edit</button>
+                                                    <button type="button" pButton icon="pi pi-trash" iconPos="right"
+                                                        class="ml-2 deleteBtn" (click)="deleteAccount()">Delete</button>
+                                                </div>
                                             </div>
 
                                             <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"

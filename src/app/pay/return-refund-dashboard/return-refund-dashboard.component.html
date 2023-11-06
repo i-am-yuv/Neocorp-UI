@@ -45,10 +45,10 @@
                                         <div class="iconSCSS w-full gap-2 p-3">
                                             <div class=" col-2  justify-center align-center">
                                                 <div class="person-icon">{{
-                                                    item.documentNo.charAt(0)}}</div>
+                                                    item.orderNo.charAt(0)}}</div>
                                             </div>
                                             <div class=" col-10">
-                                                <div class="text-base"><b>{{ item.documentNo }}</b></div>
+                                                <div class="text-base"><b>{{ item.orderNo }}</b></div>
                                                 <div class="flex gap-2 ">
                                                     <div class="col-8 font-italic text-base">
                                                         {{ item.salesOrder?.customer?.displayName }}
@@ -119,7 +119,7 @@
                                 <div class="flex">
                                     <div class="field col-7">
                                         <label class="mr-3 blueText">Return & Refund Number:</label>
-                                        <h5>#{{ this.activeRR.documentNo}}</h5>
+                                        <h5>#{{ this.activeRR.orderNo}}</h5>
                                     </div>
 
                                     <div class="field col-4">

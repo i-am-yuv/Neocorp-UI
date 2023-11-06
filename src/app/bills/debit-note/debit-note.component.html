@@ -35,7 +35,8 @@
                     <button type="button" pButton label="Close" (click)="OnCancelDN()"
                         class="mr-3 p-button-secondary  "></button>
                     <button type="button" pButton label="Save Debit Note" (click)="finalDNSubmitPage()"
-                        [disabled]="this.dnSubTotal == 0" class=" mr-3 Btn "></button>
+                        [disabled]="this.dnSubTotal == 0"
+                        class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
         </div>
@@ -123,7 +124,7 @@
 
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
                     <button type="submit" pButton label="Save" [disabled]="!dnForm.valid"
-                        class="mb-6 text-lg Btn "></button>
+                        class="mb-6 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 
             </form>
@@ -168,11 +169,14 @@
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
                                         </p-dropdown> -->
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'" [style]="{ width: '100%' }"
-                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id"
-                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
+                                            optionLabel="name" optionValue="id"
+                                            (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
+                                            [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">
-                                                <div class="flex align-items-center gap-2" *ngIf="lineItem.expenseName.id">
+                                                <div class="flex align-items-center gap-2"
+                                                    *ngIf="lineItem.expenseName.id">
                                                     <div>{{ lineItem.expenseName.name}}</div>
                                                 </div>
                                             </ng-template>

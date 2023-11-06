@@ -86,7 +86,7 @@ export class ReturnRefundDashboardComponent implements OnInit {
     }
     else {
       this.payS.searchRR(value).then((res: any) => {
-        console.log(res);
+        this.submitted = true;
         this.allRROrder = res.content;
         if (this.allRROrder.length > 0) {
           this.changeOrder(this.allRROrder[0]);
