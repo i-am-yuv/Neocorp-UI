@@ -5,8 +5,7 @@
         </div>
         <div class="col-8">
             <div class="border-200 text-right">
-                <button type="button" pButton (click)="openNew()"
-                    class=" mr-3 custom-button">
+                <button type="button" pButton (click)="openNew()" class=" mr-3 custom-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -82,10 +81,6 @@
                             <div *ngIf="activeRole.id">
 
                                 <div class="flex">
-                                    <!-- <div class="field col-8">
-                                        <h4 class="">Role Details:</h4>
-                                    </div> -->
-
                                     <div class="iconSCSS w-full gap-1 mr-6 cursor-pointer"
                                         (click)="onEditRole(activeRole.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
@@ -105,7 +100,6 @@
                                         </svg>
                                         <div class="text-sm blueText">Edit Role</div>
                                     </div>
-
                                 </div>
 
                                 <div class="">
