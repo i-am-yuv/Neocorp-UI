@@ -11,6 +11,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { branch } from 'src/app/auth/auth-model';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
+import { switchMap } from 'rxjs';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class PurchaseOrderComponent implements OnInit {
   submitted: boolean = false;
   sidebarVisibleProduct: boolean = false;
 
-  currentVendor : Vendor = {};
+  currentVendor: Vendor = {};
 
   DeleteDialLogvisible: boolean = false;
 
@@ -43,7 +44,7 @@ export class PurchaseOrderComponent implements OnInit {
   states: any[] = [];
 
   singleLineItem: LineItem = {};
-  groupLineItem: LineItem[] = [];
+  // groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
   category: any[] = [];
   currentPoOrder: PurchaseOrder = {};
@@ -87,9 +88,12 @@ export class PurchaseOrderComponent implements OnInit {
     private profileS: ProfilepageService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
 
+  loadOtherInfo() 
+  {
     this.id = this.route.snapshot.paramMap.get('id');
-
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -108,21 +112,18 @@ export class PurchaseOrderComponent implements OnInit {
     this.sidebarVisibleProduct = false;
 
     this.initForm();
-    this.poForm.value.enablePartialPayments = false;
     this.loadVendors();
-    this.loadCustomers();
     this.loadProducts();
     this.loadState();
     this.getPoOrder();
-    this.loadUser();
   }
 
   availablePO() {
     this.submitted = true;
-    this.billS.getAllPo().then(
+    this.billS.getAllPo(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/purchaseOrders']);
@@ -206,6 +207,8 @@ export class PurchaseOrderComponent implements OnInit {
         this.currentUser = res;
         this.currentCompany = res.comapny;
         this.submitted = false;
+
+        this.loadOtherInfo();
       }
     ).catch(
       (err) => {
@@ -236,7 +239,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
         this.vendors = res.content;
         console.log(res);
@@ -248,23 +251,10 @@ export class PurchaseOrderComponent implements OnInit {
     )
   }
 
-  loadCustomers() {
-    this.usedService.allCustomer().then(
-      (res) => {
-        this.customers = res.content;
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
-  }
-
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -333,11 +323,12 @@ export class PurchaseOrderComponent implements OnInit {
       )
     }
     else {
-      this.upload(); // for upload file if attached
+      this.upload();
       this.submitted = true;
       poFormVal.grossTotal = null;
       poFormVal.requestStatus = 'DRAFT';
-     // poFormVal.orderNumber = null;
+      poFormVal.user = this.currentUser;
+
       this.billS.createPurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -372,26 +363,12 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   selectVendor() {
-    // var vendor = this.vendors.find(
-    //   (t) => t.id === this.poForm.value.vendor  
-    //   );
-    // this.selectedVendor = vendor ? vendor : {};
-    // if (this.selectedVendor.id) {
-    //   this.poForm.value.vendor.id = this.selectedVendor.id ;
-    // }
-    // else{
-    //   this.poForm.value.vendor = null;
-    // }
+    
   }
 
   setLineValues(lineItem: LineItem) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    // poline.unitprice = dc.sellingPrice;
-
-    // poline.quantity = poline.quantity ? poline.quantity : 1;
-
-    // poline.linetotal = dc.sellingPrice * poline.quantity;
-
+    
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: LineItem) {
@@ -461,7 +438,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: LineItem) {
-  //  alert(JSON.stringify(lineItem));
+    //  alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     alert(JSON.stringify(currentProduct));
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -621,13 +598,7 @@ export class PurchaseOrderComponent implements OnInit {
                 life: 3000,
               });
             } else {
-              // this.uploadMessage = 'Could not upload the file!';
-              // this.message.add({
-              //   severity: 'error',
-              //   summary: 'Error',
-              //   detail: 'Issue Happed in File upload',
-              //   life: 3000,
-              // });
+             
               console.log("Some Issue while uploading file, Please check");
             }
             this.currentFile = undefined;
@@ -658,8 +629,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchage Order Updated Successfully',
-            detail: 'Purchase Order Updated',
+            summary: 'Purchage Order Saved Successfully',
+            detail: 'Purchase Order Saved',
             life: 3000
           })
           setTimeout(() => {
@@ -676,8 +647,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.upload();
       this.message.add({
         severity: 'success',
-        summary: 'Purchase Order Created Successfully',
-        detail: 'Purchase Order created',
+        summary: 'Purchase Order Saved Successfully',
+        detail: 'Purchase Order Saved',
         life: 3000,
       });
       setTimeout(() => {
@@ -696,6 +667,5 @@ export class PurchaseOrderComponent implements OnInit {
   OnCancelPO() {
     //this.createNew = false;
     this.router.navigate(['/bills/purchaseOrder']);
-
   }
 }

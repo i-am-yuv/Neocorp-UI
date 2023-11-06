@@ -189,14 +189,14 @@ export class BillsService {
     return currRn;
   }
 
-  async getAllRn() {
-    var url = this.apiurlNew + 'api/ReceiptNote';
+  async getAllRn(user : any) {
+    var url = this.apiurlNew + 'api/ReceiptNote/ReceiptNote/'+encodeURIComponent(user.id);
     const allRn = await lastValueFrom(this.http.get<any>(url));
     return allRn;
   }
 
-  async getAllGS() {
-    var url = this.apiurlNew + 'goodsShipment';
+  async getAllGS(user : any) {
+    var url = this.apiurlNew + 'goodsShipment/goodsShipment/'+encodeURIComponent(user.id);
     const allGS = await lastValueFrom(this.http.get<any>(url));
     return allGS;
   }
@@ -207,8 +207,8 @@ export class BillsService {
     return currGs;
   }
 
-  async getAllGR() {
-    var url = this.apiurlNew + 'goodsReceipt';
+  async getAllGR(user : any) {
+    var url = this.apiurlNew + 'goodsReceipt/goodsReceipt/'+encodeURIComponent(user.id);
     const allGR = await lastValueFrom(this.http.get<any>(url));
     return allGR;
   }
@@ -225,8 +225,8 @@ export class BillsService {
     return currDn;
   }
 
-  async getAllDn() {
-    var url = this.apiurlNew + 'api/debitNote';
+  async getAllDn(user : any) {
+    var url = this.apiurlNew + 'api/debitNote/debitNote/'+encodeURIComponent(user.id);;
     const allDn = await lastValueFrom(this.http.get<any>(url));
     return allDn;
   }
@@ -249,8 +249,8 @@ export class BillsService {
     return currDnLineItems;
   }
 
-  async getAllPo() {
-    var url = this.apiurlNew + 'api/PurchaseOrder' ;
+  async getAllPo(user : any) {
+    var url = this.apiurlNew + 'api/PurchaseOrder/PurchaseOrder/'+encodeURIComponent(user.id); ;
     const allPos = await lastValueFrom(this.http.get<any>(url));
     return allPos;
   }

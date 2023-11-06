@@ -204,10 +204,10 @@
                                 <td>
                                     <p class="blueText font-semibold text-lg">{{
                                         payment.paymentRequest?.debitAccountDetails?.bankname}}</p>
-                                    <p>Account No. {{payment.paymentRequest?.debitAccountDetails?.AccountNumber}}</p>
+                                    <p>Account No. {{payment.paymentRequest?.debitAccountDetails?.accountNumber}}</p>
                                 </td>
                                 <td>{{ payment.invoice.invoiceNo }}<br>
-                                    Status: <p class="dueAmount">{{ payment.invoice.status }}</p>
+                                    Status: <p class="dueAmount">{{ payment.invoice.requestStatus }}</p>
                                 </td>
                                 <td>{{ payment.vendor.firstName}} {{ payment.vendor.lastName}}
                                     <p>Mobile No. {{payment.vendor.mobileNumber}}</p>

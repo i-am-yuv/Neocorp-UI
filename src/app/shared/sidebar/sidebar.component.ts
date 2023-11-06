@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
     private router: Router,
     private message: MessageService) { }
 
-  routeName: any;
+  routeName: any = null ;
   ngOnInit(): void {
     // this.id = this.route.snapshot.paramMap.get('id');
 

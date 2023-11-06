@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-receipt-note-dashboard',
@@ -30,25 +31,26 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
+    private authS : AuthService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
-    this.getAllReceiptNotes();
+    this.loadUser();
   }
 
   getAllReceiptNotes()
   {
     this.submitted = true;
-    this.billS.getAllRn().then(
+    this.billS.getAllRn(this.currentUser).then(
       (res : any) => {
-        this.allReceiptNotes = res.content;
+        this.allReceiptNotes = res;
         if (this.allReceiptNotes.length > 0) {
           this.changeOrder(this.allReceiptNotes[0]);
         } else {
           this.activeRN = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
@@ -62,7 +64,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
   {
      this.activeRN = item;
     this.getNotesLines(item);
-    this.getRemainingAmount(item);
+   // this.getRemainingAmount(item);
   }
 
   getNotesLines(item:ReceiptNote)
@@ -92,21 +94,21 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     this.router.navigate(['/bills/receiptNote/edit/'+id]); 
   }
 
-  getRemainingAmount(RN:any){
-    this.submitted  = true;
-    this.billS.getRemainingAmountReceipt(RN).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
-      }
-    ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
-      }
-    )
-  }
+  // getRemainingAmount(RN:any){
+  //   this.submitted  = true;
+  //   this.billS.getRemainingAmountReceipt(RN).then(
+  //     (res)=>{
+  //           console.log(res);
+  //           this.currentDue = res;
+  //           this.submitted  = false;
+  //     }
+  //   ).catch(
+  //     (err)=>{
+  //        console.log(err);
+  //        this.submitted  = false;
+  //     }
+  //   )
+  // }
 
 
   
@@ -138,6 +140,23 @@ export class ReceiptNoteDashboardComponent implements OnInit {
       )
     }
     
+  }
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.getAllReceiptNotes();
+      
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 

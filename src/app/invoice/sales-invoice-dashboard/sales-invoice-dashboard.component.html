@@ -107,10 +107,10 @@
                             <div *ngIf="activeInvoice.id">
 
 
-                                <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
+                                <!-- <div class="flex bg-gray-700 gap-3 rounded-div1 mr-3 p-2 ">
                                     <div class="field col-7  ml-3 ">
                                         <h4 class="rightMain">Payment Activity</h4>
-                                        <h4 class="text-white">#{{this.activeInvoice.salesOrder?.documentno}}
+                                        <h4 class="text-white">#{{this.activeInvoice.salesOrder?.orderNumber}}
                                         </h4>
 
                                         <div class="flex gap-5 bg-white rounded-div1 mt-3 ">
@@ -127,8 +127,7 @@
                                     <div class="field col-4 bg-gray-700">
                                         <div *ngIf="this.activeInvoice.status != 'COMPLETED' "
                                             class=" bg-red-100 mt-2 ml-2 mr-2 rounded-div1">
-                                            <!-- <h4 class="text-center text-red-400 text-base">Status: {{this.activeInvoice.status}}
-                                            </h4> -->
+                                           
                                             <h4 class="text-center leftStatus text-base  ">
                                                 <div class="flex gap-1  w-full">
                                                     <div class="col-3 leftP text-right">
@@ -147,16 +146,11 @@
                                                     </div>
                                                 </div>
                                             </h4>
-                                            <!-- <h4 *ngIf="this.activeInvoice.status=='COMPLETED'"
-                                                class="text-center text-green-400 text-base">Status:
-                                                {{this.activeInvoice.status}}
-                                            </h4> -->
+                                           
                                         </div>
                                         <div *ngIf="this.activeInvoice.status == 'COMPLETED' "
                                             class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
-                                            <!-- <h4 class="text-center text-base leftStatus ">Status:
-                                                {{this.activeInvoice.status}}
-                                            </h4> -->
+                                            
                                             <h4 class="text-center appStatus text-base ">
                                                 <div class="flex gap-1  w-full">
                                                     <div class="col-2 appStatus text-right">
@@ -179,6 +173,77 @@
                                                 <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
                                                     date:'yyyy-MM-dd' }}</h5>
                                                 <hr class="custom-hr ">
+                                                <h5 class="text-white">Due Date: Nil</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> -->
+
+                                <div class="flex bg-gray-700  rounded-div1 mr-3 p-2 ">
+                                    <div class="field col-7  ">
+                                        <h4 class="rightMain">Payment Activity</h4>
+                                        <h4 class="text-white">#{{this.activeInvoice.salesOrder?.orderNumber}}
+                                        </h4>
+
+                                        <div class="flex bg-white rounded-div1 mt-3 ">
+                                            <div class="field col-6">
+                                                <h5>Current Due</h5>
+                                                <h4 class="remainAmount text-xl">₹ {{ myFunction(this.activeInvoice.remainingAmount) ? myFunction(this.activeInvoice.remainingAmount) :'0.00'}}
+                                                </h4>
+                                            </div>
+                                            <div class="field col-6">
+                                                <h5>Total Amount</h5>
+                                                <h4 class="text-xl">₹ {{myFunction(this.activeInvoice.grossTotal)? myFunction(this.activeInvoice.grossTotal) : '0.00'}}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field col-5 ">
+                                        <div *ngIf="this.activeInvoice.status != 'COMPLETED' "
+                                            class=" bg-red-100 mt-2 ml-2 mr-2  rounded-div1 ">
+                                            <h4 class="text-center leftStatus text-base">
+                                                <div class="flex gap-1  w-full">
+                                                    <div class="col-3 leftP text-right">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                            viewBox="0 0 18 18" fill="none">
+                                                            <path
+                                                                d="M9 15.75C7.66498 15.75 6.35993 15.3541 5.2499 14.6124C4.13987 13.8707 3.27471 12.8165 2.76382 11.5831C2.25292 10.3497 2.11925 8.99252 2.3797 7.68314C2.64015 6.37377 3.28303 5.17104 4.22703 4.22703C5.17104 3.28303 6.37377 2.64015 7.68314 2.3797C8.99251 2.11925 10.3497 2.25292 11.5831 2.76382C12.8165 3.27471 13.8707 4.13987 14.6124 5.2499C15.3541 6.35994 15.75 7.66498 15.75 9C15.75 10.7902 15.0388 12.5071 13.773 13.773C12.5071 15.0388 10.7902 15.75 9 15.75ZM9 3.21429C7.8557 3.21429 6.73709 3.55361 5.78563 4.18936C4.83418 4.8251 4.09261 5.72871 3.6547 6.78591C3.21679 7.84311 3.10222 9.00642 3.32546 10.1287C3.5487 11.2511 4.09974 12.282 4.90888 13.0911C5.71803 13.9003 6.74895 14.4513 7.87127 14.6745C8.99358 14.8978 10.1569 14.7832 11.2141 14.3453C12.2713 13.9074 13.1749 13.1658 13.8106 12.2144C14.4464 11.2629 14.7857 10.1443 14.7857 9C14.7857 7.46554 14.1761 5.99392 13.0911 4.90889C12.0061 3.82385 10.5345 3.21429 9 3.21429Z"
+                                                                fill="#C22B39" />
+                                                            <path
+                                                                d="M10.6457 12.75L8.25 9.95501V5.25H9.10714V9.54001L11.25 12.045L10.6457 12.75Z"
+                                                                fill="#C22B39" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="col-9 rightP text-left text-sm ">
+                                                        {{activeInvoice.status}}
+                                                    </div>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                        <div *ngIf="this.activeInvoice.status == 'COMPLETED'"
+                                            class=" bg-green-300 mt-2 ml-2 mr-2 rounded-div1">
+                                            <h4 class="text-center  text-base">
+                                                <div class="iconSCSS1 gap-1  w-full">
+                                                    <div class="col-3 leftP text-right">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                            viewBox="0 0 32 32" fill="white">
+                                                            <path
+                                                                d="M30.4099 8.53003L27.4099 5.58503C27.0351 5.21176 26.5277 5.0022 25.9987 5.0022C25.4697 5.0022 24.9623 5.21176 24.5874 5.58503L12.9999 17L12.9862 16.9863L8.40619 12.5775C8.03043 12.2056 7.5227 11.9977 6.99402 11.9991C6.46534 12.0005 5.95873 12.2111 5.58494 12.585L2.58494 15.585C2.21054 15.96 2.00024 16.4683 2.00024 16.9982C2.00024 17.5281 2.21054 18.0363 2.58494 18.4113L11.5374 27.4113C11.7232 27.597 11.9437 27.7444 12.1863 27.8449C12.429 27.9455 12.6891 27.9972 12.9518 27.9972C13.2145 27.9972 13.4746 27.9455 13.7173 27.8449C13.96 27.7444 14.1805 27.597 14.3662 27.4113L30.4162 11.3638C30.6023 11.1776 30.7498 10.9564 30.8503 10.713C30.9507 10.4697 31.0021 10.2089 31.0015 9.9456C31.0009 9.68232 30.9484 9.42175 30.8469 9.17883C30.7453 8.93591 30.5969 8.71543 30.4099 8.53003ZM12.9524 26L3.99994 17L6.99994 14L7.01369 14.0138L11.5937 18.4225C11.9682 18.7935 12.474 19.0016 13.0012 19.0016C13.5283 19.0016 14.0342 18.7935 14.4087 18.4225L26.0074 7.00003L28.9999 9.95003L12.9524 26Z"
+                                                                fill="#343330" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="col-9 rightP text-left text-sm p-1">
+                                                        {{activeInvoice.status}}
+                                                    </div>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <div class="mt-5">
+                                                <h5 class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
+                                                    date:'yyyy-MM-dd' }}</h5>
+                                                <hr class="custom-hr">
                                                 <h5 class="text-white">Due Date: Nil</h5>
                                             </div>
                                         </div>
@@ -207,7 +272,7 @@
                                 <div class="flex">
                                     <div class="field col-6">
                                         <label class="mr-3 blueText">Sales Order Details</label>
-                                        <p>Order Number: #{{this.activeInvoice.salesOrder?.documentno}}
+                                        <p>Order Number: #{{this.activeInvoice.salesOrder?.orderNumber}}
                                         </p>
                                     </div>
                                     <div class="field col-6">

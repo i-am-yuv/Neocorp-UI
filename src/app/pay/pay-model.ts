@@ -7,13 +7,15 @@ export class PayModel {
 
 export interface ReturnRefund {
   id?: string;
-  documentNo?: string;
+  //documentNo?: string;
+  orderNo ?: string;
   refund?: boolean;
   processDate?: Date;
   salesOrder?: SalesOrder;
   grossTotal?: number;
   reason?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 // export interface OrderLine{

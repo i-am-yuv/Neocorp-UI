@@ -41,16 +41,12 @@
                         </ng-template>
 
                         <div class="p-inputgroup pl-2 pr-2 pt-2">
-
                             <input pInputText placeholder="Search" [(ngModel)]="searchPI" class="w-full custom-input"
                                 (ngModelChange)="searchPIs(searchPI)" />
                             <button type="button" pButton pRipple icon="pi pi-search" (click)="searchPIs(searchPI)"
                                 styleClass="p-button-success">
                             </button>
-
                         </div>
-
-
 
                         <ng-template pTemplate="content">
                             <div class="left-panel-content">
@@ -71,7 +67,7 @@
                                                 <div class="flex gap-1 ">
                                                     <div class="col-7 font-italic text-base">
                                                         {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}<br>
-                                                        <p class="font-light text-sm">Date: {{item.duedate| date
+                                                        <p class="font-light text-sm">Due Date: {{item.duedate| date
                                                             :'yyyy-MM-dd'}}</p>
                                                     </div>
                                                     <div class="col-5   text-base text-right">
@@ -124,21 +120,21 @@
                             <div *ngIf="activeInvoice.id">
                                 <!-- <h3 class="text-lg ">Purchase Order Details</h3>
                                         <br> -->
-                                <div class="flex bg-gray-700 gap-1 rounded-div1 mr-3 p-2 ">
-                                    <div class="field col-7  ml-3 ">
+                                <div class="flex bg-gray-700  rounded-div1 mr-3 p-2 ">
+                                    <div class="field col-7  ">
                                         <h4 class="rightMain">Payment Activity</h4>
                                         <h4 class="text-white">#{{this.activeInvoice.purchaseOrder?.orderNumber}}
                                         </h4>
 
-                                        <div class="flex gap-5 bg-white rounded-div1 mt-3 ">
+                                        <div class="flex bg-white rounded-div1 mt-3 ">
                                             <div class="field col-6">
                                                 <h5>Current Due</h5>
-                                                <h4 class="remainAmount text-xl">₹ {{ myFunction(this.currentDue) }}
+                                                <h4 class="remainAmount text-xl">₹ {{ myFunction(this.activeInvoice.remainingAmount)? myFunction(this.activeInvoice.remainingAmount) : '0.00' }}
                                                 </h4>
                                             </div>
                                             <div class="field col-6">
                                                 <h5>Total Amount</h5>
-                                                <h4 class="text-xl">₹ {{myFunction(this.activeInvoice.grossTotal) }}
+                                                <h4 class="text-xl">₹ {{myFunction(this.activeInvoice.grossTotal) ? myFunction(this.activeInvoice.grossTotal) : '0.00' }}
                                                 </h4>
                                             </div>
                                         </div>

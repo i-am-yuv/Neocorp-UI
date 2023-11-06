@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PayPageService } from '../pay-page.service';
 import { Vendor } from 'src/app/settings/customers/customer';
 import { MenuItem, SelectItem } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-vendor-dashboard',
@@ -28,21 +29,22 @@ export class VendorDashboardComponent implements OnInit {
 
   items!: MenuItem[];
 
-  constructor(private router: Router, private route: ActivatedRoute, private payServices: PayPageService) { }
+  constructor(private router: Router, private route: ActivatedRoute, 
+    private payServices: PayPageService , private authS : AuthService) { }
 
   ngOnInit(): void {
 
     this.items = [{label: 'Pay'},{ label: 'Vendors', routerLink: ['/pay/vendors'] }, {label: 'Dashboard'}];
 
-    this.getAllVendors();
-
+    this.loadUser();
+  //  this.getAllVendors();
   }
 
   getAllVendors() {
     this.submitted = true;
-    this.payServices.allVendor().then((res: any) => {
+    this.payServices.allVendor(this.currentUser).then((res: any) => {
       console.log(res);
-      this.allVendors = res.content;
+      this.allVendors = res;
       if (this.allVendors.length > 0) {
         this.changeVender(this.allVendors[0]);
       } else {
@@ -87,31 +89,31 @@ export class VendorDashboardComponent implements OnInit {
         this.allPurchaseInvoices = res;
         this.submitted = false;
         this.totalRemainingAmount = 0;
-        for (const purchaseInvoice of this.allPurchaseInvoices) {
-          // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
-          //   person.amount = amount; // Update the person's amount
-          //   this.calculateTotalAmount();
-          // });
+        // for (const purchaseInvoice of this.allPurchaseInvoices) {
+          
+        //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+        //     (res) => {
 
-          this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-            (res) => {
+        //       this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
 
-              this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+        //       this.totalRemainingAmount += res;
 
-              this.totalRemainingAmount += res;
-
-              console.log(res);
-            }
-          ).catch(
-            (err) => {
-              console.log(err);
-            }
-          )
-        }
+        //       console.log(res);
+        //     }
+        //   ).catch(
+        //     (err) => {
+        //       console.log(err);
+        //     }
+        //   )
+        // }
 
         this.totalGrossAmount = this.allPurchaseInvoices
           .reduce((total, PI) =>
             total + PI.grossTotal, 0
+          )
+          this.totalRemainingAmount = this.allPurchaseInvoices
+          .reduce((total, PI) =>
+            total + PI.remainingAmount, 0
           )
         this.submitted = false;
       })
@@ -142,37 +144,37 @@ export class VendorDashboardComponent implements OnInit {
       .then((res: any) => {
         console.log(res);
         this.allPurchaseInvoices = res;
-        // this.totalRemainingAmount = this.allPurchaseInvoices
-        // .reduce((total, PI) => 
-        //   total + PI.remainingAmount, 0
-        // );
-
+        
+        this.totalGrossAmount =  0 ;
         this.totalRemainingAmount = 0;
-        for (const purchaseInvoice of this.allPurchaseInvoices) {
-          // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
-          //   person.amount = amount; // Update the person's amount
-          //   this.calculateTotalAmount();
-          // });
+        // for (const purchaseInvoice of this.allPurchaseInvoices) {
+        //   // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
+        //   //   person.amount = amount; // Update the person's amount
+        //   //   this.calculateTotalAmount();
+        //   // });
 
-          this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-            (res) => {
+        //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
+        //     (res) => {
 
-              this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
+        //       this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
 
-              this.totalRemainingAmount += res;
+        //       this.totalRemainingAmount += res;
 
-              console.log(res);
-            }
-          ).catch(
-            (err) => {
-              console.log(err);
-            }
-          )
-        }
-
+        //       console.log(res);
+        //     }
+        //   ).catch(
+        //     (err) => {
+        //       console.log(err);
+        //     }
+        //   )
+        // }
         this.totalGrossAmount = this.allPurchaseInvoices
           .reduce((total, PI) =>
             total + PI.grossTotal, 0
+          )
+          this.totalRemainingAmount = this.allPurchaseInvoices
+          .reduce((total, PI) =>
+            total + PI.remainingAmount, 0
           )
         this.submitted = false;
       })
@@ -201,7 +203,7 @@ export class VendorDashboardComponent implements OnInit {
       this.payServices.searchVendor(value).then(
         (res: any) => {
           console.log(res);
-          this.allVendors = res.content;
+          this.allVendors = res;
           if (this.allVendors.length > 0) {
             this.changeVender(this.allVendors[0]);
           } else {
@@ -218,6 +220,24 @@ export class VendorDashboardComponent implements OnInit {
       )
     }
     
+  }
+
+  currentCompany : any = {};
+  currentUser : any = {} ;
+
+  loadUser() 
+  {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+      this.getAllVendors();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

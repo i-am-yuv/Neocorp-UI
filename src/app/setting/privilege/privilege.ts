@@ -1,4 +1,4 @@
-import { Roles } from "../roles/roles";
+import { Roles } from "../setting-models";
 
 export interface Privilege {
     id?: string;
@@ -9,6 +9,7 @@ export interface Privilege {
     description?: string;
     allowAll?: boolean;
     roles?: any;
+    user ?: any ;
 }
  export interface DelegationRole{
     id ?: string ;
@@ -16,4 +17,5 @@ export interface Privilege {
     delegationAmount?: number;
     delegationDescription?: string;
     role?: Roles;
+    user ?: any ;
  }

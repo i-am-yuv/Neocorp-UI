@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -19,17 +20,19 @@ export class ProductDashboardComponent implements OnInit {
 
   items!: MenuItem[];
 
-  constructor(private router: Router, private profileService: ProfilepageService) { }
+  constructor(private router: Router, private profileService: ProfilepageService,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Settings'},{ label: 'Products', routerLink: ['/profile/products'] }, { label: 'Dashboard'}];
     
-    this.getAllProducts();
+    this.loadUser();
+   
   }
 
   getAllProducts() {
     this.submitted = true;
-    this.profileService.getAllProduct()
+    this.profileService.getAllProduct(this.currentUser)
       .then((res: any) => {
         this.allProducts = res.content;
         if (this.allProducts.length > 0) {
@@ -89,7 +92,22 @@ export class ProductDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+      this.getAllProducts();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 

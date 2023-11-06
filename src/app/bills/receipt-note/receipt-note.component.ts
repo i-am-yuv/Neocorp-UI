@@ -70,6 +70,11 @@ export class ReceiptNoteComponent implements OnInit {
     private billS: BillsService, private authS: AuthService) { }
 
   ngOnInit(): void {
+     this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -95,8 +100,6 @@ export class ReceiptNoteComponent implements OnInit {
     this.loadProducts();
     this.loadStates();
     this.getReceiptNote();
-    this.loadUser();
-
   }
 
   initForm() {
@@ -126,10 +129,10 @@ export class ReceiptNoteComponent implements OnInit {
 
   availableRN() {
     this.submitted = true;
-    this.billS.getAllRn().then(
+    this.billS.getAllRn(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/receiptNotes']);
@@ -145,12 +148,15 @@ export class ReceiptNoteComponent implements OnInit {
       }
     )
   }
+  currentUser : any = {} ;
 
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -209,9 +215,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
       }
     ).catch(
@@ -222,9 +228,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -235,9 +241,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -317,6 +323,7 @@ export class ReceiptNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       //this.upload(); // for upload file if attached
       this.submitted = true;
+      rnFormVal.user = this.currentUser ;
       this.billS.createReceiptNote(rnFormVal).then(
         (res) => {
 
@@ -565,8 +572,8 @@ export class ReceiptNoteComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Receipt Note Updated',
-          detail: 'Receipt Note Updated',
+          summary: 'Success',
+          detail: 'Receipt Note Saved Successfully',
           life: 3000
         });
         setTimeout(() => {

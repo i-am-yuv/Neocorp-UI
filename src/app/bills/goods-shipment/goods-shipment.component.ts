@@ -81,6 +81,11 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -104,11 +109,8 @@ export class GoodsShipmentComponent implements OnInit {
     this.loadProducts();
     this.loadSalesOrder();
     this.getGS();
-    this.loadUser();
-
-    //   this.bind();
-
   }
+
   createGS() {
     //this.createNew = true;
     this.router.navigate(['/bills/goodsShipment/create']);
@@ -142,7 +144,7 @@ export class GoodsShipmentComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       salesOrder: this.fb.group({
-        id: this.fb.nonNullable.control('', Validators.required)
+        id: this.fb.nonNullable.control('')
       }),
       company: this.fb.group({
         id: this.fb.nonNullable.control('')
@@ -168,10 +170,10 @@ export class GoodsShipmentComponent implements OnInit {
 
   availableGS() {
     this.submitted = true;
-    this.billS.getAllGS().then(
+    this.billS.getAllGS(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/goodsShipments']);
@@ -187,12 +189,15 @@ export class GoodsShipmentComponent implements OnInit {
       }
     )
   }
-
+  currentUser : any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser =  res ;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -201,9 +206,9 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   loadCustomers() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -215,9 +220,9 @@ export class GoodsShipmentComponent implements OnInit {
 
   loadSalesOrder() {
     this.submitted = true;
-    this.invoiceS.getAllSo().then(
+    this.invoiceS.getAllSo(this.currentUser).then(
       (res: any) => {
-        this.allSo = res.content;
+        this.allSo = res;
         this.submitted = false;
       }
     ).catch(
@@ -299,9 +304,9 @@ export class GoodsShipmentComponent implements OnInit {
 
   loadVendors() {
     this.submitted = true;
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
         this.submitted = false;
       }
@@ -315,9 +320,9 @@ export class GoodsShipmentComponent implements OnInit {
 
   loadProducts() {
     this.submitted = true;
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
         this.submitted = false;
       }
@@ -410,6 +415,7 @@ export class GoodsShipmentComponent implements OnInit {
       
       this.submitted =  true;
       gsFormVal.status = 'DRAFT';
+      gsFormVal.user = this.currentUser ;
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
           console.log(res);
@@ -430,6 +436,7 @@ export class GoodsShipmentComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['bills/goodsShipment/edit/' + res.id]);
           }, 2000);
+          
           this.loadSalesOrderLineItems(this.gsForm.value.salesOrder);
         }
       ).catch(

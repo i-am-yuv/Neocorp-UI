@@ -65,6 +65,11 @@ export class GoodsReceiptComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -86,7 +91,6 @@ export class GoodsReceiptComponent implements OnInit {
     this.loadVendors();
     this.loadSalesOrder();
     this.getGR();
-    this.loadUser();
   }
 
   createGR() {
@@ -108,7 +112,7 @@ export class GoodsReceiptComponent implements OnInit {
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       salesOrder: this.fb.group({
-        id: this.fb.nonNullable.control('', Validators.required)
+        id: this.fb.nonNullable.control('')
       }),
       company: this.fb.group({
         id: this.fb.nonNullable.control('')
@@ -134,10 +138,10 @@ export class GoodsReceiptComponent implements OnInit {
 
   availableGR() {
     this.submitted = true;
-    this.billS.getAllGR().then(
+    this.billS.getAllGR(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/goodsReceipt']);
@@ -154,11 +158,15 @@ export class GoodsReceiptComponent implements OnInit {
     )
   }
 
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -168,9 +176,9 @@ export class GoodsReceiptComponent implements OnInit {
 
   loadSalesOrder() {
     this.submitted = true;
-    this.invoiceS.getAllSo().then(
+    this.invoiceS.getAllSo(this.currentUser).then(
       (res: any) => {
-        this.allSo = res.content;
+        this.allSo = res;
         this.submitted = false;
       }
     ).catch(
@@ -249,9 +257,9 @@ export class GoodsReceiptComponent implements OnInit {
 
   loadVendors() {
     this.submitted = true;
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
         this.submitted = false;
       }
@@ -295,7 +303,6 @@ export class GoodsReceiptComponent implements OnInit {
   onSubmitGR() {
     this.grForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
 
-
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
     grFormVal.comapny = this.currentCompany;
@@ -332,6 +339,7 @@ export class GoodsReceiptComponent implements OnInit {
     else {
 
       this.submitted = true;
+      grFormVal.user = this.currentUser;
       this.billS.createGoodsReceipt(grFormVal).then(
         (res) => {
           console.log(res);

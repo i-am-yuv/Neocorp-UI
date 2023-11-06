@@ -13,8 +13,8 @@ export class BankingService {
 
   constructor(private http: HttpClient) { }
 
-  async getAllBeneficairy() {
-    var url = this.apiurlNew + 'beneficiary';
+  async getAllBeneficairy(user : any) {
+    var url = this.apiurlNew + 'beneficiary/beneficiary/'+ encodeURIComponent(user.id) ;
     const allBeneficairy = await lastValueFrom(this.http.get<any>(url));
     return allBeneficairy;
   }

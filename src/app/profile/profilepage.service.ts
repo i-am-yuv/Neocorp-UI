@@ -19,8 +19,8 @@ export class ProfilepageService {
     return _product;
   }
 
-  async getAllProduct() {
-    var url = this.apiurlNew + 'api/product'
+  async getAllProduct(user : any) {
+    var url = this.apiurlNew + 'api/product/product'+ encodeURIComponent(user.id);
     const allProduct = await lastValueFrom(this.http.get<any>(url));
     return allProduct;
   }
@@ -43,14 +43,14 @@ export class ProfilepageService {
     return _productCategory;
   }
 
-  async getAllProductCategory() {
-    var url = this.apiurlNew + 'api/productCategory'
+  async getAllProductCategory(user : any) {
+    var url = this.apiurlNew + 'api/productCategory/productCategory/' +  encodeURIComponent(user.id) ;
     const allCategory = await lastValueFrom(this.http.get<any>(url));
     return allCategory;
   }
 
   async getProductCategoryById(id: any) {
-    var url = this.apiurlNew + 'api/productCategory/' +  encodeURIComponent(id) 
+    var url = this.apiurlNew + 'api/productCategory/' +  encodeURIComponent(id) ;
     const allCategory = await lastValueFrom(this.http.get<any>(url));
     return allCategory;
   }

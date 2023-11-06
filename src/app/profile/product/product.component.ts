@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 import { ProductCategory } from '../product-category';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,7 @@ export class ProductComponent implements OnInit {
   submitted: boolean = false;
   productForm!: FormGroup;
   createNew: boolean = false;
-  currentCategory : ProductCategory = {};
+  currentCategory: ProductCategory = {};
 
   category: Product[] = [];
 
@@ -40,7 +41,8 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private profileS: ProfilepageService) { }
+    private profileS: ProfilepageService,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -54,15 +56,15 @@ export class ProductComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.availableProducts();
+        this.loadUser();
       }
     });
 
-    this.items = [{label: 'Settings'},{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
+    this.items = [{ label: 'Settings' }, { label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
     this.initForm();
     this.getProductDetails();
-    this.loadCategories();
+    this.loadUser();
   }
 
   // Product Init Form
@@ -128,8 +130,8 @@ export class ProductComponent implements OnInit {
             });
           })
     } else {
-      console.log(this.productForm);
-      this.profileS.createProduct(this.productForm.value).then(
+      productFormVal.user = this.currentUser;
+      this.profileS.createProduct(productFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
@@ -173,9 +175,9 @@ export class ProductComponent implements OnInit {
   // Load Available Function
   availableProducts() {
     this.submitted = true;
-    this.profileS.getAllProduct()
+    this.profileS.getAllProduct(this.currentUser)
       .then((res: any) => {
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
 
         if (count > 0) {
@@ -207,14 +209,11 @@ export class ProductComponent implements OnInit {
         })
     }
   }
-
-
-
-  selectProductCategory(){
+  selectProductCategory() {
   }
 
   loadCategories() {
-    this.profileS.getAllProductCategory().then(
+    this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
         this.category = res.content;
         console.log(res);
@@ -229,5 +228,25 @@ export class ProductComponent implements OnInit {
   cancelProduct() {
     this.router.navigate(['/profile/products']);
   }
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+      // other info
+      this.availableProducts();
+      this.loadCategories();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
+
 
 }

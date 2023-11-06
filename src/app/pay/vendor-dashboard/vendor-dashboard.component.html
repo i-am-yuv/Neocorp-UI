@@ -55,6 +55,7 @@
                                                 <div class="flex gap-1 ">
                                                     <div class="col-10 text-base">
                                                         <p class="text-sm">Mobile Number:+91 {{item.mobileNumber}}</p>
+                                                        <p class="text-sm">Email Address: {{item.email}}</p>
                                                     </div>
 
                                                 </div>
@@ -199,15 +200,15 @@
 
                                     <div class="button-container">
                                         <button type="button" label="Orders" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg': true , 'onClickButton':showOrders }"
+                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true , 'onClickButton':showOrders }"
                                             (click)="showOrdersPage()">Orders</button>
                                         <button type="button" label="invoice" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg': true, 'onClickButton': showInvoices}"
+                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true, 'onClickButton': showInvoices}"
                                             (click)="showInvoicesPage(activeVendor)">Invoices</button>
                                     </div>
 
                                     <div *ngIf="showOrders" class="mt-5">
-                                        <p class="blueText" *ngIf="allPurchaseOrders.length >0 ">Order No.</p>
+                                        <p class="blueText" *ngIf="allPurchaseOrders.length >0 ">Purchase Order No.</p>
                                         <div *ngFor="let item of allPurchaseOrders" class="">
                                             <div class="">
                                                 <div class="iconSCSS w-full gap-1">
@@ -236,7 +237,7 @@
 
                                         <div class="">
                                             <div *ngFor="let item of allPurchaseInvoices" class="">
-                                                <p class="blueText">Purchase Invoice Number:</p>
+                                                <p class="blueText">Purchase Invoice No.</p>
                                                 <div class="">
                                                     <div class="iconSCSS w-full gap-1">
                                                         <div class="col-6 text-left">

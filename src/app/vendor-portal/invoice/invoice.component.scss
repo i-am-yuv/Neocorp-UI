@@ -255,6 +255,25 @@ p {
     border-radius: 4px;
 }
 
+  // New
+  .custom-button {
+    background: #535353;
+    border: #535353;;
+  }
+  .custom-button:hover {
+    background: #353434;
+    border: #353434;
+  }
+  // Override the default text color
+  .custom-button .p-button-text {
+    color: #ffffff;
+  }
+  
+  // Override the default border radius
+  .custom-button {
+    border-radius: 4px;
+  }
+
 
 
 
@@ -299,6 +318,7 @@ p {
     border-bottom: 3px solid lightgrey;
     width: 100%;
     //  font-weight: 700;
+  //  font-weight: 700;
     /* Remove the default button border */
     //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
 }

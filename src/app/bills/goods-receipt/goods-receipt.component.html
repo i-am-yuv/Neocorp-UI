@@ -77,11 +77,11 @@
                     </div>
 
                     <div class="field col-6">
-                        <label class="mr-3 required">Sales Order</label>
+                        <label class="mr-3 ">Sales Order</label>
                         <ng-container formGroupName="salesOrder">
                             <div class="payment-dropdown ">
                                 <p-dropdown [options]="allSo" placeholder="Choose Sales Order" optionValue="id"
-                                    formControlName="id" optionLabel="documentno" [showClear]="true"
+                                    formControlName="id" optionLabel="orderNumber" [showClear]="true"
                                     (onChange)="selectSO($event)" [style]="{ width: '100%' }">
                                 </p-dropdown>
                             </div>

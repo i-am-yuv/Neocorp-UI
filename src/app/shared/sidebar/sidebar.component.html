@@ -1,8 +1,8 @@
 <div class="h-auto ">
 
-    <h2 class="text-xl mx-4 p-2 font-light text-gray-600 cursor-pointer border-round-xl" (click)="goToDashBoard()"
-        [ngClass]="{ 'defaultSCSS ': true}">
-        <div class="flex gap-2">
+    <h2 class="text-xl mx-4 p-2  font-light text-gray-600  border-round-xl" (click)="goToDashBoard()"
+        [ngClass]="{ 'cursor-pointer ': true ,'field text-left p-2 border-round backgroundColor cursor-pointer' : this.routeName == null  } ">
+        <div class="flex gap-2 mb-3">
             <div class="field">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">
                     <path
@@ -10,7 +10,7 @@
                         fill="black" />
                 </svg>
             </div>
-            <div class="field">
+            <div class="field  cursor-pointer">
                 Dashboard
             </div>
         </div>

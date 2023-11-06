@@ -48,7 +48,7 @@
                                     </div> -->
                     <div class="field col-6">
                         <label class="mr-3">Sales Order Number:</label>
-                        <input pInputText value="{{this.soForm.value.documentno}}" placeholder="Your Sales Order Number"
+                        <input pInputText value="{{this.soForm.value.orderNumber}}" placeholder="Your Sales Order Number"
                             class="w-full custom-input" [disabled]="true" />
                     </div>
                 </div>
@@ -142,7 +142,7 @@
 
             </form>
 
-            <div *ngIf="id" class="p-1">
+            <div *ngIf="id" class="p-3">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass=" mt-2">
                     <ng-template pTemplate="header">
                         <tr>
@@ -205,10 +205,13 @@
                                 <!-- {{ lineItem?.unitprice | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.unitPrice"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.unitPrice"
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -219,10 +222,13 @@
                                 <!-- {{ lineItem?.quantity | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.quantity"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.quantity"
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.quantity" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -233,10 +239,13 @@
                                 <!-- {{ lineItem?.discount | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.discount"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.discount"
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.discount" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}
@@ -321,23 +330,23 @@
                                 </div> -->
 
 
-                <div class="iconSCSS mt-5">
-                    <div class="col-4 ">
-                        <label for="fileInput" class="image-upload-label cursor-pointer flex text-left">
-                            <div>
-                                <img src="/assets/file_upload.png" alt="Upload Image" class=" ml-5 mt-3 w-6">
-                            </div>
-                            <div class="ml-3">
-                                <h3 class=" mb-0 fileTitle">+ Upload your file</h3>
-                                <p class="mt-0 greyText">Support JPG, JPG2000 & PNG</p>
-                            </div>
-                        </label>
-
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
-                        <span id="selectedFileName" class="ml-2"></span>
-                    </div>
-                </div>
+                                <div class="iconSCSS mt-5">
+                                    <div class="col-4 ">
+                                        <label for="fileInput" class="image-upload-label cursor-pointer flex text-left">
+                                            <div>
+                                                <img src="/assets/file_upload.png" alt="Upload Image" class=" ml-5 mt-3 w-6">
+                                            </div>
+                                            <div class="ml-3">
+                                                <h3 class=" mb-0 fileTitle">+ Upload your file</h3>
+                                                <p class="mt-0 greyText">Support JPG, JPG2000 & PNG</p>
+                                            </div>
+                                        </label>
+                
+                                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
+                                            (change)="selectFile($event)">
+                                        <span id="selectedFileName" class="ml-2"></span>
+                                    </div>
+                                </div>
 
                 <!-- <div class="flex button-container">
                                     <div class="field col-3 ">

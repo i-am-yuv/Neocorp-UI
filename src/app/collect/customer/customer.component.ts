@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
@@ -40,11 +41,18 @@ export class CustomerComponent implements OnInit {
   constructor(private router: Router,
     private message: MessageService,
     private payPageS: PayPageService,
-    private route: ActivatedRoute) { }
+    private fb : FormBuilder,
+    private route: ActivatedRoute ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
 
+    this.loadUser() ;
+  }
 
+  loadOtherInfo()
+  {
+    
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -56,12 +64,17 @@ export class CustomerComponent implements OnInit {
         this.createNew = true;
       }
       else {
-         this.getAllCustomer();
+        this.getAllCustomer();
       }
     });
 
     this.items = [ {label: 'Collect'},{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
 
+    this.initForm();
+  }
+
+  initForm()
+  {
     this.customerForm = new FormGroup({
       id: new FormControl(''),
       displayName: new FormControl('', Validators.required),
@@ -71,7 +84,10 @@ export class CustomerComponent implements OnInit {
       address: new FormControl(''),
       accountDetails: new FormControl(''),
       upiId: new FormControl(''),
-      notes: new FormControl('')
+      notes: new FormControl('') ,
+      user: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      })
     });
 
     this.accountDetailsForm = new FormGroup({
@@ -106,10 +122,10 @@ export class CustomerComponent implements OnInit {
   getAllCustomer()
   {
     this.submitted = true;
-    this.payPageS.allCustomer().then(
+    this.payPageS.allCustomer(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/collect/customers']);
@@ -124,7 +140,7 @@ export class CustomerComponent implements OnInit {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Error while fetching all Vendors',
+        detail: 'Error while fetching all Customers',
         life: 3000,
       });
     })
@@ -133,18 +149,22 @@ export class CustomerComponent implements OnInit {
   saveAccount() {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
-      // save account details API
       this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
         (res) => {
           this.customerForm.value.accountDetails = res;
-          console.log("Account Saved");
           this.submitted = false;
           this.saveAddress();
         }
       ).catch((err) => {
-        console.log("Account error");
+        console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while saving the account',
+          life: 3000,
+        });
       })
     }
     else {
@@ -161,25 +181,26 @@ export class CustomerComponent implements OnInit {
       if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
-      else {
-        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
-      }
-
-      // save Address Details API
+      // else {
+      //   this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
+      // }
       this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
-          //this.addressDetailS = res;
-          //this.customerDetails.address = res;
+          
           this.customerForm.value.address = res;
-          //this.add.push(res);
-          console.log("Complete Address Saved");
           this.submitted = false;
           this.saveCustomer();
         }
       ).catch((err) => {
-        console.log("Complete Address error");
+        console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while filling the address Details',
+          life: 3000,
+        });
       })
     }
     else {
@@ -187,10 +208,9 @@ export class CustomerComponent implements OnInit {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Please, fill the mandatory Address details',
+        detail: 'Please, Fill The Mandatory Customer Address Details',
         life: 3000,
       });
-      //this.saveCustomer();
     }
 
 
@@ -198,18 +218,18 @@ export class CustomerComponent implements OnInit {
 
   saveCustomer() {
     
-    console.log(this.customerForm.value);
-    this.customerForm.value.accountDetails = null ;
+    this.customerForm.value.accountDetails = null ; // Temp 
+    this.customerForm.value.user.id = this.currentUser.id ;
+
     this.submitted = true;
     this.payPageS.createCustomer(this.customerForm.value).then(
       (res) => {
         console.log(res);
-        console.log("Customer Saved");
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Customer Saved',
-          detail: 'Customer Added Successfully',
+          summary: 'Success',
+          detail: 'Customer Saved Successfully',
           life: 3000,
         });
         setTimeout(() => {
@@ -222,8 +242,8 @@ export class CustomerComponent implements OnInit {
       this.submitted = false;
       this.message.add({
         severity: 'error',
-        summary: 'Customer Error',
-        detail: 'Customer Not Added',
+        summary: 'Error',
+        detail: 'Customer Addition Error',
         life: 3000,
       });
     })
@@ -259,6 +279,23 @@ export class CustomerComponent implements OnInit {
   createCustomer() {
     //this.createNew = true;
     this.router.navigate(['/collect/customer/create']);
+  }
+
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }

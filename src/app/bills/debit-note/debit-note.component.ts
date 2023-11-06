@@ -60,6 +60,13 @@ export class DebitNoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.loadUser();
+    
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -84,7 +91,6 @@ export class DebitNoteComponent implements OnInit {
     this.loadStates();
     this.loadProducts();
     this.getDebitNote();
-    this.loadUser();
   }
 
   initForm() {
@@ -109,10 +115,10 @@ export class DebitNoteComponent implements OnInit {
 
   availableDN() {
     this.submitted = true;
-    this.billS.getAllDn().then(
+    this.billS.getAllDn(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/debitNotes']);
@@ -129,11 +135,14 @@ export class DebitNoteComponent implements OnInit {
     )
   }
 
+  currentUser : any = {} ;
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currCompany = res.comapny;
+      this.currentUser = res ;
       this.submitted = false;
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -197,9 +206,9 @@ export class DebitNoteComponent implements OnInit {
 
   loadVendors() {
     this.submitted = true;
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
         this.submitted = false;
       }
@@ -213,9 +222,9 @@ export class DebitNoteComponent implements OnInit {
 
   loadProducts() {
     this.submitted = true;
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
         this.submitted = false;
       }
@@ -275,7 +284,7 @@ export class DebitNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
-
+      dnFormVal.currentUser = this.currentUser ;
       this.billS.createDebitNote(dnFormVal).then(
         (res) => {
           console.log(res);
@@ -605,5 +614,7 @@ export class DebitNoteComponent implements OnInit {
         });
       });
   }
+
+  
 
 }

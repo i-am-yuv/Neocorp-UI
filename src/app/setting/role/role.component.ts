@@ -6,6 +6,7 @@ import { SettingService } from '../setting.service';
 import { Privilege } from '../privilege/privilege';
 import { Roles } from '../setting-models';
 import { Role } from 'src/app/settings/roles/role';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-role',
@@ -39,7 +40,8 @@ export class RoleComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private settingS: SettingService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -53,7 +55,8 @@ export class RoleComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.availableRole();
+        this.loadUser();
+       
       }
     });
     this.items = [{ label: 'Settings' }, { label: 'Roles', routerLink: ['/setting/roles'] }, { label: 'Create' }];
@@ -73,9 +76,9 @@ export class RoleComponent implements OnInit {
 
   availableRole() {
     this.submitted = true;
-    this.settingS.getAllRoles().then((res: any) => {
+    this.settingS.getAllRoles(this.currentUser).then((res: any) => {
       this.submitted = false;
-      var count = res.totalElements;
+      var count = res.legnth;
       //count=0
       if (count > 0) {
         this.router.navigate(['/setting/roles']);
@@ -139,7 +142,9 @@ export class RoleComponent implements OnInit {
           });
         })
     } else {
-      this.settingS.createRole(this.roleForm.value).then(
+      
+      roleFormVal.user = this.currentUser ;
+      this.settingS.createRole(roleFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
@@ -172,6 +177,24 @@ export class RoleComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['setting/roles']);
+  }
+
+  
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+      this.availableRole();
+      
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

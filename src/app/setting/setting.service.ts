@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
-import { Roles, Workflow } from './roles/roles';
+import { Workflow } from './setting-models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +21,16 @@ export class SettingService {
     return role;
   }
 
-  async getAllRoles() {
-    var url = this.apiurlNew + 'api/roles'
+  async getAllRoles(user : any) {
+    var url = this.apiurlNew + 'api/roles/roles/'+ encodeURIComponent(user.id);
     const allrole = await lastValueFrom(this.http.get<any>(url));
     return allrole;
+  }
+
+  async getRoleById(roleId : any) {
+    var url = this.apiurlNew + 'api/roles/'+ encodeURIComponent(roleId);
+    const role = await lastValueFrom(this.http.get<any>(url));
+    return role;
   }
 
   async updateRole(role: any) {
@@ -56,8 +62,8 @@ export class SettingService {
     return delegationRoleById;
   }
 
-  async getAlldelegationRole() {
-    var url = this.apiurlNew + 'delegationRole'
+  async getAlldelegationRole(user : any) {
+    var url = this.apiurlNew + 'delegationRole/delegationRole/'+ encodeURIComponent(user.id);
     const delegationRole = await lastValueFrom(this.http.get<any>(url));
     return delegationRole;
   }

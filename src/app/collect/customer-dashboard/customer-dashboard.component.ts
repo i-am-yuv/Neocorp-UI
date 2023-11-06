@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { CollectService } from '../collect.service';
 import { CustomeR } from 'src/app/settings/customers/customer';
 import { PayPageService } from 'src/app/pay/pay-page.service';
-import { CustomerOrderComponent } from 'src/app/store/customer-order/customer-order.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -38,13 +38,14 @@ export class CustomerDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private collectS: CollectService,
     private otherS: PayPageService,
-    private confirmationService: ConfirmationService) { }
+    private authS : AuthService) { }
 
   ngOnInit(): void {
 
     this.items = [{label: 'Collect'},{ label: 'Customers', routerLink: ['/collect/customers']  }, { label: 'Dashboard'}];
 
-    this.getAllCustomers();
+    this.loadUser();
+   // this.getAllCustomers();
   }
 
   showOrdersPage() {
@@ -72,10 +73,10 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   getAllCustomers() {
-    this.otherS.allCustomer().then(
+    this.otherS.allCustomer(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allCustomers = res.content;
+        this.allCustomers = res;
         if (this.allCustomers.length > 0) {
           this.changeCustomer(this.allCustomers[0]);
         } else {
@@ -95,7 +96,7 @@ export class CustomerDashboardComponent implements OnInit {
     //this.currentDue = 0;
     this.refeshAll();
     this.activeCustomer = customer;
-    this.getCustomerData(customer);
+    // this.getCustomerData(customer);
     this.getAllSalesOrders(customer);
     this.getAllSalesInvoices(customer);
   }
@@ -148,9 +149,8 @@ export class CustomerDashboardComponent implements OnInit {
     )
   }
 
-  getCustomerData(customer: CustomeR) {
-
-  }
+  // getCustomerData(customer: CustomeR) {
+  // }
 
   CreateNewCustomer() {
     this.router.navigate(['/collect/customer/create']);
@@ -192,5 +192,20 @@ export class CustomerDashboardComponent implements OnInit {
     
   }
 
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
 
+      this.getAllCustomers();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
 }

@@ -29,6 +29,7 @@ export interface CustomeR {
   address?:Address ;
   notes?: string;
   upiId ?: string;
+  user ?: any ;
 }
 
 export interface Vendor {
@@ -43,6 +44,7 @@ export interface Vendor {
   upiId ?: string;
   username ?: string;
   password ?: string;
+  user ?: any ;
 }
 
 export interface LineItem{

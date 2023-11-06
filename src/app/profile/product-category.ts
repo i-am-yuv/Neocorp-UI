@@ -8,6 +8,7 @@ export interface ProductCategory {
     searchKey ?: string;
     description ?: string ;
     parent ?:ProductCategory ;
+    user ?: any ;
     // category?:string;
     
 }

@@ -190,7 +190,7 @@ export class SignupComponent implements OnInit {
 
     saveComapany()
     {
-      alert(JSON.stringify(this.signUpForm.value) ) ;
+      //alert(JSON.stringify(this.signUpForm.value) ) ;
       this.submitted =  true;
       this.loginService
         .signup(this.signUpForm.value)

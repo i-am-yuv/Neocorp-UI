@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { ProductCategory } from '../product-category';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-category',
@@ -28,7 +29,8 @@ export class CategoryComponent implements OnInit {
     private message: MessageService,
     private profileS: ProfilepageService,
     private fb: FormBuilder,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute ,
+    private authS  : AuthService ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -42,7 +44,8 @@ export class CategoryComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.availableProductCategory();
+        this.loadUser();
+       
       }
     });
 
@@ -50,10 +53,8 @@ export class CategoryComponent implements OnInit {
 
     // this.home = { icon:  routerLink: '/profile/productCategory' };
 
-
-
     this.initProductCategoryForm();
-    this.getAllProductCategory();
+    this.loadUser();
     this.getProductCategoryDetails();
 
   }
@@ -70,10 +71,10 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllProductCategory() {
-    this.profileS.getAllProductCategory().then(
+    this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
         console.log(res);
-        this.categories = res.content;
+        this.categories = res;
       }
     ).catch(
       (err) => {
@@ -90,9 +91,9 @@ export class CategoryComponent implements OnInit {
 
   availableProductCategory() {
     this.submitted = true;
-    this.profileS.getAllProductCategory()
+    this.profileS.getAllProductCategory(this.currentUser)
       .then((res: any) => {
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
 
         if (count > 0) {
@@ -160,8 +161,9 @@ export class CategoryComponent implements OnInit {
             });
           })
     } else {
-      console.log(this.productCategoryForm.value);
-      this.profileS.createProductCategory(this.productCategoryForm.value).then(
+     // console.log(this.productCategoryForm.value);
+     productCategoryFormVal.user = this.currentUser ;
+      this.profileS.createProductCategory(productCategoryFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
@@ -195,5 +197,24 @@ export class CategoryComponent implements OnInit {
   }
 
   createPC() { }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+      this.availableProductCategory();
+      this.getAllProductCategory();
+      
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
 
 }

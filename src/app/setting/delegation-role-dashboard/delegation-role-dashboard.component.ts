@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SettingService } from '../setting.service';
 import { DelegationRole } from '../privilege/privilege';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-delegation-role-dashboard',
@@ -18,7 +19,8 @@ export class DelegationRoleDashboardComponent implements OnInit {
 
   items!: MenuItem[]
 
-  constructor(private router: Router, private settingService: SettingService) { }
+  constructor(private router: Router, private settingService: SettingService ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Settings'}, {label: 'Delegation Role'}, {label: 'Dashboard'}];
@@ -28,7 +30,7 @@ export class DelegationRoleDashboardComponent implements OnInit {
 
   getAlldelegationRoles(){
     this.submitted = true;
-    this.settingService.getAlldelegationRole()
+    this.settingService.getAlldelegationRole(this.currentUser)
     .then((res: any) =>{
       this.alldelegationRoles = res.content;
       if (this.alldelegationRoles.length > 0) {
@@ -55,6 +57,22 @@ export class DelegationRoleDashboardComponent implements OnInit {
 
   onEditDelegationRole(id: string){
     this.router.navigate(['setting/delegationRole/edit/' + id]);
+  }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+     
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 

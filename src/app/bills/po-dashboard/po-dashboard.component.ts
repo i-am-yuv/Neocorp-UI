@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { PurchaseOrder } from '../bills-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-po-dashboard',
@@ -30,20 +31,21 @@ export class PoDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private billS: BillsService,
+    private authS : AuthService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{ label: 'Bills' }, { label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }];
 
-    this.loadPO();
+    this.loadUser();
   }
 
   loadPO() {
     this.submitted = true;
-    this.billS.getAllPo().then(
+    this.billS.getAllPo(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allPOs = res.content;
+        this.allPOs = res;
         if (this.allPOs.length > 0) {
           this.changeOrder(this.allPOs[0]);
         } else {
@@ -118,6 +120,25 @@ export class PoDashboardComponent implements OnInit {
       )
     }
     
+  }
+
+  currentUser : any = {} ;
+  currentCompany : any  = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then(
+      (res: any) => {
+        this.currentUser = res;
+        this.currentCompany = res.comapny;
+        this.submitted = false;
+        this.loadPO();
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
   }
 
 

@@ -14,7 +14,7 @@ export class InvoiceService {
   constructor(private http: HttpClient) { }
 
   async createSalesOrder(so: any) {
-    var url = this.apiurlNew + 'api/salesOrder'
+    var url = this.apiurlNew + 'api/salesOrder/salesOrder'
     const _salesOrder = await lastValueFrom(this.http.post<any>(url, so));
     return _salesOrder;
   }
@@ -69,19 +69,19 @@ export class InvoiceService {
 
 
   async createCreditNote(so: any) {
-    var url = this.apiurlNew + 'creditNote'
+    var url = this.apiurlNew + 'creditNote/creditNote'
     const _creditNote = await lastValueFrom(this.http.post<any>(url, so));
     return _creditNote;
   }
 
   async createCashMemo(cashMemo: any) {
-    var url = this.apiurlNew + 'cashMemo'
+    var url = this.apiurlNew + 'cashMemo/cashMemo'
     const _cashMemo = await lastValueFrom(this.http.post<any>(url, cashMemo));
     return _cashMemo;
   }
 
   async createSI(si: any) {
-    var url = this.apiurlNew + 'api/salesInvoice'
+    var url = this.apiurlNew + 'api/salesInvoice/salesInvoice'
     const _SI = await lastValueFrom(this.http.post<any>(url, si));
     return _SI;
   }
@@ -122,14 +122,14 @@ export class InvoiceService {
     return currSo;
   }
 
-  async getAllSo() {
-    var url = this.apiurlNew + 'api/salesOrder';
+  async getAllSo(user : any) {
+    var url = this.apiurlNew + 'api/salesOrder/salesOrder/'+encodeURIComponent(user.id);
     const allSo = await lastValueFrom(this.http.get<any>(url));
     return allSo;
   }
 
-  async getAllVendorInvoices() {
-    var url = this.apiurlNew + 'api/vendorInvoice';
+  async getAllVendorInvoices(user : any) {
+    var url = this.apiurlNew + 'api/vendorInvoice/vendorInvoice/'+encodeURIComponent(user.id);
     const all = await lastValueFrom(this.http.get<any>(url));
     return all;
   }
@@ -164,8 +164,8 @@ export class InvoiceService {
     return currCn;
   }
 
-  async getAllCn() {
-    var url = this.apiurlNew + 'creditNote';
+  async getAllCn(user : any) {
+    var url = this.apiurlNew + 'creditNote/creditNote/'+encodeURIComponent(user.id);
     const AllCn = await lastValueFrom(this.http.get<any>(url));
     return AllCn;
   }
@@ -188,20 +188,20 @@ export class InvoiceService {
     return currVI;
   }
 
-  async getAllCashMemo() {
-    var url = this.apiurlNew + 'cashMemo';
+  async getAllCashMemo(user : any) {
+    var url = this.apiurlNew + 'cashMemo/cashMemo/'+encodeURIComponent(user.id);
     const allCM = await lastValueFrom(this.http.get<any>(url));
     return allCM;
   }
 
-  async getAllSI() {
-    var url = this.apiurlNew + 'api/salesInvoice';
+  async getAllSI(user : any) {
+    var url = this.apiurlNew + 'api/salesInvoice/salesInvoice/'+encodeURIComponent(user.id);
     const allSI = await lastValueFrom(this.http.get<any>(url));
     return allSI;
   }
 
-  async getAllVI() {
-    var url = this.apiurlNew + 'api/vendorInvoice';
+  async getAllVI(user : any) {
+    var url = this.apiurlNew + 'api/vendorInvoice/vendorInvoice/'+encodeURIComponent(user.id);
     const allVI = await lastValueFrom(this.http.get<any>(url));
     return allVI;
   }
@@ -227,7 +227,7 @@ export class InvoiceService {
   // //////////////////////////////////////////////////////////////////////////////
 
   async getLineitemsBySI(si:any) {
-    var url = this.apiurlNew + 'salesInvoiceLine/bySalesInvoiceLine/'+encodeURIComponent(si.id);
+    var url = this.apiurlNew + 'salesInvoiceLine/bySalesInvoice/'+encodeURIComponent(si.id);
     const currSILineItems = await lastValueFrom(this.http.get<any>(url));
     return currSILineItems;
   }

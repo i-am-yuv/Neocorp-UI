@@ -11,6 +11,7 @@ import { CollectService } from '../collect.service';
 import { PurchaseInvoice, PurchaseInvoiceLine } from '../collect-models';
 import { BillsService } from 'src/app/bills/bills.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PurchaseOrder } from 'src/app/bills/bills-model';
 
 @Component({
   selector: 'app-po-invoice',
@@ -25,6 +26,7 @@ export class PoInvoiceComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
+  currVendorShow : Vendor = {};
 
   poInvoiceForm !: FormGroup;
 
@@ -35,6 +37,7 @@ export class PoInvoiceComponent implements OnInit {
   lineitems: any[] = [];
   products: Product[] = [];
   currPurchaseInvoice: PurchaseInvoice = {};
+  currPO : PurchaseOrder = {} ;
 
   poInvoiceSubTotal: number = 0;
   uploadMessage = '';
@@ -67,6 +70,11 @@ export class PoInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -91,7 +99,6 @@ export class PoInvoiceComponent implements OnInit {
     this.loadProducts();
     this.loadPOs();
     this.getPurchaseInvoice();
-    this.loadUser();
   }
 
   initForm() {
@@ -114,25 +121,73 @@ export class PoInvoiceComponent implements OnInit {
     });
   }
 
-  selectVendor() { }
-
-  loadVendors() {
-    this.usedService.allVendor().then(
+  selectVendor(e : any) { 
+    this.submitted = true;
+   // alert(JSON.stringify(e) ) ;
+   
+    this.usedService.getPurchageOrderByPOId(e.value).then(
       (res) => {
-        this.vendors = res.content;
-        console.log(res);
+       // alert(JSON.stringify(res) ) ;
+        this.submitted = false;
+        this.currPO = res;
+        this.currVendorShow = res.vendor;
+       // this.loadLineItembyPO(this.currPO);
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While fetching the vendor',
+          life: 3000,
+        });
+      }
+    )
+  }
+
+  // loadLineItembyPO( po : PurchaseOrder)
+  // {
+  //   this.submitted = true;
+  //   this.usedService.getAllLineItemsByPo(po.id).then(
+  //     (res) => {
+  //      // console.log(res);
+  //       this.lineitems = res;
+  //         this.poInvoiceSubTotal = this.lineitems.reduce(
+  //           (total, lineItem) => total + lineItem.amount, 0
+  //         );
+  //     //  this.lineitems = res.content;
+  //       this.submitted = false;
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //     }
+  //   )
+  // }
+
+  loadVendors() {
+    this.submitted = true;
+    this.usedService.allVendor(this.currentUser).then(
+      (res) => {
+        this.vendors = res.content;
+        console.log(res);
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
       }
     )
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -150,24 +205,30 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   loadPOs() {
-    this.billS.getAllPo().then(
+    this.submitted  = true;
+    this.billS.getAllPo(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allPOs = res.content;
-
+        this.allPOs = res;
+        this.submitted =  false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
   }
-
+ 
+  currentUser : any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -177,9 +238,9 @@ export class PoInvoiceComponent implements OnInit {
 
   availablePI() {
     this.submitted = true;
-    this.collectS.allPurchaseInvoice().then(
+    this.collectS.allPurchaseInvoice(this.currentUser).then(
       (res: any) => {
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
         //count=0
         if (count > 0) {
@@ -279,7 +340,10 @@ export class PoInvoiceComponent implements OnInit {
     else {
       this.upload();
       this.submitted = true;
+
       invoiceFormVal.requestStatus = 'DRAFT';
+      invoiceFormVal.user = this.currentUser ;
+
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log("Purchase Invoice Created");
@@ -526,7 +590,7 @@ export class PoInvoiceComponent implements OnInit {
 
     if (poInvoiceFormVal.id) {
       this.submitted = true;
-      alert(JSON.stringify(poInvoiceFormVal));
+      //alert(JSON.stringify(poInvoiceFormVal));
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {
           console.log(res);
@@ -543,15 +607,21 @@ export class PoInvoiceComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Purchase Invoice Error',
+            life: 3000,
+          });
         }
       )
     }
-    this.upload();
 
+    this.upload();
+    
     setTimeout(() => {
       this.router.navigate(['/collect/purchaseInvoice']);
     }, 2000);
-
   }
 
   createPI() {
@@ -585,8 +655,8 @@ export class PoInvoiceComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Successful',
-          detail: 'Line Item Deleted',
+          summary: 'Success',
+          detail: 'Line Item Deleted Successfully',
           life: 3000,
         });
       })

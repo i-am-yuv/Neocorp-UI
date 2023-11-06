@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { BillsService } from '../bills.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-debit-note-dashboard',
@@ -32,25 +33,28 @@ export class DebitNoteDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
+    private authS : AuthService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Bills'},{label: 'Debit Note', routerLink: ['/bills/debitNotes']}, {label: 'Dashboard'}]
-    this.getAllDebitNotes();
+    
+    this.loadUser();
+   
   }
 
   getAllDebitNotes()
   {
     this.submitted =  true;
-    this.billS.getAllDn().then(
+    this.billS.getAllDn(this.currentUser).then(
       (res : any) => {
-        this.allDebitNotes = res.content;
+        this.allDebitNotes = res;
         if (this.allDebitNotes.length > 0) {
           this.changeOrder(this.allDebitNotes[0]);
         } else {
           this.activeDN = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted =  false;
       }
     ).catch(
@@ -65,7 +69,7 @@ export class DebitNoteDashboardComponent implements OnInit {
   {
      this.activeDN = item;
     this.getNotesLines(item);
-    this.getRemainingAmount(item);
+   // this.getRemainingAmount(item);
   }
 
   getNotesLines(item:DebitNote)
@@ -94,22 +98,22 @@ export class DebitNoteDashboardComponent implements OnInit {
     this.router.navigate(['/bills/debitNote/edit/'+id]); 
   }
 
-  getRemainingAmount(DN:any)
-  {
-    this.submitted  = true;
-    this.billS.getRemainingAmount(DN).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
-      }
-    ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
-      }
-    )
-  }
+  // getRemainingAmount(DN:any)
+  // {
+  //   this.submitted  = true;
+  //   this.billS.getRemainingAmount(DN).then(
+  //     (res)=>{
+  //           console.log(res);
+  //           this.currentDue = res;
+  //           this.submitted  = false;
+  //     }
+  //   ).catch(
+  //     (err)=>{
+  //        console.log(err);
+  //        this.submitted  = false;
+  //     }
+  //   )
+  // }
 
   searchDN: any;
   searchDNs(value: any) {
@@ -138,7 +142,22 @@ export class DebitNoteDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+  currentUser : any = {};
+  currCompany : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currCompany = res.comapny;
+      this.currentUser = res ;
+      this.submitted = false;
+      this.getAllDebitNotes();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

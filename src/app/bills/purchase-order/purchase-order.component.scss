@@ -8,6 +8,14 @@
   border: none;
   /* Add other custom styles as needed */
 }
+.custom-hr {
+  border: none;
+  /* Remove the default border */
+  border-top: 1px solid lightgray;
+  /* Set the border color to light gray */
+  margin: 3px 0;
+  /* Add margin for spacing (adjust as needed) */
+}
 
 .center-container {
   display: flex;
@@ -60,11 +68,11 @@
 
 //   // My different code
 
-//   .custom-input {
-//     height: 40px;
-//     box-shadow: 1px 1px 1px rgba(148, 138, 138, 0.2);/* Adjust the height as needed */
-//     /* Add any other custom styles as needed */
-//   }
+  .custom-input {
+    width: 149px !important;
+    margin: 3px;
+    //border: none !important;
+  }
 
 .blueText {
   color: #1560E0;

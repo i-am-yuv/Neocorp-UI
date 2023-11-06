@@ -10,6 +10,7 @@ export interface Roles {
     description?: string;
     roleType?: string;
     privileges?: Privilege;
+    user ?: any ;
 }
 
 export interface Workflow {
@@ -20,6 +21,7 @@ export interface Workflow {
     sanctioner?: boolean;
     ratificationer?: boolean;
     description?: string;
+    user ?: any ;
 }
 
 export interface Privilege {
@@ -31,6 +33,7 @@ export interface Privilege {
     description?: string;
     allowAll?: boolean;
     roles?: any;
+    user ?: any ;
 }
 export interface DelegationRole {
     id?: string;
@@ -38,5 +41,6 @@ export interface DelegationRole {
     delegationAmount?: number;
     delegationDescription?: string;
     role?: Roles;
+    user ?: any ;
 }
 

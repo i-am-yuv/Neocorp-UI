@@ -41,6 +41,8 @@ export class SalesOrderComponent implements OnInit {
 
   uploadMessage = '';
   soSubTotal: number = 0;
+  currentUser: any = {};
+  // currentCompany : any = {};
 
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
@@ -51,9 +53,16 @@ export class SalesOrderComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private invoiceS: InvoiceService, private authS: AuthService) { }
+    private invoiceS: InvoiceService,
+    private authS: AuthService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -79,13 +88,12 @@ export class SalesOrderComponent implements OnInit {
     this.loadProducts();
     this.loadState();
     this.getSoOrder();
-    this.loadUser();
   }
 
   initForm() {
     this.soForm = new FormGroup({
       id: new FormControl(''),
-      documentno: new FormControl(''),
+      orderNumber: new FormControl(''),
       dueDate: new FormControl('', Validators.required),
       billDate: new FormControl('', Validators.required),
       termsOfPayments: new FormControl(''),
@@ -106,10 +114,10 @@ export class SalesOrderComponent implements OnInit {
 
   availableSO() {
     this.submitted = true;
-    this.invoiceS.getAllSo().then(
+    this.invoiceS.getAllSo(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/invoice/salesOrders']);
@@ -169,9 +177,9 @@ export class SalesOrderComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -182,9 +190,9 @@ export class SalesOrderComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -213,12 +221,30 @@ export class SalesOrderComponent implements OnInit {
       }
     )
   }
+  // loadUser() {
+  //   this.submitted = true;
+  //   this.authS.getUser().then(
+  //     (res: any) => {
+  //       this.currentUser = res;
+  //       this.currentCompany = res.comapny;
+  //       this.submitted = false;
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //     }
+  //   )
+  // }
 
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
       this.currentCompany = res.comapny;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -228,10 +254,9 @@ export class SalesOrderComponent implements OnInit {
 
 
   onSubmitSO() {
-
+    this.soForm.value.branch = this.currentUser.branch;
     this.soForm.value.company = null;  // tempo
     //this.soForm.value.documentno = null ;
-
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
     soFormVal.comapny = this.currentCompany;
@@ -269,6 +294,7 @@ export class SalesOrderComponent implements OnInit {
       this.submitted = true;
       soFormVal.grossTotal = null;
       soFormVal.documentno = null;
+      soFormVal.user = this.currentUser;
       this.invoiceS.createSalesOrder(soFormVal).then(
         (res) => {
           console.log(res);
@@ -328,7 +354,7 @@ export class SalesOrderComponent implements OnInit {
   delete(lineItem: SalesOrderLine) {
     this.DeleteDialLogvisible = true;
   }
-  
+
   onRowEditSave(lineItem: SalesOrderLine) {
     alert(JSON.stringify(lineItem));
 

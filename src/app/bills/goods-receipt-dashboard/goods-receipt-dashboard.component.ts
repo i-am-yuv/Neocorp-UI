@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-goods-receipt-dashboard',
@@ -14,17 +15,17 @@ import { InvoiceService } from 'src/app/invoice/invoice.service';
 })
 export class GoodsReceiptDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allGR : any[] =  [] ;
+  allGR: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeGR: GoodsReceipt = {} ;
+  totalRecords: number = 0;
+  activeGR: GoodsReceipt = {};
 
-  activeGoodsReceiptLine : GoodsReceiptLine = {};
+  activeGoodsReceiptLine: GoodsReceiptLine = {};
 
   lineitems: any[] = [];
-  grSubTotal: number = 0 ;
+  grSubTotal: number = 0;
 
   items!: MenuItem[]
 
@@ -33,25 +34,25 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private commonS : InvoiceService) { }
+    private authS: AuthService,
+    private commonS: InvoiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
-    this.getAllGR();
+    this.items = [{ label: 'Bills' }, { label: 'Receipt Note' }, { label: 'Dashboard' }]
+    this.loadUser();
   }
 
-  getAllGR()
-  {
+  getAllGR() {
     this.submitted = true;
-    this.billS.getAllGR().then(
-      (res : any) => {
-        this.allGR = res.content;
+    this.billS.getAllGR(this.currentUser).then(
+      (res: any) => {
+        this.allGR = res;
         if (this.allGR.length > 0) {
           this.changeOrder(this.allGR[0]);
         } else {
           this.activeGR = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
@@ -61,73 +62,68 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     )
   }
 
-  changeOrder(item : GoodsReceipt )
-  {
+  changeOrder(item: GoodsReceipt) {
     this.activeGR = item;
     this.getLines(item);
     this.getSoLines(item);
   }
 
-  getSoLines(item:GoodsReceipt)
-  {
-     this.submitted = true;
-     this.commonS.getLineitemsBySo(item.salesOrder).then(
-      (res)=>{
+  getSoLines(item: GoodsReceipt) {
+    this.submitted = true;
+    this.commonS.getLineitemsBySo(item.salesOrder).then(
+      (res) => {
         this.lineitems = res;
         this.grSubTotal = this.lineitems.reduce(
           (total, lineItem) => total + lineItem.amount, 0
         );
         this.submitted = false;
       }
-     ).catch(
-      (err)=>{
+    ).catch(
+      (err) => {
         console.log(err);
         this.submitted = false;
-      }
-     )
-  }
-
-  getLines(item:GoodsReceipt)
-  {
-    this.submitted  =true;
-    this.billS
-    .getLineItemsByGoodsReceiptId(item)
-    .then((data: any) => {
-      if (data) {
-       // this.activeGoodsReceiptLine = data[0];
-        this.activeGoodsReceiptLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0 ;
-        this.activeGoodsReceiptLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0 ;
-        this.activeGoodsReceiptLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
-        this.activeGoodsReceiptLine.receivedQty = data[0].shippedQty ? data[0].receivedQty : 0;
-        this.submitted= false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted= false;
       }
     )
   }
 
-  CreateNewGR()
-  {
-    this.router.navigate(['/bills/goodsReceipt/create']); 
+  getLines(item: GoodsReceipt) {
+    this.submitted = true;
+    this.billS
+      .getLineItemsByGoodsReceiptId(item)
+      .then((data: any) => {
+        if (data) {
+          // this.activeGoodsReceiptLine = data[0];
+          this.activeGoodsReceiptLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0;
+          this.activeGoodsReceiptLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0;
+          this.activeGoodsReceiptLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
+          this.activeGoodsReceiptLine.receivedQty = data[0].shippedQty ? data[0].receivedQty : 0;
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
-  onEditRN(id:string)
-  {
-    this.router.navigate(['/bills/goodsReceipt/edit/'+id]); 
+  CreateNewGR() {
+    this.router.navigate(['/bills/goodsReceipt/create']);
   }
 
-  
+  onEditRN(id: string) {
+    this.router.navigate(['/bills/goodsReceipt/edit/' + id]);
+  }
+
+
   searchGR: any;
   searchGRs(value: any) {
     if (value === null) {
-    //  alert(value);
+      //  alert(value);
       this.getAllGR();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.billS.searchGR(value).then(
         (res: any) => {
           console.log(res);
@@ -146,7 +142,24 @@ export class GoodsReceiptDashboardComponent implements OnInit {
           this.submitted = false;
         }
       )
-    } 
+    }
+  }
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.getAllGR();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-sales-order-dashboard',
@@ -31,27 +32,29 @@ export class SalesOrderDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
+    private authS : AuthService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'},{ label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] },{ label: 'Dashboard'} ];
 
-    this.getAllSalesOrders();
+    this.loadUser();
+    
   }
 
 
   getAllSalesOrders()
   {
     this.submitted = true;
-    this.invoiceS.getAllSo().then(
+    this.invoiceS.getAllSo(this.currentUser).then(
       (res : any) => {
-        this.allSalesOrder = res.content;
+        this.allSalesOrder = res;
         if (this.allSalesOrder.length > 0) {
           this.changeOrder(this.allSalesOrder[0]);
         } else {
           this.activeOrder = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
@@ -128,6 +131,24 @@ export class SalesOrderDashboardComponent implements OnInit {
     }
     
   }
+
+  currentUser :any = {};
+  currentCompany : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+
+      this.getAllSalesOrders();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
 
 
 }

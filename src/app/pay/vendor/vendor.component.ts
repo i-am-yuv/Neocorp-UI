@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from '../pay-page.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-vendor',
@@ -25,7 +26,7 @@ export class VendorComponent implements OnInit {
   addressDetailsVisible: boolean = false;
   shippingAddressVisible: boolean = false;
 
-  items!: MenuItem[] ;
+  items!: MenuItem[];
 
   accountType: any = [
     {
@@ -41,10 +42,15 @@ export class VendorComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private payPageS: PayPageService) { }
+    private payPageS: PayPageService,
+    private fb: FormBuilder,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
 
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -56,18 +62,19 @@ export class VendorComponent implements OnInit {
         this.createNew = true;
       }
       else {
-         this.getAllVendor();
+        this.getAllVendor();
       }
     });
 
-    this.items = [{label: 'Pay'},{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
+    this.items = [{ label: 'Pay' }, { label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
 
+    this.initForm();
+  }
+
+  initForm() {
     this.vendorFormFields();
     this.accountDetailsFormFields();
     this.addressDetailsFormFields();
-
-    // Default making billing Address same as Shipping Address
-    //this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
   }
 
   vendorFormFields() {
@@ -80,8 +87,11 @@ export class VendorComponent implements OnInit {
       address: new FormControl(''),
       accountDetails: new FormControl(''),
       notes: new FormControl(''),
-      username: new FormControl('',Validators.required),
-      password: new FormControl('',Validators.required)
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      user: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      })
     });
   }
 
@@ -118,14 +128,12 @@ export class VendorComponent implements OnInit {
     this.saveAccount();
   }
 
-  getAllVendor()
-  {
+  getAllVendor() {
     this.submitted = true;
-    this.payPageS.allVendor().then(
+    this.payPageS.allVendor(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
-        //count=0
+        var count = res.length;
         if (count > 0) {
           this.router.navigate(['/pay/vendors']);
         }
@@ -152,10 +160,6 @@ export class VendorComponent implements OnInit {
       this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
         (res) => {
-          // this.customerForm.get('accountDetails')?.patchValue({
-          //   accountDetails:res
-          // });
-          //this.customerDetails.accountDetails = res;
           this.vendorForm.value.accountDetails = res;
           console.log("Account Saved");
           this.submitted = false;
@@ -186,17 +190,13 @@ export class VendorComponent implements OnInit {
       if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
-      else {
-        this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
-      }
+      // else {
+      //   this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
+      // }
       this.submitted = true;
-      alert(JSON.stringify(this.addressDetailsForm.value));
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
-          //this.addressDetailS = res;
-          //this.customerDetails.address = res;
           this.vendorForm.value.address = res;
-          //this.add.push(res);
           console.log("Complete Address Saved");
           this.submitted = false;
           this.saveVendor();
@@ -204,6 +204,12 @@ export class VendorComponent implements OnInit {
       ).catch((err) => {
         console.log("Complete Address error");
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while Saving the Address',
+          life: 3000,
+        });
       })
     }
     else {
@@ -214,18 +220,17 @@ export class VendorComponent implements OnInit {
 
   saveVendor() {
 
-    console.log(this.vendorForm.value);
+    this.vendorForm.value.user.id = this.currentUser.id;
     this.submitted = true;
     this.payPageS.createVendor(this.vendorForm.value).then(
       (res) => {
         console.log(res);
         console.log("Vendor Saved");
         this.submitted = false;
-
         this.message.add({
           severity: 'success',
-          summary: 'Vendor Saved',
-          detail: 'Vendor Added',
+          summary: 'Success',
+          detail: 'Vendor Saved Successfully',
           life: 3000,
         });
         setTimeout(() => {
@@ -238,8 +243,8 @@ export class VendorComponent implements OnInit {
       this.submitted = false;
       this.message.add({
         severity: 'error',
-        summary: 'Vendor Error',
-        detail: 'Vendor Not Added',
+        summary: 'Error',
+        detail: 'Vendor Addition Error',
         life: 3000,
       });
 
@@ -274,9 +279,25 @@ export class VendorComponent implements OnInit {
   }
 
   createVendor() {
-    //this.createNew = true;
     this.router.navigate(['/pay/vendor/create']);
   }
 
+  currentCompany: any = {};
+  currentUser: any = {};
+
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
 
 }
