@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GoodsReceipt, GoodsReceiptLine } from '../bills-model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
-import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
@@ -161,7 +159,7 @@ export class GoodsReceiptDashboardComponent implements OnInit {
       this.currentUser = res;
 
       this.submitted = false;
-      this.getAllGR();
+     // this.getAllGR(); Temp
     })
       .catch((err) => {
         console.log(err);

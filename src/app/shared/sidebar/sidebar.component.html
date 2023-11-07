@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div *ngIf="visibleCom && currentTitle == items.itemTitle">
-                            <li *ngFor="let itemC of items.itemComponents" class="">
+                            <li *ngFor="let itemC of items.itemComponents" class="ml-3">
                                 <div *ngIf="processString(itemC.name) != processString(this.routeName)"  class="field text-left  p-2 border-round  cursor-pointer" [routerLink]="itemC.url">
                                     {{itemC.name}}
                                 </div>

@@ -190,7 +190,7 @@ export class BillsService {
   }
 
   async getAllRn(user : any) {
-    var url = this.apiurlNew + 'api/ReceiptNote/ReceiptNote/'+encodeURIComponent(user.id);
+    var url = this.apiurlNew + 'api/ReceiptNote/receiptNote/'+encodeURIComponent(user.id);
     const allRn = await lastValueFrom(this.http.get<any>(url));
     return allRn;
   }
@@ -250,7 +250,7 @@ export class BillsService {
   }
 
   async getAllPo(user : any) {
-    var url = this.apiurlNew + 'api/PurchaseOrder/PurchaseOrder/'+encodeURIComponent(user.id); ;
+    var url = this.apiurlNew + 'api/PurchaseOrder/purchaseOrder/'+encodeURIComponent(user.id); ;
     const allPos = await lastValueFrom(this.http.get<any>(url));
     return allPos;
   }

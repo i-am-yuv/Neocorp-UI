@@ -60,6 +60,7 @@ export class SalesInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -81,7 +82,6 @@ export class SalesInvoiceComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
 
     this.loadProducts();
     this.loadCustomer();

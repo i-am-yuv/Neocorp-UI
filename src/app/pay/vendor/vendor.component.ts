@@ -47,6 +47,7 @@ export class VendorComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -66,7 +67,7 @@ export class VendorComponent implements OnInit {
       }
     });
 
-    this.initForm();
+    // this.initForm();
   }
 
   initForm() {

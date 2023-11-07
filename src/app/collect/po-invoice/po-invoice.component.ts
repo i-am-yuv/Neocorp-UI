@@ -69,6 +69,7 @@ export class PoInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -89,8 +90,6 @@ export class PoInvoiceComponent implements OnInit {
     });
 
     this.sidebarVisibleProduct = false;
-
-    this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadPOs();
@@ -108,7 +107,7 @@ export class PoInvoiceComponent implements OnInit {
       grossTotal: new FormControl(''),
       taxableTotal: new FormControl(''),
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('', Validators.required)
+        id: this.fb.nonNullable.control('')
       }),
       purchaseOrder: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
@@ -125,7 +124,8 @@ export class PoInvoiceComponent implements OnInit {
         this.submitted = false;
         this.currPO = res;
         this.currVendorShow = res.vendor;
-        // this.loadLineItembyPO(this.currPO);
+        this.poInvoiceForm.value.vendor.id = res.vendor.id;
+       // this.loadLineItembyPO(this.currPO);
       }
     ).catch(
       (err) => {
@@ -262,8 +262,10 @@ export class PoInvoiceComponent implements OnInit {
 
           this.currPurchaseInvoice = purchaseInvoice;
           this.poInvoiceForm.patchValue(purchaseInvoice);
+          // alert( JSON.stringify(this.poInvoiceForm.value) );
           this.submitted = false;
-          this.getLines(purchaseInvoice); //Because backend api is not ready
+          this.getLines(purchaseInvoice);
+          this.loadthisVendor(this.poInvoiceForm.value.vendor.id); //Because backend api is not ready
         }
       ).catch(
         (err) => {
@@ -272,6 +274,22 @@ export class PoInvoiceComponent implements OnInit {
         }
       )
     }
+  }
+
+  loadthisVendor(vendorId : any)
+  {
+    this.submitted = true;
+    this.usedService
+      .getVendor(vendorId)
+      .then((res: any) => {
+        this.currVendorShow = res;
+        this.poInvoiceForm.value.vendor = res;
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      );
   }
 
   getLines(purchaseInvoice: PurchaseInvoice) {

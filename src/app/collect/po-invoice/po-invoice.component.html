@@ -1,9 +1,10 @@
 <p-toast></p-toast>
 
-<div class="">
+<div class="pb-2" style="background: #EFF6FF;">
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-        <div class="center-container  mt-5 p-3">
-            <div class="field col-6">
+        <div class="flex align-items-center p-5">
+            <div class="col-3"></div>
+            <div class=" col-6">
                 <div class="">
                     <img src="/assets/invoices.png" alt="Image" class="w-full h-auto">
                 </div>
@@ -13,13 +14,12 @@
                 </div>
                 <div class="text-center">
                     <button type="button" pButton label="Create Purchage Invoice" (click)="createPI()"
-                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                        class="mb-3 text-lg  bg-blue-600 text-white hover:bg-blue-700 "></button>
                 </div>
             </div>
-
+            <div class="col-3"></div>
         </div>
     </div>
-
     <div *ngIf="createNew">
         <div class=" bg-white iconSCSS1">
             <div class="col-4">
@@ -111,10 +111,10 @@
                         </ng-container>
                     </div> -->
 
-                    <div class="field col-6" *ngIf="this.currVendorShow.id">
+                    <div class="field col-6" *ngIf="this.poInvoiceForm.value.vendor.id">
                         <label class="mr-3">Vendor Details:</label>
-                        <input pInputText value="{{this.currVendorShow.firstName }} {{this.currVendorShow.lastName}} ( Mobile no. {{this.currVendorShow.mobileNumber}} )"
-                            placeholder="From Sales Order" class="w-full custom-input" [disabled]="true" />
+                        <input pInputText value="{{this.poInvoiceForm.value.vendor.firstName }} {{this.poInvoiceForm.value.vendor.lastName  }}  ( Mobile no. {{this.poInvoiceForm.value.vendor.mobileNumber }}  )"
+                            placeholder="Vendor Details" class="w-full custom-input" [disabled]="true" />
                     </div>
 
                 </div>

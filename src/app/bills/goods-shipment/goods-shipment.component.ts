@@ -83,7 +83,7 @@ export class GoodsShipmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Goods Shipment', routerLink: ['/bills/goodsShipment'] }]);
-    
+    this.initForm();
     this.loadUser();
   }
 
@@ -103,7 +103,7 @@ export class GoodsShipmentComponent implements OnInit {
       }
     });
 
-    this.initForm();
+    // this.initForm();
     this.loadVendors();
     this.loadCustomers();
     this.loadProducts();

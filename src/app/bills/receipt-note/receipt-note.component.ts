@@ -72,6 +72,7 @@ export class ReceiptNoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -95,7 +96,7 @@ export class ReceiptNoteComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
+   
     this.loadVendors();
     this.loadCustomer();
     this.loadProducts();
@@ -285,7 +286,7 @@ export class ReceiptNoteComponent implements OnInit {
 
   onSubmitRN() {
 
-    if (this.rnForm.value.vendor.id == null || this.rnForm.value.vendor.id == "") {
+    if (this.rnForm.value.vendor == null || this.rnForm.value.vendor.id == "") {
       this.rnForm.value.vendor = null;
     }
     else {
@@ -294,7 +295,8 @@ export class ReceiptNoteComponent implements OnInit {
 
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
-    rnFormVal.comapny = this.currentCompany;
+    rnFormVal.company = this.currentCompany;
+    rnFormVal.branch =  this.currentUser.branch ;
 
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
@@ -328,6 +330,7 @@ export class ReceiptNoteComponent implements OnInit {
 
       this.submitted = true;
       rnFormVal.user = this.currentUser;
+      rnFormVal.status = 'DRAFT';
       this.billS.createReceiptNote(rnFormVal).then(
         (res) => {
           console.log(res);

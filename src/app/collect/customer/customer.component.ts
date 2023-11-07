@@ -48,8 +48,8 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.breadCrumb([{ label: 'Customer', routerLink: ['/collect/customers'] }]);
-
-    this.loadUser();
+    this.initForm();
+    this.loadUser() ;
   }
 
   loadOtherInfo() {
@@ -69,7 +69,7 @@ export class CustomerComponent implements OnInit {
       }
     });
 
-    this.initForm();
+    // this.initForm();
   }
 
   initForm() {
@@ -214,9 +214,9 @@ export class CustomerComponent implements OnInit {
   }
 
   saveCustomer() {
-
-    this.customerForm.value.accountDetails = null; // Temp 
-    this.customerForm.value.user.id = this.currentUser.id;
+    
+   // this.customerForm.value.accountDetails = null ; // Temp 
+    this.customerForm.value.user.id = this.currentUser.id ;
 
     this.submitted = true;
     this.payPageS.createCustomer(this.customerForm.value).then(

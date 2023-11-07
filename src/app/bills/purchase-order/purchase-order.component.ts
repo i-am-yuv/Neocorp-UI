@@ -88,6 +88,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -108,7 +109,6 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadState();

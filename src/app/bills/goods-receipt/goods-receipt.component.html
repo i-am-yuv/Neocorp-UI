@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div class="">
+<div class="pb-2" style="background: #EFF6FF;">
     
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
         <div class="center-container mt-1">
@@ -25,7 +25,7 @@
     <!-- CREATE NEW DEBIT NOTE BUTTON ENDS -->
 
     <div *ngIf="createNew">
-        <div class="bg-white flex">
+        <div class=" flex">
             <div class="col-4 ">
                 <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
             </div>
@@ -60,8 +60,6 @@
                 </div>
 
                 <div class="flex ">
-                    
-
                     <div class="field col-6 ">
                         <label class="mr-3 required">Vendor</label>
                         <ng-container formGroupName="vendor" class="w-full">

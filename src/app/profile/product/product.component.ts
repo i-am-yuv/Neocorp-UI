@@ -47,6 +47,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }]);
+    this.initForm();
     this.loadUser();
   }
 
@@ -65,7 +66,7 @@ export class ProductComponent implements OnInit {
       }
     });
 
-    this.initForm();
+    // this.initForm();
     this.loadCategories();
     this.getProductDetails();
   }

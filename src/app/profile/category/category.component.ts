@@ -35,6 +35,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.breadCrumb([{ label: 'Product Category', routerLink: ['/profile/productCategories'] }]);
+    this.initProductCategoryForm();
     this.loadUser();
   }
 
@@ -54,7 +55,7 @@ export class CategoryComponent implements OnInit {
       }
     });
 
-    this.initProductCategoryForm();
+    // this.initProductCategoryForm();
     this.getAllProductCategory();
     this.getProductCategoryDetails();
   }
@@ -149,7 +150,7 @@ export class CategoryComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Product updated Successfully',
+            detail: 'Product Category updated Successfully',
             life: 3000,
           });
           setTimeout(() => {

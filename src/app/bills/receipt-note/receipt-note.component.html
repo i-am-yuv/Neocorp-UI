@@ -1,8 +1,8 @@
 <p-toast></p-toast>
-<div class="">
+<div class="pb-2" style="background: #EFF6FF;">
 
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-        <div class="center-container  mt-5 p-3">
+        <div class="center-container  mt-3 p-3">
             <div class="field col-6">
                 <div class="">
                     <img src="/assets/RN.png" alt="Image" class="w-full h-auto">
@@ -13,7 +13,7 @@
                 </div>
                 <div class="text-center">
                     <button type="button" pButton label="Create Receipt Note" (click)="createRN()"
-                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                        class="mb-3 text-lg bg-blue-600 text-white px-4 py-2.5 rounded-md hover:bg-blue-700 "></button>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
     </div>
 
     <div *ngIf="createNew">
-        <div class=" bg-white iconSCSS1">
+        <div class=" bg-white flex align-items-center p-1">
             <div class="col-4">
                 <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
             </div>
