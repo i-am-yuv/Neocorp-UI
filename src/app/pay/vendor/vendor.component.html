@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div>
+<div class="pb-2" style="background: #EFF6FF;">
 
     <div class="bg-white iconSCSS1">
         <div class="col-4 ">
@@ -10,7 +10,7 @@
             <div class="border-200 text-right">
                 <button type="button" pButton label="Close" (click)="onCloseVendor()"
                     class="mr-3 p-button-secondary"></button>
-                <button type="button" pButton label="Save Vendor" (click)="onSubmit()" [disabled]="!vendorForm.valid"
+                <button type="button" pButton label="Save Vendor" (click)="onSubmit()"  [disabled]="!this.vendorForm.valid"
                     class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>
         </div>
@@ -209,7 +209,7 @@
             <div class="border-bottom-1 border-200 text-right p-3">
                 <button type="button" pButton label="Close" (click)="onCloseVendor()" class=" mr-3 p-button-secondary 
                      "></button>
-                <button type="submit" pButton label="Save Vendor" [disabled]="!vendorForm.valid"
+                <button type="submit" pButton label="Save Vendor"   [disabled]="!this.vendorForm.valid"
                     class="mr-3  bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>
 

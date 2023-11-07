@@ -18,9 +18,7 @@
 }
 
 .right-panel-content {
-    // height: 773.5px;
-    height: 580px;
-    overflow-y: scroll;
+    padding: 0;
 }
 
 :host::ng-deep {
@@ -162,11 +160,6 @@ p {
 
 .blueText {
     color: #1560E0;
-    // font-family: Elza;
-    // font-size: 12px;
-    // font-style: normal;
-    // font-weight: 400;
-    // line-height: normal;
 }
 
 .greenText {
@@ -175,11 +168,6 @@ p {
 
 .rightMain {
     color: #C5C5C5;
-    // font-family: Elza;
-    // font-size: 15.097px;
-    // font-style: normal;
-    // font-weight: 400;
-    // line-height: normal;
 }
 
 .custom-hr {
@@ -191,33 +179,29 @@ p {
     /* Add margin for spacing (adjust as needed) */
 }
 
-//   .p-button{
-//     width: 100%;
-//   }
 .button-container {
     display: flex;
     justify-items: center;
 }
 
 .defaultSCSS {
-    background-color: white;
+    background: none;
     color: black;
     border: none;
-    ;
     border-bottom: 3px solid lightgrey;
-    cursor: pointer;
-
     width: 100%;
+    font-weight: 300;
     /* Remove the default button border */
     //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
 }
 
 .onClickButton {
     //border-bottom: 2px solid blue;
-    border-bottom: 3px solid rgb(92, 92, 238);
+    border-bottom: 3px solid #3579F3;
     /* Change the bottom border color on hover (e.g., blue) */
-    color: #1560E0;
-    background-color: white;
+    color: #3579F3;
+    background: none;
+    font-weight: 600;
     /* Change the text color on hover (optional) */
 }
 
@@ -243,4 +227,34 @@ p {
     display: flex;
     align-items: center;
     // justify-content: end;
+}
+
+.custom-button {
+    background: #535353;
+    border: #535353;;
+  }
+  .custom-button:hover {
+    background: #353434;
+    border: #353434;
+  }
+  // Override the default text color
+  .custom-button .p-button-text {
+    color: #ffffff;
+  }
+  
+  // Override the default border radius
+  .custom-button {
+    border-radius: 4px;
+  }
+
+  .customerList{
+    height: 46rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
+}
+
+.orderInvList{
+    height: 35rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
 }

@@ -100,6 +100,7 @@ export class ProductComponent implements OnInit {
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
 
+    console.log( this.productForm);
     var productFormVal = this.productForm.value;
     productFormVal.id = this.id;
 
@@ -157,7 +158,6 @@ export class ProductComponent implements OnInit {
             life: 3000,
           });
         })
-
     }
   }
 

@@ -20,7 +20,7 @@ export class ProfilepageService {
   }
 
   async getAllProduct(user : any) {
-    var url = this.apiurlNew + 'api/product/product'+ encodeURIComponent(user.id);
+    var url = this.apiurlNew + 'api/product/product/'+ encodeURIComponent(user.id);
     const allProduct = await lastValueFrom(this.http.get<any>(url));
     return allProduct;
   }
