@@ -11,6 +11,7 @@ import { HttpEventType } from '@angular/common/http';
 import { InvoiceService } from '../invoice.service';
 import { LineItem } from 'src/app/bills/bills-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-credit-note',
@@ -23,7 +24,7 @@ export class CreditNoteComponent implements OnInit {
   submitted: boolean = false;
   createNew: boolean = false;
   DeleteDialLogvisible: boolean = false;
-  currentUser : any = {};
+  currentUser: any = {};
 
   id: string | null = '';
   cnForm !: FormGroup;
@@ -88,18 +89,17 @@ export class CreditNoteComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private invoiceS: InvoiceService,
-    private authS: AuthService) {
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) {
 
 
   }
 
   ngOnInit(): void {
-    
+    this.breadCrumbService.breadCrumb([{ label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }]);
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -114,8 +114,6 @@ export class CreditNoteComponent implements OnInit {
         this.availableCN();
       }
     });
-
-    this.items = [{ label: 'Invoices' }, { label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }, { label: 'Create', routerLink: ['/invoice/creditNote/create'] }]
 
     this.initForm();
     this.loadStates();
@@ -150,7 +148,7 @@ export class CreditNoteComponent implements OnInit {
 
   availableCN() {
     this.submitted = true;
-    this.invoiceS.getAllCn( this.currentUser ).then(
+    this.invoiceS.getAllCn(this.currentUser).then(
       (res) => {
 
         var count = res.length;
@@ -323,7 +321,7 @@ export class CreditNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
-      cnFormVal.user =  this.currentUser ;
+      cnFormVal.user = this.currentUser;
       this.invoiceS.createCreditNote(cnFormVal).then(
         (res) => {
           console.log(res);
@@ -604,7 +602,7 @@ export class CreditNoteComponent implements OnInit {
         }
       )
     }
-   
+
   }
 
   createCN() {

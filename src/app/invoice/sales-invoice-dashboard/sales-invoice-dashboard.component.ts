@@ -5,7 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { SalesInvoice } from '../invoice-model';
 import { AuthService } from 'src/app/auth/auth.service';
-
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-sales-invoice-dashboard',
@@ -23,20 +23,20 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   lineitems: any[] = [];
   siSubTotal: number = 0;
 
-  currentDue : number = 0 ;
+  currentDue: number = 0;
   items!: MenuItem[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
     private invoiceS: InvoiceService,
-    private authS : AuthService) { }
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Invoices'},{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] }, {label: 'Dashboard'} ];
+    this.breadcrumbS.breadCrumb([{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-    
+
   }
 
   loadSI() {
@@ -117,22 +117,21 @@ export class SalesInvoiceDashboardComponent implements OnInit {
 
 
   myFunction(item: any): string {
-    if( item == null )
-    {
+    if (item == null) {
       return '0.00';
     }
-     return parseFloat(item).toFixed(2);
+    return parseFloat(item).toFixed(2);
   }
 
-  
+
   searchSI: any;
   searchSIs(value: any) {
     if (value === null) {
       //alert(value);
       this.loadSI();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.invoiceS.searchSI(value).then(
         (res: any) => {
           console.log(res);
@@ -154,8 +153,8 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     }
   }
 
-  currentUser : any = {};
-  currentCompany : any = {};
+  currentUser: any = {};
+  currentCompany: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {

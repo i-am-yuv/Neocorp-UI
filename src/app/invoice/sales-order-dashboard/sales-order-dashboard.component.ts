@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-sales-order-dashboard',
@@ -31,10 +32,11 @@ export class SalesOrderDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private invoiceS: InvoiceService,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Invoices' }, { label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Sales Orders', routerLink: ['/invoice/salesOrders'] }, { label: 'Dashboard' }]);
+
     this.loadUser();
   }
 

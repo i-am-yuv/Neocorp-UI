@@ -5,7 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
-
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-vendor-invoice-dashboard',
@@ -30,14 +30,14 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService ,
-    private authS : AuthService) { }
+    private confirmationService: ConfirmationService,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Invoices'},{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] }, {label: 'Dashboard'} ];
+    this.breadcrumbS.breadCrumb([{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-    
+
   }
 
   loadVI() {
@@ -91,15 +91,15 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     this.router.navigate(['/invoice/vendorInvoice/edit/' + id]);
   }
 
-  
+
   searchVI: any;
   searchVIs(value: any) {
     if (value === null) {
       //alert(value);
       this.loadVI();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.invoiceS.searchVI(value).then(
         (res: any) => {
           console.log(res);
@@ -122,8 +122,8 @@ export class VendorInvoiceDashboardComponent implements OnInit {
   }
 
 
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {

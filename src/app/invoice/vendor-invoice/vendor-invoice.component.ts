@@ -8,7 +8,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
-
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-vendor-invoice',
@@ -19,7 +19,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   id: string | null = '';
   viForm !: FormGroup;
-  currentUser : any = {};
+  currentUser: any = {};
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -51,18 +51,15 @@ export class VendorInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService, private authS: AuthService) { }
+    private confirmationService: ConfirmationService, private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
 
   ngOnInit(): void {
-
+    this.breadcrumbS.breadCrumb([{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }]);
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
-    this.items = [{ label: 'Invoices' }, { label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
-
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -258,16 +255,16 @@ export class VendorInvoiceComponent implements OnInit {
       )
     }
     else {
-     
+
       this.submitted = true;
-      viFormVal.user = this.currentUser ;
+      viFormVal.user = this.currentUser;
 
       this.invoiceS.createVI(viFormVal).then(
         (res) => {
           console.log(res);
           this.viForm.patchValue = { ...res };
           this.currvendorInvoice = res;
-          
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({

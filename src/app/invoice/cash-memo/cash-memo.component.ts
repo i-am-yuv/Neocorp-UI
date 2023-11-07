@@ -9,6 +9,8 @@ import { InvoiceService } from '../invoice.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { HttpEventType } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
+
 
 @Component({
   selector: 'app-cash-memo',
@@ -91,17 +93,17 @@ export class CashMemoComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
 
-  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService, private authS: AuthService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private usedService: PayPageService, private invoiceS: InvoiceService,
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadCrumbService.breadCrumb([{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }]);
 
-    
     this.loadUser();
   }
 
-loadOtherInfo()
-{
-  this.id = this.route.snapshot.paramMap.get('id');
+  loadOtherInfo() {
+    this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -116,15 +118,13 @@ loadOtherInfo()
       }
     });
 
-    this.items = [{ label: 'Invoices' }, { label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, { label: 'Create', routerLink: ['/invoice/cashMemo/create'] }]
-
     this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadCustomer();
     this.getCashMemo();
     this.sidebarVisibleProduct = false;
-}
+  }
 
   initForm() {
 
@@ -252,7 +252,7 @@ loadOtherInfo()
         }
       )
   }
-  currentUser : any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
@@ -325,7 +325,7 @@ loadOtherInfo()
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
-      cashMemoFormVal.user = this.currentUser ;
+      cashMemoFormVal.user = this.currentUser;
       this.invoiceS.createCashMemo(cashMemoFormVal).then(
         (res) => {
           console.log(res);

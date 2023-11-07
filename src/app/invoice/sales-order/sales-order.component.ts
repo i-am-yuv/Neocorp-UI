@@ -9,6 +9,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { HttpEventType } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-sales-order',
@@ -54,9 +55,10 @@ export class SalesOrderComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private invoiceS: InvoiceService,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }]);
     this.loadUser();
   }
 
@@ -75,8 +77,6 @@ export class SalesOrderComponent implements OnInit {
         this.availableSO();
       }
     });
-
-    this.items = [{ label: 'Invoices' }, { label: 'Sales Order', routerLink: ['/invoice/salesOrders'] }, { label: 'Create', routerLink: ['/invoice/salesOrder/create'] }];
 
     this.sidebarVisibleProduct = false;
 

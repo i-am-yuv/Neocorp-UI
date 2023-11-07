@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { CreditNote } from '../invoice-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-credit-note-dashboard',
@@ -13,17 +14,17 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class CreditNoteDashboardComponent implements OnInit {
 
-  createNew : boolean =  false;
-  submitted : boolean = false;
+  createNew: boolean = false;
+  submitted: boolean = false;
 
-  allCreditNotes : any[] =  [] ;
+  allCreditNotes: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeCN: CreditNote = {} ;
+  totalRecords: number = 0;
+  activeCN: CreditNote = {};
 
   lineitems: any[] = [];
-  cnSubTotal: number = 0 ;
-  currentDue : number = 0 ;
+  cnSubTotal: number = 0;
+  currentDue: number = 0;
 
   items!: MenuItem[];
 
@@ -32,21 +33,20 @@ export class CreditNoteDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private authS : AuthService,
-    private confirmationService: ConfirmationService) { }
+    private authS: AuthService,
+    private confirmationService: ConfirmationService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Invoices'}, {label: 'Credit Note', routerLink: ['/invoice/creditNotes']}, {label: 'Dashboard'}];
+    this.breadcrumbS.breadCrumb([{ label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-    
+
   }
 
-  getAllCreditNotes()
-  {
+  getAllCreditNotes() {
     this.submitted = true;
     this.invoiceS.getAllCn(this.currentUser).then(
-      (res : any) => {
+      (res: any) => {
         this.allCreditNotes = res;
         if (this.allCreditNotes.length > 0) {
           this.changeOrder(this.allCreditNotes[0]);
@@ -64,37 +64,33 @@ export class CreditNoteDashboardComponent implements OnInit {
     )
   }
 
-  changeOrder(item : CreditNote )
-  {
-     this.activeCN = item;
+  changeOrder(item: CreditNote) {
+    this.activeCN = item;
     this.getNotesLines(item);
-   // this.getRemainingAmountCN(item);
+    // this.getRemainingAmountCN(item);
   }
 
-  getNotesLines(item:CreditNote)
-  {
+  getNotesLines(item: CreditNote) {
     this.submitted = true;
     this.invoiceS
-    .getLineitemsByCn(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.cnSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted = false;
-      }
-    });
+      .getLineitemsByCn(item)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.cnSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.submitted = false;
+        }
+      });
   }
 
-  CreateNewCreditNote()
-  {
-    this.router.navigate(['/invoice/creditNote/create']); 
+  CreateNewCreditNote() {
+    this.router.navigate(['/invoice/creditNote/create']);
   }
 
-  onEditCN(id:string)
-  {
-    this.router.navigate(['/invoice/creditNote/edit/'+id]); 
+  onEditCN(id: string) {
+    this.router.navigate(['/invoice/creditNote/edit/' + id]);
   }
 
   // getRemainingAmountCN(CN:any)
@@ -114,15 +110,15 @@ export class CreditNoteDashboardComponent implements OnInit {
   //   )
   // }
 
-  
+
   searchCN: any;
   searchCNs(value: any) {
     if (value === null) {
       //alert(value);
       this.getAllCreditNotes();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.invoiceS.searchCN(value).then(
         (res: any) => {
           console.log(res);
@@ -144,8 +140,8 @@ export class CreditNoteDashboardComponent implements OnInit {
     }
   }
 
-  currentUser : any = {} ;
-  currentCompany : any = {} ;
+  currentUser: any = {};
+  currentCompany: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {

@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-cash-memo-dashboard',
@@ -32,10 +33,10 @@ export class CashMemoDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
     private authS : AuthService ,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, {label: 'Dashboard'}];
+    this.breadCrumbService.breadCrumb([{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, {label: 'Dashboard'}]);
 
     this.loadUser();
    

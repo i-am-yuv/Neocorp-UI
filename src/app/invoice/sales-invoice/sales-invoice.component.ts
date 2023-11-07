@@ -8,6 +8,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from '../invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-sales-invoice',
@@ -55,10 +56,10 @@ export class SalesInvoiceComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private invoiceS: InvoiceService, private authS: AuthService) { }
+    private invoiceS: InvoiceService, private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-
+    this.breadcrumbS.breadCrumb([{ label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }]);
     this.loadUser();
   }
 
@@ -77,8 +78,6 @@ export class SalesInvoiceComponent implements OnInit {
         this.availableSI();
       }
     });
-
-    this.items = [{ label: 'Invoices' }, { label: 'Sales Invoice', routerLink: ['/invoice/salesInvoices'] }, { label: 'Create', routerLink: ['/invoice/salesInvoice/create'] }];
 
     this.sidebarVisibleProduct = false;
 
