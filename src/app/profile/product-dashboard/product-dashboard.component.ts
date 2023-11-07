@@ -4,6 +4,7 @@ import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -22,14 +23,13 @@ export class ProductDashboardComponent implements OnInit {
 
   constructor(private router: Router, private profileService: ProfilepageService,
     private authS: AuthService,
-    private message: MessageService
+    private message: MessageService, private breadCrumbService: BreadCrumbService
   ) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Settings' }, { label: 'Products', routerLink: ['/profile/products'] }, { label: 'Dashboard' }];
+    this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-
   }
 
   getAllProducts() {
@@ -42,7 +42,7 @@ export class ProductDashboardComponent implements OnInit {
         } else {
           this.activeProduct = {};
         }
-        this.totalRecords = res.length ;
+        this.totalRecords = res.length;
         this.submitted = false;
       })
       .catch((err) => {

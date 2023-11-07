@@ -6,6 +6,7 @@ import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 import { ProductCategory } from '../product-category';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-product',
@@ -42,10 +43,10 @@ export class ProductComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private profileS: ProfilepageService,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
+    this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }]);
     this.loadUser();
   }
 
@@ -63,8 +64,6 @@ export class ProductComponent implements OnInit {
         this.availableProducts();
       }
     });
-
-    this.items = [{ label: 'Settings' }, { label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
     this.initForm();
     this.loadCategories();

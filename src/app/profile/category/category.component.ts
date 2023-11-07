@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { ProductCategory } from '../product-category';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-category',
@@ -29,16 +30,15 @@ export class CategoryComponent implements OnInit {
     private message: MessageService,
     private profileS: ProfilepageService,
     private fb: FormBuilder,
-    private route: ActivatedRoute ,
-    private authS  : AuthService ) { }
+    private route: ActivatedRoute,
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
+    this.breadCrumbService.breadCrumb([{ label: 'Product Category', routerLink: ['/profile/productCategories'] }]);
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -54,9 +54,8 @@ export class CategoryComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Settings' }, { label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
     this.initProductCategoryForm();
-    this.getAllProductCategory(); 
+    this.getAllProductCategory();
     this.getProductCategoryDetails();
   }
 
@@ -136,7 +135,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmitPC() {
-   
+
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
 
@@ -171,7 +170,7 @@ export class CategoryComponent implements OnInit {
           })
     } else {
 
-     productCategoryFormVal.user = this.currentUser ;
+      productCategoryFormVal.user = this.currentUser;
       this.profileS.createProductCategory(productCategoryFormVal).then(
         (res) => {
           console.log(res);
@@ -207,15 +206,15 @@ export class CategoryComponent implements OnInit {
 
   createPC() { }
 
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
-     
+
       this.loadOtherInfo();
     })
       .catch((err) => {
