@@ -6,6 +6,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { PurchaseOrder } from '../bills-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-po-dashboard',
@@ -30,10 +31,10 @@ export class PoDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Bills' }, { label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
   }

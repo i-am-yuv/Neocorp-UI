@@ -7,6 +7,7 @@ import { BillsService } from '../bills.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-goods-receipt-dashboard',
@@ -34,10 +35,11 @@ export class GoodsReceiptDashboardComponent implements OnInit {
     private message: MessageService,
     private billS: BillsService,
     private authS: AuthService,
-    private commonS: InvoiceService) { }
+    private commonS: InvoiceService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Bills' }, { label: 'Receipt Note' }, { label: 'Dashboard' }]
+    this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt' }, { label: 'Dashboard' }]);
+
     this.loadUser();
   }
 
@@ -154,8 +156,7 @@ export class GoodsReceiptDashboardComponent implements OnInit {
   currentUser: any = {};
   loadUser() {
     this.submitted = true;
-    this.authS.getUser().then((res: any) => 
-    {
+    this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
       this.currentUser = res;
 

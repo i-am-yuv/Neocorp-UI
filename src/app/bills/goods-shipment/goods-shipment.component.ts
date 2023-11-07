@@ -10,6 +10,7 @@ import { BillsService } from '../bills.service';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-goods-shipment',
@@ -77,15 +78,16 @@ export class GoodsShipmentComponent implements OnInit {
     private fb: FormBuilder,
     private billS: BillsService,
     private invoiceS: InvoiceService,
-    private usedService: PayPageService, private authS: AuthService) {
+    private usedService: PayPageService, private authS: AuthService, private breadcrumbS: BreadCrumbService) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Goods Shipment', routerLink: ['/bills/goodsShipment'] }]);
+    
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -100,8 +102,6 @@ export class GoodsShipmentComponent implements OnInit {
         this.availableGS();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Good Shipments', routerLink: ['/bills/goodsShipment'] }, { label: 'Create', routerLink: ['/bills/goodsShipment/create'] }];
 
     this.initForm();
     this.loadVendors();
@@ -195,12 +195,12 @@ export class GoodsShipmentComponent implements OnInit {
       }
     )
   }
-  currentUser : any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser =  res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();
@@ -425,7 +425,7 @@ export class GoodsShipmentComponent implements OnInit {
 
       this.submitted = true;
       gsFormVal.status = 'DRAFT';
-      gsFormVal.user = this.currentUser ;
+      gsFormVal.user = this.currentUser;
 
       this.billS.createGoodsShipment(gsFormVal).then(
         (res) => {
@@ -433,7 +433,7 @@ export class GoodsShipmentComponent implements OnInit {
           this.gsForm.patchValue = { ...res };
           this.currGoodsShipment = res;
           this.currSalesOrder = res.salesOrder;
-          
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
@@ -446,7 +446,7 @@ export class GoodsShipmentComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['bills/goodsShipment/edit/' + res.id]);
           }, 2000);
-          
+
           this.loadSalesOrderLineItems(this.gsForm.value.salesOrder);
         }
       ).catch(
@@ -490,34 +490,33 @@ export class GoodsShipmentComponent implements OnInit {
     gsFormVal.goodsShipment.id = this.id;
     gsFormVal.salesOrder.id = this.currSalesOrder.id;
     gsFormVal.comapny = this.currentCompany;
-   
-    if( gsFormVal.id)
-    {
-    this.submitted = true;
-    this.billS.updateGoodsShipmentLine(gsFormVal)
-      .then((data: any) => {
-        if (data) {
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Shipment Line Items Updated',
-            life: 3000,
-          });
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Goods Shipment Line Items Error',
-            life: 3000,
-          });
-        }
-      );
-      
+
+    if (gsFormVal.id) {
+      this.submitted = true;
+      this.billS.updateGoodsShipmentLine(gsFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Goods Shipment Line Items Updated',
+              life: 3000,
+            });
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Shipment Line Items Error',
+              life: 3000,
+            });
+          }
+        );
+
     }
     else {
 

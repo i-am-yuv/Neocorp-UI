@@ -62,6 +62,7 @@ export class DebitNoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/bills/debitNotes'] }]);
+    
     this.loadUser();
   }
 

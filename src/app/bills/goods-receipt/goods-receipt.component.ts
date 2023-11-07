@@ -10,6 +10,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 import { CompanyNew, SalesOrder, SalesOrderLine } from 'src/app/invoice/invoice-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-goods-receipt',
@@ -61,10 +62,11 @@ export class GoodsReceiptComponent implements OnInit {
     private fb: FormBuilder,
     private billS: BillsService,
     private invoiceS: InvoiceService,
-    private usedService: PayPageService, private authS: AuthService) {
+    private usedService: PayPageService, private authS: AuthService, private breadcrumbS: BreadCrumbService) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt', routerLink: ['/bills/goodsReceipt'] }]);
 
     this.loadUser();
   }
@@ -84,8 +86,6 @@ export class GoodsReceiptComponent implements OnInit {
         this.availableGR();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Good Receipt', routerLink: ['/bills/goodsReceipt'] }, { label: 'Create', routerLink: ['/bills/goodsReceipt/create'] }];
 
     this.initForm();
     this.loadVendors();

@@ -5,6 +5,8 @@ import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { BillsService } from '../bills.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
+
 
 @Component({
   selector: 'app-receipt-note-dashboard',
@@ -13,16 +15,16 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class ReceiptNoteDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allReceiptNotes : any[] =  [] ;
+  allReceiptNotes: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeRN: ReceiptNote = {} ;
+  totalRecords: number = 0;
+  activeRN: ReceiptNote = {};
 
   lineitems: any[] = [];
-  rnSubTotal: number = 0 ;
-  currentDue : number = 0 ;
+  rnSubTotal: number = 0;
+  currentDue: number = 0;
 
   items!: MenuItem[]
 
@@ -31,19 +33,19 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private authS : AuthService,
-    private confirmationService: ConfirmationService) { }
+    private authS: AuthService,
+    private confirmationService: ConfirmationService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
+    this.breadcrumbS.breadCrumb([{ label: 'Receipt Note' }, { label: 'Dashboard' }]);
+
     this.loadUser();
   }
 
-  getAllReceiptNotes()
-  {
+  getAllReceiptNotes() {
     this.submitted = true;
     this.billS.getAllRn(this.currentUser).then(
-      (res : any) => {
+      (res: any) => {
         this.allReceiptNotes = res;
         if (this.allReceiptNotes.length > 0) {
           this.changeOrder(this.allReceiptNotes[0]);
@@ -60,38 +62,34 @@ export class ReceiptNoteDashboardComponent implements OnInit {
     )
   }
 
-  changeOrder(item : ReceiptNote )
-  {
-     this.activeRN = item;
+  changeOrder(item: ReceiptNote) {
+    this.activeRN = item;
     this.getNotesLines(item);
-   // this.getRemainingAmount(item);
+    // this.getRemainingAmount(item);
   }
 
-  getNotesLines(item:ReceiptNote)
-  {
-    this.submitted  =true;
+  getNotesLines(item: ReceiptNote) {
+    this.submitted = true;
     this.billS
-    .getLineitemsByRn(item)
-    .then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.rnSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted  =false;
-      }
-    });
-    
+      .getLineitemsByRn(item)
+      .then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.rnSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.submitted = false;
+        }
+      });
+
   }
 
-  CreateNewReceiptNote()
-  {
-    this.router.navigate(['/bills/receiptNote/create']); 
+  CreateNewReceiptNote() {
+    this.router.navigate(['/bills/receiptNote/create']);
   }
 
-  onEditRN(id:string)
-  {
-    this.router.navigate(['/bills/receiptNote/edit/'+id]); 
+  onEditRN(id: string) {
+    this.router.navigate(['/bills/receiptNote/edit/' + id]);
   }
 
   // getRemainingAmount(RN:any){
@@ -111,15 +109,15 @@ export class ReceiptNoteDashboardComponent implements OnInit {
   // }
 
 
-  
+
   searchRN: any;
   searchRNs(value: any) {
     if (value === null) {
-    //  alert(value);
+      //  alert(value);
       this.getAllReceiptNotes();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.billS.searchRN(value).then(
         (res: any) => {
           console.log(res);
@@ -139,10 +137,10 @@ export class ReceiptNoteDashboardComponent implements OnInit {
         }
       )
     }
-    
+
   }
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
@@ -151,7 +149,7 @@ export class ReceiptNoteDashboardComponent implements OnInit {
       this.submitted = false;
 
       this.getAllReceiptNotes();
-      
+
     })
       .catch((err) => {
         console.log(err);

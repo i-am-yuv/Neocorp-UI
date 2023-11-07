@@ -10,6 +10,7 @@ import { Product } from 'src/app/profile/profile-models';
 import { HttpEventType } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -83,9 +84,10 @@ export class PurchaseOrderComponent implements OnInit {
     private billS: BillsService,
     private confirmationService: ConfirmationService,
     private authS: AuthService,
-    private profileS: ProfilepageService) { }
+    private profileS: ProfilepageService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }]);
     this.loadUser();
   }
 
@@ -103,8 +105,6 @@ export class PurchaseOrderComponent implements OnInit {
         this.availablePO();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create', routerLink: ['/bills/purchaseOrder/create'] }];
 
     this.sidebarVisibleProduct = false;
 
@@ -344,7 +344,7 @@ export class PurchaseOrderComponent implements OnInit {
       )
     }
     else {
-     
+
       this.submitted = true;
       poFormVal.grossTotal = null;
       poFormVal.requestStatus = 'DRAFT';
@@ -355,7 +355,7 @@ export class PurchaseOrderComponent implements OnInit {
           console.log(res);
           this.poForm.patchValue = { ...res };
           this.currentPoOrder = res;
-          
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
@@ -460,7 +460,7 @@ export class PurchaseOrderComponent implements OnInit {
   onRowEditSave(lineItem: LineItem) {
     //  alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    
+
     if (lineItem.discount == null || lineItem.discount == 0) {
 
     }
@@ -478,7 +478,7 @@ export class PurchaseOrderComponent implements OnInit {
     }
     else {
       lineItem.expenseName = currentProduct;
-      lineItem.purchaseOrder = this.currentPoOrder; 
+      lineItem.purchaseOrder = this.currentPoOrder;
 
       this.newRecord = false;
       this.islineAvaliable = true;
@@ -490,9 +490,9 @@ export class PurchaseOrderComponent implements OnInit {
         this.submitted = true;
         this.usedService.updateLineItem(lineItem).then(
           (res) => {
-           
+
             _lineItem = res;
-           
+
             this.getPoOrder();
             this.submitted = false;
             this.message.add({

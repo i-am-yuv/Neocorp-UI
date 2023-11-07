@@ -10,6 +10,7 @@ import { ReceiptNote, rnLineItem } from '../bills-model';
 import { HttpEventType } from '@angular/common/http';
 import { CompanyNew } from 'src/app/invoice/invoice-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-receipt-note',
@@ -67,9 +68,10 @@ export class ReceiptNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private billS: BillsService, private authS: AuthService) { }
+    private billS: BillsService, private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }]);
     this.loadUser();
   }
 
@@ -89,7 +91,7 @@ export class ReceiptNoteComponent implements OnInit {
       }
     });
 
-    this.items = [{ label: 'Bills' }, { label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'create', routerLink: ['/bills/receiptNote/create'] }];
+    this.items = [{ label: 'Bills' },];
 
     this.sidebarVisibleProduct = false;
 

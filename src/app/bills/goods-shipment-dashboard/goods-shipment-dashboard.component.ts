@@ -6,6 +6,7 @@ import { BillsService } from '../bills.service';
 import { GoodsShipment, GoodsShipmentLine } from '../bills-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-goods-shipment-dashboard',
@@ -14,17 +15,17 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class GoodsShipmentDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
+  submitted: boolean = false;
 
-  allGS : any[] =  [] ;
+  allGS: any[] = [];
 
-  totalRecords : number = 0 ;
-  activeGS: GoodsShipment = {} ;
+  totalRecords: number = 0;
+  activeGS: GoodsShipment = {};
 
-  activeGoodsShipmentLine : GoodsShipmentLine = {};
+  activeGoodsShipmentLine: GoodsShipmentLine = {};
 
   lineitems: any[] = [];
-  gsSubTotal: number = 0 ;
+  gsSubTotal: number = 0;
 
   items!: MenuItem[]
 
@@ -32,19 +33,18 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private billS: BillsService,
-    private authS : AuthService,
-    private commonS : InvoiceService) { }
+    private authS: AuthService,
+    private commonS: InvoiceService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
+    this.breadcrumbS.breadCrumb([{ label: 'Receipt Note' }, { label: 'Dashboard' }]);
     this.loadUser();
   }
 
-  getAllGS()
-  {
+  getAllGS() {
     this.submitted = true;
     this.billS.getAllGS(this.currentUser).then(
-      (res : any) => {
+      (res: any) => {
         this.allGS = res;
         if (this.allGS.length > 0) {
           this.changeOrder(this.allGS[0]);
@@ -67,71 +67,66 @@ export class GoodsShipmentDashboardComponent implements OnInit {
     )
   }
 
-  changeOrder(item : GoodsShipment )
-  {
+  changeOrder(item: GoodsShipment) {
     this.activeGS = item;
     this.getLines(item);
     this.getSoLines(item);
   }
 
-  getSoLines(item:GoodsShipment)
-  {
-     this.submitted = true;
-     this.commonS.getLineitemsBySo(item.salesOrder).then(
-      (res)=>{
+  getSoLines(item: GoodsShipment) {
+    this.submitted = true;
+    this.commonS.getLineitemsBySo(item.salesOrder).then(
+      (res) => {
         this.lineitems = res;
         this.gsSubTotal = this.lineitems.reduce(
           (total, lineItem) => total + lineItem.amount, 0
         );
         this.submitted = false;
       }
-     ).catch(
-      (err)=>{
+    ).catch(
+      (err) => {
         console.log(err);
         this.submitted = false;
-      }
-     )
-  }
-
-  getLines(item:GoodsShipment)
-  {
-    this.submitted  =true;
-    this.billS
-    .getLineItemsByGoodsShipmentId(item)
-    .then((data: any) => {
-      if (data) {
-        this.activeGoodsShipmentLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0 ;
-        this.activeGoodsShipmentLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0 ;
-        this.activeGoodsShipmentLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
-        this.submitted= false;
-      }
-    }).catch(
-      (err)=>{
-        console.log(err);
-        this.submitted= false;
       }
     )
   }
 
-  CreateNewGS()
-  {
-    this.router.navigate(['/bills/goodsShipment/create']); 
+  getLines(item: GoodsShipment) {
+    this.submitted = true;
+    this.billS
+      .getLineItemsByGoodsShipmentId(item)
+      .then((data: any) => {
+        if (data) {
+          this.activeGoodsShipmentLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0;
+          this.activeGoodsShipmentLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0;
+          this.activeGoodsShipmentLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
-  onEditRN(id:string)
-  {
-    this.router.navigate(['/bills/goodsShipment/edit/'+id]); 
+  CreateNewGS() {
+    this.router.navigate(['/bills/goodsShipment/create']);
   }
 
-  
+  onEditRN(id: string) {
+    this.router.navigate(['/bills/goodsShipment/edit/' + id]);
+  }
+
+
   searchGS: any;
   searchGSs(value: any) {
     if (value === null) {
-    //  alert(value);
+      //  alert(value);
       this.getAllGS();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.billS.searchGS(value).then(
         (res: any) => {
           console.log(res);
@@ -150,15 +145,15 @@ export class GoodsShipmentDashboardComponent implements OnInit {
           this.submitted = false;
         }
       )
-    } 
+    }
   }
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser =  res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.getAllGS();
@@ -168,5 +163,5 @@ export class GoodsShipmentDashboardComponent implements OnInit {
         this.submitted = false;
       })
   }
-  
+
 }
