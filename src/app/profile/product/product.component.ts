@@ -45,7 +45,7 @@ export class ProductComponent implements OnInit {
     private authS: AuthService) { }
 
   ngOnInit(): void {
-
+    this.initForm();
     this.loadUser();
   }
 
@@ -66,7 +66,7 @@ export class ProductComponent implements OnInit {
 
     this.items = [{ label: 'Settings' }, { label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
-    this.initForm();
+   
     this.loadCategories();
     this.getProductDetails();
   }

@@ -86,6 +86,8 @@ export class PurchaseOrderComponent implements OnInit {
     private profileS: ProfilepageService) { }
 
   ngOnInit(): void {
+    this.initForm();
+
     this.loadUser();
   }
 
@@ -108,7 +110,6 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadState();

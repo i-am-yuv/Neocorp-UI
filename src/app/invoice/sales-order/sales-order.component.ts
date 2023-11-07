@@ -57,6 +57,8 @@ export class SalesOrderComponent implements OnInit {
     private authS: AuthService) { }
 
   ngOnInit(): void {
+
+    this.initForm();
     this.loadUser();
   }
 
@@ -80,7 +82,6 @@ export class SalesOrderComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
     this.soForm.value.enablePartialPayments = false;
     this.loadCustomer();
     this.loadProducts();
@@ -544,7 +545,7 @@ export class SalesOrderComponent implements OnInit {
     sFormVal.id = this.id;
     sFormVal.grossTotal = this.soSubTotal;
     sFormVal.comapny = this.currentCompany;
-
+    alert(JSON.stringify(sFormVal));
     if (sFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;

@@ -48,6 +48,7 @@ export interface ReceiptNote {
   status?: string;
   comapny?: CompanyNew;
   user ?: any ;
+  branch ?: any;
 }
 
 export interface rnLineItem {

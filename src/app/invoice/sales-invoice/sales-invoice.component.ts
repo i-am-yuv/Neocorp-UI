@@ -59,6 +59,7 @@ export class SalesInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.initForm();
     this.loadUser();
   }
 
@@ -82,7 +83,6 @@ export class SalesInvoiceComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
 
     this.loadProducts();
     this.loadCustomer();

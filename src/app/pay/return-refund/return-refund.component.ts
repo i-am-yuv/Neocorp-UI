@@ -52,6 +52,7 @@ export class ReturnRefundComponent implements OnInit {
 
   ngOnInit(): void {
     
+    this.initForm();
     this.loadUser();
   }
 
@@ -76,7 +77,6 @@ export class ReturnRefundComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-    this.initForm();
     this.loadProducts();
     this.loadSalesOrder();
     this.getReturnRefund();
@@ -105,7 +105,7 @@ export class ReturnRefundComponent implements OnInit {
     this.payS.getAllRR(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/pay/returnAndRefunds']);
@@ -125,7 +125,7 @@ export class ReturnRefundComponent implements OnInit {
   loadProducts() {
     this.payS.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )

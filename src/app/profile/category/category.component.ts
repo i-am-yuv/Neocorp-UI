@@ -33,7 +33,7 @@ export class CategoryComponent implements OnInit {
     private authS  : AuthService ) { }
 
   ngOnInit(): void {
-
+    this.initProductCategoryForm();
     this.loadUser();
   }
 
@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
     });
 
     this.items = [{ label: 'Settings' }, { label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create', routerLink: ['/profile/productCategory/create'] }];
-    this.initProductCategoryForm();
+    
     this.getAllProductCategory(); 
     this.getProductCategoryDetails();
   }
@@ -150,7 +150,7 @@ export class CategoryComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Product updated Successfully',
+            detail: 'Product Category updated Successfully',
             life: 3000,
           });
           setTimeout(() => {

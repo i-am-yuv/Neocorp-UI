@@ -46,7 +46,7 @@ export class CustomerComponent implements OnInit {
     private authS : AuthService) { }
 
   ngOnInit(): void {
-
+    this.initForm();
     this.loadUser() ;
   }
 
@@ -69,8 +69,6 @@ export class CustomerComponent implements OnInit {
     });
 
     this.items = [ {label: 'Collect'},{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
-
-    this.initForm();
   }
 
   initForm()
@@ -218,7 +216,7 @@ export class CustomerComponent implements OnInit {
 
   saveCustomer() {
     
-    this.customerForm.value.accountDetails = null ; // Temp 
+   // this.customerForm.value.accountDetails = null ; // Temp 
     this.customerForm.value.user.id = this.currentUser.id ;
 
     this.submitted = true;

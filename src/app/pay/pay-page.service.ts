@@ -30,6 +30,12 @@ export class PayPageService {
     )
   }
 
+  async getVendor(vendorId: any) {
+    var url = this.apiurlNew + 'api/vendor/' + encodeURIComponent(vendorId);
+    const currentVendor = await lastValueFrom(this.http.get<any>(url));
+    return currentVendor;
+  }
+
   async searchVendor(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
 

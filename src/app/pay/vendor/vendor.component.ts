@@ -47,6 +47,7 @@ export class VendorComponent implements OnInit {
     private authS: AuthService) { }
 
   ngOnInit(): void {
+    this.initForm();
     this.loadUser();
   }
 
@@ -65,10 +66,8 @@ export class VendorComponent implements OnInit {
         this.getAllVendor();
       }
     });
-
     this.items = [{ label: 'Pay' }, { label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
-
-    this.initForm();
+    
   }
 
   initForm() {

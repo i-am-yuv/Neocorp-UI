@@ -81,6 +81,7 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm();
     this.loadUser();
   }
 
@@ -103,7 +104,7 @@ export class GoodsShipmentComponent implements OnInit {
 
     this.items = [{ label: 'Bills' }, { label: 'Good Shipments', routerLink: ['/bills/goodsShipment'] }, { label: 'Create', routerLink: ['/bills/goodsShipment/create'] }];
 
-    this.initForm();
+   
     this.loadVendors();
     this.loadCustomers();
     this.loadProducts();
