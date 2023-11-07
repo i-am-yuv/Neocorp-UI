@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {  MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Product } from 'src/app/profile/profile-models';
 import { PayPageService } from '../pay-page.service';
 import { ReturnRefund, ReturnRefundLine } from '../pay-model';
 import { HttpEventType } from '@angular/common/http';
 import { CompanyNew } from 'src/app/invoice/invoice-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-return-refund',
@@ -48,15 +49,16 @@ export class ReturnRefundComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
 
-  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private payS: PayPageService, private authS: AuthService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService,
+    private fb: FormBuilder, private payS: PayPageService, private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    
+    this.breadcrumbS.breadCrumb([{ label: 'Return & Refunds', routerLink: ['/pay/returnAndRefunds'] }]);
+
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -71,8 +73,6 @@ export class ReturnRefundComponent implements OnInit {
         this.availableRR();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefunds'] }, { label: 'Create' }];
 
     this.sidebarVisibleProduct = false;
 
@@ -147,21 +147,21 @@ export class ReturnRefundComponent implements OnInit {
     this.payS.allSO(this.currentUser).then(
       (res: any) => {
         this.allSalesOrders = res;
-        this.submitted =  false;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
-        this.submitted =  false;
+        this.submitted = false;
       }
     )
   }
-  currentUser : any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();
@@ -243,7 +243,7 @@ export class ReturnRefundComponent implements OnInit {
     else {
       // this.upload(); // for upload file if attached
       this.submitted = true;
-      rrFormVal.user = this.currentUser ;
+      rrFormVal.user = this.currentUser;
       this.payS.createReturnRefund(rrFormVal).then((res) => {
         console.log(res);
         this.rrForm.patchValue = { ...res };

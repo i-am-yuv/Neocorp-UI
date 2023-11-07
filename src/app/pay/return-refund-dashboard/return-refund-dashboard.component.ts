@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { PayPageService } from '../pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-return-refund-dashboard',
@@ -22,11 +23,12 @@ export class ReturnRefundDashboardComponent implements OnInit {
   rrSubTotal: number = 0;
   items!: MenuItem[]
 
-  constructor(private router: Router, private payS: PayPageService ,
-    private authS : AuthService) { }
+  constructor(private router: Router, private payS: PayPageService,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Return & Refunds', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }]);
+
     this.loadUser();
   }
 
@@ -105,13 +107,13 @@ export class ReturnRefundDashboardComponent implements OnInit {
     }
   }
 
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
       this.getAllReturnRefund();
     })
