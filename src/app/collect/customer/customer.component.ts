@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-customer',
@@ -16,7 +17,7 @@ export class CustomerComponent implements OnInit {
   createNew: boolean = false;
   isSidebarVisible: boolean = true;
 
-  submitted : boolean = false;
+  submitted: boolean = false;
   customerForm!: FormGroup;
   addressDetailsForm !: FormGroup;
   accountDetailsForm !: FormGroup;
@@ -41,18 +42,18 @@ export class CustomerComponent implements OnInit {
   constructor(private router: Router,
     private message: MessageService,
     private payPageS: PayPageService,
-    private fb : FormBuilder,
-    private route: ActivatedRoute ,
-    private authS : AuthService) { }
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadCrumbService.breadCrumb([{ label: 'Customer', routerLink: ['/collect/customers'] }]);
 
-    this.loadUser() ;
+    this.loadUser();
   }
 
-  loadOtherInfo()
-  {
-    
+  loadOtherInfo() {
+
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -68,13 +69,10 @@ export class CustomerComponent implements OnInit {
       }
     });
 
-    this.items = [ {label: 'Collect'},{ label: 'Customer', routerLink: ['/collect/customers'] }, { label: 'Create', routerLink: ['/collect/createCustomer'] }];
-
     this.initForm();
   }
 
-  initForm()
-  {
+  initForm() {
     this.customerForm = new FormGroup({
       id: new FormControl(''),
       displayName: new FormControl('', Validators.required),
@@ -84,7 +82,7 @@ export class CustomerComponent implements OnInit {
       address: new FormControl(''),
       accountDetails: new FormControl(''),
       upiId: new FormControl(''),
-      notes: new FormControl('') ,
+      notes: new FormControl(''),
       user: this.fb.group({
         id: this.fb.nonNullable.control('')
       })
@@ -119,8 +117,7 @@ export class CustomerComponent implements OnInit {
     this.saveAccount();
   }
 
-  getAllCustomer()
-  {
+  getAllCustomer() {
     this.submitted = true;
     this.payPageS.allCustomer(this.currentUser).then(
       (res) => {
@@ -187,7 +184,7 @@ export class CustomerComponent implements OnInit {
       this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then(
         (res) => {
-          
+
           this.customerForm.value.address = res;
           this.submitted = false;
           this.saveCustomer();
@@ -217,9 +214,9 @@ export class CustomerComponent implements OnInit {
   }
 
   saveCustomer() {
-    
-    this.customerForm.value.accountDetails = null ; // Temp 
-    this.customerForm.value.user.id = this.currentUser.id ;
+
+    this.customerForm.value.accountDetails = null; // Temp 
+    this.customerForm.value.user.id = this.currentUser.id;
 
     this.submitted = true;
     this.payPageS.createCustomer(this.customerForm.value).then(
@@ -233,9 +230,9 @@ export class CustomerComponent implements OnInit {
           life: 3000,
         });
         setTimeout(() => {
-          this.router.navigate(['/collect/customers']) ;
+          this.router.navigate(['/collect/customers']);
         }, 2000);
-        
+
       }
     ).catch((err) => {
       console.log("customer error");
@@ -281,13 +278,13 @@ export class CustomerComponent implements OnInit {
     this.router.navigate(['/collect/customer/create']);
   }
 
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();

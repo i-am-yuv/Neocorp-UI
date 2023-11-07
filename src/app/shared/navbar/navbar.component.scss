@@ -37,6 +37,19 @@
   // height: 100vh; // Adjust as needed to control the vertical centering
 }
 
+::ng-deep {
+  .p-breadcrumb {
+    border: none !important;
+    align-items: center;
+  }
+
+  .p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
+    color: #495057;
+    font-family: 'Inter';
+    font-size: medium;
+  }
+}
+
 .plusSCSS {
   border-radius: 50% !important;
 }

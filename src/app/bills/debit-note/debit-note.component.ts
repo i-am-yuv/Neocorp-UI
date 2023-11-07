@@ -10,6 +10,7 @@ import { BillsService } from '../bills.service';
 import { HttpEventType } from '@angular/common/http';
 import { CompanyNew } from 'src/app/invoice/invoice-model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-debit-note',
@@ -56,13 +57,12 @@ export class DebitNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private billS: BillsService, private authS: AuthService) {
+    private billS: BillsService, private authS: AuthService, private breadcrumbS: BreadCrumbService) {
   }
 
   ngOnInit(): void {
-
+    this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/bills/debitNotes'] }]);
     this.loadUser();
-
   }
 
   loadOtherInfo() {
@@ -80,8 +80,6 @@ export class DebitNoteComponent implements OnInit {
         this.availableDN();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create', routerLink: ['/bills/debitNote/create'] }];
 
     this.sidebarVisibleProduct = false;
 

@@ -1,10 +1,17 @@
-<div class="flex">
+<div class="flex align-center">
   <div class="bg-white p-3 border-1 border-200 w-2">
     <img src="/assets/LogoNeomaxer.png" alt="Image" class="w-12rem cursor-pointer" [routerLink]="['/dashboard']">
   </div>
-  <div class="flex-grow-1  border-bottom-1 border-200">
-    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
-    <!-- <div class="iconSCSS w-full">
+
+  <div class="bg-white col-6 border-bottom-1 border-200">
+    <div>
+      <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+    </div>
+  </div>
+
+  <div class="flex-grow-1  border-bottom-1 border-200"></div>
+
+  <!-- <div class="iconSCSS w-full">
 
       <div class=" col-8"></div>
 
@@ -32,6 +39,6 @@
 
 
 
-  </div>
+
 </div>
 <!-- raised-container -->

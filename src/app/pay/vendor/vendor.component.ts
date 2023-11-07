@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from '../pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-vendor',
@@ -26,8 +27,6 @@ export class VendorComponent implements OnInit {
   addressDetailsVisible: boolean = false;
   shippingAddressVisible: boolean = false;
 
-  items!: MenuItem[];
-
   accountType: any = [
     {
       "id": "1",
@@ -44,9 +43,10 @@ export class VendorComponent implements OnInit {
     private message: MessageService,
     private payPageS: PayPageService,
     private fb: FormBuilder,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }]);
     this.loadUser();
   }
 
@@ -65,8 +65,6 @@ export class VendorComponent implements OnInit {
         this.getAllVendor();
       }
     });
-
-    this.items = [{ label: 'Pay' }, { label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create', routerLink: ['/pay/vendor/create'] }];
 
     this.initForm();
   }

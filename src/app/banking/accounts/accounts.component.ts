@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-accounts',
@@ -47,16 +48,15 @@ export class AccountsComponent implements OnInit {
   currentCreditAccount: any = {};
   currentDebitAccount: any = {};
 
-  constructor(private payS: PayPageService, private router: Router, private message: MessageService) { }
+  constructor(private payS: PayPageService, private router: Router, private message: MessageService, private breadcrumS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumS.breadCrumb([{ label: 'Accounts' }]);
+    
     this.initForm();
     this.getCreditAccounts();
     this.getDebitAccounts();
     // this.getCreditAccountId();
-
-    this.items1 = [{ label: 'Banking' }, { label: 'Accounts' }, { label: 'Credit' }];
-    this.items2 = [{ label: 'Banking' }, { label: 'Accounts' }, { label: 'Debit' }];
   }
 
   initForm() {

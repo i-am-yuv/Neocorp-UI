@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
-import { BankingService,  } from '../banking.service';
+import { BankingService, } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { DebitAccountDetails, PayModelsSI, PaymentRequest } from '../banking-model';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-pay-to-vendor',
@@ -19,12 +20,12 @@ export class PayToVendorComponent implements OnInit {
   sidebarVisibleB: boolean = false;
   accounntSelected: boolean = false;
 
-  partialPaymentStatus : boolean =  true;
+  partialPaymentStatus: boolean = true;
 
   submitted: boolean = false;
 
   enteredAmount: number = 0.00;
-  amountRemaining : number = 0.00 ;
+  amountRemaining: number = 0.00;
   id: any;
   amount: any;
 
@@ -116,11 +117,12 @@ export class PayToVendorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private bankingS: BankingService,
-    private payS : PayPageService,
-    private authS : AuthService ) { }
+    private payS: PayPageService,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    
+    this.breadcrumbS.breadCrumb([{ label: 'Banking' }]);
+
     this.impsForm = new FormGroup({
       id: new FormControl(''),
       mmid: new FormControl('', [Validators.required]),
@@ -155,9 +157,6 @@ export class PayToVendorComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.amount = this.route.snapshot.paramMap.get('amount');
 
-    this.items = [{ label: 'Banking' }, { label: 'Amount' }];
-    this.items2 = [{ label: 'Banking' }, {label: 'Amount', routerLink: ['/banking/payToVendor/pi/' + this.id]}, { label: 'Payment' }];
-
     this.getPI(this.id);
     this.getAllDebitAccount();
   }
@@ -184,16 +183,16 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getPI(id).then(
         (res) => {
           console.log(res);
-          this.partialPaymentStatus =  res.enablePartialPayments;
+          this.partialPaymentStatus = res.enablePartialPayments;
           this.currentPurchaseInvoice = res;
           this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
-            (res)=>{
-               this.enteredAmount =  res; 
-               this.amountRemaining = res;
-               this.submitted = false;
+            (res) => {
+              this.enteredAmount = res;
+              this.amountRemaining = res;
+              this.submitted = false;
             }
           ).catch(
-            (err)=>{
+            (err) => {
               console.log(err);
               this.submitted = false;
             }
@@ -534,7 +533,7 @@ export class PayToVendorComponent implements OnInit {
     this.enteredAmount = event.target.value;
   }
 
-  onClose(){
+  onClose() {
     this.router.navigate(['/collect/purchaseInvoices']);
   }
 
@@ -547,7 +546,7 @@ export class PayToVendorComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser = res;
       this.submitted = false;
-     
+
     })
       .catch((err) => {
         console.log(err);

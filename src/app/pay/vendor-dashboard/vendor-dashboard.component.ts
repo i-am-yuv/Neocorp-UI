@@ -30,15 +30,15 @@ export class VendorDashboardComponent implements OnInit {
 
   items!: MenuItem[];
 
-  constructor(private router: Router, private route: ActivatedRoute, 
-    private payServices: PayPageService , private authS : AuthService, private breadCrumbService:BreadCrumbService) { }
+  constructor(private router: Router, private route: ActivatedRoute,
+    private payServices: PayPageService, private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
 
-    this.breadCrumbService.breadCrumb( [{label: 'Pay'},{ label: 'Vendors', routerLink: ['/pay/vendors'] }, {label: 'Dashboard'}]);
+    this.breadCrumbService.breadCrumb([{ label: 'Vendors', routerLink: ['/pay/vendors'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-  //  this.getAllVendors();
+    //  this.getAllVendors();
   }
 
   getAllVendors() {
@@ -91,7 +91,7 @@ export class VendorDashboardComponent implements OnInit {
         this.submitted = false;
         this.totalRemainingAmount = 0;
         // for (const purchaseInvoice of this.allPurchaseInvoices) {
-          
+
         //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
         //     (res) => {
 
@@ -112,7 +112,7 @@ export class VendorDashboardComponent implements OnInit {
           .reduce((total, PI) =>
             total + PI.grossTotal, 0
           )
-          this.totalRemainingAmount = this.allPurchaseInvoices
+        this.totalRemainingAmount = this.allPurchaseInvoices
           .reduce((total, PI) =>
             total + PI.remainingAmount, 0
           )
@@ -145,8 +145,8 @@ export class VendorDashboardComponent implements OnInit {
       .then((res: any) => {
         console.log(res);
         this.allPurchaseInvoices = res;
-        
-        this.totalGrossAmount =  0 ;
+
+        this.totalGrossAmount = 0;
         this.totalRemainingAmount = 0;
         // for (const purchaseInvoice of this.allPurchaseInvoices) {
         //   // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
@@ -173,7 +173,7 @@ export class VendorDashboardComponent implements OnInit {
           .reduce((total, PI) =>
             total + PI.grossTotal, 0
           )
-          this.totalRemainingAmount = this.allPurchaseInvoices
+        this.totalRemainingAmount = this.allPurchaseInvoices
           .reduce((total, PI) =>
             total + PI.remainingAmount, 0
           )
@@ -199,8 +199,8 @@ export class VendorDashboardComponent implements OnInit {
       //alert(value);
       this.getAllVendors();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.payServices.searchVendor(value).then(
         (res: any) => {
           console.log(res);
@@ -220,18 +220,17 @@ export class VendorDashboardComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
-  currentCompany : any = {};
-  currentUser : any = {} ;
+  currentCompany: any = {};
+  currentUser: any = {};
 
-  loadUser() 
-  {
+  loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
       this.getAllVendors();
     })

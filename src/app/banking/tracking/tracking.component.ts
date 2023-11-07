@@ -5,6 +5,7 @@ import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Payment } from '../banking-model';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-tracking',
@@ -34,11 +35,10 @@ export class TrackingComponent implements OnInit {
     private router: Router,
     private message: MessageService,
     private bankingS: BankingService,
-    private payServices: PayPageService) { }
+    private payServices: PayPageService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items1 = [{ label: 'Banking' }, { label: 'Disburse' }];
-    this.items2 = [{ label: 'Banking' }, { label: 'Collection' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Tracking' }]);
 
     // for disburse  
     this.getAllPayments();

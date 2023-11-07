@@ -6,6 +6,7 @@ import { CollectService } from '../collect.service';
 import { CustomeR } from 'src/app/settings/customers/customer';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -38,14 +39,14 @@ export class CustomerDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private collectS: CollectService,
     private otherS: PayPageService,
-    private authS : AuthService) { }
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
 
-    this.items = [{label: 'Collect'},{ label: 'Customers', routerLink: ['/collect/customers']  }, { label: 'Dashboard'}];
+    this.breadcrumbS.breadCrumb([{ label: 'Customers', routerLink: ['/collect/customers'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
-   // this.getAllCustomers();
+    // this.getAllCustomers();
   }
 
   showOrdersPage() {
@@ -156,7 +157,7 @@ export class CustomerDashboardComponent implements OnInit {
     this.router.navigate(['/collect/customer/create']);
   }
 
-  
+
   myFunction(item: any): string {
     return parseFloat(item).toFixed(2);
   }
@@ -168,8 +169,8 @@ export class CustomerDashboardComponent implements OnInit {
       //alert(value);
       this.getAllCustomers();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.otherS.searchCustomer(value).then(
         (res: any) => {
           console.log(res);
@@ -189,16 +190,16 @@ export class CustomerDashboardComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
-  currentCompany : any = {};
-  currentUser : any = {};
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.getAllCustomers();

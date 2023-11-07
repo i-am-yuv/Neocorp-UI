@@ -6,6 +6,7 @@ import { Beneficiary } from 'src/app/profile/profile-models';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 import { BankingService } from '../banking.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-beneficiary',
@@ -14,10 +15,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class BeneficiaryComponent implements OnInit {
 
-  beneficiaryForm !: FormGroup ;
-  submitted : boolean =  false;
+  beneficiaryForm !: FormGroup;
+  submitted: boolean = false;
 
-  currbeneficiary : Beneficiary = {};
+  currbeneficiary: Beneficiary = {};
 
   id: string | null = '';
 
@@ -28,25 +29,23 @@ export class BeneficiaryComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private bankingS: BankingService,
-    private confirmationService: ConfirmationService ,
-    private authS : AuthService) { }
+    private confirmationService: ConfirmationService,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Beneficiary', routerLink: ['/banking/beneficiaries'] }, {label: 'Dashboard'}]);
+
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
-
-    this.items = [{label: 'Banking'}, {label: 'Beneficiary', routerLink: ['/banking/beneficiaries']}, {label: 'Create'}];
 
     this.initForm();
     this.getCurrbeneficiary();
   }
 
-  initForm()
-  {
+  initForm() {
 
     this.id = this.route.snapshot.paramMap.get('id');
 
@@ -55,28 +54,28 @@ export class BeneficiaryComponent implements OnInit {
       beneficaryName: new FormControl('', Validators.required),
       nickname: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
-      ifscCode : new FormControl('', Validators.required) ,
-      mobileNumber : new FormControl('', Validators.required) ,
+      ifscCode: new FormControl('', Validators.required),
+      mobileNumber: new FormControl('', Validators.required),
       mmid: new FormControl('')
     });
 
   }
-  onSubmitBeneficiary()
-  {
-    console.log(this.beneficiaryForm.value) ;
-   
+
+  onSubmitBeneficiary() {
+    console.log(this.beneficiaryForm.value);
+
     var beneficiaryFormVal = this.beneficiaryForm.value;
     beneficiaryFormVal.id = this.id;
 
-    console.log(beneficiaryFormVal) ;
+    console.log(beneficiaryFormVal);
 
     if (beneficiaryFormVal.id) {
 
       this.submitted = true;
       // No chnage in these 3 values
-      beneficiaryFormVal.inCoolingPeriod = this.currbeneficiary.inCoolingPeriod ;
-      beneficiaryFormVal.signupTime =  this.currbeneficiary.signupTime ;
-      beneficiaryFormVal.coolingPeriodEnd =  this.currbeneficiary.coolingPeriodEnd ;
+      beneficiaryFormVal.inCoolingPeriod = this.currbeneficiary.inCoolingPeriod;
+      beneficiaryFormVal.signupTime = this.currbeneficiary.signupTime;
+      beneficiaryFormVal.coolingPeriodEnd = this.currbeneficiary.coolingPeriodEnd;
 
       this.bankingS.updateBeneficiary(beneficiaryFormVal).then(
         (res) => {
@@ -92,7 +91,7 @@ export class BeneficiaryComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['banking/beneficiaries']);
           }, 2000);
-          
+
         }
       ).catch(
         (err) => {
@@ -108,10 +107,10 @@ export class BeneficiaryComponent implements OnInit {
       )
     }
     else {
-      
+
       beneficiaryFormVal.signupTime = new Date();
-      beneficiaryFormVal.inCoolingPeriod =  true;
-      beneficiaryFormVal.user = this.currentUser ;
+      beneficiaryFormVal.inCoolingPeriod = true;
+      beneficiaryFormVal.user = this.currentUser;
       this.submitted = true;
       this.bankingS.createBeneficiary(beneficiaryFormVal).then(
         (res) => {
@@ -141,8 +140,7 @@ export class BeneficiaryComponent implements OnInit {
     }
   }
 
-  getCurrbeneficiary()
-  {
+  getCurrbeneficiary() {
     if (this.id) {
       this.submitted = true;
       this.bankingS.getCurrBeneficiary(this.id).then(
@@ -161,18 +159,17 @@ export class BeneficiaryComponent implements OnInit {
     }
   }
 
-  onClickCancel()
-  {
+  onClickCancel() {
     this.router.navigate(['banking/beneficiaries']);
   }
 
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();

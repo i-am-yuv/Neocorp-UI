@@ -5,6 +5,7 @@ import { BankingService } from '../banking.service';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-payments',
@@ -29,10 +30,11 @@ export class PaymentsComponent implements OnInit {
     private router: Router,
     private message: MessageService,
     private bankingS: BankingService,
-    private payServices: PayPageService) { }
+    private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Banking' }, { label: 'Payment' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Banking' }, { label: 'Payment' }]);
+
     this.getAllPI();
   }
 
@@ -41,7 +43,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   getAllPI() {
-    
+
     // this.bankingS.getAllPI().then(
     //   (res) => {
     //     console.log(res);

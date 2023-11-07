@@ -19,21 +19,22 @@
     // height: 773.5px;
     padding: 0;
 }
-.orderInvList{
+
+.orderInvList {
     height: 35rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
-.vendorList{
+.vendorList {
     height: 46rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
 
 :host::ng-deep {
-  
+
     .left-panel {
         .p-panel-content {
             padding: 0;
@@ -127,7 +128,7 @@ h6 {
 .iconSCSS1 {
     display: flex;
     align-items: center;
-   
+
 }
 
 .custom-button {
@@ -244,13 +245,7 @@ p {
     color: #83D28F;
 }
 
-::ng-deep {
-    .p-breadcrumb {
-        border: none !important;
-        margin-left: 25px;
-        align-items: center;
-    }
-}
+
 
 .iconSCSS1 {
     display: flex;
@@ -258,9 +253,10 @@ p {
     // justify-content: end;
 }
 
-  .custom-inputNew .pi-search {
-    background: none; /* Remove the blue background color from the search icon */
-   // color: #007bff; /* Set the desired color for the search icon */
-    font-size: 1rem; /* Adjust the font size as needed */
-  }
- 
+.custom-inputNew .pi-search {
+    background: none;
+    /* Remove the blue background color from the search icon */
+    // color: #007bff; /* Set the desired color for the search icon */
+    font-size: 1rem;
+    /* Adjust the font size as needed */
+}
