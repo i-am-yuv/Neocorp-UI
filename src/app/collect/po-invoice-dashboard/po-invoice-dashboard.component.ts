@@ -6,6 +6,8 @@ import { FormBuilder } from '@angular/forms';
 import { CollectService } from '../collect.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
+
 
 @Component({
   selector: 'app-po-invoice-dashboard',
@@ -33,10 +35,10 @@ export class PoInvoiceDashboardComponent implements OnInit {
     private message: MessageService,
     private collectS: CollectService,
     private payServices: PayPageService,
-    private authS: AuthService) { }
+    private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Bills' }, { label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard' }];
+    this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoices', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Dashboard' }]);
 
     this.currentDue = 0;
     this.loadUser();

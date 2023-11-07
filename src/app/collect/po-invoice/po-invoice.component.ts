@@ -12,6 +12,7 @@ import { PurchaseInvoice, PurchaseInvoiceLine } from '../collect-models';
 import { BillsService } from 'src/app/bills/bills.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PurchaseOrder } from 'src/app/bills/bills-model';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-po-invoice',
@@ -26,7 +27,7 @@ export class PoInvoiceComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
-  currVendorShow : Vendor = {};
+  currVendorShow: Vendor = {};
   poInvoiceForm !: FormGroup;
 
   vendors: Vendor[] = [];
@@ -36,7 +37,7 @@ export class PoInvoiceComponent implements OnInit {
   lineitems: any[] = [];
   products: Product[] = [];
   currPurchaseInvoice: PurchaseInvoice = {};
-  currPO : PurchaseOrder = {} ;
+  currPO: PurchaseOrder = {};
 
   poInvoiceSubTotal: number = 0;
   uploadMessage = '';
@@ -64,15 +65,14 @@ export class PoInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private billS: BillsService,
-    private collectS: CollectService, private authS: AuthService) { }
+    private collectS: CollectService, private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
+    this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }]);
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -87,8 +87,6 @@ export class PoInvoiceComponent implements OnInit {
         this.availablePI();
       }
     });
-
-    this.items = [{ label: 'Bills' }, { label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create', routerLink: ['/collect/purchaseInvoice/create'] }];
 
     this.sidebarVisibleProduct = false;
 
@@ -119,15 +117,15 @@ export class PoInvoiceComponent implements OnInit {
     });
   }
 
-  selectVendor(e : any) { 
-    this.submitted = true;   
+  selectVendor(e: any) {
+    this.submitted = true;
     this.usedService.getPurchageOrderByPOId(e.value).then(
       (res) => {
-       // alert(JSON.stringify(res) ) ;
+        // alert(JSON.stringify(res) ) ;
         this.submitted = false;
         this.currPO = res;
         this.currVendorShow = res.vendor;
-       // this.loadLineItembyPO(this.currPO);
+        // this.loadLineItembyPO(this.currPO);
       }
     ).catch(
       (err) => {
@@ -201,12 +199,12 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   loadPOs() {
-    this.submitted  = true;
+    this.submitted = true;
     this.billS.getAllPo(this.currentUser).then(
       (res: any) => {
         console.log(res);
         this.allPOs = res;
-        this.submitted =  false;
+        this.submitted = false;
       }
     ).catch(
       (err) => {
@@ -215,8 +213,8 @@ export class PoInvoiceComponent implements OnInit {
       }
     )
   }
- 
-  currentUser : any = {};
+
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
@@ -261,7 +259,7 @@ export class PoInvoiceComponent implements OnInit {
         (purchaseInvoice: PurchaseInvoice) => {
           purchaseInvoice.duedate = purchaseInvoice.duedate ? new Date(purchaseInvoice.duedate) : undefined;
           purchaseInvoice.invoiceDate = purchaseInvoice.invoiceDate ? new Date(purchaseInvoice.invoiceDate) : undefined;
-          
+
           this.currPurchaseInvoice = purchaseInvoice;
           this.poInvoiceForm.patchValue(purchaseInvoice);
           this.submitted = false;
@@ -336,7 +334,7 @@ export class PoInvoiceComponent implements OnInit {
       this.submitted = true;
 
       invoiceFormVal.requestStatus = 'DRAFT';
-      invoiceFormVal.user = this.currentUser ;
+      invoiceFormVal.user = this.currentUser;
 
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
@@ -438,7 +436,7 @@ export class PoInvoiceComponent implements OnInit {
         this.submitted = true;
         this.collectS.updateInvoiceLineItem(lineItem).then(
           (res) => {
-            
+
             _lineItem = res;
             this.submitted = false;
             this.getPurchaseInvoice();
@@ -601,7 +599,7 @@ export class PoInvoiceComponent implements OnInit {
             detail: 'Purchase Invoice Saved Successfully',
             life: 3000,
           });
-          
+
           this.upload();
         }
       ).catch(
