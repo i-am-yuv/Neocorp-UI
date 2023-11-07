@@ -41,6 +41,8 @@ export class SalesOrderComponent implements OnInit {
 
   uploadMessage = '';
   soSubTotal: number = 0;
+  currentUser: any = {};
+  // currentCompany : any = {};
 
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
@@ -51,9 +53,14 @@ export class SalesOrderComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private usedService: PayPageService,
-    private invoiceS: InvoiceService, private authS: AuthService) { }
+    private invoiceS: InvoiceService,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -79,13 +86,13 @@ export class SalesOrderComponent implements OnInit {
     this.loadProducts();
     this.loadState();
     this.getSoOrder();
-    this.loadUser();
   }
 
   initForm() {
+
     this.soForm = new FormGroup({
       id: new FormControl(''),
-      documentno: new FormControl(''),
+      orderNumber: new FormControl(''),
       dueDate: new FormControl('', Validators.required),
       billDate: new FormControl('', Validators.required),
       termsOfPayments: new FormControl(''),
@@ -102,14 +109,15 @@ export class SalesOrderComponent implements OnInit {
       }),
       grossTotal: new FormControl('')
     });
+
   }
 
   availableSO() {
     this.submitted = true;
-    this.invoiceS.getAllSo().then(
+    this.invoiceS.getAllSo(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/invoice/salesOrders']);
@@ -122,6 +130,12 @@ export class SalesOrderComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All Sales Order Details',
+          life: 3000,
+        });
       }
     )
   }
@@ -144,6 +158,12 @@ export class SalesOrderComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Fetching This Sales Order Details',
+            life: 3000,
+          });
         }
       )
     }
@@ -169,9 +189,9 @@ export class SalesOrderComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -182,9 +202,9 @@ export class SalesOrderComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -213,12 +233,30 @@ export class SalesOrderComponent implements OnInit {
       }
     )
   }
+  // loadUser() {
+  //   this.submitted = true;
+  //   this.authS.getUser().then(
+  //     (res: any) => {
+  //       this.currentUser = res;
+  //       this.currentCompany = res.comapny;
+  //       this.submitted = false;
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //     }
+  //   )
+  // }
 
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
       this.currentCompany = res.comapny;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -228,14 +266,12 @@ export class SalesOrderComponent implements OnInit {
 
 
   onSubmitSO() {
-
-    this.soForm.value.company = null;  // tempo
-    //this.soForm.value.documentno = null ;
+    this.soForm.value.branch = this.currentUser.branch;
 
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
     soFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(soFormVal));
+
     if (soFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateSalesOrder(soFormVal).then(
@@ -245,8 +281,8 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Sales Order Updated',
-            detail: 'Sales Order updated',
+            summary: 'Success',
+            detail: 'Sales Order updated Successfully',
             life: 3000,
           });
         }
@@ -256,32 +292,30 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Sales Order updated Error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while updating the sales order',
             life: 3000,
           });
         }
       )
     }
     else {
-      //  soFormVal.grossTotal = this.soSubTotal ;
-      // this.upload(); // for upload file if attached
+
       this.submitted = true;
       soFormVal.grossTotal = null;
-      soFormVal.documentno = null;
+      soFormVal.user = this.currentUser;
       this.invoiceS.createSalesOrder(soFormVal).then(
         (res) => {
           console.log(res);
           this.soForm.patchValue = { ...res };
           this.currentSoOrder = res;
-          console.log("SO Order");
-          console.log(this.currentSoOrder);
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Sales Order Saved',
-            detail: 'Sales Order Added',
+            summary: 'Success',
+            detail: 'Sales Order Saved Successfully',
             life: 3000,
           });
           this.router.navigate(['invoice/salesOrder/edit/' + res.id]);
@@ -293,8 +327,8 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Sales Order error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while saving the sales order',
             life: 3000,
           });
         })
@@ -330,7 +364,6 @@ export class SalesOrderComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: SalesOrderLine) {
-    alert(JSON.stringify(lineItem));
 
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
@@ -360,17 +393,16 @@ export class SalesOrderComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update  Sales Line Item Entered");
         this.submitted = true;
         this.invoiceS.updateSoLineItem(lineItem).then(
           (res) => {
-            console.log("Sales Order Line Item Updated Successfully");
+
             _lineItem = res;
             this.getSoOrder();
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Sales Order Line item Updated',
+              summary: 'Success',
               detail: 'Line item Updated Successfully',
               life: 3000,
             });
@@ -381,7 +413,7 @@ export class SalesOrderComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Sales Order Line item Update Error',
+              summary: 'Error',
               detail: 'Error While updating Line Item',
               life: 3000,
             });
@@ -398,7 +430,7 @@ export class SalesOrderComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Sales Order Line item Added',
+              summary: 'Success',
               detail: 'Line item Added Successfully',
               life: 3000,
             });
@@ -408,7 +440,7 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Sales Order Line Item Error',
+            summary: 'Error',
             detail: 'Error while Adding Line Item',
             life: 3000,
           });
@@ -523,10 +555,11 @@ export class SalesOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Sales Order Saved Successfully',
-            detail: 'Sales Order Saved',
+            summary: 'Success',
+            detail: 'Sales Order Saved Successfully',
             life: 3000,
           });
+          this.upload();
           setTimeout(() => {
             this.router.navigate(['/invoice/salesOrder']);
           }, 2000);
@@ -535,20 +568,14 @@ export class SalesOrderComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Sales Order Error',
+            life: 3000,
+          });
         }
       )
-    } else {
-      this.message.add({
-        severity: 'success',
-        summary: 'Sales Order Created Successfully',
-        detail: 'Sales Order created',
-        life: 3000,
-      });
-      this.upload();
-      setTimeout(() => {
-        this.router.navigate(['/invoice/salesOrder']);
-      }, 2000);
-
     }
   }
 
@@ -581,7 +608,7 @@ export class SalesOrderComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Successful',
+          summary: 'Success',
           detail: 'Line Item Deleted',
           life: 3000,
         });
@@ -598,7 +625,4 @@ export class SalesOrderComponent implements OnInit {
         });
       });
   }
-
-
-
 }

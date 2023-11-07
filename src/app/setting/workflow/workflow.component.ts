@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Roles, Workflow } from '../setting-models';
 import { Role } from 'src/app/settings/roles/role';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-workflow',
@@ -29,7 +30,8 @@ export class WorkflowComponent implements OnInit {
 
   items!: MenuItem[];
 
-  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private settingS: SettingService, private fb: FormBuilder) { }
+  constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private settingS: SettingService, private fb: FormBuilder
+    ,private authS : AuthService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -92,7 +94,7 @@ export class WorkflowComponent implements OnInit {
 
   getAllRoles() {
     this.submitted = true;
-    this.settingS.getAllRoles().then((res: any) => {
+    this.settingS.getAllRoles(this.currentUser).then((res: any) => {
       this.allRoles = res.content;
       this.submitted = false;
     })
@@ -138,7 +140,8 @@ export class WorkflowComponent implements OnInit {
         }, 2000);
       });
     } else {
-      this.settingS.createWorkflow(this.workflowForm.value).then((res) => {
+      workflowFormVal.user = this.currentUser ;
+      this.settingS.createWorkflow(workflowFormVal).then((res) => {
         console.log(res);
         this.message.add({
           severity: 'success',
@@ -171,6 +174,21 @@ export class WorkflowComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/setting/workflows']);
+  }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

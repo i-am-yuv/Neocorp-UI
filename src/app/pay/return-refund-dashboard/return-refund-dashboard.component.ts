@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { PayPageService } from '../pay-page.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-return-refund-dashboard',
@@ -21,24 +22,24 @@ export class ReturnRefundDashboardComponent implements OnInit {
   rrSubTotal: number = 0;
   items!: MenuItem[]
 
-  constructor(private router: Router, private payS: PayPageService) { }
+  constructor(private router: Router, private payS: PayPageService ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{ label: 'Bills' }, { label: 'Return & Refund', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }];
-
-    this.getAllReturnRefund();
+    this.loadUser();
   }
 
   getAllReturnRefund() {
     this.submitted = true;
-    this.payS.getAllRR().then((res: any) => {
-      this.allRROrder = res.content;
+    this.payS.getAllRR(this.currentUser).then((res: any) => {
+      this.allRROrder = res;
       if (this.allRROrder.length > 0) {
         this.changeOrder(this.allRROrder[0]);
       } else {
         this.activeRR = {};
       }
-      this.totalRecords = res.totalElements;
+      this.totalRecords = res.length;
       this.submitted = false;
     })
       .catch(
@@ -102,7 +103,22 @@ export class ReturnRefundDashboardComponent implements OnInit {
             this.submitted = false;
           });
     }
+  }
 
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+      this.getAllReturnRefund();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

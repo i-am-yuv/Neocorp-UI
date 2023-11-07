@@ -82,7 +82,8 @@ import { SlideProductComponent } from './slide-product/slide-product.component';
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    BreadcrumbModule
   ],
   exports:[
     SlideProductComponent,
@@ -143,7 +144,8 @@ import { SlideProductComponent } from './slide-product/slide-product.component';
     PasswordModule,
     KeyFilterModule,
     NgPipesModule,
-    DebounceKeyupDirective
+    DebounceKeyupDirective,
+    
     
   ]
 })

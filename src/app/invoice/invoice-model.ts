@@ -5,7 +5,8 @@ export class InvoiceModel {
 }
 export interface SalesOrder {
   id?: string;
-  documentno?: string;
+  // documentno ?: string;
+  orderNumber ?: string;
   company?: CompanyNew;
   billDate?: Date;
   dueDate?: Date;
@@ -15,6 +16,7 @@ export interface SalesOrder {
   placeOfSupply?: State;
   vendor?: Vendor;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 
@@ -30,6 +32,7 @@ export interface SalesInvoice {
   status?: string;
   remainingAmount?: number;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface SalesInvoiceLine {
@@ -52,6 +55,7 @@ export interface VendorInvoice {
   grosstotal?: number;
   description?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface VendorInvoiceLine {
@@ -87,6 +91,7 @@ export interface CreditNote {
   grossTotal?: number;
   requestStatus?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface cnLineItem {
@@ -111,6 +116,7 @@ export interface CashMemo {
   grossTotal?: number;
   requestStatus?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface CashMemoLine {

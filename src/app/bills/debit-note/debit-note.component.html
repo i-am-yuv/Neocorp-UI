@@ -3,9 +3,9 @@
 <div class="">
     <!-- CREATE NEW DEBIT NOTE BUTTON -->
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-        <div class="center-container mt-1">
-            <div class="field col-2"></div>
-            <div class="field col-8">
+        <div class="center-container">
+            <div class="field col-4"></div>
+            <div class="field col-4">
                 <div class="text-center">
                     <img src="/assets/debitNote.png" width="300" height="auto">
                 </div>
@@ -18,7 +18,7 @@
                         class="mb-3 text-lg Btn"></button>
                 </div>
             </div>
-            <div class="field col-2"></div>
+            <div class="field col-4"></div>
 
         </div>
     </div>
@@ -196,10 +196,13 @@
 
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.unitPrice"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.unitPrice"
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -210,10 +213,13 @@
 
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.quantity"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.quantity"
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.quantity" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -224,10 +230,13 @@
 
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.discount"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.discount"
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.discount" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}

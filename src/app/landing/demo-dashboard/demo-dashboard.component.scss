@@ -1,0 +1,125 @@
+.flexSCSS {
+    display: flex;
+    align-items: center;
+}
+
+.firstLeft {
+    border-radius: 16px;
+    background: #353535;
+    box-shadow: 0px 1.93531px 3.87063px 0px rgba(0, 0, 0, 0.10);
+}
+
+.threeIconSCSS {
+    border-radius: 9.12px;
+    background: var(--default-neutral-white, #FFF);
+    box-shadow: 0px 1.82408px 3.64816px 0px rgba(0, 0, 0, 0.10);
+}
+
+.h2,
+p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.firstRight {
+    border-radius: 10.304px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(84deg, #4B2293 37.19%, #8658D7 92.22%);
+}
+
+.secondLeft {
+    border-radius: 16px;
+    border: 2px solid #FFF;
+    background: #FAF9FE;
+    box-shadow: 0px 4.90245px 19.60981px 0px rgba(0, 0, 0, 0.06);
+}
+
+.person-icon {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    /* Customize the background color as needed */
+    color: black;
+    /* Customize the text color as needed */
+    border-radius: 50%;
+    border: 1px solid rgb(122, 120, 120);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.order-list {
+    .list-item {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .list-item:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+}
+
+.left-panel-content {
+    // height: 810px;
+    height: 220px;
+    overflow-y: scroll;
+}
+
+:host::ng-deep {
+    .left-panel {
+        .p-panel-content {
+            padding: 0 !important;
+        }
+    }
+}
+
+.custom-hr {
+    border: none;
+    border-top: 1px solid lightgray;
+    margin: 3px 0;
+}
+
+.secondRight {
+    border-radius: 16px;
+    border: 2px solid #FFF;
+    background: #FAF9FE;
+    box-shadow: 0px 5.25996px 21.03986px 0px rgba(0, 0, 0, 0.06);
+}
+
+.secondRightText {
+    color: #8D8D8D;
+}
+
+.payDone {
+    border-radius: 3.677px;
+    background: #BBFFC6;
+}
+
+.payRemain {
+    border-radius: 3.677px;
+    background: #FBB;
+}
+
+.bankDiv {
+    border-radius: 7.741px;
+    background: #E7E8FD;
+}
+
+// ::ng-deep {
+//     .p-panel .p-panel-content {
+//         border: none !important;
+//     }
+
+//     .p-panel .p-panel-header {
+//         display: none !important;
+//     }
+// }
+
+.fullbg{
+    background: #EFF6FF;
+}
+.paymentList{
+    height: 19rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
+}

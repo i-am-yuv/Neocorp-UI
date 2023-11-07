@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 
 @Component({
@@ -58,6 +59,7 @@ export class FirstpageComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private confirmationService: ConfirmationService,
+    private authS: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -69,15 +71,19 @@ export class FirstpageComponent implements OnInit {
       value: new FormControl('Credit Account')
     });
 
+    this.loadUser();
   }
 
   onSubmitAccount() {
-   // alert(JSON.stringify(this.newAccountForm.value));
-    if (this.newAccountForm.value.accountNumber !== this.newAccountForm.value.confirmAccountNumber  ) {
+    // For Credit Account
+    this.newAccountForm.value.user.id = this.currentUser.id;
+
+    alert(JSON.stringify(this.newAccountForm.value));
+    if (this.newAccountForm.value.accountNumber !== this.newAccountForm.value.confirmAccountNumber) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Account Number Mismatch',
+        detail: 'Account Number Mismatch Error',
         life: 3000,
       });
     }
@@ -100,82 +106,85 @@ export class FirstpageComponent implements OnInit {
           console.log(err);
           this.submitted = false;
           this.message.add({
-            severity: 'success',
-            summary: 'Check Server connection',
+            severity: 'error',
+            summary: 'Error',
             detail: 'Account Addition Error',
+            life: 3000,
+          });
+        }
+      )
+      
+    }
+  }
+
+
+  onSubmitAccount1() {
+    // For Debit Account
+    this.newAccountForm1.value.user.id = this.currentUser.id;
+
+    alert(JSON.stringify(this.newAccountForm1.value));
+    if (this.newAccountForm1.value.accountNumber !== this.newAccountForm1.value.confirmAccountNumber) {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Account Number Mismatch Error',
+        life: 3000,
+      });
+    }
+    else {
+
+      this.submitted = true;
+      this.usedService.saveDebitAccount(this.newAccountForm1.value).then(
+        (res: any) => {
+          console.log(res);
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Your Debit Account Added Successfully',
+            life: 3000,
+          });
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Debit Account Addition Error',
             life: 3000,
           });
         }
       )
 
     }
-
-
-  }
-
-
-  onSubmitAccount1() {
-    //alert(JSON.stringify(this.newAccountForm1.value));
-    if (this.newAccountForm1.value.accountNumber !== this.newAccountForm1.value.confirmAccountNumber  ) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Account Number Mismatch',
-        life: 3000,
-      });
-    }
-    else{
-
-      this.submitted = true;
-    this.usedService.saveDebitAccount(this.newAccountForm1.value).then(
-      (res: any) => {
-        console.log(res);
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Sucess',
-          detail: 'Debit Account Added Successfully',
-          life: 3000,
-        });
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Check Server connection',
-          detail: 'Account Addition Error',
-          life: 3000,
-        });
-      }
-    )
-
-    }
-
-    
   }
 
   initForm() {
     this.newAccountForm = new FormGroup({
       id: new FormControl(''),
-      // isPrimaryAccount : new FormControl('',Validators.required),
       accountNumber: new FormControl('', Validators.required),
       confirmAccountNumber: new FormControl('', Validators.required),
       ifsc: new FormControl('', Validators.required),
       bankname: new FormControl('', Validators.required),
-      accountType: new FormControl('', Validators.required)
+      accountType: new FormControl('', Validators.required),
+      user: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      })
     });
 
 
     this.newAccountForm1 = new FormGroup({
       id: new FormControl(''),
-      // isPrimaryAccount : new FormControl('',Validators.required),
       accountNumber: new FormControl('', Validators.required),
       confirmAccountNumber: new FormControl('', Validators.required),
       ifsc: new FormControl('', Validators.required),
       bankname: new FormControl('', Validators.required),
-      accountType: new FormControl('', Validators.required)
+      accountType: new FormControl('', Validators.required),
+      user: this.fb.group({
+        id: this.fb.nonNullable.control('')
+      })
     });
 
   }
@@ -197,7 +206,20 @@ export class FirstpageComponent implements OnInit {
   showCreditPage() {
     this.showCredit = true;
     this.showDebit = false;
+  }
 
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+    }).catch((err) => {
+      console.log(err);
+      this.submitted = false;
+    });
   }
 
 }

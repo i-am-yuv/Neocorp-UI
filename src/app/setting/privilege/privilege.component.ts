@@ -4,6 +4,7 @@ import { PrivilegeService } from './privilege.service';
 import { MenuItem, MessageService, ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-privilege',
@@ -35,7 +36,8 @@ export class PrivilegeComponent implements OnInit {
   constructor(
     private privilegeService: PrivilegeService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private authS : AuthService
   ) {}
 
   ngOnInit() {
@@ -202,6 +204,7 @@ export class PrivilegeComponent implements OnInit {
             });
           });
       } else {
+        this.privilege.user = this.currentUser ;
         this.privilegeService
           .createPrivilege(this.privilege)
           .then((res: any) => {
@@ -237,4 +240,21 @@ export class PrivilegeComponent implements OnInit {
   //
   //   this.dt?.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
   // }
+
+    
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
 }

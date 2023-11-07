@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 import { BankingService } from '../banking.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-beneficiary',
@@ -27,9 +28,15 @@ export class BeneficiaryComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private bankingS: BankingService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.items = [{label: 'Banking'}, {label: 'Beneficiary', routerLink: ['/banking/beneficiaries']}, {label: 'Create'}];
@@ -50,7 +57,7 @@ export class BeneficiaryComponent implements OnInit {
       accountNumber: new FormControl('', Validators.required),
       ifscCode : new FormControl('', Validators.required) ,
       mobileNumber : new FormControl('', Validators.required) ,
-      mmid: new FormControl('', Validators.required)
+      mmid: new FormControl('')
     });
 
   }
@@ -104,6 +111,7 @@ export class BeneficiaryComponent implements OnInit {
       
       beneficiaryFormVal.signupTime = new Date();
       beneficiaryFormVal.inCoolingPeriod =  true;
+      beneficiaryFormVal.user = this.currentUser ;
       this.submitted = true;
       this.bankingS.createBeneficiary(beneficiaryFormVal).then(
         (res) => {
@@ -156,6 +164,23 @@ export class BeneficiaryComponent implements OnInit {
   onClickCancel()
   {
     this.router.navigate(['banking/beneficiaries']);
+  }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

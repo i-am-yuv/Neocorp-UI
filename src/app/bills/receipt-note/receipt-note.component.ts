@@ -70,6 +70,10 @@ export class ReceiptNoteComponent implements OnInit {
     private billS: BillsService, private authS: AuthService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -95,8 +99,6 @@ export class ReceiptNoteComponent implements OnInit {
     this.loadProducts();
     this.loadStates();
     this.getReceiptNote();
-    this.loadUser();
-
   }
 
   initForm() {
@@ -126,10 +128,10 @@ export class ReceiptNoteComponent implements OnInit {
 
   availableRN() {
     this.submitted = true;
-    this.billS.getAllRn().then(
+    this.billS.getAllRn(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/receiptNotes']);
@@ -142,15 +144,24 @@ export class ReceiptNoteComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Receipt Notes',
+          life: 3000,
+        });
       }
     )
   }
+  currentUser: any = {};
 
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -209,9 +220,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
       }
     ).catch(
@@ -222,9 +233,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -235,9 +246,9 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -278,12 +289,10 @@ export class ReceiptNoteComponent implements OnInit {
     else {
       this.rnForm.value.customer = null;
     }
-    //this.rnForm.value.placeOfSupply = null ;
 
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(rnFormVal));
 
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
@@ -295,8 +304,8 @@ export class ReceiptNoteComponent implements OnInit {
           this.rnForm.patchValue = { ...res };
           this.message.add({
             severity: 'success',
-            summary: 'Receipt Note Updated',
-            detail: 'Receipt Note updated',
+            summary: 'Success',
+            detail: 'Receipt Note Updated Successfully',
             life: 3000,
           });
         }
@@ -306,32 +315,29 @@ export class ReceiptNoteComponent implements OnInit {
           console.log(err);
           this.message.add({
             severity: 'error',
-            summary: 'Receipt Note updated Error',
-            detail: 'Receipt Note Error',
+            summary: 'Error',
+            detail: 'Receipt Note Updation Error',
             life: 3000,
           });
         }
       )
     }
     else {
-      //  poFormVal.grossTotal = this.poSubTotal ;
-      //this.upload(); // for upload file if attached
+
       this.submitted = true;
+      rnFormVal.user = this.currentUser;
       this.billS.createReceiptNote(rnFormVal).then(
         (res) => {
-
           console.log(res);
           this.rnForm.patchValue = { ...res };
           this.currReceiptNote = res;
-          // this.id = res.id;
-          console.log("Receipt Note Added");
-          console.log(this.currReceiptNote);
+
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Receipt Note Saved',
-            detail: 'Receipt Note Added',
+            summary: 'Success',
+            detail: 'Receipt Note Added Successfully',
             life: 3000,
           });
           this.router.navigate(['bills/receiptNote/edit/' + res.id]);
@@ -343,8 +349,8 @@ export class ReceiptNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Receipt Note error',
-            detail: 'Some Server Error',
+            summary: 'rror',
+            detail: 'Error While Saving The Receipt Note',
             life: 3000,
           });
         })
@@ -373,11 +379,9 @@ export class ReceiptNoteComponent implements OnInit {
   onRowEditInit(lineItem: rnLineItem) { }
 
   onRowEditSave(lineItem: rnLineItem) {
-    //alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
 
+    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+    if (lineItem.discount == null || lineItem.discount == 0) {
     }
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
@@ -397,34 +401,30 @@ export class ReceiptNoteComponent implements OnInit {
 
       this.newRecord = false;
       this.islineAvaliable = true;
-      console.log(lineItem);
 
       var _lineItem = lineItem;
-
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
+
         // line line item should have id inside
         this.submitted = true;
         this.usedService.updateReceiptNoteLineItem(lineItem).then(
           (res) => {
             this.submitted = false;
-            console.log("Receipt Note Line Item Updated Successfully");
             _lineItem = res;
             this.getReceiptNote();
             this.message.add({
               severity: 'success',
-              summary: 'Line item Updated Successfully',
-              detail: 'Receipt Note Line Item Updated',
+              summary: 'Success',
+              detail: 'Receipt Note Line Item Updated Successfully',
               life: 3000,
             });
           }
         ).catch(
           (err) => {
             this.submitted = false;
-            console.log("Line Item Updated Error");
             this.message.add({
               severity: 'error',
-              summary: 'Line item Update Error',
+              summary: 'Error',
               detail: 'Error While updating Line Item',
               life: 3000,
             });
@@ -441,7 +441,7 @@ export class ReceiptNoteComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Line item Added',
+              summary: 'Success',
               detail: 'Receipt Note Line item Added',
               life: 3000,
             });
@@ -451,7 +451,7 @@ export class ReceiptNoteComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Line Item Error',
+            summary: 'Error',
             detail: 'Error while Adding Line Item',
             life: 3000,
           });
@@ -577,10 +577,11 @@ export class ReceiptNoteComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Receipt Note Updated',
-          detail: 'Receipt Note Updated',
+          summary: 'Success',
+          detail: 'Receipt Note Saved Successfully',
           life: 3000
         });
+        this.upload();
         setTimeout(() => {
           this.router.navigate(['/bills/receiptNote']);
         }, 2000);
@@ -591,13 +592,7 @@ export class ReceiptNoteComponent implements OnInit {
           this.submitted = false;
         });
     }
-    this.upload();
-    this.message.add({
-      severity: 'success',
-      summary: 'Receipt Note Saved',
-      detail: 'Receipt Note Saved',
-      life: 3000
-    });
+
   }
 
   createRN() {
@@ -649,7 +644,6 @@ export class ReceiptNoteComponent implements OnInit {
         });
       });
   }
-
 }
 
 

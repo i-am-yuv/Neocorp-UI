@@ -1,16 +1,15 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { BillsService } from '../bills.service';
 import { LineItem, PurchaseOrder } from '../bills-model';
 import { Product } from 'src/app/profile/profile-models';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
-
 
 @Component({
   selector: 'app-purchase-order',
@@ -42,7 +41,7 @@ export class PurchaseOrderComponent implements OnInit {
   states: any[] = [];
 
   singleLineItem: LineItem = {};
-  groupLineItem: LineItem[] = [];
+  // groupLineItem: LineItem[] = [];
   lineitems: any[] = [];
   category: any[] = [];
   currentPoOrder: PurchaseOrder = {};
@@ -87,9 +86,11 @@ export class PurchaseOrderComponent implements OnInit {
     private profileS: ProfilepageService) { }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
 
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
-
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -108,21 +109,18 @@ export class PurchaseOrderComponent implements OnInit {
     this.sidebarVisibleProduct = false;
 
     this.initForm();
-    this.poForm.value.enablePartialPayments = false;
     this.loadVendors();
-    this.loadCustomers();
     this.loadProducts();
     this.loadState();
     this.getPoOrder();
-    this.loadUser();
   }
 
   availablePO() {
     this.submitted = true;
-    this.billS.getAllPo().then(
+    this.billS.getAllPo(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/bills/purchaseOrders']);
@@ -135,6 +133,12 @@ export class PurchaseOrderComponent implements OnInit {
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The POs',
+          life: 3000,
+        });
       }
     )
 
@@ -160,20 +164,17 @@ export class PurchaseOrderComponent implements OnInit {
       branch: new FormControl('')
     });
 
-    this.lineItemForm = new FormGroup(
-      {
-        expenseName: this.fb.group(
-          {
-            id: this.fb.nonNullable.control('', {
-              validators: Validators.required
-            })
-          }),
-        unitPrice: new FormControl('')
-      }
-    )
-
-
-
+    // this.lineItemForm = new FormGroup(
+    //   {
+    //     expenseName: this.fb.group(
+    //       {
+    //         id: this.fb.nonNullable.control('', {
+    //           validators: Validators.required
+    //         })
+    //       }),
+    //     unitPrice: new FormControl('')
+    //   }
+    // )
   }
 
   getPoOrder() {
@@ -193,6 +194,13 @@ export class PurchaseOrderComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Fetching this PO',
+            life: 3000,
+          });
         }
       )
     }
@@ -206,6 +214,8 @@ export class PurchaseOrderComponent implements OnInit {
         this.currentUser = res;
         this.currentCompany = res.comapny;
         this.submitted = false;
+
+        this.loadOtherInfo();
       }
     ).catch(
       (err) => {
@@ -231,40 +241,41 @@ export class PurchaseOrderComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Fetching Line Items',
+            life: 3000,
+          });
         }
       );
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
       }
     ).catch(
       (err) => {
         console.log(err);
-      }
-    )
-  }
 
-  loadCustomers() {
-    this.usedService.allCustomer().then(
-      (res) => {
-        this.customers = res.content;
-        console.log(res);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Vendors',
+          life: 3000,
+        });
       }
     )
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -273,7 +284,7 @@ export class PurchaseOrderComponent implements OnInit {
           console.log(err);
           this.message.add({
             severity: 'error',
-            summary: 'All Product error',
+            summary: 'Error',
             detail: 'Error While Fetching All product Details',
             life: 3000,
           });
@@ -314,7 +325,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchase order Updated',
+            summary: 'Success',
             detail: 'Purchase Order updated',
             life: 3000,
           });
@@ -325,33 +336,32 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Purchase Order updated Error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Purchase Order Updation Error',
             life: 3000,
           });
         }
       )
     }
     else {
-      this.upload(); // for upload file if attached
+     
       this.submitted = true;
       poFormVal.grossTotal = null;
       poFormVal.requestStatus = 'DRAFT';
-      // poFormVal.orderNumber = null;
+      poFormVal.user = this.currentUser;
+
       this.billS.createPurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
           this.poForm.patchValue = { ...res };
           this.currentPoOrder = res;
-          // this.id = res.id;
-          console.log("Po Order");
-          console.log(this.currentPoOrder);
+          
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchase order Saved',
-            detail: 'Purchase Order Added',
+            summary: 'Success',
+            detail: 'Purchase Order Added Successfully',
             life: 3000,
           });
           this.router.navigate(['bills/purchaseOrder/edit/' + res.id]);
@@ -363,8 +373,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Purchase Order error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error While Saving The PO',
             life: 3000,
           });
         })
@@ -372,25 +382,11 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   selectVendor() {
-    // var vendor = this.vendors.find(
-    //   (t) => t.id === this.poForm.value.vendor  
-    //   );
-    // this.selectedVendor = vendor ? vendor : {};
-    // if (this.selectedVendor.id) {
-    //   this.poForm.value.vendor.id = this.selectedVendor.id ;
-    // }
-    // else{
-    //   this.poForm.value.vendor = null;
-    // }
+
   }
 
   setLineValues(lineItem: LineItem) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    // poline.unitprice = dc.sellingPrice;
-
-    // poline.quantity = poline.quantity ? poline.quantity : 1;
-
-    // poline.linetotal = dc.sellingPrice * poline.quantity;
 
   }
 
@@ -464,7 +460,7 @@ export class PurchaseOrderComponent implements OnInit {
   onRowEditSave(lineItem: LineItem) {
     //  alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    alert(JSON.stringify(currentProduct));
+    
     if (lineItem.discount == null || lineItem.discount == 0) {
 
     }
@@ -475,14 +471,14 @@ export class PurchaseOrderComponent implements OnInit {
       console.log("ADD product");
       this.message.add({
         severity: 'error',
-        summary: 'Product Add Error',
+        summary: 'Error',
         detail: 'Please Select the Product',
         life: 3000,
       });
     }
     else {
       lineItem.expenseName = currentProduct;
-      lineItem.purchaseOrder = this.currentPoOrder; // this line will be change
+      lineItem.purchaseOrder = this.currentPoOrder; 
 
       this.newRecord = false;
       this.islineAvaliable = true;
@@ -491,19 +487,17 @@ export class PurchaseOrderComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
-        // line line item should have id inside
         this.submitted = true;
         this.usedService.updateLineItem(lineItem).then(
           (res) => {
-            console.log("Line Item Updated Successfully");
+           
             _lineItem = res;
-            // this.lineitem.Amount = res.Amount;
+           
             this.getPoOrder();
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Line item Updated',
+              summary: 'Success',
               detail: 'Line item Updated Successfully',
               life: 3000,
             });
@@ -514,7 +508,7 @@ export class PurchaseOrderComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Line item Update Error',
+              summary: 'Error',
               detail: 'Error While updating Line Item',
               life: 3000,
             });
@@ -531,7 +525,7 @@ export class PurchaseOrderComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Line item Added',
+              summary: 'Success',
               detail: 'Line item Added Successfully',
               life: 3000,
             });
@@ -541,7 +535,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Line Item Error',
+            summary: 'Error',
             detail: 'Error while Adding Line Item',
             life: 3000,
           });
@@ -628,13 +622,7 @@ export class PurchaseOrderComponent implements OnInit {
                 life: 3000,
               });
             } else {
-              // this.uploadMessage = 'Could not upload the file!';
-              // this.message.add({
-              //   severity: 'error',
-              //   summary: 'Error',
-              //   detail: 'Issue Happed in File upload',
-              //   life: 3000,
-              // });
+
               console.log("Some Issue while uploading file, Please check");
             }
             this.currentFile = undefined;
@@ -652,12 +640,17 @@ export class PurchaseOrderComponent implements OnInit {
     // updated complete PO so that gross total can be updated
     this.submitted = true;
     var poFormVal = this.poForm.value;
+
     poFormVal.id = this.id;
     poFormVal.grossTotal = this.poSubTotal;
     poFormVal.comapny = this.currentCompany;
+
     if (poFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
+
+      this.upload();
+
       this.billS.updatePurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -665,8 +658,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchage Order Updated Successfully',
-            detail: 'Purchase Order Updated',
+            summary: 'Purchage Order Saved Successfully',
+            detail: 'Purchase Order Saved',
             life: 3000
           })
           setTimeout(() => {
@@ -677,22 +670,19 @@ export class PurchaseOrderComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Saving PO Details',
+            life: 3000
+          })
         }
       )
     } else {
-      this.upload();
-      this.message.add({
-        severity: 'success',
-        summary: 'Purchase Order Created Successfully',
-        detail: 'Purchase Order created',
-        life: 3000,
-      });
       setTimeout(() => {
         this.router.navigate(['/bills/purchaseOrder']);
       }, 2000);
     }
-
-
   }
 
   createPO() {
@@ -703,6 +693,5 @@ export class PurchaseOrderComponent implements OnInit {
   OnCancelPO() {
     //this.createNew = false;
     this.router.navigate(['/bills/purchaseOrder']);
-
   }
 }

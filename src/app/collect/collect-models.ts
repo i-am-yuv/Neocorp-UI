@@ -22,6 +22,7 @@ export class PurchaseInvoice {
     remainingAmount?: number;
     enablePartialPayments?: boolean;
     comapny?: CompanyNew;
+    user ?: any ;
 }
 
 export interface PurchaseInvoiceLine {

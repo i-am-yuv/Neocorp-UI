@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 
-
-<div class="">
+<div class="pb-3" style="background: #EFF6FF;">
 
     <div class="bg-white iconSCSS1">
         <div class="col-4">
@@ -18,27 +17,23 @@
         </div>
     </div>
 
-
-
     <div class="m-6 bg-white border-round-3xl">
 
         <form (ngSubmit)="onSubmitPC()" [formGroup]="productCategoryForm" class="p-6">
-            <h3 class="text-xl text-blue-700">Product Category Details</h3> <br>
+            <h3 class="text-lg text-blue-500">Product Category Details</h3>
 
             <div class="field">
-                <label class="mr-3 ">Parent Category</label>
+                <label class="">Parent Category</label>
                 <ng-container formGroupName="parent">
                     <div class="payment-dropdown ">
                         <p-dropdown [options]="categories" placeholder="Choose Category" optionValue="id"
-                            formControlName="id" optionLabel="name" [showClear]="true" [style]="{ width: '50%' }">
+                            formControlName="id" optionLabel="name" [showClear]="true" [style]="{ width: '49%' }">
                         </p-dropdown>
                     </div>
                 </ng-container>
-
             </div>
-            <hr class="mt-5 mb-5">
 
-            <div class="flex gap-2">
+            <div class="flex align-items-center">
                 <div class="field col-6">
                     <label class="mr-3 required">Category Name</label>
                     <input pInputText formControlName="name" placeholder="Enter Product Category Name" class="w-full" />
@@ -53,8 +48,8 @@
 
             <div class="flex">
                 <div class="field col-12">
-                    <label class="mr-3 required">Category Description</label>
-                    <textarea pInputText formControlName="description" placeholder="Enter Product Category Name"
+                    <label class="mr-3">Category Description</label>
+                    <textarea pInputText formControlName="description" placeholder="Enter Product Category Description"
                         class="w-full"></textarea>
                     <error-message [controlName]="productCategoryForm.controls['description']"></error-message>
                 </div>
@@ -66,7 +61,6 @@
                 <button type="submit" pButton label="Save Product Category" [disabled]="!productCategoryForm.valid"
                     class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
             </div>
-
         </form>
     </div>
 </div>

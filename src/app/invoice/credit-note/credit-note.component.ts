@@ -23,6 +23,7 @@ export class CreditNoteComponent implements OnInit {
   submitted: boolean = false;
   createNew: boolean = false;
   DeleteDialLogvisible: boolean = false;
+  currentUser : any = {};
 
   id: string | null = '';
   cnForm !: FormGroup;
@@ -93,6 +94,12 @@ export class CreditNoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -116,7 +123,6 @@ export class CreditNoteComponent implements OnInit {
     this.loadCustomer();
     this.getCreditNote();
     this.sidebarVisibleProduct = false;
-    this.loadUser();
   }
 
   initForm() {
@@ -144,10 +150,10 @@ export class CreditNoteComponent implements OnInit {
 
   availableCN() {
     this.submitted = true;
-    this.invoiceS.getAllCn().then(
+    this.invoiceS.getAllCn( this.currentUser ).then(
       (res) => {
 
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
 
         if (count > 0) {
@@ -225,9 +231,9 @@ export class CreditNoteComponent implements OnInit {
 
   loadCustomer() {
     this.submitted = true;
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
         this.submitted = false;
       }
@@ -241,9 +247,9 @@ export class CreditNoteComponent implements OnInit {
 
   loadProducts() {
     this.submitted = true;
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
         this.submitted = false;
       }
@@ -264,8 +270,11 @@ export class CreditNoteComponent implements OnInit {
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
       this.currentCompany = res.comapny;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -276,6 +285,8 @@ export class CreditNoteComponent implements OnInit {
   selectVendor() { }
 
   onSubmitCN() {
+    this.cnForm.value.branch = this.currentUser.branch;
+
     var cnFormVal = this.cnForm.value;
     cnFormVal.id = this.id;
     cnFormVal.comapny = this.currentCompany;
@@ -312,7 +323,7 @@ export class CreditNoteComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
-
+      cnFormVal.user =  this.currentUser ;
       this.invoiceS.createCreditNote(cnFormVal).then(
         (res) => {
           console.log(res);
@@ -567,24 +578,33 @@ export class CreditNoteComponent implements OnInit {
           console.log(res);
           this.cnForm.patchValue = { ...res };
           this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Credit Note Saved',
+            life: 3000,
+          });
+
+          this.upload();
+          setTimeout(() => {
+            this.router.navigate(['/invoice/creditNote']);
+          }, 2000);
+
         }
       ).catch(
         (err) => {
           this.submitted = false;
           console.log(err);
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Credit Note error',
+            life: 3000,
+          });
         }
       )
     }
-    this.message.add({
-      severity: 'success',
-      summary: 'Credit Note Saving Successfully',
-      detail: 'Credit Note Saving',
-      life: 3000,
-    });
-    this.upload();
-    setTimeout(() => {
-      this.router.navigate(['/invoice/creditNote']);
-    }, 2000);
+   
   }
 
   createCN() {

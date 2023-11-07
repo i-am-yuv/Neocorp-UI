@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { SalesInvoice } from '../invoice-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -28,33 +29,39 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'},{ label: 'Sales Invoices', routerLink: ['/invoice/salesInvoices'] }, {label: 'Dashboard'} ];
 
-    this.loadSI();
+    this.loadUser();
+    
   }
 
   loadSI() {
     this.submitted = true;
-    this.invoiceS.getAllSI().then(
+    this.invoiceS.getAllSI(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allSIs = res.content;
+        this.allSIs = res;
         if (this.allSIs.length > 0) {
           this.changeOrder(this.allSIs[0]);
         } else {
           this.activeInvoice = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Sales Invoices',
+          life: 3000,
+        });
       }
     )
   }
@@ -62,7 +69,7 @@ export class SalesInvoiceDashboardComponent implements OnInit {
   changeOrder(si: SalesInvoice) {
     this.activeInvoice = si;
     this.getOrderLines(si);
-    this.getRemainingAmount(si);
+    //this.getRemainingAmount(si);
   }
 
   getOrderLines(invoice: SalesInvoice) {
@@ -90,23 +97,23 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     this.router.navigate(['/invoice/salesInvoice/edit/' + id]);
   }
 
-  getRemainingAmount(SI:any)
-  {
-    this.submitted  = true;
-    this.currentDue = SI.remainingAmount;
-    // this.invoiceS.getRemainingAmount(SI).then(
-    //   (res)=>{
-    //         console.log(res);
-    //         this.currentDue = res;
-    //         this.submitted  = false;
-    //   }
-    // ).catch(
-    //   (err)=>{
-    //      console.log(err);
-    //      this.submitted  = false;
-    //   }
-    // )
-  }
+  // getRemainingAmount(SI:any)
+  // {
+  //   this.submitted  = true;
+  //   this.currentDue = SI.remainingAmount;
+  //   // this.invoiceS.getRemainingAmount(SI).then(
+  //   //   (res)=>{
+  //   //         console.log(res);
+  //   //         this.currentDue = res;
+  //   //         this.submitted  = false;
+  //   //   }
+  //   // ).catch(
+  //   //   (err)=>{
+  //   //      console.log(err);
+  //   //      this.submitted  = false;
+  //   //   }
+  //   // )
+  // }
 
 
   myFunction(item: any): string {
@@ -145,7 +152,23 @@ export class SalesInvoiceDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+  currentUser : any = {};
+  currentCompany : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+
+      this.loadSI();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }

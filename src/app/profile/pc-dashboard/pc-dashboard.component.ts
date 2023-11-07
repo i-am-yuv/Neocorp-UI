@@ -3,7 +3,8 @@ import { Product } from '../profile-models';
 import { ProductCategory } from '../product-category';
 import { Router } from '@angular/router';
 import { ProfilepageService } from '../profilepage.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-pc-dashboard',
@@ -22,10 +23,18 @@ export class PcDashboardComponent implements OnInit {
 
   searchProductCategory : any ;
 
-  constructor(private router: Router, private profileService: ProfilepageService) { }
+  constructor(private router: Router, private profileService: ProfilepageService ,
+    private authS : AuthService ,
+    private message: MessageService,
+    ) { }
 
   ngOnInit(): void {
 
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.items = [{label: 'Settings'},{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Dashboard'}];
 
     this.getAllProductCategories();
@@ -33,15 +42,21 @@ export class PcDashboardComponent implements OnInit {
 
   getAllProductCategories(){
     this.submitted = true;
-    this.profileService.getAllProductCategory()
+    this.profileService.getAllProductCategory(this.currentUser)
     .then((res: any) =>{
-      this.allProductCategories = res.content;
-      this.totalRecords = res.totalElements;
+      this.allProductCategories = res;
+      this.totalRecords = res.length;
       this.submitted = false;
     })
     .catch((err) => {
       console.log(err);
       this.submitted = false;
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error While fetching All Product Category',
+        life: 3000,
+      });
     })
   }
 
@@ -85,5 +100,23 @@ export class PcDashboardComponent implements OnInit {
         )
       }
   }
+
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
 
 }

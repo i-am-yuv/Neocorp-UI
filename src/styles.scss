@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @import "@fontsource/source-sans-pro";
+@import "@fontsource/inter";
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
@@ -8,7 +9,7 @@ html {
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Inter', sans-serif;
     //font-family:'Inter', sans-serif;
     margin: 0;
     padding: 0;

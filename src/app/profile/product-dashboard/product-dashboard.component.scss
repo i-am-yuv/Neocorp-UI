@@ -1,62 +1,43 @@
-// .layout {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100vh; /* Adjust the height as needed */
+.custom-button {
+    background: #535353;
+    border: #535353;;
+  }
+  .custom-button:hover {
+    background: #353434;
+    border: #353434;
+  }
+  // Override the default text color
+  .custom-button .p-button-text {
+    color: #ffffff;
+  }
+  
+  // Override the default border radius
+  .custom-button {
+    border-radius: 4px;
+  }
 
-//     .content-wrapper {
-//       display: flex;
-//       flex-grow: 1;
-//     }
-
-//     .sidebar {
-//       width: 220px; /* Adjust the width as needed */
-//        /* Set the background color of the sidebar */
-//       color: white; /* Set the text color of the sidebar */
-//     }
-
-//     .main-content {
-//       flex-grow: 1;
-//       padding: 20px; /* Add padding for content */
-//     }
-//   }
-
-//   div{
-//     padding: 0 !important;
-//     // Use !important to ensure your styles take precedence
-//   }
-
-//   .padFlex{
-//     margin-left: 30px !important;
-//     margin-top: 20px !important;
-//     margin-bottom: 20px !important;
-//   }
-
-//   .button-container {
-//     display: flex;
-//     justify-content: flex-end; // Align items to the right
-//     gap: 10px; // Optional gap between buttons
-//   }
-
-//   .raised-container {
-//     padding: 20px; /* Optional: Add padding for spacing around the content */
-//     background-color: #fff; /* Optional: Set the background color */
-
-//     /* Box shadow to create the raised effect */
-//     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
-//   }
-
-// //   All scss for two part
-
-.order-list {
-    .list-item {
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    .list-item:hover {
-        background-color: #eeeeee;
-        cursor: pointer;
-    }
+  .productList{
+    height: 46rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
 }
+
+.productRightList{
+    height: 53rem;
+    overflow-y:scroll;
+    padding-bottom: 2rem;
+}
+
+// .order-list {
+//     .list-item {
+//         border-bottom: 1px solid #eeeeee;
+//     }
+
+//     .list-item:hover {
+//         background-color: #eeeeee;
+//         cursor: pointer;
+//     }
+// }
 
 .left-panel-content {
     // height: 810px;
@@ -65,9 +46,7 @@
 }
 
 .right-panel-content {
-    // height: 773.5px;
-    height: 580px;
-    overflow-y: scroll;
+    padding: 0;
 }
 
 :host::ng-deep {

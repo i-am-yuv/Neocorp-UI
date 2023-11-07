@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -29,26 +30,28 @@ export class VendorInvoiceDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService ,
+    private authS : AuthService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'},{ label: 'Vendor Invoices', routerLink: ['/invoice/vendorInvoices'] }, {label: 'Dashboard'} ];
 
-    this.loadVI();
+    this.loadUser();
+    
   }
 
   loadVI() {
     this.submitted = true;
-    this.invoiceS.getAllVI().then(
+    this.invoiceS.getAllVI(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allVIs = res.content;
+        this.allVIs = res;
         if (this.allVIs.length > 0) {
           this.changeOrder(this.allVIs[0]);
         } else {
           this.activeInvoice = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
@@ -116,7 +119,24 @@ export class VendorInvoiceDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.loadVI();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 

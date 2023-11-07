@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Privilege } from '../privilege/privilege';
 import { PrivilegeService } from '../privilege/privilege.service';
-import { RolesServiceService } from '../roles/roles-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { SettingsComponent } from 'src/app/settings/settings/settings.component';
+import { SettingService } from '../setting.service';
 
 @Component({
   selector: 'app-roles-privilege',
@@ -25,13 +26,13 @@ export class RolesPrivilegeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private privilegeService: PrivilegeService,
-    private rolesService: RolesServiceService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private SettingS : SettingService
   ) { }
 
   ngOnInit(): void {
     this.roleid = this.route.snapshot.paramMap.get('roleid');
-    this.rolesService.getRole(this.roleid).then((role: any) => this.role = role);
+    this.SettingS.getRoleById(this.roleid).then((role: any) => this.role = role);
     this.getPrivileges();
 
   }

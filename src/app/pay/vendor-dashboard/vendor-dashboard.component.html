@@ -1,12 +1,37 @@
 <p-toast></p-toast>
 <div class="">
     <div class="bg-white iconSCSS1  ">
-        <div class="col-4">
-            <p-breadcrumb class="max-w-full text-left" [model]="items"></p-breadcrumb>
+        <div class="col-10">
+            <!-- <p-breadcrumb class="max-w-full text-left" [model]="items"></p-breadcrumb> -->
+            <div class="flex align-items-center gap-2">
+                <div class="col-10">
+                    <div class="p-inputgroup">
+                        <input pInputText  placeholder="Search" [(ngModel)]="searchVendor" class="w-full border-none" style="background: #EFF6FF;"
+                            (ngModelChange)="searchVendors(searchVendor)" />
+                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchVendors(searchVendor)"
+                            styleClass="p-button-success"></button>
+                    </div>
+                </div>
+                <div class="col-1 border-round-sm text-center" style="background: #EFF6FF;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 14.25V19.5C21 19.8978 20.842 20.2794 20.5607 20.5607C20.2794 20.842 19.8978 21 19.5 21H4.5C4.10218 21 3.72064 20.842 3.43934 20.5607C3.15804 20.2794 3 19.8978 3 19.5V14.25C3 14.0511 3.07902 13.8603 3.21967 13.7197C3.36032 13.579 3.55109 13.5 3.75 13.5C3.94891 13.5 4.13968 13.579 4.28033 13.7197C4.42098 13.8603 4.5 14.0511 4.5 14.25V19.5H19.5V14.25C19.5 14.0511 19.579 13.8603 19.7197 13.7197C19.8603 13.579 20.0511 13.5 20.25 13.5C20.4489 13.5 20.6397 13.579 20.7803 13.7197C20.921 13.8603 21 14.0511 21 14.25ZM11.4694 14.7806C11.539 14.8504 11.6217 14.9057 11.7128 14.9434C11.8038 14.9812 11.9014 15.0006 12 15.0006C12.0986 15.0006 12.1962 14.9812 12.2872 14.9434C12.3783 14.9057 12.461 14.8504 12.5306 14.7806L16.2806 11.0306C16.3503 10.9609 16.4056 10.8782 16.4433 10.7872C16.481 10.6961 16.5004 10.5985 16.5004 10.5C16.5004 10.4015 16.481 10.3039 16.4433 10.2128C16.4056 10.1218 16.3503 10.0391 16.2806 9.96937C16.2109 9.89969 16.1282 9.84442 16.0372 9.8067C15.9461 9.76899 15.8485 9.74958 15.75 9.74958C15.6515 9.74958 15.5539 9.76899 15.4628 9.8067C15.3718 9.84442 15.2891 9.89969 15.2194 9.96937L12.75 12.4397V3.75C12.75 3.55109 12.671 3.36032 12.5303 3.21967C12.3897 3.07902 12.1989 3 12 3C11.8011 3 11.6103 3.07902 11.4697 3.21967C11.329 3.36032 11.25 3.55109 11.25 3.75V12.4397L8.78063 9.96937C8.63989 9.82864 8.44902 9.74958 8.25 9.74958C8.05098 9.74958 7.86011 9.82864 7.71937 9.96937C7.57864 10.1101 7.49958 10.301 7.49958 10.5C7.49958 10.699 7.57864 10.8899 7.71937 11.0306L11.4694 14.7806Z" fill="#343330"/>
+                          </svg>
+                    </div>
+                </div>
+                <div class="col-1  border-round-sm text-center" style="background: #EFF6FF;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
+                            <path d="M10.0625 6L19.4063 6M10.0625 6C10.0625 6.82843 9.41891 7.5 8.625 7.5C7.83109 7.5 7.1875 6.82843 7.1875 6M10.0625 6C10.0625 5.17157 9.41891 4.5 8.625 4.5C7.83109 4.5 7.1875 5.17157 7.1875 6M3.59375 6H7.1875M10.0625 18H19.4063M10.0625 18C10.0625 18.8284 9.41891 19.5 8.625 19.5C7.83109 19.5 7.1875 18.8284 7.1875 18M10.0625 18C10.0625 17.1716 9.41891 16.5 8.625 16.5C7.83109 16.5 7.1875 17.1716 7.1875 18M3.59375 18L7.1875 18M15.8125 12L19.4063 12M15.8125 12C15.8125 12.8284 15.1689 13.5 14.375 13.5C13.5811 13.5 12.9375 12.8284 12.9375 12M15.8125 12C15.8125 11.1716 15.1689 10.5 14.375 10.5C13.5811 10.5 12.9375 11.1716 12.9375 12M3.59375 12H12.9375" stroke="#343834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+            
         </div>
-        <div class="col-8">
+        <div class="col-2">
             <div class="border-200 text-right ">
-                <button type="button" pButton (click)="createVendor()" class=" mr-3  custom-button ">
+                <button type="button" pButton (click)="createVendor()" class=" custom-button ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
@@ -18,197 +43,139 @@
         </div>
     </div>
 
-    <div class="m-6 bg-white border-round-3xl">
+    <div class="" style="background: #EFF6FF;">
 
         <div class="p-5">
             <div class="flex gap-4" style=" justify-content: center;">
 
                 <!-- VENDOR LISTS SECTION -->
-                <div class="col-5">
-                    <p-panel class="left-panel ">
-                        <ng-template pTemplate="header">
-                            <span class="p-panel-title" style="padding: 1px">All Vendors</span>
-                        </ng-template>
-                        <div class="p-inputgroup pl-2 pr-2 pt-2">
-                            <input pInputText placeholder="Search" [(ngModel)]="searchVendor"
-                                class="w-full custom-input" (ngModelChange)="searchVendors(searchVendor)" />
-                            <button type="button" pButton pRipple icon="pi pi-search"
-                                (click)="searchVendors(searchVendor)" styleClass="p-button-success"></button>
-                        </div>
-                        <ng-template pTemplate="content">
-                            <div class="left-panel-content">
-                                <br />
-                                <div *ngFor="let item of allVendors" class="order-list"
-                                    [ngClass]="{ 'bg-gray-100': activeVendor.id === item.id }">
-                                    <div class=" list-item" (click)="changeVender(item)">
-                                        <div class="iconSCSS w-full gap-2 p-3">
-                                            <div class="col-2  justify-center align-center">
-                                                <div class="person-icon">{{
-                                                    item.firstName.charAt(0) +
-                                                    item.lastName.charAt(0) }}</div>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-base"><b>{{ item.firstName }} {{ item.lastName
-                                                        }}</b>
-                                                </div>
-                                                <div class="flex gap-1 ">
-                                                    <div class="col-10 text-base">
-                                                        <p class="text-sm">Mobile Number:+91 {{item.mobileNumber}}</p>
-                                                    </div>
+                <div class="col-5 bg-white border-round-xl p-4 " style=" box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                    <div class="text-blue-400 text-xl mb-4">Send To</div>
 
-                                                </div>
+                    <div class="vendorList">
+                        <div *ngFor="let item of allVendors" class="order-list"
+                            [ngClass]="{ 'bg-gray-100': activeVendor.id === item.id }">
+                            <div class=" list-item" (click)="changeVender(item)">
+                                <div class="iconSCSS w-full gap-2 p-3">
+                                    <div class="col-2  justify-center align-center">
+                                        <div class="person-icon">{{
+                                            item.firstName.charAt(0) +
+                                            item.lastName.charAt(0) }}</div>
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="text-xl font-light capitalize">{{ item.firstName }} {{ item.lastName
+                                            }}
+                                        </div>
+                                        <div class="flex">
+                                            <div class=" text-base">
+                                                <!-- <p class="text-sm">Mobile Number:+91 {{item.mobileNumber}}</p>
+                                            <p class="text-sm">Email Address: {{item.email}}</p> -->
+                                                <p class="text-gray-500">Updated On: {{item.updatedAt |
+                                                    date:'yyyy-MM-dd'}} </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center m-5" *ngIf="allVendors.length === 0">
-                                    No Vender Found, Please Create new Vendor
-                                </div>
                             </div>
-                        </ng-template>
-                        <p-footer> Total: {{ this.totalRecord}} </p-footer>
-                    </p-panel>
+                        </div>
+                        <div class="text-center m-5" *ngIf="allVendors.length === 0">
+                            No Vender Found, Please Create new Vendor !!
+                        </div>
+                    </div>
+
+
+
+                    <!-- <p-footer> Total: {{ this.totalRecord}} </p-footer> -->
+
                 </div>
                 <!-- VENDOR LISTS SECTION ENDS -->
 
                 <div class="col-7">
-                    <p-panel>
-                        <ng-template pTemplate="header">
-                            <div class="w-full">
-                                <div class="grid m-0">
-                                    <div class="col-6 p-0">
-                                        <span class="p-panel-title">Vendor</span>
-                                    </div>
-                                </div>
+                    <!-- COMPLETE RIGHT PANEL -->
+                    <div class="right-panel-content">
+                        <div class="text-center m-5" *ngIf="!activeVendor.id && allVendors.length >0">
+                            <div class="">
+                                <img src="/assets/bill.png" alt="Image" width="400"><br>
+                                <p class="mt-4 text-xl">Please, Select the Vendor</p>
                             </div>
-                        </ng-template>
-
-
-                        <!-- COMPLETE RIGHT PANEL -->
-                        <div class="right-panel-content">
-                            <div class="text-center m-5" *ngIf="!activeVendor.id && allVendors.length >0">
-                                <div class="">
-                                    <img src="/assets/bill.png" alt="Image" width="400"><br>
-                                    <p class="mt-4 text-xl">Please, Select the Vendor</p>
-                                </div>
-                                <!-- <img src="assets/empty.svg" width="250" /><br />
+                            <!-- <img src="assets/empty.svg" width="250" /><br />
                                 Select Vendor -->
-                            </div>
-                            <div class="text-center text-lg m-5" *ngIf="allVendors.length === 0">
-                                No Vender Found, Please create One
-                            </div>
+                        </div>
+                        <div class="text-center text-lg m-5" *ngIf="allVendors.length === 0">
+                            No Vender Found, Please create One
+                        </div>
 
-                            <!-- TOP RIGHT PANEL -->
-                            <div *ngIf="activeVendor.id">
-                                <div class="flex bg-gray-700 gap-1 rounded-div1 mr-3 p-1">
+                        <!-- TOP RIGHT PANEL -->
+                        <div *ngIf="activeVendor.id">
+                            <div class="flex bg-gray-700 gap-1 border-round-xl  py-1" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
 
-                                    <div class="field col-4 mt-2 ml-1 font-light">
-                                        <div>
-                                            <p class="text-2xl  font-semibold text-white">
-                                                {{this.activeVendor.firstName}}
-                                                {{this.activeVendor.lastName}}</p>
-                                        </div>
-                                        <div class="mt-2">
-                                            <p class="text-sm   text-gray-200">{{this.activeVendor.email}}</p>
-                                            <p class="text-sm text-gray-200">+91 {{this.activeVendor.mobileNumber}}</p>
-                                        </div>
+                                <div class="col-4 mt-2 ml-1 font-light">
+                                    <div>
+                                        <p class="text-3xl  font-light text-white capitalize">
+                                            {{this.activeVendor.firstName}}
+                                            {{this.activeVendor.lastName}}</p>
                                     </div>
-
-                                    <div class="field col-8">
-                                        <div class="iconSCSS bg-white rounded-div1 mt-2 ">
-                                            <div class="field col-2">
-                                                <div class="walletIcon border-1 border-primary border-round-lg">
-                                                    <div class="centerItem">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <path
-                                                                d="M20.25 6.75H5.25C5.05109 6.75 4.86032 6.67098 4.71967 6.53033C4.57902 6.38968 4.5 6.19891 4.5 6C4.5 5.80109 4.57902 5.61032 4.71967 5.46967C4.86032 5.32902 5.05109 5.25 5.25 5.25H18C18.1989 5.25 18.3897 5.17098 18.5303 5.03033C18.671 4.88968 18.75 4.69891 18.75 4.5C18.75 4.30109 18.671 4.11032 18.5303 3.96967C18.3897 3.82902 18.1989 3.75 18 3.75H5.25C4.65326 3.75 4.08097 3.98705 3.65901 4.40901C3.23705 4.83097 3 5.40326 3 6V18C3 18.5967 3.23705 19.169 3.65901 19.591C4.08097 20.0129 4.65326 20.25 5.25 20.25H20.25C20.6478 20.25 21.0294 20.092 21.3107 19.8107C21.592 19.5294 21.75 19.1478 21.75 18.75V8.25C21.75 7.85218 21.592 7.47064 21.3107 7.18934C21.0294 6.90804 20.6478 6.75 20.25 6.75ZM20.25 18.75H5.25C5.05109 18.75 4.86032 18.671 4.71967 18.5303C4.57902 18.3897 4.5 18.1989 4.5 18V8.12156C4.74082 8.20693 4.9945 8.25037 5.25 8.25H20.25V18.75ZM15.75 13.125C15.75 12.9025 15.816 12.685 15.9396 12.5C16.0632 12.315 16.2389 12.1708 16.4445 12.0856C16.65 12.0005 16.8762 11.9782 17.0945 12.0216C17.3127 12.065 17.5132 12.1722 17.6705 12.3295C17.8278 12.4868 17.935 12.6873 17.9784 12.9055C18.0218 13.1238 17.9995 13.35 17.9144 13.5555C17.8292 13.7611 17.685 13.9368 17.5 14.0604C17.315 14.184 17.0975 14.25 16.875 14.25C16.5766 14.25 16.2905 14.1315 16.0795 13.9205C15.8685 13.7095 15.75 13.4234 15.75 13.125Z"
-                                                                fill="#3579F3" />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="field col-5 text-left">
-                                                <p class="text-xl">₹ {{myFunction(totalGrossAmount)}} </p>
-                                                <p class="text-lg blueText">Total Amount</p>
-                                            </div>
-                                            <div class="field col-5"></div>
-                                            <!-- <div class="field col-5"
-                                                *ngIf="totalRemainingAmount > 0 && totalGrossAmount != 0 ">
-                                                <div class="flex gap-1  w-full bg-red-100 rounded-div1 p-1">
-                                                    <div class="col-3 leftP text-right">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                            viewBox="0 0 18 18" fill="none">
-                                                            <path
-                                                                d="M9 15.75C7.66498 15.75 6.35993 15.3541 5.2499 14.6124C4.13987 13.8707 3.27471 12.8165 2.76382 11.5831C2.25292 10.3497 2.11925 8.99252 2.3797 7.68314C2.64015 6.37377 3.28303 5.17104 4.22703 4.22703C5.17104 3.28303 6.37377 2.64015 7.68314 2.3797C8.99251 2.11925 10.3497 2.25292 11.5831 2.76382C12.8165 3.27471 13.8707 4.13987 14.6124 5.2499C15.3541 6.35994 15.75 7.66498 15.75 9C15.75 10.7902 15.0388 12.5071 13.773 13.773C12.5071 15.0388 10.7902 15.75 9 15.75ZM9 3.21429C7.8557 3.21429 6.73709 3.55361 5.78563 4.18936C4.83418 4.8251 4.09261 5.72871 3.6547 6.78591C3.21679 7.84311 3.10222 9.00642 3.32546 10.1287C3.5487 11.2511 4.09974 12.282 4.90888 13.0911C5.71803 13.9003 6.74895 14.4513 7.87127 14.6745C8.99358 14.8978 10.1569 14.7832 11.2141 14.3453C12.2713 13.9074 13.1749 13.1658 13.8106 12.2144C14.4464 11.2629 14.7857 10.1443 14.7857 9C14.7857 7.46554 14.1761 5.99392 13.0911 4.90889C12.0061 3.82385 10.5345 3.21429 9 3.21429Z"
-                                                                fill="#C22B39" />
-                                                            <path
-                                                                d="M10.6457 12.75L8.25 9.95501V5.25H9.10714V9.54001L11.25 12.045L10.6457 12.75Z"
-                                                                fill="#C22B39" />
-                                                        </svg>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        Partially Paid
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- <div class="field col-5" *ngIf="totalRemainingAmount <= 0 && totalGrossAmount != 0 ">
-                                                <div class="flex">
-                                                    <div class="bg-green-300 rounded-div1 px-4 py-1">
-                                                        <div class="leftP text-right">
-                                                           
-                                                        </div>
-                                                        <div class="rightP text-center">
-                                                            Paid
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- <div class="field col-5" *ngIf="totalGrossAmount === 0">
-                                                <div class="flex">
-                                                    <div class="bg-gray-300 rounded-div1 px-4 py-1">
-                                                        <div class="leftP text-right">
-                                                            
-                                                        </div>
-                                                        <div class="rightP text-center">
-                                                            Nil
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                        </div>
-
-                                        <div class="mt-2 flex w-full ">
-                                            <div class="field col-6">
-                                                <p class="text-base text-white">Total Amount paid</p>
-                                                <p class="text-lg greenText">₹ {{myFunction( totalGrossAmount -
-                                                    totalRemainingAmount)}}</p>
-                                            </div>
-                                            <div class="vertical-line"></div>
-                                            <div class="field col-6">
-                                                <p class="text-base text-white">Total Amount Due</p>
-                                                <p class="text-lg text-red-300">₹ {{ myFunction(totalRemainingAmount)}}
-                                                </p>
-
-                                            </div>
-                                        </div>
-
+                                    <div class="mt-2">
+                                        <p class="text-sm   text-gray-200">{{this.activeVendor.email}}</p>
+                                        <p class="text-sm text-gray-200">+91 {{this.activeVendor.mobileNumber}}</p>
                                     </div>
                                 </div>
 
-                                <div class="mt-3">
-
-                                    <div class="button-container">
-                                        <button type="button" label="Orders" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg': true , 'onClickButton':showOrders }"
-                                            (click)="showOrdersPage()">Orders</button>
-                                        <button type="button" label="invoice" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg': true, 'onClickButton': showInvoices}"
-                                            (click)="showInvoicesPage(activeVendor)">Invoices</button>
+                                <div class="col-8">
+                                    <div class="flex bg-white border-round-xl m-2 align-items-center">
+                                        <div class="">
+                                            <div class="border-1 border-primary border-round-lg m-3 ml-4">
+                                                <div class="p-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <path
+                                                            d="M20.25 6.75H5.25C5.05109 6.75 4.86032 6.67098 4.71967 6.53033C4.57902 6.38968 4.5 6.19891 4.5 6C4.5 5.80109 4.57902 5.61032 4.71967 5.46967C4.86032 5.32902 5.05109 5.25 5.25 5.25H18C18.1989 5.25 18.3897 5.17098 18.5303 5.03033C18.671 4.88968 18.75 4.69891 18.75 4.5C18.75 4.30109 18.671 4.11032 18.5303 3.96967C18.3897 3.82902 18.1989 3.75 18 3.75H5.25C4.65326 3.75 4.08097 3.98705 3.65901 4.40901C3.23705 4.83097 3 5.40326 3 6V18C3 18.5967 3.23705 19.169 3.65901 19.591C4.08097 20.0129 4.65326 20.25 5.25 20.25H20.25C20.6478 20.25 21.0294 20.092 21.3107 19.8107C21.592 19.5294 21.75 19.1478 21.75 18.75V8.25C21.75 7.85218 21.592 7.47064 21.3107 7.18934C21.0294 6.90804 20.6478 6.75 20.25 6.75ZM20.25 18.75H5.25C5.05109 18.75 4.86032 18.671 4.71967 18.5303C4.57902 18.3897 4.5 18.1989 4.5 18V8.12156C4.74082 8.20693 4.9945 8.25037 5.25 8.25H20.25V18.75ZM15.75 13.125C15.75 12.9025 15.816 12.685 15.9396 12.5C16.0632 12.315 16.2389 12.1708 16.4445 12.0856C16.65 12.0005 16.8762 11.9782 17.0945 12.0216C17.3127 12.065 17.5132 12.1722 17.6705 12.3295C17.8278 12.4868 17.935 12.6873 17.9784 12.9055C18.0218 13.1238 17.9995 13.35 17.9144 13.5555C17.8292 13.7611 17.685 13.9368 17.5 14.0604C17.315 14.184 17.0975 14.25 16.875 14.25C16.5766 14.25 16.2905 14.1315 16.0795 13.9205C15.8685 13.7095 15.75 13.4234 15.75 13.125Z"
+                                                            fill="#3579F3" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-5 text-left mx-3">
+                                            <p class="text-2xl">₹ {{myFunction(totalGrossAmount)}} </p>
+                                            <p class="text-lg blueText">Total Amount</p>
+                                        </div>
+                                        <div class=" text-right">
+                                            <button pButton label="Pending"
+                                                class="bg-red-200 border-0 text-900 border-round-lg"></button>
+                                        </div>
                                     </div>
 
-                                    <div *ngIf="showOrders" class="mt-5">
-                                        <p class="blueText" *ngIf="allPurchaseOrders.length >0 ">Order No.</p>
+                                    <div class="mt-2 flex w-full ">
+                                        <div class="col-6">
+                                            <p class="text-base text-white">Total Amount paid</p>
+                                            <p class="text-3xl greenText">₹ {{myFunction( totalGrossAmount -
+                                                totalRemainingAmount)}}</p>
+                                        </div>
+                                        <div class="vertical-line"></div>
+                                        <div class="col-6">
+                                            <p class="text-base text-white">Total Amount Due</p>
+                                            <p class="text-3xl text-red-300">₹ {{ myFunction(totalRemainingAmount)}}</p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+
+                                <div class="button-container">
+                                    <button type="button" label="Orders" class="p-2"
+                                        [ngClass]="{'defaultSCSS text-lg cursor-pointer': true , 'onClickButton':showOrders }"
+                                        (click)="showOrdersPage()">Orders</button>
+                                    <button type="button" label="invoice" class="p-2"
+                                        [ngClass]="{'defaultSCSS text-lg cursor-pointer': true, 'onClickButton': showInvoices}"
+                                        (click)="showInvoicesPage(activeVendor)">Invoices</button>
+                                </div>
+                                
+                                <div class="orderInvList bg-white border-round-xl mt-4" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                                    <div *ngIf="showOrders" class="p-3">
+                                        <p class="blueText text-lg" *ngIf="allPurchaseOrders.length >0 ">Purchase Order No.</p>
                                         <div *ngFor="let item of allPurchaseOrders" class="">
                                             <div class="">
                                                 <div class="iconSCSS w-full gap-1">
@@ -236,11 +203,10 @@
                                         </div>
                                     </div>
 
-                                    <div *ngIf="showInvoices" class="mt-5 ">
-
-                                        <div class="">
+                                    <div *ngIf="showInvoices" class="p-3">
+                                        <p class="blueText text-lg" *ngIf="allPurchaseInvoices.length >0 ">Purchase Invoice No.</p>
+                                       
                                             <div *ngFor="let item of allPurchaseInvoices" class="">
-                                                <p class="blueText">Purchase Invoice Number:</p>
                                                 <div class="">
                                                     <div class="iconSCSS w-full gap-1">
                                                         <div class="col-6 text-left">
@@ -270,15 +236,13 @@
                                                 <p class="text-lg mt-3 text-center">No purchase invoices available for
                                                     this vendor</p>
                                             </div>
-                                        </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
+
                         </div>
-                    </p-panel>
+                    </div>
+
                 </div>
             </div>
 

@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
 import { ProductCategory } from '../product-category';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,7 @@ export class ProductComponent implements OnInit {
   submitted: boolean = false;
   productForm!: FormGroup;
   createNew: boolean = false;
-  currentCategory : ProductCategory = {};
+  currentCategory: ProductCategory = {};
 
   category: Product[] = [];
 
@@ -40,11 +41,16 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private profileS: ProfilepageService) { }
+    private profileS: ProfilepageService,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
 
+    this.loadUser();
+  }
+
+  loadOtherInfo() {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -58,29 +64,29 @@ export class ProductComponent implements OnInit {
       }
     });
 
-    this.items = [{label: 'Settings'},{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
+    this.items = [{ label: 'Settings' }, { label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create', routerLink: ['/profile/product/create'] }];
 
     this.initForm();
-    this.getProductDetails();
     this.loadCategories();
+    this.getProductDetails();
   }
 
   // Product Init Form
   initForm() {
     this.productForm = new FormGroup({
-      name: new FormControl('', Validators.required), //
+      name: new FormControl('', Validators.required), 
       model: new FormControl('', Validators.required),
       description: new FormControl(''),
       searchKey: new FormControl(''),
       skuCode: new FormControl(''),
       barCode: new FormControl(''),
       thumbnail: new FormControl(''),
-      help: new FormControl(''),//
+      help: new FormControl(''),
       hsnCode: new FormControl(''),
       imageName: new FormControl(''),
       imagePath: new FormControl(''),
       mrp: new FormControl('', Validators.required),
-      productType: new FormControl(''),
+      productType: new FormControl('', Validators.required),
       category: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
@@ -94,9 +100,9 @@ export class ProductComponent implements OnInit {
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
 
+    console.log( this.productForm);
     var productFormVal = this.productForm.value;
     productFormVal.id = this.id;
-    alert(JSON.stringify(productFormVal));
 
     if (productFormVal.id) {
       this.submitted = true;
@@ -107,7 +113,7 @@ export class ProductComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Product Updated',
+            summary: 'Success',
             detail: 'Product updated',
             life: 3000,
           });
@@ -122,19 +128,19 @@ export class ProductComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Sales Order updated Error',
-              detail: 'Some Server Error',
+              summary: 'Error',
+              detail: 'Error while updating the Product',
               life: 3000,
             });
           })
     } else {
-      console.log(this.productForm);
-      this.profileS.createProduct(this.productForm.value).then(
+      productFormVal.user = this.currentUser;
+      this.profileS.createProduct(productFormVal).then(
         (res) => {
           console.log(res);
           this.message.add({
             severity: 'success',
-            summary: 'Product Saved',
+            summary: 'Success',
             detail: 'Product Added Successfully',
             life: 3000,
           });
@@ -147,12 +153,11 @@ export class ProductComponent implements OnInit {
         (err) => {
           this.message.add({
             severity: 'error',
-            summary: 'Product error',
-            detail: 'Product server error',
+            summary: 'Error',
+            detail: 'Error while saving the product',
             life: 3000,
           });
         })
-
     }
   }
 
@@ -173,9 +178,9 @@ export class ProductComponent implements OnInit {
   // Load Available Function
   availableProducts() {
     this.submitted = true;
-    this.profileS.getAllProduct()
+    this.profileS.getAllProduct(this.currentUser)
       .then((res: any) => {
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
 
         if (count > 0) {
@@ -207,21 +212,27 @@ export class ProductComponent implements OnInit {
         })
     }
   }
-
-
-
-  selectProductCategory(){
+  selectProductCategory() {
   }
 
   loadCategories() {
-    this.profileS.getAllProductCategory().then(
+    this.submitted = true;
+    this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
-        this.category = res.content;
+        this.category = res;
         console.log(res);
+        this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching the product categories',
+          life: 3000,
+        });
       }
     )
   }
@@ -230,4 +241,21 @@ export class ProductComponent implements OnInit {
     this.router.navigate(['/profile/products']);
   }
 
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+  
 }

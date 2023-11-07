@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { CreditNote } from '../invoice-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-credit-note-dashboard',
@@ -31,26 +32,28 @@ export class CreditNoteDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
+    private authS : AuthService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'}, {label: 'Credit Note', routerLink: ['/invoice/creditNotes']}, {label: 'Dashboard'}];
 
-    this.getAllCreditNotes();
+    this.loadUser();
+    
   }
 
   getAllCreditNotes()
   {
     this.submitted = true;
-    this.invoiceS.getAllCn().then(
+    this.invoiceS.getAllCn(this.currentUser).then(
       (res : any) => {
-        this.allCreditNotes = res.content;
+        this.allCreditNotes = res;
         if (this.allCreditNotes.length > 0) {
           this.changeOrder(this.allCreditNotes[0]);
         } else {
           this.activeCN = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
@@ -65,7 +68,7 @@ export class CreditNoteDashboardComponent implements OnInit {
   {
      this.activeCN = item;
     this.getNotesLines(item);
-    this.getRemainingAmountCN(item);
+   // this.getRemainingAmountCN(item);
   }
 
   getNotesLines(item:CreditNote)
@@ -94,22 +97,22 @@ export class CreditNoteDashboardComponent implements OnInit {
     this.router.navigate(['/invoice/creditNote/edit/'+id]); 
   }
 
-  getRemainingAmountCN(CN:any)
-  {
-    this.submitted  = true;
-    this.invoiceS.getRemainingAmountReceipt(CN).then(
-      (res)=>{
-            console.log(res);
-            this.currentDue = res;
-            this.submitted  = false;
-      }
-    ).catch(
-      (err)=>{
-         console.log(err);
-         this.submitted  = false;
-      }
-    )
-  }
+  // getRemainingAmountCN(CN:any)
+  // {
+  //   this.submitted  = true;
+  //   this.invoiceS.getRemainingAmountReceipt(CN).then(
+  //     (res)=>{
+  //           console.log(res);
+  //           this.currentDue = res;
+  //           this.submitted  = false;
+  //     }
+  //   ).catch(
+  //     (err)=>{
+  //        console.log(err);
+  //        this.submitted  = false;
+  //     }
+  //   )
+  // }
 
   
   searchCN: any;
@@ -139,7 +142,23 @@ export class CreditNoteDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+  currentUser : any = {} ;
+  currentCompany : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentUser = res;
+      this.currentCompany = res.comapny;
+      this.submitted = false;
+
+      this.getAllCreditNotes();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }

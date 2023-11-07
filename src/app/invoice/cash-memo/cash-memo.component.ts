@@ -95,7 +95,13 @@ export class CashMemoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.id = this.route.snapshot.paramMap.get('id');
+    
+    this.loadUser();
+  }
+
+loadOtherInfo()
+{
+  this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -118,8 +124,7 @@ export class CashMemoComponent implements OnInit {
     this.loadCustomer();
     this.getCashMemo();
     this.sidebarVisibleProduct = false;
-    this.loadUser();
-  }
+}
 
   initForm() {
 
@@ -145,10 +150,10 @@ export class CashMemoComponent implements OnInit {
 
   availableCM() {
     this.submitted = true;
-    this.invoiceS.getAllCashMemo().then(
+    this.invoiceS.getAllCashMemo(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/invoice/cashMemos']);
@@ -203,9 +208,9 @@ export class CashMemoComponent implements OnInit {
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
       }
     ).catch(
@@ -216,9 +221,9 @@ export class CashMemoComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.usedService.allCustomer().then(
+    this.usedService.allCustomer(this.currentUser).then(
       (res) => {
-        this.customers = res.content;
+        this.customers = res;
         console.log(res);
       }
     ).catch(
@@ -229,9 +234,9 @@ export class CashMemoComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -247,12 +252,15 @@ export class CashMemoComponent implements OnInit {
         }
       )
   }
-
+  currentUser : any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -274,7 +282,7 @@ export class CashMemoComponent implements OnInit {
   }
 
   onSubmitCashMemo() {
-
+    this.cashMemoForm.value.branch = this.currentUser.branch;
     if (this.cashMemoForm.value.vendor.id == null || this.cashMemoForm.value.vendor.id == "") {
       this.cashMemoForm.value.vendor = null;
     }
@@ -317,6 +325,7 @@ export class CashMemoComponent implements OnInit {
       //  poFormVal.grossTotal = this.poSubTotal ;
       this.upload(); // for upload file if attached
       this.submitted = true;
+      cashMemoFormVal.user = this.currentUser ;
       this.invoiceS.createCashMemo(cashMemoFormVal).then(
         (res) => {
           console.log(res);
@@ -330,8 +339,8 @@ export class CashMemoComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Cash Memo Saved',
-            detail: 'Cash Memo Added',
+            summary: 'Sucess',
+            detail: 'Cash Memo Saved',
             life: 3000,
           });
           this.router.navigate(['invoice/cashMemo/edit/' + res.id]);

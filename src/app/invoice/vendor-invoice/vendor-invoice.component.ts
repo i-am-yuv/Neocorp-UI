@@ -19,6 +19,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   id: string | null = '';
   viForm !: FormGroup;
+  currentUser : any = {};
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -55,6 +56,11 @@ export class VendorInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.items = [{ label: 'Invoices' }, { label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create', routerLink: ['/invoice/vendorInvoice/create'] }];
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -78,7 +84,6 @@ export class VendorInvoiceComponent implements OnInit {
     this.loadVendors();
     this.loadProducts();
     this.getVI();
-    this.loadUser();
   }
 
   initForm() {
@@ -98,10 +103,10 @@ export class VendorInvoiceComponent implements OnInit {
 
   availableVI() {
     this.submitted = true;
-    this.invoiceS.getAllVI().then(
+    this.invoiceS.getAllVI(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res.length;
         //count=0
         if (count > 0) {
           this.router.navigate(['/invoice/vendorInvoices']);
@@ -114,6 +119,12 @@ export class VendorInvoiceComponent implements OnInit {
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Vendor Invoices',
+          life: 3000,
+        });
       }
     )
   }
@@ -136,6 +147,12 @@ export class VendorInvoiceComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error While Fetching this vendor invoice',
+            life: 3000,
+          });
         }
       )
     }
@@ -157,9 +174,9 @@ export class VendorInvoiceComponent implements OnInit {
   }
 
   loadVendors() {
-    this.usedService.allVendor().then(
+    this.usedService.allVendor(this.currentUser).then(
       (res) => {
-        this.vendors = res.content;
+        this.vendors = res;
         console.log(res);
       }
     ).catch(
@@ -170,9 +187,9 @@ export class VendorInvoiceComponent implements OnInit {
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -193,7 +210,9 @@ export class VendorInvoiceComponent implements OnInit {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -204,9 +223,12 @@ export class VendorInvoiceComponent implements OnInit {
   selectVendor() { }
 
   onSubmitVI() {
+    this.viForm.value.branch = this.currentUser.branch;
+
     var viFormVal = this.viForm.value;
     viFormVal.id = this.id;
     viFormVal.comapny = this.currentCompany;
+
     if (viFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
@@ -217,8 +239,8 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Vendor Invoice Updated',
-            detail: 'Vendor Invoice updated',
+            summary: 'Success',
+            detail: 'Vendor Invoice updated Successfully',
             life: 3000,
           });
         }
@@ -228,31 +250,30 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Vendor Invoice updated Error',
-            detail: 'Vendor Invoice Error',
+            summary: 'Error',
+            detail: 'Vendor Invoice updation error',
             life: 3000,
           });
         }
       )
     }
     else {
-      //  poFormVal.grossTotal = this.poSubTotal ;
-      //this.upload(); // for upload file if attached
+     
       this.submitted = true;
+      viFormVal.user = this.currentUser ;
+
       this.invoiceS.createVI(viFormVal).then(
         (res) => {
           console.log(res);
           this.viForm.patchValue = { ...res };
           this.currvendorInvoice = res;
-          // this.id = res.id;
-          console.log("VI Added");
-          console.log(this.currvendorInvoice);
+          
           this.viewLineItemTable = true;
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Vendor Invoice Saved',
-            detail: 'Vendor Invoice Added',
+            summary: 'Success',
+            detail: 'Vendor Invoice Saved',
             life: 3000,
           });
           this.router.navigate(['invoice/vendorInvoice/edit/' + res.id]);
@@ -495,8 +516,8 @@ export class VendorInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Vendor Invoice Updated Successfully',
-            detail: 'Vendor Invoice Updated',
+            summary: 'Vendor Invoice Saved Successfully',
+            detail: 'Vendor Invoice Saved',
             life: 3000,
           });
           setTimeout(() => {

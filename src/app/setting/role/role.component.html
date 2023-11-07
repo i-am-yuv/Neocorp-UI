@@ -3,21 +3,21 @@
 <div class="">
     <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
         <div class="center-container mt-5 p-3 ">
-            <div class="field col-3"></div>
-            <div class="field col-6 ">
+            <div class="field col-4"></div>
+            <div class="field col-4 ">
                 <div class="image-container">
                     <img src="/assets/role.png" alt="Image" class="w-full h-auto">
                 </div>
                 <div class="text-center">
-                    <b class="text-2xl">Delegation Made Simple</b><br>
-                    <p>EmpowerYour Team by Delegating Tasks and Responsibilities</p>
+                    <b class="text-2xl">Create Role</b><br>
+                    <p>Empower Your Team with Customized Roles and Responsibilities</p>
                 </div>
                 <div class="text-center">
-                    <button type="button" pButton label="Create Delegation" (click)="createRole()"
-                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                    <button type="button" pButton label="Create Role" (click)="createRole()"
+                        class="mb-3 text-lg bg-blue-600 text-white px-4 py-2.5 rounded-md hover:bg-blue-700 "></button>
                 </div>
             </div>
-            <div class="field col-3"></div>
+            <div class="field col-4"></div>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
                 <div class="border-200 text-right">
                     <button type="button" pButton label="Cancel" class=" mr-3 p-button-secondary"
                         (click)="onCancel()"></button>
-                    <button type="button" pButton label="Save Delegation role" (click)="onSubmitRole()"
+                    <button type="button" pButton label="Save Role" (click)="onSubmitRole()"
                         [disabled]="!roleForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="field col-8">
-                    <label class="mr-3 required">Role Description</label>
+                    <label class="mr-3">Role Description</label>
                     <textarea pInputText formControlName="description" placeholder="Enter Role Description"
                         class="w-full"></textarea>
                     <error-message [controlName]="roleForm.controls['description']"></error-message>
@@ -70,7 +70,7 @@
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Cancel" (click)="onCancel()"
                         class=" mr-3 p-button-secondary "></button>
-                    <button type="submit" pButton label="Save Delegation Role" [disabled]="!roleForm.valid"
+                    <button type="submit" pButton label="Save Role" [disabled]="!roleForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
 

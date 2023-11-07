@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BillsService } from '../bills.service';
 import { PurchaseOrder } from '../bills-model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-po-dashboard',
@@ -28,34 +29,39 @@ export class PoDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private fb: FormBuilder,
-    private usedService: PayPageService,
     private billS: BillsService,
-    private confirmationService: ConfirmationService) { }
+    private authS: AuthService) { }
 
   ngOnInit(): void {
     this.items = [{ label: 'Bills' }, { label: 'Purchase Orders', routerLink: ['/bills/purchaseOrders'] }, { label: 'Dashboard' }];
 
-    this.loadPO();
+    this.loadUser();
   }
 
   loadPO() {
     this.submitted = true;
-    this.billS.getAllPo().then(
+    this.billS.getAllPo(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allPOs = res.content;
+        this.allPOs = res;
         if (this.allPOs.length > 0) {
           this.changeOrder(this.allPOs[0]);
         } else {
           this.activeOrder = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The POs',
+          life: 3000
+        })
       }
     )
 
@@ -93,11 +99,11 @@ export class PoDashboardComponent implements OnInit {
   searchOrder: any;
   searchOrders(value: any) {
     if (value === null) {
-    //  alert(value);
+      //  alert(value);
       this.loadPO();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.billS.searchPurchaseOrder(value).then(
         (res: any) => {
           console.log(res);
@@ -117,7 +123,26 @@ export class PoDashboardComponent implements OnInit {
         }
       )
     }
-    
+
+  }
+
+  currentUser: any = {};
+  currentCompany: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then(
+      (res: any) => {
+        this.currentUser = res;
+        this.currentCompany = res.comapny;
+        this.submitted = false;
+        this.loadPO();
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
   }
 
 

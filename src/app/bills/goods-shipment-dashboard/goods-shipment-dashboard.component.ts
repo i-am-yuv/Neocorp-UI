@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { BillsService } from '../bills.service';
 import { GoodsShipment, GoodsShipmentLine } from '../bills-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-goods-shipment-dashboard',
@@ -30,32 +31,38 @@ export class GoodsShipmentDashboardComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private fb: FormBuilder,
     private billS: BillsService,
+    private authS : AuthService,
     private commonS : InvoiceService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Bills'}, {label: 'Good Shipments'}, {label: 'Dashboard'}]
-    this.getAllGS();
+    this.items = [{label: 'Bills'}, {label: 'Receipt Note'}, {label: 'Dashboard'}]
+    this.loadUser();
   }
 
   getAllGS()
   {
     this.submitted = true;
-    this.billS.getAllGS().then(
+    this.billS.getAllGS(this.currentUser).then(
       (res : any) => {
-        this.allGS = res.content;
+        this.allGS = res;
         if (this.allGS.length > 0) {
           this.changeOrder(this.allGS[0]);
         } else {
           this.activeGS = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.length;
         this.submitted = false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching all the goods shipments',
+          life: 3000,
+        });
       }
     )
   }
@@ -144,6 +151,22 @@ export class GoodsShipmentDashboardComponent implements OnInit {
         }
       )
     } 
+  }
+  currentCompany : any = {};
+  currentUser : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser =  res ;
+      this.submitted = false;
+
+      this.getAllGS();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
   
 }

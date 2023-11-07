@@ -20,7 +20,8 @@ export interface PurchaseOrder {
   customer?: CustomeR;
   placeOfSupply?: State;
   branch?: branch;
-  comapny?: CompanyNew
+  comapny?: CompanyNew;
+  user ?: any ;
 }
 export interface LineItem {
   id?: string;
@@ -46,6 +47,7 @@ export interface ReceiptNote {
   grossTotal?: number;
   status?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface rnLineItem {
@@ -82,6 +84,7 @@ export interface DebitNote {
   grossTotal?: number;
   status?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface GoodsShipment {
@@ -94,7 +97,7 @@ export interface GoodsShipment {
   company?: CompanyNew;
   shipmentDate?: Date;
   status?: string;
-
+  user ?: any ;
 }
 
 export interface GoodsShipmentLine {
@@ -115,6 +118,7 @@ export interface GoodsReceipt {
   receivedDate?: Date;
   status?: string;
   comapny?: CompanyNew;
+  user ?: any ;
 }
 
 export interface GoodsReceiptLine {

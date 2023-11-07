@@ -181,10 +181,9 @@ showPaymentPage(activeInvoice : PurchaseInvoice)
   this.showInvoice = false;
   this.showPayment = true;
   this.submitted = true;
-  this.vendorS.getAllPaymentsByVendor(activeInvoice.id).then(
+  this.vendorS.getAllPaymentsByVendor(activeInvoice.vendor?.id).then(
     (res)=>{
-      this.allPays = res ;
-     // alert(JSON.stringify(res));
+      this.allPays = res.content ;
       this.submitted = false;
     }
   ).catch(

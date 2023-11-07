@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import {  MenuItem, MessageService } from 'primeng/api';
 import { Product } from 'src/app/profile/profile-models';
 import { PayPageService } from '../pay-page.service';
 import { ReturnRefund, ReturnRefundLine } from '../pay-model';
@@ -51,6 +51,12 @@ export class ReturnRefundComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private fb: FormBuilder, private payS: PayPageService, private authS: AuthService) { }
 
   ngOnInit(): void {
+    
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -74,14 +80,13 @@ export class ReturnRefundComponent implements OnInit {
     this.loadProducts();
     this.loadSalesOrder();
     this.getReturnRefund();
-    this.loadUser();
   }
 
   initForm() {
 
     this.rrForm = new FormGroup({
       id: new FormControl(''),
-      documentNo: new FormControl(''),
+      orderNo: new FormControl(''),
       refund: new FormControl('', Validators.required),
       processDate: new FormControl('', Validators.required),
       grossTotal: new FormControl(''),
@@ -97,10 +102,10 @@ export class ReturnRefundComponent implements OnInit {
 
   availableRR() {
     this.submitted = true;
-    this.payS.getAllRR().then(
+    this.payS.getAllRR(this.currentUser).then(
       (res) => {
         this.submitted = false;
-        var count = res.totalElements;
+        var count = res;
         //count=0
         if (count > 0) {
           this.router.navigate(['/pay/returnAndRefunds']);
@@ -118,7 +123,7 @@ export class ReturnRefundComponent implements OnInit {
   }
 
   loadProducts() {
-    this.payS.allProduct().then(
+    this.payS.allProduct(this.currentUser).then(
       (res) => {
         this.products = res.content;
         console.log(res);
@@ -138,22 +143,28 @@ export class ReturnRefundComponent implements OnInit {
   }
 
   loadSalesOrder() {
-    this.payS.allSO().then(
+    this.submitted = true;
+    this.payS.allSO(this.currentUser).then(
       (res: any) => {
-        this.allSalesOrders = res.content;
+        this.allSalesOrders = res;
+        this.submitted =  false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted =  false;
       }
     )
   }
-
+  currentUser : any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser  = res ;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -195,6 +206,8 @@ export class ReturnRefundComponent implements OnInit {
   }
 
   onSubmitReturnRefund() {
+    this.rrForm.value.branch = this.currentUser.branch;
+
     var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
     rrFormVal.comapny = this.currentCompany;
@@ -209,8 +222,8 @@ export class ReturnRefundComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Return & Refund Updated',
-          detail: 'Return & Refund Updated Successfully',
+          summary: 'Return & Refund Saved',
+          detail: 'Return & Refund Saved Successfully',
           life: 3000,
         });
       }
@@ -230,6 +243,7 @@ export class ReturnRefundComponent implements OnInit {
     else {
       // this.upload(); // for upload file if attached
       this.submitted = true;
+      rrFormVal.user = this.currentUser ;
       this.payS.createReturnRefund(rrFormVal).then((res) => {
         console.log(res);
         this.rrForm.patchValue = { ...res };
@@ -241,7 +255,7 @@ export class ReturnRefundComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Return and Refund Saved',
+          summary: 'Success',
           detail: 'Return and Refund Added Successfully',
           life: 3000,
         });
@@ -521,8 +535,8 @@ export class ReturnRefundComponent implements OnInit {
     }
     this.message.add({
       severity: 'success',
-      summary: 'Return & Refund Created Successfully',
-      detail: 'Return & Refund  created',
+      summary: 'Return & Refund Saved Successfully',
+      detail: 'Return & Refund  Saved',
       life: 3000,
     });
     this.router.navigate(['/pay/returnAndRefund']);

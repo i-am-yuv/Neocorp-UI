@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormBuilder } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-cash-memo-dashboard',
@@ -30,26 +31,28 @@ export class CashMemoDashboardComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
+    private authS : AuthService ,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.items = [{label: 'Invoices'},{ label: 'Cash Memo', routerLink: ['/invoice/cashMemo'] }, {label: 'Dashboard'}];
 
-    this.getAllCashMemo();
+    this.loadUser();
+   
   }
 
   getAllCashMemo()
   {
     this.submitted =  true;
-    this.invoiceS.getAllCashMemo().then(
+    this.invoiceS.getAllCashMemo(this.currentUser).then(
       (res : any) => {
-        this.allCashMemo = res.content;
+        this.allCashMemo = res;
         if (this.allCashMemo.length > 0) {
           this.changeOrder(this.allCashMemo[0]);
         } else {
           this.activeCM = {};
         }
-        this.totalRecords = res.totalElements;
+        this.totalRecords = res.lengh;
         this.submitted =  false;
       }
     ).catch(
@@ -121,6 +124,24 @@ export class CashMemoDashboardComponent implements OnInit {
       )
     }
     
+  }
+
+  currentUser: any = {} ;
+  currentCompany : any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.getAllCashMemo();
+
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 

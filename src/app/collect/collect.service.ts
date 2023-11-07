@@ -19,8 +19,8 @@ export class CollectService {
     return _purchaseInvoice;
   }
 
-  async allPurchaseInvoice() {
-    var url = this.apiurlNew + 'api/PurchaseInvoice'
+  async allPurchaseInvoice(user : any) {
+    var url = this.apiurlNew + 'api/PurchaseInvoice/PurchaseInvoice'+ encodeURIComponent(user.id);
     const _purchaseInvoices = await lastValueFrom(this.http.get<any>(url));
     return _purchaseInvoices;
   }

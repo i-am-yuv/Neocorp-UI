@@ -48,7 +48,7 @@
                                     </div> -->
                     <div class="field col-6">
                         <label class="mr-3">Sales Order Number:</label>
-                        <input pInputText value="{{this.soForm.value.documentno}}" placeholder="Your Sales Order Number"
+                        <input pInputText value="{{this.soForm.value.orderNumber}}" placeholder="Your Sales Order Number"
                             class="w-full custom-input" [disabled]="true" />
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Customer</label>
                         <div class="iconSCSS w-full">
-                            <div class="field col-10">
+                            <div class="field col-10 ">
                                 <ng-container formGroupName="customer" class="w-full ">
                                     <p-dropdown [options]="customers" placeholder="Choose Customer" optionValue="id"
                                         formControlName="id" [showClear]="true" (onChange)="selectVendor()"
@@ -87,7 +87,7 @@
                                     </p-dropdown>
                                 </ng-container>
                             </div>
-                            <div class="field col-2 text-left">
+                            <div class="field col-2">
                                 <span [routerLink]="['/collect/customer/create']"
                                     class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="walletIcon"
@@ -142,7 +142,7 @@
 
             </form>
 
-            <div *ngIf="id" class="p-1">
+            <div *ngIf="id" class="p-3">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row" styleClass=" mt-2">
                     <ng-template pTemplate="header">
                         <tr>
@@ -208,10 +208,13 @@
                                 <!-- {{ lineItem?.unitprice | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.unitPrice"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.unitPrice"
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -222,10 +225,13 @@
                                 <!-- {{ lineItem?.quantity | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.quantity"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.quantity"
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.quantity" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -236,10 +242,13 @@
                                 <!-- {{ lineItem?.discount | number : "1.2-2" }} -->
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputNumber [(ngModel)]="lineItem.discount"
+                                        <!-- <p-inputNumber [(ngModel)]="lineItem.discount"
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
-                                        </p-inputNumber>
+                                        </p-inputNumber> -->
+                                        <input pInputText  [(ngModel)]="lineItem.discount" class="w-full"
+                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
+                                        [required]="true"  />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}

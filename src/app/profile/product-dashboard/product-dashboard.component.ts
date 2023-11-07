@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfilepageService } from '../profilepage.service';
 import { Product } from '../profile-models';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -13,40 +14,50 @@ export class ProductDashboardComponent implements OnInit {
 
   submitted: boolean = false;
   allProducts: any[] = [];
-  activeProduct : Product = {};
+  activeProduct: Product = {};
 
-  totalRecords : number = 0;
+  totalRecords: number = 0;
 
   items!: MenuItem[];
 
-  constructor(private router: Router, private profileService: ProfilepageService) { }
+  constructor(private router: Router, private profileService: ProfilepageService,
+    private authS: AuthService,
+    private message: MessageService
+  ) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Settings'},{ label: 'Products', routerLink: ['/profile/products'] }, { label: 'Dashboard'}];
-    
-    this.getAllProducts();
+    this.items = [{ label: 'Settings' }, { label: 'Products', routerLink: ['/profile/products'] }, { label: 'Dashboard' }];
+
+    this.loadUser();
+
   }
 
   getAllProducts() {
     this.submitted = true;
-    this.profileService.getAllProduct()
+    this.profileService.getAllProduct(this.currentUser)
       .then((res: any) => {
-        this.allProducts = res.content;
+        this.allProducts = res;
         if (this.allProducts.length > 0) {
           this.changeProduct(this.allProducts[0]);
         } else {
           this.activeProduct = {};
         }
-        this.totalRecords = res.totalElements
+        this.totalRecords = res.length ;
         this.submitted = false;
       })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching the all  products',
+          life: 3000,
+        });
       })
   }
 
-  changeProduct(product: Product){
+  changeProduct(product: Product) {
     this.activeProduct = product;
   }
 
@@ -54,7 +65,7 @@ export class ProductDashboardComponent implements OnInit {
     this.router.navigate(['/profile/product/create']);
   }
 
-  onEditProduct(id: string){
+  onEditProduct(id: string) {
     this.router.navigate(['profile/product/edit/' + id])
   }
 
@@ -68,8 +79,8 @@ export class ProductDashboardComponent implements OnInit {
       //alert(value);
       this.getAllProducts();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.profileService.searchProduct(value).then(
         (res: any) => {
           console.log(res);
@@ -89,7 +100,22 @@ export class ProductDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+      this.getAllProducts();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 

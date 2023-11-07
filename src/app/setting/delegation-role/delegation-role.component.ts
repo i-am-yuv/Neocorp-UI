@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SettingService } from '../setting.service';
 import { DelegationRole } from '../privilege/privilege';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-delegation-role',
@@ -29,9 +30,15 @@ export class DelegationRoleComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private service : SettingService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder ,
+    private authS  : AuthService) { }
 
   ngOnInit(): void {
+      this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -48,18 +55,18 @@ export class DelegationRoleComponent implements OnInit {
     });
 
     this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}, {label: 'Create'}];
-    this.laodRoles();
-    this.initForm();
-    this.getDelegationRole();
     
+    this.initForm();
+    this.laodRoles();
+    this.getDelegationRole();
   }
 
   availableDelegationRole(){
       this.submitted = true;
-      this.service.getAlldelegationRole().then(
+      this.service.getAlldelegationRole(this.currentUser).then(
         (res) => {
           this.submitted = false;
-          var count = res.totalElements;
+          var count = res.length;
           //count=0
           if (count > 0) {
             this.router.navigate(['/setting/delegationRoles']);
@@ -80,7 +87,7 @@ export class DelegationRoleComponent implements OnInit {
   {
     this.delroleForm = new FormGroup({
       delegationName : new FormControl('', Validators.required), 
-      delegationDescription : new FormControl('' , Validators.required),
+      delegationDescription : new FormControl(''),
       delegationAmount : new FormControl('' , Validators.required),
       role: this.fb.group({
         id: this.fb.nonNullable.control('', {
@@ -111,23 +118,17 @@ export class DelegationRoleComponent implements OnInit {
 
   laodRoles()
   {
-    this.service.getAllRoles().then(
+    this.service.getAllRoles( this.currentUser).then(
       (res)=>{
          console.log(res);
-         this.roles = res.content;
-        //  this.message.add({
-        //   severity: 'success',
-        //   summary: 'Role Saved',
-        //   detail: 'Role Added Successfully',
-        //   life: 3000,
-        // });
+         this.roles = res;
       }
     ).catch(
       (err)=>{
         console.log(err);
         this.message.add({
           severity: 'error',
-          summary: ' All Role Error',
+          summary: 'Error',
           detail: 'Error while fetching All role',
           life: 3000,
         });
@@ -136,56 +137,21 @@ export class DelegationRoleComponent implements OnInit {
   }
   selectVendor(){}
 
-  // onSubmitDelegationRole()
-  // {
-  //   alert(JSON.stringify(this.delroleForm.value) ) ;
-    
-  //     this.service.createDelegationRole(this.delroleForm.value).then(
-  //       (res)=>{
-  //          console.log(res);
-  //          this.message.add({
-  //           severity: 'success',
-  //           summary: 'Delegation Role Saved',
-  //           detail: 'Delegation Role Added Successfully',
-  //           life: 3000,
-  //         });
-  //       }
-  //     ).catch(
-  //       (err)=>{
-  //         console.log(err);
-  //         this.message.add({
-  //           severity: 'error',
-  //           summary: 'Delegation Role Error',
-  //           detail: 'Please check the server',
-  //           life: 3000,
-  //         });
-  //       }
-  //     )
-  // }
-
-
-
-
-
-
-
-
   onSubmitDelegationRole() {
 
-    var productFormVal = this.delroleForm.value;
-    productFormVal.id = this.id;
-    alert(JSON.stringify(productFormVal));
-
-    if (productFormVal.id) {
+    var delroleFormVal = this.delroleForm.value;
+    delroleFormVal.id = this.id;
+   
+    if (delroleFormVal.id) {
       this.submitted = true;
-      this.service.updateDelegationRole(productFormVal)
+      this.service.updateDelegationRole(delroleFormVal)
         .then((res: any) => {
           console.log(res);
           this.delroleForm.patchValue = { ...res };
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Delegation Role Updated',
+            summary: 'Success',
             detail: 'Delegation Role updated',
             life: 3000,
           });
@@ -200,20 +166,21 @@ export class DelegationRoleComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Delegation Role updated Error',
-              detail: 'Some Server Error',
+              summary: 'Error',
+              detail: 'Error While updating delegation role',
               life: 3000,
             });
           })
     } 
     else {
-      console.log(this.delroleForm);
+      
+      delroleFormVal.user  = this.currentUser ;
       this.service.createDelegationRole(this.delroleForm.value).then(
         (res)=>{
            console.log(res);
            this.message.add({
             severity: 'success',
-            summary: 'Delegation Role Saved',
+            summary: 'Success',
             detail: 'Delegation Role Saved Successfully',
             life: 3000,
           });
@@ -226,8 +193,8 @@ export class DelegationRoleComponent implements OnInit {
           console.log(err);
           this.message.add({
             severity: 'error',
-            summary: 'Delegation Role Error',
-            detail: 'Please check the server',
+            summary: 'Error',
+            detail: 'Error while saving the delegation role',
             life: 3000,
           });
         }
@@ -248,5 +215,25 @@ export class DelegationRoleComponent implements OnInit {
   onCancel(){
     this.router.navigate(['/setting/delegationRoles']);
   }
+
+  
+  currentCompany : any = {} ;
+  currentUser : any = {} ;
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser  = res ;
+      this.submitted = false;
+
+      this.loadOtherInfo();
+      
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
+  }
+
 
 }

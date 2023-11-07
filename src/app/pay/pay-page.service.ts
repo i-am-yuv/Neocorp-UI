@@ -135,8 +135,8 @@ export class PayPageService {
     return deleteDebitAccount;
   }
 
-  async allVendor() {
-    var url = this.apiurlNew + 'api/vendor'
+  async allVendor(user : any) {
+    var url = this.apiurlNew + 'api/vendor/vendor/'+encodeURIComponent(user.id);
     const allVendor = await lastValueFrom(this.http.get<any>(url));
     return allVendor;
   }
@@ -147,26 +147,26 @@ export class PayPageService {
     return allState;
   }
 
-  async allCustomer() {
-    var url = this.apiurlNew + 'customer'
+  async allCustomer(user : any) {
+    var url = this.apiurlNew + 'customer/customer/'+encodeURIComponent(user.id);
     const allCustomer = await lastValueFrom(this.http.get<any>(url));
     return allCustomer;
   }
 
-  async allProduct() {
-    var url = this.apiurlNew + 'api/product'
-    const allVendor = await lastValueFrom(this.http.get<any>(url));
-    return allVendor;
+  async allProduct(user : any) {
+    var url = this.apiurlNew + 'api/product/product/'+encodeURIComponent(user.id);
+    const allProduct = await lastValueFrom(this.http.get<any>(url));
+    return allProduct;
   }
 
-  async allSO() {
-    var url = this.apiurlNew + 'api/salesOrder'
+  async allSO(user : any) {
+    var url = this.apiurlNew + 'api/salesOrder/salesOrder/'+encodeURIComponent(user.id);
     const allSO = await lastValueFrom(this.http.get<any>(url));
     return allSO;
   }
 
   async createReturnRefund(data: any) {
-    var url = this.apiurlNew + 'api/returnRefund'
+    var url = this.apiurlNew + 'api/returnRefund/returnRefund'
     const savedRR = await lastValueFrom(this.http.post<any>(url, data));
     return savedRR;
   }
@@ -328,8 +328,8 @@ export class PayPageService {
     return currRR;
   }
 
-  async getAllRR() {
-    var url = this.apiurlNew + 'api/returnRefund';
+  async getAllRR(user : any) {
+    var url = this.apiurlNew + 'api/returnRefund/returnRefund/'+encodeURIComponent(user.id);;
     const allRR = await lastValueFrom(this.http.get<any>(url));
     return allRR;
   }
@@ -351,6 +351,13 @@ export class PayPageService {
     const PIByVendor = await lastValueFrom(this.http.get<any>(url));
     return PIByVendor;
   }
+
+  async getPurchageOrderByPOId(id: any) {
+    var url = this.apiurlNew + 'api/PurchaseOrder/' + encodeURIComponent(id);
+    const po = await lastValueFrom(this.http.get<any>(url));
+    return po;
+  }
+ 
 
 
   async getRemainingAmountByPurchaseInvoice(pi: any) {

@@ -24,7 +24,8 @@ export interface Product {
     taxRate ?: TaxRate ,
     brand ?: Brand ,
     uom ?: UOM,
-    mrp ?: number 
+    mrp ?: number ,
+    user ?: any ;
   }
 
   enum ProductType {
@@ -43,6 +44,7 @@ export interface Product {
     signupTime ?: any;
     coolingPeriodEnd ?: any;
     inCoolingPeriod ?: boolean ;
+    user ?: any ;
   }
 
   export interface State {

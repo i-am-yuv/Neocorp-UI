@@ -7,6 +7,7 @@ import { Beneficiary } from 'src/app/profile/profile-models';
 import { DebitAccountDetails, PayModelsSI, PaymentRequest } from '../banking-model';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-pay-to-vendor',
@@ -115,7 +116,8 @@ export class PayToVendorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private bankingS: BankingService,
-    private payS : PayPageService) { }
+    private payS : PayPageService,
+    private authS : AuthService ) { }
 
   ngOnInit(): void {
     
@@ -230,10 +232,10 @@ export class PayToVendorComponent implements OnInit {
     if (name === 'NEFT') {
       // loading all the available beneficairy 
       this.submitted = true;
-      this.bankingS.getAllBeneficairy().then(
+      this.bankingS.getAllBeneficairy(this.currentUser).then(
         (res: any) => {
           console.log(res);
-          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
+          this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
           this.submitted = false;
         }
       ).catch(
@@ -246,11 +248,11 @@ export class PayToVendorComponent implements OnInit {
     else if (name === 'RTGS') {
       // loading all the available beneficairy 
       this.submitted = true;
-      this.bankingS.getAllBeneficairy().then(
+      this.bankingS.getAllBeneficairy(this.currentUser).then(
         (res: any) => {
           console.log(res);
           // this.allBeneficairy = res.content;
-          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);;
+          this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);;
           this.submitted = false;
         }
       ).catch(
@@ -268,7 +270,6 @@ export class PayToVendorComponent implements OnInit {
     this.selectedType = undefined;
     this.selectedTypeMethod = undefined;
     // alert(JSON.stringify(this.selectedDebitAccount));
-
   }
 
   amountEntered() {
@@ -535,6 +536,23 @@ export class PayToVendorComponent implements OnInit {
 
   onClose(){
     this.router.navigate(['/collect/purchaseInvoices']);
+  }
+
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+     
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

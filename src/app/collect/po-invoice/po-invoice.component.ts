@@ -11,6 +11,7 @@ import { CollectService } from '../collect.service';
 import { PurchaseInvoice, PurchaseInvoiceLine } from '../collect-models';
 import { BillsService } from 'src/app/bills/bills.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PurchaseOrder } from 'src/app/bills/bills-model';
 
 @Component({
   selector: 'app-po-invoice',
@@ -25,7 +26,7 @@ export class PoInvoiceComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
-
+  currVendorShow : Vendor = {};
   poInvoiceForm !: FormGroup;
 
   vendors: Vendor[] = [];
@@ -35,6 +36,7 @@ export class PoInvoiceComponent implements OnInit {
   lineitems: any[] = [];
   products: Product[] = [];
   currPurchaseInvoice: PurchaseInvoice = {};
+  currPO : PurchaseOrder = {} ;
 
   poInvoiceSubTotal: number = 0;
   uploadMessage = '';
@@ -62,11 +64,15 @@ export class PoInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private billS: BillsService,
-    private confirmationService: ConfirmationService,
     private collectS: CollectService, private authS: AuthService) { }
 
   ngOnInit(): void {
 
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -91,7 +97,6 @@ export class PoInvoiceComponent implements OnInit {
     this.loadProducts();
     this.loadPOs();
     this.getPurchaseInvoice();
-    this.loadUser();
   }
 
   initForm() {
@@ -114,25 +119,71 @@ export class PoInvoiceComponent implements OnInit {
     });
   }
 
-  selectVendor() { }
-
-  loadVendors() {
-    this.usedService.allVendor().then(
+  selectVendor(e : any) { 
+    this.submitted = true;   
+    this.usedService.getPurchageOrderByPOId(e.value).then(
       (res) => {
-        this.vendors = res.content;
-        console.log(res);
+       // alert(JSON.stringify(res) ) ;
+        this.submitted = false;
+        this.currPO = res;
+        this.currVendorShow = res.vendor;
+       // this.loadLineItembyPO(this.currPO);
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While fetching the vendor',
+          life: 3000,
+        });
+      }
+    )
+  }
+
+  // loadLineItembyPO( po : PurchaseOrder)
+  // {
+  //   this.submitted = true;
+  //   this.usedService.getAllLineItemsByPo(po.id).then(
+  //     (res) => {
+  //      // console.log(res);
+  //       this.lineitems = res;
+  //         this.poInvoiceSubTotal = this.lineitems.reduce(
+  //           (total, lineItem) => total + lineItem.amount, 0
+  //         );
+  //     //  this.lineitems = res.content;
+  //       this.submitted = false;
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //     }
+  //   )
+  // }
+
+  loadVendors() {
+    this.submitted = true;
+    this.usedService.allVendor(this.currentUser).then(
+      (res) => {
+        this.vendors = res;
+        console.log(res);
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
       }
     )
   }
 
   loadProducts() {
-    this.usedService.allProduct().then(
+    this.usedService.allProduct(this.currentUser).then(
       (res) => {
-        this.products = res.content;
+        this.products = res;
         console.log(res);
       }
     )
@@ -150,24 +201,30 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   loadPOs() {
-    this.billS.getAllPo().then(
+    this.submitted  = true;
+    this.billS.getAllPo(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allPOs = res.content;
-
+        this.allPOs = res;
+        this.submitted =  false;
       }
     ).catch(
       (err) => {
         console.log(err);
+        this.submitted = false;
       }
     )
   }
-
+ 
+  currentUser : any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
+      this.currentUser = res;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);
@@ -177,9 +234,9 @@ export class PoInvoiceComponent implements OnInit {
 
   availablePI() {
     this.submitted = true;
-    this.collectS.allPurchaseInvoice().then(
+    this.collectS.allPurchaseInvoice(this.currentUser).then(
       (res: any) => {
-        var count = res.totalElements;
+        var count = res.length;
         this.submitted = false;
         //count=0
         if (count > 0) {
@@ -204,8 +261,7 @@ export class PoInvoiceComponent implements OnInit {
         (purchaseInvoice: PurchaseInvoice) => {
           purchaseInvoice.duedate = purchaseInvoice.duedate ? new Date(purchaseInvoice.duedate) : undefined;
           purchaseInvoice.invoiceDate = purchaseInvoice.invoiceDate ? new Date(purchaseInvoice.invoiceDate) : undefined;
-          console.log("Purchase Invoice");
-          console.log(purchaseInvoice);
+          
           this.currPurchaseInvoice = purchaseInvoice;
           this.poInvoiceForm.patchValue(purchaseInvoice);
           this.submitted = false;
@@ -246,7 +302,6 @@ export class PoInvoiceComponent implements OnInit {
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
     invoiceFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(invoiceFormVal));
 
     if (invoiceFormVal.id) {
       this.submitted = true;
@@ -258,8 +313,8 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchase Invoice updated',
-            detail: 'Purchase Invoice updated Successfully',
+            summary: 'Success',
+            detail: 'Purchase Invoice Updated Successfully',
             life: 3000,
           });
         }
@@ -269,8 +324,8 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Purchase Invoice Updated Error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while updating the PI',
             life: 3000,
           });
         }
@@ -279,7 +334,10 @@ export class PoInvoiceComponent implements OnInit {
     else {
       this.upload();
       this.submitted = true;
+
       invoiceFormVal.requestStatus = 'DRAFT';
+      invoiceFormVal.user = this.currentUser ;
+
       this.collectS.createPurchaseInvoice(invoiceFormVal).then(
         (res) => {
           console.log("Purchase Invoice Created");
@@ -289,8 +347,8 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchase Invoice Saved',
-            detail: 'Purchase Invoice Added',
+            summary: 'Success',
+            detail: 'Purchase Invoice Added Successfully',
             life: 3000,
           });
           setTimeout(() => {
@@ -304,8 +362,8 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Purchase Order save Error',
-            detail: 'Some Server Error',
+            summary: 'Error',
+            detail: 'Error while saving the PI',
             life: 3000,
           });
         }
@@ -347,7 +405,7 @@ export class PoInvoiceComponent implements OnInit {
     this.DeleteDialLogvisible = true;
   }
   onRowEditSave(lineItem: PurchaseInvoiceLine) {
-    alert(JSON.stringify(lineItem));
+
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -376,18 +434,17 @@ export class PoInvoiceComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
         // line line item should have id inside
         this.submitted = true;
         this.collectS.updateInvoiceLineItem(lineItem).then(
           (res) => {
-            console.log("Purchase Invoice Line Item Updated Successfully");
+            
             _lineItem = res;
             this.submitted = false;
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
-              summary: 'Line item Updated',
+              summary: 'Success',
               detail: 'Purchase Invoice Line Item Updated Successfully',
               life: 3000,
             });
@@ -398,7 +455,7 @@ export class PoInvoiceComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Purchase Invoice Line item Update Error',
+              summary: 'Error',
               detail: 'Error While updating Line Item',
               life: 3000,
             });
@@ -415,7 +472,7 @@ export class PoInvoiceComponent implements OnInit {
             this.getPurchaseInvoice();
             this.message.add({
               severity: 'success',
-              summary: 'Purchase Invoice Line item Added',
+              summary: 'Success',
               detail: 'Line item Added Successfully',
               life: 3000,
             });
@@ -425,7 +482,7 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'error',
-            summary: 'Purchase Invoice Line Item Error',
+            summary: 'Error',
             detail: 'Error while Adding Line Item',
             life: 3000,
           });
@@ -531,8 +588,8 @@ export class PoInvoiceComponent implements OnInit {
     poInvoiceFormVal.comapny = this.currentCompany;
 
     if (poInvoiceFormVal.id) {
+
       this.submitted = true;
-      alert(JSON.stringify(poInvoiceFormVal));
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {
           console.log(res);
@@ -540,24 +597,29 @@ export class PoInvoiceComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Purchase Invoice Saved Successfully',
-            detail: 'Purchase Invoice Saved',
+            summary: 'Success',
+            detail: 'Purchase Invoice Saved Successfully',
             life: 3000,
           });
+          
+          this.upload();
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Purchase Invoice Error',
+            life: 3000,
+          });
         }
       )
     }
-    this.upload();
-
     setTimeout(() => {
       this.router.navigate(['/collect/purchaseInvoice']);
     }, 2000);
-
   }
 
   createPI() {
@@ -591,8 +653,8 @@ export class PoInvoiceComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Successful',
-          detail: 'Line Item Deleted',
+          summary: 'Success',
+          detail: 'Line Item Deleted Successfully',
           life: 3000,
         });
       })

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-beneficiary-dashboard',
@@ -12,12 +13,12 @@ import { Beneficiary } from 'src/app/profile/profile-models';
 })
 export class BeneficiaryDashboardComponent implements OnInit {
 
-  submitted : boolean = false;
-  totalRecords : number = 0 ;
+  submitted: boolean = false;
+  totalRecords: number = 0;
 
-  allBeneficairy : any[] = [];
+  allBeneficairy: any[] = [];
 
-  activeBeneficiary : Beneficiary = {};
+  activeBeneficiary: Beneficiary = {};
 
   items!: MenuItem[];
 
@@ -25,27 +26,27 @@ export class BeneficiaryDashboardComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private message: MessageService,
+    private authS: AuthService,
     private bankingS: BankingService) { }
 
   ngOnInit(): void {
-    this.items = [{label: 'Banking'}, {label: 'Beneficiary'}, {label: 'Dashbaord'}];
-    
-    this.getAllBeneficiary();
+    this.items = [{ label: 'Banking' }, { label: 'Beneficiary' }, { label: 'Dashbaord' }];
+
+    this.loadUser();
   }
 
-  getAllBeneficiary()
-  {
+  getAllBeneficiary() {
     this.submitted = true;
-    this.bankingS.getAllBeneficairy().then(
+    this.bankingS.getAllBeneficairy(this.currentUser).then(
       (res: any) => {
         console.log(res);
-        this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null );
+        this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
         if (this.allBeneficairy.length > 0) {
           this.changeBeneficiary(this.allBeneficairy[0]);
         } else {
           this.activeBeneficiary = {};
         }
-        this.totalRecords =this.allBeneficairy.length;
+        this.totalRecords = this.allBeneficairy.length;
         this.submitted = false;
       }
     ).catch(
@@ -56,41 +57,38 @@ export class BeneficiaryDashboardComponent implements OnInit {
     )
   }
 
-  changeBeneficiary( beneficairy : Beneficiary)
-  {
+  changeBeneficiary(beneficairy: Beneficiary) {
     this.activeBeneficiary = beneficairy;
   }
 
-  onEditB(beneficiaryId : any )
-  {
-    this.router.navigate(['/banking/beneficiary/edit/'+beneficiaryId]); 
+  onEditB(beneficiaryId: any) {
+    this.router.navigate(['/banking/beneficiary/edit/' + beneficiaryId]);
   }
 
-  CreateNewBeneficiary()
-  {
-    this.router.navigate(['/banking/beneficiary/create']); 
+  CreateNewBeneficiary() {
+    this.router.navigate(['/banking/beneficiary/create']);
   }
 
-  
+
   searchBN: any;
   searchBNs(value: any) {
     if (value == null) {
-      alert("Came");
+      //alert("Came");
       this.getAllBeneficiary();
     }
-    else{
-     // this.submitted = true;
+    else {
+      // this.submitted = true;
       this.bankingS.searchBeneficiary(value).then(
         (res: any) => {
           console.log(res);
           //this.allBeneficairy = res.content;
-          this.allBeneficairy = res.content.filter((beneficairy : Beneficiary) => beneficairy.beneficaryName !== null );
+          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
           if (this.allBeneficairy.length > 0) {
             this.changeBeneficiary(this.allBeneficairy[0]);
           } else {
             this.activeBeneficiary = {};
           }
-          this.totalRecords = this.allBeneficairy.length ;
+          this.totalRecords = this.allBeneficairy.length;
           this.submitted = false;
         }
       ).catch(
@@ -100,7 +98,22 @@ export class BeneficiaryDashboardComponent implements OnInit {
         }
       )
     }
-    
+  }
+  
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+      this.getAllBeneficiary();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 }

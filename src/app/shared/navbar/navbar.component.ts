@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { BreadCrumbService } from './bread-crumb.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,23 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  creatBtn: boolean = false;
-  roles: any[] = [];
+  creatBtn : boolean = false;
+  roles : any[] = [];
 
-  paymentTo: any[] = [];
+  items: MenuItem[]  = [];
 
-  selected: any;
-
-  constructor() { }
+  home: MenuItem = {};
+  constructor(private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.paymentTo = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' }
-    ];
+   // this.items = [{ label: 'Computer' }, { label: 'Notebook' }, { label: 'Accessories' }, { label: 'Backpacks' }, { label: 'Item' }];
+// this.items = this.breadCrumbService.items;
+this.breadCrumbService.breadCrumb$.subscribe((data) => {
+  this.items = data; // And he have data here too!
+}
+);
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   selectVendor() {
