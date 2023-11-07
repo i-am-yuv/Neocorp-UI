@@ -6,6 +6,7 @@ import { DebitNote } from 'src/app/bills/bills-model';
 import { BillsService } from 'src/app/bills/bills.service';
 import { ServiceService } from '../service.service';
 import { CompanyNew } from 'src/app/invoice/invoice-model';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-debit-note',
@@ -34,10 +35,10 @@ export class DebitNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private vendorS: ServiceService) { }
+    private vendorS: ServiceService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Vendor Portal' }, { label: 'Debit Note', routerLink: ['/vendorPortal/debitNotes'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/vendorPortal/debitNotes'] }, { label: 'Dashboard' }]);
 
     this.getAllDebitNotesByVendor();
   }

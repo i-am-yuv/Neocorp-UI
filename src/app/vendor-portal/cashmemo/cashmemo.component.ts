@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CashMemo } from 'src/app/invoice/invoice-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { ServiceService } from '../service.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-cashmemo',
@@ -31,10 +32,10 @@ export class CashmemoComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private invoiceS: InvoiceService,
-    private vendorS: ServiceService) { }
+    private vendorS: ServiceService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Vendor Portal' }, { label: 'Cash Memo', routerLink: ['/vendorPortal/cashMemos'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Cash Memo', routerLink: ['/vendorPortal/cashMemos'] }, { label: 'Dashboard' }]);
 
     this.getAllCashMemoByVendor();
   }

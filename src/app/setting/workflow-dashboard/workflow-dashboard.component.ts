@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SettingService } from '../setting.service';
 import { Workflow } from '../setting-models';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-workflow-dashboard',
@@ -17,10 +18,10 @@ export class WorkflowDashboardComponent implements OnInit {
   activeWorkflow: Workflow = {};
   totalRecords: number = 0;
 
-  constructor(private router: Router, private settingS: SettingService, private message: MessageService) { }
+  constructor(private router: Router, private settingS: SettingService, private message: MessageService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Settings' }, { label: 'Workflow' }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Workflow' }, { label: 'Dashboard' }]);
 
     this.loadAllWorkflows();
   }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-firstpage',
@@ -59,11 +60,11 @@ export class FirstpageComponent implements OnInit {
     private fb: FormBuilder,
     private usedService: PayPageService,
     private confirmationService: ConfirmationService,
-    private authS: AuthService
+    private authS: AuthService, private breadcrumbS: BreadCrumbService
   ) { }
 
   ngOnInit(): void {
-
+    this.breadcrumbS.breadCrumb([{ label: 'Dashboard' }]);
     this.initForm();
 
 
@@ -113,7 +114,7 @@ export class FirstpageComponent implements OnInit {
           });
         }
       )
-      
+
     }
   }
 

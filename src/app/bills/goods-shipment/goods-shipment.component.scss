@@ -91,7 +91,7 @@ h6 {
 
 .remainAmount {
     color: #C22B39;
-//font-family: Red Hat Display;
+    //font-family: Red Hat Display;
 }
 
 .person-icon {
@@ -111,7 +111,7 @@ h6 {
 
 .leftStatus {
     color: #C22B39;
-    
+
 }
 
 .iconSCSS {
@@ -133,53 +133,45 @@ p {
 
 .blueText {
     color: #1560E0;
-   
-}
-.rightMain{
-color: #C5C5C5;
 
 }
+
+.rightMain {
+    color: #C5C5C5;
+
+}
+
 .custom-hr {
-    border: none; /* Remove the default border */
-    border-top: 1px solid lightgray; /* Set the border color to light gray */
-    margin: 3px 0; /* Add margin for spacing (adjust as needed) */
-  }
-  
-  ::ng-deep {
-    .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
-    }
-  }
-  .center-container {
+    border: none;
+    /* Remove the default border */
+    border-top: 1px solid lightgray;
+    /* Set the border color to light gray */
+    margin: 3px 0;
+    /* Add margin for spacing (adjust as needed) */
+}
+
+
+
+.center-container {
     display: flex;
     justify-content: center;
     /* Center horizontally */
     align-items: center;
     /* Center vertically */
     //height: 82vh; /* Optional: Adjust the height as needed for vertical centering */
-  }
-  
-  
-  .Btn {
+}
+
+
+.Btn {
     border-radius: 3.09px;
     background: #3B82F6;
-  }
-  
-  .cancelBtn {
+}
+
+.cancelBtn {
     border-radius: 4px;
     background: #B1B1B1;
-  }
-  
-  .textColor{
+}
+
+.textColor {
     color: #1560E0;
-  }
-  
-  ::ng-deep {
-    .p-breadcrumb {
-      border: none !important;
-      margin-left: 25px;
-      align-items: center;
-    }
-  }
+}

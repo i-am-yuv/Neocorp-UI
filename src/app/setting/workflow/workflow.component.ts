@@ -6,6 +6,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Roles, Workflow } from '../setting-models';
 import { Role } from 'src/app/settings/roles/role';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-workflow',
@@ -31,9 +32,11 @@ export class WorkflowComponent implements OnInit {
   items!: MenuItem[];
 
   constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private settingS: SettingService, private fb: FormBuilder
-    ,private authS : AuthService) { }
+    ,private authS : AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{ label: 'Workflow', routerLink: ['/setting/workflows'] }]);
+
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -48,8 +51,6 @@ export class WorkflowComponent implements OnInit {
         this.availableWorkflow();
       }
     });
-
-    this.items = [{ label: 'Settings' }, { label: 'Workflow', routerLink: ['/setting/workflows'] }, { label: 'Create' }];
 
     this.initForm();
     this.getAllRoles();

@@ -166,29 +166,15 @@ p {
     /* Add margin for spacing (adjust as needed) */
 }
 
-::ng-deep {
 
-    .p-breadcrumb {
 
-        /* Override the styles of the inner p-breadcrumb component here */
-
-        border: none !important;
-        /* For example, remove the border */
-        background: none;
-
-        /* Add any other custom styles you need */
-
-    }
-
-}
-
-::ng-deep {
-    .p-breadcrumb {
-        border: none !important;
-        margin-left: 25px;
-        align-items: center;
-    }
-}
+// ::ng-deep {
+//     .p-breadcrumb {
+//         border: none !important;
+//         margin-left: 25px;
+//         align-items: center;
+//     }
+// }
 
 .iconSCSS1 {
     display: flex;

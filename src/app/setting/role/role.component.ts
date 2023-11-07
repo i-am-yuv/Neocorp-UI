@@ -7,6 +7,7 @@ import { Privilege } from '../privilege/privilege';
 import { Roles } from '../setting-models';
 import { Role } from 'src/app/settings/roles/role';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-role',
@@ -40,16 +41,15 @@ export class RoleComponent implements OnInit {
     private route: ActivatedRoute,
     private message: MessageService,
     private settingS: SettingService,
-    private formBuilder: FormBuilder ,
-    private authS : AuthService) { }
+    private formBuilder: FormBuilder,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-   
+    this.breadcrumbS.breadCrumb([{ label: 'Roles', routerLink: ['/setting/roles'] }]);
     this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.route.url.subscribe(segments => {
@@ -61,10 +61,9 @@ export class RoleComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.availableRole();       
+        this.availableRole();
       }
     });
-    this.items = [{ label: 'Settings' }, { label: 'Roles', routerLink: ['/setting/roles'] }, { label: 'Create' }];
 
     this.initForm();
     this.getRoles();
@@ -158,9 +157,9 @@ export class RoleComponent implements OnInit {
           });
         })
     } else {
-      
-      roleFormVal.user = this.currentUser ;
-      
+
+      roleFormVal.user = this.currentUser;
+
       this.settingS.createRole(roleFormVal).then(
         (res) => {
           console.log(res);
@@ -196,14 +195,14 @@ export class RoleComponent implements OnInit {
     this.router.navigate(['setting/roles']);
   }
 
-  
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();

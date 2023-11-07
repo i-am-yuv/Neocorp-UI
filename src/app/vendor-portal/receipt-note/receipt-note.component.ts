@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ReceiptNote } from 'src/app/bills/bills-model';
 import { BillsService } from 'src/app/bills/bills.service';
 import { ServiceService } from '../service.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-receipt-note',
@@ -31,10 +32,10 @@ export class ReceiptNoteComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private vendorS: ServiceService) { }
+    private vendorS: ServiceService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Vendor Portal' }, { label: 'Receipt Note', routerLink: ['/vendorPortal/receiptNotes'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Receipt Note', routerLink: ['/vendorPortal/receiptNotes'] }, { label: 'Dashboard' }]);
 
     this.getAllReceiptNotes();
   }

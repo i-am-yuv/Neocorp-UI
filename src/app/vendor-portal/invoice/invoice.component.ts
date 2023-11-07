@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { CollectService } from 'src/app/collect/collect.service';
 import { ServiceService } from '../service.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-invoice',
@@ -34,10 +35,10 @@ export class InvoiceComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private vendorS: ServiceService,
-    private collectS: CollectService) { }
+    private collectS: CollectService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Vendor Portal' }, { label: 'Sales Invoices', routerLink: ['/vendorPortal/invoices'] }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Sales Invoices', routerLink: ['/vendorPortal/invoices'] }, { label: 'Dashboard' }]);
 
     this.loadPIByVendor();
   }

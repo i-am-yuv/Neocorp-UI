@@ -7,6 +7,7 @@ import { Table } from 'primeng/table';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Roles } from '../setting-models';
 import { SettingService } from '../setting.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-roles-dashboard',
@@ -22,7 +23,7 @@ export class RolesDashboardComponent implements OnInit {
 
   roles!: Roles[];
 
-  privilege!: Privilege[] ;
+  privilege!: Privilege[];
 
   role!: Roles;
 
@@ -46,12 +47,12 @@ export class RolesDashboardComponent implements OnInit {
     private router: Router,
     private message: MessageService,
     private fb: FormBuilder,
-    private authS : AuthService,
-    private SettingS : SettingService
+    private authS: AuthService,
+    private SettingS: SettingService, private breadcrumbS: BreadCrumbService
   ) { }
 
   ngOnInit() {
-    this.items = [{ label: 'Settings' }, { label: 'Roles' }, { label: 'Dashboard' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Roles' }, { label: 'Dashboard' }]);
 
     this.loadUser();
 
@@ -79,8 +80,7 @@ export class RolesDashboardComponent implements OnInit {
   }
 
 
-  changeRole(role: Roles) 
-  {
+  changeRole(role: Roles) {
     this.activeRole = role;
   }
 
@@ -93,13 +93,13 @@ export class RolesDashboardComponent implements OnInit {
     this.router.navigate(['/setting/role/create']);
   }
 
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.getAllRoles();

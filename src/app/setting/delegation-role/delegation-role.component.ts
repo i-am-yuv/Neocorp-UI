@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { SettingService } from '../setting.service';
 import { DelegationRole } from '../privilege/privilege';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-delegation-role',
@@ -31,9 +32,10 @@ export class DelegationRoleComponent implements OnInit {
     private message: MessageService,
     private service : SettingService,
     private fb: FormBuilder ,
-    private authS  : AuthService) { }
+    private authS  : AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbS.breadCrumb([{label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}]);
       this.loadUser();
   }
 
@@ -53,8 +55,6 @@ export class DelegationRoleComponent implements OnInit {
         this.availableDelegationRole();
       }
     });
-
-    this.items = [{label: 'Settings'}, {label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}, {label: 'Create'}];
     
     this.initForm();
     this.laodRoles();
