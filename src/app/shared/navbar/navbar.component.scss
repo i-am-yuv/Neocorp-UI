@@ -50,6 +50,48 @@
   }
 }
 
+:host::ng-deep {
+  .p-dropdown {
+    border-radius: 20px;
+    width: 150px !important;
+  }
+
+  .p-dropdown-items {
+    // background-color: #383A3E;
+    border-radius: 10px;
+    // color: white;
+  }
+
+  // .p-component * {
+  //   color: rgb(177, 171, 171);
+  // }
+}
+
 .plusSCSS {
   border-radius: 50% !important;
+}
+
+.icon1 {
+  margin-top: 5px;
+  // margin-left: 71px;
+  padding: 10px;
+  padding-left: 13px;
+  padding-right: 13px;
+  border: 1px solid #6F7174;
+  background-image: linear-gradient(#6FD6C6, #BEFFF5);
+}
+
+.icon2 {
+  margin-top: 5px;
+  // margin-right: 10px;
+  // margin-left: 70px;
+  padding: 10px;
+  padding-left: 13px;
+  padding-right: 13px;
+  border: 1px solid #6F7174;
+  background-color: #383A3E;
+}
+
+.fixed-width-dropdown {
+  width: 100px !important;
 }
