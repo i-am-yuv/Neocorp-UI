@@ -352,7 +352,7 @@
                                             placeholder="Enter your UPI iD / Mobile Number" />
                                     </div>
 
-                                    <div class="iconSCSS w-full bgColor" *ngIf="!upiForm.valid">
+                                    <div class="iconSCSS w-full bgColor" *ngIf="upiForm.value.upiId.length > 1 && upiForm.value.upiId.length < 10" >
                                         <div class="field col-1 justify-center items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                                                 viewBox="0 0 24 24" fill="none">
@@ -362,7 +362,7 @@
                                             </svg>
                                         </div>
                                         <div class="field col-11  text-left">
-                                            This UPI id doesn't exist, Recheck the UPI id
+                                            This UPI id doesn't exist, Recheck the UPI Id
                                         </div>
                                     </div>
 
