@@ -16,8 +16,8 @@ export class InvoiceComponent implements OnInit {
 
   submitted: boolean = false;
 
-  allPIs: any[] = [];
-  allPays : any[] = [] ;
+  allSIs: any[] = [];
+  allPays: any[] = [];
   totalRecords: number = 0;
 
   activeInvoice: PurchaseInvoice = {};
@@ -26,9 +26,9 @@ export class InvoiceComponent implements OnInit {
 
   items!: MenuItem[];
 
-  showInvoice : boolean = true;
+  showInvoice: boolean = true;
 
-  showPayment : boolean = false;
+  showPayment: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -45,13 +45,13 @@ export class InvoiceComponent implements OnInit {
 
   loadPIByVendor() {
     this.submitted = true;
-    var vendorId = '7f000101-8b22-1cd7-818b-2287c165000c';
+    var vendorId = '7f000101-8b85-1f85-818b-8591664f001d';
     this.vendorS.getAllPIByVendor(vendorId).then(
       (res: any) => {
         console.log(res);
-        this.allPIs = res;
-        if (this.allPIs.length > 0) {
-          this.changeOrder(this.allPIs[0]);
+        this.allSIs = res;
+        if (this.allSIs.length > 0) {
+          this.changeOrder(this.allSIs[0]);
         } else {
           this.activeInvoice = {};
         }
@@ -85,14 +85,14 @@ export class InvoiceComponent implements OnInit {
     this.getOrderLines(pi);
     //this.getRemainingAmount(pi);
     this.refreshAll();
-    }
+  }
 
-    refreshAll() {
-      // this.allPIs = []; 
-      // this.allPays = [];
-      this.showInvoice = true;
-      this.showPayment = false;
-    }
+  refreshAll() {
+    // this.allPIs = []; 
+    // this.allPays = [];
+    this.showInvoice = true;
+    this.showPayment = false;
+  }
 
   getOrderLines(invoice: PurchaseInvoice) {
     this.submitted = true;
@@ -140,27 +140,26 @@ export class InvoiceComponent implements OnInit {
     this.collectS.togglePartialPaymentStatus(invoiceId, bol).then(
       (res) => {
 
-          console.log(res);
-          if( bol == true )
-          {
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Enabled Successfully',
-              life: 3000,
-            });
-          }
-          else{
-            this.message.add({
-              severity: 'success',
-              summary: 'success',
-              detail: 'Partial Payment Disabled Successfully',
-              life: 3000,
-            });
-          }
-          this.ngOnInit();
-         // this.router.navigate(['/collect/purchaseInvoices' ]);
+        console.log(res);
+        if (bol == true) {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Enabled Successfully',
+            life: 3000,
+          });
         }
+        else {
+          this.message.add({
+            severity: 'success',
+            summary: 'success',
+            detail: 'Partial Payment Disabled Successfully',
+            life: 3000,
+          });
+        }
+        this.ngOnInit();
+        // this.router.navigate(['/collect/purchaseInvoices' ]);
+      }
     ).catch(
       (err) => {
         console.log(err);
@@ -171,35 +170,38 @@ export class InvoiceComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
-  showInvoicePage()
-{
-   this.showInvoice = true;
-   this.showPayment = false;
-}
+  showInvoicePage() {
+    this.showInvoice = true;
+    this.showPayment = false;
+  }
 
-showPaymentPage(activeInvoice : PurchaseInvoice)
-{
-  this.showInvoice = false;
-  this.showPayment = true;
-  this.submitted = true;
-  this.vendorS.getAllPaymentsByVendor(activeInvoice.vendor?.id).then(
-    (res)=>{
-      this.allPays = res.content ;
-      this.submitted = false;
-    }
-  ).catch(
-    (err)=>{
-      console.log( err ) ;
-      this.submitted = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error while fetching the payments details',
-        life: 3000,
-      });
-    }
-  )
+  showPaymentPage(activeInvoice: PurchaseInvoice) {
+    this.showInvoice = false;
+    this.showPayment = true;
+    this.submitted = true;
+    this.vendorS.getAllPaymentsByVendor(activeInvoice.vendor?.id).then(
+      (res) => {
+        this.allPays = res.content;
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching the payments details',
+          life: 3000,
+        });
+      }
+    )
 
-}
+  }
+
+  searchSI: any;
+  searchSIs(value: any) {
+
+  }
 
 }

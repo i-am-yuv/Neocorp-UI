@@ -42,7 +42,7 @@ export class ReceiptNoteComponent implements OnInit {
 
   getAllReceiptNotes() {
     this.submitted = true;
-    var vendorId = '0afa0a7c-8abb-1049-818a-bc5500b2001b';
+    var vendorId = '7f000101-8b80-10c0-818b-843e449b0018';
     this.vendorS.getAllReceiptNotesByVendor(vendorId).then(
       (res: any) => {
         this.allReceiptNotes = res;
@@ -114,5 +114,8 @@ export class ReceiptNoteComponent implements OnInit {
       }
     )
   }
+
+  searchRN: any;
+  searchRNs(value: any) { }
 
 }

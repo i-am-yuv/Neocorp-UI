@@ -67,7 +67,7 @@
 .right-panel-content {
     // height: 773.5px;
     height: 580px;
-    overflow-y: scroll;
+    // overflow-y: scroll;
 }
 
 :host::ng-deep {
@@ -255,24 +255,27 @@ p {
     border-radius: 4px;
 }
 
-  // New
-  .custom-button {
+// New
+.custom-button {
     background: #535353;
-    border: #535353;;
-  }
-  .custom-button:hover {
+    border: #535353;
+    ;
+}
+
+.custom-button:hover {
     background: #353434;
     border: #353434;
-  }
-  // Override the default text color
-  .custom-button .p-button-text {
+}
+
+// Override the default text color
+.custom-button .p-button-text {
     color: #ffffff;
-  }
-  
-  // Override the default border radius
-  .custom-button {
+}
+
+// Override the default border radius
+.custom-button {
     border-radius: 4px;
-  }
+}
 
 
 
@@ -312,13 +315,12 @@ p {
 }
 
 .defaultSCSS {
-    background-color: white;
-    color: gray;
+    background: none;
+    color: black;
     border: none;
     border-bottom: 3px solid lightgrey;
     width: 100%;
-    //  font-weight: 700;
-  //  font-weight: 700;
+    font-weight: 300;
     /* Remove the default button border */
     //border-bottom: 2px solid black; /* Add a transparent bottom border *//* Optional: Add spacing between buttons */
 }
@@ -328,7 +330,19 @@ p {
     border-bottom: 3px solid #3579F3;
     /* Change the bottom border color on hover (e.g., blue) */
     color: #3579F3;
-    background-color: white;
-    font-weight: 700;
+    background: none;
+    font-weight: 600;
     /* Change the text color on hover (optional) */
+}
+
+.orderInvList {
+    height: 36rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}
+
+.PILeftList {
+    height: 46rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
 }

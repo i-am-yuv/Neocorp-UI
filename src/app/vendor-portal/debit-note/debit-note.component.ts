@@ -45,7 +45,7 @@ export class DebitNoteComponent implements OnInit {
 
   getAllDebitNotesByVendor() {
     this.submitted = true;
-    var vendorId = '0afa0a7c-8a88-11d6-818a-8807deb30008';
+    var vendorId = '7f000101-8b8e-12b3-818b-8f4c02650007';
     this.vendorS.getAllDebitNotesByVendor(vendorId).then((res: any) => {
       this.allDebitNotes = res;
       if (this.allDebitNotes.length > 0) {
@@ -105,4 +105,7 @@ export class DebitNoteComponent implements OnInit {
       }
     )
   }
+
+  searchDN: any;
+  searchDNs(value: any) { }
 }
