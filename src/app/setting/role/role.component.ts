@@ -88,7 +88,7 @@ export class RoleComponent implements OnInit {
     this.submitted = true;
     this.settingS.getAllRoles(this.currentUser).then((res: any) => {
       this.submitted = false;
-      var count = res.legnth;
+      var count = res.length;
       //count=0
       if (count > 0) {
         this.router.navigate(['/setting/roles']);

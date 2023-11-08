@@ -35,6 +35,13 @@ export class WorkflowComponent implements OnInit {
     , private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadUser();
+  }
+
+  loadOtherInfo()
+  {
+    
     this.id = this.route.snapshot.paramMap.get('id');
 
     if (this.id === null) {
@@ -56,7 +63,6 @@ export class WorkflowComponent implements OnInit {
       }
     });
 
-    this.initForm();
     this.getAllRoles();
     this.getWorkflows();
   }
@@ -100,7 +106,7 @@ export class WorkflowComponent implements OnInit {
   getAllRoles() {
     this.submitted = true;
     this.settingS.getAllRoles(this.currentUser).then((res: any) => {
-      this.allRoles = res.content;
+      this.allRoles = res;
       this.submitted = false;
     })
       .catch((err) => {
@@ -127,7 +133,7 @@ export class WorkflowComponent implements OnInit {
   submitWorkflow() {
     var workflowFormVal = this.workflowForm.value;
     workflowFormVal.id = this.id;
-    alert(JSON.stringify(workflowFormVal));
+    //alert(JSON.stringify(workflowFormVal));
 
     if (workflowFormVal.id) {
       this.submitted = false;
@@ -189,6 +195,8 @@ export class WorkflowComponent implements OnInit {
       this.currentCompany = res.comapny;
       this.currentUser = res;
       this.submitted = false;
+
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);

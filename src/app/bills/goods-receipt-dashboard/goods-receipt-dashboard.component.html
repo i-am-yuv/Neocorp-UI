@@ -67,18 +67,18 @@
                                     </div>
 
                                     <div class="col-10 flex align-items-center">
-                                        <div class="col-6">
-                                            <div class="text-base"><b>{{ item.documentno }}</b></div>
-                                            <div class="text-base  ">
-                                                <p>{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
+                                        <div class="col-10">
+                                            <div class="text-lg">{{ item.documentno }}</div>
+                                            <div class="mt-1">
+                                                <p class="text-base">{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
                                                 <p class="font-light text-sm">Received Date: {{item.receivedDate|
                                                     date:'yyyy-MM-dd'}}</p>
                                             </div>
                                         </div>
 
-                                        <div class="col-6 text-right">
+                                        <div class="col-2 text-right">
                                             <!-- <p>₹: {{item.grossTotal ?item.grossTotal : '0.00' }}</p> -->
-                                            <p class="text-black">{{item.status}}</p>
+                                            <!-- <p class="text-black">{{item.status}}</p> -->
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
                                 <div>
                                     <div class="flex">
                                         <div class="field col-8">
-                                            <h4 class="">Goods Receipt Details:</h4>
+                                            <p class="text-lg font-semibold">Goods Receipt Details:</p>
                                         </div>
                                         <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer"
                                             (click)="onEditRN(activeGR.id)">
@@ -138,19 +138,19 @@
                                     <div class="flex w-full">
                                         <div class="field col-6 text-left">
                                             <label class="mr-3 blueText">Goods Receipt Number:</label>
-                                            <h5>#{{ this.activeGR.documentno}}</h5>
+                                            <p>#{{ this.activeGR.documentno}}</p>
                                         </div>
 
                                         <div class="field col-6 ">
                                             <label class="mr-3 blueText">Received Date:</label>
-                                            <h5>{{ this.activeGR.receivedDate | date : 'yyyy-MM-dd'}}</h5>
+                                            <p>{{ this.activeGR.receivedDate | date : 'yyyy-MM-dd'}}</p>
                                         </div>
                                     </div>
 
-                                    <hr class="custom-hr">
+                                    <!-- <hr class="custom-hr"> -->
 
                                     <div class="field col-8">
-                                        <h4 class="">Vendor Details:</h4>
+                                        <p class="font-semibold">Vendor Details</p>
                                     </div>
 
                                     <div class="flex w-full">
@@ -166,7 +166,7 @@
                                         </div>
 
                                         <div class="field col-6 text-right">
-                                            <label class="mr-3 blueText">Vendor Address:</label>
+                                            <label class="mr-3 blueText">Vendor Address</label>
                                             <p>{{this.activeGR.vendor?.address?.billingName}}</p>
                                             <p>{{this.activeGR.vendor?.address?.billingAddress}}</p>
                                             <p>{{this.activeGR.vendor?.address?.city}}
@@ -175,11 +175,9 @@
                                     </div>
                                 </div>
 
-                                <hr class="custom-hr">
+                                <!-- <hr class="custom-hr"> -->
 
                                 <div class="flex gap-2">
-
-
                                 </div>
                                 <div>
                                     <p-table [value]="lineitems">
@@ -213,9 +211,8 @@
                                     </div>
 
                                 </div>
-                                <hr class="custom-hr">
-                                <div class="flex">
-
+                                <hr class="custom-hr ">
+                                <div class="flex mt-2 text-sm">
                                     <div class="field col-3">
                                         <label class="blueText">Ordered Quantity:</label>
                                         <p>{{this.activeGoodsReceiptLine.orderedQty}}</p>

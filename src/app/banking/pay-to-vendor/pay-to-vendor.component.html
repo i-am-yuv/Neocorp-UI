@@ -1,7 +1,7 @@
 <p-toast></p-toast>
-<div class="">
+<div class="pb-2" style="background: #EFF6FF;">
 
-    <div class="bg-white iconSCSS1" *ngIf="amount == null">
+    <div class="bg-white iconSCSS1 p-1" *ngIf="amount == null">
         <div class="col-4">
             <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
         </div>
@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="bg-white iconSCSS1" *ngIf="amount != null">
+    <div class=" iconSCSS1" *ngIf="amount != null">
         <div class="col-4">
             <!-- <p-breadcrumb class="max-w-full" [model]="items2"></p-breadcrumb> -->
         </div>
@@ -31,7 +31,7 @@
                     <p class="text-lg">Vendor name: {{currentPurchaseInvoice.vendor?.firstName}}
                         {{currentPurchaseInvoice.vendor?.lastName}}</p><br>
                     <div *ngIf="partialPaymentStatus">
-                        <div class="flex w-full">
+                        <div class="w-full">
                             <!-- <span class="text-lg font-light text-right">₹</span> -->
                             <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
                                 class="w-full custom-input text-center no-border-input"
@@ -46,7 +46,7 @@
                           class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                     </div>
                     <div *ngIf="!partialPaymentStatus">
-                        <div class="flex w-full">
+                        <div class=" w-full">
                             <!-- <span class="text-lg font-light text-right">₹</span> -->
                             <input pInputText NumbersOnly placeholder="₹ 0" [(ngModel)]="enteredAmount"
                                 class="w-full custom-input text-center no-border-input"

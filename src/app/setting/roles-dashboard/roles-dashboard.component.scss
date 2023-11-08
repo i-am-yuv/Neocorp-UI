@@ -1,24 +1,7 @@
-.order-list {
-    .list-item {
-        border-bottom: 1px solid #eeeeee;
-    }
 
-    .list-item:hover {
-        background-color: #eeeeee;
-        cursor: pointer;
-    }
-}
-
-.left-panel-content {
-    // height: 810px;
-    height: 580px;
-    overflow-y: scroll;
-}
 
 .right-panel-content {
-    // height: 773.5px;
-    height: 580px;
-    overflow-y: scroll;
+    padding: 0;
 }
 
 :host::ng-deep {
@@ -26,26 +9,6 @@
         .p-panel-content {
             padding: 0;
         }
-    }
-}
-
-.invoice-box {
-    margin: auto;
-    line-height: 24px;
-    color: #555;
-}
-
-@media only screen and (max-width: 600px) {
-    .invoice-box table tr.top table td {
-        width: 100%;
-        display: block;
-        text-align: center;
-    }
-
-    .invoice-box table tr.information table td {
-        width: 100%;
-        display: block;
-        text-align: center;
     }
 }
 
@@ -220,9 +183,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.field {
-    margin: 10px 0;
-}
+
 
 label {
     font-weight: bold;
@@ -247,6 +208,7 @@ p {
     // justify-content: end;
 }
 
+
 .custom-button {
     background: #535353;
     border: #535353;
@@ -266,4 +228,16 @@ p {
 // Override the default border radius
 .custom-button {
     border-radius: 4px;
+}
+
+.productList {
+    height: 46rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}
+
+.productRightList {
+    height: 50rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
 }

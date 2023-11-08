@@ -122,7 +122,20 @@ export class PayToVendorComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Banking' }]);
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.amount = this.route.snapshot.paramMap.get('amount');
+    this.initForm();
+     this.loadUser() ;
+  }
 
+  loadOtherInfo()
+  {
+    this.getPI(this.id);
+    this.getAllDebitAccount();
+  }
+
+  initForm()
+  {
     this.impsForm = new FormGroup({
       id: new FormControl(''),
       mmid: new FormControl('', [Validators.required]),
@@ -153,26 +166,26 @@ export class PayToVendorComponent implements OnInit {
       mobileNumber: new FormControl('', [Validators.required]),
       mmid: new FormControl('', [Validators.required]),
     });
-
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.amount = this.route.snapshot.paramMap.get('amount');
-
-    this.getPI(this.id);
-    this.getAllDebitAccount();
   }
 
   getAllDebitAccount() {
     this.submitted = true;
-    this.bankingS.getAllDebitAccount().then(
+    this.bankingS.getAllDebitAccount(this.currentUser).then(
       (res) => {
         console.log(res);
+        this.allDebitAccount = res;
         this.submitted = false;
-        this.allDebitAccount = res.content;
       }
     ).catch(
       (err) => {
         this.submitted = false;
         console.log(err);
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching Debit Account Details',
+          life: 3000,
+        });
       }
     )
   }
@@ -185,18 +198,21 @@ export class PayToVendorComponent implements OnInit {
           console.log(res);
           this.partialPaymentStatus = res.enablePartialPayments;
           this.currentPurchaseInvoice = res;
-          this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
-            (res) => {
-              this.enteredAmount = res;
-              this.amountRemaining = res;
-              this.submitted = false;
-            }
-          ).catch(
-            (err) => {
-              console.log(err);
-              this.submitted = false;
-            }
-          )
+
+          this.enteredAmount = res.remainingAmount ;          
+          this.amountRemaining = res.remainingAmount ;
+          // this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
+          //   (res) => {
+          //     this.enteredAmount = res;
+          //     this.amountRemaining = res;
+          //     this.submitted = false;
+          //   }
+          // ).catch(
+          //   (err) => {
+          //     console.log(err);
+          //     this.submitted = false;
+          //   }
+          // )
           this.submitted = false;
         }
       ).catch(
@@ -209,7 +225,7 @@ export class PayToVendorComponent implements OnInit {
     else {
       this.message.add({
         severity: 'error',
-        summary: 'Purchase Invoice Not Persent',
+        summary: 'Error',
         detail: 'Purchase Invoice Not Persent',
         life: 3000,
       });
@@ -250,7 +266,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy(this.currentUser).then(
         (res: any) => {
           console.log(res);
-          // this.allBeneficairy = res.content;
+          
           this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);;
           this.submitted = false;
         }
@@ -318,8 +334,8 @@ export class PayToVendorComponent implements OnInit {
     this.paymentRequest.beneficiary = this.selectedBeneficiary;
     this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
 
-    alert(this.id + ' ' + this.currentPurchaseInvoice.vendor?.id);
-    alert(JSON.stringify(this.paymentRequest));
+    // alert(this.id + ' ' + this.currentPurchaseInvoice.vendor?.id);
+    // alert(JSON.stringify(this.paymentRequest));
     this.makePayment(this.paymentRequest);
 
   }
@@ -409,7 +425,7 @@ export class PayToVendorComponent implements OnInit {
     this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
     this.paymentRequest.upiId = this.upiForm.value.upiId;
 
-    alert(JSON.stringify(this.paymentRequest));
+    // alert(JSON.stringify(this.paymentRequest));
 
     this.makePayment(this.paymentRequest);
   }
@@ -428,14 +444,14 @@ export class PayToVendorComponent implements OnInit {
       });
     }
     else {
-      alert("happening");
+      alert(JSON.stringify( this.paymentRequest) ) ;
       this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then(
         (res) => {
           console.log(res);
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Payment Done',
+            summary: 'Success',
             detail: 'Payment Done successfully',
             life: 3000,
           });
@@ -447,12 +463,28 @@ export class PayToVendorComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Payment Error',
-            detail: 'Error While Doing Payment',
-            life: 3000,
-          });
+          if( err.status == 200 )
+          {
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Payment Done successfully',
+              life: 3000,
+            });
+            setTimeout(() => {
+              this.router.navigate(['/collect/purchaseInvoices']);
+            }, 2000);
+          }
+          else{
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message,
+              life: 3000,
+            });
+          }
+          
+          
         }
       )
 
@@ -473,7 +505,7 @@ export class PayToVendorComponent implements OnInit {
 
   onSubmitQuickPay() {
 
-    alert(JSON.stringify(this.QuickPayForm.value));
+    // alert(JSON.stringify(this.QuickPayForm.value));
   }
 
   onSubmitUPI() {
@@ -547,6 +579,7 @@ export class PayToVendorComponent implements OnInit {
       this.currentUser = res;
       this.submitted = false;
 
+      this.loadOtherInfo();
     })
       .catch((err) => {
         console.log(err);

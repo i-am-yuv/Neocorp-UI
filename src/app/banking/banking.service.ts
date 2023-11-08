@@ -19,10 +19,16 @@ export class BankingService {
     return allBeneficairy;
   }
 
-  async getAllDebitAccount() {
-    var url = this.apiurlNew + 'debitAccountDetails';
+  async getAllDebitAccount(user : any ) {
+    var url = this.apiurlNew + 'debitAccountDetails/debitAccountDetails/'+ encodeURIComponent(user.id) ;
     const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
     return allDebitAccounts;
+  }
+
+  async getAllDebitedPayments(user : any ) {
+    var url = this.apiurlNew + 'payments/payments/'+ encodeURIComponent(user.id) ;
+    const allDebitedAmount = await lastValueFrom(this.http.get<any>(url));
+    return allDebitedAmount;
   }
 
   async createBeneficiary(data: any) {
@@ -39,12 +45,16 @@ export class BankingService {
 
   async makePayment(invoiceId: any, vendorId: any, paymentRequest: any) {
     var url = this.apiurlNew + 'payments/' + encodeURIComponent(invoiceId) + '?vendorId=' + vendorId;
-    // const payment = await lastValueFrom(this.http.post<any>(url, paymentRequest));
-    // return payment;
+    const payment = await lastValueFrom(this.http.post<any>(url, paymentRequest));
+    return payment;
 
-    this.http.post<any>(url, paymentRequest).subscribe((res) => {
-      return res;
-    });
+    // this.http.post<any>(url, paymentRequest).subscribe((res) => {
+    //   alert(JSON.stringify(res) );
+    //   return res;
+    // },(err)=>{
+    //   alert(JSON.stringify(err) );
+    //   return err;
+    // } ) ;
   }
 
   async searchBeneficiary(query: any) {

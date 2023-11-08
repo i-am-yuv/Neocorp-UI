@@ -73,13 +73,16 @@
                                                     :'yyyy-MM-dd'}}</p>
                                             </div>
                                             <div class="col-5 text-right">
-                                                <p>₹: {{item.grossTotal ?item.grossTotal : '0.00' }}</p>
-                                                <p *ngIf="item.requestStatus == 'COMPLETED'"
-                                                    class="text-green-700 text-base">
-                                                    Paid</p>
-                                                <p *ngIf="item.requestStatus != 'COMPLETED' "
-                                                    class="text-red-600 text-base">
-                                                    Payment Due</p>
+                                                <div *ngIf="item.requestStatus == 'COMPLETED'">
+                                                    <p>₹: {{item.grossTotal ?item.grossTotal : '0.00' }}</p>
+                                                    <p class="text-green-700 text-base">Paid</p>
+                                                </div>
+                                                <div *ngIf="item.requestStatus != 'COMPLETED'">
+                                                    <p>₹: {{item.remainingAmount ?item.remainingAmount : '0.00' }}</p>
+                                                    <p class="text-red-600 text-base" >Payment Due</p>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +171,7 @@
                                                             fill="#343330" />
                                                     </svg>
                                                 </div>
-                                                <div class="col-9 rightP text-left text-sm p-1">
+                                                <div class="col-9 text-left text-sm p-1">
                                                     {{activeInvoice.requestStatus}}
                                                 </div>
                                             </div>
@@ -188,7 +191,8 @@
                             </div>
 
                             <div class="mt-3">
-                                <div class="PIList bg-white border-round-xl mt-4 p-2" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                                <div class="PIList bg-white border-round-xl mt-4 p-2"
+                                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
                                     <div class="iconSCSS mt-3">
                                         <div class="field col-8 text-left">
                                             <h4 class="text-blue-700 ">Purchase Invoice Details:</h4>
@@ -273,14 +277,18 @@
 
                                     </div>
                                     <hr class="custom-hr">
-                                    <div class="flex gap-1">
-                                        <div class="field col-5">
+                                    <div class="flex ">
+                                        <div class="col-4">
+                                            <label class="mr-3 blueText">Penalty amount</label>
+                                            <p>₹ {{this.activeInvoice.penalty}}</p>
+                                        </div>
+                                        <div class=" col-4">
                                             <!-- <h4 class="text-blue-500">Description:</h4> -->
                                             <label class="mr-3 blueText">Description</label>
                                             <p>{{this.activeInvoice.description}}</p>
                                         </div>
 
-                                        <div class="field col-6 text-left">
+                                        <div class=" col-4 text-left">
                                             <label class=" blueText text-left">Partial Payment Status</label>
                                             <div *ngIf="this.activeInvoice.enablePartialPayments">Enabled <p
                                                     class="text-blue-400 underline cursor-pointer"

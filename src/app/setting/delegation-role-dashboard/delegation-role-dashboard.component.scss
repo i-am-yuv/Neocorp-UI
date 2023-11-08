@@ -1,13 +1,4 @@
-.order-list {
-    .list-item {
-        border-bottom: 1px solid #eeeeee;
-    }
 
-    .list-item:hover {
-        background-color: #eeeeee;
-        cursor: pointer;
-    }
-}
 
 .left-panel-content {
     // height: 810px;
@@ -16,9 +7,7 @@
 }
 
 .right-panel-content {
-    // height: 773.5px;
-    height: 580px;
-    overflow-y: scroll;
+   padding: 0;
 }
 
 :host::ng-deep {
@@ -257,4 +246,16 @@ p {
 // Override the default border radius
 .custom-button {
     border-radius: 4px;
+}
+
+.productList {
+    height: 46rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}
+
+.productRightList {
+    height: 50rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
 }

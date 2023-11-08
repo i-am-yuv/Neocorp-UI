@@ -36,7 +36,8 @@ export class DelegationRoleComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.loadUser();
+    this.initForm();
+      this.loadUser();
   }
 
   loadOtherInfo() {
@@ -60,8 +61,7 @@ export class DelegationRoleComponent implements OnInit {
         this.availableDelegationRole();
       }
     });
-
-    this.initForm();
+    
     this.laodRoles();
     this.getDelegationRole();
   }

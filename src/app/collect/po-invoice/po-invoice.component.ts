@@ -55,6 +55,8 @@ export class PoInvoiceComponent implements OnInit {
   items!: MenuItem[];
   currentCompany: any = {};
 
+  penalty: number = 0;
+
   stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
 
   //value: string = 'off';
@@ -68,13 +70,19 @@ export class PoInvoiceComponent implements OnInit {
     private collectS: CollectService, private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Create' }]);
+    } else {
+      this.breadCrumbService.breadCrumb([{ label: 'Purchase Invoice', routerLink: ['/collect/purchaseInvoices'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -105,6 +113,7 @@ export class PoInvoiceComponent implements OnInit {
       status: new FormControl(''),
       description: new FormControl(''),
       grossTotal: new FormControl(''),
+      remainingAmount: new FormControl(''),
       taxableTotal: new FormControl(''),
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
@@ -125,7 +134,7 @@ export class PoInvoiceComponent implements OnInit {
         this.currPO = res;
         this.currVendorShow = res.vendor;
         this.poInvoiceForm.value.vendor.id = res.vendor.id;
-       // this.loadLineItembyPO(this.currPO);
+        // this.loadLineItembyPO(this.currPO);
       }
     ).catch(
       (err) => {
@@ -276,13 +285,13 @@ export class PoInvoiceComponent implements OnInit {
     }
   }
 
-  loadthisVendor(vendorId : any)
-  {
+  loadthisVendor(vendorId: any) {
     this.submitted = true;
     this.usedService
       .getVendor(vendorId)
       .then((res: any) => {
         this.currVendorShow = res;
+        // alert(JSON.stringify(res) );
         this.poInvoiceForm.value.vendor = res;
       }).catch(
         (err) => {
@@ -597,14 +606,24 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   finalPoInvoiceSubmit() {
+
+
+
     // updated complete PO so that gross total can be updated
     var poInvoiceFormVal = this.poInvoiceForm.value;
     poInvoiceFormVal.id = this.id;
     poInvoiceFormVal.grossTotal = this.poInvoiceSubTotal;
     poInvoiceFormVal.comapny = this.currentCompany;
+    poInvoiceFormVal.penalty = this.penalty;
+    // if first time then remaining amoun will be same as gross Total
+    if (this.poInvoiceForm.value.remainingAmount == null) {
+      poInvoiceFormVal.remainingAmount = poInvoiceFormVal.grossTotal;
+    }
+    else {
+
+    }
 
     if (poInvoiceFormVal.id) {
-
       this.submitted = true;
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {

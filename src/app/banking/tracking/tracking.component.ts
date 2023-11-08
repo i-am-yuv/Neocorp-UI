@@ -6,6 +6,7 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 import { Payment } from '../banking-model';
 import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-tracking',
@@ -35,51 +36,77 @@ export class TrackingComponent implements OnInit {
     private router: Router,
     private message: MessageService,
     private bankingS: BankingService,
+    private authS: AuthService,
     private payServices: PayPageService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Tracking' }]);
 
-    // for disburse  
-    this.getAllPayments();
+    this.loadUser();
+
   }
 
   getAllPayments() {
 
-    var filter = '';
-    if (this.search !== '') {
-      var filtercols = [
-        'vendor.firstName',
-        'vendor.lastName',
-        'vendor.mobileNumber',
-        'invoice.invoiceNo',
-        'amount',
-        'paymentRequest.debitAccountDetails.bankname',
-        'paymentRequest.debitAccountDetails.AccountNumber',
-        'paymentRequest.paymentMethod',
-        'paymentRequest.upiId'
-      ];
-      filter = FilterBuilder.build(filtercols, this.search);
-    }
+    // var filter = '';
+    // if (this.search !== '') {
+    //   var filtercols = [
+    //     'vendor.firstName',
+    //     'vendor.lastName',
+    //     'vendor.mobileNumber',
+    //     'invoice.invoiceNo',
+    //     'amount',
+    //     'paymentRequest.debitAccountDetails.bankname',
+    //     'paymentRequest.debitAccountDetails.AccountNumber',
+    //     'paymentRequest.paymentMethod',
+    //     'paymentRequest.upiId'
+    //   ];
+    //   filter = FilterBuilder.build(filtercols, this.search);
+    // }
+
+    // this.submitted = true;
+    // this.bankingS.getAllDebitPayment(this.pageNo, this.pageSize, this.sortField, this.sortDir, filter).then(
+    //   (res) => {
+    //     console.log(res);
+    //     this.allDebitPayments = res.content;
+    //     this.totalRecords = res.totalElements;
+    //     this.totalDebitedAmount = this.allDebitPayments
+    //       .reduce((total, PI) =>
+    //         total + PI.amount, 0
+    //       )
+    //     this.submitted = false;
+    //   }
+    // ).catch(
+    //   (err) => {
+    //     console.log(err);
+    //     this.submitted = false;
+    //   }
+    // )
 
     this.submitted = true;
-    this.bankingS.getAllDebitPayment(this.pageNo, this.pageSize, this.sortField, this.sortDir, filter).then(
+    this.bankingS.getAllDebitedPayments(this.currentUser).then(
       (res) => {
         console.log(res);
-        this.allDebitPayments = res.content;
-        this.totalRecords = res.totalElements;
-        this.totalDebitedAmount = this.allDebitPayments
-          .reduce((total, PI) =>
-            total + PI.amount, 0
-          )
-        this.submitted = false;
+            this.allDebitPayments = res;
+            this.totalDebitedAmount = this.allDebitPayments
+              .reduce((total, PI) =>
+                total + PI.amount, 0
+              )
+            this.submitted = false;
       }
     ).catch(
       (err) => {
-        console.log(err);
-        this.submitted = false;
+         this.submitted = false;
+         this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching all the Debited Transactions',
+          life: 3000,
+        });
       }
     )
+
+
   }
 
   addAccount() {
@@ -176,5 +203,27 @@ export class TrackingComponent implements OnInit {
     )
   }
 
+  searchPayments: any;
+  searchPaymentsNow(a: any) {
+
+  }
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      // for disburse  
+      this.getAllPayments();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
 
 }

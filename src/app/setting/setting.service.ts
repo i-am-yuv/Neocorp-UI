@@ -22,7 +22,7 @@ export class SettingService {
   }
 
   async getAllRoles(user : any) {
-    var url = this.apiurlNew + 'api/roles/roles/'+ encodeURIComponent(user.id);
+    var url = this.apiurlNew + 'api/roles/role/'+ encodeURIComponent(user.id);
     const allrole = await lastValueFrom(this.http.get<any>(url));
     return allrole;
   }
