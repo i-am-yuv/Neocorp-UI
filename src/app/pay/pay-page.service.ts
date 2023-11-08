@@ -87,8 +87,8 @@ export class PayPageService {
     return account;
   }
 
-  async getAllCreditAccount() {
-    var url = this.apiurlNew + 'creditAccountDetails';
+  async getAllCreditAccount(user: any) {
+    var url = this.apiurlNew + 'creditAccountDetails/creditAccountDetails/'+ encodeURIComponent(user.id);
     const allCreaditAccounts = await lastValueFrom(this.http.get<any>(url));
     return allCreaditAccounts;
   }
@@ -117,8 +117,8 @@ export class PayPageService {
     return account;
   }
 
-  async getAllDebitAccount() {
-    var url = this.apiurlNew + 'debitAccountDetails'
+  async getAllDebitAccount(user : any) {
+    var url = this.apiurlNew + 'debitAccountDetails/debitAccountDetails/' + encodeURIComponent(user.id);
     const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
     return allDebitAccounts;
   }

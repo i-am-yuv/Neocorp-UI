@@ -230,5 +230,9 @@ export class CategoryComponent implements OnInit {
       });
   }
 
+  createProductCategory() {
+    this.router.navigate(['/profile/productCategory/create']);
+  }
+
 
 }
