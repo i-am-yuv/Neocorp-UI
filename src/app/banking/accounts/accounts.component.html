@@ -1,353 +1,333 @@
 <p-toast></p-toast>
-<div class="">
-    <div class="bg-white iconSCSS1 p-1" *ngIf="value == 'credit'">
-        <div class="col-4">
-            <!-- <p-breadcrumb class="max-w-full" [model]="items1"></p-breadcrumb> -->
+
+<div class="pb-3" style="background: #EFF6FF;">
+
+    <div class="bg-white flex align-items-center">
+        <div class="col-10">
+            <!-- <p-breadcrumb class="max-w-full text-left" [model]="items"></p-breadcrumb> -->
+            <div class="flex align-items-center gap-2">
+                <div class="col-10">
+                    <div class="p-inputgroup">
+                        <input pInputText placeholder="Search" [(ngModel)]="searchAccount" class="w-full border-none"
+                            style="background: #EFF6FF;" (ngModelChange)="searchAccounts()" />
+                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchAccounts()"
+                            styleClass="p-button-success"></button>
+                    </div>
+                </div>
+                <div class="col-1 border-round-sm text-center" style="background: #EFF6FF;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M21 14.25V19.5C21 19.8978 20.842 20.2794 20.5607 20.5607C20.2794 20.842 19.8978 21 19.5 21H4.5C4.10218 21 3.72064 20.842 3.43934 20.5607C3.15804 20.2794 3 19.8978 3 19.5V14.25C3 14.0511 3.07902 13.8603 3.21967 13.7197C3.36032 13.579 3.55109 13.5 3.75 13.5C3.94891 13.5 4.13968 13.579 4.28033 13.7197C4.42098 13.8603 4.5 14.0511 4.5 14.25V19.5H19.5V14.25C19.5 14.0511 19.579 13.8603 19.7197 13.7197C19.8603 13.579 20.0511 13.5 20.25 13.5C20.4489 13.5 20.6397 13.579 20.7803 13.7197C20.921 13.8603 21 14.0511 21 14.25ZM11.4694 14.7806C11.539 14.8504 11.6217 14.9057 11.7128 14.9434C11.8038 14.9812 11.9014 15.0006 12 15.0006C12.0986 15.0006 12.1962 14.9812 12.2872 14.9434C12.3783 14.9057 12.461 14.8504 12.5306 14.7806L16.2806 11.0306C16.3503 10.9609 16.4056 10.8782 16.4433 10.7872C16.481 10.6961 16.5004 10.5985 16.5004 10.5C16.5004 10.4015 16.481 10.3039 16.4433 10.2128C16.4056 10.1218 16.3503 10.0391 16.2806 9.96937C16.2109 9.89969 16.1282 9.84442 16.0372 9.8067C15.9461 9.76899 15.8485 9.74958 15.75 9.74958C15.6515 9.74958 15.5539 9.76899 15.4628 9.8067C15.3718 9.84442 15.2891 9.89969 15.2194 9.96937L12.75 12.4397V3.75C12.75 3.55109 12.671 3.36032 12.5303 3.21967C12.3897 3.07902 12.1989 3 12 3C11.8011 3 11.6103 3.07902 11.4697 3.21967C11.329 3.36032 11.25 3.55109 11.25 3.75V12.4397L8.78063 9.96937C8.63989 9.82864 8.44902 9.74958 8.25 9.74958C8.05098 9.74958 7.86011 9.82864 7.71937 9.96937C7.57864 10.1101 7.49958 10.301 7.49958 10.5C7.49958 10.699 7.57864 10.8899 7.71937 11.0306L11.4694 14.7806Z"
+                                fill="#343330" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="col-1  border-round-sm text-center" style="background: #EFF6FF;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
+                            <path
+                                d="M10.0625 6L19.4063 6M10.0625 6C10.0625 6.82843 9.41891 7.5 8.625 7.5C7.83109 7.5 7.1875 6.82843 7.1875 6M10.0625 6C10.0625 5.17157 9.41891 4.5 8.625 4.5C7.83109 4.5 7.1875 5.17157 7.1875 6M3.59375 6H7.1875M10.0625 18H19.4063M10.0625 18C10.0625 18.8284 9.41891 19.5 8.625 19.5C7.83109 19.5 7.1875 18.8284 7.1875 18M10.0625 18C10.0625 17.1716 9.41891 16.5 8.625 16.5C7.83109 16.5 7.1875 17.1716 7.1875 18M3.59375 18L7.1875 18M15.8125 12L19.4063 12M15.8125 12C15.8125 12.8284 15.1689 13.5 14.375 13.5C13.5811 13.5 12.9375 12.8284 12.9375 12M15.8125 12C15.8125 11.1716 15.1689 10.5 14.375 10.5C13.5811 10.5 12.9375 11.1716 12.9375 12M3.59375 12H12.9375"
+                                stroke="#343834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-8">
-            <div class=" border-200 text-right">
-                <button type="button" pButton (click)="addAccount()" class=" mr-3 custom-button">
+        <div class="col-2">
+            <div class="border-200 text-right ">
+                <button type="button" pButton (click)="addAccount()" class="custom-button ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
                         fill="none">
                         <path
                             d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
                             fill="white" />
-                    </svg><span class="text-white">Create New Account</span>
+                    </svg>Create Account
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="bg-white iconSCSS1" *ngIf="value == 'debit'">
-        <div class="col-4">
-            <!-- <p-breadcrumb class="max-w-full" [model]="items2"></p-breadcrumb> -->
-        </div>
-        <div class="col-8">
-            <div class=" border-200 text-right">
-                <button type="button" pButton (click)="addAccount()" class=" mr-3 custom-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-2" viewBox="0 0 20 20"
-                        fill="none">
-                        <path
-                            d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H10.625V16.875C10.625 17.0408 10.5592 17.1997 10.4419 17.3169C10.3247 17.4342 10.1658 17.5 10 17.5C9.83424 17.5 9.67527 17.4342 9.55806 17.3169C9.44085 17.1997 9.375 17.0408 9.375 16.875V10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H9.375V3.125C9.375 2.95924 9.44085 2.80027 9.55806 2.68306C9.67527 2.56585 9.83424 2.5 10 2.5C10.1658 2.5 10.3247 2.56585 10.4419 2.68306C10.5592 2.80027 10.625 2.95924 10.625 3.125V9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10Z"
-                            fill="white" />
-                    </svg><span class="text-white">Create New Account</span>
-                </button>
-            </div>
-        </div>
+    <div class="mt-5 ml-6 text-left">
+        <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
+            optionValue="value"></p-selectButton>
     </div>
 
-    <div>
-        <div class="mt-5 ml-6 text-left">
-            <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
-                optionValue="value"></p-selectButton>
-        </div>
+    <div *ngIf="value == 'credit'">
+        <div class="" style="background: #EFF6FF;">
+            <div class="p-5">
+                <div class="flex gap-2" style=" justify-content: center;">
 
-        <div *ngIf="value == 'credit'">
-            <div class="m-6 bg-white border-round-3xl">
-                <div class="p-5">
-                    <div class="flex gap-2" style=" justify-content: center;">
-
-                        <!-- Left List Panel -->
-                        <div class="col-4">
-                            <p-panel class="left-panel ">
-                                <ng-template pTemplate="header">
-                                    <span class="p-panel-title" style="padding: 1px">Credit Account</span>
-                                </ng-template>
-                                <ng-template pTemplate="content">
-                                    <div class="left-panel-content">
-                                        <br />
-
-                                        <div *ngFor="let item of allCreditAccounts" class="order-list"
-                                            [ngClass]="{ 'bg-gray-100': activeCreditAccount.id === item.id }">
-                                            <div class=" list-item" (click)="changeCreditAccount(item)">
-                                                <div class="iconSCSS w-full gap-3 p-3">
-                                                    <div class="col-2  justify-center align-center">
-                                                        <div class="person-icon">{{ item.bankname.charAt(0) }}</div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="text-base"><b>{{ item.bankname }}</b></div>
-                                                        <div class="">
-                                                            <div class="text-base">
-                                                                <p class="text-sm">Account No: {{item.accountNumber}}
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
+                    <div class="col-5 bg-white border-round-xl p-4 "
+                        style=" box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                        <div class="text-blue-400 text-xl mb-4">Credit Accounts</div>
+                        <div class="productList">
+                            <div *ngFor="let item of allCreditAccounts" class="cursor-pointer"
+                                [ngClass]="{ 'bg-gray-100': activeCreditAccount.id === item.id }">
+                                <div class=" list-item" (click)="changeCreditAccount(item)">
+                                    <div class="flex align-items-center w-full gap-3 p-3">
+                                        <div class="col-2  justify-center align-center">
+                                            <div class="person-icon">{{ item.bankname.charAt(0) }}</div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-lg">{{ item.bankname }}</div>
+                                            <div class="mt-1">
+                                                <div class="text-base">
+                                                    <p class="text-sm">Account No: {{item.accountNumber}}</p>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="text-center m-5" *ngIf="allCreditAccounts.length === 0">
-                                            No Roles
-                                        </div>
                                     </div>
-                                </ng-template>
-                                <p-footer> Total: {{ this.totalCARecords}} </p-footer>
-                            </p-panel>
+                                </div>
+                            </div>
+                            <div class="text-center m-5" *ngIf="allCreditAccounts.length === 0">
+                                No Credit Account Found, Please Add One !!
+                            </div>
                         </div>
+                    </div>
 
-                        <!-- Right Panel of Listing Details -->
-                        <div class="col-8">
-                            <p-panel>
-                                <ng-template pTemplate="header">
-                                    <div class="w-full">
-                                        <div class="grid m-0">
-                                            <div class="col-6 p-0">
-                                                <span class="p-panel-title">Details</span>
+                    <div class="col-7 border-round-xl bg-white"
+                        style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                        <div class="productRightList p-4">
+                            <div class="right-panel-content">
+                                <div class="text-center m-5"
+                                    *ngIf="!activeCreditAccount.id && allCreditAccounts.length != 0">
+                                    <img src="assets/account.png" alt="Image" width="300"><br>
+                                    <p class="text-lg">Please, Select the Role to view details</p>
+                                </div>
+                                <div *ngIf="allCreditAccounts.length === 0" class="text-center m-5">
+                                    <img src="assets/account.png" alt="Image" width="300"><br>
+                                    No Product Found!!
+                                </div>
+
+                                <div *ngIf="activeCreditAccount.id">
+                                    <div class="text-blue-400 text-xl mb-4">Credit Account Details</div>
+
+                                    <form [formGroup]="creditAccountForm" (ngSubmit)="updateCreditAccount()">
+                                        <div class="">
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Bank Name: </label>
+                                                <input pInputText formControlName="bankname"
+                                                    placeholder="Enter Bank Name" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['bankname']"></error-message>
+                                            </div>
+
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Account Number:</label>
+                                                <input pInputText formControlName="accountNumber"
+                                                    placeholder="Enter Account Number" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
+                                            </div>
+
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Confirm Account Number:</label>
+                                                <input pInputText formControlName="confirmAccountNumber"
+                                                    placeholder="Enter Confirm Account Number" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
+                                            </div>
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">IfSC Code:</label>
+                                                <input pInputText formControlName="ifsc" placeholder="Enter Bank Name"
+                                                    class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['ifsc']"></error-message>
+                                            </div>
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Account Type:</label>
+                                                <div class="payment-dropdown ">
+                                                    <p-dropdown class="bg-slate-200" [options]="accountType"
+                                                        [style]="{ width: '100%' }" placeholder="Choose Account type"
+                                                        optionLabel="name" optionValue="name"
+                                                        formControlName="accountType"></p-dropdown>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="flex col-12">
+                                            <div class="col-8"></div>
+                                            <div class="flex col-4 text-right">
+                                                <button type="button" pButton class="mr-2"
+                                                    (click)="updateDebitAccount()">Update</button>
+                                                <button type="button" pButton class="deleteBtn"
+                                                    (click)="deleteAccount()">Delete</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
+                                        [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                        <ng-template pTemplate="header">
+                                            <span class="text-xl font-bold">Confirmation</span>
+                                        </ng-template>
+                                        <p class="m-0">Are you sure you want to delete this Credit Account?</p>
+                                        <ng-template pTemplate="footer">
+                                            <p-button icon="pi pi-times" (click)="cancelDelete()" label="Cancel"
+                                                styleClass="p-button-text"></p-button>
+                                            <p-button icon="pi pi-check" (click)="deleteConfirmCA()" label="Yes"
+                                                styleClass="p-button-text"></p-button>
+                                        </ng-template>
+                                    </p-dialog>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="value == 'debit'">
+        <div class="" style="background: #EFF6FF;">
+            <div class="p-5">
+                <div class="flex gap-2" style=" justify-content: center;">
+
+                    <!-- Left List Panel -->
+                    <div class="col-5 bg-white border-round-xl p-4 "
+                        style=" box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                        <div class="text-blue-400 text-xl mb-4">Debit Accounts</div>
+                        <div class="productList">
+                            <div *ngFor="let item of allDebitAccounts" class="cursor-pointer"
+                                [ngClass]="{ 'bg-gray-100': activeDebitAccount.id === item.id }">
+                                <div class=" list-item" (click)="changeDebitAccount(item)">
+                                    <div class="flex align-items-center w-full gap-3 p-3">
+                                        <div class="col-2  justify-center align-center">
+                                            <div class="person-icon">{{ item.bankname.charAt(0) }}</div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-lg">{{ item.bankname }}</div>
+                                            <div class="mt-1">
+                                                <div class="text-base">
+                                                    <p class="text-sm">Account No: {{item.accountNumber}}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </ng-template>
-                                <div class="right-panel-content">
-                                    <div class="text-center m-5" *ngIf="!activeCreditAccount.id">
-                                        <img src="/assets/role.png" width="400" /><br />
-                                        Select Credit Account
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center m-5" *ngIf="allDebitAccounts.length === 0">
+                                No Credit Account Found, Please Add One !!
+                            </div>
+                        </div>
+                    </div>
 
-                                    <div *ngIf="activeCreditAccount.id">
+                    <div class="col-7 border-round-xl bg-white"
+                        style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                        <div class="productRightList p-4">
+                            <div class="right-panel-content">
+                                <div class="text-center m-5"
+                                    *ngIf="!activeCreditAccount.id && allCreditAccounts.length != 0">
+                                    <img src="assets/account.png" alt="Image" width="300"><br>
+                                    <p class="text-lg">Please, Select the Role to view details</p>
+                                </div>
+                                <div *ngIf="allCreditAccounts.length === 0" class="text-center m-5">
+                                    <img src="assets/account.png" alt="Image" width="300"><br>
+                                    No Product Found!!
+                                </div>
 
-                                        <form [formGroup]="creditAccountForm" (ngSubmit)="updateCreditAccount()">
-                                            <div class="">
+                                <div *ngIf="activeDebitAccount.id">
+                                    <div class="text-blue-400 text-xl mb-4">Debit Account Details</div>
 
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Bank Name: </label>
-                                                    <input pInputText formControlName="bankname"
-                                                        placeholder="Enter Bank Name" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['bankname']"></error-message>
-                                                </div>
+                                    <form [formGroup]="debitAccountForm" (ngSubmit)="updateDebitAccount()">
+                                        <div class="">
 
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Account Number:</label>
-                                                    <input pInputText formControlName="accountNumber"
-                                                        placeholder="Enter Account Number" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
-                                                </div>
-
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Confirm Account Number:</label>
-                                                    <input pInputText formControlName="confirmAccountNumber"
-                                                        placeholder="Enter Confirm Account Number" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
-                                                </div>
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">IfSC Code:</label>
-                                                    <input pInputText formControlName="ifsc"
-                                                        placeholder="Enter Bank Name" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['ifsc']"></error-message>
-                                                </div>
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Account Type:</label>
-                                                    <div class="payment-dropdown ">
-                                                        <p-dropdown class="bg-slate-200" [options]="accountType"
-                                                            [style]="{ width: '100%' }"
-                                                            placeholder="Choose Account type" optionLabel="name"
-                                                            optionValue="name"
-                                                            formControlName="accountType"></p-dropdown>
-                                                    </div>
-                                                </div>
-
+                                            <div class="field col-12">
+                                                <label class="ml-2">Bank Name: </label>
+                                                <input pInputText formControlName="bankname"
+                                                    placeholder="Enter Bank Name" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['bankname']"></error-message>
                                             </div>
 
 
-                                            <div class="flex col-12">
-                                                <div class="col-9"></div>
-                                                <div class="flex col-3 text-right">
-                                                    <button type="button" pButton icon="pi pi-pencil" iconPos="right"
-                                                        class="ml-2" (click)="updateDebitAccount()"> Edit</button>
-                                                    <button type="button" pButton icon="pi pi-trash" iconPos="right"
-                                                        class="ml-2 deleteBtn" (click)="deleteAccount()">Delete</button>
+                                            <div class="field col-12">
+                                                <label class="ml-2">Account Number:</label>
+                                                <input pInputText formControlName="accountNumber"
+                                                    placeholder="Enter Account Number" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
+                                            </div>
+
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Confirm Account Number:</label>
+                                                <input pInputText formControlName="confirmAccountNumber"
+                                                    placeholder="Enter Confirm Account Number" class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
+                                            </div>
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Ifsc Code:</label>
+                                                <input pInputText formControlName="ifsc" placeholder="Enter Bank Name"
+                                                    class="w-full" />
+                                                <error-message
+                                                    [controlName]="creditAccountForm.controls['ifsc']"></error-message>
+                                            </div>
+
+                                            <div class="field col-12">
+                                                <label class="ml-2">Account Type:</label>
+                                                <div class="payment-dropdown ">
+                                                    <p-dropdown class="bg-slate-200" [options]="accountType"
+                                                        [style]="{ width: '100%' }" placeholder="Choose Account type"
+                                                        optionLabel="name" optionValue="name"
+                                                        formControlName="accountType"></p-dropdown>
                                                 </div>
                                             </div>
 
-                                        </form>
+                                        </div>
+
+                                        <div class="flex col-12">
+                                            <div class="col-8"></div>
+                                            <div class="flex col-4 text-right">
+                                                <button type="button" pButton class="mr-2"
+                                                    (click)="updateDebitAccount()">Update</button>
+                                                <button type="button" pButton class="deleteBtn"
+                                                    (click)="deleteAccount()">Delete</button>
+                                            </div>
+                                        </div>
 
                                         <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
                                             [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                                             <ng-template pTemplate="header">
                                                 <span class="text-xl font-bold">Confirmation</span>
                                             </ng-template>
-                                            <p class="m-0">Are you sure you want to delete this Credit Account?</p>
+                                            <p class="m-0">Are you sure you want to delete this Debit Account?</p>
                                             <ng-template pTemplate="footer">
                                                 <p-button icon="pi pi-times" (click)="cancelDelete()" label="Cancel"
                                                     styleClass="p-button-text"></p-button>
-                                                <p-button icon="pi pi-check" (click)="deleteConfirmCA()" label="Yes"
+                                                <p-button icon="pi pi-check" (click)="deleteConfirmDA()" label="Yes"
                                                     styleClass="p-button-text"></p-button>
                                             </ng-template>
                                         </p-dialog>
+                                    </form>
 
 
-                                    </div>
                                 </div>
-                            </p-panel>
-                        </div>
-                        <!-- Right Panel of Listing Details Ends-->
 
+
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
-
-        <div *ngIf="value == 'debit'">
-            <div class="m-6 bg-white border-round-3xl">
-                <div class="p-5">
-                    <div class="flex gap-2" style=" justify-content: center;">
-
-                        <!-- Left List Panel -->
-                        <div class="col-4">
-                            <p-panel class="left-panel ">
-                                <ng-template pTemplate="header">
-                                    <span class="p-panel-title" style="padding: 1px">Debit Account</span>
-                                </ng-template>
-                                <ng-template pTemplate="content">
-                                    <div class="left-panel-content">
-                                        <br />
-
-                                        <div *ngFor="let item of allDebitAccounts" class="order-list"
-                                            [ngClass]="{ 'bg-gray-100': activeDebitAccount.id === item.id }">
-                                            <div class=" list-item" (click)="changeDebitAccount(item)">
-                                                <div class="iconSCSS w-full gap-3 p-3">
-                                                    <div class="col-2  justify-center align-center">
-                                                        <div class="person-icon">{{ item.bankname.charAt(0) }}</div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="text-base"><b>{{ item.bankname }}</b></div>
-                                                        <div class="">
-                                                            <div class="text-base">
-                                                                <p class="text-sm">Account No: {{item.accountNumber}}
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center m-5" *ngIf="allDebitAccounts.length === 0">
-                                            No Roles
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <p-footer> Total: {{ this.totalDARecords}} </p-footer>
-                            </p-panel>
-                        </div>
-
-                        <!-- Right Panel of Listing Details -->
-                        <div class="col-8">
-                            <p-panel>
-                                <ng-template pTemplate="header">
-                                    <div class="w-full">
-                                        <div class="grid m-0">
-                                            <div class="col-6 p-0">
-                                                <span class="p-panel-title">Details</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="right-panel-content">
-                                    <div class="text-center m-5" *ngIf="!activeDebitAccount.id">
-                                        <img src="/assets/role.png" width="400" /><br />
-                                        Select Debit Account
-                                    </div>
-
-                                    <div *ngIf="activeDebitAccount.id" (ngSubmit)="updateDebitAccount()">
-
-                                        <form [formGroup]="debitAccountForm">
-                                            <div class="">
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Bank Name: </label>
-                                                    <input pInputText formControlName="bankname"
-                                                        placeholder="Enter Bank Name" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['bankname']"></error-message>
-                                                </div>
-
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Account Number:</label>
-                                                    <input pInputText formControlName="accountNumber"
-                                                        placeholder="Enter Account Number" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
-                                                </div>
-
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Confirm Account Number:</label>
-                                                    <input pInputText formControlName="confirmAccountNumber"
-                                                        placeholder="Enter Confirm Account Number" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
-                                                </div>
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Ifsc Code:</label>
-                                                    <input pInputText formControlName="ifsc"
-                                                        placeholder="Enter Bank Name" class="w-full" />
-                                                    <error-message
-                                                        [controlName]="creditAccountForm.controls['ifsc']"></error-message>
-                                                </div>
-
-                                                <div class="field col-12">
-                                                    <label class="ml-2">Account Type:</label>
-                                                    <div class="payment-dropdown ">
-                                                        <p-dropdown class="bg-slate-200" [options]="accountType"
-                                                            [style]="{ width: '100%' }"
-                                                            placeholder="Choose Account type" optionLabel="name"
-                                                            optionValue="name"
-                                                            formControlName="accountType"></p-dropdown>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="flex col-12">
-                                                <div class="col-9"></div>
-                                                <div class="flex col-3 text-right">
-                                                    <button type="button" pButton icon="pi pi-pencil" iconPos="right"
-                                                        class="ml-2" (click)="updateDebitAccount()"> Edit</button>
-                                                    <button type="button" pButton icon="pi pi-trash" iconPos="right"
-                                                        class="ml-2 deleteBtn" (click)="deleteAccount()">Delete</button>
-                                                </div>
-                                            </div>
-
-                                            <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
-                                                [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                                <ng-template pTemplate="header">
-                                                    <span class="text-xl font-bold">Confirmation</span>
-                                                </ng-template>
-                                                <p class="m-0">Are you sure you want to delete this Debit Account?</p>
-                                                <ng-template pTemplate="footer">
-                                                    <p-button icon="pi pi-times" (click)="cancelDelete()" label="Cancel"
-                                                        styleClass="p-button-text"></p-button>
-                                                    <p-button icon="pi pi-check" (click)="deleteConfirmDA()" label="Yes"
-                                                        styleClass="p-button-text"></p-button>
-                                                </ng-template>
-                                            </p-dialog>
-                                        </form>
-
-
-                                    </div>
-                                </div>
-                            </p-panel>
-                        </div>
-                        <!-- Right Panel of Listing Details Ends-->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
+
+
+
 </div>

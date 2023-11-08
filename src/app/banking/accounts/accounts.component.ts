@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
@@ -48,15 +49,38 @@ export class AccountsComponent implements OnInit {
   currentCreditAccount: any = {};
   currentDebitAccount: any = {};
 
-  constructor(private payS: PayPageService, private router: Router, private message: MessageService, private breadcrumS: BreadCrumbService) { }
+  constructor(private payS: PayPageService,
+    private authS : AuthService, private router: Router, private message: MessageService, private breadcrumS: BreadCrumbService) { }
 
   ngOnInit(): void {
     this.breadcrumS.breadCrumb([{ label: 'Accounts' }]);
-    
+
     this.initForm();
+    this.loadUser();
+   
+  }
+
+  loadOtherDetails()
+  {
     this.getCreditAccounts();
     this.getDebitAccounts();
     // this.getCreditAccountId();
+  }
+
+   currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+      this.loadOtherDetails();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
   initForm() {
@@ -81,8 +105,15 @@ export class AccountsComponent implements OnInit {
 
   getCreditAccounts() {
     this.submitted = true;
-    this.payS.getAllCreditAccount().then((res: any) => {
-      this.allCreditAccounts = res.content;
+    this.payS.getAllCreditAccount(this.currentUser).then((res: any) => {
+      this.allCreditAccounts = res;
+
+      if (this.allCreditAccounts.length > 0) {
+        this.changeCreditAccount(this.allCreditAccounts[0]);
+      } else {
+        this.activeCreditAccount = {};
+      }
+
       this.totalCARecords = res.totalElements;
       this.submitted = false;
     })
@@ -90,8 +121,15 @@ export class AccountsComponent implements OnInit {
 
   getDebitAccounts() {
     this.submitted = true;
-    this.payS.getAllDebitAccount().then((res: any) => {
-      this.allDebitAccounts = res.content;
+    this.payS.getAllDebitAccount(this.currentUser).then((res: any) => {
+      this.allDebitAccounts = res;
+
+      if (this.allDebitAccounts.length > 0) {
+        this.changeDebitAccount(this.allDebitAccounts[0]);
+      } else {
+        this.activeDebitAccount = {};
+      }
+
       this.totalDARecords = res.totalElements;
       this.submitted = false;
     })
@@ -160,6 +198,7 @@ export class AccountsComponent implements OnInit {
         detail: 'Credit Account Updated',
         life: 3000,
       });
+      this.ngOnInit();
     })
       .catch((err) => {
         console.log(err);
@@ -238,6 +277,11 @@ export class AccountsComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       })
+  }
+
+  searchAccount: any;
+  searchAccounts() {
+
   }
 
 }

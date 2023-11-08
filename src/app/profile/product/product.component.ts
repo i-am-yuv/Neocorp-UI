@@ -264,4 +264,8 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  createProduct() {
+    this.router.navigate(['/profile/product/create']);
+  }
+
 }

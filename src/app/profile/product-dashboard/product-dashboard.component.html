@@ -74,10 +74,10 @@
                             [ngClass]="{ 'bg-gray-100': activeProduct.id === item.id }">
                             <div class=" list-item" (click)="changeProduct(item)">
                                 <div class="flex align-item-center w-full gap-2 p-3 cursor-pointer">
-                                   
+
                                     <!-- <div class="flex align-item-center gap-1 w-full"> -->
-                                        <div class="col-6 text-left text-lg">{{ item.name }}</div>
-                                        <div class="col-6 text-right">MRP: ₹{{myFunction(item.mrp)}}</div>
+                                    <div class="col-6 text-left text-lg">{{ item.name }}</div>
+                                    <div class="col-6 text-right">MRP: ₹{{myFunction(item.mrp)}}</div>
                                     <!-- </div> -->
                                 </div>
                             </div>
@@ -91,14 +91,14 @@
                 </div>
 
                 <div class="col-7 border-round-xl bg-white" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
-                    <div class="productRightList p-4" >
+                    <div class="productRightList p-4">
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeProduct.id && allProducts.length != 0">
-                                <img src="assets/empty.svg" alt="Image" width="250"><br>
+                                <img src="/assets/product.png" alt="Image" width="300"><br>
                                 <p class="text-lg">Please, Select the Product to view details</p>
                             </div>
                             <div *ngIf="allProducts.length === 0" class="text-center m-5">
-                                <img src="assets/empty.svg" alt="Image" width="250"><br>
+                                <img src="/assets/product.png" alt="Image" width="300"><br>
                                 No Product Found
                             </div>
 

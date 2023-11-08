@@ -18,7 +18,7 @@
 .right-panel-content {
     // height: 773.5px;
     height: 580px;
-    overflow-y: scroll;
+    // overflow-y: scroll;
 }
 
 :host::ng-deep {
@@ -273,4 +273,16 @@ p {
 .deleteBtn:hover {
     background-color: #d62134;
     border: 1px solid #d62134;
+}
+
+.productList {
+    height: 46rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}
+
+.productRightList {
+    height: 50rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
 }
