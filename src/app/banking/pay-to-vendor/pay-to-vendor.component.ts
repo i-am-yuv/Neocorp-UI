@@ -153,7 +153,7 @@ export class PayToVendorComponent implements OnInit {
 
     this.upiForm = new FormGroup({
       id: new FormControl(''),
-      upiId: new FormControl('', [Validators.required])
+      upiId: new FormControl('', [Validators.required, Validators.minLength(10)])
     });
 
 

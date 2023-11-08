@@ -111,7 +111,7 @@ export class InvoiceService {
   }
 
   async createVI(si: any ) {
-    var url = this.apiurlNew + 'api/vendorInvoice';
+    var url = this.apiurlNew + 'api/vendorInvoice/vendorInvoice';
     const saved= await lastValueFrom(this.http.post<any>(url, si));
     return saved;
   }
