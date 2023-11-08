@@ -32,12 +32,16 @@ export class WorkflowComponent implements OnInit {
   items!: MenuItem[];
 
   constructor(private router: Router, private route: ActivatedRoute, private message: MessageService, private settingS: SettingService, private fb: FormBuilder
-    ,private authS : AuthService, private breadcrumbS: BreadCrumbService) { }
+    , private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Workflow', routerLink: ['/setting/workflows'] }]);
-
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Workflow', routerLink: ['/setting/workflows'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Workflow', routerLink: ['/setting/workflows'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -141,7 +145,7 @@ export class WorkflowComponent implements OnInit {
         }, 2000);
       });
     } else {
-      workflowFormVal.user = this.currentUser ;
+      workflowFormVal.user = this.currentUser;
       this.settingS.createWorkflow(workflowFormVal).then((res) => {
         console.log(res);
         this.message.add({
@@ -177,13 +181,13 @@ export class WorkflowComponent implements OnInit {
     this.router.navigate(['/setting/workflows']);
   }
 
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
     })
       .catch((err) => {

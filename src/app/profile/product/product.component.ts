@@ -46,13 +46,19 @@ export class ProductComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create' }]);
+    } else {
+      this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Edit' }]);
+    }
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -74,7 +80,7 @@ export class ProductComponent implements OnInit {
   // Product Init Form
   initForm() {
     this.productForm = new FormGroup({
-      name: new FormControl('', Validators.required), 
+      name: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       description: new FormControl(''),
       searchKey: new FormControl(''),
@@ -100,7 +106,7 @@ export class ProductComponent implements OnInit {
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
 
-    console.log( this.productForm);
+    console.log(this.productForm);
     var productFormVal = this.productForm.value;
     productFormVal.id = this.id;
 
@@ -257,5 +263,5 @@ export class ProductComponent implements OnInit {
         this.submitted = false;
       });
   }
-  
+
 }

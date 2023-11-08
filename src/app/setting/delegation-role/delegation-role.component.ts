@@ -20,9 +20,9 @@ export class DelegationRoleComponent implements OnInit {
   chooseRoleId: any;
   currentDelegationRole: DelegationRole = {};
 
-  delroleForm !: FormGroup ;
+  delroleForm !: FormGroup;
 
-  roles : any[] = [] ;
+  roles: any[] = [];
   submitted!: boolean;
 
   items!: MenuItem[];
@@ -30,18 +30,23 @@ export class DelegationRoleComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
-    private service : SettingService,
-    private fb: FormBuilder ,
-    private authS  : AuthService, private breadcrumbS: BreadCrumbService) { }
+    private service: SettingService,
+    private fb: FormBuilder,
+    private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}]);
-      this.loadUser();
+
+    this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Delegation Role', routerLink: ['/setting/delegationRoles'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Delegation Role', routerLink: ['/setting/delegationRoles'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -55,46 +60,45 @@ export class DelegationRoleComponent implements OnInit {
         this.availableDelegationRole();
       }
     });
-    
+
     this.initForm();
     this.laodRoles();
     this.getDelegationRole();
   }
 
-  availableDelegationRole(){
-      this.submitted = true;
-      this.service.getAlldelegationRole(this.currentUser).then(
-        (res) => {
-          this.submitted = false;
-          var count = res.length;
-          //count=0
-          if (count > 0) {
-            this.router.navigate(['/setting/delegationRoles']);
-          }
-          else {
-            this.createNew = false;
-          }
+  availableDelegationRole() {
+    this.submitted = true;
+    this.service.getAlldelegationRole(this.currentUser).then(
+      (res) => {
+        this.submitted = false;
+        var count = res.length;
+        //count=0
+        if (count > 0) {
+          this.router.navigate(['/setting/delegationRoles']);
         }
-      ).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
+        else {
+          this.createNew = false;
         }
-      )
-    }
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+      }
+    )
+  }
 
-  initForm()
-  {
+  initForm() {
     this.delroleForm = new FormGroup({
-      delegationName : new FormControl('', Validators.required), 
-      delegationDescription : new FormControl(''),
-      delegationAmount : new FormControl('' , Validators.required),
+      delegationName: new FormControl('', Validators.required),
+      delegationDescription: new FormControl(''),
+      delegationAmount: new FormControl('', Validators.required),
       role: this.fb.group({
         id: this.fb.nonNullable.control('', {
           validators: Validators.required,
         })
       })
-    });  
+    });
   }
 
 
@@ -114,17 +118,16 @@ export class DelegationRoleComponent implements OnInit {
         })
     }
   }
-  
 
-  laodRoles()
-  {
-    this.service.getAllRoles( this.currentUser).then(
-      (res)=>{
-         console.log(res);
-         this.roles = res;
+
+  laodRoles() {
+    this.service.getAllRoles(this.currentUser).then(
+      (res) => {
+        console.log(res);
+        this.roles = res;
       }
     ).catch(
-      (err)=>{
+      (err) => {
         console.log(err);
         this.message.add({
           severity: 'error',
@@ -135,13 +138,13 @@ export class DelegationRoleComponent implements OnInit {
       }
     )
   }
-  selectVendor(){}
+  selectVendor() { }
 
   onSubmitDelegationRole() {
 
     var delroleFormVal = this.delroleForm.value;
     delroleFormVal.id = this.id;
-   
+
     if (delroleFormVal.id) {
       this.submitted = true;
       this.service.updateDelegationRole(delroleFormVal)
@@ -158,7 +161,7 @@ export class DelegationRoleComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/setting/delegationRoles']);
           }, 2000);
-          
+
         })
         .catch(
           (err) => {
@@ -171,14 +174,14 @@ export class DelegationRoleComponent implements OnInit {
               life: 3000,
             });
           })
-    } 
+    }
     else {
-      
-      delroleFormVal.user  = this.currentUser ;
+
+      delroleFormVal.user = this.currentUser;
       this.service.createDelegationRole(this.delroleForm.value).then(
-        (res)=>{
-           console.log(res);
-           this.message.add({
+        (res) => {
+          console.log(res);
+          this.message.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Delegation Role Saved Successfully',
@@ -189,7 +192,7 @@ export class DelegationRoleComponent implements OnInit {
           }, 2000);
         }
       ).catch(
-        (err)=>{
+        (err) => {
           console.log(err);
           this.message.add({
             severity: 'error',
@@ -212,22 +215,22 @@ export class DelegationRoleComponent implements OnInit {
 
 
 
-  onCancel(){
+  onCancel() {
     this.router.navigate(['/setting/delegationRoles']);
   }
 
-  
-  currentCompany : any = {} ;
-  currentUser : any = {} ;
+
+  currentCompany: any = {};
+  currentUser: any = {};
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentCompany = res.comapny;
-      this.currentUser  = res ;
+      this.currentUser = res;
       this.submitted = false;
 
       this.loadOtherInfo();
-      
+
     })
       .catch((err) => {
         console.log(err);

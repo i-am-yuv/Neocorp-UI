@@ -34,13 +34,19 @@ export class CategoryComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadCrumbService.breadCrumb([{ label: 'Product Category', routerLink: ['/profile/productCategories'] }]);
+
     this.initProductCategoryForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadCrumbService.breadCrumb([{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Create' }]);
+    } else {
+      this.breadCrumbService.breadCrumb([{ label: 'Product Category', routerLink: ['/profile/productCategories'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
