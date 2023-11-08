@@ -63,7 +63,8 @@ export class SidebarComponent implements OnInit {
       }
       else if (this.routeName == 'payToVendor' || this.routeName == 'salesOrders'
         || this.routeName == 'beneficiaries' || this.routeName == 'beneficiary'
-        || this.routeName == 'payments' || this.routeName == 'track') {
+        || this.routeName == 'payments' || this.routeName == 'track'
+        ||  this.routeName == 'accounts') {
         this.currentTitle = 'Banking';
       }
 
