@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { Beneficiary } from 'src/app/profile/profile-models';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 
 @Component({
   selector: 'app-beneficiary-dashboard',
@@ -27,10 +28,10 @@ export class BeneficiaryDashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private authS: AuthService,
-    private bankingS: BankingService) { }
+    private bankingS: BankingService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Banking' }, { label: 'Beneficiary' }, { label: 'Dashbaord' }];
+    this.breadcrumbS.breadCrumb([{ label: 'Beneficiary' }, { label: 'Dashboard' }]);
 
     this.loadUser();
   }
@@ -99,7 +100,7 @@ export class BeneficiaryDashboardComponent implements OnInit {
       )
     }
   }
-  
+
   currentCompany: any = {};
   currentUser: any = {};
   loadUser() {

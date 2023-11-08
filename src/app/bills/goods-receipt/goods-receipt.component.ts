@@ -66,13 +66,18 @@ export class GoodsReceiptComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt', routerLink: ['/bills/goodsReceipt'] }]);
+
 
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt', routerLink: ['/bills/goodsReceipt'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt', routerLink: ['/bills/goodsReceipt'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];

@@ -87,13 +87,20 @@ export class PurchaseOrderComponent implements OnInit {
     private profileS: ProfilepageService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Purchase Order', routerLink: ['/bills/purchaseOrders'] }, { label: 'Edit' }]);
+    }
+
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {

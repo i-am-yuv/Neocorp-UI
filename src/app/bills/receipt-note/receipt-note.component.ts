@@ -71,13 +71,19 @@ export class ReceiptNoteComponent implements OnInit {
     private billS: BillsService, private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Receipt Notes', routerLink: ['/bills/receiptNote'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
@@ -96,7 +102,7 @@ export class ReceiptNoteComponent implements OnInit {
 
     this.sidebarVisibleProduct = false;
 
-   
+
     this.loadVendors();
     this.loadCustomer();
     this.loadProducts();
@@ -296,7 +302,7 @@ export class ReceiptNoteComponent implements OnInit {
     var rnFormVal = this.rnForm.value;
     rnFormVal.id = this.id;
     rnFormVal.company = this.currentCompany;
-    rnFormVal.branch =  this.currentUser.branch ;
+    rnFormVal.branch = this.currentUser.branch;
 
     if (rnFormVal.id) {
       //this.poForm.value.id = poFormVal.id;

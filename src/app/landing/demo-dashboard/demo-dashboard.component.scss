@@ -115,11 +115,18 @@ p {
 //     }
 // }
 
-.fullbg{
+.fullbg {
     background: #EFF6FF;
 }
-.paymentList{
+
+.paymentList {
     height: 19rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
+}
+
+::ng-deep {
+    .my-chart .p-chart .p-chart-canvas {
+        display: none;
+    }
 }

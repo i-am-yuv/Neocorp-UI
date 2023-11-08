@@ -95,13 +95,18 @@ export class CreditNoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breadCrumbService.breadCrumb([{ label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }]);
+
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
 
+    if (this.id === null) {
+      this.breadCrumbService.breadCrumb([{ label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }, { label: 'Create' }]);
+    } else {
+      this.breadCrumbService.breadCrumb([{ label: 'Credit Note', routerLink: ['/invoice/creditNotes'] }, { label: 'Edit' }]);
+    }
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {

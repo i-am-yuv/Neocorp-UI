@@ -82,13 +82,19 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Goods Shipment', routerLink: ['/bills/goodsShipment'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Goods Shipment', routerLink: ['/bills/goodsShipment'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Goods Shipment', routerLink: ['/bills/goodsShipment'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];

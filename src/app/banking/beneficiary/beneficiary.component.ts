@@ -33,13 +33,17 @@ export class BeneficiaryComponent implements OnInit {
     private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Beneficiary', routerLink: ['/banking/beneficiaries'] }, {label: 'Dashboard'}]);
-
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Beneficiary', routerLink: ['/banking/beneficiaries'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Beneficiary', routerLink: ['/banking/beneficiaries'] }, { label: 'Edit' }]);
+    }
 
     this.initForm();
     this.getCurrbeneficiary();

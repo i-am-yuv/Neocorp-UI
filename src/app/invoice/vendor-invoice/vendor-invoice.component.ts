@@ -55,12 +55,18 @@ export class VendorInvoiceComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }]);
+
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Vendor Invoice', routerLink: ['/invoice/vendorInvoices'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];

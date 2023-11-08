@@ -61,13 +61,18 @@ export class DebitNoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/bills/debitNotes'] }]);
-    
+
+
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id === null) {
+      this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Create' }]);
+    } else {
+      this.breadcrumbS.breadCrumb([{ label: 'Debit Note', routerLink: ['/bills/debitNotes'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];

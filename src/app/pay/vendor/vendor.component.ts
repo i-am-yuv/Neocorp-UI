@@ -46,13 +46,19 @@ export class VendorComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-    this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }]);
+
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id === null) {
+      this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create' }]);
+    } else {
+      this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Edit' }]);
+    }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
