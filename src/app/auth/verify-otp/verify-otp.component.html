@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div>
-    <div class="flex">
+    <div class="flex" style="height: 100vh;">
         <div class="field col-6 ">
             <img src="/assets/LogoNeomaxer.png" alt="Image" class=" ml-2 mt-2 w-3 h-1">
 
@@ -13,7 +13,7 @@
                 <p>Sign up with NeoCorp today and unlock a world of possibilities for your banking and finances.</p>
             </div>
         </div>
-        <div class="field col-6 bg-blue-50">
+        <div class="field col-6 " style="background: #F0F1FE;">
             <div class="p-8" *ngIf="!showAadharOtpPage && !aadharPanVerified ">
                 <form class="p-10" (ngSubmit)="onSubmitOTP()" [formGroup]="verifyOtpForm">
                     <h2 class="text-3xl font-semibold text-center">OTP verification</h2>

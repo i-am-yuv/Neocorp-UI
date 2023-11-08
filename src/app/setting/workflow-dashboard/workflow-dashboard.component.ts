@@ -56,4 +56,10 @@ export class WorkflowDashboardComponent implements OnInit {
     this.router.navigate(['/setting/workflow/create']);
   }
 
+  searchWorkFlow : any ;
+  searchWorkFlows(a:any)
+  {
+
+  }
+
 }

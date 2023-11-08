@@ -159,7 +159,7 @@ export class GoodsReceiptDashboardComponent implements OnInit {
       this.currentUser = res;
 
       this.submitted = false;
-     // this.getAllGR(); Temp
+      this.getAllGR(); 
     })
       .catch((err) => {
         console.log(err);

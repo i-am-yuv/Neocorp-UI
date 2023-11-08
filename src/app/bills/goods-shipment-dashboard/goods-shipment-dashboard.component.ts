@@ -156,7 +156,7 @@ export class GoodsShipmentDashboardComponent implements OnInit {
       this.currentUser = res;
       this.submitted = false;
 
-     // this.getAllGS(); Temp
+      this.getAllGS(); 
     })
       .catch((err) => {
         console.log(err);

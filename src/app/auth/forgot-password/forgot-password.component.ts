@@ -12,7 +12,9 @@ import { LoginService } from '../login/login.service';
 export class ForgotPasswordComponent implements OnInit {
   pwdForm!: FormGroup<any>;
   submitted: boolean = false;
-  resetMailSent: boolean = false;
+
+  fieldTextType!: boolean;
+
 
   constructor(
     private router: Router,
@@ -21,15 +23,50 @@ export class ForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.pwdForm = new FormGroup({
+    //   username: new FormControl('', Validators.required),
+    // });
+
     this.pwdForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10)
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
     });
+
   }
-  onSubmit() {
-    this.loginService
-      .resetPassword(this.pwdForm.value.username)
-      .then((res: any) => {
-        this.resetMailSent = true;
+
+  onSubmitForgotPassword()
+  {
+    if( this.pwdForm.value.password !== this.pwdForm.value.confirmPassword )
+    {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Password Mis-matched Error',
+        life: 3000,
       });
+    }
+     alert(JSON.stringify(this.pwdForm.value) ) ;
   }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
+  // onSubmit() {
+  //   this.loginService
+  //     .resetPassword(this.pwdForm.value.username)
+  //     .then((res: any) => {
+  //       this.resetMailSent = true;
+  //     });
+  // }
 }

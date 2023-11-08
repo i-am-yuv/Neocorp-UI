@@ -39,7 +39,7 @@ export class DelegationRoleDashboardComponent implements OnInit {
       .then((res: any) => {
         this.alldelegationRoles = res;
         if (this.alldelegationRoles.length > 0) {
-          this.changeProductCategory(this.alldelegationRoles[0]);
+          this.changeDeleRole(this.alldelegationRoles[0]);
         } else {
           this.activeDele = {};
         }
@@ -52,7 +52,7 @@ export class DelegationRoleDashboardComponent implements OnInit {
       })
   }
 
-  changeProductCategory(delegationRole: DelegationRole) {
+  changeDeleRole(delegationRole: DelegationRole) {
     this.activeDele = delegationRole;
   }
 
@@ -79,6 +79,13 @@ export class DelegationRoleDashboardComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       });
+  }
+
+  searchDeleRole : any ;
+
+  searchDeleRoles( a : any )
+  {
+
   }
 
 

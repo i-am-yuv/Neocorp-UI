@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div class="pb-2" style="background: #EFF6FF;">
-   
+
     <div class="bg-white iconSCSS1">
         <div class="col-10">
             <!-- <p-breadcrumb class="max-w-full text-left" [model]="items"></p-breadcrumb> -->
@@ -9,8 +9,8 @@
                     <div class="p-inputgroup">
                         <input pInputText placeholder="Search" [(ngModel)]="searchPayments" class="w-full border-none"
                             style="background: #EFF6FF;" (ngModelChange)="searchPaymentsNow(searchPayments)" />
-                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchPaymentsNow(searchPayments)"
-                            styleClass="p-button-success"></button>
+                        <button type="button" pButton pRipple icon="pi pi-search"
+                            (click)="searchPaymentsNow(searchPayments)" styleClass="p-button-success"></button>
                     </div>
                 </div>
                 <div class="col-1 border-round-sm text-center" style="background: #EFF6FF;">
@@ -69,10 +69,15 @@
                                         </div>
                                     </div>
                                     <div class="col-3 text-left">
-                                        <p style="color: #3579F3;">Purchase Invoice Number</p>
-                                        <p>{{ item.invoiceNo }}</p>
+                                        <p style="color: #3579F3;">Purchase Invoice</p>
+                                        <div class="mt-1">
+                                            <p>{{ item.invoiceNo }}</p>
+                                            <p class="text-sm">Status: <a style="color: #ce1023;">{{ item.requestStatus
+                                                    }}</a></p>
+                                        </div>
+
                                     </div>
-                                    
+
                                     <div class="col-3">
                                         <p style="color: #3579F3;">Vendor Details</p>
                                         <p>{{ item.vendor.firstName}} {{ item.vendor.lastName}}</p>
@@ -84,12 +89,12 @@
                                     </div>
                                     <div class="col-2 mr-2">
                                         <button type="button" pButton label="Pay Now" style="border-radius: 4px;
-                                        background: #407BFF;"
-                                            (click)="goToVendorPaymentPage(item)"
+                                        background: #407BFF;" (click)="goToVendorPaymentPage(item)"
                                             class="w-full text-lg cursor-pointer">
                                         </button>
                                     </div>
                                 </div>
+                                <hr class="custom-hr">
                             </div>
                             <div class="text-center m-5" *ngIf="this.allNonCompletedPI.length === 0">
                                 No Due Purchase Invoice Found!!
@@ -115,9 +120,13 @@
                                     </div>
                                     <div class="col-3 text-left">
                                         <p style="color: #3579F3;">Purchase Invoice Number</p>
-                                        <p>{{ item.invoiceNo }}</p>
+                                        <div class="mt-1">
+                                            <p>{{ item.invoiceNo }}</p>
+                                            <!-- <p class="text-sm">Status: <a class="text-green-700">{{ item.requestStatus
+                                                    }}</a></p> -->
+                                        </div>
                                     </div>
-                                    
+
                                     <div class="col-3">
                                         <p style="color: #3579F3;">Vendor Details</p>
                                         <p>{{ item.vendor.firstName}} {{ item.vendor.lastName}}</p>
@@ -129,20 +138,20 @@
                                     </div>
                                     <div class="col-2">
                                         <button type="button" pButton label="Paid" style="border-radius: 4px;
-                                        background: #709844; border: none;"
-                                            class="w-full text-lg cursor-not-allowed">
+                                        background: #709844; border: none;" class="w-full text-lg cursor-not-allowed">
                                         </button>
                                     </div>
                                 </div>
+                                <hr class="custom-hr">
                             </div>
                             <div class="text-center m-5" *ngIf="this.allCompletedPI.length === 0">
                                 No Completed Purchase Invoice Found !!
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

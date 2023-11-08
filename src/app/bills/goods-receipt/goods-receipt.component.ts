@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Product, State } from 'src/app/profile/profile-models';
-import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
-import { GoodsReceipt, GoodsShipment } from '../bills-model';
+import { Product } from 'src/app/profile/profile-models';
+import {  Vendor } from 'src/app/settings/customers/customer';
+import { GoodsReceipt } from '../bills-model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillsService } from '../bills.service';
 import { PayPageService } from 'src/app/pay/pay-page.service';
-import { CompanyNew, SalesOrder, SalesOrderLine } from 'src/app/invoice/invoice-model';
+import { CompanyNew, SalesOrder } from 'src/app/invoice/invoice-model';
 import { InvoiceService } from 'src/app/invoice/invoice.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
@@ -67,7 +67,7 @@ export class GoodsReceiptComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbS.breadCrumb([{ label: 'Goods Receipt', routerLink: ['/bills/goodsReceipt'] }]);
-
+    this.initForm();
     this.loadUser();
   }
 
@@ -87,7 +87,6 @@ export class GoodsReceiptComponent implements OnInit {
       }
     });
 
-    this.initForm();
     this.loadVendors();
     this.loadSalesOrder();
     this.getGR();
@@ -143,7 +142,7 @@ export class GoodsReceiptComponent implements OnInit {
         var count = res.length;
         //count=0
         if (count > 0) {
-          this.router.navigate(['/bills/goodsReceipt']);
+          this.router.navigate(['/bills/goodsReceipts']);
         }
         else {
           this.createNew = false;
@@ -206,12 +205,13 @@ export class GoodsReceiptComponent implements OnInit {
       this.submitted = true;
       this.billS.getCurrentGr(this.id).then(
         (goodsReceipt: GoodsReceipt) => {
+         // alert(JSON.stringify(goodsReceipt) );
           goodsReceipt.receivedDate = goodsReceipt.receivedDate ? new Date(goodsReceipt.receivedDate) : undefined;
-          console.log(goodsReceipt);
-          this.submitted = false;
+          
           this.currGoodsReceipt = goodsReceipt;
           this.currSalesOrder.id = goodsReceipt?.salesOrder?.id;
 
+          this.submitted = false;
           this.grForm.patchValue(goodsReceipt);
           this.getLines(goodsReceipt?.salesOrder); //Because backend api is not ready
           this.getLineItemGR(goodsReceipt);

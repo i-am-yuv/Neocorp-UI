@@ -113,7 +113,7 @@
 
                     <div class="field col-6" *ngIf="this.poInvoiceForm.value.vendor.id">
                         <label class="mr-3">Vendor Details:</label>
-                        <input pInputText value="{{this.poInvoiceForm.value.vendor.firstName }} {{this.poInvoiceForm.value.vendor.lastName  }}  ( Mobile no. {{this.poInvoiceForm.value.vendor.mobileNumber }}  )"
+                        <input pInputText value="{{this.currVendorShow.firstName }} {{this.currVendorShow.lastName  }}  ( Mobile no. {{this.currVendorShow.mobileNumber }}  )"
                             placeholder="Vendor Details" class="w-full custom-input" [disabled]="true" />
                     </div>
 
@@ -327,6 +327,16 @@
                         <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
                             (change)="selectFile($event)">
                         <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
+                    </div>
+                    <div class="col-4">
+
+                    </div>
+                    <div class="col-4">
+                        <div class="field col-12">
+                            <label class="">Penalty Amount (₹)</label>
+                            <input pInputText placeholder="Enter Amount" [(ngModel)]="penalty"
+                                class="w-full custom-input">
+                        </div>
                     </div>
                 </div>
 

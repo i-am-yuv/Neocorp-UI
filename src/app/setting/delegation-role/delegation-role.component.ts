@@ -35,7 +35,9 @@ export class DelegationRoleComponent implements OnInit {
     private authS  : AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+
     this.breadcrumbS.breadCrumb([{label: 'Delegation Role', routerLink: ['/setting/delegationRoles']}]);
+    this.initForm();
       this.loadUser();
   }
 
@@ -56,7 +58,6 @@ export class DelegationRoleComponent implements OnInit {
       }
     });
     
-    this.initForm();
     this.laodRoles();
     this.getDelegationRole();
   }

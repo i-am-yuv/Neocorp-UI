@@ -55,6 +55,8 @@ export class PoInvoiceComponent implements OnInit {
   items!: MenuItem[];
   currentCompany: any = {};
 
+  penalty : number = 0 ;
+
   stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
 
   //value: string = 'off';
@@ -105,6 +107,7 @@ export class PoInvoiceComponent implements OnInit {
       status: new FormControl(''),
       description: new FormControl(''),
       grossTotal: new FormControl(''),
+      remainingAmount : new FormControl(''),
       taxableTotal: new FormControl(''),
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
@@ -283,6 +286,7 @@ export class PoInvoiceComponent implements OnInit {
       .getVendor(vendorId)
       .then((res: any) => {
         this.currVendorShow = res;
+        // alert(JSON.stringify(res) );
         this.poInvoiceForm.value.vendor = res;
       }).catch(
         (err) => {
@@ -597,14 +601,25 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   finalPoInvoiceSubmit() {
+
+    
+
     // updated complete PO so that gross total can be updated
     var poInvoiceFormVal = this.poInvoiceForm.value;
     poInvoiceFormVal.id = this.id;
     poInvoiceFormVal.grossTotal = this.poInvoiceSubTotal;
     poInvoiceFormVal.comapny = this.currentCompany;
+    poInvoiceFormVal.penalty = this.penalty ;
+    // if first time then remaining amoun will be same as gross Total
+    if( this.poInvoiceForm.value.remainingAmount == null )
+    {
+      poInvoiceFormVal.remainingAmount = poInvoiceFormVal.grossTotal  ;
+    }
+    else{
+        
+    }
 
     if (poInvoiceFormVal.id) {
-
       this.submitted = true;
       this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
         (res) => {

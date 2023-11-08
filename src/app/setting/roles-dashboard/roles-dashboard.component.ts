@@ -64,6 +64,13 @@ export class RolesDashboardComponent implements OnInit {
     this.SettingS.getAllRoles(this.currentUser)
       .then((res: any) => {
         this.allRoles = res;
+
+        if (this.allRoles.length > 0) {
+          this.changeRole(this.allRoles[0]);
+        } else {
+          this.activeRole = {};
+        }
+
         this.totalRecords = res.length;
         this.submitted = false;
       })
@@ -108,6 +115,12 @@ export class RolesDashboardComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       });
+  }
+
+  searchRole : any;
+  searchRoles(a : any)
+  {
+
   }
 
 }
