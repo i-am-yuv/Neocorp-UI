@@ -8,8 +8,8 @@ build:
     - npm install -g @angular/cli
     - npm install --legacy-peer-deps
   script:
-    - ls
     - npm ci --legacy-peer-deps
+    - ls
     - npm run build
   artifacts:
     name: "neocorp-ui"
