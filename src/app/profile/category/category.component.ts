@@ -153,6 +153,9 @@ export class CategoryComponent implements OnInit {
     {
       this.productCategoryForm.value.parent = null ;
     }
+    else{
+      
+    }
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
 
