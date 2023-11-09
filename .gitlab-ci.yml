@@ -19,7 +19,7 @@ deploy-frontend:
   stage: deploy
   image: alpine
   dependencies:
-    - "build"
+    - "build-frontend"
   before_script:
     - apk add openssh-client
     - eval $(ssh-agent -s)
