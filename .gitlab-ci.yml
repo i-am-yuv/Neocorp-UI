@@ -8,7 +8,7 @@ build:
     - npm install -g @angular/cli
   script:
     - ls
-    - ng build --prod
+    - ng build 
     
 
 
