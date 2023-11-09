@@ -11,10 +11,6 @@ build:
     - npm ci --legacy-peer-deps
     - ls
 
-  artifacts:
-    name: "neocorp-ui"
-    paths:
-      - target/dist
 
 
   
