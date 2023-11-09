@@ -28,5 +28,7 @@ deploy-frontend:
     - chmod 700 ~/.ssh
   script:
     - mv dist neocorp
-    - rm -rf /home/staginguser/public_html/neomaxer/neocorp
     - scp -o StrictHostKeyChecking=no neocorp $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
+#    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "bash /home/staginguser/java-application/jar-files/deploy-script.sh doneo"
+
+
