@@ -1,25 +1,28 @@
 <p-toast></p-toast>
 
-<div class="pb-3" style="background: #EFF6FF;">
-  <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
-    <div class="center-container mt-5 p-3 ">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+  <div class="m-6 mb-8 border-round-3xl bg-white">
+    <div class="flex align-items-center mt-5 p-3 ">
       <div class="field col-3"></div>
-      <div class="field col-6 ">
-        <div class="image-container">
-          <img src="/assets/workflow.png" alt="Image" class="w-full h-auto">
+      <div class="field col-6 text-center">
+        <div class="">
+          <img src="/assets/workflow.png" alt="Image" width="300">
         </div>
         <div class="text-center">
-          <b class="text-2xl">Create Workflow</b><br>
+          <b class="text-xl">Create Workflow</b><br>
           <p>Empower Your Team by Delegating Tasks and Responsibilities</p>
         </div>
         <div class="text-center">
-          <button type="button" pButton label="Create Delegation" (click)="createWorkflow()"
+          <button type="button" pButton label="Create Workflow" (click)="createWorkflow()"
             class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
         </div>
       </div>
       <div class="field col-3"></div>
     </div>
   </div>
+</div>
+
+<div class="pb-3" style="background: #EFF6FF;">
 
   <div *ngIf="createNew">
     <div class="bg-white iconSCSS1 p-1">

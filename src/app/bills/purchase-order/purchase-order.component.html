@@ -1,7 +1,7 @@
 <p-toast></p-toast>
-<div class="pb-2" style="background: #EFF6FF;">
 
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8  border-round-3xl bg-white">
         <div class="flex align-items-center p-5">
             <div class=" col-3"></div>
             <div class=" col-6 ">
@@ -20,6 +20,9 @@
             <div class="col-3"></div>
         </div>
     </div>
+</div>
+
+<div class="pb-2" style="background: #EFF6FF;">
 
     <div *ngIf="createNew">
         <div class="bg-white flex align-items-center p-1">
@@ -204,9 +207,11 @@
                                             [appendTo]="'body'" [style]="{ width: '100%' }"
                                             class="fixed-width-dropdown">
                                         </p-dropdown> -->
-                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id" [appendTo]="'body'"  
-                                        class="fixed-width-dropdown" optionLabel="name" optionValue="id" [style]="{ width: '100%' }"
-                                        (ngModelChange)="setLineValues(lineItem)"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Product">
+                                        <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
+                                            [appendTo]="'body'" class="fixed-width-dropdown" optionLabel="name"
+                                            optionValue="id" [style]="{ width: '100%' }"
+                                            (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
+                                            [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">
                                                 <div class="flex align-items-center gap-2"
                                                     *ngIf="lineItem.expenseName.id">
@@ -227,7 +232,7 @@
                             </td>
                             <td class="text-center">
                                 <p-cellEditor>
-                                    <ng-template pTemplate="input" class="" >
+                                    <ng-template pTemplate="input" class="">
                                         <!-- <p-inputNumber [(ngModel)]="lineItem.unitPrice" class="custom-input"
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true" >
@@ -276,7 +281,7 @@
                                     </ng-template>
                                 </p-cellEditor>
                             </td>
-                            <td class="text-center " >
+                            <td class="text-center ">
                                 {{ ((lineItem?.unitPrice)*(lineItem?.quantity))-(lineItem?.discount) | number :
                                 "1.2-2" }}
                             </td>

@@ -7,11 +7,10 @@
             <div class="flex align-items-center gap-2">
                 <div class="col-10">
                     <div class="p-inputgroup">
-                        <input pInputText placeholder="Search" [(ngModel)]="searchRole"
-                            class="w-full border-none" style="background: #EFF6FF;"
-                            (ngModelChange)="searchRoles(searchRole)" />
-                        <button type="button" pButton pRipple icon="pi pi-search"
-                            (click)="searchRoles(searchRole)" styleClass="p-button-success"></button>
+                        <input pInputText placeholder="Search" [(ngModel)]="searchRole" class="w-full border-none"
+                            style="background: #EFF6FF;" (ngModelChange)="searchRoles(searchRole)" />
+                        <button type="button" pButton pRipple icon="pi pi-search" (click)="searchRoles(searchRole)"
+                            styleClass="p-button-success"></button>
                     </div>
                 </div>
                 <div class="col-1 border-round-sm text-center" style="background: #EFF6FF;">
@@ -84,7 +83,7 @@
                 </div>
 
                 <div class="col-7 border-round-xl bg-white" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
-                    <div class="productRightList p-4" >
+                    <div class="productRightList p-4">
                         <div class="right-panel-content">
                             <div class="text-center m-5" *ngIf="!activeRole.id && allRoles.length != 0">
                                 <img src="assets/role.png" alt="Image" width="350"><br>
@@ -92,7 +91,7 @@
                             </div>
                             <div *ngIf="allRoles.length === 0" class="text-center m-5">
                                 <img src="assets/role.png" alt="Image" width="350"><br>
-                                No Product Found!!
+                                No Role Found!!
                             </div>
 
                             <div *ngIf="activeRole.id">
@@ -151,5 +150,5 @@
 
             </div>
         </div>
-    </div>   
+    </div>
 </div>

@@ -59,7 +59,7 @@ export class WorkflowComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.availableWorkflow();
+       // this.availableWorkflow();
       }
     });
 
