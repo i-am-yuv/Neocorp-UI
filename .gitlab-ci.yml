@@ -10,7 +10,7 @@ build:
   script:
     - npm ci --legacy-peer-deps
     - ls
-
+    - npm run build
 
 
   
