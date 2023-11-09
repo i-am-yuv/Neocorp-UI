@@ -54,7 +54,13 @@
             <div class="flex gap-3" style=" justify-content: center;">
                 <div class="col-5 bg-white border-round-xl p-4 "
                     style=" box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
-                    <div class="text-blue-400 text-lg mb-4">All Purchase Invoices</div>
+                    <div class="flex align-items-center mb-2">
+                        <div class="text-blue-400 text-lg col-6">All Purchase Invoices</div>
+                        <div class="col-1"></div>
+                        <div class="col-4 mr-2text-center bg-blue-100 border-round-lg p-1 hover:bg-blue-200 cursor-pointer">
+                            <p class="text-sm">Export to NeoLedger</p>
+                        </div>
+                    </div>
 
                     <div class="PILeftList">
                         <div *ngFor="let item of allPIs" [ngClass]="{ 'bg-gray-100': activeInvoice.id === item.id }">

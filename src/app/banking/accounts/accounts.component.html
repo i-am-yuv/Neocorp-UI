@@ -101,7 +101,16 @@
                                 </div>
 
                                 <div *ngIf="activeCreditAccount.id">
-                                    <div class="text-blue-400 text-xl mb-4">Credit Account Details</div>
+                                    <div class="flex align-items-center">
+                                        <div class="col-8 text-lg text-blue-400">
+                                            Credit Account Details
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <button pButton  (click)="deleteAccount()" pRipple type="button" icon="pi pi-trash"
+                                                class="p-button-rounded p-button-text p-button-danger"></button></div>      
+                                    </div>
+
+
 
                                     <form [formGroup]="creditAccountForm" (ngSubmit)="updateCreditAccount()">
                                         <div class="">
@@ -155,11 +164,9 @@
 
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
-                                            <div class="flex col-4 text-right">
+                                            <div class="col-4 text-right">
                                                 <button type="button" pButton class="mr-2"
                                                     (click)="updateDebitAccount()">Update</button>
-                                                <button type="button" pButton class="deleteBtn"
-                                                    (click)="deleteAccount()">Delete</button>
                                             </div>
                                         </div>
 
@@ -239,7 +246,15 @@
                                 </div>
 
                                 <div *ngIf="activeDebitAccount.id">
-                                    <div class="text-blue-400 text-xl mb-4">Debit Account Details</div>
+                                    <!-- <div class="text-blue-400 text-xl mb-4">Debit Account Details</div> -->
+                                    <div class="flex align-items-center">
+                                        <div class="col-8 text-lg text-blue-400">
+                                            Debit Account Details
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <button pButton  (click)="deleteAccount()" pRipple type="button" icon="pi pi-trash"
+                                                class="p-button-rounded p-button-text p-button-danger"></button></div>      
+                                    </div>
 
                                     <form [formGroup]="debitAccountForm" (ngSubmit)="updateDebitAccount()">
                                         <div class="">
@@ -292,11 +307,11 @@
 
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
-                                            <div class="flex col-4 text-right">
+                                            <div class="col-4 text-right">
                                                 <button type="button" pButton class="mr-2"
                                                     (click)="updateDebitAccount()">Update</button>
-                                                <button type="button" pButton class="deleteBtn"
-                                                    (click)="deleteAccount()">Delete</button>
+                                                <!-- <button type="button" pButton class="deleteBtn"
+                                                    (click)="deleteAccount()">Delete</button> -->
                                             </div>
                                         </div>
 

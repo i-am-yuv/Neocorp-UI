@@ -74,8 +74,8 @@ export class SettingService {
     return createWorkflow;
   }
 
-  async getAllWorkflow() {
-    var url = this.apiurlNew + 'workflow';
+  async getAllWorkflow(user : any) {
+    var url = this.apiurlNew + 'workflow/workflow/'+ encodeURIComponent(user.id);
     const getAllWorkflow = await lastValueFrom(this.http.get<any>(url));
     return getAllWorkflow;
   }

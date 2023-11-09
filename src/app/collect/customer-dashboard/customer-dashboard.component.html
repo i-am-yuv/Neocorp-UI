@@ -133,8 +133,10 @@
                                                 <p class="text-lg blueText">Total Amount</p>
                                             </div>
                                             <div class="">
-                                                <button pButton label="Pending"
+                                                <button *ngIf="totalRemainingAmount > 0" pButton label="Pending"
                                                     class="bg-red-200 border-0 text-900 border-round-lg"></button>
+                                                    <button *ngIf="totalRemainingAmount <= 0" pButton label="Complete"
+                                                class="bg-green-200 border-0 text-900 border-round-lg"></button>
                                             </div>
                                         </div>
 

@@ -85,9 +85,9 @@ export class WorkflowComponent implements OnInit {
 
   availableWorkflow() {
     this.submitted = true;
-    this.settingS.getAllWorkflow().then((res: any) => {
+    this.settingS.getAllWorkflow(this.currentUser).then((res: any) => {
       this.submitted = false;
-      var count = res.totalElements;
+      var count = res.length;
 
       if (count > 0) {
         this.router.navigate(['/setting/workflows']);

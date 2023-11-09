@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onDropdownChange(event: any) {
-    alert(JSON.stringify(event));
+  //  alert(JSON.stringify(event));
     if (event.value.label == 'Vendor') {
       this.router.navigate(['/pay/vendor/create']);
     }
