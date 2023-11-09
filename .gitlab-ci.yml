@@ -6,4 +6,5 @@ build-frontend:
   image: node:18
 
   script:
+    - cd ..
     - ls
