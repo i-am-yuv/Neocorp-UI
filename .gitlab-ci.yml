@@ -1,9 +1,23 @@
 stages:
   - build
+  - deploy
 
 build-frontend:
   stage: build
-  image: node:18
+  image: node:20.5.0-alpine
+
+  script:
+    - npm install --legacy-peer-deps
+    - npm ci --legacy-peer-deps
+    - npm run build
+  artifacts:
+    name: "doneocards-jar-artifact"
+    paths:
+      - target/dist
+
+deploy-frontend:
+  stage: deploy
+  image: alpine
 
   script:
     - ls
