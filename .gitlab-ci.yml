@@ -1,13 +1,25 @@
-stages:
-  - build
+image: node:18
 
-build-frontend:
+stages:            # List of stages for jobs, and their order of execution
+ - install_dependencies
+ - install_angular
+ - build
+ 
+
+install_dep:
+  stage: install_dependencies
+  image: node:18
+  script:
+  - npm install
+
+install_ang:
+  stage: install_angular
+  image: node:18
+  script:
+ - npm install -D typescript @angular/cli @angular/compiler
+
+build_ang:
   stage: build
   image: node:18
-  before_script:
-  - npm install -g @angular/cli  # Install Angular CLI globally
-
   script:
-    - ls
-    - ng -v
- 
+  - npm run build
