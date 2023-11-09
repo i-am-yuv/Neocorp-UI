@@ -8,7 +8,7 @@ build-frontend:
 
   script:
     - npm install --legacy-peer-deps
-    - npm ci --legacy-peer-deps
+    - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
     - npm run build
   artifacts:
     name: "doneocards-jar-artifact"
