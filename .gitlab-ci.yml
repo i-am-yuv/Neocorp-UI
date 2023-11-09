@@ -1,23 +1,16 @@
+image: node:latest  # Use Node.js Docker image
+
 stages:
   - build
-  - deploy
 
-build-frontend:
+before_script:
+  - npm install -g @angular/cli  # Install Angular CLI globally
+  - npm install  # Install project dependencies
+
+build:
   stage: build
-  image: node:20.5.0-alpine
-
   script:
-    - npm install --legacy-peer-deps
-    - npm ci --legacy-peer-deps
-    - npm run build
+    - ng build --configuration=production  # Build the Angular app for production
   artifacts:
-    name: "doneocards-jar-artifact"
     paths:
-      - target/dist
-
-deploy-frontend:
-  stage: deploy
-  image: alpine
-
-  script:
-    - ls
+      - dist/  # Save the built application as an artifact
