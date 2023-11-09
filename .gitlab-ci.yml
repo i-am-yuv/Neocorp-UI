@@ -13,7 +13,7 @@ build-frontend:
   artifacts:
     name: "doneocards-jar-artifact"
     paths:
-      - target/dist
+      - dist
 
 deploy-frontend:
   stage: deploy
