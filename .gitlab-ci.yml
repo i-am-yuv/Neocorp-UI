@@ -4,7 +4,7 @@ stages:
 build:
   stage: build
   image: node:18
-  script:
+  before_script:
     - npm install -g @angular/cli
 
 
