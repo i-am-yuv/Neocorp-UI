@@ -1,16 +1,9 @@
-image: node:latest  # Use Node.js Docker image
-
 stages:
   - build
 
-before_script:
-  - npm install -g @angular/cli  # Install Angular CLI globally
-  - npm install  # Install project dependencies
-
-build:
+build-frontend:
   stage: build
+  image: node:18
+
   script:
-    - ng build --configuration=production  # Build the Angular app for production
-  artifacts:
-    paths:
-      - dist/  # Save the built application as an artifact
+    - ls
