@@ -11,7 +11,7 @@ build-frontend:
     - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
     - npm run build
   artifacts:
-    name: "doneocards-jar-artifact"
+    name: "dist-output"
     paths:
       - dist
 
