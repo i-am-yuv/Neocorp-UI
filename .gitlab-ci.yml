@@ -29,4 +29,4 @@ deploy-frontend:
   script:
     - mv dist neocrop
     - rm -rf /home/staginguser/public_html/neomaxer/neocorp
-    - scp -o StrictHostKeyChecking=no neocrop $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
+    - scp -o StrictHostKeyChecking=no neocorp $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
