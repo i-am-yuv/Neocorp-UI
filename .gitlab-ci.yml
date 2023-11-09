@@ -27,6 +27,6 @@ deploy-frontend:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - mv dist neocrop
+    - mv dist neocorp
     - rm -rf /home/staginguser/public_html/neomaxer/neocorp
     - scp -o StrictHostKeyChecking=no neocorp $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
