@@ -30,5 +30,3 @@ deploy-frontend:
     - mv dist/ifyn neocorp
     - scp -r -o StrictHostKeyChecking=no neocorp $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo $PASSWORD | sudo -S nginx -s reload"
-
-
