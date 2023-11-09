@@ -17,6 +17,7 @@ export class BeneficiaryComponent implements OnInit {
 
   beneficiaryForm !: FormGroup;
   submitted: boolean = false;
+  createNew: boolean = false;
 
   currbeneficiary: Beneficiary = {};
 
@@ -33,6 +34,7 @@ export class BeneficiaryComponent implements OnInit {
     private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
   ngOnInit(): void {
+    this.initForm();
     this.loadUser();
   }
 
@@ -45,7 +47,20 @@ export class BeneficiaryComponent implements OnInit {
       this.breadcrumbS.breadCrumb([{ label: 'Beneficiary', routerLink: ['/banking/beneficiaries'] }, { label: 'Edit' }]);
     }
 
-    this.initForm();
+    this.route.url.subscribe(segments => {
+      let lastSegment = segments[segments.length - 1];
+      if (lastSegment && lastSegment.path == 'create') {
+        this.createNew = true;
+      }
+      else if (lastSegment && lastSegment.path == this.id) {
+        this.createNew = true;
+      }
+      else {
+        this.availableBeneficiary();
+      }
+    });
+
+
     this.getCurrbeneficiary();
   }
 
@@ -182,6 +197,24 @@ export class BeneficiaryComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       });
+  }
+
+  availableBeneficiary() {
+    this.submitted = true;
+    this.bankingS.getAllBeneficairy(this.currentUser).then((res: any) => {
+      var count = res.length;
+      this.submitted = false;
+
+      if (count > 0) {
+        this.router.navigate(['banking/beneficiaries']);
+      } else {
+        this.createNew = false;
+      }
+    })
+  }
+
+  createBeneficiary() {
+    this.router.navigate(['/banking/beneficiary/create']);
   }
 
 }

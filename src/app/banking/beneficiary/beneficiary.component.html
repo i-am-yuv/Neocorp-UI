@@ -1,84 +1,110 @@
 <p-toast></p-toast>
-<div class="pb-2" style="background: #EFF6FF;">
-    <div class="bg-white iconSCSS1 p-1">
-        <div class="col-4">
-            <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
-        </div>
-        <div class="col-8">
-            <div class="border-200 text-right">
-                <button type="button" pButton label="Cancel" (click)="onClickCancel()"
-                    class="  mr-3 p-button-secondary"></button>
-                <button type="button" pButton label="Save Beneficiary" 
-                    (click)="onSubmitBeneficiary()"
-                    [disabled]="!beneficiaryForm.valid"
-                    class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8 border-round-3xl bg-white">
+        <div class="flex align-items-center mt-5 p-3 ">
+            <div class="field col-4"></div>
+            <div class="field col-4 text-center">
+                <div class="">
+                    <img src="/assets/role.png" alt="Image" width="300">
+                </div>
+                <div class="text-center">
+                    <b class="text-2xl">Create Beneficiary</b><br>
+                    <p>Empower Your Team by Delegating Tasks and Responsibilities</p>
+                </div>
+                <div class="text-center">
+                    <button type="button" pButton label="Create Beneficiary" (click)="createBeneficiary()"
+                        class="mb-3 text-lg p-button-raised bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                </div>
             </div>
+            <div class="field col-4"></div>
         </div>
     </div>
+</div>
 
-    <div class="m-6 bg-white border-round-3xl">
-        <form (ngSubmit)="onSubmitBeneficiary()" [formGroup]="beneficiaryForm" class="p-6">
-            <h3 class="text-xl text-blue-700">Beneficairy Details</h3>
-            
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 required">Beneficiary Name</label>
-                    <input pInputText formControlName="beneficaryName" placeholder="Enter Beneficiary Name"
-                        class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['beneficaryName']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 required">Nick Name</label>
-                    <input pInputText formControlName="nickname" placeholder="Enter Beneficiary's Nick Name"
-                        class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['nickname']"></error-message>
+<div class="pb-2" style="background: #EFF6FF;">
+
+    <div *ngIf="createNew">
+        <div class="bg-white iconSCSS1 p-1">
+            <div class="col-4">
+                <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
+            </div>
+            <div class="col-8">
+                <div class="border-200 text-right">
+                    <button type="button" pButton label="Cancel" (click)="onClickCancel()"
+                        class="  mr-3 p-button-secondary"></button>
+                    <button type="button" pButton label="Save Beneficiary" (click)="onSubmitBeneficiary()"
+                        [disabled]="!beneficiaryForm.valid"
+                        class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
+        </div>
 
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 required">Account Number</label>
-                    <input pInputText formControlName="accountNumber" placeholder="Enter Beneficiary's Account Number"
-                        class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['accountNumber']"></error-message>
-                </div>
-                <div class="field col-6">
-                    <label class="mr-3 required">IFSC Code</label>
-                    <input pInputText formControlName="ifscCode" placeholder="Enter Beneficiary's IFSC Code"
-                        class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['ifscCode']"></error-message>
-                </div>
-            </div>
+        <div class="m-6 bg-white border-round-3xl">
+            <form (ngSubmit)="onSubmitBeneficiary()" [formGroup]="beneficiaryForm" class="p-6">
+                <h3 class="text-xl text-blue-700">Beneficairy Details</h3>
 
-            <div class="flex gap-2">
-                <div class="field col-6">
-                    <label class="mr-3 required">Mobile Number</label>
-                    <input pInputText formControlName="mobileNumber" minlength="10" maxlength="10"
-                        placeholder="Enter Beneficiary's Mobile Number" class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['mobileNumber']"></error-message>
+                <div class="flex gap-2">
+                    <div class="field col-6">
+                        <label class="mr-3 required">Beneficiary Name</label>
+                        <input pInputText formControlName="beneficaryName" placeholder="Enter Beneficiary Name"
+                            class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['beneficaryName']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">Nick Name</label>
+                        <input pInputText formControlName="nickname" placeholder="Enter Beneficiary's Nick Name"
+                            class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['nickname']"></error-message>
+                    </div>
                 </div>
-                <div class="field col-6">
-                    <label class="mr-3 ">MMID</label>
-                    <input pInputText formControlName="mmid" NumbersOnly minlength="7" placeholder="Enter Beneficiary's mmid" class="w-full" />
-                    <error-message [controlName]="beneficiaryForm.controls['mmid']"></error-message>
-                </div>
-            </div>
 
-            <!-- <div class="flex">
+                <div class="flex gap-2">
+                    <div class="field col-6">
+                        <label class="mr-3 required">Account Number</label>
+                        <input pInputText formControlName="accountNumber"
+                            placeholder="Enter Beneficiary's Account Number" class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['accountNumber']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 required">IFSC Code</label>
+                        <input pInputText formControlName="ifscCode" placeholder="Enter Beneficiary's IFSC Code"
+                            class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['ifscCode']"></error-message>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <div class="field col-6">
+                        <label class="mr-3 required">Mobile Number</label>
+                        <input pInputText formControlName="mobileNumber" minlength="10" maxlength="10"
+                            placeholder="Enter Beneficiary's Mobile Number" class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['mobileNumber']"></error-message>
+                    </div>
+                    <div class="field col-6">
+                        <label class="mr-3 ">MMID</label>
+                        <input pInputText formControlName="mmid" NumbersOnly minlength="7"
+                            placeholder="Enter Beneficiary's mmid" class="w-full" />
+                        <error-message [controlName]="beneficiaryForm.controls['mmid']"></error-message>
+                    </div>
+                </div>
+
+                <!-- <div class="flex">
                 <div class="field col-4">
                     <button type="submit" pButton label="Save" [disabled]="!beneficiaryForm.valid"
                         class="mb-6 text-lg p-button-raised bg-green-500 text-white px-4 py-2.5 rounded-md hover:bg-green-600 "></button>
                 </div>
             </div> -->
 
-            <div class="border-bottom-1 border-200 text-right p-3">
-                <button type="button" pButton label="Cancel" (click)="onClickCancel()"
-                    class=" mr-3 p-button-secondary "></button>
-                <button type="submit" pButton label="Save Beneficiary" [disabled]="!beneficiaryForm.valid"
-                    class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
-            </div>
+                <div class="border-bottom-1 border-200 text-right p-3">
+                    <button type="button" pButton label="Cancel" (click)="onClickCancel()"
+                        class=" mr-3 p-button-secondary "></button>
+                    <button type="submit" pButton label="Save Beneficiary" [disabled]="!beneficiaryForm.valid"
+                        class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <p-blockUI [blocked]="submitted">

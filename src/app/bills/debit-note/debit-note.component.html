@@ -1,13 +1,12 @@
 <p-toast></p-toast>
 
-<div class="pb-2" style="background: #EFF6FF;">
-    <!-- CREATE NEW DEBIT NOTE BUTTON -->
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8  border-round-3xl bg-white">
         <div class="flex align-items-center">
             <div class="col-4"></div>
             <div class="col-4">
                 <div class="text-center">
-                    <img src="/assets/debitNote.png" width="200px">
+                    <img src="/assets/debitNote.png" width="230px">
                 </div>
                 <div class="text-center">
                     <p><b>Ready to keep track of your financial transactions?</b></p>
@@ -21,7 +20,9 @@
             <div class="col-4"></div>
         </div>
     </div>
-    <!-- CREATE NEW DEBIT NOTE BUTTON ENDS -->
+</div>
+
+<div class="pb-2" style="background: #EFF6FF;">
 
 
     <div *ngIf="createNew">

@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
-<div class="pb-2" style="background: #EFF6FF;">
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8  border-round-3xl bg-white">
         <div class="flex align-items-center p-5">
             <div class="col-3"></div>
             <div class=" col-6">
@@ -20,6 +20,10 @@
             <div class="col-3"></div>
         </div>
     </div>
+</div>
+
+<div class="pb-2" style="background: #EFF6FF;">
+
     <div *ngIf="createNew">
         <div class=" bg-white iconSCSS1">
             <div class="col-4">
@@ -83,7 +87,6 @@
                         <ng-container formGroupName="purchaseOrder" class="w-full">
                             <p-dropdown [options]="allPOs" placeholder="Choose Purchase Order" optionValue="id"
                                 formControlName="id" [showClear]="true" (onChange)="selectVendor($event)"
-                                
                                 [style]="{ width: '100%' }" optionLabel="orderNumber">
                                 <ng-template let-purchaseOrder pTemplate="option">
                                     <span>{{ purchaseOrder.orderNumber }}, (Gross Total:
@@ -113,7 +116,8 @@
 
                     <div class="field col-6" *ngIf="this.poInvoiceForm.value.vendor.id">
                         <label class="mr-3">Vendor Details:</label>
-                        <input pInputText value="{{this.currVendorShow.firstName }} {{this.currVendorShow.lastName  }}  ( Mobile no. {{this.currVendorShow.mobileNumber }}  )"
+                        <input pInputText
+                            value="{{this.currVendorShow.firstName }} {{this.currVendorShow.lastName  }}  ( Mobile no. {{this.currVendorShow.mobileNumber }}  )"
                             placeholder="Vendor Details" class="w-full custom-input" [disabled]="true" />
                     </div>
 
@@ -221,9 +225,8 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -238,9 +241,8 @@
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.quantity" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText [(ngModel)]="lineItem.quantity" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -255,9 +257,8 @@
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.discount" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText [(ngModel)]="lineItem.discount" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}
@@ -365,6 +366,7 @@
 
 
     </div>
+
 </div>
 
 <div *ngIf="sidebarVisibleProduct">

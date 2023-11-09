@@ -88,152 +88,163 @@
 
 
                 <div class="col-7">
-                    
-                        <div class="right-panel-content">
+
+                    <div class="right-panel-content">
+                        <div class="border-round-xl bg-white py-3 productRightList"
+                            style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
                             <div class="text-center m-5" *ngIf="!activeCustomer.id && allCustomers.length > 0">
                                 <div class="">
-                                    <img src="/assets/bill.png" width="400"><br>
+                                    <img src="/assets/bill.png" width="300"><br>
                                     <p class="mt-4 text-xl">Please, Select Customer</p>
                                 </div>
                             </div>
                             <div class="text-center m-5" *ngIf="allCustomers.length === 0">
-                                No Customer Found, Please Create One
+                                <img src="/assets/bill.png" width="300"><br>
+                                <p class="mt-4 text-xl">Please, Select Customer</p>
                             </div>
-                            <div *ngIf="activeCustomer.id">
-                               
-                                <div class="flex bg-gray-700 gap-1 border-round-xl  py-1" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+                        </div>
 
-                                    <div class="col-4 mt-2 ml-1 font-light">
-                                        <div>
-                                            <p class="text-3xl  font-light text-white capitalize">
-                                                {{this.activeCustomer.displayName}}</p>
-                                        </div>
-                                        <div class="mt-2">
-                                            <p class="text-sm   text-gray-200">{{this.activeCustomer.email}}</p>
-                                            <p class="text-sm text-gray-200">+91 {{this.activeCustomer.mobileNumber}}</p>
-                                        </div>
+                        <div *ngIf="activeCustomer.id">
+
+                            <div class="flex bg-gray-700 gap-1 border-round-xl  py-1"
+                                style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+
+                                <div class="col-4 mt-2 ml-1 font-light">
+                                    <div>
+                                        <p class="text-3xl  font-light text-white capitalize">
+                                            {{this.activeCustomer.displayName}}</p>
                                     </div>
-
-                                    <div class=" col-8">
-                                        <div class="flex bg-white border-round-xl m-2 align-items-center">
-                                            <div class="">
-                                                <div class="border-1 border-primary border-round-lg m-3 ml-4">
-                                                    <div class="p-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <path
-                                                                d="M20.25 6.75H5.25C5.05109 6.75 4.86032 6.67098 4.71967 6.53033C4.57902 6.38968 4.5 6.19891 4.5 6C4.5 5.80109 4.57902 5.61032 4.71967 5.46967C4.86032 5.32902 5.05109 5.25 5.25 5.25H18C18.1989 5.25 18.3897 5.17098 18.5303 5.03033C18.671 4.88968 18.75 4.69891 18.75 4.5C18.75 4.30109 18.671 4.11032 18.5303 3.96967C18.3897 3.82902 18.1989 3.75 18 3.75H5.25C4.65326 3.75 4.08097 3.98705 3.65901 4.40901C3.23705 4.83097 3 5.40326 3 6V18C3 18.5967 3.23705 19.169 3.65901 19.591C4.08097 20.0129 4.65326 20.25 5.25 20.25H20.25C20.6478 20.25 21.0294 20.092 21.3107 19.8107C21.592 19.5294 21.75 19.1478 21.75 18.75V8.25C21.75 7.85218 21.592 7.47064 21.3107 7.18934C21.0294 6.90804 20.6478 6.75 20.25 6.75ZM20.25 18.75H5.25C5.05109 18.75 4.86032 18.671 4.71967 18.5303C4.57902 18.3897 4.5 18.1989 4.5 18V8.12156C4.74082 8.20693 4.9945 8.25037 5.25 8.25H20.25V18.75ZM15.75 13.125C15.75 12.9025 15.816 12.685 15.9396 12.5C16.0632 12.315 16.2389 12.1708 16.4445 12.0856C16.65 12.0005 16.8762 11.9782 17.0945 12.0216C17.3127 12.065 17.5132 12.1722 17.6705 12.3295C17.8278 12.4868 17.935 12.6873 17.9784 12.9055C18.0218 13.1238 17.9995 13.35 17.9144 13.5555C17.8292 13.7611 17.685 13.9368 17.5 14.0604C17.315 14.184 17.0975 14.25 16.875 14.25C16.5766 14.25 16.2905 14.1315 16.0795 13.9205C15.8685 13.7095 15.75 13.4234 15.75 13.125Z"
-                                                                fill="#3579F3" />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-5 text-left ">
-                                                <p class="text-2xl">₹ {{myFunction(totalGrossAmount)}} </p>
-                                                <p class="text-lg blueText">Total Amount</p>
-                                            </div>
-                                            <div class="">
-                                                <button pButton label="Pending"
-                                                    class="bg-red-200 border-0 text-900 border-round-lg"></button>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-2 flex w-full ">
-                                            <div class="col-6">
-                                                <p class="text-base text-white">Total Amount paid</p>
-                                                <p class="text-3xl greenText">₹ {{myFunction( totalGrossAmount -
-                                                    totalRemainingAmount)}}</p>
-                                            </div>
-                                            <div class="vertical-line"></div>
-                                            <div class="col-6">
-                                                <p class="text-base text-white">Total Amount Due</p>
-                                                <p class="text-3xl text-red-300">₹ {{ myFunction(totalRemainingAmount)}}</p>
-    
-                                            </div>
-                                        </div>
-
+                                    <div class="mt-2">
+                                        <p class="text-sm   text-gray-200">{{this.activeCustomer.email}}</p>
+                                        <p class="text-sm text-gray-200">+91 {{this.activeCustomer.mobileNumber}}</p>
                                     </div>
                                 </div>
 
-                                <div class="mt-3">
-
-                                    <div class="button-container">
-                                        <button type="button" label="Orders" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true , 'onClickButton':showOrders }"
-                                            (click)="showOrdersPage()">Orders</button>
-                                        <button type="button" label="invoice" class="p-2"
-                                            [ngClass]="{'defaultSCSS text-lg cursor-pointer': true, 'onClickButton': showInvoices}"
-                                            (click)="showInvoicesPage(activeCustomer)">Invoices</button>
-                                    </div>
-
-                                    <div class="orderInvList bg-white border-round-xl mt-4" style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
-                                    
-                                        <div *ngIf="showOrders" class=" p-3">
-                                            <p class="blueText text-lg" *ngIf="allCustomerOrders.length >0 ">Sales Order No.</p>
-                                            <div *ngFor="let item of allCustomerOrders" class="">
-    
-                                                <div class="">
-                                                    <div class="iconSCSS w-full gap-1">
-                                                        <div class="col-8 text-left">
-                                                            <div class="text-lg">#{{item.orderNumber }}</div>
-                                                            <div class="font-light text-sm">Bill Date: {{item.billDate |
-                                                                date:
-                                                                'yyyy-MM-dd'}}</div>
-                                                        </div>
-                                                        <div class="col-4 text-right">
-                                                            <div class="">
-                                                                <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                                <p>Total: ₹{{ myFunction(item.grossTotal) ?
-                                                                    myFunction(item.grossTotal) : '0.00' }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <hr class="custom-hr">
+                                <div class=" col-8">
+                                    <div class="flex bg-white border-round-xl m-2 align-items-center">
+                                        <div class="">
+                                            <div class="border-1 border-primary border-round-lg m-3 ml-4">
+                                                <div class="p-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <path
+                                                            d="M20.25 6.75H5.25C5.05109 6.75 4.86032 6.67098 4.71967 6.53033C4.57902 6.38968 4.5 6.19891 4.5 6C4.5 5.80109 4.57902 5.61032 4.71967 5.46967C4.86032 5.32902 5.05109 5.25 5.25 5.25H18C18.1989 5.25 18.3897 5.17098 18.5303 5.03033C18.671 4.88968 18.75 4.69891 18.75 4.5C18.75 4.30109 18.671 4.11032 18.5303 3.96967C18.3897 3.82902 18.1989 3.75 18 3.75H5.25C4.65326 3.75 4.08097 3.98705 3.65901 4.40901C3.23705 4.83097 3 5.40326 3 6V18C3 18.5967 3.23705 19.169 3.65901 19.591C4.08097 20.0129 4.65326 20.25 5.25 20.25H20.25C20.6478 20.25 21.0294 20.092 21.3107 19.8107C21.592 19.5294 21.75 19.1478 21.75 18.75V8.25C21.75 7.85218 21.592 7.47064 21.3107 7.18934C21.0294 6.90804 20.6478 6.75 20.25 6.75ZM20.25 18.75H5.25C5.05109 18.75 4.86032 18.671 4.71967 18.5303C4.57902 18.3897 4.5 18.1989 4.5 18V8.12156C4.74082 8.20693 4.9945 8.25037 5.25 8.25H20.25V18.75ZM15.75 13.125C15.75 12.9025 15.816 12.685 15.9396 12.5C16.0632 12.315 16.2389 12.1708 16.4445 12.0856C16.65 12.0005 16.8762 11.9782 17.0945 12.0216C17.3127 12.065 17.5132 12.1722 17.6705 12.3295C17.8278 12.4868 17.935 12.6873 17.9784 12.9055C18.0218 13.1238 17.9995 13.35 17.9144 13.5555C17.8292 13.7611 17.685 13.9368 17.5 14.0604C17.315 14.184 17.0975 14.25 16.875 14.25C16.5766 14.25 16.2905 14.1315 16.0795 13.9205C15.8685 13.7095 15.75 13.4234 15.75 13.125Z"
+                                                            fill="#3579F3" />
+                                                    </svg>
                                                 </div>
                                             </div>
-                                            <div *ngIf="allCustomerOrders.length === 0" class="order-list mt-5">
-                                                <p class="text-lg mt-3 text-center">No Sales Orders Available For This Customer</p>
-                                            </div>
                                         </div>
-    
-                                        <div *ngIf="showInvoices" class="p-3">
-                                            <p class="blueText text-lg" *ngIf="allCustomerSI.length >0 ">Sales Invoice Number:</p>
-                                            
-                                                <div *ngFor="let item of allCustomerSI" class="">
-                                                   
-                                                    <div class="">
-                                                        <div class="flex w-full gap-1 align-item-center">
-                                                            <div class="col-8 text-left">
-                                                                <div class="text-lg">#{{item.invoiceNo }}</div>
-                                                                <div class="font-light text-sm">Invoice Date:
-                                                                    {{item.invoiceDate | date:
-                                                                    'yyyy-MM-dd'}}</div>
-                                                            </div>
-                                                            <div class="col-4 text-right">
-                                                                <div class="">
-                                                                    <p>Total: ₹{{ myFunction(item.grossTotal) ?
-                                                                        myFunction(item.grossTotal) : '0.00'
-                                                                        }}
-                                                                    </p>
-    
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <hr class="custom-hr">
-                                                    </div>
-                                                </div>
-                                                <div *ngIf="allCustomerSI.length === 0" class="order-list mt-5">
-                                                    <p class="text-lg mt-3 text-center">No Sales Invoices Available For This Customer</p>
-                                                </div>
-                                            
+                                        <div class="col-5 text-left ">
+                                            <p class="text-2xl">₹ {{myFunction(totalGrossAmount)}} </p>
+                                            <p class="text-lg blueText">Total Amount</p>
                                         </div>
-    
-
+                                        <div class="">
+                                            <button pButton label="Pending"
+                                                class="bg-red-200 border-0 text-900 border-round-lg"></button>
+                                        </div>
                                     </div>
+
+                                    <div class="mt-2 flex w-full ">
+                                        <div class="col-6">
+                                            <p class="text-base text-white">Total Amount paid</p>
+                                            <p class="text-3xl greenText">₹ {{myFunction( totalGrossAmount -
+                                                totalRemainingAmount)}}</p>
+                                        </div>
+                                        <div class="vertical-line"></div>
+                                        <div class="col-6">
+                                            <p class="text-base text-white">Total Amount Due</p>
+                                            <p class="text-3xl text-red-300">₹ {{ myFunction(totalRemainingAmount)}}</p>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>  
+
+                            <div class="mt-3">
+
+                                <div class="button-container">
+                                    <button type="button" label="Orders" class="p-2"
+                                        [ngClass]="{'defaultSCSS text-lg cursor-pointer': true , 'onClickButton':showOrders }"
+                                        (click)="showOrdersPage()">Orders</button>
+                                    <button type="button" label="invoice" class="p-2"
+                                        [ngClass]="{'defaultSCSS text-lg cursor-pointer': true, 'onClickButton': showInvoices}"
+                                        (click)="showInvoicesPage(activeCustomer)">Invoices</button>
+                                </div>
+
+                                <div class="orderInvList bg-white border-round-xl mt-4"
+                                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
+
+                                    <div *ngIf="showOrders" class=" p-3">
+                                        <p class="blueText text-lg" *ngIf="allCustomerOrders.length >0 ">Sales Order No.
+                                        </p>
+                                        <div *ngFor="let item of allCustomerOrders" class="">
+
+                                            <div class="">
+                                                <div class="iconSCSS w-full gap-1">
+                                                    <div class="col-8 text-left">
+                                                        <div class="text-lg">#{{item.orderNumber }}</div>
+                                                        <div class="font-light text-sm">Bill Date: {{item.billDate |
+                                                            date:
+                                                            'yyyy-MM-dd'}}</div>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <div class="">
+                                                            <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
+                                                                myFunction(item.grossTotal) : '0.00' }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="custom-hr">
+                                            </div>
+                                        </div>
+                                        <div *ngIf="allCustomerOrders.length === 0" class="order-list mt-5">
+                                            <p class="text-lg mt-3 text-center">No Sales Orders Available For This
+                                                Customer</p>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="showInvoices" class="p-3">
+                                        <p class="blueText text-lg" *ngIf="allCustomerSI.length >0 ">Sales Invoice
+                                            Number:</p>
+
+                                        <div *ngFor="let item of allCustomerSI" class="">
+
+                                            <div class="">
+                                                <div class="flex w-full gap-1 align-item-center">
+                                                    <div class="col-8 text-left">
+                                                        <div class="text-lg">#{{item.invoiceNo }}</div>
+                                                        <div class="font-light text-sm">Invoice Date:
+                                                            {{item.invoiceDate | date:
+                                                            'yyyy-MM-dd'}}</div>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <div class="">
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
+                                                                myFunction(item.grossTotal) : '0.00'
+                                                                }}
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="custom-hr">
+                                            </div>
+                                        </div>
+                                        <div *ngIf="allCustomerSI.length === 0" class="order-list mt-5">
+                                            <p class="text-lg mt-3 text-center">No Sales Invoices Available For This
+                                                Customer</p>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -260,3 +260,9 @@ p {
     font-size: 1rem;
     /* Adjust the font size as needed */
 }
+
+.productRightList {
+    height: 51rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}

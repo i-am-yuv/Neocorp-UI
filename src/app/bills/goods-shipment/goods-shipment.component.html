@@ -1,13 +1,12 @@
 <p-toast></p-toast>
 
-<div class="pb-2" style="background: #EFF6FF;">
-    
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8  border-round-3xl bg-white">
         <div class="center-container mt-1">
             <div class="field col-2"></div>
             <div class="field col-8">
                 <div class="text-center">
-                    <img src="/assets/RN.png" width="400" height="auto">
+                    <img src="/assets/RN.png" width="430" height="auto">
                 </div>
                 <div class="text-center">
                     <p><b>Ready to keep track of your financial transactions?</b></p> <br>
@@ -19,10 +18,12 @@
                 </div>
             </div>
             <div class="field col-2"></div>
-
         </div>
     </div>
-    <!-- CREATE NEW DEBIT NOTE BUTTON ENDS -->
+</div>
+
+<div class="pb-2" style="background: #EFF6FF;">
+
 
     <div *ngIf="createNew">
         <div class="flex">
@@ -81,7 +82,8 @@
                                 formControlName="id" [showClear]="true" (onChange)="selectVendor()"
                                 [style]="{ width: '100%' }" optionLabel="displayName">
                                 <ng-template let-customer pTemplate="option">
-                                    <span class="font-semibold">{{ customer.displayName }}</span><span>, (Mobile No: +91 {{customer.mobileNumber}}) </span>
+                                    <span class="font-semibold">{{ customer.displayName }}</span><span>, (Mobile No: +91
+                                        {{customer.mobileNumber}}) </span>
                                 </ng-template>
                             </p-dropdown>
                         </ng-container>
@@ -149,14 +151,15 @@
                     <div class="flex mt-3 w-full">
                         <div class="field col-4">
                             <label class="mr-3 required ">Order Quantity</label>
-                            <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty" placeholder="Ordered Quantity" NumbersOnly
-                                class="w-full custom-input" [max]="salesLineItemsTotal" />
+                            <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty"
+                                placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input"
+                                [max]="salesLineItemsTotal" />
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
                         </div>
                         <div class="field col-4 required">
                             <label class="mr-3">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
-                                class="w-full custom-input" NumbersOnly/>
+                                class="w-full custom-input" NumbersOnly />
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
                         </div>
                         <div class="field col-4 required">
@@ -174,7 +177,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelGS()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()"
-                    [disabled]="!gsLineForm.valid"
+                        [disabled]="!gsLineForm.valid"
                         class="mr-3 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 

@@ -224,30 +224,39 @@ p {
 
 .custom-button {
     background: #535353;
-    border: #535353;;
-  }
-  .custom-button:hover {
+    border: #535353;
+    ;
+}
+
+.custom-button:hover {
     background: #353434;
     border: #353434;
-  }
-  // Override the default text color
-  .custom-button .p-button-text {
-    color: #ffffff;
-  }
-  
-  // Override the default border radius
-  .custom-button {
-    border-radius: 4px;
-  }
+}
 
-  .customerList{
+// Override the default text color
+.custom-button .p-button-text {
+    color: #ffffff;
+}
+
+// Override the default border radius
+.custom-button {
+    border-radius: 4px;
+}
+
+.customerList {
     height: 46rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
-.orderInvList{
+.orderInvList {
     height: 35rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+}
+
+.productRightList {
+    height: 51rem;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }

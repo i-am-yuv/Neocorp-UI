@@ -23,6 +23,7 @@ const routes: Routes = [
     path: 'beneficiary',
     component: LayoutComponent,
     children: [
+      { path: '', component: BeneficiaryComponent },
       { path: 'create', component: BeneficiaryComponent },
       { path: 'edit/:id', component: BeneficiaryComponent },
     ],
@@ -53,7 +54,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: AccountsComponent },
-      {path: 'edit/:id', component: AccountsComponent}
+      { path: 'edit/:id', component: AccountsComponent }
     ]
   }
 ];

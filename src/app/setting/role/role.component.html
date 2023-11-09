@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
-<div class="pb-3" style="background: #EFF6FF;">
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8 border-round-3xl bg-white">
         <div class="center-container mt-5 p-3 ">
             <div class="field col-4"></div>
             <div class="field col-4 ">
@@ -20,6 +20,9 @@
             <div class="field col-4"></div>
         </div>
     </div>
+</div>
+
+<div class="pb-3" style="background: #EFF6FF;">
 
     <div *ngIf="createNew">
         <div class="bg-white iconSCSS1 p-1">
@@ -79,6 +82,7 @@
         </div>
 
     </div>
+
 </div>
 
 <p-blockUI [blocked]="submitted">

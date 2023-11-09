@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
-<div class="pb-2" style="background: #EFF6FF;">
-    <div *ngIf="!createNew" class="m-6 border-round-3xl bg-white">
+<div *ngIf="!createNew" class="pb-2 pt-2" style="background: #EFF6FF;">
+    <div class="m-6 mb-8 border-round-3xl bg-white">
         <div class="flex align-items-center p-5">
             <div class=" col-3"></div>
             <div class=" col-6 text-center">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="text-center">
                     <b>Create Product</b><br>
-                    <p>Streamline Cash Memo Management with Ease</p>
+                    <p>Streamline Product with Ease</p>
                 </div>
                 <div class="text-center">
                     <button type="button" pButton label="Create Product" (click)="createProduct()"
@@ -20,6 +20,9 @@
             <div class="col-3"></div>
         </div>
     </div>
+</div>
+
+<div class="pb-2" style="background: #EFF6FF;">
 
     <div *ngIf="createNew">
         <div class="bg-white iconSCSS1 p-1">
