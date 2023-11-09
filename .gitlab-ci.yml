@@ -6,7 +6,7 @@ build-frontend:
   image: node:18
   before_script:
   - npm install -g @angular/cli  # Install Angular CLI globally
-  - npm install  # Install project dependencies
+
   script:
     - ls
     - ng -v
