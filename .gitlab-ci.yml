@@ -7,5 +7,7 @@ build:
   script:
     - npm install -g @angular/cli
     - npm install
+    - npm fund
+
     
 
