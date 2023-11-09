@@ -10,6 +10,7 @@ build:
   script:
     - npm ci --legacy-peer-deps
     - ls
+    - ng update @angular/cli @angular/core --allow-dirty --force
     - npm run build
   artifacts:
     name: "neocorp-ui"
