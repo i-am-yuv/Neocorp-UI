@@ -9,7 +9,7 @@ build:
   script:
     - ls
     - node -v
-    - ng
+    - npm run build
 
 
   
