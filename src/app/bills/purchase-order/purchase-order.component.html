@@ -165,7 +165,7 @@
 
             </form>
 
-            <div *ngIf="id" class="p-3">
+            <div *ngIf="true" class="p-3">
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row">
                     <ng-template pTemplate="header">
                         <tr>
@@ -232,7 +232,7 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true" >
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        <input pInputText NumbersOnly  [(ngModel)]="lineItem.unitPrice" class="w-full"
                                         (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
                                         [required]="true"  />
                                     </ng-template>
@@ -249,7 +249,7 @@
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.quantity" class="w-full"
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
                                         (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
                                         [required]="true"  />
                                     </ng-template>
@@ -266,7 +266,7 @@
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText  [(ngModel)]="lineItem.discount" class="w-full"
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.discount" class="w-full"
                                         (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
                                         [required]="true"  />
                                         

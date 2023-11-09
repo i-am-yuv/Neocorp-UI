@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-10">
                                         <div class="flex align-items-center">
-                                            <div class="col-6">
+                                            <div class="col-8">
                                                 <div class="text-base">{{ item.receiptNoteNumber }}</div>
                                                 <div class="text-base" *ngIf="item.vendor">
                                                     {{ item.vendor?.firstName }} {{ item.vendor?.lastName }}
@@ -81,9 +81,9 @@
                                                     {{ item.customer?.displayName}}
                                                 </div>
                                             </div>
-                                            <div class="col-6 text-right">
-                                                <p>₹: {{item.grossTotal}}</p>
-                                                <p>{{item.status}}</p>
+                                            <div class="col-4 text-right">
+                                                <p>₹{{item.grossTotal}}</p>
+                                                <!-- <p>{{item.status}}</p> -->
                                             </div>
                                         </div>
                                     </div>

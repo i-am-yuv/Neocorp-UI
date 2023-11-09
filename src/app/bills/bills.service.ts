@@ -26,7 +26,7 @@ export class BillsService {
   }
 
   async createDebitNote(rn: any) {
-    var url = this.apiurlNew + 'api/debitNote'
+    var url = this.apiurlNew + 'api/debitNote/debitNote'
     const _debitNote = await lastValueFrom(this.http.post<any>(url, rn));
     return _debitNote;
   }
@@ -56,7 +56,7 @@ export class BillsService {
   }
 
   async createGoodsShipment(rn: any) {
-    var url = this.apiurlNew + 'goodsShipment'
+    var url = this.apiurlNew + 'goodsShipment/goodsShipment'
     const saved = await lastValueFrom(this.http.post<any>(url, rn));
     return saved;
   }
@@ -92,7 +92,7 @@ export class BillsService {
   }
 
   async createGoodsReceipt(rn: any) {
-    var url = this.apiurlNew + 'goodsReceipt'
+    var url = this.apiurlNew + 'goodsReceipt/goodsReceipt'
     const saved = await lastValueFrom(this.http.post<any>(url, rn));
     return saved;
   }

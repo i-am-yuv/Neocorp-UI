@@ -68,16 +68,16 @@
                                     </div>
 
                                     <div class="col-10 flex align-items-center">
-                                        <div class="col-6">
-                                            <div class="text-base"><b>{{ item.debitNoteNumber }}</b></div>
+                                        <div class="col-8">
+                                            <div class="text-base">{{ item.debitNoteNumber }}</div>
                                             <div class="text-base  ">
                                                <p>{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
                                                 <p class="font-light text-sm">Due Date: {{item.duedate| date:'yyyy-MM-dd'}}</p>
                                             </div>
                                         </div>
 
-                                        <div class="col-6 text-right">
-                                                <p>₹: {{item.grossTotal ?item.grossTotal : '0.00' }}</p>
+                                        <div class="col-4 text-right">
+                                                <p>₹{{item.grossTotal ?item.grossTotal : '0.00' }}</p>
                                                 <p class="text-black">{{item.status}}</p>
                                         </div>
                                     </div>

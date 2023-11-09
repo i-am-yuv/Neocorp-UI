@@ -155,7 +155,11 @@ export class AccountsComponent implements OnInit {
 
   // onDeleteCurrentAccount(creditAccount: any) { }
 
-  addAccount() { }
+  openAccountSlideBar : boolean =  false; 
+
+  addAccount() { 
+    this.openAccountSlideBar = !this.openAccountSlideBar;
+  }
 
   getCreditAccountId() {
     this.submitted = true;

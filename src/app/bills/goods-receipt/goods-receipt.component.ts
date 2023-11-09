@@ -118,9 +118,9 @@ export class GoodsReceiptComponent implements OnInit {
       salesOrder: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      company: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
+      // company: this.fb.group({
+      //   id: this.fb.nonNullable.control('')
+      // }),
       status: new FormControl('')
     });
 
@@ -314,10 +314,11 @@ export class GoodsReceiptComponent implements OnInit {
   }
 
   onSubmitGR() {
-    this.grForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
+    //this.grForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
     //grFormVal.comapny = this.currentCompany;  // Temp
+    grFormVal.branch = this.currentUser.branch ;
 
     if (grFormVal.id) {
       this.submitted = true;

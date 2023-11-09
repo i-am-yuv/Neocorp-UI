@@ -9,6 +9,7 @@ import { BeneficiaryDashboardComponent } from './beneficiary-dashboard/beneficia
 import { PaymentsComponent } from './payments/payments.component';
 import { TrackingComponent } from './tracking/tracking.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { SlideAccountComponent } from '../shared/slide-account/slide-account.component';
 
 @NgModule({
   declarations: [

@@ -30,6 +30,8 @@ export class PoInvoiceComponent implements OnInit {
   currVendorShow: Vendor = {};
   poInvoiceForm !: FormGroup;
 
+  currentPO : PurchaseOrder = {};
+
   vendors: Vendor[] = [];
   allPOs: any[] = [];
   createNew: boolean = false;
@@ -327,6 +329,7 @@ export class PoInvoiceComponent implements OnInit {
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
     invoiceFormVal.comapny = this.currentCompany;
+    invoiceFormVal.branch = this.currentUser.branch ;
 
     if (invoiceFormVal.id) {
       this.submitted = true;
@@ -708,6 +711,11 @@ export class PoInvoiceComponent implements OnInit {
 
   myFunction1(item: any): string {
     return parseFloat(item.grossTotal).toFixed(2);
+  }
+
+  selectPO()
+  {
+    
   }
 
 }

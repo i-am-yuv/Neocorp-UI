@@ -252,6 +252,7 @@ export class DebitNoteComponent implements OnInit {
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
     dnFormVal.comapny = this.currCompany;
+    dnFormVal.branch = this.currentUser.branch ;
 
     if (dnFormVal.id) {
       this.submitted = true;

@@ -59,6 +59,7 @@ import { AddRowDirective } from './directives/add-row.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { DebounceKeyupDirective } from './directives/debounce.directive';
 import { SlideProductComponent } from './slide-product/slide-product.component';
+import { SlideAccountComponent } from './slide-account/slide-account.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { SlideProductComponent } from './slide-product/slide-product.component';
     AddRowDirective,
     NumbersOnlyDirective,
     DebounceKeyupDirective,
-    SlideProductComponent
+    SlideProductComponent,
+    SlideAccountComponent
   ],
   imports: [
     CommonModule,
@@ -83,10 +85,14 @@ import { SlideProductComponent } from './slide-product/slide-product.component';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
-    BreadcrumbModule
+    MultiSelectModule,
+    BreadcrumbModule,
+    SlideMenuModule,
+    SelectButtonModule
   ],
   exports:[
     SlideProductComponent,
+    SlideAccountComponent,
     FormsModule,
     ReactiveFormsModule,
     ErrorMessageComponent,

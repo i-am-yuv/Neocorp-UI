@@ -201,7 +201,7 @@
                 <div class="field col-6">
                     <label class="mr-3 required">Password:</label>
                     <input pInputText type="text" formControlName="password" placeholder="Enter Password"
-                        class="custom-input form-control inputfield w-full" name="signIn" />
+                        class="custom-input form-control inputfield w-full" name="signIn" minlength="5" />
                     <error-message [controlName]="vendorForm.controls['password']"></error-message>
                 </div>
             </div>

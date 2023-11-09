@@ -66,12 +66,13 @@
                                             item.vendor?.lastName.charAt(0) }}</div>
                                     </div>
                                     <div class="col-10 flex align-items-center">
-                                        <div class="text-lg font-light capitalize col-8">
+                                        <div class="font-light capitalize col-10">
+                                            <p class="text-base">{{ item.orderNumber }}</p>
                                             <p>{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
                                             <p class="text-sm font-light">Due Date: {{item.dueDate| date:'yyyy-MM-dd'}}</p>
                                         </div>
-                                        <div class="col-4 text-right">
-                                            <p>₹: {{item.grossTotal ?item.grossTotal : '0.00' }}</p>
+                                        <div class="col-2 text-right">
+                                            <p>₹:{{item.grossTotal ?item.grossTotal : '0.00' }}</p>
                                             <p *ngIf="item.requestStatus == 'APPROVED' " class="appStatus">
                                                 {{item.requestStatus}}</p>
                                             <p *ngIf="item.requestStatus != 'APPROVED' " class="pendingStatus">

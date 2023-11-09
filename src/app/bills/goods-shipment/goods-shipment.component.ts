@@ -152,9 +152,9 @@ export class GoodsShipmentComponent implements OnInit {
       salesOrder: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
-      company: this.fb.group({
-        id: this.fb.nonNullable.control('')
-      }),
+      // company: this.fb.group({
+      //   id: this.fb.nonNullable.control('')
+      // }),
       status: new FormControl(''),
       billToName: new FormControl('')
     });
@@ -387,9 +387,9 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   onSubmitGS() {
-    this.gsForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
+   // this.gsForm.value.company.id = '7f000101-8b5a-1044-818b-609cf78f001e'; // Sending manually till backend ready
 
-    if (this.gsForm.value.vendor.id == null || this.gsForm.value.vendor.id == "") {
+    if (this.gsForm.value.vendor == null || this.gsForm.value.vendor.id == "") {
       this.gsForm.value.vendor = null;
     }
     else {
@@ -399,7 +399,7 @@ export class GoodsShipmentComponent implements OnInit {
     var gsFormVal = this.gsForm.value;
     gsFormVal.id = this.id;
     gsFormVal.comapny = this.currentCompany;
-
+    gsFormVal.branch = this.currentUser.branch ;
     if (gsFormVal.id) {
       this.submitted = true;
       this.billS.updateGoodsShipment(gsFormVal).then((res) => {

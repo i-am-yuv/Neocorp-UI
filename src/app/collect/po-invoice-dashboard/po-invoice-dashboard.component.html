@@ -73,7 +73,8 @@
                                     </div>
                                     <div class="col-10">
                                         <div class="flex align-items-center">
-                                            <div class="text-lg font-light capitalize col-7">
+                                            <div class="font-light capitalize col-7">
+                                                <p class="text-base">{{ item.invoiceNo}}</p>
                                                 <p>{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
                                                 <p class="text-sm font-light">Due Date: {{item.duedate| date
                                                     :'yyyy-MM-dd'}}</p>
@@ -123,7 +124,7 @@
                                 style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
                                 <div class="col-7">
                                     <h4 class="rightMain">Payment Activity</h4>
-                                    <h4 class="text-white">#{{this.activeInvoice.purchaseOrder?.orderNumber}}
+                                    <h4 class="text-white">#{{this.activeInvoice.invoiceNo}}
                                     </h4>
 
                                     <div class="flex bg-white rounded-div1 mt-3 align-items-center ">
