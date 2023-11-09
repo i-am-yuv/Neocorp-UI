@@ -368,7 +368,7 @@ export class SalesInvoiceComponent implements OnInit {
       this.submitted = true;
       siFormVal.status = 'DRAFT';
       siFormVal.user = this.currentUser;
-
+      
       this.invoiceS.createSI(siFormVal).then(
         (res) => {
           console.log(res);
@@ -620,7 +620,7 @@ export class SalesInvoiceComponent implements OnInit {
     siFormVal.id = this.id;
     siFormVal.grossTotal = this.siSubTotal;
     siFormVal.comapny = this.currentCompany;
-
+    siFormVal.remainingAmount = this.siForm.value.grossTotal ;
     if (siFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateSI(siFormVal).then(
