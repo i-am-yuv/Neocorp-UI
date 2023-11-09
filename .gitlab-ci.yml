@@ -4,16 +4,16 @@ stages:
 build:
   stage: build
   image: node:20.5.0-alpine
-  before_script:
-  - npm install --legacy-peer-deps
+
   script:
-    - ls
-    - node -v
+    - npm install --legacy-peer-deps
+    - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
     - npm run build
   artifacts:
     name: "dist-output"
     paths:
       - dist
+
 
 
 
