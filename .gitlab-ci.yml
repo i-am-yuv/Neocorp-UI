@@ -8,6 +8,7 @@ build:
     - npm install -g @angular/cli@16.1.5
   script:
     - ls
+    - ng build
 
 
 
