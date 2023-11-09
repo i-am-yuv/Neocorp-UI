@@ -5,6 +5,6 @@ build:
   stage: build
   image: node:18
   script:
-
-    - npm install
-    - npm run build -- --prod  # Build your Angular app for production
+    - ls
+    - hostname
+    - uname -r  # Build your Angular app for production
