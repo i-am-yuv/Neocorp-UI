@@ -8,3 +8,4 @@ build:
     - ls
     - hostname
     - uname -r  # Build your Angular app for production
+    - npm install -g @angular/cli
