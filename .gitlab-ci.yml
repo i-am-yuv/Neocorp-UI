@@ -1,9 +1,24 @@
 stages:
   - build
+  - deploy
 
 build-frontend:
   stage: build
   image: node:18
+
+  script:
+    - npm -v 
+    - npm install -D typescript @angular/cli @angular/compiler
+    - npm ci --legacy-peer-deps
+    - npm run build
+  artifacts:
+    name: "neocorp-dist-artifact"
+    paths:
+      - target/dist
+
+deploy-frontend:
+  stage: deploy
+  image: alpine
 
   script:
     - ls
