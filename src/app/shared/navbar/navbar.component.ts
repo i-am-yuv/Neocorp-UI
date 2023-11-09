@@ -16,7 +16,6 @@ export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
 
   home: MenuItem = {};
-  showDropdown: boolean = false;
 
   // options: any[] = [];
   options: any[] = [
@@ -55,7 +54,10 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  logOut()
+  {
+    sessionStorage.clear();
+    this.router.navigate(['/']);
   }
+
 }
