@@ -7,7 +7,7 @@ build:
 
   script:
     - npm install --legacy-peer-deps
-    - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
+    - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts              #node_modules/ngx-print/lib/ngx-print.directive.d.ts is the file in which, we need replace the line with starting with "/static ɵdir/c" with empty string \ " " here c reprecent complete
     - npm run build
   artifacts:
     name: "dist-output"
