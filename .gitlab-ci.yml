@@ -5,12 +5,12 @@ build:
   stage: build
   image: node:20.5.0-alpine
   before_script:
-    - npm install -g @angular/cli
+    - npm install -g @angular/cli@15
     - npm install --legacy-peer-deps
   script:
     - npm ci --legacy-peer-deps
     - ls
-    - ng update @angular/cli @angular/core --allow-dirty --force
+    - ng update @angular/cli@15 @angular/core --allow-dirty --force
     - npm run build
   artifacts:
     name: "neocorp-ui"
