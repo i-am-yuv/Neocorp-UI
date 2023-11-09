@@ -5,10 +5,10 @@ build:
   stage: build
   image: node:18
   before_script:
-    - npm install --legacy-peer-deps
     - npm install -g @angular/cli
   script:
     - ls
+    - npm install --legacy-peer-deps
   
     
 
