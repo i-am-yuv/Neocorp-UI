@@ -160,7 +160,7 @@ export class ProductComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error while saving the product',
+            detail: err.error.message,
             life: 3000,
           });
         })
