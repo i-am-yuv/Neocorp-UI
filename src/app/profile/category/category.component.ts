@@ -83,7 +83,13 @@ export class CategoryComponent implements OnInit {
     this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
         console.log(res);
-        this.categories = res;
+        if( this.id != null )
+        {
+          this.categories = res.filter((pi: ProductCategory) => pi.id != this.id );
+        }
+        else{
+          this.categories = res;
+        }
         this.submitted = false;
       }
     ).catch(

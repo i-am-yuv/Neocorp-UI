@@ -132,7 +132,7 @@
                                     <div class="field col-12">
                                         <label class="ml-4">Role Type:</label>
                                         <div class="box mt-1">
-                                            <p>{{ this.activeRole.roleType}}</p>
+                                            <p>{{ this.activeRole.roleType ? this.activeRole.roleType : 'NA'}}</p>
                                         </div>
                                     </div>
 
@@ -140,7 +140,7 @@
                                     <div class="field col-12">
                                         <label class="ml-4">Role Description:</label>
                                         <div class="box mt-1">
-                                            <p>{{ this.activeRole.description}}</p>
+                                            <p>{{ this.activeRole.description ? this.activeRole.description : 'NA'}}</p>
                                         </div>
                                     </div>
                                 </div>

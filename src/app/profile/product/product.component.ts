@@ -94,7 +94,7 @@ export class ProductComponent implements OnInit {
       mrp: new FormControl('', Validators.required),
       productType: new FormControl('', Validators.required),
       category: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       taxRate: new FormControl(''),
       brand: new FormControl('')
