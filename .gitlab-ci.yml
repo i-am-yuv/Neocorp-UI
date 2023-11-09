@@ -4,14 +4,10 @@ stages:
 build:
   stage: build
   image: node:20.5.0-alpine
-
   before_script:
-    
     - npm install -g @angular/cli@16.1.5
-
   script:
-
-    - npm ci --legacy-peer-deps
+    - ls
 
 
 
