@@ -9,6 +9,13 @@ build:
     - npm install --legacy-peer-deps
   script:
     - ls
+    - npm ci --legacy-peer-deps
+    - npm run build
+  artifacts:
+    name: "neocorp-ui"
+    paths:
+      - target/dist
+
 
   
     
