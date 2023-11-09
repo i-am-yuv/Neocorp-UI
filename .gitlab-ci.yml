@@ -5,5 +5,6 @@ build:
   stage: build
   image: node:18
   script:
+    - npm install
     - npm install -g @angular/cli
     - npm run build -- --prod
