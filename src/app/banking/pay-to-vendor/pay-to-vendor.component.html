@@ -230,7 +230,7 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPNEFT()"
-                                [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn "></button>
+                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod " class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>
@@ -291,7 +291,7 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPRTGS()"
-                                [disabled]="selectedBeneficiary.id == null" class=" w-full mr-3 ptpBtn"></button>
+                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod " class=" w-full mr-3 ptpBtn"></button>
                         </div>
 
                     </div>

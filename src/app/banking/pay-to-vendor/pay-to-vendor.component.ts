@@ -105,6 +105,7 @@ export class PayToVendorComponent implements OnInit {
   value: string = 'Saving';
 
   displayCoolingPDialog: boolean = false;
+  inCoolingPeriod : boolean =  false;
 
   // currentTime = this.getLocalDateTime();
   currentTime = new Date();
@@ -310,9 +311,11 @@ export class PayToVendorComponent implements OnInit {
 
     if (beneficiary.inCoolingPeriod) {
       this.displayCoolingPDialog = true;
+      this.inCoolingPeriod =  true;
       // alert(this.displayCoolingPDialog );
     } else {
       this.displayCoolingPDialog = false;
+      this.inCoolingPeriod =  false;
       this.selectedBeneficiary = beneficiary;
     }
 
