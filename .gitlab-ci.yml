@@ -8,9 +8,11 @@ build:
     - npm install -g @angular/cli@16.1.5
     - npm install --legacy-peer-deps
   script:
+ 
     - npm ci --legacy-peer-deps
     - ls
     - npm run build
+
 
 
   
