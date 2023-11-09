@@ -4,11 +4,13 @@ stages:
 build:
   stage: build
   image: node:20.5.0-alpine
-
+  before_script:
+  - npm install --legacy-peer-deps
   script:
     - ls
     - node -v
     - ng -v
+
 
   
 
