@@ -146,6 +146,7 @@ export class SlideAccountComponent implements OnInit {
             life: 3000,
           });
           this.newCreditAccountForm.reset();
+          this.ngOnInit();
           setTimeout(() => {
             this.router.navigate(['/banking/accounts']);
           }, 2000);

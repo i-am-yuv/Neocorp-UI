@@ -285,6 +285,12 @@ export class AccountsComponent implements OnInit {
       .catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error.message,
+          life: 3000,
+        })
       })
   }
 
@@ -311,6 +317,12 @@ export class AccountsComponent implements OnInit {
       .catch((err) => {
         console.log(err);
         this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error.message,
+          life: 3000,
+        })
       })
   }
 
