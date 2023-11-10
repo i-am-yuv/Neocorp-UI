@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('refreshToken', res.refreshToken);
             this.submitted = false;
             this.message.add({
-              severity: 'sucess',
+              severity: 'success',
               summary: 'Sign In Successful',
               detail: res.message,
               life: 2000,
@@ -118,7 +118,7 @@ export class LoginComponent implements OnInit {
           this.submitted = false;
 
           this.message.add({
-            severity: 'sucess',
+            severity: 'success',
             summary: 'Sign In Successful',
             detail: res.message,
             life: 3000,
