@@ -1,3 +1,5 @@
+include:
+   - template: Code-Quality.gitlab-ci.yml
 stages:
   - build
 
