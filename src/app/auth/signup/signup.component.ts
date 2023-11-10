@@ -162,7 +162,7 @@ export class SignupComponent implements OnInit {
         .then((res) => {
           console.log("branch Creation Done.");
           this.signUpForm.value.branch = res;
-          this.submitted = false;
+         // this.submitted = false;
           this.saveComapany();
         })
         .catch((err) => {
@@ -196,7 +196,7 @@ export class SignupComponent implements OnInit {
         .signup(this.signUpForm.value)
         .then((res) => {
           if (res) {
-            this.submitted = false;
+           // this.submitted = false;
             console.log("sign up success");
             this.sendOtp(this.signUpForm.value.mobileNumber);
           } else {
@@ -245,9 +245,9 @@ export class SignupComponent implements OnInit {
           sessionStorage.setItem('mobileNo', this.sendOtpFormat.mobile);
           sessionStorage.setItem('companyName', this.signUpForm.value.companyName);
           this.message.add({
-            severity: 'sucess',
-            summary: 'Sign Up Successful, Verify your OTP',
-            detail: res.message,
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Please, Verify Your OTP',
             life: 3000,
           });
 

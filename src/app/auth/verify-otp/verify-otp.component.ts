@@ -91,6 +91,12 @@ export class VerifyOtpComponent implements OnInit {
         (res) => {
             console.log("Aadhar OTP verifed");
             this.submitted  = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'E-KYC Process Done Successfully',
+              life: 3000,
+            });
             setTimeout(() => {
               this.aadharPanVerified = true;
             }, 1000);
@@ -114,26 +120,31 @@ export class VerifyOtpComponent implements OnInit {
       .verifyOtp(this.verifyOtpForm.value)
       .then((res) => {
         if (res) {
-          if (res.type == 'error') {
-            this.message.add({
-              severity: 'error',
-              summary: 'Sign Up Error',
-              detail: res.message,
-              life: 3000,
-            });
-          } else {
-            this.message.add({
-              severity: 'sucess',
-              summary: 'Sign Up',
-              detail: res.message,
-              life: 3000,
-            });
-            this.submitted = false;
+          // if (res.type == 'error') {
+          //   this.message.add({
+          //     severity: 'error',
+          //     summary: 'Sign Up Error',
+          //     detail: res.message,
+          //     life: 3000,
+          //   });
+          // } else {
+          //   this.message.add({
+          //     severity: 'sucess',
+          //     summary: 'Sign Up',
+          //     detail: res.message,
+          //     life: 3000,
+          //   });
+          this.submitted = false;
+
+          this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'OTP Varified, Sign Up Successfully',
+                life: 3000,
+              });
             setTimeout(() => {
               this.router.navigate(['/eKyc']);
             }, 2000);
-           
-          }
           this.submitted = false;
         } else {
           this.submitted = false;
