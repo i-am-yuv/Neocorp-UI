@@ -2,6 +2,7 @@ include:
    - template: Code-Quality.gitlab-ci.yml
 stages:
   - build
+  - test
 
 build:
   stage: build
