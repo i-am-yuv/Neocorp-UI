@@ -118,46 +118,28 @@ export class VerifyOtpComponent implements OnInit {
     this.submitted = true;
     this.loginService
       .verifyOtp(this.verifyOtpForm.value)
-      .then((res) => {
-        if (res) {
-          // if (res.type == 'error') {
-          //   this.message.add({
-          //     severity: 'error',
-          //     summary: 'Sign Up Error',
-          //     detail: res.message,
-          //     life: 3000,
-          //   });
-          // } else {
-          //   this.message.add({
-          //     severity: 'sucess',
-          //     summary: 'Sign Up',
-          //     detail: res.message,
-          //     life: 3000,
-          //   });
-          this.submitted = false;
-
-          this.message.add({
-                severity: 'success',
-                summary: 'Success',
-                detail: 'OTP Varified, Sign Up Successfully',
-                life: 3000,
-              });
-            setTimeout(() => {
-              this.router.navigate(['/eKyc']);
-            }, 2000);
-          this.submitted = false;
-        } else {
-          this.submitted = false;
+      .then( (res) => 
+      {
+        this.submitted = false ;
+        if(res.type == 'error') {
           this.message.add({
             severity: 'error',
-            summary: 'verify Mobile OTP Error',
-            detail: 'Invalid OTP, please check ',
+            summary: 'Error',
+            detail: 'Error while OTP verification',
             life: 3000,
           });
-        }
-       
-      })
-      .catch((err) => {
+        } else {
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'OTP Varified, Sign Up Successfully',
+            life: 3000,
+          });
+        setTimeout(() => {
+          this.router.navigate(['/eKyc']);
+        }, 2000);}
+      }
+      ).catch((err) => {
         this.submitted = false;
         this.message.add({
           severity: 'error',
