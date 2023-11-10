@@ -428,7 +428,7 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">MMID</label>
-                    <input pInputText formControlName="mmid" NumbersOnly minlength="7"  placeholder="Enter MMID" class="w-full " />
+                    <input pInputText formControlName="mmid" NumbersOnly minlength="7" maxlength="7" placeholder="Enter MMID" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['mmid']"></error-message>
                 </div>
 

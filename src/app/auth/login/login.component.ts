@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   submitted = false;
-  fieldTextType!: boolean;
+  fieldTextType: boolean = false;
   timer = 50;
 
   stateOptions: any[] = [{ label: 'Company', value: 'company' }, { label: 'Vendor', value: 'vendor' }];

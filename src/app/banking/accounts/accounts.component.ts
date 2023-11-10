@@ -193,41 +193,66 @@ export class AccountsComponent implements OnInit {
     var creditAccountFormVal = this.creditAccountForm.value;
 
     this.submitted = true;
-    this.payS.updateCreditAccount(creditAccountFormVal).then((res: any) => {
-      this.creditAccountForm.patchValue = { ...res };
+    if (this.creditAccountForm.value.accountNumber !== this.creditAccountForm.value.confirmAccountNumber) {
       this.submitted = false;
       this.message.add({
-        severity: 'success',
-        summary: 'Credit Account Updated',
-        detail: 'Credit Account Updated',
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Account Number Mismatch Error',
         life: 3000,
       });
-      this.ngOnInit();
-    })
-      .catch((err) => {
-        console.log(err);
+    }
+    else{
+      this.payS.updateCreditAccount(creditAccountFormVal).then((res: any) => {
+        this.creditAccountForm.patchValue = { ...res };
         this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Credit Account Updated',
+          detail: 'Credit Account Updated',
+          life: 3000,
+        });
+        this.ngOnInit();
       })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+    
   }
 
   updateDebitAccount() {
     var debitAccountFormVal = this.debitAccountForm.value;
 
     this.submitted = true;
-    this.payS.updateDebitAccount(debitAccountFormVal).then((res: any) => {
-      this.debitAccountForm.patchValue = { ...res };
+    if (this.debitAccountForm.value.accountNumber !== this.debitAccountForm.value.confirmAccountNumber) {
       this.submitted = false;
       this.message.add({
-        severity: 'success',
-        summary: 'Debit Account Updated',
-        detail: 'Debit Account Updated',
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Account Number Mismatch Error',
         life: 3000,
       });
-    })
-      .catch((err) => {
-        console.log(err);
+    }
+    else{
+      this.payS.updateDebitAccount(debitAccountFormVal).then((res: any) => {
+        this.debitAccountForm.patchValue = { ...res };
         this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Debit Account Updated',
+          detail: 'Debit Account Updated',
+          life: 3000,
+        });
       })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+
+    }
+    
 
   }
 
@@ -245,8 +270,10 @@ export class AccountsComponent implements OnInit {
       this.allCreditAccounts = this.allCreditAccounts.filter(
         (val) => val.id !== this.activeCreditAccount.id
       );
-
       this.deleteDialLogvisible = false;
+      this.activeCreditAccount ={};
+     
+      this.creditAccountForm.reset();
       this.submitted = false;
       this.message.add({
         severity: 'success',
@@ -267,7 +294,8 @@ export class AccountsComponent implements OnInit {
       this.allDebitAccounts = this.allDebitAccounts.filter(
         (val) => val.id !== this.activeDebitAccount.id
       );
-
+      this.debitAccountForm.reset();
+     // this.activeDebitAccount = {} ;
       this.deleteDialLogvisible = false;
       this.submitted = false;
       this.message.add({
@@ -276,6 +304,9 @@ export class AccountsComponent implements OnInit {
         detail: 'Debit Account Deleted',
         life: 3000,
       })
+      setTimeout(() => {
+        this.getDebitAccounts();
+      }, 2000);
     })
       .catch((err) => {
         console.log(err);

@@ -125,7 +125,7 @@ export class VerifyOtpComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error while OTP verification',
+            detail: 'Invalid OTP',
             life: 3000,
           });
         } else {
@@ -144,8 +144,7 @@ export class VerifyOtpComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Verify OTP Error',
-          detail: 'Invalid OTP, please check ' + err,
-          life: 3000,
+          detail: 'Invalid OTP, please check '
         });
        // this.submitted = false;
       });

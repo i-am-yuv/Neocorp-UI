@@ -55,14 +55,14 @@
                 <h4 class="text-xl text-blue-700">Credit Account Details</h4>
                 <div class="field">
                   <label class="mr-3 required">Account Number</label>
-                  <input pInputText formControlName="accountNumber" placeholder="Enter Your Account Number"
+                  <input pInputText formControlName="accountNumber"  maxlength="12" placeholder="Enter Your Account Number"
                     class="w-full custom-input" NumbersOnly />
                   <error-message [controlName]="newCreditAccountForm.controls['accountNumber']"></error-message>
                 </div>
       
                 <div class="field">
                   <label class="mr-3 required">Confirm Account Number</label>
-                  <input pInputText formControlName="confirmAccountNumber" placeholder="Confirm Account Number"
+                  <input pInputText formControlName="confirmAccountNumber" maxlength="12" placeholder="Confirm Account Number"
                     class="w-full custom-input" NumbersOnly />
                   <error-message [controlName]="newCreditAccountForm.controls['confirmAccountNumber']"></error-message>
                 </div>

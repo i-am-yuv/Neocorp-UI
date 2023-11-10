@@ -165,7 +165,7 @@
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
                                             <div class="col-4 text-right">
-                                                <button type="button" pButton class="mr-2"
+                                                <button type="button" pButton class="mr-2" [disabled]="!creditAccountForm.valid"
                                                     (click)="updateDebitAccount()">Update</button>
                                             </div>
                                         </div>
@@ -264,7 +264,7 @@
                                                 <input pInputText formControlName="bankname"
                                                     placeholder="Enter Bank Name" class="w-full" />
                                                 <error-message
-                                                    [controlName]="creditAccountForm.controls['bankname']"></error-message>
+                                                    [controlName]="debitAccountForm.controls['bankname']"></error-message>
                                             </div>
 
 
@@ -273,7 +273,7 @@
                                                 <input pInputText formControlName="accountNumber"
                                                     placeholder="Enter Account Number" class="w-full" />
                                                 <error-message
-                                                    [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
+                                                    [controlName]="debitAccountForm.controls['accountNumber']"></error-message>
                                             </div>
 
 
@@ -282,7 +282,7 @@
                                                 <input pInputText formControlName="confirmAccountNumber"
                                                     placeholder="Enter Confirm Account Number" class="w-full" />
                                                 <error-message
-                                                    [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
+                                                    [controlName]="debitAccountForm.controls['confirmAccountNumber']"></error-message>
                                             </div>
 
                                             <div class="field col-12">
@@ -290,7 +290,7 @@
                                                 <input pInputText formControlName="ifsc" placeholder="Enter Bank Name"
                                                     class="w-full" />
                                                 <error-message
-                                                    [controlName]="creditAccountForm.controls['ifsc']"></error-message>
+                                                    [controlName]="debitAccountForm.controls['ifsc']"></error-message>
                                             </div>
 
                                             <div class="field col-12">
@@ -308,7 +308,7 @@
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
                                             <div class="col-4 text-right">
-                                                <button type="button" pButton class="mr-2"
+                                                <button type="button" pButton class="mr-2" [disabled]="!debitAccountForm.valid"
                                                     (click)="updateDebitAccount()">Update</button>
                                                 <!-- <button type="button" pButton class="deleteBtn"
                                                     (click)="deleteAccount()">Delete</button> -->
