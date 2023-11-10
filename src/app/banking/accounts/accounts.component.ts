@@ -191,7 +191,7 @@ export class AccountsComponent implements OnInit {
 
   updateCreditAccount() {
     var creditAccountFormVal = this.creditAccountForm.value;
-
+  //alert(JSON.stringify(this.creditAccountForm.value));
     this.submitted = true;
     if (this.creditAccountForm.value.accountNumber !== this.creditAccountForm.value.confirmAccountNumber) {
       this.submitted = false;

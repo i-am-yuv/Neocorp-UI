@@ -93,7 +93,7 @@
                         <div class="flex gap-3">
                             <div class="field col-6">
                                 <label class="mr-3 required ">Account Number</label>
-                                <input pInputText formControlName="accountNumber" NumbersOnly
+                                <input pInputText formControlName="accountNumber" NumbersOnly maxlength="12"
                                     placeholder="Enter Your Account Number" class="w-full custom-input" minlength="9" />
                                 <error-message
                                     [controlName]="accountDetailsForm.controls['accountNumber']"></error-message>
@@ -223,7 +223,7 @@
                         <input pInputText type="text" formControlName="username"
                             placeholder="Enter UserName/ Mobile Number"
                             class=" custom-input form-control inputfield w-full" name="signIn" minlength="10"
-                            maxlength="60" />
+                            maxlength="10" />
                         <error-message [controlName]="vendorForm.controls['username']"></error-message>
                     </div>
                     <div class="field col-6">
