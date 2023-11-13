@@ -54,7 +54,7 @@ export class EkycComponent implements OnInit {
         if(res.data.status == 'VALID')
       {
         console.log("PAN Card Status VALID");
-        this.submitted = false;
+       // this.submitted = false;
         this.verifyAadhar();
         this.submitted = false;
       }
@@ -91,7 +91,7 @@ export class EkycComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Pan Error',
-            detail: err.error.message,
+            detail: 'Please check your pan card',
             life: 3000,
           });
         }
@@ -111,7 +111,15 @@ export class EkycComponent implements OnInit {
             sessionStorage.setItem('goToAadharOtpPage', 'aadharOtpSent');
             sessionStorage.setItem('AadharOtpRefId', res.data.ref_id);
             this.submitted = false;
-            this.router.navigate(['/verifyotp']);
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Verification done successfully',
+              life: 3000,
+            });
+            setTimeout(() => {
+              this.router.navigate(['/verifyotp']);
+            }, 2000);
           }
           else {
             this.submitted = false;
@@ -149,7 +157,7 @@ export class EkycComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Aadhar Error',
-            detail: err.error.message,
+            detail: 'Please check your Aadhar Number',
             life: 3000,
           });
         }

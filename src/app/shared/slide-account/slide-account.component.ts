@@ -99,11 +99,16 @@ export class SlideAccountComponent implements OnInit {
             detail: 'Your Debit Account Added Successfully',
             life: 3000,
           });
+          this.newDebitAccountForm.reset();
+          setTimeout(() => {
+            this.router.navigate(['/banking/accounts']);
+          }, 2000);
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.newDebitAccountForm.reset();
           this.message.add({
             severity: 'error',
             summary: 'Error',
@@ -136,21 +141,28 @@ export class SlideAccountComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Sucess',
+            summary: 'Success',
             detail: 'Credit Account Added Successfully',
             life: 3000,
           });
+          this.newCreditAccountForm.reset();
+          this.ngOnInit();
+          setTimeout(() => {
+            this.router.navigate(['/banking/accounts']);
+          }, 2000);
         }
       ).catch(
         (err) => {
           console.log(err);
           this.submitted = false;
+          this.newCreditAccountForm.reset();
           this.message.add({
             severity: 'error',
             summary: 'Error',
             detail: 'Account Addition Error',
             life: 3000,
           });
+          
         }
       )
 
@@ -170,6 +182,12 @@ export class SlideAccountComponent implements OnInit {
       console.log(err);
       this.submitted = false;
     });
+  }
+
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
 }

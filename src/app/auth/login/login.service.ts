@@ -32,7 +32,7 @@ export class LoginService {
   }
 
   async createBranch(data: any) {
-    var url = this.apiurlNew + '/branch';
+    var url = this.apiurlNew + 'branch';
     const branch = await lastValueFrom(this.http.post<any>(url, data));
     return branch;
   }

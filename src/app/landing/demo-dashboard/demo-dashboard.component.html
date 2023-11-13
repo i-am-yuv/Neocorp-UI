@@ -74,11 +74,17 @@
         </div>
     </div>
 
-    <div class="ml-6 mt-4 ">
-        <a class=" text-blue-700">Recent Payments</a>
+    <div class="ml-6 mt-4  flex align-items-center">
+        <div class="col-7 ml-1">
+            <a class=" text-blue-700">Recent Payments</a>
+        </div>
+        <div class="col-4 ml-1">
+            <a class=" text-blue-700">Pending Action</a>
+        </div>
+        
     </div>
 
-    <div class="ml-6 mt-4 mr-3 flexSCSS gap-4">
+    <div class="ml-6 mt-2 mr-3 flex align-items-center gap-4">
         <div class="col-7 secondLeft">
 
             <div class="paymentList p-2">
@@ -94,8 +100,8 @@
                             <div class="col-11">
                                 <div class="flexSCSS gap-1 w-full ">
 
-                                    <div class="col-4  text-base">
-                                        <p class="font-medium">{{ item.vendor.firstName }} {{
+                                    <div class="col-4">
+                                        <p class="font-semibold text-lg" style="color: #292C30;">{{ item.vendor.firstName }} {{
                                             item.vendor.lastName }}</p>
                                         <p class="font-light text-sm">Last Update: {{item.duedate}}</p>
                                     </div>

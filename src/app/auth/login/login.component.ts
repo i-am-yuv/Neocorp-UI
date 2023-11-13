@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   submitted = false;
-  fieldTextType!: boolean;
+  fieldTextType: boolean = false;
   timer = 50;
 
   stateOptions: any[] = [{ label: 'Company', value: 'company' }, { label: 'Vendor', value: 'vendor' }];
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
             this.submitted = false;
             this.message.add({
               severity: 'success',
-              summary: 'Sign In Successful',
-              detail: res.message,
+              summary: 'Success',
+              detail: 'Sign In Successfully',
               life: 2000,
             });
             setTimeout(() => {

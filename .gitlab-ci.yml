@@ -8,16 +8,25 @@ build-frontend:
 
   script:
     - npm install --legacy-peer-deps
-    - npm ci --legacy-peer-deps
+    - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
     - npm run build
   artifacts:
-    name: "doneocards-jar-artifact"
+    name: "dist-output"
     paths:
-      - target/dist
+      - dist
 
 deploy-frontend:
   stage: deploy
   image: alpine
-
+  dependencies:
+    - "build-frontend"
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   script:
-    - ls
+    - mv dist/ifyn neocorp
+    - scp -r -o StrictHostKeyChecking=no neocorp $SERVER_USER@$SERVER_IP:/home/staginguser/public_html/neomaxer/
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo $PASSWORD | sudo -S nginx -s reload"
