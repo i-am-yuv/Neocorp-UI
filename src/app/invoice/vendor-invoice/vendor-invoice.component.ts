@@ -324,18 +324,18 @@ export class VendorInvoiceComponent implements OnInit {
 
   }
 
-  delete(lineItem: VendorInvoiceLine) {
-    //(JSON.stringify(lineItem));
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+  // delete(lineItem: VendorInvoiceLine) {
+  //   //(JSON.stringify(lineItem));
+  //   this.confirmationService.confirm({
+  //     message: 'Are you sure you want to deleteeeeeeeeeeeee ' + lineItem.expenseName?.name + '?',
+  //     header: 'Confirm',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
 
-      },
-    });
+  //     },
+  //   });
 
-  }
+  // }
 
   onRowEditSave(lineItem: VendorInvoiceLine) {
     alert(JSON.stringify(lineItem));
@@ -555,6 +555,48 @@ export class VendorInvoiceComponent implements OnInit {
 
   OnCancelVI() {
     this.router.navigate(['/invoice/vendorInvoice']);
+  }
+
+  deleteDialLogvisible: boolean = false;
+  delete(lineItem: VendorInvoiceLine) {
+    this.deleteDialLogvisible = true;
+  }
+
+  deleteConfirm(lineItem: VendorInvoiceLine) {
+    this.submitted = true;
+    this.usedService.deleteVILineItem(lineItem.id).then((data: any) => {
+      this.lineitems = this.lineitems.filter(
+        (val) => val.id !== lineItem.id
+      );
+
+      this.viSubTotal = this.lineitems.reduce(
+        (total, lineItem) => total + lineItem.amount, 0
+      );
+
+      this.deleteDialLogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Line Item Deleted',
+        life: 3000,
+      });
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.deleteDialLogvisible = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Line item Deletion Error, Please refresh and try again',
+          life: 3000,
+        });
+      });
+  }
+
+  cancelDeleteConfirm() {
+    this.deleteDialLogvisible = false;
   }
 
 }

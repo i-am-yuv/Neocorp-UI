@@ -15,6 +15,7 @@ export class VendorComponent implements OnInit {
 
   id: string | null = '';
   createNew: boolean = false;
+  currentVendor: any = {};
 
   isSidebarVisible: boolean = true;
   submitted: boolean = false;
@@ -69,8 +70,11 @@ export class VendorComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.getAllVendor();
+        this.availableVendor();
       }
+
+      this.getVendorDetailsById();
+      this.getAddressById();
     });
 
     // this.initForm();
@@ -133,7 +137,7 @@ export class VendorComponent implements OnInit {
     this.saveAccount();
   }
 
-  getAllVendor() {
+  availableVendor() {
     this.submitted = true;
     this.payPageS.allVendor(this.currentUser).then(
       (res) => {
@@ -158,9 +162,36 @@ export class VendorComponent implements OnInit {
     })
   }
 
+  currentAccount: any = {};
+  getAccountsById(){
+    if(this.id){
+      this.submitted = true;
+      this.payPageS.getAccountById(this.id).then((account: any) => {
+        this.currentAccount = account;
+        this.accountDetailsForm.patchValue(account);
+        this.submitted = false;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+    }
+  }
+
   saveAccount() {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
+
+      var accountFormVal = this.accountDetailsForm.value;
+      accountFormVal.id = this.id;
+
+      if(accountFormVal.id){
+        this.submitted = true;
+        this.payPageS.updateAccount(accountFormVal).then((res: any) => {
+          this.accountDetailsForm.patchValue = { ...res };
+          this.submitted = false
+        })
+      }
       // save account details API
       this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
@@ -188,6 +219,22 @@ export class VendorComponent implements OnInit {
 
   }
 
+  currentAddress: any = {};
+  getAddressById() {
+    if (this.id) {
+      this.submitted = true;
+      this.payPageS.getAddressById(this.id).then((address: any) => {
+        this.currentAddress = address;
+        this.addressDetailsForm.patchValue(address);
+        this.submitted = false;
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
+
   saveAddress() {
     console.log("Step 2");
     if (this.addressDetailsForm.status == 'VALID') {
@@ -195,27 +242,47 @@ export class VendorComponent implements OnInit {
       if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
-      // else {
-      //   this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
-      // }
-      this.submitted = true;
-      this.payPageS.createAddress(this.addressDetailsForm.value).then(
-        (res) => {
-          this.vendorForm.value.address = res;
-          console.log("Complete Address Saved");
-          this.submitted = false;
+
+      var addressFormVal = this.addressDetailsForm.value;
+      addressFormVal.id = this.id;
+
+      if (addressFormVal.id) {
+        this.submitted = true;
+        this.payPageS.updateAddress(addressFormVal).then((res: any) => {
+          this.addressDetailsForm.patchValue = { ...res };
           this.saveVendor();
-        }
-      ).catch((err) => {
-        console.log("Complete Address error");
-        this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error while Saving the Address',
-          life: 3000,
-        });
-      })
+          this.submitted = false;
+        })
+          .catch((err) => {
+            console.log(err);
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error while Updating the Address',
+              life: 3000,
+            })
+          })
+      } else {
+        this.submitted = true;
+        this.payPageS.createAddress(addressFormVal).then(
+          (res) => {
+            this.vendorForm.value.address = res;
+            console.log("Complete Address Saved");
+            this.submitted = false;
+            this.saveVendor();
+          }
+        ).catch((err) => {
+          console.log("Complete Address error");
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while Saving the Address',
+            life: 3000,
+          });
+        })
+      }
+
     }
     else {
       this.vendorForm.value.address = null;
@@ -224,36 +291,68 @@ export class VendorComponent implements OnInit {
   }
 
   saveVendor() {
+    var vendorFormVal = this.vendorForm.value;
+    vendorFormVal.id = this.id;
 
-    this.vendorForm.value.user.id = this.currentUser.id;
-    this.submitted = true;
-    this.payPageS.createVendor(this.vendorForm.value).then(
-      (res) => {
-        console.log(res);
-        console.log("Vendor Saved");
+    // this.vendorForm.value.user.id = this.currentUser.id;
+    // this.submitted = true;
+
+    if (vendorFormVal.id) {
+      this.submitted = true;
+      this.payPageS.updateVendor(vendorFormVal).then((res: any) => {
+        this.vendorForm.patchValue = { ...res };
         this.submitted = false;
         this.message.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Vendor Saved Successfully',
+          detail: 'Vendor updated',
           life: 3000,
         });
         setTimeout(() => {
           this.router.navigate(['/pay/vendors']);
         }, 2000);
+      })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error while updating the Vendor',
+              life: 3000,
+            });
+          })
+    } else {
+      this.payPageS.createVendor(vendorFormVal).then(
+        (res) => {
+          console.log(res);
+          console.log("Vendor Saved");
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Vendor Saved Successfully',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/pay/vendors']);
+          }, 2000);
 
-      }
-    ).catch((err) => {
-      console.log("Vendor error");
-      this.submitted = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Vendor Addition Error',
-        life: 3000,
-      });
+        }
+      ).catch((err) => {
+        console.log("Vendor error");
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Vendor Addition Error',
+          life: 3000,
+        });
 
-    })
+      })
+    }
+
   }
 
 
@@ -303,6 +402,22 @@ export class VendorComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       });
+  }
+
+  getVendorDetailsById() {
+    if (this.id) {
+      this.submitted = true;
+      this.payPageS.getVendorById(this.id).then((vendor: any) => {
+        this.currentVendor = vendor;
+        this.vendorForm.patchValue(vendor);
+        this.submitted = false;
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+
   }
 
 }

@@ -217,6 +217,7 @@ export class ProductComponent implements OnInit {
         })
     }
   }
+
   selectProductCategory() {
   }
 

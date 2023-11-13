@@ -240,4 +240,8 @@ export class VendorDashboardComponent implements OnInit {
       });
   }
 
+  onEditVendor(id: string){
+    this.router.navigate(['/pay/vendor/edit/' + id])
+  }
+
 }

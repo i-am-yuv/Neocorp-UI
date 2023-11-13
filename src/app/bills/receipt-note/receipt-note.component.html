@@ -211,8 +211,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -228,8 +227,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -245,8 +243,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.discount" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}
@@ -332,7 +329,7 @@
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelRN()"
                         class="mr-3 p-button-secondary"></button>
-                    <button type="button" pButton label="Save Debit Note" (click)="finalRNSubmitPage()"
+                    <button type="button" pButton label="Save Receipt Note" (click)="finalRNSubmitPage()"
                         [disabled]="this.rnSubTotal == 0"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>

@@ -67,7 +67,7 @@
                                             item.firstName.charAt(0) +
                                             item.lastName.charAt(0) }}</div>
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-8">
                                         <div class="text-xl font-light capitalize">{{ item.firstName }} {{ item.lastName
                                             }}
                                         </div>
@@ -79,6 +79,9 @@
                                                     date:'yyyy-MM-dd'}} </p>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <button type="button" pButton icon="pi pi-pencil" (click)="onEditVendor(item.id)"></button>
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +104,7 @@
                         <!-- TOP RIGHT PANEL -->
                         <div class="text-center m-5" *ngIf="!activeVendor.id && allVendors.length >0">
                             <div class="mt-3">
-                                <img src="/assets/bill.png" alt="Image" width="300" ><br>
+                                <img src="/assets/bill.png" alt="Image" width="300"><br>
                                 <p class="mt-4 text-xl">Please, Select the Vendor</p>
                             </div>
                             <!-- <img src="assets/empty.svg" width="250" /><br />
@@ -151,7 +154,7 @@
                                         <div class=" text-right">
                                             <button *ngIf="totalRemainingAmount > 0" pButton label="Pending"
                                                 class="bg-red-200 border-0 text-900 border-round-lg"></button>
-                                                <button *ngIf="totalRemainingAmount <= 0" pButton label="Complete"
+                                            <button *ngIf="totalRemainingAmount <= 0" pButton label="Complete"
                                                 class="bg-green-200 border-0 text-900 border-round-lg"></button>
                                         </div>
                                     </div>

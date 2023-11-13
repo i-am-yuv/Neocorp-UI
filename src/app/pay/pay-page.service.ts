@@ -36,6 +36,18 @@ export class PayPageService {
     return currentVendor;
   }
 
+  async getVendorById(id: any) {
+    var url = this.apiurlNew + 'api/vendor/' + encodeURIComponent(id);
+    const currentVendor = await lastValueFrom(this.http.get<any>(url));
+    return currentVendor;
+  }
+
+  async updateVendor(vendor: any) {
+    var url = this.apiurlNew + 'api/vendor/';
+    const currentVendor = await lastValueFrom(this.http.put<any>(url, vendor));
+    return currentVendor;
+  }
+
   async searchVendor(query: any) {
     // var url = this.apiurl + 'api/PurchaseOrder??filter=vendor.id~' + encodeURIComponent("'%" + vendorId + "%'") + encodeURIComponent(" and  status~'%" + status + "%' and orderNumber~'%" + query + "%'");
 
@@ -75,10 +87,34 @@ export class PayPageService {
     return _address;
   }
 
+  async getAddressById(id: any) {
+    var url = this.apiurlNew + 'address/' + encodeURIComponent(id);
+    const currentVendorAddress = await lastValueFrom(this.http.get<any>(url));
+    return currentVendorAddress;
+  }
+
+  async updateAddress(vendor: any) {
+    var url = this.apiurlNew + 'address';
+    const currentVendorAddress = await lastValueFrom(this.http.put<any>(url, vendor));
+    return currentVendorAddress;
+  }
+
   async createAccountDetails(accountDetails: any) {
     var url = this.apiurlNew + 'accountDetails'
     const accountD = await lastValueFrom(this.http.post<any>(url, accountDetails));
     return accountD;
+  }
+
+  async getAccountById(id: any) {
+    var url = this.apiurlNew + 'accountDetails/' + encodeURIComponent(id);
+    const accountById = await lastValueFrom(this.http.get<any>(url));
+    return accountById;
+  }
+
+  async updateAccount(data: any) {
+    var url = this.apiurlNew + 'accountDetails'
+    const accountUpdate = await lastValueFrom(this.http.put<any>(url, data));
+    return accountUpdate;
   }
 
   async saveAccount(data: any) {
@@ -88,7 +124,7 @@ export class PayPageService {
   }
 
   async getAllCreditAccount(user: any) {
-    var url = this.apiurlNew + 'creditAccountDetails/creditAccountDetails/'+ encodeURIComponent(user.id);
+    var url = this.apiurlNew + 'creditAccountDetails/creditAccountDetails/' + encodeURIComponent(user.id);
     const allCreaditAccounts = await lastValueFrom(this.http.get<any>(url));
     return allCreaditAccounts;
   }
@@ -117,7 +153,7 @@ export class PayPageService {
     return account;
   }
 
-  async getAllDebitAccount(user : any) {
+  async getAllDebitAccount(user: any) {
     var url = this.apiurlNew + 'debitAccountDetails/debitAccountDetails/' + encodeURIComponent(user.id);
     const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
     return allDebitAccounts;
@@ -141,8 +177,8 @@ export class PayPageService {
     return deleteDebitAccount;
   }
 
-  async allVendor(user : any) {
-    var url = this.apiurlNew + 'api/vendor/vendor/'+encodeURIComponent(user.id);
+  async allVendor(user: any) {
+    var url = this.apiurlNew + 'api/vendor/vendor/' + encodeURIComponent(user.id);
     const allVendor = await lastValueFrom(this.http.get<any>(url));
     return allVendor;
   }
@@ -153,20 +189,20 @@ export class PayPageService {
     return allState;
   }
 
-  async allCustomer(user : any) {
-    var url = this.apiurlNew + 'customer/customer/'+encodeURIComponent(user.id);
+  async allCustomer(user: any) {
+    var url = this.apiurlNew + 'customer/customer/' + encodeURIComponent(user.id);
     const allCustomer = await lastValueFrom(this.http.get<any>(url));
     return allCustomer;
   }
 
-  async allProduct(user : any) {
-    var url = this.apiurlNew + 'api/product/product/'+encodeURIComponent(user.id);
+  async allProduct(user: any) {
+    var url = this.apiurlNew + 'api/product/product/' + encodeURIComponent(user.id);
     const allProduct = await lastValueFrom(this.http.get<any>(url));
     return allProduct;
   }
 
-  async allSO(user : any) {
-    var url = this.apiurlNew + 'api/salesOrder/salesOrder/'+encodeURIComponent(user.id);
+  async allSO(user: any) {
+    var url = this.apiurlNew + 'api/salesOrder/salesOrder/' + encodeURIComponent(user.id);
     const allSO = await lastValueFrom(this.http.get<any>(url));
     return allSO;
   }
@@ -304,6 +340,12 @@ export class PayPageService {
     return updated;
   }
 
+  async deleteVILineItem(lineItem: any) {   
+    var url = this.apiurlNew + 'pi/vendorInvoiceLine/' + encodeURIComponent(lineItem);
+    const deleteVILI = await lastValueFrom(this.http.delete<any>(url));
+    return deleteVILI;
+  }
+
   async createReturnRefundLineItem(data: any) {
     var url = this.apiurlNew + 'returnRefundLine'
     const savedrrLine = await lastValueFrom(this.http.post<any>(url, data));
@@ -334,8 +376,8 @@ export class PayPageService {
     return currRR;
   }
 
-  async getAllRR(user : any) {
-    var url = this.apiurlNew + 'api/returnRefund/returnRefund/'+encodeURIComponent(user.id);;
+  async getAllRR(user: any) {
+    var url = this.apiurlNew + 'api/returnRefund/returnRefund/' + encodeURIComponent(user.id);;
     const allRR = await lastValueFrom(this.http.get<any>(url));
     return allRR;
   }
@@ -363,7 +405,7 @@ export class PayPageService {
     const po = await lastValueFrom(this.http.get<any>(url));
     return po;
   }
- 
+
 
 
   async getRemainingAmountByPurchaseInvoice(pi: any) {

@@ -14,7 +14,8 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: VendorComponent },
-      { path: 'create', component: VendorComponent }
+      { path: 'create', component: VendorComponent },
+      { path: 'edit/:id', component: VendorComponent }
     ],
   },
   {

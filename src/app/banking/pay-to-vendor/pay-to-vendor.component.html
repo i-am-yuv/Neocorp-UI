@@ -409,7 +409,7 @@
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Account Number</label>
                     <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
-                        class="w-full " />
+                        class="w-full " NumbersOnly/>
                     <error-message [controlName]="beneficairyForm.controls['accountNumber']"></error-message>
                 </div>
 
@@ -422,13 +422,13 @@
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Mobile Number</label>
                     <input pInputText formControlName="mobileNumber" placeholder="Enter Your 10 digit Mobile Number "
-                        class="w-full " />
+                        class="w-full " minlength="10" maxlength="10"/>
                     <error-message [controlName]="beneficairyForm.controls['mobileNumber']"></error-message>
                 </div>
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">MMID</label>
-                    <input pInputText formControlName="mmid" NumbersOnly minlength="7" maxlength="7" placeholder="Enter MMID" class="w-full " />
+                    <input pInputText formControlName="mmid" NumbersOnly placeholder="Enter MMID" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['mmid']"></error-message>
                 </div>
 
