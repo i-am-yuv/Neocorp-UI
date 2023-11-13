@@ -22,16 +22,18 @@ export class DemoDashboardComponent implements OnInit {
       datasets: [
         {
           type: 'bar',
-          label: 'Disburse',
-          backgroundColor: documentStyle.getPropertyValue('--blue-500'),
-          data: [50, 25, 12, 48, 90, 76, 42, 44, 76, 12]
+          label: 'Collection',
+          backgroundColor: documentStyle.getPropertyValue('--blue-400'),
+          data: [21, 84, 24, 75, 37, 65, 34, 22, 38, 90]
         },
         {
           type: 'bar',
-          label: 'Collection',
+          label: 'Disburse',
           backgroundColor: documentStyle.getPropertyValue('--gray-300'),
-          data: [21, 84, 24, 75, 37, 65, 34, 22, 38, 90]
-        },
+          // backgroundColor: documentStyle.getPropertyValue('color'),
+          data: [50, 25, 12, 48, 90, 76, 42, 44, 76, 12]
+        }
+
         // {
         //   type: 'bar',
         //   label: 'Dataset 3',
@@ -62,20 +64,22 @@ export class DemoDashboardComponent implements OnInit {
           ticks: {
             color: textColorSecondary
           },
-          // grid: {
-          //   color: surfaceBorder,
-          //   drawBorder: false
-          // }
+          grid: {
+            display: false,
+            color: surfaceBorder,
+            drawBorder: false
+          }
         },
         y: {
           stacked: true,
           ticks: {
             color: textColorSecondary
           },
-          // grid: {
-          //   color: surfaceBorder,
-          //   drawBorder: false
-          // }
+          grid: {
+            // display: false,
+            color: surfaceBorder,
+            drawBorder: false
+          }
         }
       },
       showLines: false,
@@ -113,4 +117,19 @@ export class DemoDashboardComponent implements OnInit {
   ];
 
 
+
+
 }
+
+// function rgbToHex(rgb: any) {
+//   // Assuming rgb is in the format 'rgb(r, g, b)'
+//   var parts = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+//   delete parts[0];
+//   for (var i = 1; i <= 3; ++i) {
+//     parts[i] = parseInt(parts[i]).toString(16);
+//     if (parts[i].length == 1) parts[i] = '0' + parts[i];
+//   }
+//   return '#' + parts.join('');
+// }
+
+// var hexColor = rgbToHex(backgroundColor);
