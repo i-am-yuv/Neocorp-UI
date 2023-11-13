@@ -50,24 +50,23 @@ export class AccountsComponent implements OnInit {
   currentDebitAccount: any = {};
 
   constructor(private payS: PayPageService,
-    private authS : AuthService, private router: Router, private message: MessageService, private breadcrumS: BreadCrumbService) { }
+    private authS: AuthService, private router: Router, private message: MessageService, private breadcrumS: BreadCrumbService) { }
 
   ngOnInit(): void {
     this.breadcrumS.breadCrumb([{ label: 'Accounts' }]);
 
     this.initForm();
     this.loadUser();
-   
+
   }
 
-  loadOtherDetails()
-  {
+  loadOtherDetails() {
     this.getCreditAccounts();
     this.getDebitAccounts();
     // this.getCreditAccountId();
   }
 
-   currentCompany: any = {};
+  currentCompany: any = {};
   currentUser: any = {};
   loadUser() {
     this.submitted = true;
@@ -155,21 +154,20 @@ export class AccountsComponent implements OnInit {
 
   // onDeleteCurrentAccount(creditAccount: any) { }
 
-  openAccountSlideBar : boolean =  false; 
+  openAccountSlideBar: boolean = false;
 
-  addAccount() { 
+  addAccount() {
     this.openAccountSlideBar = !this.openAccountSlideBar;
   }
 
   getCreditAccountId() {
     this.submitted = true;
-    this.payS.getCreditAccountById(this.activeCreditAccount.id).then(
-      (creditAccount: any) => {
-        this.currentCreditAccount = creditAccount;
-        this.creditAccountForm.patchValue(creditAccount);
-        //alert( JSON.stringify(this.creditAccountForm.value) );
-        this.submitted = false;
-      })
+    this.payS.getCreditAccountById(this.activeCreditAccount.id).then((creditAccount: any) => {
+      this.currentCreditAccount = creditAccount;
+      this.creditAccountForm.patchValue(creditAccount);
+      //alert( JSON.stringify(this.creditAccountForm.value) );
+      this.submitted = false;
+    })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
@@ -191,7 +189,7 @@ export class AccountsComponent implements OnInit {
 
   updateCreditAccount() {
     var creditAccountFormVal = this.creditAccountForm.value;
-  //alert(JSON.stringify(this.creditAccountForm.value));
+    //alert(JSON.stringify(this.creditAccountForm.value));
     this.submitted = true;
     if (this.creditAccountForm.value.accountNumber !== this.creditAccountForm.value.confirmAccountNumber) {
       this.submitted = false;
@@ -202,7 +200,7 @@ export class AccountsComponent implements OnInit {
         life: 3000,
       });
     }
-    else{
+    else {
       this.payS.updateCreditAccount(creditAccountFormVal).then((res: any) => {
         this.creditAccountForm.patchValue = { ...res };
         this.submitted = false;
@@ -219,7 +217,7 @@ export class AccountsComponent implements OnInit {
           this.submitted = false;
         })
     }
-    
+
   }
 
   updateDebitAccount() {
@@ -235,7 +233,7 @@ export class AccountsComponent implements OnInit {
         life: 3000,
       });
     }
-    else{
+    else {
       this.payS.updateDebitAccount(debitAccountFormVal).then((res: any) => {
         this.debitAccountForm.patchValue = { ...res };
         this.submitted = false;
@@ -252,7 +250,7 @@ export class AccountsComponent implements OnInit {
         })
 
     }
-    
+
 
   }
 
@@ -271,8 +269,8 @@ export class AccountsComponent implements OnInit {
         (val) => val.id !== this.activeCreditAccount.id
       );
       this.deleteDialLogvisible = false;
-      this.activeCreditAccount ={};
-     
+      this.activeCreditAccount = {};
+
       this.creditAccountForm.reset();
       this.submitted = false;
       this.message.add({
@@ -311,9 +309,9 @@ export class AccountsComponent implements OnInit {
         detail: 'Debit Account Deleted',
         life: 3000,
       })
-      setTimeout(() => {
-        this.getDebitAccounts();
-      }, 2000);
+      // setTimeout(() => {
+      //   this.getDebitAccounts();
+      // }, 2000);
     })
       .catch((err) => {
         console.log(err);

@@ -60,6 +60,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { DebounceKeyupDirective } from './directives/debounce.directive';
 import { SlideProductComponent } from './slide-product/slide-product.component';
 import { SlideAccountComponent } from './slide-account/slide-account.component';
+import { TextOnlyDirective } from './directives/text-only.directive';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { SlideAccountComponent } from './slide-account/slide-account.component';
     NumbersOnlyDirective,
     DebounceKeyupDirective,
     SlideProductComponent,
-    SlideAccountComponent
+    SlideAccountComponent,
+    TextOnlyDirective
   ],
   imports: [
     CommonModule,

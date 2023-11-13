@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/auth/auth.service';
 import { BillsService } from 'src/app/bills/bills.service';
+import { ProductCategory } from 'src/app/profile/product-category';
+import { Product } from 'src/app/profile/profile-models';
 import { ProfilepageService } from 'src/app/profile/profilepage.service';
 
 @Component({
@@ -12,10 +15,11 @@ import { ProfilepageService } from 'src/app/profile/profilepage.service';
 })
 export class SlideProductComponent implements OnInit {
 
-  submitted : boolean = false;
-  isOpen : boolean = true;
-  productForm !: FormGroup ;
-  category : any[] = [];
+  submitted: boolean = false;
+  isOpen: boolean = true;
+  productForm !: FormGroup;
+  category: Product[] = [];
+  currentCategory: ProductCategory = {};
 
   productType: any = [
     {
@@ -33,17 +37,16 @@ export class SlideProductComponent implements OnInit {
     private message: MessageService,
     private fb: FormBuilder,
     private billS: BillsService,
-    private profileS : ProfilepageService) { }
+    private profileS: ProfilepageService, private authS: AuthService) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.getAllProductCategories();
+    this.loadUser();
   }
 
-  initForm()
-  {
+  initForm() {
     this.productForm = new FormGroup({
-      name: new FormControl('', Validators.required), 
+      name: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       description: new FormControl(''),
       searchKey: new FormControl(''),
@@ -64,33 +67,29 @@ export class SlideProductComponent implements OnInit {
     });
   }
 
-  getAllProductCategories()
-  {
-    
+  loadCategories() {
     this.submitted = true;
-      this.billS.getAllProductCategory().then(
-        (res) => {
-          console.log(res);
-          //this.poForm.patchValue = { ...res };
-          this.submitted = false;
-          this.category =  res.content;
-        }
-      ).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error While Fetching the product categories',
-            life: 3000,
-          });
-        }
-      )
+    this.profileS.getAllProductCategory(this.currentUser).then(
+      (res) => {
+        this.category = res;
+        console.log(res);
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching the product categories',
+          life: 3000,
+        });
+      }
+    )
   }
 
-  onSubmitProduct()
-  {
+  onSubmitProduct() {
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
 
@@ -120,7 +119,25 @@ export class SlideProductComponent implements OnInit {
       })
   }
 
-  selectProductCategory(){
+  selectProductCategory() {
+  }
+
+  currentCompany: any = {};
+  currentUser: any = {};
+  loadUser() {
+    this.submitted = true;
+    this.authS.getUser().then((res: any) => {
+      this.currentCompany = res.comapny;
+      this.currentUser = res;
+      this.submitted = false;
+
+      this.loadCategories();
+      // this.loadOtherInfo();
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
 

@@ -46,7 +46,6 @@ export class ProductComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
     this.initForm();
     this.loadUser();
   }
@@ -242,6 +241,7 @@ export class ProductComponent implements OnInit {
       }
     )
   }
+
   // Cancel Product
   cancelProduct() {
     this.router.navigate(['/profile/products']);

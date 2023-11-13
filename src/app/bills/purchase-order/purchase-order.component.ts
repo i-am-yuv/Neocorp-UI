@@ -556,9 +556,11 @@ export class PurchaseOrderComponent implements OnInit {
     if (this.newRecord) {
       this.lineitems.splice(index, 1);
     }
+
     this.newRecord = false;
     this.islineAvaliable = false;
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };

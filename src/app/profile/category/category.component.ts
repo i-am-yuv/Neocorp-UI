@@ -83,11 +83,10 @@ export class CategoryComponent implements OnInit {
     this.profileS.getAllProductCategory(this.currentUser).then(
       (res) => {
         console.log(res);
-        if( this.id != null )
-        {
-          this.categories = res.filter((pi: ProductCategory) => pi.id != this.id );
+        if (this.id != null) {
+          this.categories = res.filter((pi: ProductCategory) => pi.id != this.id);
         }
-        else{
+        else {
           this.categories = res;
         }
         this.submitted = false;
@@ -149,12 +148,11 @@ export class CategoryComponent implements OnInit {
 
   onSubmitPC() {
 
-    if(this.productCategoryForm.value.parent == null || this.productCategoryForm.value.parent.id == "" )
-    {
-      this.productCategoryForm.value.parent = null ;
+    if (this.productCategoryForm.value.parent == null || this.productCategoryForm.value.parent.id == "") {
+      this.productCategoryForm.value.parent = null;
     }
-    else{
-      
+    else {
+
     }
     var productCategoryFormVal = this.productCategoryForm.value;
     productCategoryFormVal.id = this.id;
