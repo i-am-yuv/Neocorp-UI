@@ -106,8 +106,10 @@
                                             Credit Account Details
                                         </div>
                                         <div class="col-4 text-right">
-                                            <button pButton  (click)="deleteAccount()" pRipple type="button" icon="pi pi-trash"
-                                                class="p-button-rounded p-button-text p-button-danger"></button></div>      
+                                            <button pButton (click)="deleteAccount()" pRipple type="button"
+                                                icon="pi pi-trash"
+                                                class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </div>
                                     </div>
 
 
@@ -127,7 +129,7 @@
                                             <div class="field col-12">
                                                 <label class="ml-2">Account Number:</label>
                                                 <input pInputText formControlName="accountNumber"
-                                                    placeholder="Enter Account Number" class="w-full" />
+                                                    placeholder="Enter Account Number" class="w-full" NumbersOnly minlength="12"/>
                                                 <error-message
                                                     [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
                                             </div>
@@ -136,7 +138,7 @@
                                             <div class="field col-12">
                                                 <label class="ml-2">Confirm Account Number:</label>
                                                 <input pInputText formControlName="confirmAccountNumber"
-                                                    placeholder="Enter Confirm Account Number" class="w-full" />
+                                                    placeholder="Enter Confirm Account Number" class="w-full" NumbersOnly minlength="12"/>
                                                 <error-message
                                                     [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
                                             </div>
@@ -165,8 +167,8 @@
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
                                             <div class="col-4 text-right">
-                                                <button type="submit" pButton class="mr-2" [disabled]="!creditAccountForm.valid"
-                                                    >Update</button>
+                                                <button type="submit" pButton class="mr-2"
+                                                    [disabled]="!creditAccountForm.valid">Update</button>
                                             </div>
                                         </div>
 
@@ -252,8 +254,10 @@
                                             Debit Account Details
                                         </div>
                                         <div class="col-4 text-right">
-                                            <button pButton  (click)="deleteAccount()" pRipple type="button" icon="pi pi-trash"
-                                                class="p-button-rounded p-button-text p-button-danger"></button></div>      
+                                            <button pButton (click)="deleteAccount()" pRipple type="button"
+                                                icon="pi pi-trash"
+                                                class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </div>
                                     </div>
 
                                     <form [formGroup]="debitAccountForm" (ngSubmit)="updateDebitAccount()">
@@ -271,7 +275,8 @@
                                             <div class="field col-12">
                                                 <label class="ml-2">Account Number:</label>
                                                 <input pInputText formControlName="accountNumber"
-                                                    placeholder="Enter Account Number" class="w-full" />
+                                                    placeholder="Enter Account Number" class="w-full" NumbersOnly
+                                                    minlength="12" />
                                                 <error-message
                                                     [controlName]="debitAccountForm.controls['accountNumber']"></error-message>
                                             </div>
@@ -280,7 +285,8 @@
                                             <div class="field col-12">
                                                 <label class="ml-2">Confirm Account Number:</label>
                                                 <input pInputText formControlName="confirmAccountNumber"
-                                                    placeholder="Enter Confirm Account Number" class="w-full" />
+                                                    placeholder="Enter Confirm Account Number" class="w-full"
+                                                    NumbersOnly minlength="12" />
                                                 <error-message
                                                     [controlName]="debitAccountForm.controls['confirmAccountNumber']"></error-message>
                                             </div>
@@ -308,8 +314,8 @@
                                         <div class="flex col-12">
                                             <div class="col-8"></div>
                                             <div class="col-4 text-right">
-                                                <button type="submit" pButton class="mr-2" [disabled]="!debitAccountForm.valid"
-                                                    >Update</button>
+                                                <button type="submit" pButton class="mr-2"
+                                                    [disabled]="!debitAccountForm.valid">Update</button>
                                                 <!-- <button type="button" pButton class="deleteBtn"
                                                     (click)="deleteAccount()">Delete</button> -->
                                             </div>

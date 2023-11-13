@@ -59,7 +59,7 @@
 
                 <div class="flex gap-2">
                     <div class="field col-6">
-                        <label class="mr-3 ">Search key</label>
+                        <label class="mr-3 required">Search key</label>
                         <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
                         <error-message [controlName]="productForm.controls['searchKey']"></error-message>
                     </div>
@@ -117,7 +117,8 @@
                 <div class="flex gap-2">
                     <div class="field col-6">
                         <label class="mr-3 required">Product's MRP</label>
-                        <input pInputText formControlName="mrp" placeholder="Enter Product MRP" class="w-full" />
+                        <input pInputText formControlName="mrp" placeholder="Enter Product MRP" class="w-full"
+                            NumbersOnly />
                         <error-message [controlName]="productForm.controls['mrp']"></error-message>
                     </div>
                     <div class="field col-6">
@@ -129,7 +130,7 @@
 
                 <div class="flex gap-2">
                     <div class="field col-6">
-                        <label class="mr-3 ">Bar Code</label>
+                        <label class="mr-3 required">Bar Code</label>
                         <input pInputText formControlName="barCode" placeholder="Enter BarCode" class="w-full" />
                         <error-message [controlName]="productForm.controls['barCode']"></error-message>
                     </div>

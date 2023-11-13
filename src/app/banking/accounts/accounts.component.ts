@@ -304,8 +304,6 @@ export class AccountsComponent implements OnInit {
       this.activeDebitAccount = {};
 
       this.debitAccountForm.reset();
-     // this.activeDebitAccount = {} ;
-      // this.deleteDialLogvisible = false;
       this.submitted = false;
       this.message.add({
         severity: 'success',
