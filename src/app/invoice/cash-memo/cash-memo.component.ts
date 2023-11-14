@@ -403,7 +403,7 @@ export class CashMemoComponent implements OnInit {
 
 
   onRowEditSave(lineItem: CashMemoLine) {
-    alert(JSON.stringify(lineItem));
+    // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -432,7 +432,7 @@ export class CashMemoComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
+        // alert("Update Line Item Entered");
         // line line item should have id inside
         this.submitted = true;
         this.usedService.updateCashMemoLineItem(lineItem).then(

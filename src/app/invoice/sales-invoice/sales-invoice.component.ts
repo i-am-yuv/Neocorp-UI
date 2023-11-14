@@ -435,7 +435,7 @@ export class SalesInvoiceComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: SalesInvoiceLine) {
-    alert(JSON.stringify(lineItem));
+    // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {

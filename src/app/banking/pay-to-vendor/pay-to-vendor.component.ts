@@ -447,7 +447,7 @@ export class PayToVendorComponent implements OnInit {
       });
     }
     else {
-      alert(JSON.stringify( this.paymentRequest) ) ;
+      // alert(JSON.stringify( this.paymentRequest) ) ;
       this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then(
         (res) => {
           console.log(res);

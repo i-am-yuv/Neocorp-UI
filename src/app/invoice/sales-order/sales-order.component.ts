@@ -550,7 +550,7 @@ export class SalesOrderComponent implements OnInit {
     sFormVal.id = this.id;
     sFormVal.grossTotal = this.soSubTotal;
     sFormVal.comapny = this.currentCompany;
-    alert(JSON.stringify(sFormVal));
+    // alert(JSON.stringify(sFormVal));
     if (sFormVal.id) {
       //this.poForm.value.id = poFormVal.id;
       this.submitted = true;

@@ -100,7 +100,7 @@ isClass2Applied = true; // Class 2 is initially not applied
         this.payPI.paymentType = this.choosedM;
         this.payPI.paymentRequest = null;
 
-        alert(JSON.stringify(this.payPI));
+        // alert(JSON.stringify(this.payPI));
 
         this.payS.makePaymentPI(this.payPI).then(
           (res) => {
@@ -139,7 +139,7 @@ isClass2Applied = true; // Class 2 is initially not applied
 
         this.paySI.paymentType = this.choosedM;
 
-        alert(JSON.stringify(this.paySI));
+        // alert(JSON.stringify(this.paySI));
 
         this.payS.makePaymentSI(this.paySI).then(
           (res) => {

@@ -320,7 +320,7 @@ export class PurchaseOrderComponent implements OnInit {
     poFormVal.id = this.id;
     poFormVal.comapny = this.currentCompany;
 
-    alert(JSON.stringify(poFormVal));
+    // alert(JSON.stringify(poFormVal));
 
     if (poFormVal.id) {
 
