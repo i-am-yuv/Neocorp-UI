@@ -115,7 +115,7 @@
                                 style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
                                 <div class="col-7">
                                     <p class="rightMain">Collection Activity</p>
-                                    <p class="text-white">#{{this.activeInvoice.salesOrder?.orderNumber}}
+                                    <p class="text-white">#{{this.activeInvoice.invoiceNo}}
                                     </p>
 
                                     <div class="flex bg-white rounded-div1 mt-3 align-items-center ">
@@ -180,7 +180,7 @@
                                             <p class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
                                                 date:'yyyy-MM-dd' }}</p>
                                             <hr class="custom-hr">
-                                            <p class="text-white">Due Date: Nil</p>
+                                            <!-- <p class="text-white">Due Date: {{this.activeInvoice.dueDate | date:'yyyy-MM-dd'}}</p> -->
                                         </div>
                                     </div>
                                 </div>

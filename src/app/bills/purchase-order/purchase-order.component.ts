@@ -426,10 +426,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   deleteConfirm(lineItem: LineItem) {
+    // alert(lineItem);
     this.submitted = true;
     this.billS
-      .deleteLineItem(lineItem.id)
-      .then((data) => {
+      .deleteLineItem(lineItem.id).then((data) => {
         this.lineitems = this.lineitems.filter(
           (val) => val.id !== lineItem.id
         );
@@ -437,6 +437,7 @@ export class PurchaseOrderComponent implements OnInit {
         this.poSubTotal = this.lineitems.reduce(
           (total, lineItem) => total + lineItem.amount, 0
         );
+
 
         this.DeleteDialLogvisible = false;
         this.submitted = false;
@@ -649,21 +650,13 @@ export class PurchaseOrderComponent implements OnInit {
     // updated complete PO so that gross total can be updated
     this.submitted = true;
     var poFormVal = this.poForm.value;
-
-    // if(this.lineItemForm.value === null){
-    //   poFormVal = this.poForm.invalid;
-    // }
-
     poFormVal.id = this.id;
     poFormVal.grossTotal = this.poSubTotal;
     poFormVal.comapny = this.currentCompany;
 
     if (poFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
       this.submitted = true;
-
       this.upload();
-
       this.billS.updatePurchaseorder(poFormVal).then(
         (res) => {
           console.log(res);
@@ -679,18 +672,19 @@ export class PurchaseOrderComponent implements OnInit {
             this.router.navigate(['/bills/purchaseOrder']);
           }, 2000);
         }
-      ).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error While Saving PO Details',
-            life: 3000
-          })
-        }
       )
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error While Saving PO Details',
+              life: 3000
+            })
+          }
+        )
     } else {
       setTimeout(() => {
         this.router.navigate(['/bills/purchaseOrder']);

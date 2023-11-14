@@ -15,7 +15,7 @@ export interface SalesOrder {
   termsOfDelivery?: string;
   placeOfSupply?: State;
   vendor?: Vendor;
-  comapny?: CompanyNew;
+  // company?: CompanyNew;
   user ?: any ;
 }
 

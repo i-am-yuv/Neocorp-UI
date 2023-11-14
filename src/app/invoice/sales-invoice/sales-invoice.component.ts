@@ -102,6 +102,7 @@ export class SalesInvoiceComponent implements OnInit {
       id: new FormControl(''),
       invoiceNo: new FormControl(''),
       invoiceDate: new FormControl('', Validators.required),
+      dueDate: new FormControl('', Validators.required),
       customer: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),

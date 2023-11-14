@@ -58,19 +58,6 @@
                     </div>
 
                     <div class="field col-6">
-                        <label class="mr-3 required">Invoice Date</label>
-                        <p-calendar formControlName="invoiceDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose invoice Date" [style]="{ width: '100%' }">
-                        </p-calendar>
-                        <error-message [controlName]="siForm.controls['invoiceDate']"></error-message>
-                    </div>
-
-                </div>
-
-
-
-                <div class="flex gap-3">
-                    <div class="field col-6">
                         <label class="mr-3 ">Vendor Invoice</label>
                         <!-- <ng-container formGroupName="vendorInvoice">
                                     <div class="payment-dropdown ">
@@ -90,6 +77,33 @@
                             </p-dropdown>
                         </ng-container>
                     </div>
+
+                </div>
+
+
+
+                <div class="flex gap-3">
+
+                    <div class="field col-6">
+                        <label class="mr-3 required">Invoice Date</label>
+                        <p-calendar formControlName="invoiceDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                            placeholder="Choose invoice Date" [style]="{ width: '100%' }">
+                        </p-calendar>
+                        <error-message [controlName]="siForm.controls['invoiceDate']"></error-message>
+                    </div>
+
+
+                    <div class="field col-6">
+                        <label class="mr-3 required">Invoice Date</label>
+                        <p-calendar formControlName="invoiceDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                            placeholder="Choose invoice Date" [style]="{ width: '100%' }">
+                        </p-calendar>
+                        <error-message [controlName]="siForm.controls['invoiceDate']"></error-message>
+                    </div>
+
+                </div>
+
+                <div class="flex gap-3">
                     <div class="field col-6">
                         <label class="mr-3 required">Sales Order</label>
                         <!-- <ng-container formGroupName="salesOrder">
@@ -209,9 +223,8 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly  [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -227,8 +240,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -244,8 +256,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.discount" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}

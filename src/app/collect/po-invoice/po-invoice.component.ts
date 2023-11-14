@@ -30,7 +30,7 @@ export class PoInvoiceComponent implements OnInit {
   currVendorShow: Vendor = {};
   poInvoiceForm !: FormGroup;
 
-  currentPO : PurchaseOrder = {};
+  currentPO: PurchaseOrder = {};
 
   vendors: Vendor[] = [];
   allPOs: any[] = [];
@@ -329,7 +329,7 @@ export class PoInvoiceComponent implements OnInit {
     var invoiceFormVal = this.poInvoiceForm.value;
     invoiceFormVal.id = this.id;
     invoiceFormVal.comapny = this.currentCompany;
-    invoiceFormVal.branch = this.currentUser.branch ;
+    invoiceFormVal.branch = this.currentUser.branch;
 
     if (invoiceFormVal.id) {
       this.submitted = true;
@@ -628,20 +628,19 @@ export class PoInvoiceComponent implements OnInit {
 
     if (poInvoiceFormVal.id) {
       this.submitted = true;
-      this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then(
-        (res) => {
-          console.log(res);
-          this.poInvoiceForm.patchValue = { ...res };
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Purchase Invoice Saved Successfully',
-            life: 3000,
-          });
+      this.collectS.updatePurchaseInvoice(poInvoiceFormVal).then((res) => {
+        console.log(res);
+        this.poInvoiceForm.patchValue = { ...res };
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Purchase Invoice Saved Successfully',
+          life: 3000,
+        });
 
-          this.upload();
-        }
+        this.upload();
+      }
       ).catch(
         (err) => {
           console.log(err);
@@ -665,6 +664,7 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   OnCancelPI() {
+    // this.poInvoiceForm
     this.router.navigate(['/collect/purchaseInvoice']);
 
   }
@@ -713,9 +713,8 @@ export class PoInvoiceComponent implements OnInit {
     return parseFloat(item.grossTotal).toFixed(2);
   }
 
-  selectPO()
-  {
-    
+  selectPO() {
+
   }
 
 }

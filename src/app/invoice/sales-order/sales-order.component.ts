@@ -259,7 +259,7 @@ export class SalesOrderComponent implements OnInit {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
       this.currentUser = res;
-      this.currentCompany = res.comapny;
+      this.currentCompany = res.company;
       this.submitted = false;
 
       this.loadOtherInfo();
@@ -276,7 +276,7 @@ export class SalesOrderComponent implements OnInit {
 
     var soFormVal = this.soForm.value;
     soFormVal.id = this.id;
-    soFormVal.comapny = this.currentCompany;
+    soFormVal.company = this.currentCompany;
 
     if (soFormVal.id) {
       this.submitted = true;

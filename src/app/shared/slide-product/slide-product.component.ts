@@ -49,9 +49,9 @@ export class SlideProductComponent implements OnInit {
       name: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       description: new FormControl(''),
-      searchKey: new FormControl(''),
+      searchKey: new FormControl('', Validators.required),
       skuCode: new FormControl(''),
-      barCode: new FormControl(''),
+      barCode: new FormControl('', Validators.required),
       thumbnail: new FormControl(''),
       help: new FormControl(''),//
       hsnCode: new FormControl(''),
@@ -93,9 +93,12 @@ export class SlideProductComponent implements OnInit {
     this.productForm.value.taxRate = null;
     this.productForm.value.brand = null;
 
+    var productFormVal = this.productForm.value;
+    productFormVal.user = this.currentUser;
+
     //var productFormVal = this.productForm.value;
     this.submitted = true;
-    this.profileS.createProduct(this.productForm.value).then(
+    this.profileS.createProduct(productFormVal).then(
       (res) => {
         console.log(res);
         this.submitted = false;

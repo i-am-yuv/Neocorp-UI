@@ -1,8 +1,8 @@
 <p-toast></p-toast>
 <div class="card flex justify-content-center">
-    <p-sidebar [(visible)]="isOpen"  position="right" styleClass="w-30rem">
+    <p-sidebar [(visible)]="isOpen" position="right" styleClass="w-30rem">
         <form (ngSubmit)="onSubmitProduct()" [formGroup]="productForm" class="p-2 mt-2">
-            
+
             <h3 class="text-xl text-blue-700">Product Details</h3>
 
             <div class="flex gap-2">
@@ -20,7 +20,7 @@
 
             <div class="flex gap-2">
                 <div class="field col-6">
-                    <label class="mr-3 ">Search key</label>
+                    <label class="mr-3 required">Search key</label>
                     <input pInputText formControlName="searchKey" placeholder="Enter Search key" class="w-full" />
                     <error-message [controlName]="productForm.controls['searchKey']"></error-message>
                 </div>
@@ -28,9 +28,9 @@
                     <label class="mr-3 required">Product Category</label>
                     <!-- <input pInputText formControlName="category" placeholder="Choose Category" class="w-full" /> -->
                     <ng-container formGroupName="category" class="w-full">
-                        <p-dropdown [options]="category" placeholder="Category" optionValue="id"
-                            formControlName="id" optionLabel="name" [showClear]="true"
-                            (onChange)="selectProductCategory()" [style]="{ width: '100%' }">
+                        <p-dropdown [options]="category" placeholder="Category" optionValue="id" formControlName="id"
+                            optionLabel="name" [showClear]="true" (onChange)="selectProductCategory()"
+                            [style]="{ width: '100%' }">
                         </p-dropdown>
                     </ng-container>
                     <error-message [controlName]="productForm.controls['category']"></error-message>
@@ -74,7 +74,7 @@
 
             <div class="flex gap-2">
                 <div class="field col-6">
-                    <label class="mr-3 ">Bar Code</label>
+                    <label class="mr-3 required">Bar Code</label>
                     <input pInputText formControlName="barCode" placeholder="Enter BarCode" class="w-full" />
                     <error-message [controlName]="productForm.controls['barCode']"></error-message>
                 </div>
