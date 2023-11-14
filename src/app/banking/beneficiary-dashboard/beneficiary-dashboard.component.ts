@@ -117,4 +117,41 @@ export class BeneficiaryDashboardComponent implements OnInit {
       });
   }
 
+  deleteDialLogvisible: boolean = false;
+  deleteBeneficiary() {
+    this.deleteDialLogvisible = true;
+  }
+
+  cancelDelete() {
+    this.deleteDialLogvisible = false;
+  }
+
+  confirmdeleteBeneficiary() {
+    this.bankingS.deleteBeneficiary(this.activeBeneficiary.id).then((data: any) => {
+      this.allBeneficairy = this.allBeneficairy.filter(
+        (val) => val.id !== this.activeBeneficiary.id
+      )
+
+      this.deleteDialLogvisible = false;
+      // this.activeBeneficiary = {}
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Credit Account Deleted',
+        detail: 'Credit Account Deleted',
+        life: 3000,
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error.message,
+          life: 3000,
+        })
+    })
+  }
+
 }

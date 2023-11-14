@@ -13,20 +13,20 @@ export class BankingService {
 
   constructor(private http: HttpClient) { }
 
-  async getAllBeneficairy(user : any) {
-    var url = this.apiurlNew + 'beneficiary/beneficiary/'+ encodeURIComponent(user.id) ;
+  async getAllBeneficairy(user: any) {
+    var url = this.apiurlNew + 'beneficiary/beneficiary/' + encodeURIComponent(user.id);
     const allBeneficairy = await lastValueFrom(this.http.get<any>(url));
     return allBeneficairy;
   }
 
-  async getAllDebitAccount(user : any ) {
-    var url = this.apiurlNew + 'debitAccountDetails/debitAccountDetails/'+ encodeURIComponent(user.id) ;
+  async getAllDebitAccount(user: any) {
+    var url = this.apiurlNew + 'debitAccountDetails/debitAccountDetails/' + encodeURIComponent(user.id);
     const allDebitAccounts = await lastValueFrom(this.http.get<any>(url));
     return allDebitAccounts;
   }
 
-  async getAllDebitedPayments(user : any ) {
-    var url = this.apiurlNew + 'payments/payments/'+ encodeURIComponent(user.id) ;
+  async getAllDebitedPayments(user: any) {
+    var url = this.apiurlNew + 'payments/payments/' + encodeURIComponent(user.id);
     const allDebitedAmount = await lastValueFrom(this.http.get<any>(url));
     return allDebitedAmount;
   }
@@ -110,6 +110,12 @@ export class BankingService {
     var url = this.apiurlNew + 'beneficiary'
     const updatedData = await lastValueFrom(this.http.put<any>(url, data));
     return updatedData;
+  }
+
+  async deleteBeneficiary(id: any) {
+    var url = this.apiurlNew + 'beneficiary/' + encodeURIComponent(id);
+    const deleteBeneficiary = await lastValueFrom(this.http.delete<any>(url));
+    return deleteBeneficiary;
   }
 
   async getAllCompletedPI() {

@@ -80,6 +80,7 @@
                                     </p-dropdown>
 
                                 </ng-container>
+                                <error-message [controlName]="poForm.controls['vendor']"></error-message>
                             </div>
                             <div class="mt-3 col-3 text-left">
                                 <span [routerLink]="['/pay/vendor/create']"

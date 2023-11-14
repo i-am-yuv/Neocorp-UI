@@ -109,7 +109,7 @@ export class DebitNoteComponent implements OnInit {
         })
       }),
       placeOfSupply: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       notes: new FormControl(''),
       grossTotal: new FormControl('')

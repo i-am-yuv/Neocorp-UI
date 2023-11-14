@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="field col-6">
-                        <label class="mr-3 ">Place Of Supply</label>
+                        <label class="mr-3 required">Place Of Supply</label>
                         <ng-container formGroupName="placeOfSupply">
                             <div class="payment-dropdown ">
                                 <p-dropdown [options]="states" placeholder="Choose State" optionValue="id"
@@ -201,8 +201,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -218,8 +217,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -234,9 +232,8 @@
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly  [(ngModel)]="lineItem.discount" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.discount" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}

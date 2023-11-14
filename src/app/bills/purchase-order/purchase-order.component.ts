@@ -162,7 +162,7 @@ export class PurchaseOrderComponent implements OnInit {
       enablePartialPayments: new FormControl(false),
       internslNotes: new FormControl(''),
       vendor: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       placeOfSupply: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
