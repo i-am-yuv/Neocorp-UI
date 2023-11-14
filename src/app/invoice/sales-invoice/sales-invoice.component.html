@@ -158,7 +158,7 @@
                 <p-table #dt [value]="lineitems" dataKey="id" editMode="row">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th class="text-center" width="200">
+                            <th class="text-center required" width="200">
                                 <span class="">Product</span>
                                 <span
                                     class="ml-3 border-1 border-gray-300 p-2 border-round-lg hover:bg-gray-200 cursor-pointer"
@@ -170,8 +170,8 @@
                                             fill="black" />
                                     </svg></span>
                             </th>
-                            <th class="text-center" width="100">Price</th>
-                            <th class="text-center" width="100">Quantity</th>
+                            <th class="text-center required" width="100">Price</th>
+                            <th class="text-center required" width="100">Quantity</th>
                             <th class="text-center" width="100">Discount</th>
                             <th class="text-center" width="100">Total</th>
                             <th width="160" *ngIf="!viewOnly" class="text-right">
