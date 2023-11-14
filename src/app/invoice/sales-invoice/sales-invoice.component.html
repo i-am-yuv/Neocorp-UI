@@ -94,11 +94,11 @@
 
 
                     <div class="field col-6">
-                        <label class="mr-3 required">Invoice Date</label>
-                        <p-calendar formControlName="invoiceDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose invoice Date" [style]="{ width: '100%' }">
+                        <label class="mr-3 required">Due Date</label>
+                        <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                            placeholder="Choose Due Date" [style]="{ width: '100%' }">
                         </p-calendar>
-                        <error-message [controlName]="siForm.controls['invoiceDate']"></error-message>
+                        <error-message [controlName]="siForm.controls['dueDate']"></error-message>
                     </div>
 
                 </div>
@@ -124,6 +124,13 @@
                             </p-dropdown>
                         </ng-container>
                     </div>
+
+                    <div class="field col-6" *ngIf="this.currCustomer.id">
+                        <label class="mr-3">Customer Details:</label>
+                        <input pInputText
+                            value="{{this.currCustomer.displayName }} ( Mobile no. {{this.currCustomer.mobileNumber}} )"
+                            placeholder="From Sales Order" class="w-full custom-input" [disabled]="true" />
+                    </div>
                 </div>
 
                 <!-- <div class="flex gap-3">
@@ -139,12 +146,6 @@
                                 </ng-container>
                             </div>
                         </div> -->
-                <div class="field col-6" *ngIf="this.currCustomer.id">
-                    <label class="mr-3">Customer Details:</label>
-                    <input pInputText
-                        value="{{this.currCustomer.displayName }} ( Mobile no. {{this.currCustomer.mobileNumber}} )"
-                        placeholder="From Sales Order" class="w-full custom-input" [disabled]="true" />
-                </div>
 
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
                     <button type="submit" pButton label="Save" [disabled]="!siForm.valid"
