@@ -135,24 +135,22 @@ export class SlideAccountComponent implements OnInit {
     }
     else {
       this.submitted = true;
-      this.usedService.saveAccount(this.newCreditAccountForm.value).then(
-        (res: any) => {
-          console.log(res);
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Credit Account Added Successfully',
-            life: 3000,
-          });
-          this.newCreditAccountForm.reset();
-          this.ngOnInit();
-          setTimeout(() => {
-            this.router.navigate(['/banking/accounts']);
-          }, 2000);
-        }
-      ).catch(
-        (err) => {
+      this.usedService.saveAccount(this.newCreditAccountForm.value).then((res: any) => {
+        console.log(res);
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Credit Account Added Successfully',
+          life: 3000,
+        });
+        this.newCreditAccountForm.reset();
+        this.ngOnInit();
+        setTimeout(() => {
+          this.router.navigate(['/banking/accounts']);
+        }, 2000);
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.newCreditAccountForm.reset();
@@ -163,9 +161,7 @@ export class SlideAccountComponent implements OnInit {
             life: 3000,
           });
 
-        }
-      )
-
+        })
     }
   }
 

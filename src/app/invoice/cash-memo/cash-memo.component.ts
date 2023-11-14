@@ -406,12 +406,12 @@ export class CashMemoComponent implements OnInit {
     // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
+    if (lineItem.discount == null || lineItem.discount == 0) { }
 
-    }
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
+
     if (currentProduct == null || currentProduct == undefined) {
       console.log("ADD product");
       this.message.add({
@@ -435,22 +435,20 @@ export class CashMemoComponent implements OnInit {
         // alert("Update Line Item Entered");
         // line line item should have id inside
         this.submitted = true;
-        this.usedService.updateCashMemoLineItem(lineItem).then(
-          (res) => {
-            console.log("Line Item Updated Successfully");
-            _lineItem = res;
-            // this.lineitem.Amount = res.Amount;
-            this.getCashMemo();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Updated',
-              detail: 'Cash Memo Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
+        this.usedService.updateCashMemoLineItem(lineItem).then((res) => {
+          console.log("Line Item Updated Successfully");
+          _lineItem = res;
+          // this.lineitem.Amount = res.Amount;
+          this.getCashMemo();
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Line item Updated',
+            detail: 'Cash Memo Line item Updated Successfully',
+            life: 3000,
+          });
+        })
+          .catch((err) => {
             console.log("Line Item Updated Error");
             this.submitted = false;
             this.message.add({
@@ -459,34 +457,31 @@ export class CashMemoComponent implements OnInit {
               detail: 'Error While updating Cash Memo Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
+          })
+      } else {
         this.submitted = true;
-        this.usedService.createCashMemoLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.getCashMemo();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Added',
-              detail: 'Cash Memo Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
+        this.usedService.createCashMemoLineItem(lineItem).then((res) => {
+          console.log(res);
+          _lineItem = res;
+          this.getCashMemo();
           this.submitted = false;
           this.message.add({
-            severity: 'error',
-            summary: 'Line Item Error',
-            detail: 'Cash Memo Adding Line Item',
+            severity: 'success',
+            summary: 'Line item Added',
+            detail: 'Cash Memo Line item Added Successfully',
             life: 3000,
           });
         })
+          .catch((err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Line Item Error',
+              detail: 'Cash Memo Adding Line Item',
+              life: 3000,
+            });
+          })
       }
     }
 
