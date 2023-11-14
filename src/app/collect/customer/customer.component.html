@@ -103,9 +103,6 @@
                                         placeholder="Choose Account type" optionLabel="name" optionValue="name"
                                         formControlName="accountType"></p-dropdown>
                                 </div>
-                                <!-- <input pInputText formControlName="accountType" placeholder="Enter Account Type"
-                                class="w-full custom-input" />
-                            <error-message [controlName]="accountDetailsForm.controls['accountType']"></error-message> -->
                             </div>
                         </div>
 
@@ -216,7 +213,7 @@
                     <button type="button" pButton label="Close" (click)="onCloseCustomer()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Customer" (click)="onSubmit()"
-                        [disabled]="!customerForm.valid"
+                        [disabled]="!this.customerForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
 

@@ -341,7 +341,7 @@ export class PayPageService {
   }
 
   async deleteVILineItem(lineItem: any) {   
-    var url = this.apiurlNew + 'pi/vendorInvoiceLine/' + encodeURIComponent(lineItem);
+    var url = this.apiurlNew + 'api/vendorInvoiceLine/' + encodeURIComponent(lineItem);
     const deleteVILI = await lastValueFrom(this.http.delete<any>(url));
     return deleteVILI;
   }
