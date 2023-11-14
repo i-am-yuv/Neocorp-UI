@@ -12,10 +12,10 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
 })
 export class SlideAccountComponent implements OnInit {
 
-  stateOptions: any[] = [{ label: 'Debit Account', value: 'debit' }, { label: 'Credit Account', value: 'credit' }];
-  value: string = 'debit';
+  stateOptions: any[] = [{ label: 'Credit Account', value: 'credit' }, { label: 'Debit Account', value: 'debit' }];
+  value: string = 'credit';
 
-  isOpen : boolean = true; 
+  isOpen: boolean = true;
 
   submitted: boolean = false;
 
@@ -162,7 +162,7 @@ export class SlideAccountComponent implements OnInit {
             detail: 'Account Addition Error',
             life: 3000,
           });
-          
+
         }
       )
 

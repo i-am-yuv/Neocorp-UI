@@ -650,6 +650,10 @@ export class PurchaseOrderComponent implements OnInit {
     this.submitted = true;
     var poFormVal = this.poForm.value;
 
+    // if(this.lineItemForm.value === null){
+    //   poFormVal = this.poForm.invalid;
+    // }
+
     poFormVal.id = this.id;
     poFormVal.grossTotal = this.poSubTotal;
     poFormVal.comapny = this.currentCompany;
