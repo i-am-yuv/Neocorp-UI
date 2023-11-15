@@ -156,14 +156,14 @@
                                 [max]="salesLineItemsTotal" />
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
                         </div>
-                        <div class="field col-4 required">
-                            <label class="mr-3">Confirmed Quantity</label>
+                        <div class="field col-4 ">
+                            <label class="mr-3 required">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
                                 class="w-full custom-input" NumbersOnly />
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
                         </div>
-                        <div class="field col-4 required">
-                            <label class="mr-3">Shipped Quantity</label>
+                        <div class="field col-4">
+                            <label class="mr-3 required">Shipped Quantity</label>
                             <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
                                 class="w-full custom-input" NumbersOnly />
                             <error-message [controlName]="gsLineForm.controls['shippedQty']"></error-message>

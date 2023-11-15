@@ -85,39 +85,21 @@ export class VendorDashboardComponent implements OnInit {
     this.showOrders = false;
 
     this.submitted = true;
-    this.payServices.getPurchaseInvoiceById(vendor)
-      .then((res: any) => {
-        this.allPurchaseInvoices = res;
-        this.submitted = false;
-        this.totalRemainingAmount = 0;
-        // for (const purchaseInvoice of this.allPurchaseInvoices) {
+    this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
+      this.allPurchaseInvoices = res;
+      this.submitted = false;
+      this.totalRemainingAmount = 0;
 
-        //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-        //     (res) => {
-
-        //       this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
-
-        //       this.totalRemainingAmount += res;
-
-        //       console.log(res);
-        //     }
-        //   ).catch(
-        //     (err) => {
-        //       console.log(err);
-        //     }
-        //   )
-        // }
-
-        this.totalGrossAmount = this.allPurchaseInvoices
-          .reduce((total, PI) =>
-            total + PI.grossTotal, 0
-          )
-        this.totalRemainingAmount = this.allPurchaseInvoices
-          .reduce((total, PI) =>
-            total + PI.remainingAmount, 0
-          )
-        this.submitted = false;
-      })
+      this.totalGrossAmount = this.allPurchaseInvoices
+        .reduce((total, PI) =>
+          total + PI.grossTotal, 0
+        )
+      this.totalRemainingAmount = this.allPurchaseInvoices
+        .reduce((total, PI) =>
+          total + PI.remainingAmount, 0
+        )
+      this.submitted = false;
+    })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
@@ -127,12 +109,11 @@ export class VendorDashboardComponent implements OnInit {
   // Getting all PO by vendor
   getAllPurchageOrder(vendor: Vendor) {
     this.submitted = true;
-    this.payServices.getPurchageOrderById(vendor)
-      .then((res: any) => {
-        console.log(res);
-        this.allPurchaseOrders = res;
-        this.submitted = false;
-      })
+    this.payServices.getPurchageOrderById(vendor).then((res: any) => {
+      console.log(res);
+      this.allPurchaseOrders = res;
+      this.submitted = false;
+    })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
@@ -141,44 +122,22 @@ export class VendorDashboardComponent implements OnInit {
 
   getAllPurchaseInvoice(vendor: Vendor) {
     this.submitted = true;
-    this.payServices.getPurchaseInvoiceById(vendor)
-      .then((res: any) => {
-        console.log(res);
-        this.allPurchaseInvoices = res;
+    this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
+      console.log(res);
+      this.allPurchaseInvoices = res;
 
-        this.totalGrossAmount = 0;
-        this.totalRemainingAmount = 0;
-        // for (const purchaseInvoice of this.allPurchaseInvoices) {
-        //   // this.collectS.getRemainingAmountBySalesInvoice(salesInvoice).subscribe((amount: number) => {
-        //   //   person.amount = amount; // Update the person's amount
-        //   //   this.calculateTotalAmount();
-        //   // });
-
-        //   this.payServices.getRemainingAmountByPurchaseInvoice(purchaseInvoice).then(
-        //     (res) => {
-
-        //       this.allPurchaseInvoices.find((invoice) => invoice.id === purchaseInvoice.id).remainingAmount = res;
-
-        //       this.totalRemainingAmount += res;
-
-        //       console.log(res);
-        //     }
-        //   ).catch(
-        //     (err) => {
-        //       console.log(err);
-        //     }
-        //   )
-        // }
-        this.totalGrossAmount = this.allPurchaseInvoices
-          .reduce((total, PI) =>
-            total + PI.grossTotal, 0
-          )
-        this.totalRemainingAmount = this.allPurchaseInvoices
-          .reduce((total, PI) =>
-            total + PI.remainingAmount, 0
-          )
-        this.submitted = false;
-      })
+      this.totalGrossAmount = 0;
+      this.totalRemainingAmount = 0;
+      this.totalGrossAmount = this.allPurchaseInvoices
+        .reduce((total, PI) =>
+          total + PI.grossTotal, 0
+        )
+      this.totalRemainingAmount = this.allPurchaseInvoices
+        .reduce((total, PI) =>
+          total + PI.remainingAmount, 0
+        )
+      this.submitted = false;
+    })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
@@ -201,31 +160,29 @@ export class VendorDashboardComponent implements OnInit {
     }
     else {
       // this.submitted = true;
-      this.payServices.searchVendor(value).then(
-        (res: any) => {
-          console.log(res);
-          this.allVendors = res;
-          if (this.allVendors.length > 0) {
-            this.changeVender(this.allVendors[0]);
-          } else {
-            this.activeVendor = {};
-          }
-          this.totalRecord = res.totalElements;
-          this.submitted = false;
+      this.payServices.searchVendor(value).then((res: any) => {
+        console.log(res);
+        this.allVendors = res;
+
+        if (this.allVendors.length > 0) {
+          this.changeVender(this.allVendors[0]);
         }
-      ).catch(
-        (err) => {
+        else {
+          this.activeVendor = {};
+        }
+        this.totalRecord = res.totalElements;
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+        })
     }
 
   }
 
   currentCompany: any = {};
   currentUser: any = {};
-
   loadUser() {
     this.submitted = true;
     this.authS.getUser().then((res: any) => {
@@ -240,7 +197,7 @@ export class VendorDashboardComponent implements OnInit {
       });
   }
 
-  onEditVendor(id: string){
+  onEditVendor(id: string) {
     this.router.navigate(['/pay/vendor/edit/' + id])
   }
 

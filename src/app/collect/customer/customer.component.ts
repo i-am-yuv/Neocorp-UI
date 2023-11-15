@@ -21,6 +21,7 @@ export class CustomerComponent implements OnInit {
   customerForm!: FormGroup;
   addressDetailsForm !: FormGroup;
   accountDetailsForm !: FormGroup;
+  currentCustomer: any = {};
 
   accountDetailsVisible: boolean = false;
   addressDetailsVisible: boolean = false;
@@ -47,13 +48,11 @@ export class CustomerComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
     this.initForm();
     this.loadUser();
   }
 
   loadOtherInfo() {
-
     this.id = this.route.snapshot.paramMap.get('id');
 
     if (this.id === null) {
@@ -73,6 +72,8 @@ export class CustomerComponent implements OnInit {
       else {
         this.getAllCustomer();
       }
+
+      // this.getCustomerDetailsById();
     });
 
     // this.initForm();
@@ -125,50 +126,48 @@ export class CustomerComponent implements OnInit {
 
   getAllCustomer() {
     this.submitted = true;
-    this.payPageS.allCustomer(this.currentUser).then(
-      (res) => {
-        this.submitted = false;
-        var count = res.length;
-        //count=0
-        if (count > 0) {
-          this.router.navigate(['/collect/customers']);
-        }
-        else {
-          this.createNew = false;
-        }
-      }
-    ).catch((err) => {
-      console.log("Vendor error");
+    this.payPageS.allCustomer(this.currentUser).then((res) => {
       this.submitted = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error while fetching all Customers',
-        life: 3000,
-      });
+      var count = res.length;
+      //count=0
+      if (count > 0) {
+        this.router.navigate(['/collect/customers']);
+      }
+      else {
+        this.createNew = false;
+      }
     })
+      .catch((err) => {
+        console.log("Vendor error");
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching all Customers',
+          life: 3000,
+        });
+      })
   }
 
   saveAccount() {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
       this.submitted = true;
-      this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
-        (res) => {
-          this.customerForm.value.accountDetails = res;
-          this.submitted = false;
-          this.saveAddress();
-        }
-      ).catch((err) => {
-        console.log(err);
+      this.payPageS.createAccountDetails(this.accountDetailsForm.value).then((res) => {
+        this.customerForm.value.accountDetails = res;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error while saving the account',
-          life: 3000,
-        });
+        this.saveAddress();
       })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while saving the account',
+            life: 3000,
+          });
+        })
     }
     else {
       this.customerForm.value.accountDetails = null;
@@ -184,27 +183,24 @@ export class CustomerComponent implements OnInit {
       if (this.addressDetailsForm.value.shippingAddress == "" || this.addressDetailsForm.value.shippingName == "") {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
-      // else {
-      //   this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = false;
-      // }
-      this.submitted = true;
-      this.payPageS.createAddress(this.addressDetailsForm.value).then(
-        (res) => {
 
-          this.customerForm.value.address = res;
-          this.submitted = false;
-          this.saveCustomer();
-        }
-      ).catch((err) => {
-        console.log(err);
+      this.submitted = true;
+      this.payPageS.createAddress(this.addressDetailsForm.value).then((res) => {
+
+        this.customerForm.value.address = res;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error while filling the address Details',
-          life: 3000,
-        });
+        this.saveCustomer();
       })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while filling the address Details',
+            life: 3000,
+          });
+        })
     }
     else {
       this.customerForm.value.address = null;
@@ -215,18 +211,58 @@ export class CustomerComponent implements OnInit {
         life: 3000,
       });
     }
-
-
   }
 
+  // getCustomerDetailsById() {
+  //   if (this.id) {
+  //     this.submitted = true;
+  //     this.payPageS.getCustomerById(this.id).then((customer: any) => {
+  //       this.currentCustomer = customer;
+  //       this.customerForm.patchValue(customer);
+  //       this.submitted = false;
+  //     })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         this.submitted = false;
+  //       })
+  //   }
+  // }
+
   saveCustomer() {
+    var customerFormVal = this.customerForm.value
+    customerFormVal.id = this.id;
 
-    // this.customerForm.value.accountDetails = null ; // Temp 
-    this.customerForm.value.user.id = this.currentUser.id;
-
-    this.submitted = true;
-    this.payPageS.createCustomer(this.customerForm.value).then(
-      (res) => {
+    // this.customerForm.value.user.id = this.currentUser.id;
+    // this.submitted = true;
+    // if (customerFormVal.id) {
+    //   this.submitted = true;
+    //   this.payPageS.updateCustomer(customerFormVal).then((res: any) => {
+    //     this.customerForm.patchValue = { ...res };
+    //     this.submitted = false;
+    //     this.message.add({
+    //       severity: 'success',
+    //       summary: 'Success',
+    //       detail: 'Vendor updated',
+    //       life: 3000,
+    //     });
+    //     setTimeout(() => {
+    //       this.router.navigate(['/collect/customers']);
+    //     }, 2000);
+    //   })
+    //     .catch(
+    //       (err) => {
+    //         console.log(err);
+    //         this.submitted = false;
+    //         this.message.add({
+    //           severity: 'error',
+    //           summary: 'Error',
+    //           detail: 'Error while updating the Vendor',
+    //           life: 3000,
+    //         });
+    //       });
+    // }
+    // else {
+      this.payPageS.createCustomer(customerFormVal).then((res) => {
         console.log(res);
         this.submitted = false;
         this.message.add({
@@ -238,18 +274,19 @@ export class CustomerComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/collect/customers']);
         }, 2000);
+      })
+        .catch((err) => {
+          console.log("customer error");
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Customer Addition Error',
+            life: 3000,
+          });
+        });
+    // }
 
-      }
-    ).catch((err) => {
-      console.log("customer error");
-      this.submitted = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Customer Addition Error',
-        life: 3000,
-      });
-    })
   }
 
 

@@ -64,7 +64,7 @@
                                         <div class="person-icon">{{
                                             item.displayName.charAt(0) }}</div>
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-8">
                                         <div class="text-xl font-light capitalize">{{ item.displayName }}
                                         </div>
                                         <div class="flex">
@@ -73,6 +73,9 @@
                                                     date:'yyyy-MM-dd'}} </p>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <button type="button" pButton icon="pi pi-pencil" (click)="onEditCustomer(item.id)"></button>
                                     </div>
                                 </div>
                             </div>

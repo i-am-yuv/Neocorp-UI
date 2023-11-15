@@ -104,24 +104,22 @@ export class CustomerDashboardComponent implements OnInit {
 
   getAllSalesInvoices(customer: CustomeR) {
     this.submitted = true;
-    this.collectS.allSalesInvoicesById(customer).then(
-      (res: any) => {
-        console.log(res);
-        this.allCustomerSI = res;
-        this.totalRemainingAmount = this.allCustomerSI.reduce(
-          (total, oneSI) => total + oneSI.remainingAmount, 0
-        );
-        this.totalGrossAmount = this.allCustomerSI.reduce(
-          (total, oneSI) => total + oneSI.grossTotal, 0
-        );
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.collectS.allSalesInvoicesById(customer).then((res: any) => {
+      console.log(res);
+      this.allCustomerSI = res;
+
+      this.totalRemainingAmount = this.allCustomerSI.reduce(
+        (total, oneSI) => total + oneSI.remainingAmount, 0
+      );
+      this.totalGrossAmount = this.allCustomerSI.reduce(
+        (total, oneSI) => total + oneSI.grossTotal, 0
+      );
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   refeshAll() {
@@ -135,19 +133,16 @@ export class CustomerDashboardComponent implements OnInit {
 
   getAllSalesOrders(customer: CustomeR) {
     this.submitted = true;
-    this.collectS.allSalesOrdersById(customer).then(
-      (res: any) => {
-        console.log(res);
-        this.allCustomerOrders = res;
-        //this.totalRecords = res.totalElements;
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.collectS.allSalesOrdersById(customer).then((res: any) => {
+      console.log(res);
+      this.allCustomerOrders = res;
+      //this.totalRecords = res.totalElements;
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   // getCustomerData(customer: CustomeR) {
@@ -171,24 +166,23 @@ export class CustomerDashboardComponent implements OnInit {
     }
     else {
       // this.submitted = true;
-      this.otherS.searchCustomer(value).then(
-        (res: any) => {
-          console.log(res);
-          this.allCustomers = res.content;
-          if (this.allCustomers.length > 0) {
-            this.changeCustomer(this.allCustomers[0]);
-          } else {
-            this.activeCustomer = {};
-          }
-          this.totalRecords = res.totalElements;
-          this.submitted = false;
+      this.otherS.searchCustomer(value).then((res: any) => {
+        console.log(res);
+        this.allCustomers = res.content;
+
+        if (this.allCustomers.length > 0) {
+          this.changeCustomer(this.allCustomers[0]);
+        } else {
+          this.activeCustomer = {};
         }
-      ).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      )
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+          })
     }
 
   }
@@ -208,5 +202,9 @@ export class CustomerDashboardComponent implements OnInit {
         console.log(err);
         this.submitted = false;
       })
+  }
+
+  onEditCustomer(id: string) {
+    this.router.navigate(['/collect/customer/edit/' + id]);
   }
 }

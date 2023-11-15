@@ -500,16 +500,15 @@ export class GoodsShipmentComponent implements OnInit {
     gsFormVal.salesOrder.id = this.currSalesOrder.id;
     gsFormVal.comapny = this.currentCompany;
 
-    if (gsFormVal.orderedQty !== gsFormVal.confirmedQty) {
+    if (gsFormVal.orderedQty !== gsFormVal.confirmedQty && gsFormVal.confirmedQty !== gsFormVal.shippedQty && gsFormVal.orderedQty !== gsFormVal.shippedQty) {
       this.message.add({
         severity: 'error',
         summary: 'error',
         detail: 'Ordered quantity and Confirm quantiry mismatched',
         life: 3000,
       })
-    } 
+    }
     else {
-
       if (gsFormVal.id) {
         this.submitted = true;
         this.billS.updateGoodsShipmentLine(gsFormVal)
@@ -535,10 +534,10 @@ export class GoodsShipmentComponent implements OnInit {
               });
             }
           );
-  
+
       }
       else {
-  
+
         this.submitted = true;
         this.billS.createGoodsShipmentLine(gsFormVal)
           .then((data: any) => {
@@ -566,7 +565,7 @@ export class GoodsShipmentComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['bills/goodsShipments']);
         }, 3000);
-  
+
       }
     }
   }
