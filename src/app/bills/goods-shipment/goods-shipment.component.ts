@@ -150,13 +150,13 @@ export class GoodsShipmentComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       salesOrder: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
       // company: this.fb.group({
       //   id: this.fb.nonNullable.control('')
       // }),
       status: new FormControl(''),
-      billToName: new FormControl('')
+      billToName: new FormControl('', Validators.required)
     });
 
     this.gsLineForm = new FormGroup({

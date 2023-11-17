@@ -24,6 +24,9 @@ export class ReceiptNoteComponent implements OnInit {
 
   id: string | null = '';
   rnForm !: FormGroup;
+  minEndDate!: Date;
+
+
 
   vendors: Vendor[] = [];
   customers: CustomeR[] = [];
@@ -109,6 +112,12 @@ export class ReceiptNoteComponent implements OnInit {
     this.loadStates();
     this.getReceiptNote();
   }
+
+
+  updateEndDateMinDate(selectedStartDate: Date) {
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+}
 
   initForm() {
     this.rnForm = new FormGroup({

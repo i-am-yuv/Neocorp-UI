@@ -72,7 +72,7 @@
                                             <div class="mt-1">
                                                 <p class="text-base">{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
                                                 <p class="font-light text-sm">Received Date: {{item.receivedDate|
-                                                    date:'yyyy-MM-dd'}}</p>
+                                                    date:'dd/MM/yyyy'}}</p>
                                             </div>
                                         </div>
 
@@ -143,7 +143,7 @@
 
                                         <div class="field col-6 ">
                                             <label class="mr-3 blueText">Received Date:</label>
-                                            <p>{{ this.activeGR.receivedDate | date : 'yyyy-MM-dd'}}</p>
+                                            <p>{{ this.activeGR.receivedDate | date : 'dd/MM/yyyy'}}</p>
                                         </div>
                                     </div>
 

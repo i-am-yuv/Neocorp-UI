@@ -147,7 +147,7 @@ export class CashMemoComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       grossTotal: new FormControl(''),
-      billToName: new FormControl('')
+      billToName: new FormControl('', Validators.required),
     });
 
   }

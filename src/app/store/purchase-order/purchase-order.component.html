@@ -113,8 +113,8 @@
 
                       <td>
                         Order #: {{ activeOrder.documentnumber }}<br />
-                        Date: {{ activeOrder.orderDate | date : "short" }}<br />
-                        Due: {{ activeOrder.orderDate | date : "short" }}
+                        Date: {{ activeOrder.orderDate | date : "dd/MM/yyyy" }}<br />
+                        Due: {{ activeOrder.orderDate | date : "dd/MM/yyyy" }}
                       </td>
                     </tr>
                   </table>

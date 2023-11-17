@@ -130,6 +130,7 @@ export class ReturnRefundComponent implements OnInit {
   loadProducts() {
     this.payS.allProduct(this.currentUser).then(
       (res) => {
+        // this.products = res;
         this.products = res;
         console.log(res);
       }
@@ -315,38 +316,73 @@ export class ReturnRefundComponent implements OnInit {
     this.deleteDialLogvisible = true;
   }
 
+  // deleteConfirm(lineItem: ReturnRefundLine) {
+  //   this.submitted = true;
+  //   this.payS.deleteReturnRefundLineItem(lineItem.id).then((data) => {
+  //     this.lineitems = this.lineitems.filter((val) =>
+  //       val.id !== lineItem.id
+  //     );
+
+  //     this.returnRefundSubTotal = this.lineitems.reduce((total, lineItem) => {
+  //       total + lineItem.amount, 0
+  //     });
+
+  //     this.deleteDialLogvisible = false;
+  //     this.submitted = false;
+  //     this.message.add({
+  //       severity: 'success',
+  //       summary: 'Successful',
+  //       detail: 'Line Item Deleted',
+  //       life: 3000,
+  //     });
+  //   })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //       this.deleteDialLogvisible = false;
+  //       this.message.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: 'Line item Deletion Error, Please refresh and try again',
+  //         life: 3000,
+  //       });
+  //     });
+  // }
+
+
+
   deleteConfirm(lineItem: ReturnRefundLine) {
     this.submitted = true;
-    this.payS.deleteReturnRefundLineItem(lineItem.id).then((data) => {
-      this.lineitems = this.lineitems.filter((val) =>
-        val.id !== lineItem.id
-      );
-
-      this.returnRefundSubTotal = this.lineitems.reduce((total, lineItem) => {
-        total + lineItem.amount, 0
-      });
-
-      this.deleteDialLogvisible = false;
-      this.submitted = false;
-      this.message.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: 'Line Item Deleted',
-        life: 3000,
-      });
-    })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
+    this.payS.deleteReturnRefundLineItem(lineItem.id)
+      .then((data) => {
+        this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
+  
+        this.returnRefundSubTotal = this.lineitems.reduce((total, item) => total + item.amount, 0);
+  
         this.deleteDialLogvisible = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Line Item Deleted',
+          life: 3000,
+        });
+      })
+      .catch((err) => {
+        console.error(err); // Log the error for debugging
+        this.submitted = false;
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Line item Deletion Error, Please refresh and try again',
+          detail: 'Line item Deletion Error. Please refresh and try again.',
           life: 3000,
         });
       });
   }
+  
+
+
+
 
   onRowEditSave(lineItem: ReturnRefundLine) {
     // alert(JSON.stringify(lineItem));

@@ -31,4 +31,5 @@ export interface ReturnRefundLine {
   Amount?: number;
   discount?: number;
   returnRefund?: ReturnRefund;
+  grossTotal?: ReturnRefund;
 }
