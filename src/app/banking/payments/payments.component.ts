@@ -4,7 +4,6 @@ import { MessageService, MenuItem, LazyLoadEvent } from 'primeng/api';
 import { BankingService } from '../banking.service';
 import { PurchaseInvoice } from 'src/app/collect/collect-models';
 import { PayPageService } from 'src/app/pay/pay-page.service';
-import { FilterBuilder } from 'src/app/utils/FilterBuilder';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CollectService } from 'src/app/collect/collect.service';
@@ -246,18 +245,15 @@ export class PaymentsComponent implements OnInit {
 
   loadPI() {
     this.submitted = true;
-    this.collectS.allPurchaseInvoice(this.currentUser).then(
-      (res: any) => {
-        this.allCompletedPI = res.filter((pi: PurchaseInvoice) => pi.requestStatus == 'COMPLETED');
-        this.allNonCompletedPI = res.filter((pi: PurchaseInvoice) => pi.requestStatus != 'COMPLETED');
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.collectS.allPurchaseInvoice(this.currentUser).then((res: any) => {
+      this.allCompletedPI = res.filter((pi: PurchaseInvoice) => pi.requestStatus == 'COMPLETED');
+      this.allNonCompletedPI = res.filter((pi: PurchaseInvoice) => pi.requestStatus != 'COMPLETED');
+      this.submitted = false;
+    })
+      .catch((err) => {
         this.submitted = false;
         console.log(err);
-      }
-    )
+      })
   }
 
   currentCompany: any = {};

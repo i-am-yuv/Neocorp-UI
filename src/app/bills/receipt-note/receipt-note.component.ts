@@ -385,7 +385,7 @@ export class ReceiptNoteComponent implements OnInit {
       this.setLineValues(lineItem);
       this.isquantity = true;
     }
-    
+
   }
 
   setLineQtyValuesPrice(e: any, lineItem: rnLineItem) { }
@@ -446,29 +446,28 @@ export class ReceiptNoteComponent implements OnInit {
       }
       else {
         this.submitted = true;
-        this.usedService.createReceiptNoteLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.getReceiptNote();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Receipt Note Line item Added',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
+        this.usedService.createReceiptNoteLineItem(lineItem).then((res) => {
+          console.log(res);
+          _lineItem = res;
+          this.getReceiptNote();
           this.submitted = false;
           this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error while Adding Line Item',
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Receipt Note Line item Added',
             life: 3000,
           });
         })
+          .catch((err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error while Adding Line Item',
+              life: 3000,
+            });
+          })
       }
     }
 
@@ -575,7 +574,8 @@ export class ReceiptNoteComponent implements OnInit {
     // updated complete PO so that gross total can be updated
     if (this.rnForm.value.vendor.id == null || this.rnForm.value.vendor.id == "") {
       this.rnForm.value.vendor = null;
-    } else {
+    }
+    else {
       this.rnForm.value.customer = null;
     }
 

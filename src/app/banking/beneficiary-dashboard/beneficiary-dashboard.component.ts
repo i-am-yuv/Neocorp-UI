@@ -38,24 +38,24 @@ export class BeneficiaryDashboardComponent implements OnInit {
 
   getAllBeneficiary() {
     this.submitted = true;
-    this.bankingS.getAllBeneficairy(this.currentUser).then(
-      (res: any) => {
-        console.log(res);
-        this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
-        if (this.allBeneficairy.length > 0) {
-          this.changeBeneficiary(this.allBeneficairy[0]);
-        } else {
-          this.activeBeneficiary = {};
-        }
-        this.totalRecords = this.allBeneficairy.length;
-        this.submitted = false;
+    this.bankingS.getAllBeneficairy(this.currentUser).then((res: any) => {
+      // console.log(res);
+      this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
+
+      if (this.allBeneficairy.length > 0) {
+        this.changeBeneficiary(this.allBeneficairy[0]);
       }
-    ).catch(
-      (err) => {
+      else {
+        this.activeBeneficiary = {};
+      }
+
+      this.totalRecords = this.allBeneficairy.length;
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   changeBeneficiary(beneficairy: Beneficiary) {
@@ -79,25 +79,24 @@ export class BeneficiaryDashboardComponent implements OnInit {
     }
     else {
       // this.submitted = true;
-      this.bankingS.searchBeneficiary(value).then(
-        (res: any) => {
-          console.log(res);
-          //this.allBeneficairy = res.content;
-          this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
-          if (this.allBeneficairy.length > 0) {
-            this.changeBeneficiary(this.allBeneficairy[0]);
-          } else {
-            this.activeBeneficiary = {};
-          }
-          this.totalRecords = this.allBeneficairy.length;
-          this.submitted = false;
+      this.bankingS.searchBeneficiary(value).then((res: any) => {
+        console.log(res);
+        //this.allBeneficairy = res.content;
+        this.allBeneficairy = res.content.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);
+
+        if (this.allBeneficairy.length > 0) {
+          this.changeBeneficiary(this.allBeneficairy[0]);
         }
-      ).catch(
-        (err) => {
+        else {
+          this.activeBeneficiary = {};
+        }
+        this.totalRecords = this.allBeneficairy.length;
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+        })
     }
   }
 
@@ -142,8 +141,8 @@ export class BeneficiaryDashboardComponent implements OnInit {
         life: 3000,
       })
     })
-    .catch((err) => {
-      console.log(err);
+      .catch((err) => {
+        console.log(err);
         this.submitted = false;
         this.message.add({
           severity: 'error',
@@ -151,7 +150,7 @@ export class BeneficiaryDashboardComponent implements OnInit {
           detail: err.error.message,
           life: 3000,
         })
-    })
+      })
   }
 
 }

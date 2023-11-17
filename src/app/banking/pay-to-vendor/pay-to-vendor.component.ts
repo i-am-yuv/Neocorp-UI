@@ -305,7 +305,8 @@ export class PayToVendorComponent implements OnInit {
       this.displayCoolingPDialog = true;
       this.inCoolingPeriod = true;
       // alert(this.displayCoolingPDialog );
-    } else {
+    }
+    else {
       this.displayCoolingPDialog = false;
       this.inCoolingPeriod = false;
       this.selectedBeneficiary = beneficiary;
@@ -317,9 +318,7 @@ export class PayToVendorComponent implements OnInit {
     this.selectedDebitAccount = debitAccount;
   }
 
-  sendOTP() {
-
-  }
+  sendOTP() { }
 
   sendOTPNEFT() {
     this.paymentRequest.amount = this.amount;
@@ -355,21 +354,19 @@ export class PayToVendorComponent implements OnInit {
     BaneData.inCoolingPeriod = true;
     //BaneData.signupTime =  new Date();
     this.submitted = true;
-    this.bankingS.createBeneficiary(BaneData).then(
-      (res: any) => {
-        console.log(res);
-        //alert("created");
-        this.paymentRequest.amount = this.amount;
-        //this.paymentRequest.paymentType = this.selectedType;
-        this.paymentRequest.paymentType = "QUICKPAY";
-        this.paymentRequest.paymentMethod = this.selectedTypeMethod;
-        this.paymentRequest.beneficiary = res;
-        this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
+    this.bankingS.createBeneficiary(BaneData).then((res: any) => {
+      console.log(res);
+      //alert("created");
+      this.paymentRequest.amount = this.amount;
+      //this.paymentRequest.paymentType = this.selectedType;
+      this.paymentRequest.paymentType = "QUICKPAY";
+      this.paymentRequest.paymentMethod = this.selectedTypeMethod;
+      this.paymentRequest.beneficiary = res;
+      this.paymentRequest.debitAccountDetails = this.selectedDebitAccount;
 
-        this.makePayment(this.paymentRequest);
-      }
-    ).catch(
-      (err) => {
+      this.makePayment(this.paymentRequest);
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -378,8 +375,7 @@ export class PayToVendorComponent implements OnInit {
           detail: 'Error While Creating the Beneficairy for IMPS',
           life: 3000,
         });
-      }
-    )
+      })
   }
 
   // sendOTPQuickPay() {
@@ -440,22 +436,20 @@ export class PayToVendorComponent implements OnInit {
     }
     else {
       // alert(JSON.stringify( this.paymentRequest) ) ;
-      this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then(
-        (res) => {
-          console.log(res);
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Payment Done successfully',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['/collect/purchaseInvoices']);
-          }, 2000);
-        }
-      ).catch(
-        (err) => {
+      this.bankingS.makePayment(this.id, vendorId, this.paymentRequest).then((res) => {
+        console.log(res);
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Payment Done successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/collect/purchaseInvoices']);
+        }, 2000);
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           if (err.status == 200) {
@@ -477,13 +471,8 @@ export class PayToVendorComponent implements OnInit {
               life: 3000,
             });
           }
-
-
-        }
-      )
-
+        })
     }
-
   }
 
   OnCancelOTP() {
@@ -493,19 +482,14 @@ export class PayToVendorComponent implements OnInit {
 
   }
 
-  onSubmitIMPS() {
-
-  }
+  onSubmitIMPS() { }
 
   onSubmitQuickPay() {
 
     // alert(JSON.stringify(this.QuickPayForm.value));
   }
 
-  onSubmitUPI() {
-
-  }
-
+  onSubmitUPI() { }
 
   onSubmitBeneficairy() {
     var BeneData = this.beneficairyForm.value;
@@ -517,21 +501,19 @@ export class PayToVendorComponent implements OnInit {
     BeneData.inCoolingPeriod = true;
 
     this.submitted = true;
-    this.bankingS.createBeneficiary(BeneData).then(
-      (res) => {
-        console.log(res);
-        // this.beneficairyForm.patchValue = { ...res };
-        //this.currbeneficiary = res;
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Beneficiary Added',
-          detail: 'Beneficiary Details Saved Successfully',
-          life: 3000,
-        });
-      }
-    ).catch(
-      (err) => {
+    this.bankingS.createBeneficiary(BeneData).then((res) => {
+      console.log(res);
+      // this.beneficairyForm.patchValue = { ...res };
+      //this.currbeneficiary = res;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Beneficiary Added',
+        detail: 'Beneficiary Details Saved Successfully',
+        life: 3000,
+      });
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -541,7 +523,6 @@ export class PayToVendorComponent implements OnInit {
           life: 3000,
         });
       })
-
   }
 
   formatNumber(event: any) {

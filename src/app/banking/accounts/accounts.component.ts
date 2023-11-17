@@ -222,8 +222,8 @@ export class AccountsComponent implements OnInit {
 
   updateDebitAccount() {
     var debitAccountFormVal = this.debitAccountForm.value;
-
     this.submitted = true;
+
     if (this.debitAccountForm.value.accountNumber !== this.debitAccountForm.value.confirmAccountNumber) {
       this.submitted = false;
       this.message.add({
@@ -268,6 +268,7 @@ export class AccountsComponent implements OnInit {
       this.allCreditAccounts = this.allCreditAccounts.filter(
         (val) => val.id !== this.activeCreditAccount.id
       );
+      
       this.deleteDialLogvisible = false;
       this.activeCreditAccount = {};
 

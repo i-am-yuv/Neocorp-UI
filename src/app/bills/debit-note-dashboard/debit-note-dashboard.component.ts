@@ -43,19 +43,19 @@ export class DebitNoteDashboardComponent implements OnInit {
 
   getAllDebitNotes() {
     this.submitted = true;
-    this.billS.getAllDn(this.currentUser).then(
-      (res: any) => {
-        this.allDebitNotes = res;
-        if (this.allDebitNotes.length > 0) {
-          this.changeOrder(this.allDebitNotes[0]);
-        } else {
-          this.activeDN = {};
-        }
-        this.totalRecords = res.length;
-        this.submitted = false;
+    this.billS.getAllDn(this.currentUser).then((res: any) => {
+      this.allDebitNotes = res;
+
+      if (this.allDebitNotes.length > 0) {
+        this.changeOrder(this.allDebitNotes[0]);
+      } else {
+        this.activeDN = {};
       }
-    ).catch(
-      (err) => {
+
+      this.totalRecords = res.length;
+      this.submitted = false;
+    })
+      .catch((err) => {
         this.submitted = false;
         console.log(err);
         this.message.add({
@@ -64,8 +64,7 @@ export class DebitNoteDashboardComponent implements OnInit {
           detail: 'Error While Fetching All The Debit Notes',
           life: 3000,
         });
-      }
-    )
+      })
   }
 
   changeOrder(item: DebitNote) {
@@ -76,17 +75,15 @@ export class DebitNoteDashboardComponent implements OnInit {
 
   getNotesLines(item: DebitNote) {
     this.submitted = true;
-    this.billS
-      .getLineitemsByDn(item)
-      .then((data: any) => {
-        if (data) {
-          this.lineitems = data;
-          this.dnSubTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.amount, 0
-          );
-          this.submitted = false;
-        }
-      });
+    this.billS.getLineitemsByDn(item).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
+        this.dnSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+    });
   }
 
   CreateNewDebitNote() {
@@ -122,24 +119,23 @@ export class DebitNoteDashboardComponent implements OnInit {
     }
     else {
       // this.submitted = true;
-      this.billS.searchDN(value).then(
-        (res: any) => {
-          console.log(res);
-          this.allDebitNotes = res.content;
-          if (this.allDebitNotes.length > 0) {
-            this.changeOrder(this.allDebitNotes[0]);
-          } else {
-            this.activeDN = {};
-          }
-          this.totalRecords = res.totalElements;
-          this.submitted = false;
+      this.billS.searchDN(value).then((res: any) => {
+        console.log(res);
+        this.allDebitNotes = res.content;
+
+        if (this.allDebitNotes.length > 0) {
+          this.changeOrder(this.allDebitNotes[0]);
+        } else {
+          this.activeDN = {};
         }
-      ).catch(
-        (err) => {
+
+        this.totalRecords = res.totalElements;
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+        })
     }
   }
 

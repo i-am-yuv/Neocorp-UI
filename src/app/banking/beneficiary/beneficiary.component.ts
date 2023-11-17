@@ -65,7 +65,6 @@ export class BeneficiaryComponent implements OnInit {
   }
 
   initForm() {
-
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.beneficiaryForm = new FormGroup({
@@ -96,24 +95,22 @@ export class BeneficiaryComponent implements OnInit {
       beneficiaryFormVal.signupTime = this.currbeneficiary.signupTime;
       beneficiaryFormVal.coolingPeriodEnd = this.currbeneficiary.coolingPeriodEnd;
 
-      this.bankingS.updateBeneficiary(beneficiaryFormVal).then(
-        (res) => {
-          console.log(res);
-          this.beneficiaryForm.patchValue = { ...res };
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Beneficiary Details Updated',
-            detail: 'Beneficiary Details updated Successfully',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['banking/beneficiaries']);
-          }, 2000);
+      this.bankingS.updateBeneficiary(beneficiaryFormVal).then((res) => {
+        console.log(res);
+        this.beneficiaryForm.patchValue = { ...res };
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Beneficiary Details Updated',
+          detail: 'Beneficiary Details updated Successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['banking/beneficiaries']);
+        }, 2000);
 
-        }
-      ).catch(
-        (err) => {
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -122,31 +119,27 @@ export class BeneficiaryComponent implements OnInit {
             detail: 'Beneficiary Details Error',
             life: 3000,
           });
-        }
-      )
+        })
     }
     else {
-
       beneficiaryFormVal.signupTime = new Date();
       beneficiaryFormVal.inCoolingPeriod = true;
       beneficiaryFormVal.user = this.currentUser;
       this.submitted = true;
-      this.bankingS.createBeneficiary(beneficiaryFormVal).then(
-        (res) => {
-          console.log(res);
-          this.beneficiaryForm.patchValue = { ...res };
-          this.currbeneficiary = res;
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Beneficiary Added',
-            detail: 'Beneficiary Details Saved Successfully',
-            life: 3000,
-          });
-          this.router.navigate(['banking/beneficiaries']);
-        }
-      ).catch(
-        (err) => {
+      this.bankingS.createBeneficiary(beneficiaryFormVal).then((res) => {
+        console.log(res);
+        this.beneficiaryForm.patchValue = { ...res };
+        this.currbeneficiary = res;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Beneficiary Added',
+          detail: 'Beneficiary Details Saved Successfully',
+          life: 3000,
+        });
+        this.router.navigate(['banking/beneficiaries']);
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -162,19 +155,16 @@ export class BeneficiaryComponent implements OnInit {
   getCurrbeneficiary() {
     if (this.id) {
       this.submitted = true;
-      this.bankingS.getCurrBeneficiary(this.id).then(
-        (res: any) => {
-          console.log(res);
-          this.currbeneficiary = res;
-          this.beneficiaryForm.patchValue(res);
-          this.submitted = false;
-        }
-      ).catch(
-        (err) => {
+      this.bankingS.getCurrBeneficiary(this.id).then((res: any) => {
+        console.log(res);
+        this.currbeneficiary = res;
+        this.beneficiaryForm.patchValue(res);
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+        })
     }
   }
 

@@ -84,29 +84,24 @@ export class TrackingComponent implements OnInit {
     // )
 
     this.submitted = true;
-    this.bankingS.getAllDebitedPayments(this.currentUser).then(
-      (res) => {
-        console.log(res);
-            this.allDebitPayments = res;
-            this.totalDebitedAmount = this.allDebitPayments
-              .reduce((total, PI) =>
-                total + PI.amount, 0
-              )
-            this.submitted = false;
-      }
-    ).catch(
-      (err) => {
-         this.submitted = false;
-         this.message.add({
+    this.bankingS.getAllDebitedPayments(this.currentUser).then((res) => {
+      console.log(res);
+      this.allDebitPayments = res;
+      this.totalDebitedAmount = this.allDebitPayments
+        .reduce((total, PI) =>
+          total + PI.amount, 0
+        )
+      this.submitted = false;
+    })
+      .catch((err) => {
+        this.submitted = false;
+        this.message.add({
           severity: 'error',
           summary: 'Error',
           detail: 'Error while fetching all the Debited Transactions',
           life: 3000,
         });
-      }
-    )
-
-
+      })
   }
 
   addAccount() {
@@ -184,23 +179,20 @@ export class TrackingComponent implements OnInit {
     //    )
 
     this.submitted = true;
-    this.bankingS.getAllDebitPayment(this.pageNo, this.pageSize, this.sortField, this.sortDir, filter).then(
-      (res) => {
-        console.log(res);
-        this.allDebitPayments = res.content;
-        this.totalRecords = res.totalElements;
-        this.totalDebitedAmount = this.allDebitPayments
-          .reduce((total, PI) =>
-            total + PI.amount, 0
-          )
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.bankingS.getAllDebitPayment(this.pageNo, this.pageSize, this.sortField, this.sortDir, filter).then((res) => {
+      console.log(res);
+      this.allDebitPayments = res.content;
+      this.totalRecords = res.totalElements;
+      this.totalDebitedAmount = this.allDebitPayments
+        .reduce((total, PI) =>
+          total + PI.amount, 0
+        )
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   searchPayments: any;
