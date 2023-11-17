@@ -183,17 +183,16 @@ export class ProductComponent implements OnInit {
   // Load Available Function
   availableProducts() {
     this.submitted = true;
-    this.profileS.getAllProduct(this.currentUser)
-      .then((res: any) => {
-        var count = res.length;
-        this.submitted = false;
+    this.profileS.getAllProduct(this.currentUser).then((res: any) => {
+      var count = res.length;
+      this.submitted = false;
 
-        if (count > 0) {
-          this.router.navigate(['/profile/products']);
-        } else {
-          this.createNew = false;
-        }
-      })
+      if (count > 0) {
+        this.router.navigate(['/profile/products']);
+      } else {
+        this.createNew = false;
+      }
+    })
       .catch((err) => {
         console.log(err);
         this.submitted = false;
