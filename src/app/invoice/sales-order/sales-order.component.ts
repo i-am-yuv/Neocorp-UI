@@ -365,7 +365,10 @@ export class SalesOrderComponent implements OnInit {
 
   onRowEditInit(lineItem: SalesOrderLine) { }
 
+
+  selectedLineItem:any;
   delete(lineItem: SalesOrderLine) {
+    this.selectedLineItem = lineItem;
     this.DeleteDialLogvisible = true;
   }
 

@@ -390,6 +390,7 @@ export class ReceiptNoteComponent implements OnInit {
       this.setLineValues(lineItem);
       this.isquantity = true;
     }
+    
   }
 
   setLineQtyValuesPrice(e: any, lineItem: rnLineItem) { }
@@ -639,9 +640,15 @@ export class ReceiptNoteComponent implements OnInit {
     this.usedService.deleteReceiptNoteLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-      this.rnSubTotal = this.lineitems.reduce((total, lineItem) => {
+      // this.rnSubTotal = this.lineitems.reduce((total, lineItem) => {
+      //   total + lineItem.amount, 0
+      // }
+      this.rnSubTotal = this.lineitems.reduce((total, lineItem) => 
         total + lineItem.amount, 0
-      });
+      
+      );
+
+      
 
       this.deleteDialogvisible = false;
       this.submitted = false;

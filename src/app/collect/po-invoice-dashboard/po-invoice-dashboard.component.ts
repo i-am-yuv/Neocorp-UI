@@ -132,7 +132,15 @@ export class PoInvoiceDashboardComponent implements OnInit {
     )
   }
   myFunction(item: any): string {
-    return parseFloat(item).toFixed(2);
+    // return parseFloat(item).toFixed(2);
+
+    const parsedItem = parseFloat(item);
+
+  if (isNaN(parsedItem) || !isFinite(parsedItem)) {
+    return '0'; 
+  }
+
+  return parsedItem.toFixed(2);
   }
 
   searchPI: any;

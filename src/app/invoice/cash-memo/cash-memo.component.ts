@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { CashMemo, CashMemoLine, CompanyNew } from '../invoice-model';
@@ -131,15 +131,45 @@ export class CashMemoComponent implements OnInit {
     this.sidebarVisibleProduct = false;
   }
 
-  initForm() {
+  // initForm() {
 
-    this.cashMemoForm = new FormGroup({
+  //   this.cashMemoForm = new FormGroup({
+  //     id: new FormControl(''),
+  //     cashMemoNumber: new FormControl(''),
+  //     startDate: new FormControl('', Validators.required),//
+  //     dueDate: new FormControl('', Validators.required),//
+  //     decription: new FormControl(''),//
+  //     internalNotes: new FormControl(''),//
+  //     vendor: this.fb.group({
+  //       id: this.fb.nonNullable.control('')
+  //     }),
+  //     customer: this.fb.group({
+  //       id: this.fb.nonNullable.control('')
+  //     }),
+  //     grossTotal: new FormControl(''),
+  //     billToName: new FormControl('', Validators.required),
+  //   });
+
+  // }
+  atLeastOneRequired(control: AbstractControl): ValidationErrors | null {
+    const customer = control.get('customer.id')?.value;
+    const vendor = control.get('vendor.id')?.value;
+
+    if (!customer && !vendor) {
+      return { atLeastOneRequired: true };
+    }
+
+    return null;
+  }
+
+  initForm() {
+    this.cashMemoForm = this.fb.group({
       id: new FormControl(''),
       cashMemoNumber: new FormControl(''),
-      startDate: new FormControl('', Validators.required),//
-      dueDate: new FormControl('', Validators.required),//
-      decription: new FormControl(''),//
-      internalNotes: new FormControl(''),//
+      startDate: new FormControl('', Validators.required),
+      dueDate: new FormControl('', Validators.required),
+      decription: new FormControl(''),
+      internalNotes: new FormControl(''),
       vendor: this.fb.group({
         id: this.fb.nonNullable.control('')
       }),
@@ -148,9 +178,10 @@ export class CashMemoComponent implements OnInit {
       }),
       grossTotal: new FormControl(''),
       billToName: new FormControl('', Validators.required),
-    });
-
+    }, { validators: this.atLeastOneRequired.bind(this) });
   }
+  
+  
 
 
   availableCM() {

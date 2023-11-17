@@ -431,8 +431,10 @@ export class SalesInvoiceComponent implements OnInit {
   onRowEditInit(lineItem: SalesInvoiceLine) {
 
   }
+  selectedLineItem:any;
   delete(lineItem: SalesInvoiceLine) {
     this.DeleteDialLogvisible = true;
+    this.selectedLineItem = lineItem;
   }
 
   onRowEditSave(lineItem: SalesInvoiceLine) {
@@ -663,6 +665,7 @@ export class SalesInvoiceComponent implements OnInit {
   OnCancelSI() {
     this.router.navigate(['/invoice/salesInvoice']);
   }
+  
 
   cancelDeleteConfirm() {
     this.DeleteDialLogvisible = false;

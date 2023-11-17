@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { CompanyNew, SalesOrder } from 'src/app/invoice/invoice-model';
 import { Product } from 'src/app/profile/profile-models';
 import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
@@ -138,6 +138,18 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
+  atLeastOneRequired(control: AbstractControl): ValidationErrors | null {
+    const customer = control.get('customer.id')?.value;
+    const vendor = control.get('vendor.id')?.value;
+
+    if (!customer && !vendor) {
+      return { atLeastOneRequired: true };
+    }
+
+    return null;
+  }
+
+
   initForm() {
     this.gsForm = new FormGroup({
       id: new FormControl(''),
@@ -156,7 +168,8 @@ export class GoodsShipmentComponent implements OnInit {
       //   id: this.fb.nonNullable.control('')
       // }),
       status: new FormControl(''),
-      billToName: new FormControl('', Validators.required)
+      billToName: new FormControl('', Validators.required),
+    }, { validators: this.atLeastOneRequired.bind(this)
     });
 
     this.gsLineForm = new FormGroup({

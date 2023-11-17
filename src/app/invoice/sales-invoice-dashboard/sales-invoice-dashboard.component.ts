@@ -123,7 +123,21 @@ export class SalesInvoiceDashboardComponent implements OnInit {
     return parseFloat(item).toFixed(2);
   }
 
+  // myFunction(item: any): string {
+  //   if (item == null) {
+  //         return '0.00';
+  //       }
 
+  // const parsedItem = parseFloat(item);
+
+  // if (isNaN(parsedItem) || !isFinite(parsedItem)) {
+  //   return '0'; 
+  // }
+
+  // return parsedItem.toFixed(2);
+  // }
+ 
+  
   searchSI: any;
   searchSIs(value: any) {
     if (value === null) {
