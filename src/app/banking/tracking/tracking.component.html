@@ -82,7 +82,8 @@
                                         <p style="color: #3579F3;">Bank Details</p>
                                         <div class="mt-1">
                                             <p>{{item.paymentRequest.debitAccountDetails.bankname}}</p>
-                                            <p class="text-sm">Account No {{ item.paymentRequest.debitAccountDetails.accountNumber
+                                            <p class="text-sm">Account No {{
+                                                item.paymentRequest.debitAccountDetails.accountNumber
                                                 }}</p>
                                         </div>
                                     </div>
@@ -92,9 +93,11 @@
                                         <div class="mt-1">
                                             <p>{{item.invoice.invoiceNo}}</p>
                                             <p class="text-sm" *ngIf="item.invoice.requestStatus =='COMPLETED' ">Status
-                                                <a class="text-green-600">{{ item.invoice.requestStatus }}</a></p>
+                                                <a class="text-green-600">{{ item.invoice.requestStatus }}</a>
+                                            </p>
                                             <p class="text-sm" *ngIf="item.invoice.requestStatus !='COMPLETED' ">Status
-                                                <a class="text-red-600">{{ item.invoice.requestStatus }}</a></p>
+                                                <a class="text-red-600">{{ item.invoice.requestStatus }}</a>
+                                            </p>
                                         </div>
                                     </div>
 
@@ -179,9 +182,11 @@
                                         <div class="mt-1">
                                             <p>{{item.invoice.invoiceNo}}</p>
                                             <p class="text-sm" *ngIf="item.invoice.requestStatus =='COMPLETED' ">Status
-                                                <a class="text-green-600">{{ item.invoice.requestStatus }}</a></p>
+                                                <a class="text-green-600">{{ item.invoice.requestStatus }}</a>
+                                            </p>
                                             <p class="text-sm" *ngIf="item.invoice.requestStatus !='COMPLETED' ">Status
-                                                <a class="text-red-600">{{ item.invoice.requestStatus }}</a></p>
+                                                <a class="text-red-600">{{ item.invoice.requestStatus }}</a>
+                                            </p>
 
                                         </div>
                                     </div>
@@ -255,8 +260,9 @@
             this.activePayment.paymentRequest?.beneficiary?.mmid : 'NA'}}</p>
 
     </p-dialog>
+    
+</div>
 
-
-    <p-blockUI [blocked]="submitted">
-        <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
-    </p-blockUI>
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>

@@ -83,8 +83,8 @@
                     </div>
                     <div class="field col-6">
                         <label class="mr-3 ">MMID</label>
-                        <input pInputText formControlName="mmid" NumbersOnly
-                            placeholder="Enter Beneficiary's mmid" class="w-full" />
+                        <input pInputText formControlName="mmid" NumbersOnly placeholder="Enter Beneficiary's mmid"
+                            class="w-full" />
                         <error-message [controlName]="beneficiaryForm.controls['mmid']"></error-message>
                     </div>
                 </div>
@@ -107,6 +107,7 @@
         </div>
     </div>
 </div>
+
 <p-blockUI [blocked]="submitted">
     <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
 </p-blockUI>

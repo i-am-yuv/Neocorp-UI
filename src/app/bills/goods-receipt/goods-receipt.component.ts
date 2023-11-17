@@ -294,23 +294,22 @@ export class GoodsReceiptComponent implements OnInit {
     var p = {
       'id': ""
     };
+
     p.id = e.value;
     this.currSalesOrder.id = e.value;
-    this.invoiceS.getLineitemsBySo(p)
-      .then((data: any) => {
-        if (data) {
-          this.lineitems = data;
-          this.grSubTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.amount, 0
-          );
-          this.submitted = false;
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      );
+    this.invoiceS.getLineitemsBySo(p).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
+        this.grSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
   onSubmitGR() {
@@ -322,21 +321,19 @@ export class GoodsReceiptComponent implements OnInit {
 
     if (grFormVal.id) {
       this.submitted = true;
-      this.billS.updateGoodsReceipt(grFormVal).then(
-        (res) => {
-          console.log(res);
-          this.grForm.patchValue = { ...res };
-          this.currSalesOrder = res.salesOrder;
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Receipt updated Successfully',
-            life: 3000,
-          });
-        }
-      ).catch(
-        (err) => {
+      this.billS.updateGoodsReceipt(grFormVal).then((res) => {
+        console.log(res);
+        this.grForm.patchValue = { ...res };
+        this.currSalesOrder = res.salesOrder;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Goods Receipt updated Successfully',
+          life: 3000,
+        });
+      })
+        .catch((err) => {
           console.log(err)
           this.submitted = false;
           this.message.add({
@@ -345,36 +342,32 @@ export class GoodsReceiptComponent implements OnInit {
             detail: 'Goods Receipt Updation Error',
             life: 3000,
           });
-        }
-      )
+        })
     }
     else {
-
       this.submitted = true;
       grFormVal.user = this.currentUser;
-      this.billS.createGoodsReceipt(grFormVal).then(
-        (res) => {
-          console.log(res);
-          this.grForm.patchValue = { ...res };
-          this.currGoodsReceipt = res;
-          this.currSalesOrder = res.salesOrder;
+      this.billS.createGoodsReceipt(grFormVal).then((res) => {
+        console.log(res);
+        this.grForm.patchValue = { ...res };
+        this.currGoodsReceipt = res;
+        this.currSalesOrder = res.salesOrder;
 
-          this.viewLineItemTable = true;
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Receipt Saved Successfully',
-            life: 3000,
-          });
+        this.viewLineItemTable = true;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Goods Receipt Saved Successfully',
+          life: 3000,
+        });
 
-          setTimeout(() => {
-            this.router.navigate(['bills/goodsReceipt/edit/' + res.id]);
-          }, 2000);
-          this.loadSalesOrderLineItems(this.grForm.value.salesOrder);
-        }
-      ).catch(
-        (err) => {
+        setTimeout(() => {
+          this.router.navigate(['bills/goodsReceipt/edit/' + res.id]);
+        }, 2000);
+        this.loadSalesOrderLineItems(this.grForm.value.salesOrder);
+      })
+        .catch((err) => {
           console.log(err);
           this.viewLineItemTable = false;
           this.submitted = false;
@@ -390,21 +383,19 @@ export class GoodsReceiptComponent implements OnInit {
 
   loadSalesOrderLineItems(salesOrder: SalesOrder) {
     this.submitted = true;
-    this.invoiceS.getLineitemsBySo(salesOrder)
-      .then((data: any) => {
-        if (data) {
-          this.lineitems = data;
-          this.grSubTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.amount, 0
-          );
-          this.submitted = false;
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      );
+    this.invoiceS.getLineitemsBySo(salesOrder).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
+        this.grSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
   onSubmitGRLine() {
@@ -419,61 +410,57 @@ export class GoodsReceiptComponent implements OnInit {
 
     if (grFormVal.id) {
       this.submitted = true;
-      this.billS.updateGoodsReceiptLine(grFormVal)
-        .then((data: any) => {
-          if (data) {
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Goods Receipt Line Items Updated',
-              life: 3000,
-            });
-            setTimeout(() => {
-              this.router.navigate(['bills/goodsReceipts']);
-            }, 2000);
-          }
-        }).catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Goods Receipt Line Items Updation Error',
-              life: 3000,
-            });
-          }
-        );
+      this.billS.updateGoodsReceiptLine(grFormVal).then((data: any) => {
+        if (data) {
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Goods Receipt Line Items Updated',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['bills/goodsReceipts']);
+          }, 2000);
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Goods Receipt Line Items Updation Error',
+            life: 3000,
+          });
+        });
     }
     else {
       this.submitted = true;
-      this.billS.createGoodsReceiptLine(grFormVal)
-        .then((data: any) => {
-          if (data) {
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Goods Receipt Line Items Saved',
-              life: 3000,
-            });
-            setTimeout(() => {
-              this.router.navigate(['bills/goodsReceipts']);
-            }, 2000);
-          }
-        }).catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Goods Receipt Line Items Error',
-              life: 3000,
-            });
-          }
-        );
+      this.billS.createGoodsReceiptLine(grFormVal).then((data: any) => {
+        if (data) {
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Goods Receipt Line Items Saved',
+            life: 3000,
+          });
+          setTimeout(() => {
+            this.router.navigate(['bills/goodsReceipts']);
+          }, 2000);
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Goods Receipt Line Items Error',
+            life: 3000,
+          });
+        });
     }
 
   }
