@@ -7,8 +7,7 @@
         </div>
         <div class="col-8">
             <div class="border-200 text-right">
-                <button type="button" pButton label="Back"
-                        class="mr-3 p-button-secondary" (click)="onClose()"></button>
+                <button type="button" pButton label="Back" class="mr-3 p-button-secondary" (click)="onClose()"></button>
             </div>
         </div>
     </div>
@@ -39,11 +38,12 @@
                             <br>
                         </div>
                         <div class="mt-3" *ngIf="enteredAmount > amountRemaining">
-                            <p  class="error-message exceedAmount">*Value should not exceed <b class="text-lg">{{this.amountRemaining}}</b></p>
+                            <p class="error-message exceedAmount">*Value should not exceed <b
+                                    class="text-lg">{{this.amountRemaining}}</b></p>
                         </div>
                         <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
-                        [disabled]="enteredAmount > amountRemaining"
-                          class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
+                            [disabled]="enteredAmount > amountRemaining"
+                            class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                     </div>
                     <div *ngIf="!partialPaymentStatus">
                         <div class=" w-full">
@@ -54,12 +54,14 @@
                             <br>
                         </div>
                         <div class="mt-3" *ngIf="enteredAmount != amountRemaining">
-                            <p  class="error-message exceedAmount text-lg"><b>*Partial payment is not enabled for this Invoice!!</b></p>
-                            <p  class="error-message exceedAmount text-lg">*Due Amount <b>₹ {{this.amountRemaining}}</b></p>
+                            <p class="error-message exceedAmount text-lg"><b>*Partial payment is not enabled for this
+                                    Invoice!!</b></p>
+                            <p class="error-message exceedAmount text-lg">*Due Amount <b>₹ {{this.amountRemaining}}</b>
+                            </p>
                         </div>
                         <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
-                        [disabled]="enteredAmount != amountRemaining"
-                          class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
+                            [disabled]="enteredAmount != amountRemaining"
+                            class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                     </div>
                 </div>
 
@@ -81,7 +83,8 @@
                     <img src="/assets/makePayment.png" alt="Image" class="w-10 h-auto ">
                 </span>
                 <div class="field col-3 text-left mt-4">
-                    <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}} {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
+                    <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}}
+                            {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
                     <p class="text-lg">Acc No: {{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p> <br>
                 </div>
                 <div class="field col-7 text-right">
@@ -230,7 +233,8 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPNEFT()"
-                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod " class=" w-full mr-3 ptpBtn "></button>
+                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod "
+                                class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
                     </div>
@@ -291,7 +295,8 @@
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
                             <button type="button" pButton label="Send OTP" (click)="sendOTPRTGS()"
-                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod " class=" w-full mr-3 ptpBtn"></button>
+                                [disabled]="selectedBeneficiary.id == null || inCoolingPeriod "
+                                class=" w-full mr-3 ptpBtn"></button>
                         </div>
 
                     </div>
@@ -319,7 +324,8 @@
                                         <input pInputText [style]="{ width: '100%' }" formControlName="mobileNumber"
                                             minlength="10" maxlength="10" NumbersOnly
                                             placeholder="Enter your mobile number" />
-                                            <error-message [controlName]="impsForm.controls['mobileNumber']"></error-message>
+                                        <error-message
+                                            [controlName]="impsForm.controls['mobileNumber']"></error-message>
                                     </div>
                                 </form>
                             </div>
@@ -352,7 +358,8 @@
                                             placeholder="Enter your UPI iD / Mobile Number" />
                                     </div>
 
-                                    <div class="iconSCSS w-full bgColor" *ngIf="upiForm.value.upiId.length > 1 && upiForm.value.upiId.length < 10" >
+                                    <div class="iconSCSS w-full bgColor"
+                                        *ngIf="upiForm.value.upiId.length > 1 && upiForm.value.upiId.length < 10">
                                         <div class="field col-1 justify-center items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                                                 viewBox="0 0 24 24" fill="none">
@@ -408,8 +415,8 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Account Number</label>
-                    <input pInputText formControlName="accountNumber" placeholder="Enter Account Number"
-                        class="w-full " NumbersOnly/>
+                    <input pInputText formControlName="accountNumber" placeholder="Enter Account Number" class="w-full "
+                        NumbersOnly />
                     <error-message [controlName]="beneficairyForm.controls['accountNumber']"></error-message>
                 </div>
 
@@ -422,7 +429,7 @@
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Mobile Number</label>
                     <input pInputText formControlName="mobileNumber" placeholder="Enter Your 10 digit Mobile Number "
-                        class="w-full " minlength="10" maxlength="10"/>
+                        class="w-full " minlength="10" maxlength="10" />
                     <error-message [controlName]="beneficairyForm.controls['mobileNumber']"></error-message>
                 </div>
 
@@ -447,7 +454,8 @@
 
 </div>
 
-<p-dialog header="Header" [(visible)]="displayCoolingPDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="Header" [(visible)]="displayCoolingPDialog" [modal]="true" [style]="{ width: '30vw' }"
+    [draggable]="false" [resizable]="false">
     <ng-template pTemplate="header">
         <span class="text-xl font-bold">Info</span>
     </ng-template>

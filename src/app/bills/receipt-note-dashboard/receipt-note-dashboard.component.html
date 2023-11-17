@@ -82,7 +82,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4 text-right">
-                                                <p>₹{{item.grossTotal}}</p>
+                                                <p>₹{{item.grossTotal ?item.grossTotal : '0.00' }}</p>
                                                 <!-- <p>{{item.status}}</p> -->
                                             </div>
                                         </div>

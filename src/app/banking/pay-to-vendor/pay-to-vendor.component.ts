@@ -105,7 +105,7 @@ export class PayToVendorComponent implements OnInit {
   value: string = 'Saving';
 
   displayCoolingPDialog: boolean = false;
-  inCoolingPeriod : boolean =  false;
+  inCoolingPeriod: boolean = false;
 
   // currentTime = this.getLocalDateTime();
   currentTime = new Date();
@@ -126,17 +126,15 @@ export class PayToVendorComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.amount = this.route.snapshot.paramMap.get('amount');
     this.initForm();
-     this.loadUser() ;
+    this.loadUser();
   }
 
-  loadOtherInfo()
-  {
+  loadOtherInfo() {
     this.getPI(this.id);
     this.getAllDebitAccount();
   }
 
-  initForm()
-  {
+  initForm() {
     this.impsForm = new FormGroup({
       id: new FormControl(''),
       mmid: new FormControl('', [Validators.required]),
@@ -171,14 +169,12 @@ export class PayToVendorComponent implements OnInit {
 
   getAllDebitAccount() {
     this.submitted = true;
-    this.bankingS.getAllDebitAccount(this.currentUser).then(
-      (res) => {
-        console.log(res);
-        this.allDebitAccount = res;
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.bankingS.getAllDebitAccount(this.currentUser).then((res) => {
+      console.log(res);
+      this.allDebitAccount = res;
+      this.submitted = false;
+    })
+      .catch((err) => {
         this.submitted = false;
         console.log(err);
         this.message.add({
@@ -187,41 +183,37 @@ export class PayToVendorComponent implements OnInit {
           detail: 'Error while fetching Debit Account Details',
           life: 3000,
         });
-      }
-    )
+      })
   }
 
   getPI(id: any) {
     if (id) {
       this.submitted = true;
-      this.bankingS.getPI(id).then(
-        (res) => {
-          console.log(res);
-          this.partialPaymentStatus = res.enablePartialPayments;
-          this.currentPurchaseInvoice = res;
+      this.bankingS.getPI(id).then((res) => {
+        console.log(res);
+        this.partialPaymentStatus = res.enablePartialPayments;
+        this.currentPurchaseInvoice = res;
 
-          this.enteredAmount = res.remainingAmount ;          
-          this.amountRemaining = res.remainingAmount ;
-          // this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
-          //   (res) => {
-          //     this.enteredAmount = res;
-          //     this.amountRemaining = res;
-          //     this.submitted = false;
-          //   }
-          // ).catch(
-          //   (err) => {
-          //     console.log(err);
-          //     this.submitted = false;
-          //   }
-          // )
-          this.submitted = false;
-        }
-      ).catch(
-        (err) => {
+        this.enteredAmount = res.remainingAmount;
+        this.amountRemaining = res.remainingAmount;
+        // this.payS.getRemainingAmountByPurchaseInvoice(this.currentPurchaseInvoice).then(
+        //   (res) => {
+        //     this.enteredAmount = res;
+        //     this.amountRemaining = res;
+        //     this.submitted = false;
+        //   }
+        // ).catch(
+        //   (err) => {
+        //     console.log(err);
+        //     this.submitted = false;
+        //   }
+        // )
+        this.submitted = false;
+      })
+        .catch((err) => {
           this.submitted = false;
           console.log(err);
-        }
-      )
+        })
     }
     else {
       this.message.add({
@@ -267,7 +259,7 @@ export class PayToVendorComponent implements OnInit {
       this.bankingS.getAllBeneficairy(this.currentUser).then(
         (res: any) => {
           console.log(res);
-          
+
           this.allBeneficairy = res.filter((beneficairy: Beneficiary) => beneficairy.beneficaryName !== null);;
           this.submitted = false;
         }
@@ -290,7 +282,7 @@ export class PayToVendorComponent implements OnInit {
 
   amountEntered() {
     // this.FirstPage =  false;
-    if (this.enteredAmount != null || this.enteredAmount != undefined) {
+    if (this.enteredAmount !== 0 && this.enteredAmount !== null && this.enteredAmount !== undefined) {
       this.router.navigate(['banking/payToVendor/pi/' + this.id + '/amount/' + this.enteredAmount]);
     }
     else {
@@ -311,11 +303,11 @@ export class PayToVendorComponent implements OnInit {
 
     if (beneficiary.inCoolingPeriod) {
       this.displayCoolingPDialog = true;
-      this.inCoolingPeriod =  true;
+      this.inCoolingPeriod = true;
       // alert(this.displayCoolingPDialog );
     } else {
       this.displayCoolingPDialog = false;
-      this.inCoolingPeriod =  false;
+      this.inCoolingPeriod = false;
       this.selectedBeneficiary = beneficiary;
     }
 
@@ -466,8 +458,7 @@ export class PayToVendorComponent implements OnInit {
         (err) => {
           console.log(err);
           this.submitted = false;
-          if( err.status == 200 )
-          {
+          if (err.status == 200) {
             this.message.add({
               severity: 'success',
               summary: 'Success',
@@ -478,7 +469,7 @@ export class PayToVendorComponent implements OnInit {
               this.router.navigate(['/collect/purchaseInvoices']);
             }, 2000);
           }
-          else{
+          else {
             this.message.add({
               severity: 'error',
               summary: 'Error',
@@ -486,8 +477,8 @@ export class PayToVendorComponent implements OnInit {
               life: 3000,
             });
           }
-          
-          
+
+
         }
       )
 

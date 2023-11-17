@@ -194,8 +194,7 @@ export class DebitNoteComponent implements OnInit {
   getLines(debitNote: DebitNote) {
     this.submitted = true;
     this.billS
-      .getLineitemsByDn(debitNote)
-      .then((data: any) => {
+      .getLineitemsByDn(debitNote).then((data: any) => {
         if (data) {
           this.lineitems = data;
           this.dnSubTotal = this.lineitems.reduce(
@@ -252,7 +251,7 @@ export class DebitNoteComponent implements OnInit {
     var dnFormVal = this.dnForm.value;
     dnFormVal.id = this.id;
     dnFormVal.comapny = this.currCompany;
-    dnFormVal.branch = this.currentUser.branch ;
+    dnFormVal.branch = this.currentUser.branch;
 
     if (dnFormVal.id) {
       this.submitted = true;
@@ -535,21 +534,19 @@ export class DebitNoteComponent implements OnInit {
     if (rnFormVal.id) {
       this.submitted = true;
 
-      this.billS.updateDebitNote(rnFormVal).then(
-        (res) => {
-          console.log(res);
-          this.submitted = false;
-          this.dnForm.patchValue = { ...res };
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Debit Note Saved Successfully',
-            life: 3000,
-          });
-          this.upload();
-        }
-      ).catch(
-        (err) => {
+      this.billS.updateDebitNote(rnFormVal).then((res) => {
+        console.log(res);
+        this.submitted = false;
+        this.dnForm.patchValue = { ...res };
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Debit Note Saved Successfully',
+          life: 3000,
+        });
+        this.upload();
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -558,8 +555,7 @@ export class DebitNoteComponent implements OnInit {
             detail: 'Error while saving debit note',
             life: 3000,
           });
-        }
-      )
+        })
     }
 
     setTimeout(() => {
@@ -585,8 +581,7 @@ export class DebitNoteComponent implements OnInit {
   deleteConfirm(lineItem: any) {
     this.submitted = true;
     this.usedService
-      .deleteDebitNoteLineItem(lineItem.id)
-      .then((data) => {
+      .deleteDebitNoteLineItem(lineItem.id).then((data) => {
 
         this.lineitems = this.lineitems.filter(
           (val) => val.id !== lineItem.id

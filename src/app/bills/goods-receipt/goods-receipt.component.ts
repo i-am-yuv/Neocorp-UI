@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/profile/profile-models';
-import {  Vendor } from 'src/app/settings/customers/customer';
+import { Vendor } from 'src/app/settings/customers/customer';
 import { GoodsReceipt } from '../bills-model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -210,9 +210,9 @@ export class GoodsReceiptComponent implements OnInit {
       this.submitted = true;
       this.billS.getCurrentGr(this.id).then(
         (goodsReceipt: GoodsReceipt) => {
-         // alert(JSON.stringify(goodsReceipt) );
+          // alert(JSON.stringify(goodsReceipt) );
           goodsReceipt.receivedDate = goodsReceipt.receivedDate ? new Date(goodsReceipt.receivedDate) : undefined;
-          
+
           this.currGoodsReceipt = goodsReceipt;
           this.currSalesOrder.id = goodsReceipt?.salesOrder?.id;
 
@@ -318,7 +318,7 @@ export class GoodsReceiptComponent implements OnInit {
     var grFormVal = this.grForm.value;
     grFormVal.id = this.id;
     //grFormVal.comapny = this.currentCompany;  // Temp
-    grFormVal.branch = this.currentUser.branch ;
+    grFormVal.branch = this.currentUser.branch;
 
     if (grFormVal.id) {
       this.submitted = true;

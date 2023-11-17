@@ -436,10 +436,10 @@ export class PoInvoiceComponent implements OnInit {
 
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
+    if (lineItem.discount === null || lineItem.discount === 0) {
 
     }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+    if (lineItem.unitPrice === null || lineItem.unitPrice === 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
     if (currentProduct == null || currentProduct == undefined) {
