@@ -57,7 +57,8 @@
                     <div class="flex align-items-center mb-2">
                         <div class="text-blue-400 text-lg col-6">All Purchase Invoices</div>
                         <div class="col-1"></div>
-                        <div class="col-4 mr-2text-center bg-blue-100 border-round-lg p-1 hover:bg-blue-200 cursor-pointer">
+                        <div
+                            class="col-4 mr-2text-center bg-blue-100 border-round-lg p-1 hover:bg-blue-200 cursor-pointer">
                             <p class="text-sm">Export to NeoLedger</p>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                                                 </div>
                                                 <div *ngIf="item.requestStatus != 'COMPLETED'">
                                                     <p>₹: {{item.remainingAmount ?item.remainingAmount : '0.00' }}</p>
-                                                    <p class="text-red-600 text-base" >Payment Due</p>
+                                                    <p class="text-red-600 text-base">Payment Due</p>
                                                 </div>
 
 
@@ -328,6 +329,7 @@
     </div>
 
 </div>
+
 <p-blockUI [blocked]="submitted">
     <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
 </p-blockUI>

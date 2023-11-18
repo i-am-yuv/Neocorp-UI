@@ -15,7 +15,7 @@ import { SettingService } from '../setting.service';
 export class RolesPrivilegeComponent implements OnInit {
 
   role: any;
-
+  submitted: boolean = false;
   roleid: any;
   privileges: Privilege[] = [];
 
