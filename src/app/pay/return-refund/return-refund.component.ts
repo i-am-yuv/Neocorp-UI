@@ -107,24 +107,21 @@ export class ReturnRefundComponent implements OnInit {
 
   availableRR() {
     this.submitted = true;
-    this.payS.getAllRR(this.currentUser).then(
-      (res) => {
-        this.submitted = false;
-        var count = res.length;
-        //count=0
-        if (count > 0) {
-          this.router.navigate(['/pay/returnAndRefunds']);
-        }
-        else {
-          this.createNew = false;
-        }
+    this.payS.getAllRR(this.currentUser).then((res) => {
+      this.submitted = false;
+      var count = res.length;
+      //count=0
+      if (count > 0) {
+        this.router.navigate(['/pay/returnAndRefunds']);
       }
-    ).catch(
-      (err) => {
+      else {
+        this.createNew = false;
+      }
+    })
+      .catch((err) => {
         this.submitted = false;
         console.log(err);
-      }
-    )
+      })
   }
 
   loadProducts() {
@@ -162,6 +159,7 @@ export class ReturnRefundComponent implements OnInit {
       }
     )
   }
+
   currentUser: any = {};
   loadUser() {
     this.submitted = true;
@@ -356,9 +354,9 @@ export class ReturnRefundComponent implements OnInit {
     this.payS.deleteReturnRefundLineItem(lineItem.id)
       .then((data) => {
         this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
-  
+
         this.returnRefundSubTotal = this.lineitems.reduce((total, item) => total + item.amount, 0);
-  
+
         this.deleteDialLogvisible = false;
         this.submitted = false;
         this.message.add({
@@ -379,7 +377,7 @@ export class ReturnRefundComponent implements OnInit {
         });
       });
   }
-  
+
 
 
 

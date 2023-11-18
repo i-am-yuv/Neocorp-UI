@@ -262,29 +262,29 @@ export class CustomerComponent implements OnInit {
     //       });
     // }
     // else {
-      this.payPageS.createCustomer(customerFormVal).then((res) => {
-        console.log(res);
+    this.payPageS.createCustomer(customerFormVal).then((res) => {
+      console.log(res);
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Customer Saved Successfully',
+        life: 3000,
+      });
+      setTimeout(() => {
+        this.router.navigate(['/collect/customers']);
+      }, 2000);
+    })
+      .catch((err) => {
+        console.log("customer error");
         this.submitted = false;
         this.message.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Customer Saved Successfully',
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Customer Addition Error',
           life: 3000,
         });
-        setTimeout(() => {
-          this.router.navigate(['/collect/customers']);
-        }, 2000);
-      })
-        .catch((err) => {
-          console.log("customer error");
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Customer Addition Error',
-            life: 3000,
-          });
-        });
+      });
     // }
 
   }
@@ -337,5 +337,11 @@ export class CustomerComponent implements OnInit {
         this.submitted = false;
       })
   }
+
+  // get isFormDisabled(): boolean {
+  //   const customerFormValid = !this.customerForm.valid && !this.addressDetailsForm.valid;
+
+  //   return customerFormValid;
+  // }
 
 }

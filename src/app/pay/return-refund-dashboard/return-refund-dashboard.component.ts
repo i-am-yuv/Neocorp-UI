@@ -36,11 +36,13 @@ export class ReturnRefundDashboardComponent implements OnInit {
     this.submitted = true;
     this.payS.getAllRR(this.currentUser).then((res: any) => {
       this.allRROrder = res;
+
       if (this.allRROrder.length > 0) {
         this.changeOrder(this.allRROrder[0]);
       } else {
         this.activeRR = {};
       }
+
       this.totalRecords = res.length;
       this.submitted = false;
     })
