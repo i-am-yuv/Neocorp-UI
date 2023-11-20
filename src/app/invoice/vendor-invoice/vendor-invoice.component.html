@@ -159,7 +159,7 @@
                                         </p-dropdown> -->
                                         <p-dropdown [options]="products" [(ngModel)]="lineItem.expenseName.id"
                                             [appendTo]="'body'" class="fixed-width-dropdown" optionLabel="name"
-                                            optionValue="id" [style]="{ width: '100%' }"
+                                            optionValue="id" [style]="{ width: '100%' }" (click)="loadAllProductsNow()"
                                             (ngModelChange)="setLineValues(lineItem)" [filter]="true" filterBy="name"
                                             [showClear]="true" placeholder="Choose Product">
                                             <ng-template pTemplate="lineItem.expenseName">

@@ -180,8 +180,8 @@ export class CashMemoComponent implements OnInit {
       billToName: new FormControl('', Validators.required),
     }, { validators: this.atLeastOneRequired.bind(this) });
   }
-  
-  
+
+
 
 
   availableCM() {
@@ -217,6 +217,14 @@ export class CashMemoComponent implements OnInit {
           this.currCashMemo = cashMemo;
           this.cashMemoForm.patchValue(cashMemo);
           this.submitted = false;
+          if( cashMemo.customer == null )
+          {
+            this.cashMemoForm.value.billToName = 'Vendor';
+          }
+          else{
+            this.cashMemoForm.value.billToName = 'Customer';
+          }
+          this.billToSelect();
           this.getLines(cashMemo); //Because backend api is not ready
         }
       ).catch(
@@ -270,15 +278,18 @@ export class CashMemoComponent implements OnInit {
   }
 
   loadProducts() {
+    this.submitted = true;
     this.usedService.allProduct(this.currentUser).then(
       (res) => {
         this.products = res;
         console.log(res);
+        this.submitted = false;
       }
     )
       .catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'All Product error',
@@ -307,14 +318,15 @@ export class CashMemoComponent implements OnInit {
   selectVendor() { }
 
   billToSelect() {
-    if (this.cashMemoForm.value.billToName == "Vendor") {
-      this.vendorVisible = true;
-      this.customerVisible = false;
-    }
-    else if (this.cashMemoForm.value.billToName == "Customer") {
-      this.customerVisible = true;
-      this.vendorVisible = false;
-    }
+      if (this.cashMemoForm.value.billToName == "Vendor") {
+        this.vendorVisible = true;
+        this.customerVisible = false;
+      }
+      else if (this.cashMemoForm.value.billToName == "Customer") {
+        this.customerVisible = true;
+        this.vendorVisible = false;
+      }
+    
   }
 
   onSubmitCashMemo() {
@@ -379,7 +391,9 @@ export class CashMemoComponent implements OnInit {
             detail: 'Cash Memo Saved',
             life: 3000,
           });
-          this.router.navigate(['invoice/cashMemo/edit/' + res.id]);
+          setTimeout(() => {
+            this.router.navigate(['invoice/cashMemo/edit/' + res.id]);
+          }, 2000);
         }
       ).catch(
         (err) => {
@@ -401,26 +415,26 @@ export class CashMemoComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error While Fetching this product Details',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the Product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: CashMemoLine) {
@@ -466,7 +480,7 @@ export class CashMemoComponent implements OnInit {
       lineItem.unitPrice = currentProduct?.mrp;
     }
 
-    if (currentProduct == null || currentProduct == undefined) {
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
       console.log("ADD product");
       this.message.add({
         severity: 'error',
@@ -651,8 +665,8 @@ export class CashMemoComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Cash Memo Updated',
-            detail: 'Cash Memo Updated',
+            summary: 'Success',
+            detail: 'Cash Memo Saved Successfully',
             life: 3000
           });
           setTimeout(() => {
@@ -666,12 +680,12 @@ export class CashMemoComponent implements OnInit {
         })
     }
     this.upload();
-    this.message.add({
-      severity: 'success',
-      summary: 'Cash Memo Saved',
-      detail: 'Cash Memo Saved',
-      life: 3000
-    });
+    // this.message.add({
+    //   severity: 'success',
+    //   summary: 'Cash Memo Saved',
+    //   detail: 'Cash Memo Saved',
+    //   life: 3000
+    // });
   }
 
   createCM() {
@@ -718,5 +732,8 @@ export class CashMemoComponent implements OnInit {
       });
   }
 
+  loadAllProductsNow() {
+    this.loadProducts();
+  }
 
 }

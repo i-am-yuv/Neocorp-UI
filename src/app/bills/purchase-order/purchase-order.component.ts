@@ -281,15 +281,18 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   loadProducts() {
+    this.submitted = true;
     this.usedService.allProduct(this.currentUser).then(
       (res) => {
         this.products = res;
         console.log(res);
+        this.submitted = false;
       }
     )
       .catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'Error',
@@ -407,7 +410,7 @@ export class PurchaseOrderComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error While Fetching this product Details',
+          detail: 'Please select the product',
           life: 3000,
         });
       }
@@ -495,8 +498,8 @@ export class PurchaseOrderComponent implements OnInit {
       lineItem.unitPrice = currentProduct?.mrp;
     }
 
-    if (currentProduct == null || currentProduct == undefined) {
-      console.log("ADD product");
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+      //console.log("ADD product");
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -718,4 +721,10 @@ export class PurchaseOrderComponent implements OnInit {
     //this.createNew = false;
     this.router.navigate(['/bills/purchaseOrder']);
   }
+
+  loadAllProductsNow()
+  {
+    this.loadProducts();
+  }
+
 }

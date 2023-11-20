@@ -492,13 +492,14 @@ export class PayToVendorComponent implements OnInit {
   onSubmitUPI() { }
 
   onSubmitBeneficairy() {
-    var BeneData = this.beneficairyForm.value;
-    BeneData.signupTime = new Date();
-    BeneData.inCoolingPeriod = true;
+    // var BeneData = this.beneficairyForm.value;
+    // BeneData.signupTime = new Date();
+    // BeneData.inCoolingPeriod = true;
 
     var BeneData = this.beneficairyForm.value;
     BeneData.signupTime = new Date();
     BeneData.inCoolingPeriod = true;
+    BeneData.user = this.currentUser;
 
     this.submitted = true;
     this.bankingS.createBeneficiary(BeneData).then((res) => {
@@ -512,6 +513,7 @@ export class PayToVendorComponent implements OnInit {
         detail: 'Beneficiary Details Saved Successfully',
         life: 3000,
       });
+      this.beneficairyForm.reset();
     })
       .catch((err) => {
         console.log(err);

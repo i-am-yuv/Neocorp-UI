@@ -379,7 +379,7 @@ export class CreditNoteComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error While Fetching this product Details',
+          detail: 'Please select the product',
           life: 3000,
         });
       }
@@ -415,7 +415,7 @@ export class CreditNoteComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: cnLineItem) {
-    alert(JSON.stringify(lineItem));
+    // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -424,11 +424,11 @@ export class CreditNoteComponent implements OnInit {
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
-    if (currentProduct == null || currentProduct == undefined) {
-      console.log("ADD product");
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null ) {
+
       this.message.add({
         severity: 'error',
-        summary: 'Product Add Error',
+        summary: 'Error',
         detail: 'Please Select the Product',
         life: 3000,
       });
@@ -444,7 +444,7 @@ export class CreditNoteComponent implements OnInit {
       var _lineItem = lineItem;
 
       if (_lineItem.id) {
-        alert("Update Line Item Entered");
+        // alert("Update Line Item Entered");
         // line line item should have id inside
         this.submitted = true;
         this.usedService.updateCreditNoteLineItem(lineItem).then(
@@ -679,6 +679,11 @@ export class CreditNoteComponent implements OnInit {
           life: 3000,
         });
       });
+  }
+
+  loadAllProductsNow()
+  {
+    this.loadProducts();
   }
 
 }

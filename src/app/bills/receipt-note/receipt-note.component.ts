@@ -198,6 +198,14 @@ export class ReceiptNoteComponent implements OnInit {
           this.currReceiptNote = receiptNote;
           this.rnForm.patchValue(receiptNote);
           this.submitted = false;
+          if( receiptNote.customer == null )
+          {
+            this.rnForm.value.billToName = 'Vendor';
+          }
+          else{
+            this.rnForm.value.billToName = 'Customer';
+          }
+          this.billToSelect();
           this.getLines(receiptNote);
           //Because backend api is not ready
         }
@@ -264,15 +272,18 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   loadProducts() {
+    this.submitted = true;
     this.usedService.allProduct(this.currentUser).then(
       (res) => {
         this.products = res;
         console.log(res);
+        this.submitted = false;
       }
     )
       .catch(
         (err) => {
           console.log(err);
+          this.submitted = false;
           this.message.add({
             severity: 'error',
             summary: 'All Product error',
@@ -355,7 +366,9 @@ export class ReceiptNoteComponent implements OnInit {
           detail: 'Receipt Note Added Successfully',
           life: 3000,
         });
-        this.router.navigate(['bills/receiptNote/edit/' + res.id]);
+        setTimeout(() => {
+          this.router.navigate(['bills/receiptNote/edit/' + res.id]);
+        }, 2000);
       })
         .catch((err) => {
           console.log(err);
@@ -391,7 +404,7 @@ export class ReceiptNoteComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error While Fetching this product Details',
+          detail: 'Please select the product',
           life: 3000,
         });
       }
@@ -425,7 +438,7 @@ export class ReceiptNoteComponent implements OnInit {
       lineItem.unitPrice = currentProduct?.mrp;
     }
 
-    if (currentProduct == null || currentProduct == undefined) {
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
       console.log("ADD product");
       this.message.add({
         severity: 'error',
@@ -682,6 +695,12 @@ export class ReceiptNoteComponent implements OnInit {
         });
       });
   }
+
+  loadAllProductsNow()
+  {
+    this.loadProducts();
+  }
+
 }
 
 

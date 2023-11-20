@@ -338,7 +338,7 @@ export class DebitNoteComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error While Fetching this product Details',
+          detail: 'Please select the product',
           life: 3000,
         });
       }
@@ -382,7 +382,7 @@ export class DebitNoteComponent implements OnInit {
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
-    if (currentProduct == null || currentProduct == undefined) {
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
       console.log("ADD product");
       this.message.add({
         severity: 'error',
@@ -635,4 +635,10 @@ export class DebitNoteComponent implements OnInit {
         });
       });
   }
+
+  loadAllProductsNow()
+  {
+    this.loadProducts();
+  }
+
 }

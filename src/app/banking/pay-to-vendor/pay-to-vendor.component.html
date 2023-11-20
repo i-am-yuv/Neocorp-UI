@@ -204,7 +204,7 @@
                                             fill="white" />
                                     </svg>
                                 </div>
-                                <div class="field col-10 text-left bText ml-3">
+                                <div class="field col-10 text-left bText ml-3 cursor-pointer">
                                     Add Beneficiary
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTPNEFT()"
+                            <button type="button" pButton label="Make Payment" (click)="sendOTPNEFT()"
                                 [disabled]="selectedBeneficiary.id == null || inCoolingPeriod "
                                 class=" w-full mr-3 ptpBtn "></button>
                         </div>
@@ -294,7 +294,7 @@
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTPRTGS()"
+                            <button type="button" pButton label="Make Payment" (click)="sendOTPRTGS()"
                                 [disabled]="selectedBeneficiary.id == null || inCoolingPeriod "
                                 class=" w-full mr-3 ptpBtn"></button>
                         </div>
@@ -335,7 +335,7 @@
                         <div class="iconSCSS mt-3 p-3">
                             <button type="button" pButton label="Cancel" (click)="OnCancelOTP()"
                                 class="mr-3 p-button-secondary w-full" style="border-radius: 6.488px;"></button>
-                            <button type="button" pButton label="Send OTP" (click)="sendOTPIMPS()"
+                            <button type="button" pButton label="Make Payment" (click)="sendOTPIMPS()"
                                 [disabled]="!impsForm.valid" class=" w-full mr-3 ptpBtn "></button>
                         </div>
 
@@ -415,7 +415,7 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">Account Number</label>
-                    <input pInputText formControlName="accountNumber" placeholder="Enter Account Number" class="w-full "
+                    <input pInputText formControlName="accountNumber" minlength="12" placeholder="Enter Account Number" class="w-full "
                         NumbersOnly />
                     <error-message [controlName]="beneficairyForm.controls['accountNumber']"></error-message>
                 </div>
@@ -435,7 +435,7 @@
 
                 <div class="field w-full mb-2">
                     <label class="mr-3 required">MMID</label>
-                    <input pInputText formControlName="mmid" NumbersOnly placeholder="Enter MMID" class="w-full " />
+                    <input pInputText formControlName="mmid" NumbersOnly placeholder="Enter MMID" minlength="7" maxlength="7" class="w-full " />
                     <error-message [controlName]="beneficairyForm.controls['mmid']"></error-message>
                 </div>
 
