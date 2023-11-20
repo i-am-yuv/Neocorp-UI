@@ -32,6 +32,7 @@ export class PurchaseOrderComponent implements OnInit {
   productForm !: FormGroup;
   lineItemForm !: FormGroup;
   enablePP: boolean = true;
+  currentDeleteLineItem : any;
 
   selectedVendor: Vendor = {};
 
@@ -411,16 +412,19 @@ export class PurchaseOrderComponent implements OnInit {
 
 
   onRowEditInit(lineItem: LineItem) {
-
+  //  alert(JSON.stringify(lineItem));
   }
 
   delete(lineItem: LineItem) {
     this.DeleteDialLogvisible = true;
+    this.currentDeleteLineItem = lineItem ;
+    //alert(JSON.stringify(lineItem));
   }
 
   deleteConfirm(lineItem: LineItem) {
     // alert(lineItem);
     this.submitted = true;
+   // alert(JSON.stringify(lineItem));
     this.billS.deleteLineItem(lineItem.id).then((data) => {
       this.lineitems = this.lineitems.filter(
         (val) => val.id !== lineItem.id
@@ -454,6 +458,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   cancelDeleteConfirm() {
     this.DeleteDialLogvisible = false;
+    this.currentDeleteLineItem = null ;
   }
 
   onRowEditSave(lineItem: LineItem) {
