@@ -284,6 +284,29 @@ export class ReturnRefundComponent implements OnInit {
 
   setLineValues(lineItem: ReturnRefundLine) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
+
+    // here i need to get all the info regarding this product from product id
+
+   this.submitted = true;
+   this.payS.getCurrentproduct(lineItem.expenseName).then(
+    (res) => {
+      console.log(res);
+      lineItem.unitPrice = res.mrp;
+      this.submitted = false;
+    }
+  )
+    .catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching this product Details',
+          life: 3000,
+        });
+      }
+    )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: ReturnRefundLine) {

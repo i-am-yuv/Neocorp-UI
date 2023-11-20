@@ -229,9 +229,9 @@ export class CustomerComponent implements OnInit {
   // }
 
   saveCustomer() {
-    var customerFormVal = this.customerForm.value
+    var customerFormVal = this.customerForm.value ;
     customerFormVal.id = this.id;
-
+    customerFormVal.user = this.currentUser ;
     // this.customerForm.value.user.id = this.currentUser.id;
     // this.submitted = true;
     // if (customerFormVal.id) {

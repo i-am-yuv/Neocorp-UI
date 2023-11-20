@@ -201,6 +201,12 @@ export class PayPageService {
     return allProduct;
   }
 
+  async getCurrentproduct(productId: any) {
+    var url = this.apiurlNew + 'api/product/' + encodeURIComponent(productId.id);
+    const currentProduct = await lastValueFrom(this.http.get<any>(url));
+    return currentProduct;
+  }
+
   async allSO(user: any) {
     var url = this.apiurlNew + 'api/salesOrder/salesOrder/' + encodeURIComponent(user.id);
     const allSO = await lastValueFrom(this.http.get<any>(url));
