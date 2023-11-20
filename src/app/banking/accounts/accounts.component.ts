@@ -269,6 +269,12 @@ export class AccountsComponent implements OnInit {
         (val) => val.id !== this.activeCreditAccount.id
       );
       
+      if (this.allCreditAccounts.length > 0) {
+        this.changeCreditAccount(this.allCreditAccounts[0]);
+      } else {
+        this.activeCreditAccount = {};
+      }
+
       this.deleteDialLogvisible = false;
       this.activeCreditAccount = {};
 
@@ -299,6 +305,11 @@ export class AccountsComponent implements OnInit {
       this.allDebitAccounts = this.allDebitAccounts.filter(
         (val) => val.id !== this.activeDebitAccount.id
       );
+      if (this.allDebitAccounts.length > 0) {
+        this.changeDebitAccount(this.allDebitAccounts[0]);
+      } else {
+        this.activeDebitAccount = {};
+      }
       this.deleteDialLogvisible = false;
       this.activeDebitAccount = {};
 

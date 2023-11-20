@@ -102,8 +102,8 @@ export class ProductComponent implements OnInit {
 
   // Submit Product Function
   onSubmitProduct() {
-    // this.productForm.value.taxRate = null;
-    // this.productForm.value.brand = null;
+    this.productForm.value.taxRate = null;
+    this.productForm.value.brand = null;
 
     console.log(this.productForm);
     var productFormVal = this.productForm.value;

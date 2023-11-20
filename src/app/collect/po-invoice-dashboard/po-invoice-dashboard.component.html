@@ -268,7 +268,7 @@
                                                     <td>{{ lineItem.expenseName?.name }}</td>
                                                     <td>{{myFunction(lineItem.unitPrice ) }}</td>
                                                     <td>{{ myFunction(lineItem.quantity ) }}</td>
-                                                    <td>{{myFunction(lineItem.discount) }}</td>
+                                                    <td>{{myFunction(lineItem.discount) ? myFunction(lineItem.discount) : '0'  }}</td>
                                                     <td>{{myFunction(lineItem.amount) }}</td>
                                                 </tr>
                                             </ng-template>
