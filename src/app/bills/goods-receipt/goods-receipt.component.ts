@@ -315,12 +315,17 @@ export class GoodsReceiptComponent implements OnInit {
   selectSO(e: any) {
     //  alert( JSON.stringify(e) );
     if (e.value == null) {
+      
       this.lineitems = [];
       this.grSubTotal = 0;
       this.salesLineItemsTotal = 0;
+      this.grLineForm.reset();
+      // this.grLineForm.value.confirmedQty = '' ;
+      // this.grLineForm.value.shippedQty = '' ;
+      // this.grLineForm.value.receivedQty = '' ;
+
     }
     else {
-
       this.submitted = true;
       var p = {
         'id': ""
@@ -505,7 +510,7 @@ export class GoodsReceiptComponent implements OnInit {
 
   validateOrderQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if (this.grLineForm.value.orderedQty > this.currentLineItemTotal) {
+    if (Number(this.grLineForm.value.orderedQty)  > Number(this.currentLineItemTotal) ) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -516,7 +521,7 @@ export class GoodsReceiptComponent implements OnInit {
   }
   validateConfirmedQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if (this.grLineForm.value.confirmedQty > this.grLineForm.value.orderedQty) {
+    if ( Number(this.grLineForm.value.confirmedQty)  > Number(this.grLineForm.value.orderedQty) ) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -526,8 +531,8 @@ export class GoodsReceiptComponent implements OnInit {
     }
   }
   validateShippedQty() {
-    //alert(this.grLineForm.value.orderedQty );
-    if (this.grLineForm.value.shippedQty > this.grLineForm.value.confirmedQty) {
+    //alert(this.grLineForm.value.shippedQty );
+    if (Number(this.grLineForm.value.shippedQty)  > Number(this.grLineForm.value.confirmedQty) ) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -538,7 +543,7 @@ export class GoodsReceiptComponent implements OnInit {
   }
   validateReceivedQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if (this.grLineForm.value.receivedQty > this.grLineForm.value.shippedQty ) {
+    if ( Number(this.grLineForm.value.receivedQty)  > Number(this.grLineForm.value.shippedQty)  ) {
       this.message.add({
         severity: 'error',
         summary: 'Error',

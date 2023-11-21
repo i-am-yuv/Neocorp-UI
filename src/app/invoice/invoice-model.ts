@@ -23,7 +23,7 @@ export interface SalesOrder {
 export interface SalesInvoice {
   id?: string;
   invoiceNo?: string;
-  dueDate?: string;
+  dueDate?: Date;
   vendorInvoice?: VendorInvoice;
   salesOrder?: SalesOrder;
   invoiceDate?: Date;

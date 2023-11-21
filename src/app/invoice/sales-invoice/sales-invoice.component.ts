@@ -156,7 +156,7 @@ export class SalesInvoiceComponent implements OnInit {
       this.invoiceS.getCurrentSI(this.id).then(
         (si: SalesInvoice) => {
           si.invoiceDate = si.invoiceDate ? new Date(si.invoiceDate) : undefined;
-
+          si.dueDate = si.dueDate ? new Date(si.dueDate) : undefined;
           console.log(si);
           this.currSI = si;
           this.siForm.patchValue(si);
