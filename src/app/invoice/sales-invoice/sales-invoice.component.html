@@ -36,7 +36,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelSI()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Sales Invoice" (click)="finalSISubmitPage()"
-                        [disabled]="this.siSubTotal == 0"
+                        [disabled]="!this.siForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
             </div>
@@ -343,7 +343,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelSI()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Sales Invoice" (click)="finalSISubmitPage()"
-                        [disabled]="this.siSubTotal == 0"
+                        [disabled]="!this.siForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
 

@@ -34,7 +34,7 @@
                     <button type="button" pButton label="Cancel" (click)="OnCancelPO()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Purchase Order" (click)="finalPoSubmitPage()"
-                        [disabled]="this.poSubTotal == 0"
+                        [disabled]="!this.poForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
@@ -282,7 +282,7 @@
                                     <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
                                         icon="pi pi-check" (click)="onRowEditSave(lineItem)"
                                         class="p-button-rounded p-button-text p-button-success mr-2"
-                                        [disabled]="!isquantity"></button>
+                                        [disabled]="lineItem.quantity < 1"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                         icon="pi pi-times" (click)="onRowEditCancel(lineItem, ri)"
                                         class="p-button-rounded p-button-text p-button-danger"></button>
@@ -348,7 +348,7 @@
                     <button type="button" pButton label="Cancel" (click)="OnCancelPO()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Purchase Order" (click)="finalPoSubmitPage()"
-                        [disabled]="this.poSubTotal == 0"
+                        [disabled]="!this.poForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
 

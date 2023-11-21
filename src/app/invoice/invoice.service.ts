@@ -128,6 +128,12 @@ export class InvoiceService {
     return allSo;
   }
 
+  async getAllSoByCustomerId(customerId : any) {
+    var url = this.apiurlNew + 'api/salesOrder/customer/'+encodeURIComponent(customerId.id);
+    const SoByCustomer = await lastValueFrom(this.http.get<any>(url));
+    return SoByCustomer;
+  }
+
   async getAllVendorInvoices(user : any) {
     var url = this.apiurlNew + 'api/vendorInvoice/vendorInvoice/'+encodeURIComponent(user.id);
     const all = await lastValueFrom(this.http.get<any>(url));

@@ -54,23 +54,11 @@ export class GoodsShipmentComponent implements OnInit {
 
   items!: MenuItem[];
 
-  vendorVisible: boolean = false;
-  customerVisible: boolean = false;
-
   salesLineItemsTotal: number = 0;
 
-  billTo: any = [
-    {
-      "id": "1",
-      "name": "Vendor"
-    },
-    {
-      "id": "2",
-      "name": "Customer"
-    }
-  ];
-
   currentCompany: CompanyNew = {};
+  currentVendor: Vendor = {};
+
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -125,17 +113,6 @@ export class GoodsShipmentComponent implements OnInit {
   OnCancelGS() {
     this.createNew = false;
     this.router.navigate(['/bills/goodsShipment']);
-  }
-
-  billToSelect() {
-    if (this.gsForm.value.billToName == "Vendor") {
-      this.vendorVisible = true;
-      this.customerVisible = false;
-    }
-    else if (this.gsForm.value.billToName == "Customer") {
-      this.customerVisible = true;
-      this.vendorVisible = false;
-    }
   }
 
   atLeastOneRequired(control: AbstractControl): ValidationErrors | null {

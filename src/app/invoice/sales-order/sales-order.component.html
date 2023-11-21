@@ -34,7 +34,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelSO()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Sales Order" (click)="finalSoSubmitPage()"
-                        [disabled]="this.soSubTotal == 0 || !soForm.valid"
+                        [disabled]="!this.soForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
             </div>
@@ -361,7 +361,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelSO()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Sales Order" (click)="finalSoSubmitPage()"
-                        [disabled]="this.soSubTotal == 0 || !soForm.valid"
+                        [disabled]="!this.soForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
             </div>

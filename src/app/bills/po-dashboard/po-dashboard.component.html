@@ -163,7 +163,7 @@
                                         <p>{{this.activeOrder.vendor?.address?.billingName}}</p>
                                         <p>{{this.activeOrder.vendor?.address?.billingAddress}}</p>
                                         <p>{{this.activeOrder.vendor?.address?.city}}
-                                            ,{{this.activeOrder.vendor?.address?.pincode}}</p>
+                                            {{this.activeOrder.vendor?.address?.pincode ? ', '+this.activeOrder.vendor?.address?.pincode : ''}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <label class="mr-3 blueText ">Place Of Supply</label><br>

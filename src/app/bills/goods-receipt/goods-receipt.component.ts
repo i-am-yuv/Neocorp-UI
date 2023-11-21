@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/profile/profile-models';
-import { Vendor } from 'src/app/settings/customers/customer';
+import { CustomeR, Vendor } from 'src/app/settings/customers/customer';
 import { GoodsReceipt } from '../bills-model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,6 @@ export class GoodsReceiptComponent implements OnInit {
   grForm !: FormGroup;
   grLineForm !: FormGroup;
 
-  vendors: Vendor[] = [];
   allSo: SalesOrder[] = [];
 
   products: Product[] = [];
@@ -36,6 +35,8 @@ export class GoodsReceiptComponent implements OnInit {
   lineitems: any[] = [];
   currGoodsReceipt: GoodsReceipt = {};
   currSalesOrder: SalesOrder = {};
+  customers: CustomeR[] = [];
+  currentCustomer: CustomeR = {};
 
   editing: any;
   viewOnly: boolean = false;
@@ -54,6 +55,7 @@ export class GoodsReceiptComponent implements OnInit {
   items!: MenuItem[];
 
   salesLineItemsTotal: number = 0;
+  currentLineItemTotal: number = 0;
   currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
@@ -92,9 +94,42 @@ export class GoodsReceiptComponent implements OnInit {
       }
     });
 
-    this.loadVendors();
-    this.loadSalesOrder();
+    this.loadCustomer();
+    // this.loadSalesOrder();
     this.getGR();
+  }
+
+  loadCustomer() {
+    this.usedService.allCustomer(this.currentUser).then(
+      (res) => {
+        this.customers = res;
+        console.log(res);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+  loadSalesOrderByCustomer(customerId: any) {
+    this.submitted = true;
+    this.invoiceS.getAllSoByCustomerId(customerId).then(
+      (res: any) => {
+        this.allSo = res;
+        this.submitted = false;
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error While Fetching All The Sales Order of the customer ',
+          life: 3000,
+        });
+      }
+    )
   }
 
   createGR() {
@@ -112,15 +147,12 @@ export class GoodsReceiptComponent implements OnInit {
       id: new FormControl(''),
       documentno: new FormControl(''),
       receivedDate: new FormControl('', Validators.required),
-      vendor: this.fb.group({
+      customer: this.fb.group({
         id: this.fb.nonNullable.control('', Validators.required)
       }),
       salesOrder: this.fb.group({
-        id: this.fb.nonNullable.control('')
+        id: this.fb.nonNullable.control('', Validators.required)
       }),
-      // company: this.fb.group({
-      //   id: this.fb.nonNullable.control('')
-      // }),
       status: new FormControl('')
     });
 
@@ -185,7 +217,7 @@ export class GoodsReceiptComponent implements OnInit {
 
   loadSalesOrder() {
     this.submitted = true;
-    this.invoiceS.getAllSo(this.currentUser).then(
+    this.invoiceS.getAllSoByCustomerId(this.currentCustomer).then(
       (res: any) => {
         this.allSo = res;
         this.submitted = false;
@@ -197,7 +229,7 @@ export class GoodsReceiptComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error While Fetching All The Sales Order',
+          detail: 'Error While Fetching All The Sales Order of the customer ',
           life: 3000,
         });
       }
@@ -209,16 +241,17 @@ export class GoodsReceiptComponent implements OnInit {
     if (this.id) {
       this.submitted = true;
       this.billS.getCurrentGr(this.id).then(
-        (goodsReceipt: GoodsReceipt) => {
-          // alert(JSON.stringify(goodsReceipt) );
+        (goodsReceipt: any) => {
+          //  alert(JSON.stringify(goodsReceipt) );
+          this.loadSalesOrderByCustomer(goodsReceipt.customer);
           goodsReceipt.receivedDate = goodsReceipt.receivedDate ? new Date(goodsReceipt.receivedDate) : undefined;
 
           this.currGoodsReceipt = goodsReceipt;
-          this.currSalesOrder.id = goodsReceipt?.salesOrder?.id;
+          this.currSalesOrder = goodsReceipt.salesOrder;
 
           this.submitted = false;
           this.grForm.patchValue(goodsReceipt);
-          this.getLines(goodsReceipt?.salesOrder); //Because backend api is not ready
+          this.getLines(goodsReceipt?.salesOrder);
           this.getLineItemGR(goodsReceipt);
         }
       ).catch(
@@ -263,6 +296,7 @@ export class GoodsReceiptComponent implements OnInit {
           this.salesLineItemsTotal = this.lineitems.reduce(
             (total, lineItem) => total + lineItem.quantity, 0
           );
+          this.currentLineItemTotal = this.salesLineItemsTotal;
 
           this.submitted = false;
         }
@@ -270,46 +304,51 @@ export class GoodsReceiptComponent implements OnInit {
       });
   }
 
-  loadVendors() {
-    this.submitted = true;
-    this.usedService.allVendor(this.currentUser).then(
-      (res) => {
-        this.vendors = res;
-        console.log(res);
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-        this.submitted = false;
-      }
-    )
-  }
 
-  selectVendor() { }
+  selectVendor() {
+    this.lineitems = [];
+    this.grSubTotal = 0;
+    this.salesLineItemsTotal = 0;
+    this.loadSalesOrder();
+  }
 
   selectSO(e: any) {
     //  alert( JSON.stringify(e) );
-    this.submitted = true;
-    var p = {
-      'id': ""
-    };
+    if (e.value == null) {
+      this.lineitems = [];
+      this.grSubTotal = 0;
+      this.salesLineItemsTotal = 0;
+    }
+    else {
 
-    p.id = e.value;
-    this.currSalesOrder.id = e.value;
-    this.invoiceS.getLineitemsBySo(p).then((data: any) => {
-      if (data) {
-        this.lineitems = data;
-        this.grSubTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.amount, 0
-        );
-        this.submitted = false;
-      }
-    })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
-      });
+      this.submitted = true;
+      var p = {
+        'id': ""
+      };
+
+      p.id = e.value;
+      this.currSalesOrder.id = e.value;
+      this.invoiceS.getLineitemsBySo(p).then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.grSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
+          this.salesLineItemsTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.quantity, 0
+          );
+          this.currentLineItemTotal = this.salesLineItemsTotal;
+        //  alert(this.currentLineItemTotal)
+          this.submitted = false;
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        });
+
+    }
+
   }
 
   onSubmitGR() {
@@ -329,7 +368,7 @@ export class GoodsReceiptComponent implements OnInit {
         this.message.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Goods Receipt updated Successfully',
+          detail: 'Goods Receipt Saved',
           life: 3000,
         });
       })
@@ -413,12 +452,12 @@ export class GoodsReceiptComponent implements OnInit {
       this.billS.updateGoodsReceiptLine(grFormVal).then((data: any) => {
         if (data) {
           this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Goods Receipt Line Items Updated',
-            life: 3000,
-          });
+          // this.message.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Goods Receipt Line Items Saved',
+          //   life: 3000,
+          // });
           setTimeout(() => {
             this.router.navigate(['bills/goodsReceipts']);
           }, 2000);
@@ -462,6 +501,52 @@ export class GoodsReceiptComponent implements OnInit {
           });
         });
     }
-
   }
+
+  validateOrderQty() {
+    //alert(this.grLineForm.value.orderedQty );
+    if (this.grLineForm.value.orderedQty > this.currentLineItemTotal) {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Order Quantity exceeded the limit ' + this.currentLineItemTotal,
+        life: 3000,
+      });
+    }
+  }
+  validateConfirmedQty() {
+    //alert(this.grLineForm.value.orderedQty );
+    if (this.grLineForm.value.confirmedQty > this.grLineForm.value.orderedQty) {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Confirmed Quantity exceeded the limit ' +this.grLineForm.value.orderedQty,
+        life: 3000,
+      });
+    }
+  }
+  validateShippedQty() {
+    //alert(this.grLineForm.value.orderedQty );
+    if (this.grLineForm.value.shippedQty > this.grLineForm.value.confirmedQty) {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Shipped Quantity exceeded the limit ' +this.grLineForm.value.confirmedQty,
+        life: 3000,
+      });
+    }
+  }
+  validateReceivedQty() {
+    //alert(this.grLineForm.value.orderedQty );
+    if (this.grLineForm.value.receivedQty > this.grLineForm.value.shippedQty ) {
+      this.message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Received Quantity exceeded the limit ' +  this.grLineForm.value.shippedQty,
+        life: 3000,
+      });
+    }
+  }
+  
+
 }

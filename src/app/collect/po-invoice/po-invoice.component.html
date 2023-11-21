@@ -34,7 +34,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelPI()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Purchase Invoice" (click)="finalPoInvoiceSubmit()"
-                        [disabled]="this.poInvoiceSubTotal == 0"
+                        [disabled]="!this.poInvoiceForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
             </div>
@@ -366,7 +366,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelPI()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Purchase Invoice" (click)="finalPoInvoiceSubmit()"
-                        [disabled]="this.poInvoiceSubTotal == 0"
+                        [disabled]="!this.poInvoiceForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
 

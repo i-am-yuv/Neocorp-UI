@@ -150,27 +150,27 @@
                                     <!-- <hr class="custom-hr"> -->
 
                                     <div class="field col-8">
-                                        <p class="font-semibold">Vendor Details</p>
+                                        <p class="font-semibold">Customer Details</p>
                                     </div>
 
                                     <div class="flex w-full">
                                         <div class="field col-3">
-                                            <label class="mr-3 blueText">Vendor Name</label>
-                                            <p>{{ this.activeGR.vendor?.firstName}} {{this.activeGR.vendor?.lastName}}
+                                            <label class="mr-3 blueText">Customer Name</label>
+                                            <p>{{ this.activeGR.customer?.displayName}}
                                             </p>
                                         </div>
 
                                         <div class="field col-3 text-right">
                                             <label class="blueText">Mobile Number</label>
-                                            <p>+91 {{ this.activeGR.vendor?.mobileNumber}}</p>
+                                            <p>+91 {{ this.activeGR.customer?.mobileNumber}}</p>
                                         </div>
 
                                         <div class="field col-6 text-right">
-                                            <label class="mr-3 blueText">Vendor Address</label>
-                                            <p>{{this.activeGR.vendor?.address?.billingName}}</p>
-                                            <p>{{this.activeGR.vendor?.address?.billingAddress}}</p>
-                                            <p>{{this.activeGR.vendor?.address?.city}}
-                                                ,{{this.activeGR.vendor?.address?.pincode}}</p>
+                                            <label class="mr-3 blueText">Customer Address</label>
+                                            <p>{{this.activeGR.customer?.address?.billingName}}</p>
+                                            <p>{{this.activeGR.customer?.address?.billingAddress}}</p>
+                                            <p>{{this.activeGR.customer?.address?.city}}
+                                                ,{{this.activeGR.customer?.address?.pincode}}</p>
                                         </div>
                                     </div>
                                 </div>

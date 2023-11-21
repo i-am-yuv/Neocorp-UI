@@ -114,7 +114,8 @@ export interface GoodsReceipt {
   id?: string;
   salesOrder?: SalesOrder;
   documentno?: string;
-  vendor?: Vendor;
+  customer?: CustomeR;
+  vendor ?: any;
   company?: CompanyNew;
   receivedDate?: Date;
   status?: string;
