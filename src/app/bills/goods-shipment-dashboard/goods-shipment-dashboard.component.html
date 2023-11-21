@@ -62,11 +62,9 @@
                             <div class=" list-item" (click)="changeOrder(item)">
                                 <div class="flex align-items-center gap-1 p-3 cursor-pointer">
                                     <div class="col-2  justify-center align-center">
-                                        <div class="person-icon" *ngIf="item.vendor">{{
+                                        <div class="person-icon">{{
                                             item.vendor?.firstName.charAt(0) +
                                             item.vendor?.lastName.charAt(0) }}</div>
-                                            <div class="person-icon"  *ngIf="item.customer">{{
-                                                item.customer?.displayName.charAt(0)}}</div>
                                     </div>
 
                                     <div class="col-10 flex align-items-center">
@@ -74,7 +72,6 @@
                                             <div class="text-lg">{{ item.documentno }}</div>
                                             <div class=" mt-1">
                                                <p *ngIf="item.vendor" class="text-base">{{ item.vendor?.firstName }} {{ item.vendor?.lastName }}</p>
-                                               <p *ngIf="item.customer" class="text-base">{{ item.customer?.displayName }}</p>
                                                 <p class="font-light text-sm">Shipment Date: {{item.shipmentDate| date:'yyyy-MM-dd'}}</p>
                                             </div>
                                         </div>
@@ -113,7 +110,7 @@
                         <div *ngIf="activeGS.id">
                             <div class="DNList" >
                             
-                                <div *ngIf="this.activeGS.vendor">
+                                <div >
                                     <div class="flex mt-2">
                                         <div class="field col-8">
                                             <p class="text-lg font-semibold">Goods Shipment Details</p>
@@ -158,86 +155,26 @@
                                     <div class="flex w-full">
                                         <div class="field col-4">
                                             <label class="mr-3 blueText">Vendor Name</label>
-                                            <p>{{ this.activeGS.vendor.firstName}} {{this.activeGS.vendor.lastName}}
+                                            <p>{{ this.activeGS.vendor?.firstName}} {{this.activeGS.vendor?.lastName}}
                                             </p>
                                         </div>
 
                                         <div class="field col-4">
                                             <label class="blueText">Mobile Number</label>
-                                            <p>{{ this.activeGS.vendor.mobileNumber}}</p>
+                                            <p>{{ this.activeGS.vendor?.mobileNumber}}</p>
                                         </div>
 
                                         <div class="field col-4">
                                             <label class="blueText">Vendor Address</label>
-                                            <p>{{this.activeGS.vendor.address?.billingName}}</p>
-                                            <p>{{this.activeGS.vendor.address?.billingAddress}}</p>
-                                            <p>{{this.activeGS.vendor.address?.city}}
-                                                ,{{this.activeGS.vendor.address?.pincode}}</p>
+                                            <p>{{this.activeGS.vendor?.address?.billingName}}</p>
+                                            <p>{{this.activeGS.vendor?.address?.billingAddress}}</p>
+                                            <p>{{this.activeGS.vendor?.address?.city}}
+                                                ,{{this.activeGS.vendor?.address?.pincode}}</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div *ngIf="this.activeGS.customer">
-                                    <div class="flex">
-                                        <div class="field col-8">
-                                            <p class="text-lg font-semibold">Goods Shipment Details</p>
-                                        </div>
-                                        <div class="iconSCSS w-full gap-1 mr-3 cursor-pointer"
-                                            (click)="onEditRN(activeGS.id)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
-                                                viewBox="0 0 10 11" fill="none">
-                                                <g clip-path="url(#clip0_862_17281)">
-                                                    <path
-                                                        d="M7.0257 2.11389L7.72882 1.37075C8.03392 1.04829 8.52858 1.04829 8.83368 1.37075C9.13877 1.69321 9.13877 2.21602 8.83368 2.53848L4.40924 7.21469C4.18896 7.44751 3.91726 7.61864 3.6187 7.71264L2.5 8.06485L2.83324 6.88249C2.92218 6.56694 3.0841 6.27978 3.30438 6.04697L7.0257 2.11389ZM7.0257 2.11389L8.125 3.27574M7.5 6.30334V8.39513C7.5 8.94236 7.08027 9.38598 6.5625 9.38598H2.1875C1.66973 9.38598 1.25 8.94236 1.25 8.39513V3.77117C1.25 3.22394 1.66973 2.78032 2.1875 2.78032H4.16667"
-                                                        stroke="#6F7174" stroke-width="0.625" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_862_17281">
-                                                        <rect width="10" height="10.5691" fill="white"
-                                                            transform="translate(0 0.138184)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                            <div class="text-sm blueText">Edit Goods Shipment</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex">
-                                        <div class="field col-6">
-                                            <label class="mr-3 blueText">Goods Shipment Number:</label>
-                                            <p>#{{ this.activeGS.documentno}}</p>
-                                        </div>
-
-                                        <div class="field col-6">
-                                            <label class="mr-3">Shipment on:</label>
-                                            <p>{{ this.activeGS.shipmentDate | date : 'dd/MM/yyyy'}}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="field col-8">
-                                        <p class="font-semibold">Customer Details</p>
-                                    </div>
-
-                                    <div class="flex w-full">
-                                        <div class="field col-3">
-                                            <label class="mr-3 blueText">Customer Name</label>
-                                            <p>{{ this.activeGS.customer.displayName}}</p>
-                                        </div>
-
-                                        <div class="field col-3">
-                                            <label class="mr-3 blueText">Mobile Number</label>
-                                            <p>{{ this.activeGS.customer.mobileNumber}}</p>
-                                        </div>
-                                        <div class="field col-6 text-right">
-                                            <label class="  blueText">Customer Address</label><br>
-                                            <p>{{this.activeGS.customer.address?.billingName}}</p>
-                                            <p>{{this.activeGS.customer.address?.billingAddress}}</p>
-                                            <p>{{this.activeGS.customer.address?.city}}
-                                                ,{{this.activeGS.customer.address?.pincode}}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <!-- <hr class="custom-hr"> -->
 
                                 <div class="flex gap-2">
@@ -260,7 +197,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount }}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount : '0'}}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

@@ -70,12 +70,12 @@ export class GoodsShipmentDashboardComponent implements OnInit {
   changeOrder(item: GoodsShipment) {
     this.activeGS = item;
     this.getLines(item);
-    this.getSoLines(item);
+    this.getPoLines(item);
   }
 
-  getSoLines(item: GoodsShipment) {
+  getPoLines(item: GoodsShipment) {
     this.submitted = true;
-    this.commonS.getLineitemsBySo(item.salesOrder).then(
+    this.billS.getLineitemsByPo(item.purchaseOrder).then(
       (res) => {
         this.lineitems = res;
         this.gsSubTotal = this.lineitems.reduce(

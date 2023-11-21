@@ -91,10 +91,11 @@ export interface DebitNote {
 export interface GoodsShipment {
 
   id?: string;
-  salesOrder?: SalesOrder;
+  purchaseOrder?: PurchaseOrder;
+  // salesOrder?: any ;
   documentno?: string;
   vendor?: Vendor;
-  customer?: CustomeR;
+  // customer ?: any ;
   company?: CompanyNew;
   shipmentDate?: Date;
   status?: string;
@@ -104,7 +105,7 @@ export interface GoodsShipment {
 export interface GoodsShipmentLine {
   id?: string;
   goodsShipment?: GoodsShipment;
-  salesOrder?: SalesOrder;
+  purchaseOrder?: PurchaseOrder;
   orderedQty?: number;
   confirmedQty?: number;
   shippedQty?: number;
@@ -115,7 +116,6 @@ export interface GoodsReceipt {
   salesOrder?: SalesOrder;
   documentno?: string;
   customer?: CustomeR;
-  vendor ?: any;
   company?: CompanyNew;
   receivedDate?: Date;
   status?: string;

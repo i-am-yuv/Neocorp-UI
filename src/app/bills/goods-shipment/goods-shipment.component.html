@@ -77,12 +77,12 @@
                     </div>
 
                     <div class="field col-6" *ngIf="currentVendor.id">
-                        <label class="mr-3 ">Sales Order</label>
-                        <ng-container formGroupName="salesOrder">
+                        <label class="mr-3 required">Purchase Order</label>
+                        <ng-container formGroupName="purchaseOrder">
                             <div class="payment-dropdown ">
-                                <p-dropdown [options]="allSo" placeholder="Choose Sales Order" optionValue="id"
+                                <p-dropdown [options]="allPo" placeholder="Choose Purchase Order" optionValue="id"
                                     formControlName="id" optionLabel="orderNumber" [showClear]="true"
-                                    (onChange)="selectSO($event)" [style]="{ width: '100%' }">
+                                    (onChange)="selectPO($event)" [style]="{ width: '100%' }">
                                 </p-dropdown>
                             </div>
                         </ng-container>
@@ -136,20 +136,20 @@
                     <div class="flex mt-3 w-full">
                         <div class="field col-4">
                             <label class="mr-3 required ">Order Quantity</label>
-                            <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty"
-                                placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input"
-                                [max]="salesLineItemsTotal" />
+                            <input pInputText [(ngModel)]="poLineItemsTotal" formControlName="orderedQty"
+                                placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input" (input)="validateOrderedQty()"
+                                 />
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
                         </div>
                         <div class="field col-4 ">
                             <label class="mr-3 required">Confirmed Quantity</label>
-                            <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
+                            <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity" (input)="validateConfirmedQty()"
                                 class="w-full custom-input" NumbersOnly />
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
                         </div>
                         <div class="field col-4">
                             <label class="mr-3 required">Shipped Quantity</label>
-                            <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
+                            <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity" (input)="validateShippedQty()"
                                 class="w-full custom-input" NumbersOnly />
                             <error-message [controlName]="gsLineForm.controls['shippedQty']"></error-message>
                         </div>
@@ -162,7 +162,11 @@
                     <button type="button" pButton label="Close" (click)="OnCancelGS()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()"
-                        [disabled]="!gsLineForm.valid"
+                        [disabled]="!gsLineForm.valid || !gsForm.valid 
+                        || this.gsLineForm.value.orderedQty <= 0 
+                        || this.gsLineForm.value.orderedQty > this.currentLineTotal
+                        || this.gsLineForm.value.confirmedQty > this.gsLineForm.value.orderedQty 
+                        || this.gsLineForm.value.shippedQty > this.gsLineForm.value.confirmedQty"
                         class="mr-3 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 
