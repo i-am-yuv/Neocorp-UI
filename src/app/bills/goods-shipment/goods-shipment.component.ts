@@ -275,7 +275,7 @@ export class GoodsShipmentComponent implements OnInit {
           this.currPurchaseOrder = goodShipment.purchaseOrder
 
           this.gsForm.patchValue(goodShipment);
-          this.getLines(goodShipment.purchaseOrder); //Because backend api is not ready
+          this.getLines(goodShipment.purchaseOrder); 
           this.getLineItems(goodShipment);
         }
       ).catch(
@@ -288,24 +288,25 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   getLineItems(item: GoodsShipment) {
-    this.submitted = true;
-    this.billS
-      .getLineItemsByGoodsShipmentId(item)
-      .then((data: any) => {
-        if (data) {
-          var res = data[0];
-          // this.gsLineForm.value.orderedQty = res.orderedQty;
-          // this.gsLineForm.value.confirmedQty = res.confirmedQty;
-          // this.gsLineForm.value.shippedQty = res.shippedQty;
-          this.gsLineForm.patchValue(res);
-          this.submitted = false;
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      )
+
+      this.submitted = true;
+      this.billS
+        .getLineItemsByGoodsShipmentId(item)
+        .then((data: any) => {
+          if (data) {
+            var res = data[0];
+            // alert(JSON.stringify(data[0] ) ) ;
+            this.gsLineForm.value.id = data[0].id;    
+            //alert(this.gsLineForm.value.id  )  ;       
+            this.gsLineForm.patchValue(res);
+            this.submitted = false;
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+          }
+        )
   }
 
   getLines(po: PurchaseOrder | undefined) {
@@ -373,12 +374,12 @@ export class GoodsShipmentComponent implements OnInit {
     {
         this.lineitems = [];
         this.gsSubTotal = 0 ;
-        this.gsLineForm.reset();
+        // this.gsLineForm.reset();
     }
     else{
       this.lineitems = [];
       this.gsSubTotal = 0 ;
-      this.gsLineForm.reset();
+      // this.gsLineForm.reset();
       this.loadPos();
     }
   }
@@ -389,13 +390,13 @@ export class GoodsShipmentComponent implements OnInit {
     if (e.value == null) {
         this.lineitems = [];
         this.gsSubTotal = 0 ;
-        this.gsLineForm.reset();
+        // this.gsLineForm.reset();
     }
     else {
 
       // this.lineitems = [];
         // this.gsSubTotal = 0 ;
-        this.gsLineForm.reset();
+        // this.gsLineForm.reset();
 
       this.submitted = true;
       var p = {
@@ -530,22 +531,25 @@ export class GoodsShipmentComponent implements OnInit {
     this.onSubmitGS();
     
     var gsFormVal = this.gsLineForm.value;
+    gsFormVal.id = this.gsLineForm.value.id ;
     gsFormVal.goodsShipment.id = this.id;
     gsFormVal.purchaseOrder.id = this.currPurchaseOrder.id;
     gsFormVal.comapny = this.currentCompany;
+   // alert(JSON.stringify(gsFormVal) );
 
     if (gsFormVal.id) {
       this.submitted = true;
+      
       this.billS.updateGoodsShipmentLine(gsFormVal)
         .then((data: any) => {
           if (data) {
             this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Goods Shipment Line Items Updated',
-              life: 3000,
-            });
+            // this.message.add({
+            //   severity: 'success',
+            //   summary: 'Success',
+            //   detail: 'Goods Shipment Line Items Updated',
+            //   life: 3000,
+            // });
           }
         }).catch(
           (err) => {
@@ -568,12 +572,12 @@ export class GoodsShipmentComponent implements OnInit {
         .then((data: any) => {
           if (data) {
             this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Goods Shipment Line Items Saved',
-              life: 3000,
-            });
+            // this.message.add({
+            //   severity: 'success',
+            //   summary: 'Success',
+            //   detail: 'Goods Shipment Line Items Saved',
+            //   life: 3000,
+            // });
           }
         }).catch(
           (err) => {
@@ -631,6 +635,5 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
 }
-
 
 

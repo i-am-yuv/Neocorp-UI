@@ -322,7 +322,6 @@ export class DebitNoteComponent implements OnInit {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
 
     // here i need to get all the info regarding this product from product id
-
    this.submitted = true;
    this.usedService.getCurrentproduct(lineItem.expenseName).then(
     (res) => {
