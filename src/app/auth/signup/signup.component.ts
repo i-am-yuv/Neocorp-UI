@@ -59,6 +59,17 @@ export class SignupComponent implements OnInit {
     }
   ];
 
+
+
+  selectedType: any; // variable to store the selected type
+
+  // method to handle radio button selection
+  onTypeSelect(type: any) {
+    this.selectedType = type;
+  }
+
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -80,6 +91,7 @@ export class SignupComponent implements OnInit {
       branch: new FormControl(''),
       branchName: new FormControl('', [Validators.required]),
       branchCode: new FormControl('', [Validators.required]),
+      
     });
   }
 

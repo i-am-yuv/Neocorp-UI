@@ -28,6 +28,7 @@ export class PoInvoiceComponent implements OnInit {
 
   submitted: boolean = false;
   currVendorShow: Vendor = {};
+
   poInvoiceForm !: FormGroup;
 
   currentPO: PurchaseOrder = {};
@@ -128,16 +129,59 @@ export class PoInvoiceComponent implements OnInit {
     });
   }
 
+  // selectVendor(e: any) {
+  //   this.submitted = true;
+  //   this.usedService.getPurchageOrderByPOId(e.value).then(
+  //     (res) => {
+  //       // alert(JSON.stringify(res) ) ;
+  //       this.submitted = false;
+  //       this.currPO = res;
+  //       this.currVendorShow = res.vendor;
+  //       this.poInvoiceForm.value.vendor.id = res.vendor.id;
+  //       // this.loadLineItembyPO(this.currPO);
+  //     }
+  //   ).catch(
+  //     (err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //       this.message.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: 'Error While fetching the vendor',
+  //         life: 3000,
+  //       });
+  //     }
+  //   )
+  // }
+
+
+  minEndDate!: Date;
+
+  updateEndDateMinDate(selectedStartDate: Date) {
+     // Update the minimum end date based on the selected start date
+     this.minEndDate = selectedStartDate;
+   }
+
+
+
+
   selectVendor(e: any) {
     this.submitted = true;
+  
+    if (!e || !e.value) {
+      // Clear vendor details when no purchase order is selected
+      // this.currVendorShow = null;
+      this.poInvoiceForm.get('vendor.id')?.setValue(null); 
+      this.submitted = false;
+      return;
+    }
+  
     this.usedService.getPurchageOrderByPOId(e.value).then(
       (res) => {
-        // alert(JSON.stringify(res) ) ;
         this.submitted = false;
         this.currPO = res;
         this.currVendorShow = res.vendor;
-        this.poInvoiceForm.value.vendor.id = res.vendor.id;
-        // this.loadLineItembyPO(this.currPO);
+        this.poInvoiceForm.get('vendor.id')?.setValue(res.vendor?.id || null);
       }
     ).catch(
       (err) => {
@@ -147,11 +191,17 @@ export class PoInvoiceComponent implements OnInit {
           severity: 'error',
           summary: 'Error',
           detail: 'Error While fetching the vendor',
+          
           life: 3000,
         });
       }
-    )
+    );
   }
+  
+
+  
+
+
 
   // loadLineItembyPO( po : PurchaseOrder)
   // {
@@ -462,6 +512,21 @@ export class PoInvoiceComponent implements OnInit {
 
   onRowEditSave(lineItem: PurchaseInvoiceLine) {
 
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currPurchaseInvoice) ;
+       this.newRecord = false;
+    }
+else{
+
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount === null || lineItem.discount === 0) {
@@ -544,7 +609,7 @@ export class PoInvoiceComponent implements OnInit {
         })
       }
     }
-
+  }
   }
 
   onRowEditCancel(lineItem: PurchaseInvoiceLine, index: any) {

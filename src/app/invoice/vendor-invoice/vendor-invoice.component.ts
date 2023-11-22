@@ -105,6 +105,14 @@ export class VendorInvoiceComponent implements OnInit {
   }
 
 
+  minEndDate!: Date;
+
+ updateEndDateMinDate(selectedStartDate: Date) {
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+  }
+
+
   availableVI() {
     this.submitted = true;
     this.invoiceS.getAllVI(this.currentUser).then(
@@ -365,6 +373,21 @@ export class VendorInvoiceComponent implements OnInit {
   // }
 
   onRowEditSave(lineItem: VendorInvoiceLine) {
+
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currvendorInvoice) ;
+       this.newRecord = false;
+    }
+else{
     // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
@@ -451,7 +474,7 @@ export class VendorInvoiceComponent implements OnInit {
         })
       }
     }
-
+  }
   }
 
   onRowEditCancel(lineItem: VendorInvoiceLine, index: any) {

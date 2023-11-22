@@ -173,6 +173,16 @@ export class PayToVendorComponent implements OnInit {
       console.log(res);
       this.allDebitAccount = res;
       this.submitted = false;
+      if (this.allDebitAccount.length <= 0) {
+        this.message.add({
+          severity: 'info',  
+          summary: 'Message',
+          detail: 'No Debit Account Found',
+          life: 3000,
+        });
+      }
+      
+     
     })
       .catch((err) => {
         this.submitted = false;

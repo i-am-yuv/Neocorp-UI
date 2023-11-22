@@ -232,7 +232,7 @@
                                                 <p>{{this.activeInvoice.vendor?.address?.billingName}}</p>
                                                 <p>{{this.activeInvoice.vendor?.address?.billingAddress}}</p>
                                                 <p>{{this.activeInvoice.vendor?.address?.city}}
-                                                    ,{{this.activeInvoice.vendor?.address?.pincode}}</p>
+                                                    {{this.activeInvoice.vendor?.address?.pincode ? ', '+this.activeInvoice.vendor?.address?.pincode : ''}}</p>
                                             </div>
                                             <div class="col-4">
 

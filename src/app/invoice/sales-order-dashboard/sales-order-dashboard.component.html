@@ -172,8 +172,8 @@
                                         <label class="mr-3 blueText">Dispatch To</label><br>
                                         <p>{{this.activeOrder.customer?.address?.billingName}} <br>
                                             {{this.activeOrder.customer?.address?.billingAddress}}<br>
-                                            {{this.activeOrder.customer?.address?.city}},
-                                            {{this.activeOrder.customer?.address?.pincode}}
+                                            {{this.activeOrder.customer?.address?.city}}
+                                            {{this.activeOrder.customer?.address?.pincode ? ', '+this.activeOrder.customer?.address?.pincode : ''}}
                                         </p>
                                         <br>
                                     </div>
@@ -199,7 +199,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount ? lineItem.discount : 0}}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount :'0' }}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

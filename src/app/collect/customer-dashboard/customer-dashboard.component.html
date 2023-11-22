@@ -192,8 +192,8 @@
                                                     <div class="col-4 text-right">
                                                         <div class="">
                                                             <!-- <p>₹{{item.grossTotal ? item.grossTotal : '0.00' }}</p> -->
-                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
-                                                                myFunction(item.grossTotal) : '0.00' }}
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal ? item.grossTotal:'0') 
+                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -223,8 +223,7 @@
                                                     </div>
                                                     <div class="col-4 text-right">
                                                         <div class="">
-                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
-                                                                myFunction(item.grossTotal) : '0.00'
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal ? item.grossTotal:'0') 
                                                                 }}
                                                             </p>
 

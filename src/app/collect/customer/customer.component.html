@@ -34,7 +34,7 @@
                     <button type="button" pButton label="Close" (click)="onCloseCustomer()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Customer" (click)="onSubmit()"
-                        [disabled]="!customerForm.valid"
+                        [disabled]="!customerForm.valid || !addressDetailsForm.valid"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>
@@ -213,7 +213,7 @@
                     <button type="button" pButton label="Close" (click)="onCloseCustomer()"
                         class="mr-3 p-button-secondary"></button>
                     <button type="button" pButton label="Save Customer" (click)="onSubmit()"
-                        [disabled]="!this.addressDetailsForm.valid"
+                        [disabled]="!customerForm.valid || !this.addressDetailsForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
 

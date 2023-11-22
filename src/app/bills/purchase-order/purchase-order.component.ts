@@ -185,6 +185,15 @@ export class PurchaseOrderComponent implements OnInit {
     // )
   }
 
+
+  minEndDate!: Date;
+
+  updateEndDateMinDate(selectedStartDate: Date) {
+     // Update the minimum end date based on the selected start date
+     this.minEndDate = selectedStartDate;
+   }
+
+
   getPoOrder() {
     if (this.id) {
       this.submitted = true;
@@ -489,6 +498,21 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   onRowEditSave(lineItem: LineItem) {
+
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currentPoOrder) ;
+       this.newRecord = false;
+    }
+else{
     //  alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
 
@@ -573,7 +597,7 @@ export class PurchaseOrderComponent implements OnInit {
         })
       }
     }
-
+  }
   }
 
   onRowEditCancel(lineItem: LineItem, index: any) {

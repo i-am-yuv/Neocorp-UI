@@ -50,14 +50,17 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Start Date</label>
                         <p-calendar formControlName="startDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose Start Date" [style]="{ width: '100%' }">
+                            placeholder="Choose Start Date" [style]="{ width: '100%' }"
+                            (ngModelChange)="updateEndDateMinDate($event)"
+>
                         </p-calendar>
                         <error-message [controlName]="cashMemoForm.controls['startDate']"></error-message>
                     </div>
                     <div class="field col-6">
                         <label class="mr-3 required">Due Date</label>
                         <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose Due Date" [style]="{ width: '100%' }">
+                            placeholder="Choose Due Date" [style]="{ width: '100%' }"
+                            [minDate]="minEndDate">
                         </p-calendar>
                         <error-message [controlName]="cashMemoForm.controls['dueDate']"></error-message>
                     </div>

@@ -59,6 +59,7 @@
                                             <span class="font-semibold">{{ vendor.firstName }} {{ vendor.lastName
                                                 }}</span><span>, (Mobile No: +91 {{vendor.mobileNumber}}) </span>
                                         </ng-template>
+                                        
                                     </p-dropdown> -->
 
                                     <p-dropdown [options]="vendors" [(ngModel)]="currentVendor.id" formControlName="id"
@@ -131,7 +132,8 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Order Date</label><br>
                         <p-calendar formControlName="orderDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose Order Date" [style]="{ width: '100%' }">
+                            placeholder="Choose Order Date" [style]="{ width: '100%' }"
+                            (ngModelChange)="updateEndDateMinDate($event)">
                         </p-calendar>
                         <error-message [controlName]="poForm.controls['orderDate']"></error-message>
                     </div>
@@ -139,7 +141,8 @@
                     <div class="field col-6 ">
                         <label class="mr-3 required">Due Date</label><br>
                         <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose Due Date" [style]="{ width: '100%' }">
+                            placeholder="Choose Due Date" [style]="{ width: '100%' }"
+                            [minDate]="minEndDate">
                         </p-calendar>
                         <error-message [controlName]="poForm.controls['dueDate']"></error-message>
                     </div>

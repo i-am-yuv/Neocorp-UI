@@ -169,7 +169,7 @@
                                             <p>{{this.activeGS.vendor?.address?.billingName}}</p>
                                             <p>{{this.activeGS.vendor?.address?.billingAddress}}</p>
                                             <p>{{this.activeGS.vendor?.address?.city}}
-                                                ,{{this.activeGS.vendor?.address?.pincode}}</p>
+                                                {{this.activeGS.vendor?.address?.pincode ? ', '+this.activeGS.vendor?.address?.pincode : ''}}</p>
                                         </div>
                                     </div>
                                 </div>

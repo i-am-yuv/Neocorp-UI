@@ -69,7 +69,7 @@
                                                 <p class="">{{ item.invoiceNo }}</p>
                                                 <p>{{ item.customer?.displayName }}</p>
                                                 <p class="text-sm font-light">Invoice Date: {{item.invoiceDate| date
-                                                    :'yyyy-MM-dd'}}</p>
+                                                    :'dd/MM/yyyy'}}</p>
                                             </div>
                                             <div class="col-4 text-right">
                                                 <div *ngIf="item.status != 'COMPLETED' " class="text-base text-right">
@@ -178,7 +178,7 @@
                                     <div>
                                         <div class="mt-5">
                                             <p class="text-white">Invoice Date: {{ this.activeInvoice.invoiceDate |
-                                                date:'yyyy-MM-dd' }}</p>
+                                                date:'dd/MM/yyyy' }}</p>
                                             <hr class="custom-hr">
                                             <p class="text-white">Due Date: {{this.activeInvoice.dueDate |
                                                 date:'yyyy-MM-dd'}}</p>
@@ -221,9 +221,13 @@
                                             <p><b>#{{ this.activeInvoice.invoiceNo}}</b></p>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-3">
                                             <label class="">Invoice Date:</label>
-                                            <p>{{ this.activeInvoice.invoiceDate | date : 'yyyy-MM-dd'}}</p>
+                                            <p>{{ this.activeInvoice.invoiceDate | date : 'dd/MM/yyyy'}}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="">Due Date:</label>
+                                            <p>{{ this.activeInvoice.dueDate | date : 'dd/MM/yyyy'}}</p>
                                         </div>
                                     </div>
 
@@ -252,7 +256,7 @@
                                             <p>{{this.activeInvoice.customer?.address?.billingName}}</p>
                                             <p>{{this.activeInvoice.customer?.address?.billingAddress}}</p>
                                             <p>{{this.activeInvoice.customer?.address?.city}}
-                                                ,{{this.activeInvoice.customer?.address?.pincode}}</p>
+                                                {{this.activeInvoice.customer?.address?.pincode ? ', '+this.activeInvoice.customer?.address?.pincode : ''}}</p>
                                         </div>
                                         <div class="col-5">
                                             <!-- <h4 class="text-blue-500">Place Of Supply</h4>  -->

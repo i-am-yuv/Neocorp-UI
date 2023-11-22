@@ -188,7 +188,7 @@
                                             <p>{{this.activeCM.vendor.address?.billingName}}</p>
                                             <p>{{this.activeCM.vendor.address?.billingAddress}}</p>
                                             <p>{{this.activeCM.vendor.address?.city}}
-                                                ,{{this.activeCM.vendor.address?.pincode}}</p>
+                                                {{this.activeCM.vendor?.address?.pincode ? ', '+this.activeCM.vendor?.address?.pincode : ''}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@
                                             <p>{{this.activeCM.customer.address?.billingName}}</p>
                                             <p>{{this.activeCM.customer.address?.billingAddress}}</p>
                                             <p>{{this.activeCM.customer.address?.city}}
-                                                ,{{this.activeCM.customer.address?.pincode}}</p>
+                                                {{this.activeCM.customer?.address?.pincode ? ', '+this.activeCM.customer?.address?.pincode : ''}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount ? lineItem.discount : 0}}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount :'0' }}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

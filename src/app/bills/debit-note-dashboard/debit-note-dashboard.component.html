@@ -144,12 +144,12 @@
 
                                     <div class="field col-4">
                                         <label class="mr-3">Start on:</label>
-                                        <h5>{{ this.activeDN.startDate | date : 'yyyy-MM-dd'}}</h5>
+                                        <h5>{{ this.activeDN.startDate | date : 'dd/MM/yyyy'}}</h5>
                                     </div>
 
                                     <div class="field col-4">
                                         <label class="mr-3">Due Date:</label>
-                                        <h5>{{ this.activeDN.duedate | date : 'yyyy-MM-dd'}}</h5>
+                                        <h5>{{ this.activeDN.duedate | date : 'dd/MM/yyyy'}}</h5>
                                     </div>
                                 </div>
                                 <hr class="custom-hr">
@@ -161,7 +161,7 @@
                                         <p>{{this.activeDN.vendor?.address?.billingName}}</p>
                                         <p>{{this.activeDN.vendor?.address?.billingAddress}}</p>
                                         <p>{{this.activeDN.vendor?.address?.city}}
-                                            ,{{this.activeDN.vendor?.address?.pincode}}</p>
+                                            {{this.activeDN.vendor?.address?.pincode ? ', '+this.activeDN.vendor?.address?.pincode : ''}}</p>
                                     </div>
 
                                     <div class="field col-4">
@@ -189,7 +189,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount ? lineItem.discount : 0}}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount:'0'}}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

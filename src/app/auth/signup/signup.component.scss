@@ -45,3 +45,8 @@
     align-items: center;
   }
   
+  :host::ng-deep{
+    .p-dropdown{
+       border: none !important;
+    }
+  }

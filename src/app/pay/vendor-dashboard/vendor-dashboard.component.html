@@ -200,7 +200,7 @@
                                                     </div>
                                                     <div class="col-4 text-right">
                                                         <div class="">
-                                                            <p>Total: ₹{{myFunction(item.grossTotal) }}</p>
+                                                            <p>Total: ₹{{myFunction(item.grossTotal ? item.grossTotal:'0') }}</p>
                                                             <p *ngIf="item.requestStatus == 'APPROVED'"
                                                                 class="text-green-700">{{item.requestStatus}}</p>
                                                             <p *ngIf="item.requestStatus != 'APPROVED'" class="amd-col">
@@ -233,12 +233,11 @@
                                                     <div class="col-6 text-right">
                                                         <div class="">
                                                             <p>Remaining Amount:
-                                                                ₹{{myFunction(item.remainingAmount)}}</p>
+                                                                ₹{{myFunction(item.remainingAmount ? item.remainingAmount:'0')}}</p>
                                                         </div>
                                                         <div class="">
 
-                                                            <p>Total: ₹{{ myFunction(item.grossTotal) ?
-                                                                myFunction(item.grossTotal): '0.00'
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal ? item.grossTotal:'0') 
                                                                 }}
                                                             </p>
                                                         </div>

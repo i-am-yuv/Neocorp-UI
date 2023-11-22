@@ -423,16 +423,46 @@ export class ReceiptNoteComponent implements OnInit {
       this.setLineValues(lineItem);
       this.isquantity = true;
     }
-
   }
 
   setLineQtyValuesPrice(e: any, lineItem: rnLineItem) { }
 
-  setLineQtyValuesDiscount(e: any, lineItem: rnLineItem) { }
+  setLineQtyValuesDiscount(e: any, lineItem: rnLineItem) { 
+    
+  }
+//   setLineQtyValuesDiscount(event: any, lineItem: any): void {
+//     // Assuming lineItem.unitPrice and lineItem.discount are numbers
+//     const discountValue = parseFloat(event.target.value);
+//     const unitPrice = lineItem.unitPrice;
+
+//     if (discountValue > unitPrice) {
+//         // If discount is greater than unit price, set discount to unit price
+//         lineItem.discount = unitPrice;
+//     } else {
+//         lineItem.discount = discountValue;
+//     }
+
+//     // Add any other logic you need to update the line item or perform additional actions
+// }
 
   onRowEditInit(lineItem: rnLineItem) { }
 
   onRowEditSave(lineItem: rnLineItem) {
+
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'Discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currReceiptNote) ;
+       this.newRecord = false;
+    }
+else{
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     if (lineItem.discount == null || lineItem.discount == 0) { }
 
@@ -452,6 +482,8 @@ export class ReceiptNoteComponent implements OnInit {
     else {
       lineItem.expenseName = currentProduct;
       lineItem.receiptNote = this.currReceiptNote; // this line will be change
+
+
 
       this.newRecord = false;
       this.islineAvaliable = true;
@@ -508,8 +540,11 @@ export class ReceiptNoteComponent implements OnInit {
           })
       }
     }
-
   }
+  }
+
+
+  
 
   onRowEditCancel(lineItem: rnLineItem, index: any) {
     if (this.newRecord) {
@@ -675,9 +710,9 @@ export class ReceiptNoteComponent implements OnInit {
     this.usedService.deleteReceiptNoteLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-      this.rnSubTotal = this.lineitems.reduce(
-        (total, lineItem) => total + lineItem.amount, 0
-      );
+      this.rnSubTotal = this.lineitems.reduce((total, lineItem) => {
+        total + lineItem.amount, 0
+      });
 
       this.deleteDialogvisible = false;
       this.submitted = false;

@@ -112,9 +112,10 @@
                 </div>
 
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
-                    <button type="submit" pButton label="Save" [disabled]="!rrForm.valid"
+                    <button type="submit" pButton label="Save" [disabled]="!rrForm.valid || rrForm.get('refund')?.value !== true"
                         class="mb-6 text-lg  bg-blue-600 text-white hover:bg-blue-700 "></button>
                 </div>
+                <!-- [disabled]="!signUpForm.valid || signUpForm.get('agreeTnC')?.value !== true" -->
             </form>
 
             <div *ngIf="id" class="p-3">

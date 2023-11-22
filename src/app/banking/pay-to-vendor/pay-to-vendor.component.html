@@ -42,7 +42,7 @@
                                     class="text-lg">{{this.amountRemaining}}</b></p>
                         </div>
                         <button type="button" pButton label="Proceed To Pay" (click)="amountEntered()"
-                            [disabled]="enteredAmount > amountRemaining"
+                            [disabled]="(enteredAmount > amountRemaining) || (enteredAmount <= 0)"
                             class="mt-5 mb-3 text-xl w-4  ptpBtn "></button>
                     </div>
                     <div *ngIf="!partialPaymentStatus">
@@ -82,12 +82,12 @@
                 <span class="field col-1 text-left ">
                     <img src="/assets/makePayment.png" alt="Image" class="w-10 h-auto ">
                 </span>
-                <div class="field col-3 text-left mt-4">
+                <div class="field col-5 text-left mt-4">
                     <p class="text-lg">Paying to <b>{{currentPurchaseInvoice.vendor?.firstName}}
                             {{currentPurchaseInvoice.vendor?.lastName}}</b></p> <br>
                     <p class="text-lg">Acc No: {{currentPurchaseInvoice.vendor?.accountDetails?.accountNumber}}</p> <br>
                 </div>
-                <div class="field col-7 text-right">
+                <div class="field col-5 text-right">
                     <p class="text-3xl">₹ {{this.amount? this.amount : '0.00'}}</p>
                 </div>
 
@@ -178,6 +178,11 @@
                                     <hr class="custom-hr">
                                     <!-- <app-debit-account [debitAccount]="debitAccount"></app-debit-account> -->
                                 </div>
+                                <div *ngIf="allDebitAccount.length <=0" class="text-center text-2xl mt-5" style="color: black;">
+                                    <p>No Debit Account Found</p>
+                                </div>
+                               
+                                  
                             </div>
                         </ng-template>
                     </p-panel>

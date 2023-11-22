@@ -245,7 +245,7 @@
                                             <p>{{this.activeRN.customer.address?.billingName}}</p>
                                             <p>{{this.activeRN.customer.address?.billingAddress}}</p>
                                             <p>{{this.activeRN.customer.address?.city}}
-                                                ,{{this.activeRN.customer.address?.pincode}}</p>
+                                                {{this.activeRN.customer?.address?.pincode ? ', '+this.activeRN.customer?.address?.pincode : ''}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@
                                         <p>{{this.activeRN.vendor?.address?.billingName}}</p>
                                         <p>{{this.activeRN.vendor?.address?.billingAddress}}</p>
                                         <p>{{this.activeRN.vendor?.address?.city}}
-                                            ,{{this.activeRN.vendor?.address?.pincode}}</p>
+                                            {{this.activeRN.vendor?.address?.pincode ? ', '+this.activeRN.vendor?.address?.pincode : ''}}</p>
                                     </div>
                                     <div class="field col-4">
                                         <label class="mr-3 blueText">Place Of Supply</label>
@@ -282,7 +282,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount ? lineItem.discount : 0}}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount :'0'}}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

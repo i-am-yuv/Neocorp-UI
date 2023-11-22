@@ -118,6 +118,14 @@ export class SalesOrderComponent implements OnInit {
 
   }
 
+
+  minEndDate!: Date;
+
+ updateEndDateMinDate(selectedStartDate: Date) {
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+  }
+
   availableSO() {
     this.submitted = true;
     this.invoiceS.getAllSo(this.currentUser).then(
@@ -400,6 +408,21 @@ export class SalesOrderComponent implements OnInit {
 
   onRowEditSave(lineItem: SalesOrderLine) {
 
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currentSoOrder) ;
+       this.newRecord = false;
+    }
+else{
+
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -482,7 +505,7 @@ export class SalesOrderComponent implements OnInit {
         })
       }
     }
-
+  }
   }
 
   onRowEditCancel(lineItem: SalesOrderLine, index: any) {

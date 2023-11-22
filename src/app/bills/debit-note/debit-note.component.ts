@@ -117,6 +117,15 @@ export class DebitNoteComponent implements OnInit {
     });
   }
 
+
+  minEndDate!: Date;
+
+  updateEndDateMinDate(selectedStartDate: Date) {
+     // Update the minimum end date based on the selected start date
+     this.minEndDate = selectedStartDate;
+   }
+
+
   availableDN() {
     this.submitted = true;
     this.billS.getAllDn(this.currentUser).then(
@@ -376,6 +385,21 @@ export class DebitNoteComponent implements OnInit {
 
   onRowEditSave(lineItem: dnLineItem) {
 
+    if (
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
+    ){
+      console.log("discount");
+      this.message.add({
+        severity: 'error',
+        summary: 'discount Error',
+        detail: 'Discount limit exceeded',
+        life: 3000,
+      });
+       this.getLines(this.currDebitNote) ;
+       this.newRecord = false;
+    }
+else{
+
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
     if (lineItem.discount == null || lineItem.discount == 0) {
@@ -460,7 +484,7 @@ export class DebitNoteComponent implements OnInit {
         })
       }
     }
-
+  }
   }
 
   onRowEditCancel(lineItem: dnLineItem, index: any) {
