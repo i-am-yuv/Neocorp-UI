@@ -64,11 +64,11 @@
                     <error-message [controlName]="roleForm.controls['description']"></error-message>
                 </div>
 
-                <div class="field col-8">
+                <!-- <div class="field col-8">
                     <label class="mr-3">Privilege</label>
-                    <input pInputText formControlName="privilege" placeholder="Enter Privilege" class="w-full" />
-                    <!-- <error-message [controlName]="roleForm.controls['privilege']"></error-message> -->
-                </div>
+                    <input pInputText formControlName="privilege" placeholder="Enter Privilege" class="w-full" [disabled]="true"/>
+                    <error-message [controlName]="roleForm.controls['privilege']"></error-message>
+                </div> -->
 
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Cancel" (click)="onCancel()"

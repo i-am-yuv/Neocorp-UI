@@ -35,7 +35,7 @@
                     <button type="button" pButton label="Cancel" (click)="OnCancelVI()"
                         class="mr-3 p-button-secondary "></button>
                     <button type="button" pButton label="Save Vendor Invoice" (click)="finalVISubmitPage()"
-                        [disabled]="!this.viForm.valid"
+                        [disabled]="this.viSubTotal == 0 || !viForm.valid"
                         class="mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800"></button>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="m-6 bg-white border-round-3xl">
 
             <form (ngSubmit)="onSubmitVI()" [formGroup]="viForm" class="p-6">
-                <h3 class="text-xl">Create Vendor Invoice</h3>
+                <h3 class="text-xl">Vendor Invoice Details</h3>
 
                 <div class="flex gap-1">
                     <div class="field col-6">
@@ -248,7 +248,7 @@
                             <ng-template pTemplate="footer">
                                 <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
                                     styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes"
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)" label="Yes"
                                     styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>

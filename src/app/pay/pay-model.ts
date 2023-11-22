@@ -8,14 +8,16 @@ export class PayModel {
 export interface ReturnRefund {
   id?: string;
   //documentNo?: string;
-  orderNo ?: string;
-  refund?: boolean;
+  orderNo?: string;
+  // refund?: boolean;
+  // return?: boolean;
+  // returnAndRefund?: boolean;
   processDate?: Date;
   salesOrder?: SalesOrder;
   grossTotal?: number;
   reason?: string;
   comapny?: CompanyNew;
-  user ?: any ;
+  user?: any;
 }
 
 // export interface OrderLine{

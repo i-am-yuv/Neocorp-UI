@@ -132,7 +132,9 @@ export class BeneficiaryDashboardComponent implements OnInit {
       )
 
       this.deleteDialLogvisible = false;
-      // this.activeBeneficiary = {}
+      this.activeBeneficiary = {}
+
+      this.ngOnInit();
       this.submitted = false;
       this.message.add({
         severity: 'success',

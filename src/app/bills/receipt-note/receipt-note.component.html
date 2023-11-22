@@ -77,13 +77,12 @@
                     <div class="field col-6">
                         <label class="mr-3 required">End Date</label>
                         <p-calendar formControlName="endDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose End Date" [style]="{ width: '100%' }"
-                            [minDate]="minEndDate">
+                            placeholder="Choose End Date" [style]="{ width: '100%' }" [minDate]="minEndDate">
                         </p-calendar>
                         <error-message [controlName]="rnForm.controls['endDate']"></error-message>
                     </div>
                 </div>
-                
+
 
 
                 <div class="flex gap-2 mt-3 mb-3">
@@ -304,8 +303,8 @@
                             <ng-template pTemplate="footer">
                                 <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
                                     styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes"
-                                    styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)"
+                                    label="Yes" styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>
                     </ng-template>
@@ -334,8 +333,8 @@
                             </div>
                         </label>
 
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
+                        <input type="file" id="fileInput" name="file" accept="image/jpeg, image/png, image/jpeg2000"
+                            class="hidden" (change)="selectFile($event)">
                         <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>

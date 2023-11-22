@@ -19,6 +19,12 @@ export class PayPageService {
     return _customer;
   }
 
+  async updateCustomer(customer: any) {
+    var url = this.apiurlNew + 'customer';
+    const updateCustomer = await lastValueFrom(this.http.put<any>(url, customer));
+    return updateCustomer;
+  }
+
   async createVendor(vendor: any) {
     var url = this.apiurlNew + 'api/vendor/signup'
     this.http.post<any>(url, vendor).subscribe(
@@ -42,8 +48,20 @@ export class PayPageService {
     return currentVendor;
   }
 
+  async getAddressByVendorId(id: any) {
+    var url = this.apiurlNew + 'api/vendor/' + encodeURIComponent(id) + '/address';
+    const currentAdd = await lastValueFrom(this.http.get<any>(url));
+    return currentAdd;
+  }
+
+  async getAccountByVendorId(id: any) {
+    var url = this.apiurlNew + 'api/vendor/' + encodeURIComponent(id) + '/accountDetails';
+    const currentAcc = await lastValueFrom(this.http.get<any>(url));
+    return currentAcc;
+  }
+
   async updateVendor(vendor: any) {
-    var url = this.apiurlNew + 'api/vendor/';
+    var url = this.apiurlNew + 'api/vendor';
     const currentVendor = await lastValueFrom(this.http.put<any>(url, vendor));
     return currentVendor;
   }
@@ -87,13 +105,13 @@ export class PayPageService {
     return _address;
   }
 
-  async getAddressById(id: any) {
-    var url = this.apiurlNew + 'address/' + encodeURIComponent(id);
-    const currentVendorAddress = await lastValueFrom(this.http.get<any>(url));
+  async updateVendorAddress(vendor: any) {
+    var url = this.apiurlNew + 'address';
+    const currentVendorAddress = await lastValueFrom(this.http.put<any>(url, vendor));
     return currentVendorAddress;
   }
 
-  async updateAddress(vendor: any) {
+  async updateCustomerAddress(vendor: any) {
     var url = this.apiurlNew + 'address';
     const currentVendorAddress = await lastValueFrom(this.http.put<any>(url, vendor));
     return currentVendorAddress;
@@ -111,7 +129,13 @@ export class PayPageService {
     return accountById;
   }
 
-  async updateAccount(data: any) {
+  async updateVendorAccount(data: any) {
+    var url = this.apiurlNew + 'accountDetails'
+    const accountUpdate = await lastValueFrom(this.http.put<any>(url, data));
+    return accountUpdate;
+  }
+
+  async updateCustomerAccount(data: any) {
     var url = this.apiurlNew + 'accountDetails'
     const accountUpdate = await lastValueFrom(this.http.put<any>(url, data));
     return accountUpdate;
@@ -193,6 +217,24 @@ export class PayPageService {
     var url = this.apiurlNew + 'customer/customer/' + encodeURIComponent(user.id);
     const allCustomer = await lastValueFrom(this.http.get<any>(url));
     return allCustomer;
+  }
+
+  async getCustomerById(id: any) {
+    var url = this.apiurlNew + 'customer/' + encodeURIComponent(id);
+    const currentVendor = await lastValueFrom(this.http.get<any>(url));
+    return currentVendor;
+  }
+
+  async getCustomerAddressById(id: any) {
+    var url = this.apiurlNew + 'customer/' + encodeURIComponent(id) + '/address';
+    const currentVendor = await lastValueFrom(this.http.get<any>(url));
+    return currentVendor;
+  }
+
+  async getCustomerAccountById(id: any) {
+    var url = this.apiurlNew + 'customer/' + encodeURIComponent(id) + '/accountDetails';
+    const currentVendor = await lastValueFrom(this.http.get<any>(url));
+    return currentVendor;
   }
 
   async allProduct(user: any) {
@@ -346,7 +388,7 @@ export class PayPageService {
     return updated;
   }
 
-  async deleteVILineItem(lineItem: any) {   
+  async deleteVILineItem(lineItem: any) {
     var url = this.apiurlNew + 'api/vendorInvoiceLine/' + encodeURIComponent(lineItem);
     const deleteVILI = await lastValueFrom(this.http.delete<any>(url));
     return deleteVILI;
@@ -383,7 +425,7 @@ export class PayPageService {
   }
 
   async getAllRR(user: any) {
-    var url = this.apiurlNew + 'api/returnRefund/returnRefund/' + encodeURIComponent(user.id);;
+    var url = this.apiurlNew + 'api/returnRefund/returnRefund/' + encodeURIComponent(user.id);
     const allRR = await lastValueFrom(this.http.get<any>(url));
     return allRR;
   }

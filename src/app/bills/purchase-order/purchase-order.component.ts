@@ -583,6 +583,7 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
 
   newRow(): any {

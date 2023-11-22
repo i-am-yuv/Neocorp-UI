@@ -23,6 +23,9 @@ export class ReturnRefundDashboardComponent implements OnInit {
   rrSubTotal: number = 0;
   items!: MenuItem[]
 
+  data: any;
+  options: any;
+
   constructor(private router: Router, private payS: PayPageService,
     private authS: AuthService, private breadcrumbS: BreadCrumbService) { }
 
@@ -30,6 +33,82 @@ export class ReturnRefundDashboardComponent implements OnInit {
     this.breadcrumbS.breadCrumb([{ label: 'Return & Refunds', routerLink: ['/pay/returnAndRefund/create'] }, { label: 'Dashboard' }]);
 
     this.loadUser();
+    this.graphRR();
+  }
+
+  graphRR() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    this.data = {
+      labels: [1, 2, 3, 4, 5, 6, 7, 8,],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Collection',
+          backgroundColor: documentStyle.getPropertyValue('--blue-400'),
+          data: [21, 84, 24, 75, 37, 65, 34, 22,]
+        },
+        {
+          type: 'bar',
+          label: 'Disburse',
+          backgroundColor: documentStyle.getPropertyValue('--gray-300'),
+          // backgroundColor: documentStyle.getPropertyValue('color'),
+          data: [50, 25, 12, 48, 90, 76, 42, 44,]
+        }
+
+        // {
+        //   type: 'bar',
+        //   label: 'Dataset 3',
+        //   backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
+        //   data: [41, 52, 24, 74, 23, 21, 32]
+        // }
+      ]
+    };
+
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 1.9,
+      plugins: {
+        tooltips: {
+          mode: 'index',
+          intersect: false
+        },
+        legend: {
+          display: false,
+          labels: {
+            color: textColor
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            display: false,
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          stacked: true,
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            display: false,
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      },
+      showLines: false,
+    };
   }
 
   getAllReturnRefund() {
@@ -39,18 +118,18 @@ export class ReturnRefundDashboardComponent implements OnInit {
 
       if (this.allRROrder.length > 0) {
         this.changeOrder(this.allRROrder[0]);
-      } else {
+      }
+      else {
         this.activeRR = {};
       }
 
       this.totalRecords = res.length;
       this.submitted = false;
     })
-      .catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        });
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
   changeOrder(item: ReturnRefund) {
@@ -93,11 +172,13 @@ export class ReturnRefundDashboardComponent implements OnInit {
       this.payS.searchRR(value).then((res: any) => {
         this.submitted = true;
         this.allRROrder = res.content;
+
         if (this.allRROrder.length > 0) {
           this.changeOrder(this.allRROrder[0]);
         } else {
           this.activeRR = {};
         }
+
         this.totalRecords = res.totalElements;
         this.submitted = false;
       })

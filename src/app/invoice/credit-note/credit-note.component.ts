@@ -81,6 +81,7 @@ export class CreditNoteComponent implements OnInit {
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
+  currentDeleteLineItem: any;
 
 
   constructor(private router: Router,
@@ -411,6 +412,7 @@ export class CreditNoteComponent implements OnInit {
   }
 
   delete(lineItem: cnLineItem) {
+    this.currentDeleteLineItem = lineItem;
     this.DeleteDialLogvisible = true;
   }
 
@@ -510,7 +512,9 @@ export class CreditNoteComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -643,6 +647,7 @@ export class CreditNoteComponent implements OnInit {
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.DeleteDialLogvisible = false;
   }
 

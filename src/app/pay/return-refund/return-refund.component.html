@@ -43,13 +43,32 @@
             <form (ngSubmit)="onSubmitReturnRefund()" [formGroup]="rrForm" class="p-6">
                 <h4 class="text-xl text-blue-700">Return And Refund Details:</h4>
 
-                <div class="p-field-checkbox mt-5 mb-5 ml-2">
-                    <div class="flex gap-1">
-                        <div><p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
+                <!-- <div class="flex">
+                    <div class="p-field-checkbox mt-5 mb-5">
+                        <div class="flex gap-1">
+                            <div>
+                                <p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class=""><label for="binary">isRefund</label></div>
                         </div>
-                        <div class=""><label for="binary">
-                                isRefund
-                            </label></div>
+                    </div>
+
+                    <div class="p-field-checkbox mt-5 mb-5 ml-5">
+                        <div class="flex gap-1">
+                            <div>
+                                <p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class=""><label for="binary">isReturn</label></div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="radio-buttons flex">
+                    <div class="radio-button mr-5">
+                        <p-radioButton formControlName="isRefund" value="true" label="Is Refund"></p-radioButton>
+                    </div>
+                    <div class="radio-button ml-5">
+                        <p-radioButton formControlName="isRefund" value="isReturn" label="Is Return"></p-radioButton>
                     </div>
                 </div>
 
@@ -168,8 +187,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -184,9 +202,8 @@
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly  [(ngModel)]="lineItem.quantity" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}
@@ -201,9 +218,8 @@
                                             (onInput)="setLineQtyValuesDiscount($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly  [(ngModel)]="lineItem.discount" class="w-full"
-                                        (onInput)="setLineQtyValuesQuantity($event, lineItem)" 
-                                        [required]="true"  />
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.discount" class="w-full"
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.discount }}
@@ -242,8 +258,8 @@
                             <ng-template pTemplate="footer">
                                 <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
                                     styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes"
-                                    styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)"
+                                    label="Yes" styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>
 
@@ -272,8 +288,8 @@
                             </div>
                         </label>
 
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
+                        <input type="file" id="fileInput" name="file" accept="image/jpeg, image/png, image/jpeg2000"
+                            class="hidden" (change)="selectFile($event)">
                         <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>

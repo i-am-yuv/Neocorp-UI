@@ -63,12 +63,14 @@ export class ReturnRefundComponent implements OnInit {
 
     if (this.id === null) {
       this.breadcrumbS.breadCrumb([{ label: 'Return & Refunds', routerLink: ['/pay/returnAndRefunds'] }, { label: 'Create' }]);
-    } else {
+    }
+    else {
       this.breadcrumbS.breadCrumb([{ label: 'Return & Refunds', routerLink: ['/pay/returnAndRefunds'] }, { label: 'Edit' }]);
     }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
+
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
       }
@@ -88,11 +90,12 @@ export class ReturnRefundComponent implements OnInit {
   }
 
   initForm() {
-
     this.rrForm = new FormGroup({
       id: new FormControl(''),
       orderNo: new FormControl(''),
-      refund: new FormControl('', Validators.required),
+      isRefund: new FormControl(false),
+      isReturn: new FormControl(true),
+
       processDate: new FormControl('', Validators.required),
       grossTotal: new FormControl(''),
       reason: new FormControl('', Validators.required),
@@ -117,6 +120,7 @@ export class ReturnRefundComponent implements OnInit {
       else {
         this.createNew = false;
       }
+
     })
       .catch((err) => {
         this.submitted = false;
@@ -150,17 +154,14 @@ export class ReturnRefundComponent implements OnInit {
 
   loadSalesOrder() {
     this.submitted = true;
-    this.payS.allSO(this.currentUser).then(
-      (res: any) => {
-        this.allSalesOrders = res;
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.payS.allSO(this.currentUser).then((res: any) => {
+      this.allSalesOrders = res;
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   currentUser: any = {};
@@ -190,12 +191,10 @@ export class ReturnRefundComponent implements OnInit {
         this.rrForm.patchValue(returnRefund);
         this.submitted = false;
         this.getLines(returnRefund); //Because backend api is not ready
-      }
-      ).catch(
-        (err) => {
+      })
+        .catch((err) => {
           console.log(err);
-        }
-      )
+        })
     }
   }
 
@@ -233,9 +232,8 @@ export class ReturnRefundComponent implements OnInit {
           detail: 'Return & Refund Saved Successfully',
           life: 3000,
         });
-      }
-      ).catch(
-        (err) => {
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -244,13 +242,20 @@ export class ReturnRefundComponent implements OnInit {
             detail: 'Return & Refund Error',
             life: 3000,
           });
-        }
-      )
+        })
     }
     else {
       // this.upload(); // for upload file if attached
       this.submitted = true;
       rrFormVal.user = this.currentUser;
+
+      if (this.rrForm.value.return === true) {
+        this.rrForm.value.refund = false
+      }
+      else {
+        this.rrForm.value.return = true;
+      }
+
       this.payS.createReturnRefund(rrFormVal).then((res) => {
         console.log(res);
         this.rrForm.patchValue = { ...res };
@@ -267,9 +272,8 @@ export class ReturnRefundComponent implements OnInit {
           life: 3000,
         });
         this.router.navigate(['pay/returnAndRefund/edit/' + res.id]);
-      }
-      ).catch(
-        (err) => {
+      })
+        .catch((err) => {
           console.log(err);
           this.viewLineItemTable = false;
           this.submitted = false;
@@ -323,20 +327,16 @@ export class ReturnRefundComponent implements OnInit {
     }
   }
 
-  setLineQtyValuesPrice(e: any, lineItem: ReturnRefundLine) {
+  setLineQtyValuesPrice(e: any, lineItem: ReturnRefundLine) { }
 
-  }
-
-  setLineQtyValuesDiscount(e: any, lineItem: ReturnRefundLine) {
-
-  }
+  setLineQtyValuesDiscount(e: any, lineItem: ReturnRefundLine) { }
 
 
-  onRowEditInit(lineItem: ReturnRefundLine) {
+  onRowEditInit(lineItem: ReturnRefundLine) { }
 
-  }
-
+  currentDeleteLineItem: any;
   delete(lineItem: ReturnRefundLine) {
+    this.currentDeleteLineItem = lineItem;
     this.deleteDialLogvisible = true;
   }
 
@@ -373,25 +373,22 @@ export class ReturnRefundComponent implements OnInit {
   //     });
   // }
 
-
-
   deleteConfirm(lineItem: ReturnRefundLine) {
     this.submitted = true;
-    this.payS.deleteReturnRefundLineItem(lineItem.id)
-      .then((data) => {
-        this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
+    this.payS.deleteReturnRefundLineItem(lineItem.id).then((data) => {
+      this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-        this.returnRefundSubTotal = this.lineitems.reduce((total, item) => total + item.amount, 0);
+      this.returnRefundSubTotal = this.lineitems.reduce((total, item) => total + item.amount, 0);
 
-        this.deleteDialLogvisible = false;
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Line Item Deleted',
-          life: 3000,
-        });
-      })
+      this.deleteDialLogvisible = false;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Line Item Deleted',
+        life: 3000,
+      });
+    })
       .catch((err) => {
         console.error(err); // Log the error for debugging
         this.submitted = false;
@@ -404,17 +401,13 @@ export class ReturnRefundComponent implements OnInit {
       });
   }
 
-
-
-
-
   onRowEditSave(lineItem: ReturnRefundLine) {
     // alert(JSON.stringify(lineItem));
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
     console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
 
-    }
+    if (lineItem.discount == null || lineItem.discount == 0) { }
+
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
@@ -502,7 +495,9 @@ export class ReturnRefundComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -604,7 +599,7 @@ export class ReturnRefundComponent implements OnInit {
       detail: 'Return & Refund  Saved',
       life: 3000,
     });
-    this.router.navigate(['/pay/returnAndRefund']);
+    this.router.navigate(['/pay/returnAndRefunds']);
   }
 
   createRR() {
@@ -612,10 +607,11 @@ export class ReturnRefundComponent implements OnInit {
   }
 
   OnCancelRR() {
-    this.router.navigate(['/pay/returnAndRefund']);
+    this.router.navigate(['/pay/returnAndRefunds']);
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.deleteDialLogvisible = false;
   }
 

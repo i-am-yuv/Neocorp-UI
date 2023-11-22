@@ -34,8 +34,8 @@ export class RoleComponent implements OnInit {
   ];
 
   currentRole: Roles = {};
-
   items!: MenuItem[];
+  // privlDis: boolean = true;
 
   constructor(private router: Router,
     private route: ActivatedRoute,

@@ -63,7 +63,8 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Account Number</label>
                         <input pInputText formControlName="accountNumber"
-                            placeholder="Enter Beneficiary's Account Number" class="w-full" />
+                            placeholder="Enter Beneficiary's Account Number" class="w-full" NumbersOnly
+                            minlength="12" />
                         <error-message [controlName]="beneficiaryForm.controls['accountNumber']"></error-message>
                     </div>
                     <div class="field col-6">
@@ -78,13 +79,13 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Mobile Number</label>
                         <input pInputText formControlName="mobileNumber" minlength="10" maxlength="10"
-                            placeholder="Enter Beneficiary's Mobile Number" class="w-full" />
+                            placeholder="Enter Beneficiary's Mobile Number" class="w-full" NumbersOnly />
                         <error-message [controlName]="beneficiaryForm.controls['mobileNumber']"></error-message>
                     </div>
                     <div class="field col-6">
                         <label class="mr-3 ">MMID</label>
                         <input pInputText formControlName="mmid" NumbersOnly placeholder="Enter Beneficiary's mmid"
-                            class="w-full" />
+                            class="w-full" NumbersOnly minlength="7" maxlength="7" />
                         <error-message [controlName]="beneficiaryForm.controls['mmid']"></error-message>
                     </div>
                 </div>

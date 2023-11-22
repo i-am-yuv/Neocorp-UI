@@ -455,7 +455,9 @@ export class CashMemoComponent implements OnInit {
 
   onRowEditInit(lineItem: CashMemoLine) { }
 
+  currentDeleteLineItem: any;
   delete(lineItem: CashMemoLine) {
+    this.currentDeleteLineItem = lineItem;
     this.deleteDialogvisible = true;
     //(JSON.stringify(lineItem));
     // this.confirmationService.confirm({
@@ -698,6 +700,7 @@ export class CashMemoComponent implements OnInit {
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.deleteDialogvisible = false;
   }
 

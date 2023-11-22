@@ -111,28 +111,28 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-2">
-                            <div class="field col-4">
+                        <div class="flex gap-3">
+                            <div class="field col-6">
                                 <label class="mr-3 required">IFSC</label>
                                 <input pInputText formControlName="ifsc" placeholder="Enter Your IFSC code"
                                     class="w-full custom-input" maxlength="20" />
                                 <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
                             </div>
 
-                            <div class="field col-4">
+                            <div class="field col-6">
                                 <label class="mr-3 required">Bank Name</label>
                                 <input pInputText formControlName="bankname" placeholder="Enter Bank Name"
                                     class="w-full custom-input" />
                                 <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
                             </div>
 
-                            <div class="field col-4">
+                            <!-- <div class="field col-4">
                                 <label class="mr-3 required">Branch Name</label>
                                 <input pInputText formControlName="branchName" placeholder="Enter Branch Name"
                                     class="w-full custom-input" />
                                 <error-message
                                     [controlName]="accountDetailsForm.controls['branchName']"></error-message>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                 </div>
@@ -228,7 +228,7 @@
                     </div>
                     <div class="field col-6">
                         <label class="mr-3 required">Password:</label>
-                        <input pInputText type="text" formControlName="password" placeholder="Enter Password"
+                        <input pInputText type="" formControlName="password" placeholder="Enter Password"
                             class="custom-input form-control inputfield w-full" minlength="5"  name="signIn" />
                         <error-message [controlName]="vendorForm.controls['password']"></error-message>
                     </div>

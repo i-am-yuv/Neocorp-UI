@@ -66,6 +66,8 @@ export class ReceiptNoteComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
 
+  currentDeleteLineItem: any;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private message: MessageService,
@@ -515,6 +517,7 @@ export class ReceiptNoteComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
 
   newRow(): any {
@@ -658,10 +661,12 @@ export class ReceiptNoteComponent implements OnInit {
   }
 
   delete(lineItem: rnLineItem) {
+    this.currentDeleteLineItem = lineItem;
     this.deleteDialogvisible = true;
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.deleteDialogvisible = false;
   }
 

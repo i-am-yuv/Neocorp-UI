@@ -235,7 +235,7 @@
                                 <p-cellEditor>
                                     <ng-template pTemplate="input" class="">
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true"/>
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -299,8 +299,8 @@
                             <ng-template pTemplate="footer">
                                 <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
                                     styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)" label="Yes"
-                                    styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)"
+                                    label="Yes" styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>
 
@@ -329,8 +329,8 @@
                             </div>
                         </label>
 
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
+                        <input type="file" id="fileInput" name="file" accept="image/jpeg, image/png, image/jpeg2000"
+                            class="hidden" (change)="selectFile($event)">
                         <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                 </div>

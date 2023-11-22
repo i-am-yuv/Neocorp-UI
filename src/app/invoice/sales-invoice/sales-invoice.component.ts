@@ -50,6 +50,7 @@ export class SalesInvoiceComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
   currentUser: any = {};
+  currentDeleteLineItem: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -374,7 +375,7 @@ export class SalesInvoiceComponent implements OnInit {
       this.submitted = true;
       siFormVal.status = 'DRAFT';
       siFormVal.user = this.currentUser;
-      
+
       this.invoiceS.createSI(siFormVal).then(
         (res) => {
           console.log(res);
@@ -459,10 +460,11 @@ export class SalesInvoiceComponent implements OnInit {
   onRowEditInit(lineItem: SalesInvoiceLine) {
 
   }
-  selectedLineItem:any;
+
+  selectedLineItem: any;
   delete(lineItem: SalesInvoiceLine) {
     this.DeleteDialLogvisible = true;
-    this.selectedLineItem = lineItem;
+    this.currentDeleteLineItem = lineItem;
   }
 
   onRowEditSave(lineItem: SalesInvoiceLine) {
@@ -559,7 +561,9 @@ export class SalesInvoiceComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -651,7 +655,7 @@ export class SalesInvoiceComponent implements OnInit {
     siFormVal.id = this.id;
     siFormVal.grossTotal = this.siSubTotal;
     siFormVal.comapny = this.currentCompany;
-    siFormVal.remainingAmount = this.siForm.value.grossTotal ;
+    siFormVal.remainingAmount = this.siForm.value.grossTotal;
     if (siFormVal.id) {
       this.submitted = true;
       this.invoiceS.updateSI(siFormVal).then(
@@ -693,9 +697,10 @@ export class SalesInvoiceComponent implements OnInit {
   OnCancelSI() {
     this.router.navigate(['/invoice/salesInvoice']);
   }
-  
+
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.DeleteDialLogvisible = false;
   }
 

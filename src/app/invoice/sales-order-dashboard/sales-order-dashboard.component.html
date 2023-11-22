@@ -61,7 +61,7 @@
                         <div *ngFor="let item of allSalesOrder"
                             [ngClass]="{ 'bg-gray-100': activeOrder.id === item.id }">
                             <div class=" list-item" (click)="changeOrder(item)">
-                               
+
                                 <div class="flex align-items-center gap-1 p-3 cursor-pointer">
                                     <div class=" col-2  justify-center align-center">
                                         <div class="person-icon">{{item.customer?.displayName.charAt(0)}}</div>
@@ -199,7 +199,7 @@
                                                 <td>{{ lineItem.expenseName?.name }}</td>
                                                 <td>{{ lineItem.unitPrice }}</td>
                                                 <td>{{ lineItem.quantity }}</td>
-                                                <td>{{ lineItem.discount }}</td>
+                                                <td>{{ lineItem.discount ? lineItem.discount : 0}}</td>
                                                 <td>{{ lineItem.amount }}</td>
                                             </tr>
                                         </ng-template>

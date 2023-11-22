@@ -70,10 +70,10 @@ export class CustomerComponent implements OnInit {
         this.createNew = true;
       }
       else {
-        this.getAllCustomer();
+        this.availableCustomer();
       }
 
-      // this.getCustomerDetailsById();
+      this.getCustomerDetailsById();
     });
 
     // this.initForm();
@@ -98,7 +98,7 @@ export class CustomerComponent implements OnInit {
     this.accountDetailsForm = new FormGroup({
       id: new FormControl(''),
       bankname: new FormControl('', Validators.required),
-      branchName: new FormControl('', Validators.required),
+      // branchName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
       ifsc: new FormControl('', Validators.required),
       accountType: new FormControl('', Validators.required)
@@ -124,7 +124,7 @@ export class CustomerComponent implements OnInit {
     this.saveAccount();
   }
 
-  getAllCustomer() {
+  availableCustomer() {
     this.submitted = true;
     this.payPageS.allCustomer(this.currentUser).then((res) => {
       this.submitted = false;
@@ -152,6 +152,25 @@ export class CustomerComponent implements OnInit {
   saveAccount() {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
+
+      var accountFormVal = this.accountDetailsForm.value;
+      accountFormVal.id = this.id;
+
+      if (accountFormVal.id) {
+        this.submitted = true;
+        this.payPageS.updateCustomerAccount(accountFormVal).then((data: any) => {
+          this.accountDetailsForm.patchValue = { ...data };
+          this.submitted = false
+          this.saveAddress();
+          this.message.add({
+            severity: 'success',
+            summary: 'Address Updated',
+            detail: 'Address Upadted',
+            life: 3000,
+          })
+        })
+      }
+
       this.submitted = true;
       this.payPageS.createAccountDetails(this.accountDetailsForm.value).then((res) => {
         this.customerForm.value.accountDetails = res;
@@ -184,9 +203,26 @@ export class CustomerComponent implements OnInit {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
 
+      var addressFormVal = this.addressDetailsForm.value;
+      addressFormVal.id = this.id;
+
+      if (addressFormVal.id) {
+        this.submitted = true;
+        this.payPageS.updateCustomerAddress(addressFormVal).then((data: any) => {
+          this.addressDetailsForm.patchValue = { ...data };
+          this.submitted = false;
+          this.saveCustomer();
+          this.message.add({
+            severity: 'success',
+            summary: 'Address Updated',
+            detail: 'Address Upadted',
+            life: 3000,
+          })
+        })
+      }
+
       this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then((res) => {
-
         this.customerForm.value.address = res;
         this.submitted = false;
         this.saveCustomer();
@@ -213,20 +249,52 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  // getCustomerDetailsById() {
-  //   if (this.id) {
-  //     this.submitted = true;
-  //     this.payPageS.getCustomerById(this.id).then((customer: any) => {
-  //       this.currentCustomer = customer;
-  //       this.customerForm.patchValue(customer);
-  //       this.submitted = false;
-  //     })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         this.submitted = false;
-  //       })
-  //   }
-  // }
+  getCustomerDetailsById() {
+    if (this.id) {
+      this.submitted = true;
+      this.payPageS.getCustomerById(this.id).then((customer: any) => {
+        this.currentCustomer = customer;
+        this.customerForm.patchValue(customer);
+        this.getAddressByCustomerId();
+        this.getAccountByCustomerId();
+        this.submitted = false;
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
+
+  getAddressByCustomerId() {
+    if (this.id) {
+      this.submitted = true;
+      this.payPageS.getCustomerAddressById(this.id).then((customer: any) => {
+
+        this.addressDetailsForm.patchValue(customer);
+        this.submitted = false;
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
+
+  getAccountByCustomerId() {
+    if (this.id) {
+      this.submitted = true;
+      this.payPageS.getCustomerAccountById(this.id).then((customer: any) => {
+
+        this.accountDetailsForm.patchValue(customer);
+        this.submitted = false;
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        })
+    }
+  }
 
   saveCustomer() {
     var customerFormVal = this.customerForm.value ;
@@ -234,58 +302,59 @@ export class CustomerComponent implements OnInit {
     customerFormVal.user = this.currentUser ;
     // this.customerForm.value.user.id = this.currentUser.id;
     // this.submitted = true;
-    // if (customerFormVal.id) {
-    //   this.submitted = true;
-    //   this.payPageS.updateCustomer(customerFormVal).then((res: any) => {
-    //     this.customerForm.patchValue = { ...res };
-    //     this.submitted = false;
-    //     this.message.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Vendor updated',
-    //       life: 3000,
-    //     });
-    //     setTimeout(() => {
-    //       this.router.navigate(['/collect/customers']);
-    //     }, 2000);
-    //   })
-    //     .catch(
-    //       (err) => {
-    //         console.log(err);
-    //         this.submitted = false;
-    //         this.message.add({
-    //           severity: 'error',
-    //           summary: 'Error',
-    //           detail: 'Error while updating the Vendor',
-    //           life: 3000,
-    //         });
-    //       });
-    // }
-    // else {
-    this.payPageS.createCustomer(customerFormVal).then((res) => {
-      console.log(res);
-      this.submitted = false;
-      this.message.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Customer Saved Successfully',
-        life: 3000,
-      });
-      setTimeout(() => {
-        this.router.navigate(['/collect/customers']);
-      }, 2000);
-    })
-      .catch((err) => {
-        console.log("customer error");
+
+    if (customerFormVal.id) {
+      this.submitted = true;
+      this.payPageS.updateCustomer(customerFormVal).then((res: any) => {
+        this.customerForm.patchValue = { ...res };
         this.submitted = false;
         this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Customer Addition Error',
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Customer updated',
           life: 3000,
         });
-      });
-    // }
+        setTimeout(() => {
+          this.router.navigate(['/collect/customers']);
+        }, 2000);
+      })
+        .catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error while updating the Vendor',
+              life: 3000,
+            });
+          });
+    }
+    else {
+      this.payPageS.createCustomer(customerFormVal).then((res) => {
+        console.log(res);
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Customer Saved Successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/collect/customers']);
+        }, 2000);
+      })
+        .catch((err) => {
+          console.log("customer error");
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Customer Addition Error',
+            life: 3000,
+          });
+        });
+    }
 
   }
 

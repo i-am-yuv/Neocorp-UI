@@ -44,6 +44,7 @@ export class VendorInvoiceComponent implements OnInit {
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
   currentCompany: CompanyNew = {};
+  currentDeleteLineItem: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -459,7 +460,9 @@ export class VendorInvoiceComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -585,6 +588,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   deleteDialLogvisible: boolean = false;
   delete(lineItem: VendorInvoiceLine) {
+    this.currentDeleteLineItem = lineItem;
     this.deleteDialLogvisible = true;
   }
 
@@ -622,6 +626,7 @@ export class VendorInvoiceComponent implements OnInit {
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.deleteDialLogvisible = false;
   }
 

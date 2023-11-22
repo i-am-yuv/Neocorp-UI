@@ -88,8 +88,9 @@
                             </p-dropdown> -->
                             <p-dropdown [options]="allPOs" [(ngModel)]="currentPO.id" formControlName="id"
                                 [appendTo]="'body'" [style]="{ width: '100%' }" class="fixed-width-dropdown"
-                                optionLabel="orderNumber" optionValue="id" (onChange)="selectVendor($event)" [filter]="true"
-                                filterBy="orderNumber" [showClear]="true" placeholder="Choose Purchase Order">
+                                optionLabel="orderNumber" optionValue="id" (onChange)="selectVendor($event)"
+                                [filter]="true" filterBy="orderNumber" [showClear]="true"
+                                placeholder="Choose Purchase Order">
                                 <ng-template pTemplate="currentPO.id">
                                     <div class="flex align-items-center gap-2" *ngIf="currentPO.id">
                                         <div>{{ currentPO.orderNumber}} {{ currentPO.grossTotal}}</div>
@@ -305,8 +306,8 @@
                             <ng-template pTemplate="footer">
                                 <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
                                     styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(lineItem)" label="Yes"
-                                    styleClass="p-button-text"></p-button>
+                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)"
+                                    label="Yes" styleClass="p-button-text"></p-button>
                             </ng-template>
                         </p-dialog>
                     </ng-template>
@@ -334,8 +335,8 @@
                             </div>
                         </label>
 
-                        <input type="file" id="fileInput" name="file" accept="image/*" class="hidden"
-                            (change)="selectFile($event)">
+                        <input type="file" id="fileInput" name="file" accept="image/jpeg, image/png, image/jpeg2000"
+                            class="hidden" (change)="selectFile($event)">
                         <span id="selectedFileName" class="showFileName"><b>{{uploadFileName}}</b></span>
                     </div>
                     <div class="col-4">
@@ -345,7 +346,7 @@
                         <div class="field col-12">
                             <label class="">Penalty Amount (₹)</label>
                             <input pInputText placeholder="Enter Amount" [(ngModel)]="penalty"
-                                class="w-full custom-input" NumbersOnly/>
+                                class="w-full custom-input" NumbersOnly />
                         </div>
                     </div>
                 </div>

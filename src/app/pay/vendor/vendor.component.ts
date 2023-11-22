@@ -74,7 +74,7 @@ export class VendorComponent implements OnInit {
       }
 
       this.getVendorDetailsById();
-      this.getAddressById();
+      // this.getAddressById();
     });
 
     // this.initForm();
@@ -108,7 +108,7 @@ export class VendorComponent implements OnInit {
     this.accountDetailsForm = new FormGroup({
       id: new FormControl(''),
       bankname: new FormControl('', Validators.required),
-      branchName: new FormControl('', Validators.required),
+      // branchName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
       ifsc: new FormControl('', Validators.required),
       accountType: new FormControl('', Validators.required)
@@ -134,6 +134,7 @@ export class VendorComponent implements OnInit {
     console.log(this.vendorForm);
     console.log(this.accountDetailsForm);
     console.log(this.addressDetailsForm);
+
     this.saveAccount();
   }
 
@@ -162,22 +163,6 @@ export class VendorComponent implements OnInit {
     })
   }
 
-  currentAccount: any = {};
-  getAccountsById() {
-    if (this.id) {
-      this.submitted = true;
-      this.payPageS.getAccountById(this.id).then((account: any) => {
-        this.currentAccount = account;
-        this.accountDetailsForm.patchValue(account);
-        this.submitted = false;
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        })
-    }
-  }
-
   saveAccount() {
     console.log("Step 1");
     if (this.accountDetailsForm.status == 'VALID') {
@@ -187,9 +172,16 @@ export class VendorComponent implements OnInit {
 
       if (accountFormVal.id) {
         this.submitted = true;
-        this.payPageS.updateAccount(accountFormVal).then((res: any) => {
-          this.accountDetailsForm.patchValue = { ...res };
+        this.payPageS.updateVendorAccount(accountFormVal).then((data: any) => {
+          this.accountDetailsForm.patchValue = { ...data };
           this.submitted = false
+          this.saveAddress();
+          this.message.add({
+            severity: 'success',
+            summary: 'Address Updated',
+            detail: 'Address Upadted',
+            life: 3000,
+          })
         })
       }
       // save account details API
@@ -214,25 +206,8 @@ export class VendorComponent implements OnInit {
         detail: 'Please, fill the mandatory account details',
         life: 3000,
       });
-      // this.saveAddress();
     }
 
-  }
-
-  currentAddress: any = {};
-  getAddressById() {
-    if (this.id) {
-      this.submitted = true;
-      this.payPageS.getAddressById(this.id).then((address: any) => {
-        this.currentAddress = address;
-        this.addressDetailsForm.patchValue(address);
-        this.submitted = false;
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        })
-    }
   }
 
   saveAddress() {
@@ -243,44 +218,41 @@ export class VendorComponent implements OnInit {
         this.addressDetailsForm.value.isShippingAddressSameAsBillingAddress = true;
       }
 
-      // var addressFormVal = this.addressDetailsForm.value;
-      // addressFormVal.id = this.id;
+      var addressFormVal = this.addressDetailsForm.value;
+      addressFormVal.id = this.id;
 
-      // if (addressFormVal.id) {
-      //   this.submitted = true;
-      //   this.payPageS.updateAddress(addressFormVal).then((res: any) => {
-      //     this.addressDetailsForm.patchValue = { ...res };
-      //     this.saveVendor();
-      //     this.submitted = false;
-      //   })
-      //     .catch((err) => {
-      //       console.log(err);
-      //       this.message.add({
-      //         severity: 'error',
-      //         summary: 'Error',
-      //         detail: 'Error while Updating the Address',
-      //         life: 3000,
-      //       })
-      //     })
-      // } else {
-      this.submitted = true;
-      this.payPageS.createAddress(this.addressDetailsForm.value).then(
-        (res) => {
-          this.vendorForm.value.address = res;
-          console.log("Complete Address Saved");
+      if (addressFormVal.id) {
+        this.submitted = true;
+        this.payPageS.updateVendorAddress(addressFormVal).then((data: any) => {
+          this.addressDetailsForm.patchValue = { ...data };
           this.submitted = false;
           this.saveVendor();
-        }
-      ).catch((err) => {
-        console.log("Complete Address error");
+          this.message.add({
+            severity: 'success',
+            summary: 'Address Updated',
+            detail: 'Address Upadted',
+            life: 3000,
+          })
+        })
+      }
+      // else {
+      this.submitted = true;
+      this.payPageS.createAddress(this.addressDetailsForm.value).then((res) => {
+        this.vendorForm.value.address = res;
+        console.log("Complete Address Saved");
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error while Saving the Address',
-          life: 3000,
-        });
+        this.saveVendor();
       })
+        .catch((err) => {
+          console.log("Complete Address error");
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while Saving the Address',
+            life: 3000,
+          });
+        })
       // }
 
     }
@@ -291,67 +263,67 @@ export class VendorComponent implements OnInit {
   }
 
   saveVendor() {
-    // var vendorFormVal = this.vendorForm.value;
-    // vendorFormVal.id = this.id;
+    var vendorFormVal = this.vendorForm.value;
+    vendorFormVal.id = this.id;
 
-    this.vendorForm.value.user.id = this.currentUser.id;
-    this.submitted = true;
+    // this.vendorForm.value.user.id = this.currentUser.id;
+    // this.submitted = true;
 
-    // if (vendorFormVal.id) {
-    //   this.submitted = true;
-    //   this.payPageS.updateVendor(vendorFormVal).then((res: any) => {
-    //     this.vendorForm.patchValue = { ...res };
-    //     this.submitted = false;
-    //     this.message.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Vendor updated',
-    //       life: 3000,
-    //     });
-    //     setTimeout(() => {
-    //       this.router.navigate(['/pay/vendors']);
-    //     }, 2000);
-    //   })
-    //     .catch(
-    //       (err) => {
-    //         console.log(err);
-    //         this.submitted = false;
-    //         this.message.add({
-    //           severity: 'error',
-    //           summary: 'Error',
-    //           detail: 'Error while updating the Vendor',
-    //           life: 3000,
-    //         });
-    //       })
-    // } else {
-      this.payPageS.createVendor(this.vendorForm.value).then(
-        (res) => {
-          console.log(res);
-          console.log("Vendor Saved");
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Vendor Saved Successfully',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['/pay/vendors']);
-          }, 2000);
-
-        }
-      ).catch((err) => {
-        console.log("Vendor error");
+    if (vendorFormVal.id) {
+      this.submitted = true;
+      this.payPageS.updateVendor(vendorFormVal).then((res: any) => {
+        this.vendorForm.patchValue = { ...res };
         this.submitted = false;
         this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Vendor Addition Error',
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Vendor updated',
           life: 3000,
         });
+        setTimeout(() => {
+          this.router.navigate(['/pay/vendors']);
+        }, 2000);
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while updating the Vendor',
+            life: 3000,
+          });
+        })
+    }
+    else {
+      this.submitted = true;
+      this.payPageS.createVendor(this.vendorForm.value).then((res) => {
+        console.log(res);
+        console.log("Vendor Saved");
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Vendor Saved Successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/pay/vendors']);
+        }, 2000);
 
       })
-    // }
+        .catch((err) => {
+          console.log("Vendor error");
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Vendor Addition Error',
+            life: 3000,
+          });
+
+        })
+    }
 
   }
 
@@ -410,6 +382,8 @@ export class VendorComponent implements OnInit {
       this.payPageS.getVendorById(this.id).then((vendor: any) => {
         this.currentVendor = vendor;
         this.vendorForm.patchValue(vendor);
+        this.getAddressByVendorId();
+        this.getAccountByVendorId();
         this.submitted = false;
       })
         .catch((err) => {
@@ -417,7 +391,32 @@ export class VendorComponent implements OnInit {
           this.submitted = false;
         })
     }
+  }
 
+  getAddressByVendorId() {
+    this.submitted = true;
+    this.payPageS.getAddressByVendorId(this.id).then((address: any) => {
+
+      this.addressDetailsForm.patchValue(address);
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
+  }
+
+  getAccountByVendorId() {
+    this.submitted = true;
+    this.payPageS.getAccountByVendorId(this.id).then((account: any) => {
+      this.accountDetailsForm.patchValue(account);
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
 }
+

@@ -60,6 +60,7 @@ export class PoInvoiceComponent implements OnInit {
   penalty: number = 0;
 
   stateOptions: any[] = [{ label: 'YES', value: true }, { label: 'NO', value: false }];
+  currentDeleteLineItem: any;
 
   //value: string = 'off';
 
@@ -455,8 +456,10 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   delete(lineItem: PurchaseInvoiceLine) {
+    this.currentDeleteLineItem = lineItem;
     this.DeleteDialLogvisible = true;
   }
+
   onRowEditSave(lineItem: PurchaseInvoiceLine) {
 
     var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
@@ -550,7 +553,9 @@ export class PoInvoiceComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -694,7 +699,9 @@ export class PoInvoiceComponent implements OnInit {
   }
 
   cancelDeleteConfirm() {
+    this.currentDeleteLineItem = null;
     this.DeleteDialLogvisible = false;
+
   }
 
   deleteConfirm(lineItem: any) {

@@ -106,26 +106,26 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-2 ">
-                            <div class="field col-4">
+                        <div class="flex gap-3 ">
+                            <div class="field col-6">
                                 <label class="mr-3 ">IFSC Code</label>
                                 <input pInputText formControlName="ifsc" placeholder="Enter IFSC code"
                                     class="w-full custom-input" />
                                 <error-message [controlName]="accountDetailsForm.controls['ifsc']"></error-message>
                             </div>
-                            <div class="field col-4">
+                            <div class="field col-6">
                                 <label class="mr-3 ">Bank Name</label>
                                 <input pInputText formControlName="bankname" placeholder="Enter bank Name"
                                     class="w-full custom-input" />
                                 <error-message [controlName]="accountDetailsForm.controls['bankname']"></error-message>
                             </div>
-                            <div class="field col-4">
+                            <!-- <div class="field col-4">
                                 <label class="mr-3 ">Branch Name</label>
                                 <input pInputText formControlName="branchName" placeholder="Enter Branch Name"
                                     class="w-full custom-input" />
                                 <error-message
                                     [controlName]="accountDetailsForm.controls['branchName']"></error-message>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                 </div>

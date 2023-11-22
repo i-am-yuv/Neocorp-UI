@@ -51,6 +51,7 @@ export class DebitNoteComponent implements OnInit {
   items!: MenuItem[];
   sidebarVisibleProduct: boolean = false;
   currCompany: CompanyNew = {};
+  currentDeleteLineItem: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -367,7 +368,9 @@ export class DebitNoteComponent implements OnInit {
   onRowEditInit(lineItem: dnLineItem) {
 
   }
+
   delete(lineItem: dnLineItem) {
+    this.currentDeleteLineItem = lineItem;
     this.DeleteDialLogvisible = true;
   }
 
@@ -466,7 +469,9 @@ export class DebitNoteComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+  
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -598,6 +603,7 @@ export class DebitNoteComponent implements OnInit {
 
   cancelDeleteConfirm() {
     this.DeleteDialLogvisible = false;
+    this.currentDeleteLineItem = null;
   }
 
   deleteConfirm(lineItem: any) {

@@ -392,10 +392,10 @@ export class SalesOrderComponent implements OnInit {
   onRowEditInit(lineItem: SalesOrderLine) { }
 
 
-  selectedLineItem:any;
+  currentDeleteLineItem: any;
   delete(lineItem: SalesOrderLine) {
-    this.selectedLineItem = lineItem;
     this.DeleteDialLogvisible = true;
+    this.currentDeleteLineItem = lineItem;
   }
 
   onRowEditSave(lineItem: SalesOrderLine) {
@@ -491,7 +491,9 @@ export class SalesOrderComponent implements OnInit {
     }
     this.newRecord = false;
     this.islineAvaliable = false;
+    this.ngOnInit();
   }
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -624,10 +626,12 @@ export class SalesOrderComponent implements OnInit {
   }
 
   cancelDeleteConfirm() {
+    // this.selectedLineItem = null;
+    this.currentDeleteLineItem = null;
     this.DeleteDialLogvisible = false;
   }
 
-  deleteConfirm(lineItem: any) {
+  deleteConfirm(lineItem: SalesOrderLine) {
     this.submitted = true;
     this.invoiceS.deletedSoLineItem(lineItem.id)
       .then((data) => {

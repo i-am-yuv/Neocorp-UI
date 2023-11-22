@@ -82,14 +82,17 @@
                 <div class="col-7">
 
                     <div class="right-panel-content">
-                        <div class="text-center m-5" *ngIf="!activeBeneficiary.id && allBeneficairy.length > 0">
+                        <div class="text-center m-5" *ngIf="!activeBeneficiary.id && allBeneficairy.length != 0">
                             <div class="">
                                 <img src="/assets/bill.png" width="400"><br>
-                                <p class="mt-4 text-xl">Please, Select Beneficiary/p>
+                                <p class="mt-4 text-xl">Please, Select Beneficiary</p>
                             </div>
                         </div>
                         <div class="text-center m-5" *ngIf="allBeneficairy.length === 0">
-                            No BeneficiaryFound, Please Add One
+                            <div>
+                                <img src="/assets/bill.png" width="400"><br>
+                                <p class="mt-4 text-xl">No BeneficiaryFound, Please Add One</p>
+                            </div>
                         </div>
 
                         <div *ngIf="activeBeneficiary.id">
@@ -192,7 +195,7 @@
                                 <ng-template pTemplate="header">
                                     <span class="text-xl font-bold">Confirmation</span>
                                 </ng-template>
-                                <p class="m-0">Are you sure you want to delete this Debit Account?</p>
+                                <p class="m-0">Are you sure you want to delete this Beneficiary?</p>
                                 <ng-template pTemplate="footer">
                                     <p-button icon="pi pi-times" (click)="cancelDelete()" label="Cancel"
                                         styleClass="p-button-text"></p-button>
@@ -207,7 +210,7 @@
         </div>
 
     </div>
-    
+
     <p-blockUI [blocked]="submitted">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
     </p-blockUI>
