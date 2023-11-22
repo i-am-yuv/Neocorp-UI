@@ -35,17 +35,17 @@ a {
   align-items: center;
 }
 
-:host::ng-deep {
-  .p-buttonset .p-button:first-of-type {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-  }
+// :host::ng-deep {
+//   .p-buttonset .p-button:first-of-type {
+//     border-top-left-radius: 6px;
+//     border-bottom-left-radius: 6px;
+//   }
 
-  .p-buttonset .p-button:last-of-type {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-  }
-}
+//   .p-buttonset .p-button:last-of-type {
+//     border-top-right-radius: 6px;
+//     border-bottom-right-radius: 6px;
+//   }
+// }
 
 // .svg-input1 {
 //   background: url('/assets/profile.svg') no-repeat;

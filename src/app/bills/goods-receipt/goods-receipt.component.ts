@@ -319,7 +319,7 @@ export class GoodsReceiptComponent implements OnInit {
       this.lineitems = [];
       this.grSubTotal = 0;
       this.salesLineItemsTotal = 0;
-      this.grLineForm.reset();
+      //this.grLineForm.reset();
       // this.grLineForm.value.confirmedQty = '' ;
       // this.grLineForm.value.shippedQty = '' ;
       // this.grLineForm.value.receivedQty = '' ;

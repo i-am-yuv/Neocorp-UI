@@ -225,7 +225,7 @@ export class SignupComponent implements OnInit {
             this.message.add({
               severity: 'error',
               summary: 'Sign Up Error',
-              detail: 'Invalid Sign Up, please check details',
+              detail: this.errorMessage,
               life: 3000,
             });
           }

@@ -255,7 +255,7 @@
                                     <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
                                         icon="pi pi-check" (click)="onRowEditSave(lineItem)"
                                         class="p-button-rounded p-button-text p-button-success mr-2"
-                                        [disabled]="!isquantity"></button>
+                                        [disabled]="lineItem.quantity < 1 || lineItem.expenseName.id == null"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                         icon="pi pi-times" (click)="onRowEditCancel(lineItem, ri)"
                                         class="p-button-rounded p-button-text p-button-danger"></button>

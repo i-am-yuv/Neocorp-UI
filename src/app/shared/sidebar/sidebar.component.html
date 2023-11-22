@@ -22,7 +22,7 @@
                 <ul class="list-none p-0" *ngFor="let component of sidebarOptionsAdmin">
                     <h2 class="text-left font-semibold text-base text-gray-700 w-100 ">{{component.heading}}
                     </h2>
-                    <ul *ngFor="let items of component.items" class=" p-1 cursor-pointer list-none border-round-xl ">
+                    <ul *ngFor="let items of component.items" class="pl-1  cursor-pointer list-none border-round-xl ">
                         <div class="flex gap-2 w-full" [routerLink]="items.url"
                             (click)="makeItVisible(visibleCom, items.itemTitle)">
                             <div class="field col-3">
@@ -51,11 +51,11 @@
                         background: rgba(53, 121, 243, 0.13);">
                             <li *ngFor="let itemC of items.itemComponents" class="">
                                 <div *ngIf="processString(itemC.name) != processString(this.routeName)"
-                                    class="field text-left  p-2 border-round  cursor-pointer" [routerLink]="itemC.url">
+                                    class=" text-left  p-2 border-round  cursor-pointer" [routerLink]="itemC.url">
                                     {{itemC.name}}
                                 </div>
                                 <div *ngIf="processString(itemC.name) == processString(this.routeName)"
-                                    class="field text-left bg-blue-200 p-2 border-round  cursor-pointer"
+                                    class=" text-left bg-blue-200 p-2 border-round  cursor-pointer"
                                     [routerLink]="itemC.url">
                                     {{itemC.name}}
                                 </div>
