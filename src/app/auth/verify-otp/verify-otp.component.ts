@@ -16,8 +16,8 @@ export class VerifyOtpComponent implements OnInit {
   verifyOtpForm!: FormGroup;
   verifyAadharOtpForm !: FormGroup;
 
-  //userMobileNumber = sessionStorage.getItem('mobileNo');
-    userMobileNumber = '7300234997';
+  userMobileNumber = sessionStorage.getItem('mobileNo');
+  //  userMobileNumber = '7300234997';
   onlyShowMobile = this.userMobileNumber?.toString().substring(7);
 
   aadharOtpPage = sessionStorage.getItem('goToAadharOtpPage');
