@@ -97,7 +97,7 @@ export class CashMemoComponent implements OnInit {
     private authS: AuthService, private breadCrumbService: BreadCrumbService) { }
 
   ngOnInit(): void {
-
+    this.initForm();
     this.loadUser();
   }
 
@@ -123,7 +123,6 @@ export class CashMemoComponent implements OnInit {
       }
     });
 
-    this.initForm();
     this.loadVendors();
     this.loadProducts();
     this.loadCustomer();
@@ -177,7 +176,7 @@ export class CashMemoComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       grossTotal: new FormControl(''),
-      billToName: new FormControl('', Validators.required),
+      billToName: new FormControl(''),
     }, { validators: this.atLeastOneRequired.bind(this) });
   }
 

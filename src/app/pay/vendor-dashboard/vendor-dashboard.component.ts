@@ -5,6 +5,7 @@ import { Vendor } from 'src/app/settings/customers/customer';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
+import { PurchaseInvoice } from 'src/app/collect/collect-models';
 
 @Component({
   selector: 'app-vendor-dashboard',
@@ -119,12 +120,14 @@ export class VendorDashboardComponent implements OnInit {
         this.submitted = false;
       })
   }
-
+  temp: any[] = [];
   getAllPurchaseInvoice(vendor: Vendor) {
     this.submitted = true;
     this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
       console.log(res);
-      this.allPurchaseInvoices = res;
+      this.temp = res;
+      this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
+      //this.allPurchaseInvoices = res;
 
       this.totalGrossAmount = 0;
       this.totalRemainingAmount = 0;

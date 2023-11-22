@@ -237,7 +237,7 @@
                             <td class="text-center">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input" class="">
-                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice" class="w-full"
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">

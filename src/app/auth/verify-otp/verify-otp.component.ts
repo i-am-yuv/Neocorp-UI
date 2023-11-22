@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoginService } from '../login/login.service';
+import { Subscription, interval } from 'rxjs';
 @Component({
   selector: 'app-verify-otp',
   templateUrl: './verify-otp.component.html',
@@ -15,8 +16,8 @@ export class VerifyOtpComponent implements OnInit {
   verifyOtpForm!: FormGroup;
   verifyAadharOtpForm !: FormGroup;
 
-  userMobileNumber = sessionStorage.getItem('mobileNo');
-  //  userMobileNumber = '98989898989';
+  //userMobileNumber = sessionStorage.getItem('mobileNo');
+    userMobileNumber = '7300234997';
   onlyShowMobile = this.userMobileNumber?.toString().substring(7);
 
   aadharOtpPage = sessionStorage.getItem('goToAadharOtpPage');
@@ -53,6 +54,8 @@ export class VerifyOtpComponent implements OnInit {
     else {
       this.showAadharOtpPage = false;
     }
+
+    this.startResendTimer();
 
   }
 
@@ -125,7 +128,7 @@ export class VerifyOtpComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Invalid OTP',
+            detail: res.message,
             life: 3000,
           });
         } else {
@@ -144,9 +147,63 @@ export class VerifyOtpComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Verify OTP Error',
-          detail: 'Invalid OTP, please check '
+          detail: err.error.message
         });
        // this.submitted = false;
       });
   }
+
+
+  timerValue: number = 30;
+  resendTimerActive: boolean = false;
+  timerSubscription !: Subscription;
+
+  startResendTimer(): void {
+    this.resendTimerActive = true;
+    this.timerValue = 30;
+
+    // Start the countdown
+    this.timerSubscription = interval(1000).subscribe(() => {
+      if (this.timerValue > 0) {
+        this.timerValue--;
+      } else {
+        this.timerSubscription.unsubscribe();
+        this.resendTimerActive = false;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from the timer subscription to prevent memory leaks
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+  }
+
+  resendOtpFuction()
+  {
+    this.submitted = true;
+    this.loginService
+      .resendOtp(this.userMobileNumber)
+      .then( (res) => 
+      {
+        console.log(res);
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'OTP sent to the mobile'
+        });
+      }
+      ).catch((err) => {
+        console.log(err);
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Resend otp error'
+        });
+      });
+  }
+
 }

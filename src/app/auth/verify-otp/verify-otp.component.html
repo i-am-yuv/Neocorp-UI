@@ -10,7 +10,8 @@
 
             <div class="mt-3 text-center">
                 <b>Ready to launch the financial future of your business?</b><br>
-                <p class="mx-8">Sign up with NeoCorp today and unlock a world of possibilities for your banking and finances.</p>
+                <p class="mx-8">Sign up with NeoCorp today and unlock a world of possibilities for your banking and
+                    finances.</p>
             </div>
         </div>
         <div class="field col-6 " style="background: #F0F1FE;">
@@ -21,7 +22,7 @@
                     <div>
                         <div class="field">
                             <div class="p-inputgroup gap-2 w-full bg-white p-1 border-round-lg">
-                                <span style="border-radius: 6.319px;
+                                <span  style="border-radius: 6.319px;
                                 border: 0.79px solid #FFF;
                                 background: #FAF9FE;
                                 box-shadow: 0px 1.57984px 6.31937px 0px rgba(0, 0, 0, 0.06);"
@@ -34,11 +35,16 @@
                         </div>
 
                         <div class="field text-center mt-5">
-                            <h4>Didn't Receive Code?<b class="text-blue-600 ml-2">Resend in 00s</b> </h4>
-                        </div>
-                        <div class="field text-center p-3">
-                            <!-- <p class="text-sm">Aadhar Card is used just to verify your name. Neocorp does not store a
-                                copy of your Aadhar for any other use.</p> -->
+                            <h4>Didn't Receive Code?
+                                <span *ngIf="!resendTimerActive">
+                                    <a class="cursor-pointer">
+                                        <b class="text-blue-600" (click)="resendOtpFuction()">Resend</b>
+                                    </a>
+                                </span>
+                                <span *ngIf="resendTimerActive">
+                                    <b class="text-blue-600">Resend in {{ timerValue }}s</b>
+                                </span>
+                            </h4>
                         </div>
 
                         <button type="submit" pButton label="Verify" [disabled]="!verifyOtpForm.valid"
@@ -69,14 +75,14 @@
                                     class="p-inputgroup-addon"><i class="pi pi-mobile"></i></span>
                                 <input style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;"
                                     pInputText type="text" formControlName="otp" minlength="6" maxlength="6"
-                                    placeholder="Enter Mobile OTP*" NumbersOnly/>
+                                    placeholder="Enter Mobile OTP*" NumbersOnly />
                             </div>
                             <error-message [controlName]="verifyAadharOtpForm.controls['otp']"></error-message>
                         </div>
 
-                        <div class="field text-center mt-5">
+                        <!-- <div class="field text-center mt-5">
                             <h4>Didn't Receive Code?<b class="text-blue-600 ml-2">Resend in 00s</b> </h4>
-                        </div>
+                        </div> -->
                         <div class="field text-center p-3">
                             <p class="text-sm">Aadhar Card is used just to verify your name. Neocorp does not store a
                                 copy of your Aadhar for any other use.</p>
@@ -104,11 +110,12 @@
                     <p class="text-center">OTP is sent to your Linked Mobile Number</p>
                     <div>
                         <div class="field">
-                            <img src="/assets/AadharVerified.png" alt="Image"  class="w-full h-auto">
+                            <img src="/assets/AadharVerified.png" alt="Image" class="w-full h-auto">
                         </div>
 
                         <div class="field">
-                            <h4 class="text-center">Your Aadhar and Pan Numbers are linked and the verification is success</h4>
+                            <h4 class="text-center">Your Aadhar and Pan Numbers are linked and the verification is
+                                success</h4>
                         </div>
 
                         <div class="field text-center">

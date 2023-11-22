@@ -17,6 +17,8 @@ import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
 })
 export class ReturnRefundComponent implements OnInit {
 
+  // refundCheck : any ;
+  // returnCheck : any ;
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -93,9 +95,8 @@ export class ReturnRefundComponent implements OnInit {
     this.rrForm = new FormGroup({
       id: new FormControl(''),
       orderNo: new FormControl(''),
-      isRefund: new FormControl(false),
-      isReturn: new FormControl(true),
-
+      isRefund: new FormControl(),
+      isReturn: new FormControl(),
       processDate: new FormControl('', Validators.required),
       grossTotal: new FormControl(''),
       reason: new FormControl('', Validators.required),
@@ -213,78 +214,79 @@ export class ReturnRefundComponent implements OnInit {
 
   onSubmitReturnRefund() {
     this.rrForm.value.branch = this.currentUser.branch;
-
     var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
     rrFormVal.comapny = this.currentCompany;
     console.log(rrFormVal);
 
-    if (rrFormVal.id) {
-      //this.poForm.value.id = poFormVal.id;
-      this.submitted = true;
-      this.payS.updateReturnRefund(rrFormVal).then((res) => {
-        console.log(res);
-        this.rrForm.patchValue = { ...res };
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Return & Refund Saved',
-          detail: 'Return & Refund Saved Successfully',
-          life: 3000,
-        });
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Return & Refund Updated Error',
-            detail: 'Return & Refund Error',
-            life: 3000,
-          });
-        })
-    }
-    else {
-      // this.upload(); // for upload file if attached
-      this.submitted = true;
-      rrFormVal.user = this.currentUser;
+    alert(JSON.stringify(rrFormVal) ) ;
 
-      if (this.rrForm.value.return === true) {
-        this.rrForm.value.refund = false
-      }
-      else {
-        this.rrForm.value.return = true;
-      }
+    // if (rrFormVal.id) {
+    //   //this.poForm.value.id = poFormVal.id;
+    //   this.submitted = true;
+    //   this.payS.updateReturnRefund(rrFormVal).then((res) => {
+    //     console.log(res);
+    //     this.rrForm.patchValue = { ...res };
+    //     this.submitted = false;
+    //     this.message.add({
+    //       severity: 'success',
+    //       summary: 'Return & Refund Saved',
+    //       detail: 'Return & Refund Saved Successfully',
+    //       life: 3000,
+    //     });
+    //   })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.submitted = false;
+    //       this.message.add({
+    //         severity: 'error',
+    //         summary: 'Return & Refund Updated Error',
+    //         detail: 'Return & Refund Error',
+    //         life: 3000,
+    //       });
+    //     })
+    // }
+    // else {
+    //   // this.upload(); // for upload file if attached
+    //   this.submitted = true;
+    //   rrFormVal.user = this.currentUser;
 
-      this.payS.createReturnRefund(rrFormVal).then((res) => {
-        console.log(res);
-        this.rrForm.patchValue = { ...res };
-        this.currReturnRefund = res;
-        // this.id = res.id;
-        console.log("Return Refund Added");
-        console.log(this.currReturnRefund);
-        this.viewLineItemTable = true;
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Return and Refund Added Successfully',
-          life: 3000,
-        });
-        this.router.navigate(['pay/returnAndRefund/edit/' + res.id]);
-      })
-        .catch((err) => {
-          console.log(err);
-          this.viewLineItemTable = false;
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Return and Refund error',
-            detail: 'Return and Refund Error',
-            life: 3000,
-          });
-        })
-    }
+    //   if (this.rrForm.value.return === true) {
+    //     this.rrForm.value.refund = false
+    //   }
+    //   else {
+    //     this.rrForm.value.return = true;
+    //   }
+
+    //   this.payS.createReturnRefund(rrFormVal).then((res) => {
+    //     console.log(res);
+    //     this.rrForm.patchValue = { ...res };
+    //     this.currReturnRefund = res;
+    //     // this.id = res.id;
+    //     console.log("Return Refund Added");
+    //     console.log(this.currReturnRefund);
+    //     this.viewLineItemTable = true;
+    //     this.submitted = false;
+    //     this.message.add({
+    //       severity: 'success',
+    //       summary: 'Success',
+    //       detail: 'Return and Refund Added Successfully',
+    //       life: 3000,
+    //     });
+    //     this.router.navigate(['pay/returnAndRefund/edit/' + res.id]);
+    //   })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.viewLineItemTable = false;
+    //       this.submitted = false;
+    //       this.message.add({
+    //         severity: 'error',
+    //         summary: 'Return and Refund error',
+    //         detail: 'Return and Refund Error',
+    //         life: 3000,
+    //       });
+    //     })
+    // }
   }
 
   selectVendor() { }

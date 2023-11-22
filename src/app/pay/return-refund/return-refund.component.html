@@ -63,12 +63,12 @@
                     </div>
                 </div> -->
 
-                <div class="radio-buttons flex">
+                <div class="radio-buttons flex  mb-2">
                     <div class="radio-button mr-5">
-                        <p-radioButton formControlName="isRefund" value="true" label="Is Refund"></p-radioButton>
+                        <p-radioButton formControlName="isRefund"   label="Is Refund"></p-radioButton>
                     </div>
                     <div class="radio-button ml-5">
-                        <p-radioButton formControlName="isRefund" value="isReturn" label="Is Return"></p-radioButton>
+                        <p-radioButton formControlName="isReturn"  label="Is Return"></p-radioButton>
                     </div>
                 </div>
 
@@ -187,7 +187,7 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.unitPrice" class="w-full"
+                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice" class="w-full"
                                             (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">

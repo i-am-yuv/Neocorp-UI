@@ -14,7 +14,7 @@
                     business.</p>
             </div>
         </div>
-        <div class=" col-6" style="background: #F0F1FE;">
+        <div class="col-6" style="background: #F0F1FE;">
             <div class="p-8">
                 <h2 class=" text-3xl font-semibold text-center">Sign In</h2>
                 <p class="text-center">Login to access some useful features</p>
@@ -27,7 +27,7 @@
                 <form class="" (ngSubmit)="onSubmitLogin()" [formGroup]="loginForm">
                     <div class="p-4" *ngIf="value=='company' ">
                         
-                        <div class="field">
+                        <div class="">
                             <div class="p-inputgroup">
                                 <div class="iconSCSS gap-2 w-full bg-white p-1 border-round-lg">
                                     <!-- <span class="p-inputgroup-addon"
@@ -44,20 +44,20 @@
                                     </svg>
                                     <input pInputText type="text" class="custom-input svg-input1" style="border: none !important;"
                                         formControlName="username" minlength="10" maxlength="10"
-                                        placeholder="Your Registered Phone Number*" />
+                                        placeholder="Your Registered Phone Number" />
                                 </div>
               
                             </div>
                             <error-message [controlName]="loginForm.controls['username']"></error-message>
                         </div>
 
-                        <div class="field">
+                        <div class="mt-3">
                             <div class="p-inputgroup">
                                 <div class="iconSCSS gap-2 w-full bg-white p-1 border-round-lg">
                                     <!-- <span class="p-inputgroup-addon"
                                     style="border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem;"><i
                                         class="pi pi-lock"></i></span> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="border-radius: 6.319px;
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="ml-1" style="border-radius: 6.319px;
                                     border: 0.79px solid #FFF;
                                     background: #FAF9FE;
                                     box-shadow: 0px 1.57984px 6.31937px 0px rgba(0, 0, 0, 0.06);"
@@ -77,11 +77,11 @@
                             <error-message [controlName]="loginForm.controls['password']"></error-message>
                         </div>
 
-                        <div class="text-right mb-3 text-blue-600 cursor-pointer" [routerLink]="['/forgot-password']">
+                        <div class="text-right mb-3 mt-2 text-blue-600 cursor-pointer" [routerLink]="['/forgot-password']">
                             Forget Password?
                         </div>
                         <button type="submit" pButton label="Sign In" [disabled]="!loginForm.valid"
-                            class="w-full text-lg rounded-button mb-6 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
+                            class="w-full text-lg rounded-button mb-4 p-button-raised bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                         <div class="text-center mb-4">
                             Protectd by reCAPTCHA <br> Google Privacy policy & Terms of Service apply.
                         </div>

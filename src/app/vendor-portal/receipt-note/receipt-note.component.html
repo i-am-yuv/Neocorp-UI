@@ -232,7 +232,7 @@
                                             <p>{{this.activeRN.customer.address?.billingName}}</p>
                                             <p>{{this.activeRN.customer.address?.billingAddress}}</p>
                                             <p>{{this.activeRN.customer.address?.city}}
-                                                {{this.activeRN.customer?.address?.pincode ? ', '+this.activeRN.customer?.address?.pincode : ''}}</p>
+                                                {{ (this.activeRN.customer.address?.pincode) ? (', '+this.activeRN.customer.address?.pincode ): ''}}</p>
                                         </div>
                                     </div>
                                 </div>
