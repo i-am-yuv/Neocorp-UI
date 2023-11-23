@@ -540,7 +540,8 @@ else{
         detail: 'File uploaded',
         life: 3000,
       })
-    } else {
+    } 
+    else {
       this.uploadFileName = '+ Upload your file';
     }
   }

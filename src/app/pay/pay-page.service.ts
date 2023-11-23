@@ -454,8 +454,6 @@ export class PayPageService {
     return po;
   }
 
-
-
   async getRemainingAmountByPurchaseInvoice(pi: any) {
     var url = this.apiurlNew + 'payments/' + encodeURIComponent(pi.id) + '/remaining';
     const remainingAmount = await lastValueFrom(this.http.get<any>(url));

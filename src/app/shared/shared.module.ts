@@ -61,19 +61,22 @@ import { DebounceKeyupDirective } from './directives/debounce.directive';
 import { SlideProductComponent } from './slide-product/slide-product.component';
 import { SlideAccountComponent } from './slide-account/slide-account.component';
 import { TextOnlyDirective } from './directives/text-only.directive';
+import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
+import { DutchModule } from '../dutch/dutch.module';
 
 
 @NgModule({
   declarations: [
-    SidebarComponent,NavbarComponent, LayoutComponent
-    ,DispatcherComponent,
+    SidebarComponent, NavbarComponent, LayoutComponent
+    , DispatcherComponent,
     ErrorMessageComponent,
     AddRowDirective,
     NumbersOnlyDirective,
     DebounceKeyupDirective,
     SlideProductComponent,
     SlideAccountComponent,
-    TextOnlyDirective
+    TextOnlyDirective,
+    BlockCopyPasteDirective
   ],
   imports: [
     CommonModule,
@@ -90,9 +93,10 @@ import { TextOnlyDirective } from './directives/text-only.directive';
     MultiSelectModule,
     BreadcrumbModule,
     SlideMenuModule,
-    SelectButtonModule
+    SelectButtonModule,
+    KeyFilterModule
   ],
-  exports:[
+  exports: [
     SlideProductComponent,
     SlideAccountComponent,
     FormsModule,
@@ -153,8 +157,8 @@ import { TextOnlyDirective } from './directives/text-only.directive';
     KeyFilterModule,
     NgPipesModule,
     DebounceKeyupDirective,
-    
-    
+
+
   ]
 })
 export class SharedModule { }

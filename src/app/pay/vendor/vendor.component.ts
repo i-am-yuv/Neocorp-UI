@@ -57,12 +57,14 @@ export class VendorComponent implements OnInit {
 
     if (this.id === null) {
       this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Create' }]);
-    } else {
+    }
+    else {
       this.breadCrumbService.breadCrumb([{ label: 'Vendor', routerLink: ['/pay/vendors'] }, { label: 'Edit' }]);
     }
 
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
+
       if (lastSegment && lastSegment.path == 'create') {
         this.createNew = true;
       }
@@ -74,7 +76,6 @@ export class VendorComponent implements OnInit {
       }
 
       this.getVendorDetailsById();
-      // this.getAddressById();
     });
 
     // this.initForm();
@@ -140,27 +141,27 @@ export class VendorComponent implements OnInit {
 
   availableVendor() {
     this.submitted = true;
-    this.payPageS.allVendor(this.currentUser).then(
-      (res) => {
-        this.submitted = false;
-        var count = res.length;
-        if (count > 0) {
-          this.router.navigate(['/pay/vendors']);
-        }
-        else {
-          this.createNew = false;
-        }
-      }
-    ).catch((err) => {
-      console.log("Vendor error");
+    this.payPageS.allVendor(this.currentUser).then((res) => {
       this.submitted = false;
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error while fetching all Vendors',
-        life: 3000,
-      });
+      var count = res.length;
+
+      if (count > 0) {
+        this.router.navigate(['/pay/vendors']);
+      }
+      else {
+        this.createNew = false;
+      }
     })
+      .catch((err) => {
+        console.log("Vendor error");
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error while fetching all Vendors',
+          life: 3000,
+        });
+      })
   }
 
   saveAccount() {
@@ -186,17 +187,16 @@ export class VendorComponent implements OnInit {
       }
       // save account details API
       this.submitted = true;
-      this.payPageS.createAccountDetails(this.accountDetailsForm.value).then(
-        (res) => {
-          this.vendorForm.value.accountDetails = res;
-          console.log("Account Saved");
-          this.submitted = false;
-          this.saveAddress();
-        }
-      ).catch((err) => {
-        console.log("Account error");
+      this.payPageS.createAccountDetails(this.accountDetailsForm.value).then((res) => {
+        this.vendorForm.value.accountDetails = res;
+        console.log("Account Saved");
         this.submitted = false;
+        this.saveAddress();
       })
+        .catch((err) => {
+          console.log("Account error");
+          this.submitted = false;
+        })
     }
     else {
       this.vendorForm.value.accountDetails = null;
@@ -235,7 +235,7 @@ export class VendorComponent implements OnInit {
           })
         })
       }
-      // else {
+
       this.submitted = true;
       this.payPageS.createAddress(this.addressDetailsForm.value).then((res) => {
         this.vendorForm.value.address = res;
@@ -253,7 +253,6 @@ export class VendorComponent implements OnInit {
             life: 3000,
           });
         })
-      // }
 
     }
     else {
@@ -265,6 +264,7 @@ export class VendorComponent implements OnInit {
   saveVendor() {
     var vendorFormVal = this.vendorForm.value;
     vendorFormVal.id = this.id;
+    vendorFormVal.user = this.currentUser
 
     // this.vendorForm.value.user.id = this.currentUser.id;
     // this.submitted = true;
@@ -297,7 +297,7 @@ export class VendorComponent implements OnInit {
     }
     else {
       this.submitted = true;
-      this.payPageS.createVendor(this.vendorForm.value).then((res) => {
+      this.payPageS.createVendor(vendorFormVal).then((res) => {
         console.log(res);
         console.log("Vendor Saved");
         this.submitted = false;
@@ -331,11 +331,13 @@ export class VendorComponent implements OnInit {
   ShippingAddressVisibility() {
     var element = <HTMLInputElement>document.getElementById("link-checkbox");
     var isChecked = element.checked;
+
     if (isChecked == false) {
       this.shippingAddressVisible = true;
       this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = false;
       console.log("I unchecked");
-    } else {
+    }
+    else {
       this.shippingAddressVisible = false;
       this.addressDetailsForm.value.shippingAddressSameAsBillingAddress = true;
       console.log("I checked");

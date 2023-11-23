@@ -332,26 +332,26 @@ export class DebitNoteComponent implements OnInit {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
 
     // here i need to get all the info regarding this product from product id
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: dnLineItem) {
@@ -495,7 +495,7 @@ else{
     this.islineAvaliable = false;
     this.ngOnInit();
   }
-  
+
   newRow(): any {
     this.isquantity = true;
     return { expenseName: {}, quantity: 1 };
@@ -537,7 +537,8 @@ else{
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);
-            } else if (event.ok == true) {
+            }
+            else if (event.ok == true) {
               // this.message = event.body.message;
 
               this.message.add({
@@ -562,9 +563,11 @@ else{
                 detail: 'Issue happend while creation ',
                 life: 3000,
               });
-            } else {
+            }
+            else {
               console.log("Some Issue while uploading file, Please check");
             }
+
             this.currentFile = undefined;
           },
         });
@@ -665,8 +668,7 @@ else{
       });
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

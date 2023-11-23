@@ -250,20 +250,6 @@
                             </td>
                         </tr>
 
-                        <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
-                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                            <ng-template pTemplate="header">
-                                <span class="text-xl font-bold">Confirmation</span>
-                            </ng-template>
-                            <p class="m-0">Are you sure you want to delete this Line Item?</p>
-                            <ng-template pTemplate="footer">
-                                <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
-                                    styleClass="p-button-text"></p-button>
-                                <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)"
-                                    label="Yes" styleClass="p-button-text"></p-button>
-                            </ng-template>
-                        </p-dialog>
-
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
@@ -319,6 +305,20 @@
 
     </div>
 </div>
+
+<p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true" [style]="{ width: '30vw' }"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Confirmation</span>
+    </ng-template>
+    <p class="m-0">Are you sure you want to delete this Line Item?</p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="cancelDeleteConfirm()" label="Cancel"
+            styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="deleteConfirm(this.currentDeleteLineItem)" label="Yes"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
 
 <div *ngIf="sidebarVisibleProduct">
     <app-slide-product></app-slide-product>

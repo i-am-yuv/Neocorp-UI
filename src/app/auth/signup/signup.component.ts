@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -12,7 +12,7 @@ import { branch } from '../auth-model';
 })
 export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
-  branchForm !: FormGroup ;
+  branchForm !: FormGroup;
   verifyOtpForm!: FormGroup;
   resendOtpForm!: FormGroup;
   verifyOtpMobile!: any;
@@ -60,15 +60,9 @@ export class SignupComponent implements OnInit {
   ];
 
 
-
-  selectedType: any; // variable to store the selected type
-
-  // method to handle radio button selection
-  onTypeSelect(type: any) {
-    this.selectedType = type;
+  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    e.preventDefault();
   }
-
-
 
   constructor(
     private route: ActivatedRoute,
@@ -79,11 +73,11 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signUpForm = new FormGroup({
-      id : new FormControl(''),
+      id: new FormControl(''),
       companyName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       mobileNumber: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      password: new FormControl('', [Validators.required, Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)]),
       agreeTnC: new FormControl('', Validators.required),
       panNumber: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
@@ -149,20 +143,20 @@ export class SignupComponent implements OnInit {
   onSubmitSignUp() {
     this.submitted = true;
     //alert(JSON.stringify(this.signUpForm.value));
-    
+
     if (this.signUpForm.value.agreeTnC == false) {
-    
+
       this.message.add({
         severity: 'error',
         summary: 'Error',
         detail: 'Please confirm the validation checkbox',
         life: 3000,
       });
-      
+
     }
     else {
-      
-      var branchData : branch = {} ;
+
+      var branchData: branch = {};
       branchData.branchName = this.signUpForm.value.branchName;
       branchData.branchCode = this.signUpForm.value.branchCode;
 
@@ -174,7 +168,7 @@ export class SignupComponent implements OnInit {
         .then((res) => {
           console.log("branch Creation Done.");
           this.signUpForm.value.branch = res;
-         // this.submitted = false;
+          // this.submitted = false;
           this.saveComapany();
         })
         .catch((err) => {
@@ -200,50 +194,49 @@ export class SignupComponent implements OnInit {
     }
   }
 
-    saveComapany()
-    {
-      //alert(JSON.stringify(this.signUpForm.value) ) ;
-      this.submitted =  true;
-      this.loginService
-        .signup(this.signUpForm.value)
-        .then((res) => {
-          if (res) {
-           // this.submitted = false;
-            console.log("sign up success");
-            this.sendOtp(this.signUpForm.value.mobileNumber);
-          } else {
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Sign Up Error',
-              detail: 'Invalid Sign Up, please check details',
-              life: 3000,
-            });
-          }
+  saveComapany() {
+    //alert(JSON.stringify(this.signUpForm.value) ) ;
+    this.submitted = true;
+    this.loginService
+      .signup(this.signUpForm.value)
+      .then((res) => {
+        if (res) {
+          // this.submitted = false;
+          console.log("sign up success");
+          this.sendOtp(this.signUpForm.value.mobileNumber);
+        } else {
           this.submitted = false;
-        })
-        .catch((err) => {
-          this.submitted = false;
-          if (err.code === 404) {
-            this.errorMessage = err.message;
-            this.message.add({
-              severity: 'error',
-              summary: 'Sign Up Error',
-              detail: 'Check Server Connection',
-              life: 3000,
-            });
-          } else {
-            this.errorMessage = err.error.message;
-            this.message.add({
-              severity: 'error',
-              summary: 'Sign Up Error',
-              detail: this.errorMessage,
-              life: 3000,
-            });
-          }
-        });
-    }
-  
+          this.message.add({
+            severity: 'error',
+            summary: 'Sign Up Error',
+            detail: 'Invalid Sign Up, please check details',
+            life: 3000,
+          });
+        }
+        this.submitted = false;
+      })
+      .catch((err) => {
+        this.submitted = false;
+        if (err.code === 404) {
+          this.errorMessage = err.message;
+          this.message.add({
+            severity: 'error',
+            summary: 'Sign Up Error',
+            detail: 'Check Server Connection',
+            life: 3000,
+          });
+        } else {
+          this.errorMessage = err.error.message;
+          this.message.add({
+            severity: 'error',
+            summary: 'Sign Up Error',
+            detail: 'Invalid Sign Up, please check details',
+            life: 3000,
+          });
+        }
+      });
+  }
+
 
 
   sendOtp(enteredMobile: string) {
@@ -265,7 +258,7 @@ export class SignupComponent implements OnInit {
 
           setTimeout(() => {
             this.router.navigate(['/verifyotp']);
-          }, 2000 );
+          }, 2000);
 
         } else {
           this.submitted = false;
@@ -343,5 +336,8 @@ export class SignupComponent implements OnInit {
   //   this.submitted = false;
   //   this.resendTimer(1);
   // }
+
+  // export const StrongPasswordRegx: RegExp =
+  // /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
 
 }

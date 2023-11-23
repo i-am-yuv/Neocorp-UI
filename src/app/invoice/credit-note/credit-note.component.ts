@@ -375,26 +375,26 @@ export class CreditNoteComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: cnLineItem) {
@@ -451,7 +451,7 @@ else{
     if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
       lineItem.unitPrice = currentProduct?.mrp;
     }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null ) {
+    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
 
       this.message.add({
         severity: 'error',
@@ -565,7 +565,8 @@ else{
         detail: 'File uploaded',
         life: 3000,
       })
-    } else {
+    }
+    else {
       this.uploadFileName = '+ Upload your file';
     }
   }
@@ -711,8 +712,7 @@ else{
       });
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

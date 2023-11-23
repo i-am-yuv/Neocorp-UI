@@ -12,6 +12,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { VerifyOtpComponent } from './verify-otp/verify-otp.component';
 import { EkycComponent } from './ekyc/ekyc.component';
 import { MenubarModule } from 'primeng/menubar';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -22,13 +23,13 @@ import { MenubarModule } from 'primeng/menubar';
     VerifyEmailComponent,
     ResetPasswordComponent,
     VerifyOtpComponent,
-    EkycComponent
+    EkycComponent,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     DutchModule,
-    MenubarModule
+    MenubarModule,
   ]
 })
 export class AuthModule { }

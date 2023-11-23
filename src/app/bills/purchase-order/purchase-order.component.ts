@@ -32,7 +32,7 @@ export class PurchaseOrderComponent implements OnInit {
   productForm !: FormGroup;
   lineItemForm !: FormGroup;
   enablePP: boolean = true;
-  currentDeleteLineItem : any;
+  currentDeleteLineItem: any;
 
   selectedVendor: Vendor = {};
 
@@ -85,7 +85,7 @@ export class PurchaseOrderComponent implements OnInit {
     private billS: BillsService,
     private confirmationService: ConfirmationService,
     private authS: AuthService,
-    private profileS: ProfilepageService, private breadcrumbS: BreadCrumbService) { }
+    private profileS: ProfilepageService, private breadcrumbS: BreadCrumbService, private payPageS: PayPageService) { }
 
   ngOnInit(): void {
 
@@ -394,36 +394,34 @@ export class PurchaseOrderComponent implements OnInit {
     }
   }
 
-  selectVendor() {
-
-  }
+  selectVendor() { }
 
   setLineValues(lineItem: LineItem) {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
-   // alert(JSON.stringify(lineItem.expenseName)) ;
+    // alert(JSON.stringify(lineItem.expenseName)) ;
 
-   // here i need to get all the info regarding this product from product id
+    // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the product',
+            life: 3000,
+          });
+        }
+      )
 
   }
 
@@ -448,19 +446,19 @@ export class PurchaseOrderComponent implements OnInit {
 
 
   onRowEditInit(lineItem: LineItem) {
-  //  alert(JSON.stringify(lineItem));
+    //  alert(JSON.stringify(lineItem));
   }
 
   delete(lineItem: LineItem) {
     this.DeleteDialLogvisible = true;
-    this.currentDeleteLineItem = lineItem ;
+    this.currentDeleteLineItem = lineItem;
     //alert(JSON.stringify(lineItem));
   }
 
   deleteConfirm(lineItem: LineItem) {
     // alert(lineItem);
     this.submitted = true;
-   // alert(JSON.stringify(lineItem));
+    // alert(JSON.stringify(lineItem));
     this.billS.deleteLineItem(lineItem.id).then((data) => {
       this.lineitems = this.lineitems.filter(
         (val) => val.id !== lineItem.id
@@ -494,7 +492,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   cancelDeleteConfirm() {
     this.DeleteDialLogvisible = false;
-    this.currentDeleteLineItem = null ;
+    this.currentDeleteLineItem = null;
   }
 
   onRowEditSave(lineItem: LineItem) {
@@ -635,10 +633,22 @@ else{
         detail: 'File uploaded',
         life: 3000,
       })
-    } else {
+    }
+    else {
       this.uploadFileName = '+ Upload your file';
     }
   }
+
+  // uploadFile(poId: any, event: any) {
+  //   this.submitted = true;
+  //   const file: File = event.target.files[0];
+
+  //   this.payPageS.fileUploadForPurchaseOrder(poId, file).subscribe((next: {
+
+  //   }))
+
+
+  // }
 
   upload() {
     if (this.selectedFiles) {
@@ -679,8 +689,8 @@ else{
                 detail: 'Issue happend while creation ',
                 life: 3000,
               });
-            } else {
-
+            }
+            else {
               console.log("Some Issue while uploading file, Please check");
             }
             this.currentFile = undefined;
@@ -747,8 +757,7 @@ else{
     this.router.navigate(['/bills/purchaseOrder']);
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

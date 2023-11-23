@@ -60,6 +60,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { BlueLayoutComponent } from './blue-layout/blue-layout.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { DebounceKeyupDirective } from './directives/debounce.directive';
+import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
 
 
 
@@ -71,7 +72,8 @@ import { DebounceKeyupDirective } from './directives/debounce.directive';
     AddRowDirective,
     NumbersOnlyDirective,
     BlueLayoutComponent,
-    DebounceKeyupDirective
+    DebounceKeyupDirective,
+    BlockCopyPasteDirective
   ],
   imports: [
     CommonModule,

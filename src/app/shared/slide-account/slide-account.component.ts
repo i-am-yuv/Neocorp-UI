@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -11,6 +11,10 @@ import { PayPageService } from 'src/app/pay/pay-page.service';
   styleUrls: ['./slide-account.component.scss']
 })
 export class SlideAccountComponent implements OnInit {
+
+  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    e.preventDefault();
+  }
 
   stateOptions: any[] = [{ label: 'Credit Account', value: 'credit' }, { label: 'Debit Account', value: 'debit' }];
   value: string = 'credit';
