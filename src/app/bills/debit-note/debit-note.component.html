@@ -35,7 +35,7 @@
                     <button type="button" pButton label="Close" (click)="OnCancelDN()"
                         class="mr-3 p-button-secondary  "></button>
                     <button type="button" pButton label="Save Debit Note" (click)="finalDNSubmitPage()"
-                        [disabled]="!this.dnForm.valid"
+                        [disabled]="!this.dnForm.valid || this.id == null"
                         class=" mr-3 bg-blue-700 text-white px-4 py-2.5 rounded-md hover:bg-blue-800 "></button>
                 </div>
             </div>

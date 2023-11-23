@@ -187,13 +187,25 @@ export class VerifyOtpComponent implements OnInit {
       .resendOtp(this.userMobileNumber)
       .then( (res) => 
       {
-        console.log(res);
-        this.submitted = false;
-        this.message.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'OTP sent to the mobile'
-        });
+        if( res.type == 'error' )
+        {
+          console.log(res);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: res.message
+          });
+        }
+        else{
+          console.log(res);
+          this.submitted = false;
+          this.message.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'OTP sent to the mobile'
+          });
+        }
       }
       ).catch((err) => {
         console.log(err);
@@ -201,7 +213,7 @@ export class VerifyOtpComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Resend otp error'
+          detail: err.error.message
         });
       });
   }

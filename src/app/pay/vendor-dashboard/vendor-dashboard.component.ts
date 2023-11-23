@@ -87,7 +87,14 @@ export class VendorDashboardComponent implements OnInit {
 
     this.submitted = true;
     this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
-      this.allPurchaseInvoices = res;
+      this.temp = res;
+     // this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
+
+      this.allPurchaseInvoices = [...this.temp].sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+
+     // this.allPurchaseInvoices = res;
       this.submitted = false;
       this.totalRemainingAmount = 0;
 
@@ -126,7 +133,11 @@ export class VendorDashboardComponent implements OnInit {
     this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
       console.log(res);
       this.temp = res;
-      this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
+      this.allPurchaseInvoices = [...this.temp].sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+
+      //this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
       //this.allPurchaseInvoices = res;
 
       this.totalGrossAmount = 0;
