@@ -561,7 +561,9 @@ else{
 
             _lineItem = res;
             this.submitted = false;
-            this.getPurchaseInvoice();
+      //      this.getPurchaseInvoice();
+            this.getLines(this.currPurchaseInvoice);
+
             this.message.add({
               severity: 'success',
               summary: 'Success',
@@ -589,7 +591,9 @@ else{
             console.log(res);
             _lineItem = res;
             this.submitted = false;
-            this.getPurchaseInvoice();
+            //this.getPurchaseInvoice();
+            this.getLines(this.currPurchaseInvoice);
+
             this.message.add({
               severity: 'success',
               summary: 'Success',

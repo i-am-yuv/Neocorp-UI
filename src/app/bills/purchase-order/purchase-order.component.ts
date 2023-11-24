@@ -546,7 +546,8 @@ else{
 
             _lineItem = res;
 
-            this.getPoOrder();
+            //this.getPoOrder();
+            this.getLines(this.currentPoOrder);
             this.submitted = false;
             this.message.add({
               severity: 'success',
@@ -574,7 +575,8 @@ else{
           (res) => {
             console.log(res);
             _lineItem = res;
-            this.getPoOrder();
+            //this.getPoOrder();
+            this.getLines(this.currentPoOrder);
             this.submitted = false;
             this.message.add({
               severity: 'success',

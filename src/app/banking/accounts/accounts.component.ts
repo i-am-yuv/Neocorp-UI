@@ -210,11 +210,20 @@ export class AccountsComponent implements OnInit {
           detail: 'Credit Account Updated',
           life: 3000,
         });
-        this.ngOnInit();
+        //this.ngOnInit();
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
         .catch((err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while updating the Credit Account',
+            life: 3000,
+          });
         })
     }
 
@@ -240,13 +249,22 @@ export class AccountsComponent implements OnInit {
         this.message.add({
           severity: 'success',
           summary: 'Debit Account Updated',
-          detail: 'Debit Account Updated',
+          detail: 'Debit Account Updated,Refesh H',
           life: 3000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
         .catch((err) => {
           console.log(err);
           this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error while updating the Debit Account',
+            life: 3000,
+          });
         })
 
     }
@@ -254,88 +272,88 @@ export class AccountsComponent implements OnInit {
 
   }
 
-  deleteAccount() {
-    this.deleteDialLogvisible = true;
-  }
+  // deleteAccount() {
+  //   this.deleteDialLogvisible = true;
+  // }
 
-  cancelDelete() {
-    this.deleteDialLogvisible = false;
-  }
+  // cancelDelete() {
+  //   this.deleteDialLogvisible = false;
+  // }
 
-  deleteConfirmCA() {
-    this.submitted = true;
-    this.payS.deleteCreditAccount(this.activeCreditAccount.id).then((data: any) => {
-      this.allCreditAccounts = this.allCreditAccounts.filter(
-        (val) => val.id !== this.activeCreditAccount.id
-      );
+  // deleteConfirmCA() {
+  //   this.submitted = true;
+  //   this.payS.deleteCreditAccount(this.activeCreditAccount.id).then((data: any) => {
+  //     this.allCreditAccounts = this.allCreditAccounts.filter(
+  //       (val) => val.id !== this.activeCreditAccount.id
+  //     );
       
-      if (this.allCreditAccounts.length > 0) {
-        this.changeCreditAccount(this.allCreditAccounts[0]);
-      } else {
-        this.activeCreditAccount = {};
-      }
+  //     if (this.allCreditAccounts.length > 0) {
+  //       this.changeCreditAccount(this.allCreditAccounts[0]);
+  //     } else {
+  //       this.activeCreditAccount = {};
+  //     }
 
-      this.deleteDialLogvisible = false;
-      this.activeCreditAccount = {};
+  //     this.deleteDialLogvisible = false;
+  //     this.activeCreditAccount = {};
 
-      this.creditAccountForm.reset();
-      this.submitted = false;
-      this.message.add({
-        severity: 'success',
-        summary: 'Credit Account Deleted',
-        detail: 'Credit Account Deleted',
-        life: 3000,
-      })
-    })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: err.error.message,
-          life: 3000,
-        })
-      })
-  }
+  //     this.creditAccountForm.reset();
+  //     this.submitted = false;
+  //     this.message.add({
+  //       severity: 'success',
+  //       summary: 'Credit Account Deleted',
+  //       detail: 'Credit Account Deleted',
+  //       life: 3000,
+  //     })
+  //   })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //       this.message.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: err.error.message,
+  //         life: 3000,
+  //       })
+  //     })
+  // }
 
-  deleteConfirmDA() {
-    this.submitted = true;
-    this.payS.deleteDebitAccount(this.activeDebitAccount.id).then((data: any) => {
-      this.allDebitAccounts = this.allDebitAccounts.filter(
-        (val) => val.id !== this.activeDebitAccount.id
-      );
-      if (this.allDebitAccounts.length > 0) {
-        this.changeDebitAccount(this.allDebitAccounts[0]);
-      } else {
-        this.activeDebitAccount = {};
-      }
-      this.deleteDialLogvisible = false;
-      this.activeDebitAccount = {};
+  // deleteConfirmDA() {
+  //   this.submitted = true;
+  //   this.payS.deleteDebitAccount(this.activeDebitAccount.id).then((data: any) => {
+  //     this.allDebitAccounts = this.allDebitAccounts.filter(
+  //       (val) => val.id !== this.activeDebitAccount.id
+  //     );
+  //     if (this.allDebitAccounts.length > 0) {
+  //       this.changeDebitAccount(this.allDebitAccounts[0]);
+  //     } else {
+  //       this.activeDebitAccount = {};
+  //     }
+  //     this.deleteDialLogvisible = false;
+  //     this.activeDebitAccount = {};
 
-      this.debitAccountForm.reset();
-      this.submitted = false;
-      this.message.add({
-        severity: 'success',
-        summary: 'Debit Account Deleted',
-        detail: 'Debit Account Deleted',
-        life: 3000,
-      })
-      // setTimeout(() => {
-      //   this.getDebitAccounts();
-      // }, 2000);
-    })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: err.error.message,
-          life: 3000,
-        })
-      })
-  }
+  //     this.debitAccountForm.reset();
+  //     this.submitted = false;
+  //     this.message.add({
+  //       severity: 'success',
+  //       summary: 'Debit Account Deleted',
+  //       detail: 'Debit Account Deleted',
+  //       life: 3000,
+  //     })
+  //     // setTimeout(() => {
+  //     //   this.getDebitAccounts();
+  //     // }, 2000);
+  //   })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       this.submitted = false;
+  //       this.message.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: err.error.message,
+  //         life: 3000,
+  //       })
+  //     })
+  // }
 
   searchAccount: any;
   searchAccounts() {

@@ -105,11 +105,11 @@
                                         <div class="col-8 text-lg text-blue-400">
                                             Credit Account Details
                                         </div>
-                                        <div class="col-4 text-right">
+                                        <!-- <div class="col-4 text-right">
                                             <button pButton (click)="deleteAccount()" pRipple type="button"
                                                 icon="pi pi-trash"
                                                 class="p-button-rounded p-button-text p-button-danger"></button>
-                                        </div>
+                                        </div> -->
                                     </div>
 
 
@@ -176,7 +176,7 @@
 
                                     </form>
 
-                                    <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
+                                    <!-- <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
                                         [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                                         <ng-template pTemplate="header">
                                             <span class="text-xl font-bold">Confirmation</span>
@@ -188,7 +188,7 @@
                                             <p-button icon="pi pi-check" (click)="deleteConfirmCA()" label="Yes"
                                                 styleClass="p-button-text"></p-button>
                                         </ng-template>
-                                    </p-dialog>
+                                    </p-dialog> -->
 
 
                                 </div>
@@ -255,11 +255,11 @@
                                         <div class="col-8 text-lg text-blue-400">
                                             Debit Account Details
                                         </div>
-                                        <div class="col-4 text-right">
+                                        <!-- <div class="col-4 text-right">
                                             <button pButton (click)="deleteAccount()" pRipple type="button"
                                                 icon="pi pi-trash"
                                                 class="p-button-rounded p-button-text p-button-danger"></button>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <form [formGroup]="debitAccountForm" (ngSubmit)="updateDebitAccount()">
@@ -323,7 +323,7 @@
                                             </div>
                                         </div>
 
-                                        <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
+                                        <!-- <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true"
                                             [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                                             <ng-template pTemplate="header">
                                                 <span class="text-xl font-bold">Confirmation</span>
@@ -335,7 +335,7 @@
                                                 <p-button icon="pi pi-check" (click)="deleteConfirmDA()" label="Yes"
                                                     styleClass="p-button-text"></p-button>
                                             </ng-template>
-                                        </p-dialog>
+                                        </p-dialog> -->
                                     </form>
 
 

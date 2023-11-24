@@ -456,7 +456,8 @@ else{
           (res) => {
 
             _lineItem = res;
-            this.getSoOrder();
+           // this.getSoOrder();
+            this.getLines(this.currentSoOrder);
             this.submitted = false;
             this.message.add({
               severity: 'success',
@@ -484,7 +485,8 @@ else{
           (res) => {
             console.log(res);
             _lineItem = res;
-            this.getSoOrder();
+           // this.getSoOrder();
+            this.getLines(this.currentSoOrder);
             this.submitted = false;
             this.message.add({
               severity: 'success',
