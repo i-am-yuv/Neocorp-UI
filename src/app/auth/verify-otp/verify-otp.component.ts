@@ -84,6 +84,7 @@ export class VerifyOtpComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  
   onSubmitAadharOTP() {
     this.verifyAadharOtpForm.value.refId = sessionStorage.getItem('AadharOtpRefId');
     console.log(this.verifyAadharOtpForm.value);
@@ -91,9 +92,20 @@ export class VerifyOtpComponent implements OnInit {
     this.submitted = true;
     this.loginService.verifyAadharOTP(this.verifyAadharOtpForm.value)
       .then(
-        (res) => {
+        (res) =>
+        {
+          this.submitted = false ;
+          if(res.type == 'error') {
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: res.message,
+              life: 3000,
+            });
+          } else
+        {
             console.log("Aadhar OTP verifed");
-            this.submitted  = false;
+            // this.submitted  = false;
             this.message.add({
               severity: 'success',
               summary: 'Success',
@@ -102,15 +114,21 @@ export class VerifyOtpComponent implements OnInit {
             });
             setTimeout(() => {
               this.aadharPanVerified = true;
-            }, 1000);
+            }, 10);
             setTimeout(() => {
               this.goToSignIn();
-            }, 5000);
+            }, 2000);}
             this.aadharPanVerified = false;
           }
       ).catch((err) => {
         console.log(err);
         console.log("Error in Aadhar OTP verification");
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Verify Aadhar OTP Error',
+          detail: err.error.message
+        });
       })
   }
 
