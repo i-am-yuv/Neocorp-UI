@@ -127,10 +127,10 @@
                         </ng-container>
                     </div>
 
-                    <div class="field col-6" *ngIf="this.currCustomer.id">
+                    <div class="field col-6" *ngIf="this.siForm.value.customer.id">
                         <label class="mr-3">Customer Details:</label>
                         <input pInputText
-                            value="{{this.currCustomer.displayName }} ( Mobile no. {{this.currCustomer.mobileNumber}} )"
+                        [value]="getFormattedCustomerDetails()"
                             placeholder="From Sales Order" class="w-full custom-input" [disabled]="true" />
                     </div>
                 </div>

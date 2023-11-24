@@ -104,13 +104,13 @@ export class SlideAccountComponent implements OnInit {
             life: 3000,
           });
           this.newDebitAccountForm.reset();
-
-          setTimeout(() => {
-            this.router.navigate(['/banking/accounts']);
-          }, 2000);
           setTimeout(() => {
             window.location.reload();
           }, 1000);
+          setTimeout(() => {
+            this.router.navigate(['/banking/accounts']);
+          }, 2000);
+          
         }
       ).catch(
         (err) => {
@@ -155,11 +155,13 @@ export class SlideAccountComponent implements OnInit {
         this.newCreditAccountForm.reset();
         //this.ngOnInit();
         setTimeout(() => {
-          this.router.navigate(['/banking/accounts']);
-        }, 2000);
-        setTimeout(() => {
           window.location.reload();
         }, 1000);
+        
+        setTimeout(() => {
+          this.router.navigate(['/banking/accounts']);
+        }, 2000);
+        
       })
         .catch((err) => {
           console.log(err);

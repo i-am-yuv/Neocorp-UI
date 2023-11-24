@@ -223,6 +223,7 @@ export class VerifyOtpComponent implements OnInit {
             summary: 'Success',
             detail: 'OTP sent to the mobile'
           });
+          this.startResendTimer();
         }
       }
       ).catch((err) => {

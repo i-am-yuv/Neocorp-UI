@@ -22,6 +22,11 @@ export class SalesInvoiceComponent implements OnInit {
   DeleteDialLogvisible: boolean = false;
   currCustomer: CustomeR = {};
 
+  currCustomerShow : any = {
+    'displayName':'Nil',
+    'mobileNumber':'Nil'
+  } ;
+
   submitted: boolean = false;
   createNew: boolean = false;
 
@@ -171,6 +176,10 @@ export class SalesInvoiceComponent implements OnInit {
           this.siForm.patchValue(si);
           this.currCustomer.displayName = this.currSI?.customer?.displayName;
           this.currCustomer.mobileNumber = this.currSI?.customer?.mobileNumber;
+
+          this.currCustomerShow.displayName = this.currSI?.customer?.displayName;
+          this.currCustomerShow.mobileNumber = this.currSI?.customer?.mobileNumber;
+          //this.
           this.submitted = false;
           this.getLines(si); //Because backend api is not ready
         }
@@ -306,6 +315,9 @@ export class SalesInvoiceComponent implements OnInit {
       (res) => {
         this.submitted = false;
         this.currCustomer = res.customer;
+        this.currCustomerShow = res.customer ;
+        this.siForm.get('customer.id')?.setValue(res.customer?.id || null);
+
       }
     ).catch(
       (err) => {
@@ -766,6 +778,14 @@ else{
   loadAllProductsNow()
   {
     this.loadProducts();
+  }
+
+  getFormattedCustomerDetails(): string {
+    const formattedFirstName = this.currCustomerShow?.displayName?.length > 20 ?
+      this.currCustomerShow?.displayName?.substring(0, 20) + '...' :
+      this.currCustomerShow?.displayName;
+
+    return `${formattedFirstName} ( Mobile ${this.currCustomerShow?.mobileNumber} )`;
   }
 
 }
