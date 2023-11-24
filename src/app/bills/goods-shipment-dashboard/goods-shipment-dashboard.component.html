@@ -147,31 +147,51 @@
                                             <p>{{ this.activeGS.shipmentDate | date : 'dd/MM/yyyy'}}</p>
                                         </div>
                                     </div>
-
+                                    <hr class="custom-hr">
                                     <div class="field col-8">
                                         <p class="font-semibold">Vendor Details</p>
                                     </div>
 
                                     <div class="flex w-full">
-                                        <div class="field col-4">
+                                        <div class="field col-6">
                                             <label class="mr-3 blueText">Vendor Name</label>
                                             <p>{{ this.activeGS.vendor?.firstName}} {{this.activeGS.vendor?.lastName}}
                                             </p>
                                         </div>
 
-                                        <div class="field col-4">
+                                        <div class="field col-6">
                                             <label class="blueText">Mobile Number</label>
                                             <p>{{ this.activeGS.vendor?.mobileNumber}}</p>
                                         </div>
+                                    </div>
+                                    <div class="flex">
 
-                                        <div class="field col-4">
+                                        <div class="field col-6">
                                             <label class="blueText">Vendor Address</label>
-                                            <p>{{this.activeGS.vendor?.address?.billingName}}</p>
+                                            <p>{{this.activeGS.vendor?.address?.billingName ? this.activeGS.vendor?.address?.billingName : 'Nil'}}</p>
                                             <p>{{this.activeGS.vendor?.address?.billingAddress}}</p>
                                             <p>{{this.activeGS.vendor?.address?.city}}
                                                 {{this.activeGS.vendor?.address?.pincode ? ', '+this.activeGS.vendor?.address?.pincode : ''}}</p>
                                         </div>
+
+                                        <div class="field col-6">
+                                            <label class="blueText">Shipping Address</label>
+                                            <div *ngIf="this.activeGS.vendor?.address?.shippingName == null">
+                                                <p>{{this.activeGS.vendor?.address?.billingName ? this.activeGS.vendor?.address?.billingName : 'Nil'}}</p>
+                                                <p>{{this.activeGS.vendor?.address?.billingAddress}}</p>
+                                                <p>{{this.activeGS.vendor?.address?.city}}
+                                                    {{this.activeGS.vendor?.address?.pincode ? ', '+this.activeGS.vendor?.address?.pincode : ''}}</p>
+                                            </div>
+                                            <div *ngIf="this.activeGS.vendor?.address?.shippingName != null">
+                                                <p>{{this.activeGS.vendor?.address?.shippingName}}</p>
+                                                <p>{{this.activeGS.vendor?.address?.shippingAddress}}</p>
+                                            </div>
+                                            
+                                        </div>
+
                                     </div>
+                                    <hr class="custom-hr">
+
                                 </div>
 
                                 

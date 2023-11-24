@@ -98,10 +98,10 @@ export class GoodsReceiptDashboardComponent implements OnInit {
       .then((data: any) => {
         if (data) {
           // this.activeGoodsReceiptLine = data[0];
-          this.activeGoodsReceiptLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0;
-          this.activeGoodsReceiptLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0;
-          this.activeGoodsReceiptLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
-          this.activeGoodsReceiptLine.receivedQty = data[0].shippedQty ? data[0].receivedQty : 0;
+          this.activeGoodsReceiptLine.orderedQty = data.orderedQty ? data.orderedQty : 0;
+          this.activeGoodsReceiptLine.confirmedQty = data.confirmedQty ? data.confirmedQty : 0;
+          this.activeGoodsReceiptLine.shippedQty = data.shippedQty ? data.shippedQty : 0;
+          this.activeGoodsReceiptLine.receivedQty = data.shippedQty ? data.receivedQty : 0;
           this.submitted = false;
         }
       }).catch(

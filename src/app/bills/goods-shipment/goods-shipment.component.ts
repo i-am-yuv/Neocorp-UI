@@ -264,11 +264,12 @@ export class GoodsShipmentComponent implements OnInit {
 
         this.currPurchaseOrder = goodShipment.purchaseOrder
 
-        this.gsForm.patchValue(goodShipment);
-        this.getLines(goodShipment.purchaseOrder);
-        this.getLineItems(goodShipment);
-      })
-        .catch((err) => {
+          this.gsForm.patchValue(goodShipment);
+          this.getLines(goodShipment.purchaseOrder);
+          this.getLineItems(goodShipment);
+        }
+      ).catch(
+        (err) => {
           console.log(err);
           this.submitted = false;
         })
@@ -276,21 +277,25 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   getLineItems(item: GoodsShipment) {
+
     this.submitted = true;
-    this.billS.getLineItemsByGoodsShipmentId(item).then((data: any) => {
-      if (data) {
-        var res = data[0];
-        // alert(JSON.stringify(data[0] ) ) ;
-        this.gsLineForm.value.id = data[0].id;
-        //alert(this.gsLineForm.value.id  )  ;       
-        this.gsLineForm.patchValue(res);
-        this.submitted = false;
-      }
-    })
-      .catch((err) => {
-        console.log(err);
-        this.submitted = false;
-      })
+    this.billS
+      .getLineItemsByGoodsShipmentId(item)
+      .then((data: any) => {
+        if (data) {
+          var res = data;
+          // alert(JSON.stringify(data[0] ) ) ;
+          this.gsLineForm.value.id = data.id;
+          //alert(this.gsLineForm.value.id  )  ;       
+          this.gsLineForm.patchValue(res);
+          this.submitted = false;
+        }
+      }).catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+        }
+      )
   }
 
   getLines(po: PurchaseOrder | undefined) {
@@ -303,15 +308,17 @@ export class GoodsShipmentComponent implements OnInit {
           (total, lineItem) => total + lineItem.amount, 0
         );
 
-        this.poLineItemsTotal = this.lineitems.reduce(
-          (total, lineItem) => total + lineItem.quantity, 0
-        );
-        this.currentLineTotal = this.poLineItemsTotal;
+          this.poLineItemsTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.quantity, 0
+          );
+          this.currentLineTotal = this.poLineItemsTotal;
+          this.submitted = false;
+        }
         this.submitted = false;
       }
 
-      this.submitted = false;
-    });
+      // this.submitted = false;
+    );
   }
 
   loadVendors() {
@@ -347,27 +354,20 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   selectVendor() {
-    if (this.currentVendor.id == null) {
-      this.lineitems = [];
-      this.gsSubTotal = 0;
-      // this.gsLineForm.reset();
-    }
-    else {
-      this.lineitems = [];
-      this.gsSubTotal = 0;
-      // this.gsLineForm.reset();
+    this.lineitems = [];
+    this.gsSubTotal = 0;
+    this.poLineItemsTotal = 0 ;
+    if (this.currentVendor.id != null) {
       this.loadPos();
     }
   }
 
   selectPO(e: any) {
-    //  alert( JSON.stringify(e) );
-
     if (e.value == null) {
       this.lineitems = [];
       this.gsSubTotal = 0;
-      // this.gsLineForm.reset();
-    }
+      this.poLineItemsTotal = 0 ;
+        }
     else {
 
       // this.lineitems = [];
@@ -391,14 +391,15 @@ export class GoodsShipmentComponent implements OnInit {
             (total, lineItem) => total + lineItem.quantity, 0
           );
 
-          this.currentLineTotal = this.poLineItemsTotal;
-          this.submitted = false;
-        }
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-        });
+            this.currentLineTotal = this.poLineItemsTotal;
+            this.submitted = false;
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+          }
+        );
 
     }
   }
@@ -503,7 +504,7 @@ export class GoodsShipmentComponent implements OnInit {
     this.onSubmitGS();
 
     var gsFormVal = this.gsLineForm.value;
-    gsFormVal.id = this.gsLineForm.value.id;
+    // gsFormVal.id = this.gsLineForm.value.id;
     gsFormVal.goodsShipment.id = this.id;
     gsFormVal.purchaseOrder.id = this.currPurchaseOrder.id;
     gsFormVal.comapny = this.currentCompany;
@@ -512,27 +513,29 @@ export class GoodsShipmentComponent implements OnInit {
     if (gsFormVal.id) {
       this.submitted = true;
 
-      this.billS.updateGoodsShipmentLine(gsFormVal).then((data: any) => {
-        if (data) {
-          this.submitted = false;
-          // this.message.add({
-          //   severity: 'success',
-          //   summary: 'Success',
-          //   detail: 'Goods Shipment Line Items Updated',
-          //   life: 3000,
-          // });
-        }
-      })
-        .catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Goods Shipment Line Items Error',
-            life: 3000,
-          });
-        });
+      this.billS.updateGoodsShipmentLine(gsFormVal)
+        .then((data: any) => {
+          if (data) {
+            this.submitted = false;
+            // this.message.add({
+            //   severity: 'success',
+            //   summary: 'Success',
+            //   detail: 'Goods Shipment Line Items Updated',
+            //   life: 3000,
+            // });
+          }
+        }).catch(
+          (err) => {
+            console.log(err);
+            this.submitted = false;
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Goods Shipment Line Items Error',
+              life: 3000,
+            });
+          }
+        );
 
     }
     else {

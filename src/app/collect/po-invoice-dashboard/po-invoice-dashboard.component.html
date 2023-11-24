@@ -132,14 +132,14 @@
                                         <div class="col-6">
                                             <h5>Current Due</h5>
                                             <h4 class="remainAmount text-xl">₹ {{
-                                                myFunction(this.activeInvoice.remainingAmount)?
-                                                myFunction(this.activeInvoice.remainingAmount) : '0.00' }}
+                                                (this.activeInvoice.remainingAmount)?
+                                                (this.activeInvoice.remainingAmount) : '0.00' }}
                                             </h4>
                                         </div>
                                         <div class="col-6">
                                             <h5>Total Amount</h5>
-                                            <h4 class="text-xl">₹ {{myFunction(this.activeInvoice.grossTotal) ?
-                                                myFunction(this.activeInvoice.grossTotal) : '0.00' }}
+                                            <h4 class="text-xl">₹ {{(this.activeInvoice.grossTotal) ?
+                                                (this.activeInvoice.grossTotal) : '0.00' }}
                                             </h4>
                                         </div>
                                     </div>

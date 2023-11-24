@@ -137,7 +137,10 @@ export class BeneficiaryComponent implements OnInit {
           detail: 'Beneficiary Details Saved Successfully',
           life: 3000,
         });
-        this.router.navigate(['banking/beneficiaries']);
+        setTimeout(() => {
+          this.router.navigate(['banking/beneficiaries']);
+
+        }, 3000);
       })
         .catch((err) => {
           console.log(err);

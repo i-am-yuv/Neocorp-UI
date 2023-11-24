@@ -186,7 +186,7 @@ export class SignupComponent implements OnInit {
             this.message.add({
               severity: 'error',
               summary: 'Sign Up Error',
-              detail: 'Invalid Sign Up, please check details',
+              detail: this.errorMessage,
               life: 3000,
             });
           }
@@ -230,7 +230,7 @@ export class SignupComponent implements OnInit {
           this.message.add({
             severity: 'error',
             summary: 'Sign Up Error',
-            detail: 'Invalid Sign Up, please check details',
+            detail: this.errorMessage,
             life: 3000,
           });
         }
@@ -286,7 +286,7 @@ export class SignupComponent implements OnInit {
         this.message.add({
           severity: 'error',
           summary: 'Send OTP Error',
-          detail: 'Invalid Sign Up, please check details',
+          detail: this.errorMessage,
           life: 3000,
         });
       }

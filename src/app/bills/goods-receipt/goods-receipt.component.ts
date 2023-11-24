@@ -268,7 +268,7 @@ export class GoodsReceiptComponent implements OnInit {
       .getLineItemsByGoodsReceiptId(gr)
       .then((data: any) => {
         if (data) {
-          var res = data[0];
+          var res = data;
           this.grLineForm.patchValue(res);
           this.submitted = false;
         }
@@ -308,11 +308,16 @@ export class GoodsReceiptComponent implements OnInit {
     this.lineitems = [];
     this.grSubTotal = 0;
     this.salesLineItemsTotal = 0;
-    this.loadSalesOrder();
+
+    if(this.currentCustomer.id != null )
+    {
+      this.loadSalesOrder();
+    }
   }
 
   selectSO(e: any) {
     //  alert( JSON.stringify(e) );
+
     if (e.value == null) {
 
       this.lineitems = [];
@@ -450,7 +455,7 @@ export class GoodsReceiptComponent implements OnInit {
     grFormVal.salesOrder.id = this.currSalesOrder.id;
 
     // grFormVal.comapny = this.currentCompany ;
-
+    alert(JSON.stringify(grFormVal));
     if (grFormVal.id) {
       this.submitted = true;
       this.billS.updateGoodsReceiptLine(grFormVal).then((data: any) => {

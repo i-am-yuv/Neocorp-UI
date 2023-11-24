@@ -98,9 +98,9 @@ export class GoodsShipmentDashboardComponent implements OnInit {
       .then((data: any) => {
         if (data) {
           
-          this.activeGoodsShipmentLine.orderedQty = data[0].orderedQty ? data[0].orderedQty : 0;
-          this.activeGoodsShipmentLine.confirmedQty = data[0].confirmedQty ? data[0].confirmedQty : 0;
-          this.activeGoodsShipmentLine.shippedQty = data[0].shippedQty ? data[0].shippedQty : 0;
+          this.activeGoodsShipmentLine.orderedQty = data.orderedQty ? data.orderedQty : 0;
+          this.activeGoodsShipmentLine.confirmedQty = data.confirmedQty ? data.confirmedQty : 0;
+          this.activeGoodsShipmentLine.shippedQty = data.shippedQty ? data.shippedQty : 0;
           //alert( JSON.stringify(this.activeGoodsShipmentLine)) ;
           this.submitted = false;
         }
