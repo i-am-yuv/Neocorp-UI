@@ -105,7 +105,7 @@
         <div class="pb-3">
             <div class="p-3 pt-0">
                 <div class="bg-white border-round-xl mt-1 pr-2"
-                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);" > 
+                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
                     <div class="py-3 px-3 mt-3 RRList">
                         <div *ngFor="let item of allRROrder" [ngClass]="{ 'bg-gray-100': activeRR.id === item.id }">
                             <div class="" (click)="changeOrder(item)">
@@ -115,7 +115,28 @@
                                         <p class="text-lg">{{ item.orderNo }}</p>
                                     </div>
                                     <div class="col-2 text-right">
-                                        <p class="blueText text-base">Date: <span class="text-700">{{item.processDate |
+                                        <div class="iconSCSS w-full gap-1 mr-2 cursor-pointer"
+                                            (click)="onEditRR(item.id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
+                                                viewBox="0 0 10 11" fill="none">
+                                                <g clip-path="url(#clip0_862_17281)">
+                                                    <path
+                                                        d="M7.0257 2.11389L7.72882 1.37075C8.03392 1.04829 8.52858 1.04829 8.83368 1.37075C9.13877 1.69321 9.13877 2.21602 8.83368 2.53848L4.40924 7.21469C4.18896 7.44751 3.91726 7.61864 3.6187 7.71264L2.5 8.06485L2.83324 6.88249C2.92218 6.56694 3.0841 6.27978 3.30438 6.04697L7.0257 2.11389ZM7.0257 2.11389L8.125 3.27574M7.5 6.30334V8.39513C7.5 8.94236 7.08027 9.38598 6.5625 9.38598H2.1875C1.66973 9.38598 1.25 8.94236 1.25 8.39513V3.77117C1.25 3.22394 1.66973 2.78032 2.1875 2.78032H4.16667"
+                                                        stroke="#6F7174" stroke-width="0.625" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_862_17281">
+                                                        <rect width="10" height="10.5691" fill="white"
+                                                            transform="translate(0 0.138184)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <div class="text-sm blueText">Edit</div>
+
+                                        </div>
+                                        <p class="blueText text-base mr-2">Date: <span
+                                                class="text-700">{{item.processDate |
                                                 date : "dd/MM/yyyy"}}</span></p>
                                     </div>
 
