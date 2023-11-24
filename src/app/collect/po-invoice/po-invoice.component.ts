@@ -27,7 +27,7 @@ export class PoInvoiceComponent implements OnInit {
   sidebarVisibleProduct: boolean = false;
 
   submitted: boolean = false;
-  currVendorShow: Vendor = {};
+  currVendorShow: any;
 
   poInvoiceForm !: FormGroup;
 
@@ -136,7 +136,6 @@ export class PoInvoiceComponent implements OnInit {
   //       // alert(JSON.stringify(res) ) ;
   //       this.submitted = false;
   //       this.currPO = res;
-  //       this.currVendorShow = res.vendor;
   //       this.poInvoiceForm.value.vendor.id = res.vendor.id;
   //       // this.loadLineItembyPO(this.currPO);
   //     }
@@ -170,7 +169,6 @@ export class PoInvoiceComponent implements OnInit {
   
     if (!e || !e.value) {
       // Clear vendor details when no purchase order is selected
-      // this.currVendorShow = null;
       this.poInvoiceForm.get('vendor.id')?.setValue(null); 
       this.submitted = false;
       return;
@@ -820,6 +818,18 @@ else{
   loadAllProductsNow()
   {
     this.loadProducts();
+  }
+
+  getFormattedVendorDetails(): string {
+    const formattedFirstName = this.currVendorShow.firstName?.length > 10 ?
+      this.currVendorShow.firstName?.substring(0, 10) + '...' :
+      this.currVendorShow.firstName;
+
+    const formattedLastName = this.currVendorShow.lastName.length > 10 ?
+      this.currVendorShow.lastName?.substring(0, 10) + '...' :
+      this.currVendorShow.lastName;
+
+    return `${formattedFirstName} ${formattedLastName} ( Mobile no. ${this.currVendorShow.mobileNumber} )`;
   }
 
 

@@ -207,7 +207,7 @@ export class AccountsComponent implements OnInit {
         this.message.add({
           severity: 'success',
           summary: 'Credit Account Updated',
-          detail: 'Wait for Refresh',
+          detail: 'Please Wait for Refresh',
           life: 3000,
         });
         //this.ngOnInit();
@@ -249,7 +249,7 @@ export class AccountsComponent implements OnInit {
         this.message.add({
           severity: 'success',
           summary: 'Debit Account Updated',
-          detail: 'Wait for Refresh',
+          detail: 'Please Wait for Refresh',
           life: 3000,
         });
         setTimeout(() => {

@@ -130,7 +130,7 @@
                                                 <label class="ml-2">Account Number:</label>
                                                 <input pInputText formControlName="accountNumber"
                                                     placeholder="Enter Account Number" class="w-full" NumbersOnly
-                                                    minlength="12" />
+                                                    minlength="9" maxlength="16" />
                                                 <error-message
                                                     [controlName]="creditAccountForm.controls['accountNumber']"></error-message>
                                             </div>
@@ -140,7 +140,7 @@
                                                 <label class="ml-2">Confirm Account Number:</label>
                                                 <input pInputText formControlName="confirmAccountNumber"
                                                     placeholder="Enter Confirm Account Number" class="w-full"
-                                                    NumbersOnly minlength="12" />
+                                                    NumbersOnly minlength="9" maxlength="16" />
                                                 <error-message
                                                     [controlName]="creditAccountForm.controls['confirmAccountNumber']"></error-message>
                                             </div>

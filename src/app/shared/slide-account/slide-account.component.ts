@@ -99,14 +99,18 @@ export class SlideAccountComponent implements OnInit {
           this.submitted = false;
           this.message.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Your Debit Account Added Successfully',
+            summary: 'Debit Account Added',
+            detail: 'Please Wait for refresh',
             life: 3000,
           });
           this.newDebitAccountForm.reset();
+
           setTimeout(() => {
             this.router.navigate(['/banking/accounts']);
           }, 2000);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       ).catch(
         (err) => {
@@ -144,15 +148,18 @@ export class SlideAccountComponent implements OnInit {
         this.submitted = false;
         this.message.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Credit Account Added Successfully',
+          summary: 'Credit Account Added',
+          detail: 'Please Wait for Refresh',
           life: 3000,
         });
         this.newCreditAccountForm.reset();
-        this.ngOnInit();
+        //this.ngOnInit();
         setTimeout(() => {
           this.router.navigate(['/banking/accounts']);
         }, 2000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
         .catch((err) => {
           console.log(err);

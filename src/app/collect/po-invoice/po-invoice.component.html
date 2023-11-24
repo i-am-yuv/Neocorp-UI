@@ -129,7 +129,7 @@
                     <div class="field col-6" *ngIf="this.poInvoiceForm.value.vendor.id">
                         <label class="mr-3">Vendor Details:</label>
                         <input pInputText
-                            value="{{this.currVendorShow.firstName }} {{this.currVendorShow.lastName  }}  ( Mobile no. {{this.currVendorShow.mobileNumber }}  )"
+                            [value]="getFormattedVendorDetails()"
                             placeholder="Vendor Details" class="w-full custom-input" [disabled]="true" />
                     </div>
 
