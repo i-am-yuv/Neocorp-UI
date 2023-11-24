@@ -138,8 +138,8 @@ export class BeneficiaryDashboardComponent implements OnInit {
       this.submitted = false;
       this.message.add({
         severity: 'success',
-        summary: 'Credit Account Deleted',
-        detail: 'Credit Account Deleted',
+        summary: 'Beneficiary Deleted',
+        detail: 'Beneficiary Deleted',
         life: 3000,
       })
     })

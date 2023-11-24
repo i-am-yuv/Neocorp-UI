@@ -54,7 +54,7 @@ export class GoodsShipmentComponent implements OnInit {
   items!: MenuItem[];
 
   poLineItemsTotal: number = 0;
-  currentLineTotal : number = 0 ;
+  currentLineTotal: number = 0;
 
   currentCompany: CompanyNew = {};
   currentVendor: Vendor = {};
@@ -106,7 +106,6 @@ export class GoodsShipmentComponent implements OnInit {
   }
 
   createGS() {
-    //this.createNew = true;
     this.router.navigate(['/bills/goodsShipment/create']);
   }
 
@@ -152,28 +151,26 @@ export class GoodsShipmentComponent implements OnInit {
         id: this.fb.nonNullable.control('')
       }),
       orderedQty: new FormControl('', [Validators.required]),
-      shippedQty: new FormControl('', Validators.required),
-      confirmedQty: new FormControl('', Validators.required)
+      shippedQty: new FormControl('', [Validators.required]),
+      confirmedQty: new FormControl('', [Validators.required])
     });
   }
 
 
   availableGS() {
     this.submitted = true;
-    this.billS.getAllGS(this.currentUser).then(
-      (res) => {
-        this.submitted = false;
-        var count = res.length;
-        //count=0
-        if (count > 0) {
-          this.router.navigate(['/bills/goodsShipments']);
-        }
-        else {
-          this.createNew = false;
-        }
+    this.billS.getAllGS(this.currentUser).then((res) => {
+      this.submitted = false;
+      var count = res.length;
+      //count=0
+      if (count > 0) {
+        this.router.navigate(['/bills/goodsShipments']);
       }
-    ).catch(
-      (err) => {
+      else {
+        this.createNew = false;
+      }
+    })
+      .catch((err) => {
         this.submitted = false;
         console.log(err);
         this.message.add({
@@ -182,9 +179,9 @@ export class GoodsShipmentComponent implements OnInit {
           detail: 'Error While Fetching All Goods Shipments',
           life: 3000,
         });
-      }
-    )
+      })
   }
+
   currentUser: any = {};
   loadUser() {
     this.submitted = true;
@@ -209,13 +206,11 @@ export class GoodsShipmentComponent implements OnInit {
     else {
 
       this.submitted = true;
-      this.invoiceS.getAllPoByVendorId(vendorId).then(
-        (res: any) => {
-          this.allPo = res;
-          this.submitted = false;
-        }
-      ).catch(
-        (err) => {
+      this.invoiceS.getAllPoByVendorId(vendorId).then((res: any) => {
+        this.allPo = res;
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -224,8 +219,7 @@ export class GoodsShipmentComponent implements OnInit {
             detail: 'Error While Fetching All Sales Order of vendor',
             life: 3000,
           });
-        }
-      )
+        })
 
     }
 
@@ -238,13 +232,11 @@ export class GoodsShipmentComponent implements OnInit {
     else {
 
       this.submitted = true;
-      this.invoiceS.getAllPoByVendorId(this.currentVendor.id).then(
-        (res: any) => {
-          this.allPo = res;
-          this.submitted = false;
-        }
-      ).catch(
-        (err) => {
+      this.invoiceS.getAllPoByVendorId(this.currentVendor.id).then((res: any) => {
+        this.allPo = res;
+        this.submitted = false;
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -253,8 +245,7 @@ export class GoodsShipmentComponent implements OnInit {
             detail: 'Error While Fetching All Sales Order of vendor',
             life: 3000,
           });
-        }
-      )
+        })
 
     }
 
@@ -264,121 +255,106 @@ export class GoodsShipmentComponent implements OnInit {
   getGS() {
     if (this.id) {
       this.submitted = true;
-      this.billS.getCurrentGs(this.id).then(
-        (goodShipment: any) => {
-          goodShipment.shipmentDate = goodShipment.shipmentDate ? new Date(goodShipment.shipmentDate) : undefined;
-          console.log(goodShipment);
-          this.loadPosByVendorId(goodShipment.vendor.id);
-          this.submitted = false;
-          this.currGoodsShipment = goodShipment;
+      this.billS.getCurrentGs(this.id).then((goodShipment: any) => {
+        goodShipment.shipmentDate = goodShipment.shipmentDate ? new Date(goodShipment.shipmentDate) : undefined;
+        console.log(goodShipment);
+        this.loadPosByVendorId(goodShipment.vendor.id);
+        this.submitted = false;
+        this.currGoodsShipment = goodShipment;
 
-          this.currPurchaseOrder = goodShipment.purchaseOrder
+        this.currPurchaseOrder = goodShipment.purchaseOrder
 
-          this.gsForm.patchValue(goodShipment);
-          this.getLines(goodShipment.purchaseOrder); 
-          this.getLineItems(goodShipment);
-        }
-      ).catch(
-        (err) => {
+        this.gsForm.patchValue(goodShipment);
+        this.getLines(goodShipment.purchaseOrder);
+        this.getLineItems(goodShipment);
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+        })
     }
   }
 
   getLineItems(item: GoodsShipment) {
-
-      this.submitted = true;
-      this.billS
-        .getLineItemsByGoodsShipmentId(item)
-        .then((data: any) => {
-          if (data) {
-            var res = data[0];
-            // alert(JSON.stringify(data[0] ) ) ;
-            this.gsLineForm.value.id = data[0].id;    
-            //alert(this.gsLineForm.value.id  )  ;       
-            this.gsLineForm.patchValue(res);
-            this.submitted = false;
-          }
-        }).catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-          }
-        )
+    this.submitted = true;
+    this.billS.getLineItemsByGoodsShipmentId(item).then((data: any) => {
+      if (data) {
+        var res = data[0];
+        // alert(JSON.stringify(data[0] ) ) ;
+        this.gsLineForm.value.id = data[0].id;
+        //alert(this.gsLineForm.value.id  )  ;       
+        this.gsLineForm.patchValue(res);
+        this.submitted = false;
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      })
   }
 
   getLines(po: PurchaseOrder | undefined) {
     this.submitted = true;
-    this.billS.getLineitemsByPo(po)
-      .then((data: any) => {
-        if (data) {
-          this.lineitems = data;
+    this.billS.getLineitemsByPo(po).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
 
-          this.gsSubTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.amount, 0
-          );
+        this.gsSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
 
-          this.poLineItemsTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.quantity, 0
-          );
-          this.currentLineTotal = this.poLineItemsTotal ;
-          this.submitted = false;
-        }
+        this.poLineItemsTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.quantity, 0
+        );
+        this.currentLineTotal = this.poLineItemsTotal;
         this.submitted = false;
-      });
+      }
+
+      this.submitted = false;
+    });
   }
 
   loadVendors() {
     this.submitted = true;
-    this.usedService.allVendor(this.currentUser).then(
-      (res) => {
-        this.vendors = res;
-        console.log(res);
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.usedService.allVendor(this.currentUser).then((res) => {
+      this.vendors = res;
+      console.log(res);
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
-      }
-    )
+      })
   }
 
   loadProducts() {
     this.submitted = true;
-    this.usedService.allProduct(this.currentUser).then(
-      (res) => {
-        this.products = res;
-        console.log(res);
+    this.usedService.allProduct(this.currentUser).then((res) => {
+      this.products = res;
+      console.log(res);
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
         this.submitted = false;
-      }
-    )
-      .catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'All Product error',
-            detail: 'Error While Fetching All product Details',
-            life: 3000,
-          });
-        }
-      )
+        this.message.add({
+          severity: 'error',
+          summary: 'All Product error',
+          detail: 'Error While Fetching All product Details',
+          life: 3000,
+        });
+      })
   }
 
   selectVendor() {
-    if( this.currentVendor.id == null )
-    {
-        this.lineitems = [];
-        this.gsSubTotal = 0 ;
-        // this.gsLineForm.reset();
-    }
-    else{
+    if (this.currentVendor.id == null) {
       this.lineitems = [];
-      this.gsSubTotal = 0 ;
+      this.gsSubTotal = 0;
+      // this.gsLineForm.reset();
+    }
+    else {
+      this.lineitems = [];
+      this.gsSubTotal = 0;
       // this.gsLineForm.reset();
       this.loadPos();
     }
@@ -388,15 +364,15 @@ export class GoodsShipmentComponent implements OnInit {
     //  alert( JSON.stringify(e) );
 
     if (e.value == null) {
-        this.lineitems = [];
-        this.gsSubTotal = 0 ;
-        // this.gsLineForm.reset();
+      this.lineitems = [];
+      this.gsSubTotal = 0;
+      // this.gsLineForm.reset();
     }
     else {
 
       // this.lineitems = [];
-        // this.gsSubTotal = 0 ;
-        // this.gsLineForm.reset();
+      // this.gsSubTotal = 0 ;
+      // this.gsLineForm.reset();
 
       this.submitted = true;
       var p = {
@@ -404,27 +380,25 @@ export class GoodsShipmentComponent implements OnInit {
       };
       p.id = e.value;
       this.currPurchaseOrder.id = e.value;
-      this.billS.getLineitemsByPo(this.currPurchaseOrder)
-        .then((data: any) => {
-          if (data) {
-            this.lineitems = data;
-            this.gsSubTotal = this.lineitems.reduce(
-              (total, lineItem) => total + lineItem.amount, 0
-            );
+      this.billS.getLineitemsByPo(this.currPurchaseOrder).then((data: any) => {
+        if (data) {
+          this.lineitems = data;
+          this.gsSubTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.amount, 0
+          );
 
-            this.poLineItemsTotal = this.lineitems.reduce(
-              (total, lineItem) => total + lineItem.quantity, 0
-            );
+          this.poLineItemsTotal = this.lineitems.reduce(
+            (total, lineItem) => total + lineItem.quantity, 0
+          );
 
-            this.currentLineTotal = this.poLineItemsTotal ;
-            this.submitted = false;
-          }
-        }).catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-          }
-        );
+          this.currentLineTotal = this.poLineItemsTotal;
+          this.submitted = false;
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+        });
 
     }
   }
@@ -509,77 +483,73 @@ export class GoodsShipmentComponent implements OnInit {
 
   loadPoLineItems(salesOrder: SalesOrder) {
     this.submitted = true;
-    this.invoiceS.getLineitemsBySo(salesOrder)
-      .then((data: any) => {
-        if (data) {
-          this.lineitems = data;
-          this.gsSubTotal = this.lineitems.reduce(
-            (total, lineItem) => total + lineItem.amount, 0
-          );
-          this.submitted = false;
-        }
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-        }
-      );
+    this.invoiceS.getLineitemsBySo(salesOrder).then((data: any) => {
+      if (data) {
+        this.lineitems = data;
+        this.gsSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+        this.submitted = false;
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+        this.submitted = false;
+      });
   }
 
   onSubmitGSLine() {
     // Here you can write a code to submit the GS again if some thing is edited
     this.onSubmitGS();
-    
+
     var gsFormVal = this.gsLineForm.value;
-    gsFormVal.id = this.gsLineForm.value.id ;
+    gsFormVal.id = this.gsLineForm.value.id;
     gsFormVal.goodsShipment.id = this.id;
     gsFormVal.purchaseOrder.id = this.currPurchaseOrder.id;
     gsFormVal.comapny = this.currentCompany;
-   // alert(JSON.stringify(gsFormVal) );
+    // alert(JSON.stringify(gsFormVal) );
 
     if (gsFormVal.id) {
       this.submitted = true;
-      
-      this.billS.updateGoodsShipmentLine(gsFormVal)
-        .then((data: any) => {
-          if (data) {
-            this.submitted = false;
-            // this.message.add({
-            //   severity: 'success',
-            //   summary: 'Success',
-            //   detail: 'Goods Shipment Line Items Updated',
-            //   life: 3000,
-            // });
-          }
-        }).catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Goods Shipment Line Items Error',
-              life: 3000,
-            });
-          }
-        );
+
+      this.billS.updateGoodsShipmentLine(gsFormVal).then((data: any) => {
+        if (data) {
+          this.submitted = false;
+          // this.message.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Goods Shipment Line Items Updated',
+          //   life: 3000,
+          // });
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Goods Shipment Line Items Error',
+            life: 3000,
+          });
+        });
 
     }
     else {
 
       this.submitted = true;
-      this.billS.createGoodsShipmentLine(gsFormVal)
-        .then((data: any) => {
-          if (data) {
-            this.submitted = false;
-            // this.message.add({
-            //   severity: 'success',
-            //   summary: 'Success',
-            //   detail: 'Goods Shipment Line Items Saved',
-            //   life: 3000,
-            // });
-          }
-        }).catch(
+      this.billS.createGoodsShipmentLine(gsFormVal).then((data: any) => {
+        if (data) {
+          this.submitted = false;
+          // this.message.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Goods Shipment Line Items Saved',
+          //   life: 3000,
+          // });
+        }
+      })
+        .catch(
           (err) => {
             console.log(err);
             this.submitted = false;
@@ -589,8 +559,7 @@ export class GoodsShipmentComponent implements OnInit {
               detail: 'Goods Shipment Line Items Error',
               life: 3000,
             });
-          }
-        );
+          });
       setTimeout(() => {
         this.router.navigate(['bills/goodsShipments']);
       }, 3000);
@@ -598,9 +567,8 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  validateOrderedQty()
-  {
-    if (Number(this.gsLineForm.value.orderedQty)  > Number(this.currentLineTotal) ) {
+  validateOrderedQty() {
+    if (Number(this.gsLineForm.value.orderedQty) > Number(this.currentLineTotal)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -610,9 +578,8 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  validateConfirmedQty()
-  {
-    if (Number(this.gsLineForm.value.confirmedQty)  > Number(this.gsLineForm.value.orderedQty) ) {
+  validateConfirmedQty() {
+    if (Number(this.gsLineForm.value.confirmedQty) > Number(this.gsLineForm.value.orderedQty)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -622,9 +589,8 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  validateShippedQty()
-  {
-    if (Number(this.gsLineForm.value.shippedQty)  > Number(this.gsLineForm.value.confirmedQty) ) {
+  validateShippedQty() {
+    if (Number(this.gsLineForm.value.shippedQty) > Number(this.gsLineForm.value.confirmedQty)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',

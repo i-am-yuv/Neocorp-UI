@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -12,6 +12,10 @@ import { BreadCrumbService } from 'src/app/shared/navbar/bread-crumb.service';
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit {
+
+  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    e.preventDefault();
+  }
 
   id: string | null = '';
   submitted: boolean = false;

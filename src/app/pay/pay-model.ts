@@ -8,8 +8,8 @@ export class PayModel {
 export interface ReturnRefund {
   id?: string;
   orderNo?: string;
-  isRefund ?: boolean ;
-  isReturn ?: boolean ;
+  refund ?: boolean ;
+  return ?: boolean ;
   processDate?: Date;
   salesOrder?: SalesOrder;
   grossTotal?: number;

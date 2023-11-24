@@ -91,12 +91,17 @@ export class ReturnRefundComponent implements OnInit {
     this.getReturnRefund();
   }
 
+  isRefund: boolean = true;
+  isReturn: boolean = true;
+
   initForm() {
     this.rrForm = new FormGroup({
       id: new FormControl(''),
       orderNo: new FormControl(''),
-      isRefund: new FormControl(),
-      isReturn: new FormControl(),
+      // returnRefund: new FormGroup({
+      refund: new FormControl(true),
+      return: new FormControl(false),
+      // }),
       processDate: new FormControl('', Validators.required),
       grossTotal: new FormControl(''),
       reason: new FormControl('', Validators.required),
@@ -108,6 +113,21 @@ export class ReturnRefundComponent implements OnInit {
     });
 
   }
+
+  get gender() {
+    return this.rrForm.
+      get(
+        'isRefund');
+  }
+
+  // onRadioButtonChange(selectedFirstRadio: boolean) {
+  //   if (selectedFirstRadio) {
+  //     this.isReturn = !this.isRefund
+  //   }
+  //   else {
+  //     this.isRefund = !this.isReturn
+  //   }
+  // }
 
   availableRR() {
     this.submitted = true;
@@ -214,12 +234,20 @@ export class ReturnRefundComponent implements OnInit {
 
   onSubmitReturnRefund() {
     this.rrForm.value.branch = this.currentUser.branch;
+
+    if (this.rrForm.value.refund == true) {
+      this.rrForm.value.return = false;
+    }
+    else {
+      this.rrForm.value.return = true;
+    }
+
     var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
     rrFormVal.comapny = this.currentCompany;
+    rrFormVal.user = this.currentUser;
     console.log(rrFormVal);
 
-    alert(JSON.stringify(rrFormVal) ) ;
 
     // if (rrFormVal.id) {
     //   //this.poForm.value.id = poFormVal.id;
@@ -258,34 +286,42 @@ export class ReturnRefundComponent implements OnInit {
     //     this.rrForm.value.return = true;
     //   }
 
-    //   this.payS.createReturnRefund(rrFormVal).then((res) => {
-    //     console.log(res);
-    //     this.rrForm.patchValue = { ...res };
-    //     this.currReturnRefund = res;
-    //     // this.id = res.id;
-    //     console.log("Return Refund Added");
-    //     console.log(this.currReturnRefund);
-    //     this.viewLineItemTable = true;
-    //     this.submitted = false;
-    //     this.message.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Return and Refund Added Successfully',
-    //       life: 3000,
-    //     });
-    //     this.router.navigate(['pay/returnAndRefund/edit/' + res.id]);
-    //   })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       this.viewLineItemTable = false;
-    //       this.submitted = false;
-    //       this.message.add({
-    //         severity: 'error',
-    //         summary: 'Return and Refund error',
-    //         detail: 'Return and Refund Error',
-    //         life: 3000,
-    //       });
-    //     })
+    // if (rrFormVal.isRefund == true) {
+    //   rrFormVal.isReturn = false;
+    // }
+    // else {
+    //   rrFormVal.isReturn = 
+    // }
+
+    // alert(JSON.stringify(rrFormVal));
+    this.payS.createReturnRefund(rrFormVal).then((res) => {
+      console.log(res);
+      this.rrForm.patchValue = { ...res };
+      this.currReturnRefund = res;
+      // this.id = res.id;
+      console.log("Return Refund Added");
+      console.log(this.currReturnRefund);
+      this.viewLineItemTable = true;
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Return and Refund Added Successfully',
+        life: 3000,
+      });
+      this.router.navigate(['pay/returnAndRefund/edit/' + res.id]);
+    })
+      .catch((err) => {
+        console.log(err);
+        this.viewLineItemTable = false;
+        this.submitted = false;
+        this.message.add({
+          severity: 'error',
+          summary: 'Return and Refund error',
+          detail: 'Return and Refund Error',
+          life: 3000,
+        });
+      })
     // }
   }
 
@@ -296,16 +332,13 @@ export class ReturnRefundComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.payS.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
+    this.submitted = true;
+    this.payS.getCurrentproduct(lineItem.expenseName).then((res) => {
       console.log(res);
       lineItem.unitPrice = res.mrp;
       this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -314,14 +347,14 @@ export class ReturnRefundComponent implements OnInit {
           detail: 'Please select the product',
           life: 3000,
         });
-      }
-    )
+      })
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: ReturnRefundLine) {
     if (e.value == null || e.value == 0) {
       this.isquantity = false;
     }
+
     if (e.value) {
       lineItem.quantity = e.value;
       this.setLineValues(lineItem);
@@ -406,8 +439,8 @@ export class ReturnRefundComponent implements OnInit {
   onRowEditSave(lineItem: ReturnRefundLine) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -415,101 +448,101 @@ export class ReturnRefundComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currReturnRefund) ;
-       this.newRecord = false;
-    }
-else{
-    // alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-
-    if (lineItem.discount == null || lineItem.discount == 0) { }
-
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currReturnRefund);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.returnRefund = this.currReturnRefund; // this line will be change
+      // alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      if (lineItem.discount == null || lineItem.discount == 0) { }
 
-      var _lineItem = lineItem;
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
 
-      if (_lineItem.id) {
-        // alert("Update Line Item Entered");
-        // line line item should have id inside
-        this.submitted = true;
-        this.payS.updateReturnRefundLineItem(lineItem).then((res) => {
-          console.log("Line Item Updated Successfully");
-          _lineItem = res;
-          // this.lineitem.Amount = res.Amount;
-          this.getReturnRefund();
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Line item Updated',
-            detail: 'Return Refund Line item Updated Successfully',
-            life: 3000,
-          });
-        }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Line item Update Error',
-              detail: 'Error While updating Return Refund Line Item',
-              life: 3000,
-            });
-          }
-        )
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
       }
       else {
-        this.submitted = true;
-        this.payS.createReturnRefundLineItem(lineItem).then((res) => {
-          console.log(res);
-          _lineItem = res;
-          this.getReturnRefund();
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Line item Added',
-            detail: 'Return & Refund Line item Added Successfully',
-            life: 3000,
-          });
+        lineItem.expenseName = currentProduct;
+        lineItem.returnRefund = this.currReturnRefund; // this line will be change
+
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
+
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          // alert("Update Line Item Entered");
+          // line line item should have id inside
+          this.submitted = true;
+          this.payS.updateReturnRefundLineItem(lineItem).then((res) => {
+            console.log("Line Item Updated Successfully");
+            _lineItem = res;
+            // this.lineitem.Amount = res.Amount;
+            this.getReturnRefund();
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Line item Updated',
+              detail: 'Return Refund Line item Updated Successfully',
+              life: 3000,
+            });
+          })
+            .catch((err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line item Update Error',
+                detail: 'Error While updating Return Refund Line Item',
+                life: 3000,
+              });
+            })
         }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Line Item Error',
-            detail: 'Error while Adding Line Item',
-            life: 3000,
-          });
-        })
+        else {
+          this.submitted = true;
+          this.payS.createReturnRefundLineItem(lineItem).then((res) => {
+            console.log(res);
+            _lineItem = res;
+            this.getReturnRefund();
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Line item Added',
+              detail: 'Return & Refund Line item Added Successfully',
+              life: 3000,
+            });
+          })
+            .catch((err) => {
+              console.log(err);
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line Item Error',
+                detail: 'Error while Adding Line Item',
+                life: 3000,
+              });
+            })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: ReturnRefundLine, index: any) {
     if (this.newRecord) {
       this.lineitems.splice(index, 1);
     }
+
     this.newRecord = false;
     this.islineAvaliable = false;
     this.ngOnInit();
@@ -540,7 +573,7 @@ else{
         detail: 'File uploaded',
         life: 3000,
       })
-    } 
+    }
     else {
       this.uploadFileName = '+ Upload your file';
     }
@@ -591,11 +624,19 @@ else{
   }
 
   finalReturnRefundSubmitPage() {
-    // updated complete PO so that gross total can be updated
     var rrFormVal = this.rrForm.value;
     rrFormVal.id = this.id;
-    rrFormVal.grossTotal = this.returnRefundSubTotal;
+    rrFormVal.grossTotal = this.returnRefundSubTotal;   // updated complete PO so that gross total can be updated
     rrFormVal.comapny = this.currentCompany;
+    rrFormVal.user = this.currentUser;
+
+    // Conditions for Radio button value change
+    if (this.rrForm.value.refund == true) {
+      this.rrForm.value.return = false;
+    }
+    else {
+      this.rrForm.value.return = true;
+    }
 
     if (rrFormVal.id) {
       this.submitted = true;
@@ -603,21 +644,59 @@ else{
         console.log(res);
         this.rrForm.patchValue = { ...res };
         this.submitted = false;
-      }
-      ).catch(
-        (err) => {
+        this.message.add({
+          severity: 'success',
+          summary: 'Return & Refund Saved',
+          detail: 'Return & Refund  Saved',
+          life: 3000,
+        })
+        setTimeout(() => {
+          this.router.navigate(['/pay/returnAndRefunds']);
+        }, 2000);
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
-        }
-      )
+          this.message.add({
+            severity: 'error',
+            summary: 'Error while saving Return and Refund',
+            detail: 'Error while saving Return and Refund',
+            life: 3000,
+          });
+        })
     }
-    this.message.add({
-      severity: 'success',
-      summary: 'Return & Refund Saved Successfully',
-      detail: 'Return & Refund  Saved',
-      life: 3000,
-    });
-    this.router.navigate(['/pay/returnAndRefunds']);
+    else {
+      setTimeout(() => {
+        this.router.navigate(['/pay/returnAndRefunds']);
+      }, 2000);
+    }
+
+    // this.submitted = true
+    // this.payS.createReturnRefund(rrFormVal).then((res) => {
+    //   console.log(res);
+    //   this.submitted = false;
+    //   this.message.add({
+    //     severity: 'success',
+    //     summary: 'Return & Refund Saved',
+    //     detail: 'Return & Refund  Saved',
+    //     life: 3000,
+    //   });
+    // setTimeout(() => {
+    //   this.router.navigate(['/pay/returnAndRefunds']);
+    // }, 2000);
+    // })
+
+    // .catch((err) => {
+    //   console.log(err);
+    //   // this.viewLineItemTable = false;
+    //   this.submitted = false;
+    //   this.message.add({
+    //     severity: 'error',
+    //     summary: 'Error while adding Return and Refund',
+    //     detail: 'Error while adding Return and Refund',
+    //     life: 3000,
+    //   });
+    // })
   }
 
   createRR() {
@@ -633,8 +712,7 @@ else{
     this.deleteDialLogvisible = false;
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

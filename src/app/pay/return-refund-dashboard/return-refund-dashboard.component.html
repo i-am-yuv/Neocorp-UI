@@ -92,49 +92,36 @@
             </div>
         </div>
 
-        <div class="col-5 bg-white ml-2 mt-2 mb-2 border-round-xl">
-            <div style="overflow-x: scroll;">
+        <div class="col-4 bg-white ml-2 mt-2 mb-2 border-round-xl">
+            <div>
                 <p-chart type="line" [data]="data" [options]="options"></p-chart>
             </div>
         </div>
     </div>
 
-    <div class="m-4">
-        <div class="text-lg blueText mt-3 mx-4">Return & Refunds</div>
+    <div class="m-4 ">
+        <div class="text-lg blueText mt-4 mx-4">Return & Refunds</div>
 
         <div class="pb-3">
-            <div class="p-5">
-                <div class="productCategoryList bg-white border-round-xl mt-4"
-                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);">
-                    <div class="py-3 px-3 mt-3">
+            <div class="p-3 pt-0">
+                <div class="bg-white border-round-xl mt-1 pr-2"
+                    style="box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);" > 
+                    <div class="py-3 px-3 mt-3 RRList">
                         <div *ngFor="let item of allRROrder" [ngClass]="{ 'bg-gray-100': activeRR.id === item.id }">
                             <div class="" (click)="changeOrder(item)">
-                                <div class="flex w-full p-1">
-                                    <!-- <div class="col-1 text-left">
-                                        <div class="person-icon">{{
-                                            item.salesOrder.customer.displayName.charAt(0)}}</div>
-                                    </div> -->
-                                    <div class="col-4 text-left">
-                                        <p class="blueText text-lg">Return & Refund Document Number</p>
-                                        <p class=" ">{{ item.orderNo }}</p>
+                                <div class="flex w-full px-2 py-3">
+                                    <div class="col-10 text-left">
+                                        <p class="blueText text-base">Return & Refund Document Number</p>
+                                        <p class="text-lg">{{ item.orderNo }}</p>
                                     </div>
-                                    <!-- <div class=" col-4 text-left">
-                                        <p class="blueText text-lg">Search Key</p>
-                                        <p class="">
-                                            {{item.searchKey}}</p>
-                                    </div> -->
-                                    <!-- <div class="col-2 text-right">
-                                        <button type="button" pButton class="editButton"
-                                            (click)="onEditProductCategory(item.id)"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="15" height="15" viewBox="0 0 13 13" fill="none">
-                                                <path
-                                                    d="M11.1614 3.60301L8.96733 1.40842C8.89436 1.33544 8.80774 1.27755 8.7124 1.23805C8.61706 1.19855 8.51487 1.17822 8.41168 1.17822C8.30848 1.17822 8.2063 1.19855 8.11096 1.23805C8.01562 1.27755 7.92899 1.33544 7.85603 1.40842L1.80063 7.46431C1.72735 7.53701 1.66925 7.62354 1.62972 7.71889C1.59018 7.81424 1.56999 7.91649 1.57032 8.01971V10.2143C1.57032 10.4227 1.6531 10.6225 1.80045 10.7699C1.9478 10.9172 2.14765 11 2.35603 11H4.55063C4.65385 11.0004 4.7561 10.9802 4.85145 10.9406C4.9468 10.9011 5.03333 10.843 5.10603 10.7697L11.1614 4.71431C11.2344 4.64135 11.2923 4.55472 11.3318 4.45938C11.3713 4.36404 11.3916 4.26186 11.3916 4.15866C11.3916 4.05547 11.3713 3.95328 11.3318 3.85794C11.2923 3.7626 11.2344 3.67598 11.1614 3.60301ZM4.55063 10.2143H2.35603V8.01971L6.67746 3.69828L8.87206 5.89288L4.55063 10.2143ZM9.42746 5.33699L7.23286 3.14288L8.41143 1.96431L10.606 4.15842L9.42746 5.33699Z"
-                                                    fill="white" />
-                                            </svg></button>
-                                    </div> -->
+                                    <div class="col-2 text-right">
+                                        <p class="blueText text-base">Date: <span class="text-700">{{item.processDate |
+                                                date : "dd/MM/yyyy"}}</span></p>
+                                    </div>
+
                                 </div>
                             </div>
-                            <hr class="custom-hr">
+                            <!-- <hr class="custom-hr"> -->
                         </div>
 
                         <div class="text-center m-5" *ngIf="this.allRROrder.length === 0">

@@ -38,13 +38,14 @@ export class ErrorMessageComponent {
         if (this.controlName.errors) {
           this.controlName.touched || this.controlName.dirty
             ? this.errorMsgList.push(
-                this.errorMessage[error](this.controlName.errors[error])
-              )
+              this.errorMessage[error](this.controlName.errors[error])
+            )
             : '';
         }
       });
       return this.errorMsgList;
-    } else {
+    }
+    else {
       return [];
     }
   }

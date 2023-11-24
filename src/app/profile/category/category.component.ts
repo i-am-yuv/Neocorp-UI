@@ -186,23 +186,22 @@ export class CategoryComponent implements OnInit {
               life: 3000,
             });
           })
-    } else {
-
+    }
+    else {
       productCategoryFormVal.user = this.currentUser;
-      this.profileS.createProductCategory(productCategoryFormVal).then(
-        (res) => {
-          console.log(res);
-          this.message.add({
-            severity: 'success',
-            summary: 'Sucess',
-            detail: 'Product Category Added Successfully',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['/profile/productCategories']);
-          }, 2000);
+      this.profileS.createProductCategory(productCategoryFormVal).then((res) => {
+        console.log(res);
+        this.message.add({
+          severity: 'success',
+          summary: 'Sucess',
+          detail: 'Product Category Added Successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/profile/productCategories']);
+        }, 2000);
 
-        })
+      })
         .catch((err) => {
           this.message.add({
             severity: 'error',

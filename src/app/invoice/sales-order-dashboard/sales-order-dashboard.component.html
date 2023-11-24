@@ -74,7 +74,7 @@
                                                     {{ item.customer?.displayName}}
                                                 </p>
                                             </div>
-                                            <div class="col-2 text-right">
+                                            <div class="col-2 text-left ">
                                                 <p>₹{{item.grossTotal?item.grossTotal : '0.00'}}</p>
                                                 <p>{{item.status}}</p>
                                             </div>
@@ -134,7 +134,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <div class="text-sm blueText">Edit Sales Order</div>
+                                        <div class="text-sm font-light">Edit Sales Order</div>
 
                                     </div>
                                 </div>
@@ -173,7 +173,8 @@
                                         <p>{{this.activeOrder.customer?.address?.billingName}} <br>
                                             {{this.activeOrder.customer?.address?.billingAddress}}<br>
                                             {{this.activeOrder.customer?.address?.city}}
-                                            {{this.activeOrder.customer?.address?.pincode ? ', '+this.activeOrder.customer?.address?.pincode : ''}}
+                                            {{this.activeOrder.customer?.address?.pincode ? ',
+                                            '+this.activeOrder.customer?.address?.pincode : ''}}
                                         </p>
                                         <br>
                                     </div>

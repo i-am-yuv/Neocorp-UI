@@ -43,32 +43,12 @@
             <form (ngSubmit)="onSubmitReturnRefund()" [formGroup]="rrForm" class="p-6">
                 <h4 class="text-xl text-blue-700">Return And Refund Details:</h4>
 
-                <!-- <div class="flex">
-                    <div class="p-field-checkbox mt-5 mb-5">
-                        <div class="flex gap-1">
-                            <div>
-                                <p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
-                            </div>
-                            <div class=""><label for="binary">isRefund</label></div>
-                        </div>
-                    </div>
-
-                    <div class="p-field-checkbox mt-5 mb-5 ml-5">
-                        <div class="flex gap-1">
-                            <div>
-                                <p-checkbox formControlName="refund" inputId="binary" [binary]="true"></p-checkbox>
-                            </div>
-                            <div class=""><label for="binary">isReturn</label></div>
-                        </div>
-                    </div>
-                </div> -->
-
                 <div class="radio-buttons flex  mb-2">
                     <div class="radio-button mr-5">
-                        <p-radioButton formControlName="isRefund"   label="Is Refund"></p-radioButton>
+                        <p-radioButton formControlName="refund" label="Is Refund" [value]=true></p-radioButton>
                     </div>
                     <div class="radio-button ml-5">
-                        <p-radioButton formControlName="isReturn"  label="Is Return"></p-radioButton>
+                        <p-radioButton formControlName="refund" label="Is Return" [value]=false></p-radioButton>
                     </div>
                 </div>
 
@@ -111,8 +91,13 @@
                     </div>
                 </div>
 
+                <!-- <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
+                    <button type="submit" pButton label="Save"
+                        [disabled]="!rrForm.valid || rrForm.get('refund')?.value !== true"
+                        class="mb-6 text-lg  bg-blue-600 text-white hover:bg-blue-700 "></button>
+                </div> -->
                 <div class="border-bottom-1 border-200 text-right p-3" *ngIf="!id">
-                    <button type="submit" pButton label="Save" [disabled]="!rrForm.valid || rrForm.get('refund')?.value !== true"
+                    <button type="submit" pButton label="Save" [disabled]="!rrForm.valid"
                         class="mb-6 text-lg  bg-blue-600 text-white hover:bg-blue-700 "></button>
                 </div>
                 <!-- [disabled]="!signUpForm.valid || signUpForm.get('agreeTnC')?.value !== true" -->
@@ -187,8 +172,10 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                        <input pInputText NumbersOnly
+                                            [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice"
+                                            class="w-full" (onInput)="setLineQtyValuesQuantity($event, lineItem)"
+                                            [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -305,6 +292,8 @@
 
     </div>
 </div>
+
+
 
 <p-dialog header="Header" [(visible)]="deleteDialLogvisible" [modal]="true" [style]="{ width: '30vw' }"
     [draggable]="false" [resizable]="false">

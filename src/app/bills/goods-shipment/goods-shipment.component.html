@@ -96,7 +96,7 @@
                 </div>
             </form>
 
-            <div *ngIf="id" class="pl-5 pr-5">
+            <div *ngIf="id" class="pl-4 pr-4">
 
                 <div>
                     <p-table [value]="lineitems">
@@ -143,24 +143,49 @@
                     <h4 class="text-lg textColor">Line Items Details</h4>
 
                     <div class="flex mt-3 w-full">
-                        <div class="field col-4">
+                        <div class="field col-6">
                             <label class="mr-3 required ">Order Quantity</label>
                             <input pInputText [(ngModel)]="poLineItemsTotal" formControlName="orderedQty"
-                                placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input" (input)="validateOrderedQty()"
-                                 />
+                                placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input"
+                                (input)="validateOrderedQty()" />
+
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
+
+                            <div class="text-red-400 text-sm"
+                                *ngIf="gsLineForm.controls['orderedQty'].value > this.currentLineTotal">
+                                <span>Order Quantity exceeded the limit {{this.currentLineTotal}}</span>
+                            </div>
                         </div>
-                        <div class="field col-4 ">
+
+                        <div class="field col-6 ">
                             <label class="mr-3 required">Confirmed Quantity</label>
-                            <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity" (input)="validateConfirmedQty()"
-                                class="w-full custom-input" NumbersOnly />
+                            <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
+                                (input)="validateConfirmedQty()" class="w-full custom-input" NumbersOnly />
+
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
+
+                            <div class="text-red-400 text-sm"
+                                *ngIf="gsLineForm.controls['confirmedQty'].value > gsLineForm.controls['orderedQty'].value">
+                                <span>Confirmed Quantity exceeded the limit
+                                    {{this.gsLineForm.controls['orderedQty'].value}}</span>
+                            </div>
                         </div>
-                        <div class="field col-4">
+
+                    </div>
+
+                    <div class="flex w-full">
+                        <div class="field col-6">
                             <label class="mr-3 required">Shipped Quantity</label>
-                            <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity" (input)="validateShippedQty()"
-                                class="w-full custom-input" NumbersOnly />
+                            <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
+                                (input)="validateShippedQty()" class="w-full custom-input" NumbersOnly />
+
                             <error-message [controlName]="gsLineForm.controls['shippedQty']"></error-message>
+
+                            <div class="text-red-400 text-sm"
+                                *ngIf="gsLineForm.controls['shippedQty'].value > gsLineForm.controls['confirmedQty'].value">
+                                <span>Shipped Quantity exceeded the limit
+                                    {{this.gsLineForm.controls['confirmedQty'].value}}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -170,8 +195,7 @@
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelGS()"
                         class="mr-3 p-button-secondary"></button>
-                    <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()"
-                        [disabled]="!gsLineForm.valid || !gsForm.valid 
+                    <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()" [disabled]="!gsLineForm.valid || !gsForm.valid 
                         || this.gsLineForm.value.orderedQty <= 0 
                         || this.gsLineForm.value.orderedQty > this.currentLineTotal
                         || this.gsLineForm.value.confirmedQty > this.gsLineForm.value.orderedQty 

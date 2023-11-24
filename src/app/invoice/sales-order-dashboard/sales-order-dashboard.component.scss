@@ -1,17 +1,17 @@
-.DNList{
+.DNList {
     height: 50rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
-.DNLeftList{
+.DNLeftList {
     height: 46rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
 .right-panel-content {
-   padding: 0;
+    padding: 0;
 }
 
 :host::ng-deep {
@@ -113,4 +113,10 @@ p {
 // Override the default border radius
 .custom-button {
     border-radius: 4px;
+}
+
+.w-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

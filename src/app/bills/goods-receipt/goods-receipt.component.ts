@@ -68,7 +68,6 @@ export class GoodsReceiptComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.initForm();
     this.loadUser();
   }
@@ -315,7 +314,7 @@ export class GoodsReceiptComponent implements OnInit {
   selectSO(e: any) {
     //  alert( JSON.stringify(e) );
     if (e.value == null) {
-      
+
       this.lineitems = [];
       this.grSubTotal = 0;
       this.salesLineItemsTotal = 0;
@@ -343,7 +342,7 @@ export class GoodsReceiptComponent implements OnInit {
             (total, lineItem) => total + lineItem.quantity, 0
           );
           this.currentLineItemTotal = this.salesLineItemsTotal;
-        //  alert(this.currentLineItemTotal)
+          //  alert(this.currentLineItemTotal)
           this.submitted = false;
         }
       })
@@ -510,7 +509,7 @@ export class GoodsReceiptComponent implements OnInit {
 
   validateOrderQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if (Number(this.grLineForm.value.orderedQty)  > Number(this.currentLineItemTotal) ) {
+    if (Number(this.grLineForm.value.orderedQty) > Number(this.currentLineItemTotal)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
@@ -521,37 +520,37 @@ export class GoodsReceiptComponent implements OnInit {
   }
   validateConfirmedQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if ( Number(this.grLineForm.value.confirmedQty)  > Number(this.grLineForm.value.orderedQty) ) {
+    if (Number(this.grLineForm.value.confirmedQty) > Number(this.grLineForm.value.orderedQty)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Confirmed Quantity exceeded the limit ' +this.grLineForm.value.orderedQty,
+        detail: 'Confirmed Quantity exceeded the limit ' + this.grLineForm.value.orderedQty,
         life: 3000,
       });
     }
   }
   validateShippedQty() {
     //alert(this.grLineForm.value.shippedQty );
-    if (Number(this.grLineForm.value.shippedQty)  > Number(this.grLineForm.value.confirmedQty) ) {
+    if (Number(this.grLineForm.value.shippedQty) > Number(this.grLineForm.value.confirmedQty)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Shipped Quantity exceeded the limit ' +this.grLineForm.value.confirmedQty,
+        detail: 'Shipped Quantity exceeded the limit ' + this.grLineForm.value.confirmedQty,
         life: 3000,
       });
     }
   }
   validateReceivedQty() {
     //alert(this.grLineForm.value.orderedQty );
-    if ( Number(this.grLineForm.value.receivedQty)  > Number(this.grLineForm.value.shippedQty)  ) {
+    if (Number(this.grLineForm.value.receivedQty) > Number(this.grLineForm.value.shippedQty)) {
       this.message.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Received Quantity exceeded the limit ' +  this.grLineForm.value.shippedQty,
+        detail: 'Received Quantity exceeded the limit ' + this.grLineForm.value.shippedQty,
         life: 3000,
       });
     }
   }
-  
+
 
 }
