@@ -821,15 +821,15 @@ else{
   }
 
   getFormattedVendorDetails(): string {
-    const formattedFirstName = this.currVendorShow.firstName?.length > 10 ?
-      this.currVendorShow.firstName?.substring(0, 10) + '...' :
+    const formattedFirstName = this.currVendorShow.firstName?.length > 20 ?
+      this.currVendorShow.firstName?.substring(0, 20) + '...' :
       this.currVendorShow.firstName;
 
-    const formattedLastName = this.currVendorShow.lastName.length > 10 ?
-      this.currVendorShow.lastName?.substring(0, 10) + '...' :
+    const formattedLastName = this.currVendorShow.lastName.length > 20 ?
+      this.currVendorShow.lastName?.substring(0, 20) + '...' :
       this.currVendorShow.lastName;
 
-    return `${formattedFirstName} ${formattedLastName} ( Mobile no. ${this.currVendorShow.mobileNumber} )`;
+    return `${formattedFirstName} ${formattedLastName} ( Mobile ${this.currVendorShow.mobileNumber} )`;
   }
 
 
