@@ -150,7 +150,7 @@
                         <div class="field col-6 required">
                             <label class=" required ">Order Quantity</label>
                             <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty"
-                                (input)="validateOrderQty()" placeholder="Ordered Quantity" NumbersOnly
+                                 placeholder="Ordered Quantity" NumbersOnly
                                 class="w-full" />
 
                             <error-message [controlName]="grLineForm.controls['orderedQty']"></error-message>
@@ -163,7 +163,7 @@
                         <div class="field col-6 required">
                             <label class="required">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
-                                (input)="validateConfirmedQty()" class="w-full" NumbersOnly />
+                                 class="w-full" NumbersOnly />
 
                             <error-message [controlName]="grLineForm.controls['confirmedQty']"></error-message>
 
@@ -178,7 +178,7 @@
                         <div class="field col-6 required">
                             <label class="required">Shipped Quantity</label>
                             <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
-                                (input)="validateShippedQty()" class="w-full" NumbersOnly />
+                                class="w-full" NumbersOnly />
 
                             <error-message [controlName]="grLineForm.controls['shippedQty']"></error-message>
 
@@ -192,7 +192,7 @@
                         <div class="field col-6 required">
                             <label class="required">Received Quantity</label>
                             <input pInputText formControlName="receivedQty" placeholder="Enter Received Quantity"
-                                (input)="validateReceivedQty()" class="w-full" NumbersOnly />
+                                 class="w-full" NumbersOnly />
 
                             <error-message [controlName]="grLineForm.controls['receivedQty']"></error-message>
 

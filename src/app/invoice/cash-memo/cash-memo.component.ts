@@ -323,14 +323,16 @@ export class CashMemoComponent implements OnInit {
   }
 
   selectVendor() { }
-
+  currValue : any ;
   billToSelect() {
       if (this.cashMemoForm.value.billToName == "Vendor") {
         this.vendorVisible = true;
+        this.currValue = 'Vendor';
         this.customerVisible = false;
       }
       else if (this.cashMemoForm.value.billToName == "Customer") {
         this.customerVisible = true;
+        this.currValue = 'Customer';
         this.vendorVisible = false;
       }
     
@@ -679,6 +681,7 @@ else{
     cashMemoFormVal.id = this.id;
     cashMemoFormVal.grossTotal = this.cashMemoSubTotal;
     cashMemoFormVal.comapny = this.currentCompany;
+   // alert(cashMemoFormVal);
 
     if (cashMemoFormVal.id) {
       this.submitted = true;

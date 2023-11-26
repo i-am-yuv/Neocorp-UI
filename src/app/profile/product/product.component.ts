@@ -134,7 +134,7 @@ export class ProductComponent implements OnInit {
             this.message.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Error while updating the Product',
+              detail: err.error.message,
               life: 3000,
             });
           })

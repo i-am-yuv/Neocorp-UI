@@ -570,38 +570,38 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  validateOrderedQty() {
-    if (Number(this.gsLineForm.value.orderedQty) > Number(this.currentLineTotal)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Order Quantity exceeded the limit ' + this.currentLineTotal,
-        life: 3000,
-      });
-    }
-  }
+  // validateOrderedQty() {
+  //   if (Number(this.gsLineForm.value.orderedQty) > Number(this.currentLineTotal)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Order Quantity exceeded the limit ' + this.currentLineTotal,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
 
-  validateConfirmedQty() {
-    if (Number(this.gsLineForm.value.confirmedQty) > Number(this.gsLineForm.value.orderedQty)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Confirmed Quantity exceeded the limit ' + this.gsLineForm.value.orderedQty,
-        life: 3000,
-      });
-    }
-  }
+  // validateConfirmedQty() {
+  //   if (Number(this.gsLineForm.value.confirmedQty) > Number(this.gsLineForm.value.orderedQty)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Confirmed Quantity exceeded the limit ' + this.gsLineForm.value.orderedQty,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
 
-  validateShippedQty() {
-    if (Number(this.gsLineForm.value.shippedQty) > Number(this.gsLineForm.value.confirmedQty)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Shipped Quantity exceeded the limit ' + this.gsLineForm.value.confirmedQty,
-        life: 3000,
-      });
-    }
-  }
+  // validateShippedQty() {
+  //   if (Number(this.gsLineForm.value.shippedQty) > Number(this.gsLineForm.value.confirmedQty)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Shipped Quantity exceeded the limit ' + this.gsLineForm.value.confirmedQty,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
 
 }
 

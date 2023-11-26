@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PayPageService } from 'src/app/pay/pay-page.service';
@@ -143,7 +143,18 @@ export class ReceiptNoteComponent implements OnInit {
       }),
       grossTotal: new FormControl(''),
       billToName: new FormControl('')
-    });
+    }, { validators: this.atLeastOneRequired.bind(this) });
+  }
+
+  atLeastOneRequired(control: AbstractControl): ValidationErrors | null {
+    const customer = control.get('customer.id')?.value;
+    const vendor = control.get('vendor.id')?.value;
+
+    if (!customer && !vendor) {
+      return { atLeastOneRequired: true };
+    }
+
+    return null;
   }
 
   availableRN() {
@@ -300,13 +311,16 @@ export class ReceiptNoteComponent implements OnInit {
 
   selectCustomer() { }
 
+  currValue : any ;
   billToSelect() {
     if (this.rnForm.value.billToName == "Vendor") {
       this.vendorVisible = true;
+      this.currValue = 'Vendor';
       this.customerVisible = false;
     }
     else if (this.rnForm.value.billToName == "Customer") {
       this.customerVisible = true;
+      this.currValue = 'Customer';
       this.vendorVisible = false;
     }
   }

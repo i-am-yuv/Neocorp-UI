@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
         {
           this.showDemoDashboard = true ;
         }
-        this.submitted = false;
+          this.submitted = false;
       }
     ).catch(
       (err) => {

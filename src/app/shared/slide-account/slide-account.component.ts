@@ -100,15 +100,15 @@ export class SlideAccountComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Debit Account Added',
-            detail: 'Please Wait for refresh',
+            detail: 'Processing, Please Wait for refresh',
             life: 3000,
           });
           this.newDebitAccountForm.reset();
           setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-          setTimeout(() => {
-            this.router.navigate(['/banking/accounts']);
+            this.reloadPageWithCustomURL() ;
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
           }, 2000);
           
         }
@@ -149,19 +149,19 @@ export class SlideAccountComponent implements OnInit {
         this.message.add({
           severity: 'success',
           summary: 'Credit Account Added',
-          detail: 'Please Wait for Refresh',
+          detail: 'Processing, Please Wait for Refresh',
           life: 3000,
         });
         this.newCreditAccountForm.reset();
-        //this.ngOnInit();
+
         setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        
-        setTimeout(() => {
-          this.router.navigate(['/banking/accounts']);
+          this.reloadPageWithCustomURL() ;
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }, 2000);
-        
+
+
       })
         .catch((err) => {
           console.log(err);
@@ -197,6 +197,13 @@ export class SlideAccountComponent implements OnInit {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  reloadPageWithCustomURL(): void {
+    const customURL = '/banking/accounts'; // Replace with your custom URL or route
+    this.router.navigateByUrl(customURL, { skipLocationChange: true }).then(() => {
+      this.router.navigate([customURL]);
+    });
   }
 
 }

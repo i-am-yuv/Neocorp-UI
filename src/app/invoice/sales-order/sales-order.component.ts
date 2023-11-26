@@ -404,6 +404,7 @@ export class SalesOrderComponent implements OnInit {
   delete(lineItem: SalesOrderLine) {
     this.DeleteDialLogvisible = true;
     this.currentDeleteLineItem = lineItem;
+    //alert(JSON.stringify(this.currentDeleteLineItem));
   }
 
   onRowEditSave(lineItem: SalesOrderLine) {

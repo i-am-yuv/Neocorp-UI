@@ -206,7 +206,7 @@ export class LoginComponent implements OnInit {
           this.message.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'OTP Varified, Sign Up Successfully',
+            detail: 'OTP Varified, Verification Successful',
             life: 3000,
           });
         setTimeout(() => {

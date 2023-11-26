@@ -12,4 +12,7 @@
 <div *ngIf="showDemoDashboard">
     <app-demo-dashboard></app-demo-dashboard>
 </div>
+<p-blockUI [blocked]="submitted">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+</p-blockUI>
 

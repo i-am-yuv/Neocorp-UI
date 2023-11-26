@@ -212,8 +212,9 @@ export class SignupComponent implements OnInit {
             detail: 'Invalid Sign Up, please check details',
             life: 3000,
           });
+          this.submitted = false;
         }
-        this.submitted = false;
+        
       })
       .catch((err) => {
         this.submitted = false;
@@ -246,9 +247,9 @@ export class SignupComponent implements OnInit {
       (res) => {
         if (res) {
           console.log(res);
-          this.submitted = false;
           sessionStorage.setItem('mobileNo', this.sendOtpFormat.mobile);
           sessionStorage.setItem('companyName', this.signUpForm.value.companyName);
+          this.submitted = false;
           this.message.add({
             severity: 'success',
             summary: 'Success',

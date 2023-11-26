@@ -55,7 +55,47 @@ export class ForgotPasswordComponent implements OnInit {
         life: 3000,
       });
     }
-     alert(JSON.stringify(this.pwdForm.value) ) ;
+    else{
+      alert(JSON.stringify(this.pwdForm.value) ) ;
+      // this.submitted = true;
+      // this.loginService
+      //   .resendOtp(this.loginForm.value.username)
+      //   .then( (res) => 
+      //   {
+      //     if( res.type == 'error' )
+      //     {
+      //       console.log(res);
+      //       this.submitted = false;
+      //       this.message.add({
+      //         severity: 'error',
+      //         summary: 'Error',
+      //         detail: res.message
+      //       });
+      //     }
+      //     else{
+      //       console.log(res);
+      //       this.submitted = false;
+      //       this.message.add({
+      //         severity: 'success',
+      //         summary: 'Success',
+      //         detail: 'OTP sent to the mobile'
+      //       });
+      //       this.startResendTimer();
+      //     }
+      //   }
+      //   ).catch((err) => {
+      //     console.log(err);
+      //     this.submitted = false;
+      //     this.message.add({
+      //       severity: 'error',
+      //       summary: 'Error',
+      //       detail: err.error.message
+      //     });
+      //   });
+    }
+
+
+
   }
 
   toggleFieldTextType() {

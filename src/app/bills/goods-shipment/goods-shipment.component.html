@@ -147,7 +147,7 @@
                             <label class="mr-3 required ">Order Quantity</label>
                             <input pInputText [(ngModel)]="poLineItemsTotal" formControlName="orderedQty"
                                 placeholder="Ordered Quantity" NumbersOnly class="w-full custom-input"
-                                (input)="validateOrderedQty()" />
+                                 />
 
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
 
@@ -160,7 +160,7 @@
                         <div class="field col-6 ">
                             <label class="mr-3 required">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
-                                (input)="validateConfirmedQty()" class="w-full custom-input" NumbersOnly />
+                                 class="w-full custom-input" NumbersOnly />
 
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
 
@@ -177,7 +177,7 @@
                         <div class="field col-6">
                             <label class="mr-3 required">Shipped Quantity</label>
                             <input pInputText formControlName="shippedQty" placeholder="Enter Shipped Quantity"
-                                (input)="validateShippedQty()" class="w-full custom-input" NumbersOnly />
+                                 class="w-full custom-input" NumbersOnly />
 
                             <error-message [controlName]="gsLineForm.controls['shippedQty']"></error-message>
 

@@ -80,10 +80,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-2 text-right">
+                                    <!-- <div class="col-2 text-right">
                                         <button type="button" pButton icon="pi pi-pencil"
                                             (click)="onEditVendor(item.id)" ></button>
+                                    </div> -->
+                                    <div class="col-2 text-right">
+                                        <div class="flex align-items-center w-full gap-1 mr-3 cursor-pointer"
+                                            (click)="onEditVendor(item.id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
+                                                viewBox="0 0 10 11" fill="none">
+                                                <g clip-path="url(#clip0_862_17281)">
+                                                    <path
+                                                        d="M7.0257 2.11389L7.72882 1.37075C8.03392 1.04829 8.52858 1.04829 8.83368 1.37075C9.13877 1.69321 9.13877 2.21602 8.83368 2.53848L4.40924 7.21469C4.18896 7.44751 3.91726 7.61864 3.6187 7.71264L2.5 8.06485L2.83324 6.88249C2.92218 6.56694 3.0841 6.27978 3.30438 6.04697L7.0257 2.11389ZM7.0257 2.11389L8.125 3.27574M7.5 6.30334V8.39513C7.5 8.94236 7.08027 9.38598 6.5625 9.38598H2.1875C1.66973 9.38598 1.25 8.94236 1.25 8.39513V3.77117C1.25 3.22394 1.66973 2.78032 2.1875 2.78032H4.16667"
+                                                        stroke="#6F7174" stroke-width="0.625" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_862_17281">
+                                                        <rect width="10" height="10.5691" fill="white"
+                                                            transform="translate(0 0.138184)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <div class="text-sm font-light hover:text-blue-600">Edit</div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -200,7 +222,8 @@
                                                     </div>
                                                     <div class="col-4 text-right">
                                                         <div class="">
-                                                            <p>Total: ₹{{myFunction(item.grossTotal ? item.grossTotal:'0') }}</p>
+                                                            <p>Total: ₹{{myFunction(item.grossTotal ?
+                                                                item.grossTotal:'0') }}</p>
                                                             <p *ngIf="item.requestStatus == 'APPROVED'"
                                                                 class="text-green-700">{{item.requestStatus}}</p>
                                                             <p *ngIf="item.requestStatus != 'APPROVED'" class="amd-col">
@@ -233,11 +256,13 @@
                                                     <div class="col-6 text-right">
                                                         <div class="">
                                                             <p>Remaining Amount:
-                                                                ₹{{myFunction(item.remainingAmount ? item.remainingAmount:'0')}}</p>
+                                                                ₹{{myFunction(item.remainingAmount ?
+                                                                item.remainingAmount:'0')}}</p>
                                                         </div>
                                                         <div class="">
 
-                                                            <p>Total: ₹{{ myFunction(item.grossTotal ? item.grossTotal:'0') 
+                                                            <p>Total: ₹{{ myFunction(item.grossTotal ?
+                                                                item.grossTotal:'0')
                                                                 }}
                                                             </p>
                                                         </div>

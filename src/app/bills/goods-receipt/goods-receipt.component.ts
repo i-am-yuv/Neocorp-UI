@@ -512,50 +512,50 @@ export class GoodsReceiptComponent implements OnInit {
     }
   }
 
-  validateOrderQty() {
-    //alert(this.grLineForm.value.orderedQty );
-    if (Number(this.grLineForm.value.orderedQty) > Number(this.currentLineItemTotal)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Order Quantity exceeded the limit ' + this.currentLineItemTotal,
-        life: 3000,
-      });
-    }
-  }
-  validateConfirmedQty() {
-    //alert(this.grLineForm.value.orderedQty );
-    if (Number(this.grLineForm.value.confirmedQty) > Number(this.grLineForm.value.orderedQty)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Confirmed Quantity exceeded the limit ' + this.grLineForm.value.orderedQty,
-        life: 3000,
-      });
-    }
-  }
-  validateShippedQty() {
-    //alert(this.grLineForm.value.shippedQty );
-    if (Number(this.grLineForm.value.shippedQty) > Number(this.grLineForm.value.confirmedQty)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Shipped Quantity exceeded the limit ' + this.grLineForm.value.confirmedQty,
-        life: 3000,
-      });
-    }
-  }
-  validateReceivedQty() {
-    //alert(this.grLineForm.value.orderedQty );
-    if (Number(this.grLineForm.value.receivedQty) > Number(this.grLineForm.value.shippedQty)) {
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Received Quantity exceeded the limit ' + this.grLineForm.value.shippedQty,
-        life: 3000,
-      });
-    }
-  }
+  // validateOrderQty() {
+  //   //alert(this.grLineForm.value.orderedQty );
+  //   if (Number(this.grLineForm.value.orderedQty) > Number(this.currentLineItemTotal)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Order Quantity exceeded the limit ' + this.currentLineItemTotal,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
+  // validateConfirmedQty() {
+  //   //alert(this.grLineForm.value.orderedQty );
+  //   if (Number(this.grLineForm.value.confirmedQty) > Number(this.grLineForm.value.orderedQty)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Confirmed Quantity exceeded the limit ' + this.grLineForm.value.orderedQty,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
+  // validateShippedQty() {
+  //   //alert(this.grLineForm.value.shippedQty );
+  //   if (Number(this.grLineForm.value.shippedQty) > Number(this.grLineForm.value.confirmedQty)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Shipped Quantity exceeded the limit ' + this.grLineForm.value.confirmedQty,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
+  // validateReceivedQty() {
+  //   //alert(this.grLineForm.value.orderedQty );
+  //   if (Number(this.grLineForm.value.receivedQty) > Number(this.grLineForm.value.shippedQty)) {
+  //     this.message.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Received Quantity exceeded the limit ' + this.grLineForm.value.shippedQty,
+  //       life: 3000,
+  //     });
+  //   }
+  // }
 
 
 }
