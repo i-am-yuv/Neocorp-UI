@@ -103,8 +103,16 @@ export class EkycComponent implements OnInit {
     this.submitted= true;
     this.loginService.verifyAadhar(this.eKycForm.value.aadhaarNumber).
       then((res) => {
-        if (res) {
-          console.log("Aadhar Verification Initiated");
+        if(res.data.message == "Invalid Aadhaar Card"){
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Aadhar Verify Error',
+            detail: res.data.message,
+            life: 3000,
+          });
+        }
+        else{
           this.submitted = false;
           console.log(res);
           if (res.data.ref_id != null) {
@@ -125,15 +133,6 @@ export class EkycComponent implements OnInit {
             this.submitted = false;
             console.log("Aadhar Ref ID is Null");
           }
-          this.submitted = false;
-        } else {
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Aadhar Verify Error',
-            detail: 'Invalid Aadhar, please check your Aadhar Number',
-            life: 3000,
-          });
           this.submitted = false;
         }
       })
