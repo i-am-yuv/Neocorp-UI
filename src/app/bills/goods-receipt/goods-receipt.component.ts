@@ -513,35 +513,28 @@ export class GoodsReceiptComponent implements OnInit {
   }
   //grLineForm.controls['orderedQty'].value > this.currentLineItemTotal
 
-  orderValid: boolean = false;
-  confirmedValid: boolean = false;
-  shippedValid: boolean = false;
-  receivedValid: boolean = false;
 
   isQuantityExceededOrdered(): boolean {
     const orderedQty1 = Number(this.grLineForm.controls['orderedQty'].value);
     const compareValue = Number(this.currentLineItemTotal);
-    this.orderValid = (orderedQty1 > compareValue);
+    
     return (orderedQty1 > compareValue);
   }
 
   isQuantityExceededConfirmed(): boolean {
     const confirmedQty1 = Number(this.grLineForm.controls['confirmedQty'].value);
     const orderedQty1 = Number(this.grLineForm.controls['orderedQty'].value);
-    this.confirmedValid = (confirmedQty1 > orderedQty1);
     return (confirmedQty1 > orderedQty1);
   }
 
   isQuantityExceededShip(): boolean {
     const confirmedQty1 = Number(this.grLineForm.controls['confirmedQty'].value);
     const shippedQty1 = Number(this.grLineForm.controls['shippedQty'].value);
-    this.shippedValid = (shippedQty1 > confirmedQty1);
     return (shippedQty1 > confirmedQty1);
   }
   isQuantityExceededReceived(): boolean {
     const receivedQty1 = Number(this.grLineForm.controls['receivedQty'].value);
     const shippedQty1 = Number(this.grLineForm.controls['shippedQty'].value);
-    this.receivedValid = (receivedQty1 > shippedQty1);
     return (receivedQty1 > shippedQty1);
   }
 

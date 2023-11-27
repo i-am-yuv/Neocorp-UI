@@ -152,7 +152,7 @@
                             <error-message [controlName]="gsLineForm.controls['orderedQty']"></error-message>
 
                             <div class="text-red-400 text-sm"
-                                *ngIf="gsLineForm.controls['orderedQty'].value > this.currentLineTotal">
+                                *ngIf="isQuantityExceededOrdered()">
                                 <span>Order Quantity exceeded the limit {{this.currentLineTotal}}</span>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                             <error-message [controlName]="gsLineForm.controls['confirmedQty']"></error-message>
 
                             <div class="text-red-400 text-sm"
-                                *ngIf="gsLineForm.controls['confirmedQty'].value > gsLineForm.controls['orderedQty'].value">
+                                *ngIf="isQuantityExceededConfirmed()">
                                 <span>Confirmed Quantity exceeded the limit
                                     {{this.gsLineForm.controls['orderedQty'].value}}</span>
                             </div>
@@ -182,7 +182,7 @@
                             <error-message [controlName]="gsLineForm.controls['shippedQty']"></error-message>
 
                             <div class="text-red-400 text-sm"
-                                *ngIf="gsLineForm.controls['shippedQty'].value > gsLineForm.controls['confirmedQty'].value">
+                                *ngIf="isQuantityExceededShip()">
                                 <span>Shipped Quantity exceeded the limit
                                     {{this.gsLineForm.controls['confirmedQty'].value}}</span>
                             </div>
@@ -195,11 +195,8 @@
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelGS()"
                         class="mr-3 p-button-secondary"></button>
-                    <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()" [disabled]="!gsLineForm.valid || !gsForm.valid 
-                        || this.gsLineForm.value.orderedQty <= 0 
-                        || this.gsLineForm.value.orderedQty > this.currentLineTotal
-                        || this.gsLineForm.value.confirmedQty > this.gsLineForm.value.orderedQty 
-                        || this.gsLineForm.value.shippedQty > this.gsLineForm.value.confirmedQty"
+                    <button type="button" pButton label="Save Goods Shipment" (click)="onSubmitGSLine()" 
+                    [disabled]="buttonDisabled()"
                         class="mr-3 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 

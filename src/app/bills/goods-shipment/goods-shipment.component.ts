@@ -570,39 +570,32 @@ export class GoodsShipmentComponent implements OnInit {
     }
   }
 
-  // validateOrderedQty() {
-  //   if (Number(this.gsLineForm.value.orderedQty) > Number(this.currentLineTotal)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Order Quantity exceeded the limit ' + this.currentLineTotal,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
+  isQuantityExceededOrdered(): boolean {
+    const orderedQty1 = Number(this.gsLineForm.controls['orderedQty'].value);
+    const compareValue = Number(this.currentLineTotal);
+    
+    return (orderedQty1 > compareValue);
+  }
 
-  // validateConfirmedQty() {
-  //   if (Number(this.gsLineForm.value.confirmedQty) > Number(this.gsLineForm.value.orderedQty)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Confirmed Quantity exceeded the limit ' + this.gsLineForm.value.orderedQty,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
+  isQuantityExceededConfirmed(): boolean {
+    const confirmedQty1 = Number(this.gsLineForm.controls['confirmedQty'].value );
+    const orderedQty1 = Number(this.gsLineForm.controls['orderedQty'].value);
+    return (confirmedQty1 > orderedQty1);
+  }
 
-  // validateShippedQty() {
-  //   if (Number(this.gsLineForm.value.shippedQty) > Number(this.gsLineForm.value.confirmedQty)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Shipped Quantity exceeded the limit ' + this.gsLineForm.value.confirmedQty,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
+  isQuantityExceededShip(): boolean {
+    const shippedQty1 = Number(this.gsLineForm.controls['shippedQty'].value);
+    const confirmedQty1 = Number(this.gsLineForm.controls['confirmedQty'].value);
+    return (shippedQty1 > confirmedQty1);
+  }
 
+  buttonDisabled()
+  {
+     var checkFirst = this.isQuantityExceededOrdered();
+     var checkSec = this.isQuantityExceededConfirmed() ;
+     var checkThird = this.isQuantityExceededShip() ;
+    return !this.gsLineForm.valid || !this.gsForm.valid || this.gsLineForm.value.orderedQty <= 0  || checkFirst || checkSec || checkThird ;
+  }
 }
 
 
