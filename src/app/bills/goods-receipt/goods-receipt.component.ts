@@ -56,6 +56,7 @@ export class GoodsReceiptComponent implements OnInit {
 
   salesLineItemsTotal: number = 0;
   currentLineItemTotal: number = 0;
+
   currentCompany: CompanyNew = {};
 
   constructor(private router: Router,
@@ -309,8 +310,7 @@ export class GoodsReceiptComponent implements OnInit {
     this.grSubTotal = 0;
     this.salesLineItemsTotal = 0;
 
-    if(this.currentCustomer.id != null )
-    {
+    if (this.currentCustomer.id != null) {
       this.loadSalesOrder();
     }
   }
@@ -455,7 +455,7 @@ export class GoodsReceiptComponent implements OnInit {
     grFormVal.salesOrder.id = this.currSalesOrder.id;
 
     // grFormVal.comapny = this.currentCompany ;
-    alert(JSON.stringify(grFormVal));
+    // alert(JSON.stringify(grFormVal));
     if (grFormVal.id) {
       this.submitted = true;
       this.billS.updateGoodsReceiptLine(grFormVal).then((data: any) => {
@@ -511,51 +511,47 @@ export class GoodsReceiptComponent implements OnInit {
         });
     }
   }
+  //grLineForm.controls['orderedQty'].value > this.currentLineItemTotal
 
-  // validateOrderQty() {
-  //   //alert(this.grLineForm.value.orderedQty );
-  //   if (Number(this.grLineForm.value.orderedQty) > Number(this.currentLineItemTotal)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Order Quantity exceeded the limit ' + this.currentLineItemTotal,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
-  // validateConfirmedQty() {
-  //   //alert(this.grLineForm.value.orderedQty );
-  //   if (Number(this.grLineForm.value.confirmedQty) > Number(this.grLineForm.value.orderedQty)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Confirmed Quantity exceeded the limit ' + this.grLineForm.value.orderedQty,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
-  // validateShippedQty() {
-  //   //alert(this.grLineForm.value.shippedQty );
-  //   if (Number(this.grLineForm.value.shippedQty) > Number(this.grLineForm.value.confirmedQty)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Shipped Quantity exceeded the limit ' + this.grLineForm.value.confirmedQty,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
-  // validateReceivedQty() {
-  //   //alert(this.grLineForm.value.orderedQty );
-  //   if (Number(this.grLineForm.value.receivedQty) > Number(this.grLineForm.value.shippedQty)) {
-  //     this.message.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Received Quantity exceeded the limit ' + this.grLineForm.value.shippedQty,
-  //       life: 3000,
-  //     });
-  //   }
-  // }
+  orderValid: boolean = false;
+  confirmedValid: boolean = false;
+  shippedValid: boolean = false;
+  receivedValid: boolean = false;
 
+  isQuantityExceededOrdered(): boolean {
+    const orderedQty1 = Number(this.grLineForm.controls['orderedQty'].value);
+    const compareValue = Number(this.currentLineItemTotal);
+    this.orderValid = (orderedQty1 > compareValue);
+    return (orderedQty1 > compareValue);
+  }
+
+  isQuantityExceededConfirmed(): boolean {
+    const confirmedQty1 = Number(this.grLineForm.controls['confirmedQty'].value);
+    const orderedQty1 = Number(this.grLineForm.controls['orderedQty'].value);
+    this.confirmedValid = (confirmedQty1 > orderedQty1);
+    return (confirmedQty1 > orderedQty1);
+  }
+
+  isQuantityExceededShip(): boolean {
+    const confirmedQty1 = Number(this.grLineForm.controls['confirmedQty'].value);
+    const shippedQty1 = Number(this.grLineForm.controls['shippedQty'].value);
+    this.shippedValid = (shippedQty1 > confirmedQty1);
+    return (shippedQty1 > confirmedQty1);
+  }
+  isQuantityExceededReceived(): boolean {
+    const receivedQty1 = Number(this.grLineForm.controls['receivedQty'].value);
+    const shippedQty1 = Number(this.grLineForm.controls['shippedQty'].value);
+    this.receivedValid = (receivedQty1 > shippedQty1);
+    return (receivedQty1 > shippedQty1);
+  }
+
+  buttonDisabled()
+  {
+     var checkFirst = this.isQuantityExceededOrdered();
+     var checkSec = this.isQuantityExceededConfirmed() ;
+     var checkThird = this.isQuantityExceededShip() ;
+     var checkFour = this.isQuantityExceededReceived() ;
+    return !this.grLineForm.valid || !this.grForm.valid || this.grLineForm.value.orderedQty == 0 || checkFirst || checkSec || checkThird || checkFour ;
+  }
 
 }

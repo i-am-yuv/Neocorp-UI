@@ -176,7 +176,7 @@
 
                                         <div class="field col-6">
                                             <label class="blueText">Shipping Address</label>
-                                            <div *ngIf="this.activeGS.vendor?.address?.shippingName == null">
+                                            <div *ngIf="this.activeGS.vendor?.address?.shippingName == null  || this.activeGS.vendor?.address?.shippingName == '' ">
                                                 <p>{{this.activeGS.vendor?.address?.billingName ? this.activeGS.vendor?.address?.billingName : 'Nil'}}</p>
                                                 <p>{{this.activeGS.vendor?.address?.billingAddress}}</p>
                                                 <p>{{this.activeGS.vendor?.address?.city}}

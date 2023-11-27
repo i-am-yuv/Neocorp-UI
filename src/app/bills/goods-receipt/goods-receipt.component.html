@@ -150,25 +150,22 @@
                         <div class="field col-6 required">
                             <label class=" required ">Order Quantity</label>
                             <input pInputText [(ngModel)]="salesLineItemsTotal" formControlName="orderedQty"
-                                 placeholder="Ordered Quantity" NumbersOnly
-                                class="w-full" />
+                                placeholder="Ordered Quantity" NumbersOnly class="w-full" />
 
                             <error-message [controlName]="grLineForm.controls['orderedQty']"></error-message>
 
-                            <div class="text-red-400 text-sm"
-                                *ngIf="grLineForm.controls['orderedQty'].value > this.currentLineItemTotal">
+                            <div class="text-red-400 text-sm" *ngIf="isQuantityExceededOrdered()">
                                 <span>Order Quantity exceeded the limit {{this.currentLineItemTotal}}</span>
                             </div>
                         </div>
                         <div class="field col-6 required">
                             <label class="required">Confirmed Quantity</label>
                             <input pInputText formControlName="confirmedQty" placeholder="Enter Confirmed Quantity"
-                                 class="w-full" NumbersOnly />
+                                class="w-full" NumbersOnly />
 
                             <error-message [controlName]="grLineForm.controls['confirmedQty']"></error-message>
 
-                            <div class="text-red-400 text-sm"
-                                *ngIf="grLineForm.controls['confirmedQty'].value > grLineForm.controls['orderedQty'].value">
+                            <div class="text-red-400 text-sm" *ngIf="isQuantityExceededConfirmed()">
                                 <span>Confirmed Quantity exceeded the limit
                                     {{this.grLineForm.controls['orderedQty'].value}}</span>
                             </div>
@@ -182,8 +179,7 @@
 
                             <error-message [controlName]="grLineForm.controls['shippedQty']"></error-message>
 
-                            <div class="text-red-400 text-sm"
-                                *ngIf="grLineForm.controls['shippedQty'].value > grLineForm.controls['confirmedQty'].value">
+                            <div class="text-red-400 text-sm" *ngIf="isQuantityExceededShip()">
                                 <span>Shipped Quantity exceeded the limit
                                     {{this.grLineForm.controls['confirmedQty'].value}}</span>
                             </div>
@@ -192,12 +188,11 @@
                         <div class="field col-6 required">
                             <label class="required">Received Quantity</label>
                             <input pInputText formControlName="receivedQty" placeholder="Enter Received Quantity"
-                                 class="w-full" NumbersOnly />
+                                class="w-full" NumbersOnly />
 
                             <error-message [controlName]="grLineForm.controls['receivedQty']"></error-message>
 
-                            <div class="text-red-400 text-sm"
-                                *ngIf="grLineForm.controls['receivedQty'].value > grLineForm.controls['shippedQty'].value">
+                            <div class="text-red-400 text-sm" *ngIf="isQuantityExceededReceived()">
                                 <span>Received Quantity exceeded the limit
                                     {{this.grLineForm.controls['shippedQty'].value}}</span>
                             </div>
@@ -209,11 +204,8 @@
                 <div class="border-bottom-1 border-200 text-right p-3">
                     <button type="button" pButton label="Close" (click)="OnCancelGR()"
                         class="mr-3 p-button-secondary"></button>
-                    <button type="button" pButton label="Save Goods Receipt" (click)="onSubmitGRLine()" [disabled]="!grLineForm.valid || !grForm.valid || this.grLineForm.value.orderedQty == 0 
-                        || this.grLineForm.value.orderedQty > this.currentLineItemTotal
-                        || this.grLineForm.value.confirmedQty > this.grLineForm.value.orderedQty
-                        || this.grLineForm.value.shippedQty > this.grLineForm.value.confirmedQty
-                        || this.grLineForm.value.receivedQty > this.grLineForm.value.shippedQty "
+                    <button type="button" pButton label="Save Goods Receipt" (click)="onSubmitGRLine()" 
+                    [disabled]="buttonDisabled()"
                         class="mr-3 bg-blue-500 text-white px-4 py-2.5 rounded-md hover:bg-blue-600 "></button>
                 </div>
 
