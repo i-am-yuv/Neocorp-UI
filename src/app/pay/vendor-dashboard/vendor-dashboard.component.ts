@@ -119,7 +119,11 @@ export class VendorDashboardComponent implements OnInit {
     this.submitted = true;
     this.payServices.getPurchageOrderById(vendor).then((res: any) => {
       console.log(res);
-      this.allPurchaseOrders = res;
+      this.temp = res;
+      this.allPurchaseOrders = [...this.temp].sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+     // this.allPurchaseOrders = res;
       this.submitted = false;
     })
       .catch((err) => {

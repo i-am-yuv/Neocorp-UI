@@ -211,11 +211,10 @@ export class ReceiptNoteComponent implements OnInit {
           this.currReceiptNote = receiptNote;
           this.rnForm.patchValue(receiptNote);
           this.submitted = false;
-          if( receiptNote.customer == null )
-          {
+          if (receiptNote.customer == null) {
             this.rnForm.value.billToName = 'Vendor';
           }
-          else{
+          else {
             this.rnForm.value.billToName = 'Customer';
           }
           this.billToSelect();
@@ -311,7 +310,7 @@ export class ReceiptNoteComponent implements OnInit {
 
   selectCustomer() { }
 
-  currValue : any ;
+  currValue: any;
   billToSelect() {
     if (this.rnForm.value.billToName == "Vendor") {
       this.vendorVisible = true;
@@ -405,26 +404,26 @@ export class ReceiptNoteComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: rnLineItem) {
@@ -441,31 +440,31 @@ export class ReceiptNoteComponent implements OnInit {
 
   setLineQtyValuesPrice(e: any, lineItem: rnLineItem) { }
 
-  setLineQtyValuesDiscount(e: any, lineItem: rnLineItem) { 
-    
+  setLineQtyValuesDiscount(e: any, lineItem: rnLineItem) {
+
   }
-//   setLineQtyValuesDiscount(event: any, lineItem: any): void {
-//     // Assuming lineItem.unitPrice and lineItem.discount are numbers
-//     const discountValue = parseFloat(event.target.value);
-//     const unitPrice = lineItem.unitPrice;
+  //   setLineQtyValuesDiscount(event: any, lineItem: any): void {
+  //     // Assuming lineItem.unitPrice and lineItem.discount are numbers
+  //     const discountValue = parseFloat(event.target.value);
+  //     const unitPrice = lineItem.unitPrice;
 
-//     if (discountValue > unitPrice) {
-//         // If discount is greater than unit price, set discount to unit price
-//         lineItem.discount = unitPrice;
-//     } else {
-//         lineItem.discount = discountValue;
-//     }
+  //     if (discountValue > unitPrice) {
+  //         // If discount is greater than unit price, set discount to unit price
+  //         lineItem.discount = unitPrice;
+  //     } else {
+  //         lineItem.discount = discountValue;
+  //     }
 
-//     // Add any other logic you need to update the line item or perform additional actions
-// }
+  //     // Add any other logic you need to update the line item or perform additional actions
+  // }
 
   onRowEditInit(lineItem: rnLineItem) { }
 
   onRowEditSave(lineItem: rnLineItem) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -473,92 +472,92 @@ export class ReceiptNoteComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currReceiptNote) ;
-       this.newRecord = false;
-    }
-else{
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    if (lineItem.discount == null || lineItem.discount == 0) { }
-
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currReceiptNote);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.receiptNote = this.currReceiptNote; // this line will be change
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      if (lineItem.discount == null || lineItem.discount == 0) { }
 
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
 
-
-      this.newRecord = false;
-      this.islineAvaliable = true;
-
-      var _lineItem = lineItem;
-      if (_lineItem.id) {
-
-        // line line item should have id inside
-        this.submitted = true;
-        this.usedService.updateReceiptNoteLineItem(lineItem).then((res) => {
-          this.submitted = false;
-          _lineItem = res;
-          this.getReceiptNote();
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Receipt Note Line Item Updated Successfully',
-            life: 3000,
-          });
-        })
-          .catch((err) => {
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Error While updating Line Item',
-              life: 3000,
-            });
-          })
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
       }
       else {
-        this.submitted = true;
-        this.usedService.createReceiptNoteLineItem(lineItem).then((res) => {
-          console.log(res);
-          _lineItem = res;
-          this.getReceiptNote();
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Receipt Note Line item Added',
-            life: 3000,
-          });
-        })
-          .catch((err) => {
-            console.log(err);
+        lineItem.expenseName = currentProduct;
+        lineItem.receiptNote = this.currReceiptNote; // this line will be change
+
+
+
+        this.newRecord = false;
+        this.islineAvaliable = true;
+
+        var _lineItem = lineItem;
+        if (_lineItem.id) {
+
+          // line line item should have id inside
+          this.submitted = true;
+          this.usedService.updateReceiptNoteLineItem(lineItem).then((res) => {
             this.submitted = false;
+            _lineItem = res;
+            this.getReceiptNote();
             this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Error while Adding Line Item',
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Receipt Note Line Item Updated Successfully',
               life: 3000,
             });
           })
+            .catch((err) => {
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error While updating Line Item',
+                life: 3000,
+              });
+            })
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createReceiptNoteLineItem(lineItem).then((res) => {
+            console.log(res);
+            _lineItem = res;
+            this.getReceiptNote();
+            this.submitted = false;
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Receipt Note Line item Added',
+              life: 3000,
+            });
+          })
+            .catch((err) => {
+              console.log(err);
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error while Adding Line Item',
+                life: 3000,
+              });
+            })
+        }
       }
     }
   }
-  }
 
 
-  
+
 
   onRowEditCancel(lineItem: rnLineItem, index: any) {
     if (this.newRecord) {
@@ -723,11 +722,16 @@ else{
     this.submitted = true;
     this.usedService.deleteReceiptNoteLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
+      if (this.lineitems.length > 0) {
+        this.rnSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+      }
+      else{
+        this.rnSubTotal = 0;
+      }
 
-      this.rnSubTotal = this.lineitems.reduce((total, lineItem) => {
-        total + lineItem.amount, 0
-      });
-
+   //   alert(JSON.stringify(this.rnSubTotal) ) ;
       this.deleteDialogvisible = false;
       this.submitted = false;
       this.message.add({
@@ -741,17 +745,18 @@ else{
         console.log(err);
         this.submitted = false;
         this.deleteDialogvisible = false;
+
         this.message.add({
           severity: 'error',
           summary: 'Error',
           detail: 'Line item Deletion Error, Please refresh and try again',
           life: 3000,
         });
+
       });
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

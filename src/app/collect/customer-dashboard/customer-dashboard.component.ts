@@ -22,6 +22,8 @@ export class CustomerDashboardComponent implements OnInit {
   allCustomerOrders: any[] = []; // customer only have Purchase Orders
 
   allCustomerSI: any[] = [];
+  temp: any[] = [];
+
 
   activeCustomer: CustomeR = {};
 
@@ -106,7 +108,12 @@ export class CustomerDashboardComponent implements OnInit {
     this.submitted = true;
     this.collectS.allSalesInvoicesById(customer).then((res: any) => {
       console.log(res);
-      this.allCustomerSI = res;
+     // this.allCustomerSI = res;
+
+      this.temp = res;
+      this.allCustomerSI = [...this.temp].sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
 
       this.totalRemainingAmount = this.allCustomerSI.reduce(
         (total, oneSI) => total + oneSI.remainingAmount, 0
@@ -135,7 +142,12 @@ export class CustomerDashboardComponent implements OnInit {
     this.submitted = true;
     this.collectS.allSalesOrdersById(customer).then((res: any) => {
       console.log(res);
-      this.allCustomerOrders = res;
+     // this.allCustomerOrders = res;
+      this.temp = res;
+
+      this.allCustomerOrders = [...this.temp].sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
       //this.totalRecords = res.totalElements;
       this.submitted = false;
     })

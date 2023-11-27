@@ -734,9 +734,15 @@ else{
     this.usedService.deleteCashMemoLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-      this.cashMemoSubTotal = this.lineitems.reduce((total, lineItem) => {
-        total + lineItem.amount, 0
-      });
+      if( this.lineitems.length > 0  )
+      {
+        this.cashMemoSubTotal = this.lineitems.reduce(
+          (total, lineItem) => total + lineItem.amount, 0
+        );
+      }
+      else{
+        this.cashMemoSubTotal = 0 ;
+      }
 
       this.deleteDialogvisible = false;
       this.submitted = false;
