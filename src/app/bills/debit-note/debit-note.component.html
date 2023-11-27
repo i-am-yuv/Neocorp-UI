@@ -219,7 +219,7 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" maxlength="8"/>
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}

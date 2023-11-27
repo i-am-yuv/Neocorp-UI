@@ -55,9 +55,11 @@ export class ProductComponent implements OnInit {
 
     if (this.id === null) {
       this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Create' }]);
-    } else {
+    }
+    else {
       this.breadCrumbService.breadCrumb([{ label: 'Product', routerLink: ['/profile/products'] }, { label: 'Edit' }]);
     }
+
     this.route.url.subscribe(segments => {
       let lastSegment = segments[segments.length - 1];
       if (lastSegment && lastSegment.path == 'create') {
@@ -111,51 +113,48 @@ export class ProductComponent implements OnInit {
 
     if (productFormVal.id) {
       this.submitted = true;
-      this.profileS.updateProduct(productFormVal)
-        .then((res: any) => {
-          console.log(res);
-          this.productForm.patchValue = { ...res };
+      this.profileS.updateProduct(productFormVal).then((res: any) => {
+        console.log(res);
+        this.productForm.patchValue = { ...res };
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product updated',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/profile/products']);
+        }, 2000);
+
+      })
+        .catch((err) => {
+          console.log(err);
           this.submitted = false;
           this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Product updated',
+            severity: 'error',
+            summary: 'Error',
+            detail: err.error.message,
             life: 3000,
           });
-          setTimeout(() => {
-            this.router.navigate(['/profile/products']);
-          }, 2000);
-
         })
-        .catch(
-          (err) => {
-            console.log(err);
-            this.submitted = false;
-            this.message.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: err.error.message,
-              life: 3000,
-            });
-          })
-    } else {
+    }
+    else {
       productFormVal.user = this.currentUser;
-      this.profileS.createProduct(productFormVal).then(
-        (res) => {
-          console.log(res);
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Product Added Successfully',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['/profile/products']);
-          }, 2000);
+      this.profileS.createProduct(productFormVal).then((res) => {
+        console.log(res);
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product Added Successfully',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['/profile/products']);
+        }, 2000);
 
-        }
-      ).catch(
-        (err) => {
+      })
+        .catch((err) => {
           this.message.add({
             severity: 'error',
             summary: 'Error',
@@ -189,9 +188,11 @@ export class ProductComponent implements OnInit {
 
       if (count > 0) {
         this.router.navigate(['/profile/products']);
-      } else {
+      }
+      else {
         this.createNew = false;
       }
+
     })
       .catch((err) => {
         console.log(err);
@@ -222,14 +223,12 @@ export class ProductComponent implements OnInit {
 
   loadCategories() {
     this.submitted = true;
-    this.profileS.getAllProductCategory(this.currentUser).then(
-      (res) => {
-        this.category = res;
-        console.log(res);
-        this.submitted = false;
-      }
-    ).catch(
-      (err) => {
+    this.profileS.getAllProductCategory(this.currentUser).then((res) => {
+      this.category = res;
+      console.log(res);
+      this.submitted = false;
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -238,8 +237,7 @@ export class ProductComponent implements OnInit {
           detail: 'Error while fetching the product categories',
           life: 3000,
         });
-      }
-    )
+      })
   }
 
   // Cancel Product

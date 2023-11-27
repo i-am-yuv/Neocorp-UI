@@ -156,10 +156,10 @@ export class CreditNoteComponent implements OnInit {
   minEndDate!: Date;
 
   updateEndDateMinDate(selectedStartDate: Date) {
-     // Update the minimum end date based on the selected start date
-     this.minEndDate = selectedStartDate;
-   }
- 
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+  }
+
 
 
   availableCN() {
@@ -429,8 +429,8 @@ export class CreditNoteComponent implements OnInit {
   onRowEditSave(lineItem: cnLineItem) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -438,97 +438,97 @@ export class CreditNoteComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currCreditNote) ;
-       this.newRecord = false;
-    }
-else{
-    // alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
-
-    }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currCreditNote);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.creditNote = this.currCreditNote; // this line will be change
+      // alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) {
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      }
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
 
-      var _lineItem = lineItem;
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.creditNote = this.currCreditNote; // this line will be change
 
-      if (_lineItem.id) {
-        // alert("Update Line Item Entered");
-        // line line item should have id inside
-        this.submitted = true;
-        this.usedService.updateCreditNoteLineItem(lineItem).then(
-          (res) => {
-            console.log("Line Item Updated Successfully");
-            _lineItem = res;
-            // this.lineitem.Amount = res.Amount;
-            this.getCreditNote();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Updated',
-              detail: 'Credit Note Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
+
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          // alert("Update Line Item Entered");
+          // line line item should have id inside
+          this.submitted = true;
+          this.usedService.updateCreditNoteLineItem(lineItem).then(
+            (res) => {
+              console.log("Line Item Updated Successfully");
+              _lineItem = res;
+              // this.lineitem.Amount = res.Amount;
+              this.getCreditNote();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Line item Updated',
+                detail: 'Credit Note Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line item Update Error',
+                detail: 'Error While updating Credit Note Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createCreditNoteLineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              this.getCreditNote();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Line item Added',
+                detail: 'Credit Note Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
+            console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Line item Update Error',
-              detail: 'Error While updating Credit Note Line Item',
+              summary: 'Line Item Error',
+              detail: 'Error while Adding Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.usedService.createCreditNoteLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.getCreditNote();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Added',
-              detail: 'Credit Note Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Line Item Error',
-            detail: 'Error while Adding Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: cnLineItem, index: any) {
@@ -555,20 +555,33 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
-    else {
-      this.uploadFileName = '+ Upload your file';
-    }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   upload() {

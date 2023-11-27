@@ -121,9 +121,9 @@ export class DebitNoteComponent implements OnInit {
   minEndDate!: Date;
 
   updateEndDateMinDate(selectedStartDate: Date) {
-     // Update the minimum end date based on the selected start date
-     this.minEndDate = selectedStartDate;
-   }
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+  }
 
 
   availableDN() {
@@ -386,8 +386,8 @@ export class DebitNoteComponent implements OnInit {
   onRowEditSave(lineItem: dnLineItem) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -395,96 +395,96 @@ export class DebitNoteComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currDebitNote) ;
-       this.newRecord = false;
-    }
-else{
-
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
-
-    }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currDebitNote);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.debitNote = this.currDebitNote; // this line will be change
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) {
 
-      var _lineItem = lineItem;
+      }
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.debitNote = this.currDebitNote; // this line will be change
 
-      if (_lineItem.id) {
-        // line line item should have id inside
-        this.submitted = true;
-        this.usedService.updateDebitNoteLineItem(lineItem).then(
-          (res) => {
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
 
-            _lineItem = res;
-            // this.lineitem.Amount = res.Amount;
-            this.submitted = false;
-            this.getDebitNote();
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Debit Note Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          // line line item should have id inside
+          this.submitted = true;
+          this.usedService.updateDebitNoteLineItem(lineItem).then(
+            (res) => {
+
+              _lineItem = res;
+              // this.lineitem.Amount = res.Amount;
+              this.submitted = false;
+              this.getDebitNote();
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Debit Note Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Debit Note Error While updating Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createDebitNoteLineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              this.submitted = false;
+              this.getDebitNote();
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Debit Note Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
+            console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Debit Note Error While updating Line Item',
+              detail: 'Error while Adding Debit Note Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.usedService.createDebitNoteLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.submitted = false;
-            this.getDebitNote();
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Debit Note Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error while Adding Debit Note Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: dnLineItem, index: any) {
@@ -511,19 +511,33 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
-    } else {
-      this.uploadFileName = '+ Upload your file';
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   upload() {

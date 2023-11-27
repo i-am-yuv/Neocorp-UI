@@ -233,8 +233,10 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                        <input pInputText NumbersOnly
+                                            [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice"
+                                            class="w-full" (onInput)="setLineQtyValuesQuantity($event, lineItem)"
+                                            [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -250,7 +252,8 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true"
+                                            maxlength="8" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}

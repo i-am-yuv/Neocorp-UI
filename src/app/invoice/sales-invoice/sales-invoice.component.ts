@@ -22,10 +22,10 @@ export class SalesInvoiceComponent implements OnInit {
   DeleteDialLogvisible: boolean = false;
   currCustomer: CustomeR = {};
 
-  currCustomerShow : any = {
-    'displayName':'Nil',
-    'mobileNumber':'Nil'
-  } ;
+  currCustomerShow: any = {
+    'displayName': 'Nil',
+    'mobileNumber': 'Nil'
+  };
 
   submitted: boolean = false;
   createNew: boolean = false;
@@ -130,7 +130,7 @@ export class SalesInvoiceComponent implements OnInit {
 
   minEndDate!: Date;
 
- updateEndDateMinDate(selectedStartDate: Date) {
+  updateEndDateMinDate(selectedStartDate: Date) {
     // Update the minimum end date based on the selected start date
     this.minEndDate = selectedStartDate;
   }
@@ -315,7 +315,7 @@ export class SalesInvoiceComponent implements OnInit {
       (res) => {
         this.submitted = false;
         this.currCustomer = res.customer;
-        this.currCustomerShow = res.customer ;
+        this.currCustomerShow = res.customer;
         this.siForm.get('customer.id')?.setValue(res.customer?.id || null);
 
       }
@@ -435,26 +435,26 @@ export class SalesInvoiceComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the Product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the Product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: SalesInvoiceLine) {
@@ -490,8 +490,8 @@ export class SalesInvoiceComponent implements OnInit {
   onRowEditSave(lineItem: SalesInvoiceLine) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -499,95 +499,95 @@ export class SalesInvoiceComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currSI) ;
-       this.newRecord = false;
-    }
-else{
-    // alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
-
-    }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currSI);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.salesInvoice = this.currSI; // this line will be change
+      // alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) {
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      }
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.salesInvoice = this.currSI; // this line will be change
 
-      var _lineItem = lineItem;
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
 
-      if (_lineItem.id) {
+        var _lineItem = lineItem;
 
-        this.submitted = true;
-        this.usedService.updateSILineItem(lineItem).then(
-          (res) => {
-            _lineItem = res;
+        if (_lineItem.id) {
 
-            this.getSI();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Sucess',
-              detail: 'Sales Invoice Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
+          this.submitted = true;
+          this.usedService.updateSILineItem(lineItem).then(
+            (res) => {
+              _lineItem = res;
+
+              this.getSI();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Sucess',
+                detail: 'Sales Invoice Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log(err);
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error While updating Sales Invoice Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createSILineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              this.getSI();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Sales Invoice Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
             console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Error While updating Sales Invoice Line Item',
+              detail: 'Sales Invoice Adding Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.usedService.createSILineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.getSI();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Sales Invoice Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Sales Invoice Adding Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: SalesInvoiceLine, index: any) {
@@ -614,19 +614,33 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
-    } else {
-      this.uploadFileName = '+ Upload your file';
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   // upload() {
@@ -775,8 +789,7 @@ else{
   }
 
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

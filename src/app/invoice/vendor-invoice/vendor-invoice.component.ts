@@ -107,7 +107,7 @@ export class VendorInvoiceComponent implements OnInit {
 
   minEndDate!: Date;
 
- updateEndDateMinDate(selectedStartDate: Date) {
+  updateEndDateMinDate(selectedStartDate: Date) {
     // Update the minimum end date based on the selected start date
     this.minEndDate = selectedStartDate;
   }
@@ -313,26 +313,26 @@ export class VendorInvoiceComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the Product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the Product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: VendorInvoiceLine) {
@@ -375,8 +375,8 @@ export class VendorInvoiceComponent implements OnInit {
   onRowEditSave(lineItem: VendorInvoiceLine) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -384,97 +384,97 @@ export class VendorInvoiceComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currvendorInvoice) ;
-       this.newRecord = false;
-    }
-else{
-    // alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
-
-    }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currvendorInvoice);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.vendorInvoice = this.currvendorInvoice; // this line will be change
+      // alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) {
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      }
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.vendorInvoice = this.currvendorInvoice; // this line will be change
 
-      var _lineItem = lineItem;
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
 
-      if (_lineItem.id) {
-        // alert("Update Line Item Entered");
-        // line line item should have id inside
-        this.submitted = true;
-        this.usedService.updateVILineItem(lineItem).then(
-          (res) => {
-            console.log("Line Item Updated Successfully");
-            _lineItem = res;
-            // this.lineitem.Amount = res.Amount;
-            this.getVI();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Updated',
-              detail: 'Vendor Invoice Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          // alert("Update Line Item Entered");
+          // line line item should have id inside
+          this.submitted = true;
+          this.usedService.updateVILineItem(lineItem).then(
+            (res) => {
+              console.log("Line Item Updated Successfully");
+              _lineItem = res;
+              // this.lineitem.Amount = res.Amount;
+              this.getVI();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Line item Updated',
+                detail: 'Vendor Invoice Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line item Update Error',
+                detail: 'Error While updating Vendor Invoice Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createVILineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              this.getVI();
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Line item Added',
+                detail: 'Vendor Invoice Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
+            console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
-              summary: 'Line item Update Error',
-              detail: 'Error While updating Vendor Invoice Line Item',
+              summary: 'Line Item Error',
+              detail: 'Vendor Invoice Adding Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.usedService.createVILineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            this.getVI();
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Line item Added',
-              detail: 'Vendor Invoice Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Line Item Error',
-            detail: 'Vendor Invoice Adding Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: VendorInvoiceLine, index: any) {
@@ -500,8 +500,34 @@ else{
   currentFile?: File;
   progress = 0;
 
+  uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    this.selectedFiles = event.target.files;
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
+    }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   // upload() {
@@ -653,8 +679,7 @@ else{
     this.deleteDialLogvisible = false;
   }
 
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 

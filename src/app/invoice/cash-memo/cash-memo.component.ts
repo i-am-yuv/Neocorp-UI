@@ -184,7 +184,7 @@ export class CashMemoComponent implements OnInit {
 
   minEndDate!: Date;
 
- updateEndDateMinDate(selectedStartDate: Date) {
+  updateEndDateMinDate(selectedStartDate: Date) {
     // Update the minimum end date based on the selected start date
     this.minEndDate = selectedStartDate;
   }
@@ -224,11 +224,10 @@ export class CashMemoComponent implements OnInit {
           this.currCashMemo = cashMemo;
           this.cashMemoForm.patchValue(cashMemo);
           this.submitted = false;
-          if( cashMemo.customer == null )
-          {
+          if (cashMemo.customer == null) {
             this.cashMemoForm.value.billToName = 'Vendor';
           }
-          else{
+          else {
             this.cashMemoForm.value.billToName = 'Customer';
           }
           this.billToSelect();
@@ -323,19 +322,19 @@ export class CashMemoComponent implements OnInit {
   }
 
   selectVendor() { }
-  currValue : any ;
+  currValue: any;
   billToSelect() {
-      if (this.cashMemoForm.value.billToName == "Vendor") {
-        this.vendorVisible = true;
-        this.currValue = 'Vendor';
-        this.customerVisible = false;
-      }
-      else if (this.cashMemoForm.value.billToName == "Customer") {
-        this.customerVisible = true;
-        this.currValue = 'Customer';
-        this.vendorVisible = false;
-      }
-    
+    if (this.cashMemoForm.value.billToName == "Vendor") {
+      this.vendorVisible = true;
+      this.currValue = 'Vendor';
+      this.customerVisible = false;
+    }
+    else if (this.cashMemoForm.value.billToName == "Customer") {
+      this.customerVisible = true;
+      this.currValue = 'Customer';
+      this.vendorVisible = false;
+    }
+
   }
 
   onSubmitCashMemo() {
@@ -383,29 +382,27 @@ export class CashMemoComponent implements OnInit {
       this.upload(); // for upload file if attached
       this.submitted = true;
       cashMemoFormVal.user = this.currentUser;
-      this.invoiceS.createCashMemo(cashMemoFormVal).then(
-        (res) => {
-          console.log(res);
+      this.invoiceS.createCashMemo(cashMemoFormVal).then((res) => {
+        console.log(res);
 
-          this.cashMemoForm.patchValue = { ...res };
-          this.currCashMemo = res;
-          // this.id = res.id;
-          console.log("Cash Memo Added");
-          console.log(this.currCashMemo);
-          this.viewLineItemTable = true;
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Sucess',
-            detail: 'Cash Memo Saved',
-            life: 3000,
-          });
-          setTimeout(() => {
-            this.router.navigate(['invoice/cashMemo/edit/' + res.id]);
-          }, 2000);
-        }
-      ).catch(
-        (err) => {
+        this.cashMemoForm.patchValue = { ...res };
+        this.currCashMemo = res;
+        // this.id = res.id;
+        console.log("Cash Memo Added");
+        console.log(this.currCashMemo);
+        this.viewLineItemTable = true;
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Sucess',
+          detail: 'Cash Memo Saved',
+          life: 3000,
+        });
+        setTimeout(() => {
+          this.router.navigate(['invoice/cashMemo/edit/' + res.id]);
+        }, 2000);
+      })
+        .catch((err) => {
           console.log(err);
           this.viewLineItemTable = false;
           this.submitted = false;
@@ -423,33 +420,29 @@ export class CashMemoComponent implements OnInit {
     var dc = this.products.find((t) => t.id === lineItem.expenseName?.id);
 
     // here i need to get all the info regarding this product from product id
-
     this.submitted = true;
-    this.usedService.getCurrentproduct(lineItem.expenseName).then(
-      (res) => {
-        console.log(res);
-        lineItem.unitPrice = res.mrp;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then((res) => {
+      console.log(res);
+      lineItem.unitPrice = res.mrp;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
         this.submitted = false;
-      }
-    )
-      .catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please select the Product',
-            life: 3000,
-          });
-        }
-      )
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please select the Product',
+          life: 3000,
+        });
+      })
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: CashMemoLine) {
     if (e.value == null || e.value == 0) {
       this.isquantity = false;
     }
+
     if (e.value) {
       lineItem.quantity = e.value;
       this.setLineValues(lineItem);
@@ -484,8 +477,8 @@ export class CashMemoComponent implements OnInit {
   onRowEditSave(lineItem: CashMemoLine) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -493,92 +486,92 @@ export class CashMemoComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currCashMemo) ;
-       this.newRecord = false;
-    }
-else{
-    // alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) { }
-
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currCashMemo);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.cashMemo = this.currCashMemo; // this line will be change
+      // alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) { }
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
 
-      var _lineItem = lineItem;
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.cashMemo = this.currCashMemo; // this line will be change
 
-      if (_lineItem.id) {
-        // alert("Update Line Item Entered");
-        // line line item should have id inside
-        this.submitted = true;
-        this.usedService.updateCashMemoLineItem(lineItem).then((res) => {
-          console.log("Line Item Updated Successfully");
-          _lineItem = res;
-          // this.lineitem.Amount = res.Amount;
-          this.getCashMemo();
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Line item Updated',
-            detail: 'Cash Memo Line item Updated Successfully',
-            life: 3000,
-          });
-        })
-          .catch((err) => {
-            console.log("Line Item Updated Error");
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
+
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          // alert("Update Line Item Entered");
+          // line line item should have id inside
+          this.submitted = true;
+          this.usedService.updateCashMemoLineItem(lineItem).then((res) => {
+            console.log("Line Item Updated Successfully");
+            _lineItem = res;
+            // this.lineitem.Amount = res.Amount;
+            this.getCashMemo();
             this.submitted = false;
             this.message.add({
-              severity: 'error',
-              summary: 'Line item Update Error',
-              detail: 'Error While updating Cash Memo Line Item',
+              severity: 'success',
+              summary: 'Line item Updated',
+              detail: 'Cash Memo Line item Updated Successfully',
               life: 3000,
             });
           })
-      } else {
-        this.submitted = true;
-        this.usedService.createCashMemoLineItem(lineItem).then((res) => {
-          console.log(res);
-          _lineItem = res;
-          this.getCashMemo();
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Line item Added',
-            detail: 'Cash Memo Line item Added Successfully',
-            life: 3000,
-          });
-        })
-          .catch((err) => {
-            console.log(err);
+            .catch((err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line item Update Error',
+                detail: 'Error While updating Cash Memo Line Item',
+                life: 3000,
+              });
+            })
+        } else {
+          this.submitted = true;
+          this.usedService.createCashMemoLineItem(lineItem).then((res) => {
+            console.log(res);
+            _lineItem = res;
+            this.getCashMemo();
             this.submitted = false;
             this.message.add({
-              severity: 'error',
-              summary: 'Line Item Error',
-              detail: 'Cash Memo Adding Line Item',
+              severity: 'success',
+              summary: 'Line item Added',
+              detail: 'Cash Memo Line item Added Successfully',
               life: 3000,
             });
           })
+            .catch((err) => {
+              console.log(err);
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Line Item Error',
+                detail: 'Cash Memo Adding Line Item',
+                life: 3000,
+              });
+            })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: CashMemoLine, index: any) {
@@ -604,19 +597,33 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
-    } else {
-      this.uploadFileName = '+ Upload your file';
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   upload() {
@@ -681,7 +688,7 @@ else{
     cashMemoFormVal.id = this.id;
     cashMemoFormVal.grossTotal = this.cashMemoSubTotal;
     cashMemoFormVal.comapny = this.currentCompany;
-   // alert(cashMemoFormVal);
+    // alert(cashMemoFormVal);
 
     if (cashMemoFormVal.id) {
       this.submitted = true;
@@ -699,9 +706,8 @@ else{
           setTimeout(() => {
             this.router.navigate(['/invoice/cashMemo']);
           }, 2000);
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
         })
@@ -734,14 +740,13 @@ else{
     this.usedService.deleteCashMemoLineItem(lineItem.id).then((data: any) => {
       this.lineitems = this.lineitems.filter((val) => val.id !== lineItem.id);
 
-      if( this.lineitems.length > 0  )
-      {
+      if (this.lineitems.length > 0) {
         this.cashMemoSubTotal = this.lineitems.reduce(
           (total, lineItem) => total + lineItem.amount, 0
         );
       }
-      else{
-        this.cashMemoSubTotal = 0 ;
+      else {
+        this.cashMemoSubTotal = 0;
       }
 
       this.deleteDialogvisible = false;

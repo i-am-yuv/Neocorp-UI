@@ -121,7 +121,7 @@ export class SalesOrderComponent implements OnInit {
 
   minEndDate!: Date;
 
- updateEndDateMinDate(selectedStartDate: Date) {
+  updateEndDateMinDate(selectedStartDate: Date) {
     // Update the minimum end date based on the selected start date
     this.minEndDate = selectedStartDate;
   }
@@ -360,26 +360,26 @@ export class SalesOrderComponent implements OnInit {
 
     // here i need to get all the info regarding this product from product id
 
-   this.submitted = true;
-   this.usedService.getCurrentproduct(lineItem.expenseName).then(
-    (res) => {
-      console.log(res);
-      lineItem.unitPrice = res.mrp;
-      this.submitted = false;
-    }
-  )
-    .catch(
-      (err) => {
-        console.log(err);
+    this.submitted = true;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then(
+      (res) => {
+        console.log(res);
+        lineItem.unitPrice = res.mrp;
         this.submitted = false;
-        this.message.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please select the product',
-          life: 3000,
-        });
       }
     )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.submitted = false;
+          this.message.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select the product',
+            life: 3000,
+          });
+        }
+      )
   }
 
   setLineQtyValuesQuantity(e: any, lineItem: SalesOrderLine) {
@@ -410,8 +410,8 @@ export class SalesOrderComponent implements OnInit {
   onRowEditSave(lineItem: SalesOrderLine) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -419,96 +419,96 @@ export class SalesOrderComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currentSoOrder) ;
-       this.newRecord = false;
-    }
-else{
-
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-    console.log("current Product"); console.log(currentProduct);
-    if (lineItem.discount == null || lineItem.discount == 0) {
-
-    }
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Product Add Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currentSoOrder);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.salesOrder = this.currentSoOrder; // this line will be change
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
+      console.log("current Product"); console.log(currentProduct);
+      if (lineItem.discount == null || lineItem.discount == 0) {
 
-      var _lineItem = lineItem;
+      }
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Product Add Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.salesOrder = this.currentSoOrder; // this line will be change
 
-      if (_lineItem.id) {
-        this.submitted = true;
-        this.invoiceS.updateSoLineItem(lineItem).then(
-          (res) => {
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
 
-            _lineItem = res;
-           // this.getSoOrder();
-            this.getLines(this.currentSoOrder);
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          this.submitted = true;
+          this.invoiceS.updateSoLineItem(lineItem).then(
+            (res) => {
+
+              _lineItem = res;
+              // this.getSoOrder();
+              this.getLines(this.currentSoOrder);
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error While updating Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.invoiceS.createSoLineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              // this.getSoOrder();
+              this.getLines(this.currentSoOrder);
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
+            console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Error While updating Line Item',
+              detail: 'Error while Adding Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.invoiceS.createSoLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-           // this.getSoOrder();
-            this.getLines(this.currentSoOrder);
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error while Adding Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: SalesOrderLine, index: any) {
@@ -535,19 +535,33 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
-    } else {
-      this.uploadFileName = '+ Upload your file';
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })   
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   upload() {
@@ -690,8 +704,7 @@ else{
         });
       });
   }
-  loadAllProductsNow()
-  {
+  loadAllProductsNow() {
     this.loadProducts();
   }
 }

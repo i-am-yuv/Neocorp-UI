@@ -92,14 +92,20 @@ p {
     // justify-content: end;
 }
 
-.RRList{
+:host::ng-deep {
+    .p-chart {
+        width: 100px !important;
+    }
+}
+
+.RRList {
     height: 30rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }
 
-.RRLeftList{
+.RRLeftList {
     height: 46rem;
-    overflow-y:scroll;
+    overflow-y: scroll;
     padding-bottom: 2rem;
 }

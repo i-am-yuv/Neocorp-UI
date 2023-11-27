@@ -125,20 +125,18 @@ export class PurchaseOrderComponent implements OnInit {
 
   availablePO() {
     this.submitted = true;
-    this.billS.getAllPo(this.currentUser).then(
-      (res) => {
-        this.submitted = false;
-        var count = res.length;
-        //count=0
-        if (count > 0) {
-          this.router.navigate(['/bills/purchaseOrders']);
-        }
-        else {
-          this.createNew = false;
-        }
+    this.billS.getAllPo(this.currentUser).then((res) => {
+      this.submitted = false;
+      var count = res.length;
+      //count=0
+      if (count > 0) {
+        this.router.navigate(['/bills/purchaseOrders']);
       }
-    ).catch(
-      (err) => {
+      else {
+        this.createNew = false;
+      }
+    })
+      .catch((err) => {
         console.log(err);
         this.submitted = false;
         this.message.add({
@@ -147,8 +145,7 @@ export class PurchaseOrderComponent implements OnInit {
           detail: 'Error While Fetching All The POs',
           life: 3000,
         });
-      }
-    )
+      })
 
   }
 
@@ -189,9 +186,9 @@ export class PurchaseOrderComponent implements OnInit {
   minEndDate!: Date;
 
   updateEndDateMinDate(selectedStartDate: Date) {
-     // Update the minimum end date based on the selected start date
-     this.minEndDate = selectedStartDate;
-   }
+    // Update the minimum end date based on the selected start date
+    this.minEndDate = selectedStartDate;
+  }
 
 
   getPoOrder() {
@@ -332,22 +329,19 @@ export class PurchaseOrderComponent implements OnInit {
     // alert(JSON.stringify(poFormVal));
 
     if (poFormVal.id) {
-
       this.submitted = true;
-      this.billS.updatePurchaseorder(poFormVal).then(
-        (res) => {
-          console.log(res);
-          this.poForm.patchValue = { ...res };
-          this.submitted = false;
-          this.message.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Purchase Order updated',
-            life: 3000,
-          });
-        }
-      ).catch(
-        (err) => {
+      this.billS.updatePurchaseorder(poFormVal).then((res) => {
+        console.log(res);
+        this.poForm.patchValue = { ...res };
+        this.submitted = false;
+        this.message.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Purchase Order updated',
+          life: 3000,
+        });
+      })
+        .catch((err) => {
           console.log(err);
           this.submitted = false;
           this.message.add({
@@ -356,8 +350,7 @@ export class PurchaseOrderComponent implements OnInit {
             detail: 'Purchase Order Updation Error',
             life: 3000,
           });
-        }
-      )
+        })
     }
     else {
       this.submitted = true;
@@ -403,63 +396,70 @@ export class PurchaseOrderComponent implements OnInit {
     // here i need to get all the info regarding this product from product id
 
     this.submitted = true;
-    this.usedService.getCurrentproduct(lineItem.expenseName).then(
-      (res) => {
-        console.log(res);
-        lineItem.unitPrice = res.mrp;
+    this.usedService.getCurrentproduct(lineItem.expenseName).then((res) => {
+      console.log(res);
+      lineItem.unitPrice = res.mrp;
+      this.submitted = false;
+    })
+      .catch((err) => {
+        console.log(err);
         this.submitted = false;
-      }
-    )
-      .catch(
-        (err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please select the product',
-            life: 3000,
-          });
-        }
-      )
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please select the product',
+          life: 3000,
+        });
+      })
 
   }
 
+  // SET LINE ITEM QUANTITY VALUE FUNCTION
   setLineQtyValuesQuantity(e: any, lineItem: LineItem) {
+
     if (e.value == null || e.value == 0) {
       this.isquantity = false;
     }
+
     if (e.value) {
       lineItem.quantity = e.value;
+      // var lineQty = lineItem.quantity ? lineItem.quantity : 0;
+
+      // if (lineQty > 10000) {
+      //   this.message.add({
+      //     severity: 'success',
+      //   summary: 'Successful',
+      //   detail: 'Line Item Deleted',
+      //   life: 3000,
+      //   })
+      // }
+
       this.setLineValues(lineItem);
       this.isquantity = true;
     }
   }
 
-  setLineQtyValuesPrice(e: any, lineItem: LineItem) {
+  // isAmountInvalid(): boolean {
+  //   return lineItem.quantity !== null && this.enteredAmount > 10000000;
+  // }
 
-  }
+  setLineQtyValuesPrice(e: any, lineItem: LineItem) { }
 
-  setLineQtyValuesDiscount(e: any, lineItem: LineItem) {
+  setLineQtyValuesDiscount(e: any, lineItem: LineItem) { }
 
-  }
+  onRowEditInit(lineItem: LineItem) { }
 
-
-  onRowEditInit(lineItem: LineItem) {
-    //  alert(JSON.stringify(lineItem));
-  }
-
+  // Open Delete Dialog Box
   delete(lineItem: LineItem) {
     this.DeleteDialLogvisible = true;
     this.currentDeleteLineItem = lineItem;
-    //alert(JSON.stringify(lineItem));
   }
 
+  // Confirm Delet Line Item
   deleteConfirm(lineItem: LineItem) {
-    // alert(lineItem);
     this.submitted = true;
-    // alert(JSON.stringify(lineItem));
     this.billS.deleteLineItem(lineItem.id).then((data) => {
+
       this.lineitems = this.lineitems.filter(
         (val) => val.id !== lineItem.id
       );
@@ -498,8 +498,8 @@ export class PurchaseOrderComponent implements OnInit {
   onRowEditSave(lineItem: LineItem) {
 
     if (
-      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0 )) - (lineItem?.discount ? lineItem?.discount  : 0)) < 0
-    ){
+      (((lineItem.unitPrice ? lineItem.unitPrice : 0) * (lineItem.quantity ? lineItem.quantity : 0)) - (lineItem?.discount ? lineItem?.discount : 0)) < 0
+    ) {
       console.log("discount");
       this.message.add({
         severity: 'error',
@@ -507,97 +507,97 @@ export class PurchaseOrderComponent implements OnInit {
         detail: 'Discount limit exceeded',
         life: 3000,
       });
-       this.getLines(this.currentPoOrder) ;
-       this.newRecord = false;
-    }
-else{
-    //  alert(JSON.stringify(lineItem));
-    var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
-
-    if (lineItem.discount == null || lineItem.discount == 0) { }
-
-    if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
-      lineItem.unitPrice = currentProduct?.mrp;
-    }
-
-    if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
-      //console.log("ADD product");
-      this.message.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Please Select the Product',
-        life: 3000,
-      });
+      this.getLines(this.currentPoOrder);
+      this.newRecord = false;
     }
     else {
-      lineItem.expenseName = currentProduct;
-      lineItem.purchaseOrder = this.currentPoOrder;
+      //  alert(JSON.stringify(lineItem));
+      var currentProduct = this.products.find((t) => t.id === lineItem.expenseName?.id);
 
-      this.newRecord = false;
-      this.islineAvaliable = true;
-      console.log(lineItem);
+      if (lineItem.discount == null || lineItem.discount == 0) { }
 
-      var _lineItem = lineItem;
+      if (lineItem.unitPrice == null || lineItem.unitPrice == 0) {
+        lineItem.unitPrice = currentProduct?.mrp;
+      }
 
-      if (_lineItem.id) {
-        this.submitted = true;
-        this.usedService.updateLineItem(lineItem).then(
-          (res) => {
+      if (currentProduct == null || currentProduct == undefined || lineItem.expenseName == null) {
+        //console.log("ADD product");
+        this.message.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please Select the Product',
+          life: 3000,
+        });
+      }
+      else {
+        lineItem.expenseName = currentProduct;
+        lineItem.purchaseOrder = this.currentPoOrder;
 
-            _lineItem = res;
+        this.newRecord = false;
+        this.islineAvaliable = true;
+        console.log(lineItem);
 
-            //this.getPoOrder();
-            this.getLines(this.currentPoOrder);
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Line item Updated Successfully',
-              life: 3000,
-            });
-          }
-        ).catch(
-          (err) => {
-            console.log("Line Item Updated Error");
+        var _lineItem = lineItem;
+
+        if (_lineItem.id) {
+          this.submitted = true;
+          this.usedService.updateLineItem(lineItem).then(
+            (res) => {
+
+              _lineItem = res;
+
+              //this.getPoOrder();
+              this.getLines(this.currentPoOrder);
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Line item Updated Successfully',
+                life: 3000,
+              });
+            }
+          ).catch(
+            (err) => {
+              console.log("Line Item Updated Error");
+              this.submitted = false;
+              this.message.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error While updating Line Item',
+                life: 3000,
+              });
+            }
+          )
+        }
+        else {
+          this.submitted = true;
+          this.usedService.createLineItem(lineItem).then(
+            (res) => {
+              console.log(res);
+              _lineItem = res;
+              //this.getPoOrder();
+              this.getLines(this.currentPoOrder);
+              this.submitted = false;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Line item Added Successfully',
+                life: 3000,
+              });
+            }
+          ).catch((err) => {
+            console.log(err);
             this.submitted = false;
             this.message.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Error While updating Line Item',
+              detail: 'Error while Adding Line Item',
               life: 3000,
             });
-          }
-        )
-      }
-      else {
-        this.submitted = true;
-        this.usedService.createLineItem(lineItem).then(
-          (res) => {
-            console.log(res);
-            _lineItem = res;
-            //this.getPoOrder();
-            this.getLines(this.currentPoOrder);
-            this.submitted = false;
-            this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Line item Added Successfully',
-              life: 3000,
-            });
-          }
-        ).catch((err) => {
-          console.log(err);
-          this.submitted = false;
-          this.message.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error while Adding Line Item',
-            life: 3000,
-          });
-        })
+          })
+        }
       }
     }
-  }
   }
 
   onRowEditCancel(lineItem: LineItem, index: any) {
@@ -625,29 +625,49 @@ else{
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
-    else {
-      this.uploadFileName = '+ Upload your file';
-    }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
-  // uploadFile(poId: any, event: any) {
-  //   this.submitted = true;
-  //   const file: File = event.target.files[0];
-
-  //   this.payPageS.fileUploadForPurchaseOrder(poId, file).subscribe((next: {
-
-  //   }))
+  // isFileInvalid(): boolean {
+  //   if (!this.file) {
+  //     return false; // No file selected is considered valid
+  //   }
+  //   else {
+  //     const allowedTypes = ['image/png', 'image/jpeg'];
+  //     return !allowedTypes.includes(this.file.type);
+  //     this.message.add({
+  //       severity: 'success',
+  //       summary: 'File uploaded',
+  //       detail: 'File uploaded',
+  //       life: 3000,
+  //     })
+  //   }
 
 
   // }
@@ -762,5 +782,20 @@ else{
   loadAllProductsNow() {
     this.loadProducts();
   }
+
+  getProductByUserId() {
+    this.submitted = true;
+    this.payPageS.allProduct(this.id).then((res: any) => {
+      console.log(res);
+
+      this.submitted = false;
+      this.message.add({
+        severity: 'success',
+
+      })
+    })
+  }
+
+
 
 }

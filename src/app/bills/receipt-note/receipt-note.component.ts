@@ -583,20 +583,33 @@ export class ReceiptNoteComponent implements OnInit {
   progress = 0;
 
   uploadFileName: string = '';
+  file: File | null = null;
   selectFile(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadFileName = file.name;
-      this.message.add({
-        severity: 'success',
-        summary: 'File uploaded',
-        detail: 'File uploaded',
-        life: 3000,
-      })
+    this.file = event.target.files[0];
+    if (this.file) {
+      const fileFormat = ['image/png', 'image/jpeg'];
+      if (fileFormat.includes(this.file.type)) {
+        this.uploadFileName = this.file.name;
+        this.message.add({
+          severity: 'success',
+          summary: 'File uploaded',
+          detail: 'File uploaded',
+          life: 3000,
+        })
+      }
+      else {
+        this.message.add({
+          severity: 'error',
+          summary: 'Unsupported Format',
+          detail: 'Unsupported Format',
+          life: 3000,
+        })
+      }
     }
-    else {
-      this.uploadFileName = '+ Upload your file';
-    }
+    // else {
+    //   this.uploadFileName = '+ Upload your file';
+
+    // }
   }
 
   upload() {
@@ -727,11 +740,11 @@ export class ReceiptNoteComponent implements OnInit {
           (total, lineItem) => total + lineItem.amount, 0
         );
       }
-      else{
+      else {
         this.rnSubTotal = 0;
       }
 
-   //   alert(JSON.stringify(this.rnSubTotal) ) ;
+      //   alert(JSON.stringify(this.rnSubTotal) ) ;
       this.deleteDialogvisible = false;
       this.submitted = false;
       this.message.add({

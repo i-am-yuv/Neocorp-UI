@@ -2,7 +2,7 @@
 
 <div class="" style="background: #EFF6FF;">
 
-    <div class="bg-white iconSCSS1">
+    <div class="bg-white flex align-items-center">
         <div class="col-10">
             <!-- <p-breadcrumb class="max-w-full text-left" [model]="items"></p-breadcrumb> -->
             <div class="flex align-items-center gap-2">
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class="m-4 flex">
+    <div class="m-5 flex">
 
         <div class="col-3 bg-white m-2 border-round-xl">
             <div class="flex justify-content-between m-2">
@@ -67,7 +67,7 @@
                         <path d="M15 0L0 24H30L15 0Z" fill="#E4897B" />
                     </svg>
                 </div>
-                <div class="text-7xl">18</div>
+                <div class="text-7xl">{{this.totalReturn}}</div>
             </div>
         </div>
 
@@ -88,17 +88,18 @@
                         <path d="M15 24L0 0H30L15 24Z" fill="#83D28F" />
                     </svg>
                 </div>
-                <div class="text-7xl">09</div>
+                <div class="text-7xl">{{this.totalRefund}}</div>
             </div>
         </div>
 
-        <div class="col-4 bg-white ml-2 mt-2 mb-2 border-round-xl">
+        <div class="col- bg-white ml-2 mt-2 mb-2 border-round-xl" style="width: 375px;">
             <div>
                 <p-chart type="line" [data]="data" [options]="options"></p-chart>
             </div>
         </div>
     </div>
 
+    <!-- Return and Refund Listing -->
     <div class="m-4 ">
         <div class="text-lg blueText mt-4 mx-4">Return & Refunds</div>
 
@@ -110,10 +111,17 @@
                         <div *ngFor="let item of allRROrder" [ngClass]="{ 'bg-gray-100': activeRR.id === item.id }">
                             <div class="" (click)="changeOrder(item)">
                                 <div class="flex w-full px-2 py-3">
-                                    <div class="col-10 text-left">
+
+                                    <div class="col-5 text-left">
                                         <p class="blueText text-base">Return & Refund Document Number</p>
                                         <p class="text-lg">{{ item.orderNo }}</p>
                                     </div>
+
+                                    <div class="col-5 text-left">
+                                        <p class="blueText text-base">Gross Total</p>
+                                        <p class="text-lg">{{ item.grossTotal }}</p>
+                                    </div>
+
                                     <div class="col-2 text-right">
                                         <div class="iconSCSS w-full gap-1 mr-2 cursor-pointer"
                                             (click)="onEditRR(item.id)">
@@ -135,9 +143,11 @@
                                             <div class="text-sm blueText">Edit</div>
 
                                         </div>
+
                                         <p class="blueText text-base mr-2">Date: <span
                                                 class="text-700">{{item.processDate |
-                                                date : "dd/MM/yyyy"}}</span></p>
+                                                date : "dd/MM/yyyy"}}</span>
+                                        </p>
                                     </div>
 
                                 </div>
@@ -154,6 +164,7 @@
             </div>
         </div>
     </div>
+    <!-- Return and Refund Listing Ends -->
 
 </div>
 

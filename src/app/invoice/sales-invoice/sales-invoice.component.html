@@ -97,8 +97,7 @@
                     <div class="field col-6">
                         <label class="mr-3 required">Due Date</label>
                         <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="dd-mm-yy"
-                            placeholder="Choose Due Date" [style]="{ width: '100%' }"
-                            [minDate]="minEndDate">
+                            placeholder="Choose Due Date" [style]="{ width: '100%' }" [minDate]="minEndDate">
                         </p-calendar>
                         <error-message [controlName]="siForm.controls['dueDate']"></error-message>
                     </div>
@@ -129,9 +128,8 @@
 
                     <div class="field col-6" *ngIf="this.siForm.value.customer.id">
                         <label class="mr-3">Customer Details:</label>
-                        <input pInputText
-                        [value]="getFormattedCustomerDetails()"
-                            placeholder="From Sales Order" class="w-full custom-input" [disabled]="true" />
+                        <input pInputText [value]="getFormattedCustomerDetails()" placeholder="From Sales Order"
+                            class="w-full custom-input" [disabled]="true" />
                     </div>
                 </div>
 
@@ -226,8 +224,10 @@
                                             (onInput)="setLineQtyValuesPrice($event, lineItem)" [format]="false"
                                             [required]="true">
                                         </p-inputNumber> -->
-                                        <input pInputText NumbersOnly [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                        <input pInputText NumbersOnly
+                                            [(ngModel)]="lineItem.expenseName.id == null ? 0 :  lineItem.unitPrice"
+                                            class="w-full" (onInput)="setLineQtyValuesQuantity($event, lineItem)"
+                                            [required]="true" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.unitPrice }}
@@ -243,7 +243,8 @@
                                             [required]="true">
                                         </p-inputNumber> -->
                                         <input pInputText NumbersOnly [(ngModel)]="lineItem.quantity" class="w-full"
-                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true" />
+                                            (onInput)="setLineQtyValuesQuantity($event, lineItem)" [required]="true"
+                                            maxlength="8" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ lineItem?.quantity }}

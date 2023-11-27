@@ -21,7 +21,10 @@ export class ReturnRefundDashboardComponent implements OnInit {
   activeRR: ReturnRefund = {};
   lineitems: any[] = [];
   rrSubTotal: number = 0;
-  items!: MenuItem[]
+  items!: MenuItem[];
+
+  totalReturn: number = 0;
+  totalRefund: number = 0;
 
   data: any;
   options: any;
@@ -115,6 +118,18 @@ export class ReturnRefundDashboardComponent implements OnInit {
     this.submitted = true;
     this.payS.getAllRR(this.currentUser).then((res: any) => {
       this.allRROrder = res;
+
+      this.totalRefund = 0;
+      this.totalReturn = 0;
+      for (const order of this.allRROrder) {
+        if (order.refund == true) {
+          this.totalRefund += 1;
+        }
+
+        if (order.return == true) {
+          this.totalReturn += 1;
+        }
+      }
 
       if (this.allRROrder.length > 0) {
         this.changeOrder(this.allRROrder[0]);

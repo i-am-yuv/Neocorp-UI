@@ -47,11 +47,14 @@ export class VendorDashboardComponent implements OnInit {
     this.payServices.allVendor(this.currentUser).then((res: any) => {
       console.log(res);
       this.allVendors = res;
+
       if (this.allVendors.length > 0) {
         this.changeVender(this.allVendors[0]);
-      } else {
+      }
+      else {
         this.activeVendor = {};
       }
+
       this.totalRecord = res.totalElements;
       this.submitted = false;
     })
@@ -88,13 +91,13 @@ export class VendorDashboardComponent implements OnInit {
     this.submitted = true;
     this.payServices.getPurchaseInvoiceById(vendor).then((res: any) => {
       this.temp = res;
-     // this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
+      // this.allPurchaseInvoices = this.temp.sort((a, b) => a.createdAt - b.createdAt);
 
       this.allPurchaseInvoices = [...this.temp].sort((a, b) => {
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       });
 
-     // this.allPurchaseInvoices = res;
+      // this.allPurchaseInvoices = res;
       this.submitted = false;
       this.totalRemainingAmount = 0;
 
@@ -102,10 +105,12 @@ export class VendorDashboardComponent implements OnInit {
         .reduce((total, PI) =>
           total + PI.grossTotal, 0
         )
+
       this.totalRemainingAmount = this.allPurchaseInvoices
         .reduce((total, PI) =>
           total + PI.remainingAmount, 0
         )
+
       this.submitted = false;
     })
       .catch((err) => {
@@ -123,7 +128,7 @@ export class VendorDashboardComponent implements OnInit {
       this.allPurchaseOrders = [...this.temp].sort((a, b) => {
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       });
-     // this.allPurchaseOrders = res;
+      // this.allPurchaseOrders = res;
       this.submitted = false;
     })
       .catch((err) => {
@@ -150,10 +155,12 @@ export class VendorDashboardComponent implements OnInit {
         .reduce((total, PI) =>
           total + PI.grossTotal, 0
         )
+
       this.totalRemainingAmount = this.allPurchaseInvoices
         .reduce((total, PI) =>
           total + PI.remainingAmount, 0
         )
+
       this.submitted = false;
     })
       .catch((err) => {
@@ -188,6 +195,7 @@ export class VendorDashboardComponent implements OnInit {
         else {
           this.activeVendor = {};
         }
+
         this.totalRecord = res.totalElements;
         this.submitted = false;
       })
