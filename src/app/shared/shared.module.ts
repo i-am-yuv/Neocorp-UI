@@ -64,6 +64,8 @@ import { TextOnlyDirective } from './directives/text-only.directive';
 import { BlockCopyPasteDirective } from './directives/block-copy-paste.directive';
 import { DutchModule } from '../dutch/dutch.module';
 
+import { PanelMenuModule } from 'primeng/panelmenu';
+
 
 @NgModule({
   declarations: [
@@ -94,9 +96,11 @@ import { DutchModule } from '../dutch/dutch.module';
     BreadcrumbModule,
     SlideMenuModule,
     SelectButtonModule,
-    KeyFilterModule
+    KeyFilterModule,
+    PanelMenuModule
   ],
   exports: [
+    PanelMenuModule ,
     SlideProductComponent,
     SlideAccountComponent,
     FormsModule,

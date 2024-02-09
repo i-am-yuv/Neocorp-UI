@@ -1,4 +1,4 @@
-<div class="h-auto ">
+<!-- <div class="h-auto ">
 
     <h2 class="text-xl mx-4 p-2  font-light text-gray-600  border-round-xl" (click)="goToDashBoard()"
         [ngClass]="{ 'cursor-pointer ': true ,'field text-left p-2 border-round backgroundColor cursor-pointer' : this.routeName == null  } ">
@@ -76,7 +76,6 @@
                     </h2>
                     <li *ngFor="let item of component.items" class="p-2 cursor-pointer  border-round-xl "
                         [routerLink]="item.url">
-                        <!-- <i class="pi pi-{{item.icon || 'file'}} "></i>  -->
                         <div class="flex gap-2">
                             <div class="field">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18"
@@ -93,4 +92,12 @@
             </div>
         </div>
     </div>
+</div> -->
+
+<div style="margin-left: 16px;margin-right: 16px;">
+    <p-panelMenu [model]="finalOne" ></p-panelMenu>
+    <p style="font-weight: 400; font-size: 12px; line-height: 14.4px; color: #6A6A6A;">Essentials</p>
+    <p-panelMenu [model]="finalTwo" ></p-panelMenu>
+    <p style="font-weight: 400; font-size: 12px; line-height: 14.4px; color: #6A6A6A;">Utilities</p>
+    <p-panelMenu [model]="finalThree" ></p-panelMenu>
 </div>
