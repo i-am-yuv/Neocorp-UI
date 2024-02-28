@@ -9,7 +9,8 @@ build-frontend:
   script:
     - npm install --legacy-peer-deps
     - sed -i "/static ɵdir/c\ " node_modules/ngx-print/lib/ngx-print.directive.d.ts
-    - npm run build
+    # - npm run build
+    - node_modules/.bin/ng build --base-href /neocorp/
   artifacts:
     name: "dist-output"
     paths:
